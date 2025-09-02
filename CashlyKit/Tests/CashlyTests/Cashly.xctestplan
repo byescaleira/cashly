@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "EA3FABE4-CCE6-4879-A82F-EDEE5BD4A372",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Cashly.xcodeproj",
+      "identifier" : "5306367B2E62363100C9398B",
+      "name" : "Cashly"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "CashlyTests",
+        "name" : "CashlyTests"
+      }
+    }
+  ],
+  "version" : 1
+}
