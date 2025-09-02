@@ -24,7 +24,8 @@ public struct AddCategoryScreen: CashlyView {
         Form {
             infoSection
             nameSection
-            iconSection
+            iconCategorySection
+            iconsSection
         }
         .onChange(of: state.isLoading) { setIcon() }
         .toolbar {
@@ -57,8 +58,7 @@ public struct AddCategoryScreen: CashlyView {
         }
     }
     
-    @ViewBuilder
-    var iconSection: some View {
+    var iconCategorySection: some View {
         Section {
             CashlyHStack {
                 CashlyText("Category")
@@ -84,7 +84,9 @@ public struct AddCategoryScreen: CashlyView {
             CashlyText("Icon")
                 .headerProminence(.increased)
         }
-        
+    }
+    
+    var iconsSection: some View {
         Section {
             LazyVGrid(columns: [.init(.adaptive(minimum: 50))], spacing: 16) {
                 ForEach(category.symbols, id: \.self) { icon in
@@ -116,15 +118,20 @@ public struct AddCategoryScreen: CashlyView {
             .frame(width: 120, height: 120)
             .cashly(background: .color(state.color.opacity(0.2)))
             .cashly(clip: .circle)
+            .overlay {
+                Circle()
+                    .stroke(state.color, lineWidth: 5)
+            }
             .cashly(glass: .clear, in: .circle)
             .overlay(alignment: .bottomTrailing) {
                 ColorPicker("", selection: $store.state.color)
-                    .scaleEffect(1.3)
-                    .cashlyPadding([.bottom, .trailing], .small)
+                    .scaleEffect(1.8)
+                    .cashlyPadding(.trailing, .large)
             }
             .frame(maxWidth: .infinity)
             .contentTransition(.symbolEffect(.replace))
             .animation(.bouncy, value: state.icon)
+            .cashlyPadding(.top, .medium)
     }
     
     var saveButton: some View {
