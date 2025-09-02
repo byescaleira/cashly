@@ -11,4 +11,6 @@ import CashlyDomain
 public extension EnvironmentValues {
     @Entry var addBudgetState = AddBudgetState()
     @Entry var addCategoryState = AddCategoryState()
+    
+    @Entry var action: (MainAction) -> Void = { _ in }
 }

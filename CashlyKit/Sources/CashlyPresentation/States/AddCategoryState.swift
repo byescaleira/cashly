@@ -6,14 +6,21 @@
 //
 
 import CashlyDomain
+import RyzeUI
 
 public struct AddCategoryState: CashlyState {
     public var isLoading: Bool
     public var id: UUID
     public var name: String
-    public var color: String
+    public var color: Color
     public var icon: String
+    public var isNew: Bool
     public var error: CashlyError?
+    
+    public var canSave: Bool {
+        !name.isEmpty &&
+        !icon.isEmpty
+    }
     
     public init(
         isLoading: Bool = true,
@@ -21,13 +28,15 @@ public struct AddCategoryState: CashlyState {
         name: String = "",
         color: String = "",
         icon: String = "",
+        isNew: Bool = false,
         error: CashlyError? = nil
     ) {
         self.isLoading = isLoading
         self.id = id
         self.name = name
-        self.color = color
+        self.color = Color(hex: color)
         self.icon = icon
+        self.isNew = isNew
         self.error = error
     }
 }

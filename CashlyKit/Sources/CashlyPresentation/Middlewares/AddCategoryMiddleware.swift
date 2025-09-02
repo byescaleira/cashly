@@ -6,6 +6,7 @@
 //
 
 import CashlyDomain
+import RyzeUI
 
 public actor AddCategoryMiddleware: CashlyMiddleware {
     let categoryUseCase: CategoryUseCase
@@ -41,12 +42,14 @@ public actor AddCategoryMiddleware: CashlyMiddleware {
     func fetch(state: AddCategoryState, continuation: AsyncStream<AddCategoryAction>.Continuation) async {
         do {
             let category = try await categoryUseCase.getCategory(id: state.id)
+            let categoryColor = category?.color == nil ? nil : Color(hex: category?.color)
             continuation.yield(
                 .update(
                     id: category?.id ?? state.id,
                     name: category?.name ?? state.name,
-                    color: category?.color ?? state.color,
-                    icon: category?.icon ?? state.icon
+                    color: categoryColor ?? state.color,
+                    icon: category?.icon ?? state.icon,
+                    isNew: category == nil
                 )
             )
         } catch {
@@ -57,7 +60,6 @@ public actor AddCategoryMiddleware: CashlyMiddleware {
     func save(state: AddCategoryState, continuation: AsyncStream<AddCategoryAction>.Continuation) async {
         do {
             guard !state.name.isEmpty,
-                  !state.color.isEmpty,
                   !state.icon.isEmpty
             else {
                 continuation.yield(.error(.onSave))
@@ -66,7 +68,7 @@ public actor AddCategoryMiddleware: CashlyMiddleware {
             try await categoryUseCase.addCategory(
                 id: state.id,
                 name: state.name,
-                color: state.color,
+                color: state.color.hex,
                 icon: state.icon
             )
         } catch {

@@ -1,5 +1,5 @@
 {
-  "originHash" : "1e06dc39ae758b92711d134ee5197e53d4948e7673c33177e56c54c390b4bd94",
+  "originHash" : "4280d2fa9fe9fd88e8a21cda054755fa76e2f75de5da437931e88e3efcefe4ff",
   "pins" : [
     {
       "identity" : "ryze",
@@ -7,7 +7,7 @@
       "location" : "https://github.com/rafaelesantos/ryze",
       "state" : {
         "branch" : "main",
-        "revision" : "3203084b91bb69a27e96785c73f8e5d3776c6139"
+        "revision" : "dc0484f560a85b256e58cb199f644e08aafd18a6"
       }
     }
   ],

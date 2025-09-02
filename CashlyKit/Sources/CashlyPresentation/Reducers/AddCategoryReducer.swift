@@ -15,11 +15,12 @@ public actor AddCategoryReducer: CashlyReducer {
             state.isLoading = true
         case .stopLoading:
             state.isLoading = false
-        case let .update(id, name, color, icon):
+        case let .update(id, name, color, icon, isNew):
             state.id = id
             state.name = name
             state.color = color
             state.icon = icon
+            state.isNew = isNew
         case let .error(error):
             state.error = error
         case .save, .remove:

@@ -15,8 +15,9 @@ public enum AddCategoryAction: CashlyAction {
     case update(
         id: UUID,
         name: String,
-        color: String,
-        icon: String
+        color: Color,
+        icon: String,
+        isNew: Bool
     )
     case error(CashlyError)
 }
