@@ -52,7 +52,8 @@ public actor AddBudgetMiddleware: CashlyMiddleware {
                     amount: budget?.amount ?? state.amount,
                     category: budget?.category ?? state.category ?? categories.first,
                     date: budget?.date ?? state.date,
-                    summary: budget?.summary ?? state.summary
+                    summary: budget?.summary ?? state.summary,
+                    isNew: budget == nil
                 )
             )
         } catch {

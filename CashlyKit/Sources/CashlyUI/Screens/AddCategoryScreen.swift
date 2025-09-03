@@ -105,7 +105,7 @@ public struct AddCategoryScreen: CashlyView {
                 .cashly(font: .system(size: 20))
                 .cashly(color: item == state.icon ? .color(state.color) : .color(.gray))
                 .frame(width: 45, height: 45)
-                .cashly(background: item == state.icon ? .color(state.color.opacity(0.2)) : .backgroundSecondary)
+                .cashly(background: item == state.icon ? .color(state.color.opacity(0.2)) : .color(.clear))
                 .cashly(clip: .circle)
         }
         .buttonStyle(.plain)
@@ -114,6 +114,7 @@ public struct AddCategoryScreen: CashlyView {
     var iconHeaderView: some View {
         CashlySymbol(state.icon, mode: .hierarchical)
             .cashly(font: .system(size: 50))
+            .cashly(symbol: .variableColor.reversing.cumulative)
             .cashly(color: .color(state.color))
             .frame(width: 120, height: 120)
             .cashly(background: .color(state.color.opacity(0.2)))
@@ -122,15 +123,14 @@ public struct AddCategoryScreen: CashlyView {
                 Circle()
                     .stroke(state.color, lineWidth: 5)
             }
-            .cashly(glass: .clear, in: .circle)
+            .animation(.linear.speed(0.1).repeatForever(autoreverses: false), value: state.isLoading)
             .overlay(alignment: .bottomTrailing) {
                 ColorPicker("", selection: $store.state.color)
-                    .scaleEffect(1.8)
-                    .cashlyPadding(.trailing, .large)
+                    .scaleEffect(1.5)
+                    .cashlyPadding(.trailing, .large )
             }
             .frame(maxWidth: .infinity)
             .contentTransition(.symbolEffect(.replace))
-            .animation(.bouncy, value: state.icon)
             .cashlyPadding(.top, .medium)
     }
     
@@ -138,7 +138,7 @@ public struct AddCategoryScreen: CashlyView {
         CashlyButton {
             action(.addCategory(.save))
         } label: {
-            CashlyText(state.isNew ? "Create Category" : "Save Category")
+            CashlyText(state.isNew ? "Create" : "Save")
                 .cashly(font: .headline, weight: .semibold)
         }
         .disabled(!state.canSave)
@@ -170,9 +170,7 @@ public struct AddCategoryScreen: CashlyView {
 }
 
 #Preview {
-    NavigationStack {
-        AddCategoryScreen
-            .mock
-            .cashlyPreview()
-    }
+    AddCategoryScreen
+        .mock
+        .cashlyPreview()
 }

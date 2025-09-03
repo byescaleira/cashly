@@ -33,23 +33,141 @@ public enum CashlySymbolCategory: Int, Hashable, CaseIterable {
     public var symbols: [String] {
         switch self {
         case .food:
-            return ["cart", "cart.fill", "basket", "basket.fill", "bag", "bag.fill", "takeoutbag.and.cup.and.straw", "fork.knife", "cup.and.saucer", "wineglass", "birthday.cake", "carrot", "fish"]
+            return [
+                "cart", "cart.fill",
+                "basket", "basket.fill",
+                "bag", "bag.fill",
+                "takeoutbag.and.cup.and.straw", "takeoutbag.and.cup.and.straw.fill",
+                "fork.knife", "fork.knife.circle", "fork.knife.circle.fill",
+                "cup.and.saucer", "cup.and.saucer.fill",
+                "wineglass", "wineglass.fill",
+                "birthday.cake", "birthday.cake.fill",
+                "carrot",
+                "fish",
+                "applelogo",
+                "leaf", "leaf.fill"
+            ]
+            
         case .transport:
-            return ["car", "car.fill", "bus", "bus.fill", "tram", "bicycle", "scooter", "airplane", "airplane.circle", "fuelpump", "fuelpump.fill", "train.side.front.car", "sailboat", "ferry"]
+            return [
+                "car", "car.fill",
+                "bus", "bus.fill",
+                "tram", "tram.fill",
+                "bicycle", "bicycle.circle", "bicycle.circle.fill",
+                "scooter",
+                "airplane", "airplane.circle", "airplane.circle.fill",
+                "fuelpump", "fuelpump.fill",
+                "train.side.front.car",
+                "sailboat", "sailboat.fill",
+                "ferry", "ferry.fill",
+                "figure.walk", "figure.walk.circle", "figure.walk.circle.fill"
+            ]
+            
         case .housing:
-            return ["house", "house.fill", "building", "building.2", "bed.double", "bed.double.fill", "sofa", "sofa.fill", "lamp.desk", "fan.oscillation", "lightbulb", "wrench", "hammer", "paintbrush"]
+            return [
+                "house", "house.fill",
+                "building", "building.fill",
+                "building.2", "building.2.fill",
+                "bed.double", "bed.double.fill",
+                "sofa", "sofa.fill",
+                "lamp.desk", "lamp.desk.fill",
+                "fan.oscillation", "fan.oscillation.fill",
+                "lightbulb", "lightbulb.fill",
+                "wrench", "wrench.fill",
+                "hammer", "hammer.fill",
+                "wrench.and.screwdriver", "wrench.and.screwdriver.fill",
+                "paintbrush", "paintbrush.fill",
+                "key", "key.fill"
+            ]
+            
         case .utilities:
-            return ["bolt.fill", "drop.fill", "flame.fill", "wifi", "antenna.radiowaves.left.and.right", "creditcard", "creditcard.fill", "banknote", "banknote.fill", "dollarsign.circle", "dollarsign.circle.fill", "calendar", "calendar.badge.clock", "envelope", "envelope.fill"]
+            return [
+                "bolt", "bolt.fill",
+                "drop", "drop.fill",
+                "flame", "flame.fill",
+                "wifi", "wifi.slash",
+                "antenna.radiowaves.left.and.right",
+                "creditcard", "creditcard.fill",
+                "banknote", "banknote.fill",
+                "dollarsign.circle", "dollarsign.circle.fill",
+                "calendar", "calendar.badge.clock",
+                "envelope", "envelope.fill",
+                "doc.text", "doc.text.fill",
+                "doc.on.doc", "doc.on.doc.fill"
+            ]
+            
         case .health:
-            return ["heart", "heart.fill", "cross.case", "cross.case.fill", "stethoscope", "pills", "bandage", "figure.walk", "figure.run", "dumbbell", "lungs", "brain.head.profile", "eyeglasses"]
+            return [
+                "heart", "heart.fill",
+                "cross.case", "cross.case.fill",
+                "stethoscope",
+                "pills", "pills.fill",
+                "bandage", "bandage.fill",
+                "figure.walk", "figure.walk.circle", "figure.walk.circle.fill",
+                "figure.run", "figure.run.circle", "figure.run.circle.fill",
+                "dumbbell",
+                "lungs", "lungs.fill",
+                "brain.head.profile",
+                "eyeglasses",
+                "staroflife", "staroflife.fill"
+            ]
+            
         case .entertainment:
-            return ["gamecontroller", "gamecontroller.fill", "ticket", "ticket.fill", "music.note", "music.mic", "headphones", "play.tv", "popcorn", "theatermasks", "guitars", "dice", "balloon", "soccerball", "basketball", "tennis.racket"]
+            return [
+                "gamecontroller", "gamecontroller.fill",
+                "ticket", "ticket.fill",
+                "music.note", "music.note.list",
+                "music.mic", "music.mic.circle", "music.mic.circle.fill",
+                "headphones", "headphones.circle", "headphones.circle.fill",
+                "play.tv", "play.tv.fill",
+                "popcorn", "popcorn.fill",
+                "theatermasks", "theatermasks.fill",
+                "guitars", "guitars.fill",
+                "dice", "dice.fill",
+                "balloon", "balloon.fill",
+                "soccerball",
+                "basketball", "basketball.fill",
+                "tennis.racket"
+            ]
+            
         case .education:
-            return ["book", "book.fill", "books.vertical", "graduationcap", "graduationcap.fill", "pencil", "pencil.and.outline", "highlighter", "paperclip", "doc.text", "doc.richtext", "laptopcomputer", "desktopcomputer", "briefcase", "briefcase.fill"]
+            return [
+                "book", "book.fill",
+                "books.vertical", "books.vertical.fill",
+                "graduationcap", "graduationcap.fill",
+                "pencil", "pencil.circle", "pencil.circle.fill",
+                "pencil.and.outline",
+                "highlighter",
+                "paperclip",
+                "doc.text", "doc.text.fill",
+                "doc.richtext",
+                "laptopcomputer",
+                "desktopcomputer",
+                "briefcase", "briefcase.fill",
+                "folder", "folder.fill"
+            ]
+            
         case .technology:
-            return ["iphone", "ipad", "applewatch", "headphones", "tv", "speaker", "printer", "keyboard", "gamecontroller", "display", "camera", "video", "mic", "antenna.radiowaves.left.and.right", "server.rack"]
+            return [
+                "iphone",
+                "ipad",
+                "applewatch",
+                "headphones", "headphones.circle", "headphones.circle.fill",
+                "tv", "tv.fill",
+                "speaker", "speaker.fill",
+                "printer", "printer.fill",
+                "keyboard", "keyboard.fill",
+                "gamecontroller", "gamecontroller.fill",
+                "display",
+                "camera", "camera.fill",
+                "video", "video.fill",
+                "mic", "mic.fill",
+                "antenna.radiowaves.left.and.right",
+                "server.rack"
+            ]
         }
     }
+
     
     public static var random: CashlySymbolCategory {
         allCases.randomElement() ?? .technology

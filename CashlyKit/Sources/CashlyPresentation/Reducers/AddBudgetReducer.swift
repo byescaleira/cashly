@@ -15,13 +15,14 @@ public actor AddBudgetReducer: CashlyReducer {
             state.isLoading = true
         case .stopLoading:
             state.isLoading = false
-        case let .update(categories, id, amount, category, date, summary):
+        case let .update(categories, id, amount, category, date, summary, isNew):
             state.categories = categories
             state.id = id
             state.amount = amount
             state.category = category
             state.date = date
             state.summary = summary
+            state.isNew = isNew
         case let .error(error):
             state.error = error
         case .save, .remove:

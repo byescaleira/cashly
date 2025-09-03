@@ -15,7 +15,14 @@ public struct AddBudgetState: CashlyState {
     public var category: Category?
     public var date: Date
     public var summary: String
+    public var isNew: Bool
     public var error: CashlyError?
+    
+    public var canSave: Bool {
+        amount > .zero &&
+        category != nil &&
+        summary.trimmingCharacters(in: .whitespacesAndNewlines).count > 3
+    }
     
     public init(
         isLoading: Bool = true,
@@ -25,6 +32,7 @@ public struct AddBudgetState: CashlyState {
         category: Category? = nil,
         date: Date = .now,
         summary: String = "",
+        isNew: Bool = false,
         error: CashlyError? = nil
     ) {
         self.isLoading = isLoading
@@ -34,6 +42,7 @@ public struct AddBudgetState: CashlyState {
         self.category = category
         self.date = date
         self.summary = summary
+        self.isNew = isNew
         self.error = error
     }
 }

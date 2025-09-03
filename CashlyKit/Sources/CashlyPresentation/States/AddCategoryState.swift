@@ -18,7 +18,7 @@ public struct AddCategoryState: CashlyState {
     public var error: CashlyError?
     
     public var canSave: Bool {
-        !name.isEmpty &&
+        name.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3 &&
         !icon.isEmpty
     }
     
