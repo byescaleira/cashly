@@ -7,34 +7,51 @@
 
 public protocol AdapterUseCase: Sendable {
     func budgetAdapted(
-        id: UUID,
+        id: String,
         amount: Double,
-        category: UUID,
+        category: String,
         date: TimeInterval,
         summary: String
     ) async throws -> Budget?
     
     func categoryAdapted(
-        id: UUID,
+        id: String,
+        user: String,
         name: String,
         color: String,
         icon: String
-    ) async throws -> Category
+    ) async throws -> Category?
     
     func userAdapted(
-        id: UUID,
+        id: String,
         name: String,
-        photo: Data?
+        photo: String
     ) async throws -> User
     
     func transactionAdapted(
-        id: UUID,
-        user: UUID,
-        participants: [UUID],
-        category: UUID,
+        id: String,
+        participants: [String],
+        budget: String,
         amount: Double,
         date: TimeInterval,
         summary: String,
         status: Int
     ) async throws -> Transaction?
+    
+    func tagAdapted(
+        id: String,
+        user: String,
+        name: String,
+        color: String,
+        icon: String
+    ) async throws -> Tag?
+    
+    func participantAdapted(
+        id: String,
+        user: String,
+        splitMode: Int,
+        splitValue: Double,
+        status: Int,
+        transaction: String
+    ) async throws -> Participant?
 }

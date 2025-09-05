@@ -15,13 +15,9 @@ struct CommonTestSuite {
     let categoryUseCase: CategoryUseCase
     
     init() {
-        do {
-            let factory = try MockCashlyFactory()
-            budgetUseCase = factory.makeBudgetUseCase()
-            categoryUseCase = factory.makeCategoryUseCase()
-        } catch {
-            fatalError()
-        }
+        let factory = MockCashlyFactory()
+        budgetUseCase = factory.makeBudgetUseCase()
+        categoryUseCase = factory.makeCategoryUseCase()
     }
     
     func assertEqual<T: Equatable>(

@@ -16,41 +16,58 @@ public actor AdapterActor: AdapterUseCase {
     }
     
     public func budgetAdapted(
-        id: UUID,
+        id: String,
         amount: Double,
-        category: UUID,
+        category: String,
         date: TimeInterval,
         summary: String
     ) async throws -> Budget? {
-        let predicate: Predicate<CategoryEntity> = #Predicate {
+        let categoryPredicate: Predicate<CategoryEntity> = #Predicate {
             $0.id == category
         }
-        let descriptor = FetchDescriptor<CategoryEntity>(predicate: predicate)
-        guard let categoryEntity = try modelContext.fetch(descriptor).first else { return nil }
-        let category = try await categoryAdapted(
-            id: categoryEntity.id,
-            name: categoryEntity.name,
-            color: categoryEntity.color,
-            icon: categoryEntity.icon
-        )
+        let categoryDescriptor = FetchDescriptor<CategoryEntity>(predicate: categoryPredicate)
+        
+        guard let categoryEntity = try modelContext.fetch(categoryDescriptor).first,
+              let category = try await categoryAdapted(
+                id: categoryEntity.id,
+                user: categoryEntity.user,
+                name: categoryEntity.name,
+                color: categoryEntity.color,
+                icon: categoryEntity.icon
+              )
+        else { return nil }
         
         return Budget(
             id: id,
             amount: amount,
             category: category,
-            date: date.date,
+            date: date,
             summary: summary
         )
     }
     
     public func categoryAdapted(
-        id: UUID,
+        id: String,
+        user: String,
         name: String,
         color: String,
         icon: String
-    ) async throws -> Category {
-        Category(
+    ) async throws -> Category? {
+        let userPredicate: Predicate<UserEntity> = #Predicate {
+            $0.id == user
+        }
+        let userDescriptor = FetchDescriptor<UserEntity>(predicate: userPredicate)
+        
+        guard let userEntity = try modelContext.fetch(userDescriptor).first else { return nil }
+        let user = try await userAdapted(
+            id: userEntity.id,
+            name: userEntity.name,
+            photo: userEntity.photo
+        )
+        
+        return Category(
             id: id,
+            user: user,
             name: name.capitalized,
             color: color,
             icon: icon
@@ -58,9 +75,9 @@ public actor AdapterActor: AdapterUseCase {
     }
     
     public func userAdapted(
-        id: UUID,
+        id: String,
         name: String,
-        photo: Data?
+        photo: String
     ) async throws -> User {
         User(
             id: id,
@@ -69,77 +86,125 @@ public actor AdapterActor: AdapterUseCase {
         )
     }
     
-    public func transactionAdapted(
-        id: UUID,
-        user: UUID,
-        participants: [UUID],
-        category: UUID,
-        amount: Double,
-        date: TimeInterval,
-        summary: String,
-        status: Int
-    ) async throws -> Transaction? {
+    public func tagAdapted(
+        id: String,
+        user: String,
+        name: String,
+        color: String,
+        icon: String
+    ) async throws -> Tag? {
         let userPredicate: Predicate<UserEntity> = #Predicate {
             $0.id == user
         }
-        let userDescriptor = FetchDescriptor<UserEntity>(
-            predicate: userPredicate,
-            sortBy: [.init(\.name, order: .forward)]
-        )
-        let participantsPredicate: Predicate<UserEntity> = #Predicate {
-            participants.contains($0.id)
-        }
-        let participantsDescriptor = FetchDescriptor<UserEntity>(
-            predicate: participantsPredicate,
-            sortBy: [.init(\.name, order: .forward)]
-        )
-        let categoryPredicate: Predicate<CategoryEntity> = #Predicate {
-            $0.id == category
-        }
-        let categoryDescriptor = FetchDescriptor(
-            predicate: categoryPredicate,
-            sortBy: [.init(\.name, order: .forward)]
-        )
+        let userDescriptor = FetchDescriptor<UserEntity>(predicate: userPredicate)
         
-        let participantEntities = try modelContext.fetch(participantsDescriptor)
-        guard let userEntity = try modelContext.fetch(userDescriptor).first,
-              let categoryEntity = try modelContext.fetch(categoryDescriptor).first,
-              let status = TransactionStatus(rawValue: status)
-        else { return nil }
-        
+        guard let userEntity = try modelContext.fetch(userDescriptor).first else { return nil }
         let user = try await userAdapted(
             id: userEntity.id,
             name: userEntity.name,
             photo: userEntity.photo
         )
         
-        var participants = [User]()
-        for participantEntity in participantEntities {
-            participants.append(
-                try await userAdapted(
-                    id: participantEntity.id,
-                    name: participantEntity.name,
-                    photo: participantEntity.photo
-                )
-            )
+        return Tag(
+            id: id,
+            user: user,
+            name: name,
+            color: color,
+            icon: icon
+        )
+    }
+    
+    public func transactionAdapted(
+        id: String,
+        participants: [String],
+        budget: String,
+        amount: Double,
+        date: TimeInterval,
+        summary: String,
+        status: Int
+    ) async throws -> Transaction? {
+        let participantsPredicate: Predicate<ParticipantEntity> = #Predicate {
+            participants.contains($0.id)
         }
         
-        let category = try await categoryAdapted(
-            id: categoryEntity.id,
-            name: categoryEntity.name,
-            color: categoryEntity.color,
-            icon: categoryEntity.icon
+        let participantsDescriptor = FetchDescriptor<ParticipantEntity>(
+            predicate: participantsPredicate,
+            sortBy: [.init(\.name, order: .forward)]
         )
+        
+        let budgetPredicate: Predicate<BudgetEntity> = #Predicate {
+            $0.id == budget
+        }
+        
+        let budgetDescriptor = FetchDescriptor<BudgetEntity>(predicate: budgetPredicate)
+        
+        let participantEntities = try modelContext.fetch(participantsDescriptor)
+        guard let budgetEntity = try modelContext.fetch(budgetDescriptor).first,
+              let budget = try await budgetAdapted(
+                  id: budgetEntity.id,
+                  amount: budgetEntity.amount,
+                  category: budgetEntity.category,
+                  date: budgetEntity.date,
+                  summary: budgetEntity.summary
+              ),
+              let status = TransactionStatus(rawValue: status)
+        else { return nil }
+        
+        var participants = [Participant]()
+        for participantEntity in participantEntities {
+            if let participant = try await participantAdapted(
+                id: participantEntity.id,
+                user: participantEntity.user,
+                splitMode: participantEntity.splitMode,
+                splitValue: participantEntity.splitValue,
+                status: participantEntity.status,
+                transaction: participantEntity.transaction
+            ) {
+                participants.append(participant)
+            }
+        }
         
         return CashlyDomain.Transaction(
             id: id,
-            user: user,
             participants: participants,
-            category: category,
+            budget: budget,
             amount: amount,
-            date: date.date,
+            date: date,
             summary: summary,
             status: status
+        )
+    }
+    
+    public func participantAdapted(
+        id: String,
+        user: String,
+        splitMode: Int,
+        splitValue: Double,
+        status: Int,
+        transaction: String
+    ) async throws -> Participant? {
+        let userPredicate: Predicate<UserEntity> = #Predicate {
+            $0.id == user
+        }
+        let userDescriptor = FetchDescriptor<UserEntity>(predicate: userPredicate)
+        
+        guard let userEntity = try modelContext.fetch(userDescriptor).first,
+              let splitMode = TransactionSplitMode(rawValue: splitMode),
+              let status = TransactionStatus(rawValue: status)
+        else { return nil }
+        let user = try await userAdapted(
+            id: userEntity.id,
+            name: userEntity.name,
+            photo: userEntity.photo
+        )
+        
+        return Participant(
+            id: id,
+            user: user,
+            splitMode: splitMode,
+            splitValue: splitValue,
+            status: status,
+            transaction: transaction
         )
     }
 }

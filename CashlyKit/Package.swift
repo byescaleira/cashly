@@ -25,6 +25,7 @@ let package = Package(
         .presentation,
         .mock,
         .ui,
+        .resource,
         .tests
     ]
 )
@@ -34,14 +35,31 @@ enum CashlyTarget: String, CaseIterable {
     case data = "CashlyData"
     case presentation = "CashlyPresentation"
     case ui = "CashlyUI"
+    case resource = "CashlyResource"
     case mock = "CashlyMock"
     case tests = "CashlyTests"
     
     var target: Target {
-        .target(
-            name: rawValue,
-            dependencies: dependencies
-        )
+        switch self {
+        case .resource:
+            return .target(
+                name: rawValue,
+                dependencies: dependencies,
+                resources: [
+                    .copy("Mocks/MockUsers.json"),
+                    .copy("Mocks/MockCategories.json"),
+                    .copy("Mocks/MockBudgets.json"),
+                    .copy("Mocks/MockTransactions.json"),
+                    .copy("Mocks/MockTags.json"),
+                    .copy("Mocks/MockParticipants.json"),
+                ]
+            )
+        default:
+            return .target(
+                name: rawValue,
+                dependencies: dependencies
+            )
+        }
     }
     
     var product: Product {
@@ -67,8 +85,9 @@ enum CashlyTarget: String, CaseIterable {
         case .domain: return [.ryze]
         case .data: return [.domain, .ryze]
         case .presentation: return [.domain, .data, .ryze]
-        case .ui: return [.domain, .presentation, .mock, .ryze]
-        case .mock: return [.domain, .data, .presentation, .ryze]
+        case .ui: return [.domain, .presentation, .mock, .ryze, .resource]
+        case .resource: return [.ryze]
+        case .mock: return [.domain, .data, .presentation, .ryze, .resource]
         case .tests: return [.domain, .data, .presentation, .ui, .mock, .ryze]
         }
     }
@@ -79,6 +98,7 @@ enum CashlyTarget: String, CaseIterable {
         case .data: return [.domain]
         case .presentation: return [.domain, .data]
         case .ui: return [.domain, .presentation, .mock]
+        case .resource: return []
         case .mock: return [.domain, .data, .presentation]
         case .tests: return [.domain, .data, .presentation, .ui]
         }
@@ -126,6 +146,7 @@ extension Target {
     static var presentation: Target { CashlyTarget.presentation.target }
     static var mock: Target { CashlyTarget.mock.target }
     static var ui: Target { CashlyTarget.ui.target }
+    static var resource: Target { CashlyTarget.resource.target }
     static var tests: Target { CashlyTarget.tests.testTarget }
 }
 
@@ -135,6 +156,7 @@ extension Target.Dependency {
     static var presentation: Self { CashlyTarget.presentation.dependency }
     static var mock: Self { CashlyTarget.mock.dependency }
     static var ui: Self { CashlyTarget.ui.dependency }
+    static var resource: Self { CashlyTarget.resource.dependency }
     static var ryze: Self { .product(name: "Ryze", package: "ryze") }
 }
 
@@ -148,6 +170,6 @@ extension Array where Element == String {
     }
     
     static var cashlyTargets: [CashlyTarget] {
-        [.domain, .data, .presentation, .ui, .mock]
+        [.domain, .data, .presentation, .ui, .mock, .resource]
     }
 }

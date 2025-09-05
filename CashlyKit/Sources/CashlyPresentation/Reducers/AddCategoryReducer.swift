@@ -8,6 +8,8 @@
 import CashlyDomain
 
 public actor AddCategoryReducer: CashlyReducer {
+    public init() {}
+    
     public func reduce(state: AddCategoryState, action: AddCategoryAction) async -> AddCategoryState {
         var state = state
         switch action {
@@ -15,8 +17,9 @@ public actor AddCategoryReducer: CashlyReducer {
             state.isLoading = true
         case .stopLoading:
             state.isLoading = false
-        case let .update(id, name, color, icon, isNew):
+        case let .update(id, user, name, color, icon, isNew):
             state.id = id
+            state.user = user
             state.name = name
             state.color = color
             state.icon = icon

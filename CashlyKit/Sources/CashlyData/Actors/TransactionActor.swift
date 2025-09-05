@@ -21,7 +21,7 @@ public actor TransactionActor: TransactionUseCase {
         self.adapter = adapter
     }
     
-    public func getTransaction(id: UUID) async throws -> CashlyDomain.Transaction? {
+    public func getTransaction(id: String) async throws -> CashlyDomain.Transaction? {
         let predicate: Predicate<TransactionEntity> = #Predicate {
             $0.id == id
         }
@@ -29,9 +29,8 @@ public actor TransactionActor: TransactionUseCase {
         guard let entity = try modelContext.fetch(descriptor).first else { return nil }
         return try await adapter.transactionAdapted(
             id: entity.id,
-            user: entity.user,
             participants: entity.participants,
-            category: entity.category,
+            budget: entity.budget,
             amount: entity.amount,
             date: entity.date,
             summary: entity.summary,
@@ -46,9 +45,8 @@ public actor TransactionActor: TransactionUseCase {
         for entity in entities {
             if let transaction = try await adapter.transactionAdapted(
                 id: entity.id,
-                user: entity.user,
                 participants: entity.participants,
-                category: entity.category,
+                budget: entity.budget,
                 amount: entity.amount,
                 date: entity.date,
                 summary: entity.summary,
@@ -61,48 +59,30 @@ public actor TransactionActor: TransactionUseCase {
     }
     
     public func getTransactions(
-        budget: UUID?,
-        category: UUID?,
+        budgets: [String]?,
+        tags: [String]?,
         date: Date?
     ) async throws -> [CashlyDomain.Transaction] {
-        var budgetEntity: BudgetEntity? = nil
-        
-        if let budget {
-            let budgetPredicate: Predicate<BudgetEntity> = #Predicate {
-                $0.id == budget
-            }
-            let budgetDescriptor = FetchDescriptor<BudgetEntity>(predicate: budgetPredicate)
-            budgetEntity = try modelContext.fetch(budgetDescriptor).first
+        let predicateBudget: Predicate<String> = #Predicate { budget in
+            budgets?.isEmpty == false ? budgets!.contains(budget) : true
         }
         
-        let budgetDate: Int? = budget == nil ? nil : budgetEntity == nil ? .zero : budgetEntity?.date.yearMonth
-        let budgetCategory: UUID? = budget == nil ? nil : budgetEntity == nil ? .init() : budgetEntity?.category
-        
-        let predicateBudgetDate: Predicate<TransactionEntity> = #Predicate { transaction in
-            budgetDate == nil ? true : transaction.date.yearMonth == budgetDate!
+        let predicateTag: Predicate<String> = #Predicate { summary in
+            tags?.isEmpty == false ? tags!.contains(where: { summary.contains($0) }) : true
         }
         
-        let predicateBudgetCategory: Predicate<TransactionEntity> = #Predicate { transaction in
-            budgetCategory == nil ? true : transaction.category == budgetCategory!
+        let predicateDate: Predicate<TimeInterval> = #Predicate { timeInterval in
+            date != nil ? timeInterval.yearMonth == date!.timeIntervalSince1970.yearMonth : true
         }
         
-        let predicateCategory: Predicate<TransactionEntity> = #Predicate { transaction in
-            category == nil ? true : transaction.category == category!
-        }
-        
-        let predicateDate: Predicate<TransactionEntity> = #Predicate { transaction in
-            date == nil ? true : transaction.date.yearMonth == date!.timeIntervalSince1970.yearMonth
-        }
-        
-        let predicateAll: Predicate<TransactionEntity> = #Predicate {
-            predicateBudgetDate.evaluate($0) &&
-            predicateBudgetCategory.evaluate($0) &&
-            predicateCategory.evaluate($0) &&
-            predicateDate.evaluate($0)
+        let predicate: Predicate<TransactionEntity> = #Predicate {
+            predicateBudget.evaluate($0.budget) &&
+            predicateTag.evaluate($0.summary) &&
+            predicateDate.evaluate($0.date)
         }
         
         let descriptor = FetchDescriptor<TransactionEntity>(
-            predicate: predicateAll,
+            predicate: predicate,
             sortBy: [.init(\.date, order: .reverse)]
         )
         
@@ -111,9 +91,8 @@ public actor TransactionActor: TransactionUseCase {
         for entity in entities {
             if let transaction = try await adapter.transactionAdapted(
                 id: entity.id,
-                user: entity.user,
                 participants: entity.participants,
-                category: entity.category,
+                budget: entity.budget,
                 amount: entity.amount,
                 date: entity.date,
                 summary: entity.summary,
@@ -125,7 +104,7 @@ public actor TransactionActor: TransactionUseCase {
         return transactions
     }
     
-    public func removeTransaction(id: UUID) async throws {
+    public func removeTransaction(id: String) async throws {
         let predicate: Predicate<TransactionEntity> = #Predicate {
             $0.id == id
         }
@@ -145,22 +124,20 @@ public actor TransactionActor: TransactionUseCase {
     }
     
     public func addTransaction(
-        id: UUID,
-        user: User,
-        participants: [User],
-        category: CashlyDomain.Category,
+        id: String,
+        participants: [Participant],
+        budget: Budget,
         amount: Double,
-        date: Date,
+        date: TimeInterval,
         summary: String,
         status: TransactionStatus
     ) async throws {
         let entity = TransactionEntity(
             id: id,
-            user: user.id,
             participants: participants.map(\.id),
-            category: category.id,
+            budget: budget.id,
             amount: amount,
-            date: date.timeIntervalSince1970,
+            date: date,
             summary: summary,
             status: status.rawValue
         )

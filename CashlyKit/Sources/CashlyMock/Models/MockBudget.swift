@@ -6,17 +6,16 @@
 //
 
 import CashlyDomain
+import CashlyResource
 import RyzeFoundation
-import RyzeUI
 
 extension Budget: RyzeMock {
     public static var mock: Budget {
-        Budget(
-            id: .init(),
-            amount: .random(in: 100 ... 1_000),
-            category: .mock,
-            date: .now,
-            summary: .ryzePreviewDescription
-        )
+        mocks.randomElement()!
+    }
+    
+    public static var mocks: [Budget] {
+        let budgets: [Budget] = CashlyResourceFile.budgets.decoded()
+        return budgets.sorted(by: \.date, using: >)
     }
 }

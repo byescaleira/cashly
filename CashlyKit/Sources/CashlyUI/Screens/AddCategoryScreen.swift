@@ -14,6 +14,7 @@ public struct AddCategoryScreen: CashlyView {
     @EnvironmentObject var store: CashlyStore<AddCategoryReducer, AddCategoryMiddleware>
     
     @Environment(\.addCategoryState) var state
+    @Environment(\.mainState) var mainState
     @Environment(\.action) var action
     
     @State var category: CashlySymbolCategory = .random
@@ -27,17 +28,14 @@ public struct AddCategoryScreen: CashlyView {
             iconCategorySection
             iconsSection
         }
-        .onChange(of: state.isLoading) { setIcon() }
         .toolbar {
-            ToolbarItemGroup(placement: .bottomBar) {
-                CashlyHStack(spacing: .medium) {
-                    saveButton
-                    removeButton
-                }
-                .cashlyPadding()
-                .cashlyPadding(.horizontal)
-            }
+            ToolbarItem(placement: .navigation) { userItem }
+            ToolbarItem { saveButton }
+            ToolbarItem { removeButton }
         }
+        .onChange(of: state.isLoading) { setIcon() }
+        .task { action(.addCategory(.fetch)) }
+        .environment(\.isLoading, state.isLoading)
     }
     
     var infoSection: some View {
@@ -54,7 +52,8 @@ public struct AddCategoryScreen: CashlyView {
             )
         } header: {
             CashlyText("Name")
-                .headerProminence(.increased)
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
         }
     }
     
@@ -82,7 +81,8 @@ public struct AddCategoryScreen: CashlyView {
             }
         } header: {
             CashlyText("Icon")
-                .headerProminence(.increased)
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
         }
     }
     
@@ -122,6 +122,7 @@ public struct AddCategoryScreen: CashlyView {
             .overlay {
                 Circle()
                     .stroke(state.color, lineWidth: 5)
+                    .cashlyPadding(.negative(.small))
             }
             .animation(.linear.speed(0.1).repeatForever(autoreverses: false), value: state.isLoading)
             .overlay(alignment: .bottomTrailing) {
@@ -134,28 +135,62 @@ public struct AddCategoryScreen: CashlyView {
             .cashlyPadding(.top, .medium)
     }
     
+    @ViewBuilder
+    var userItem: some View {
+        if let user = state.user {
+            Menu {
+                Picker(selection: $store.state.user) {
+                    ForEach(mainState.users) {
+                        CashlyAsyncImage($0.photo) { image in
+                            image
+                        } placeholder: {
+                            ProgressView()
+                                .cashly(tint: .textSecondary)
+                        }
+                        .cashly(clip: .circle)
+                        .tag($0)
+                    }
+                } label: {
+                    EmptyView()
+                }
+                .pickerStyle(.palette)
+            } label: {
+                CashlyAsyncImage(user.photo) { image in
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .cashly(clip: .circle)
+                } placeholder: {
+                    ProgressView()
+                        .cashly(tint: .textSecondary)
+                }
+            }
+            .menuStyle(.button)
+            .buttonStyle(.plain)
+        }
+    }
+    
     var saveButton: some View {
         CashlyButton {
             action(.addCategory(.save))
         } label: {
-            CashlyText(state.isNew ? "Create" : "Save")
-                .cashly(font: .headline, weight: .semibold)
+            CashlySymbol("checkmark")
+                .cashly(font: .headline, weight: .bold)
         }
         .disabled(!state.canSave)
-        .cashly(tint: .color(state.color))
+        .cashly(tint: .primary)
     }
     
     @ViewBuilder
     var removeButton: some View {
         if !state.isNew && !state.isLoading {
-            Divider()
             CashlyButton {
                 action(.addCategory(.remove))
             } label: {
                 CashlySymbol("trash")
                     .cashly(font: .headline, weight: .bold)
             }
-            .cashly(tint: .color(state.color))
+            .cashly(tint: .error)
         }
     }
     
@@ -170,7 +205,9 @@ public struct AddCategoryScreen: CashlyView {
 }
 
 #Preview {
-    AddCategoryScreen
-        .mock
-        .cashlyPreview()
+    NavigationView {
+        AddCategoryScreen
+            .mock
+            .cashlyPreview()
+    }
 }

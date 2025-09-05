@@ -14,7 +14,7 @@ public enum AddBudgetAction: CashlyAction {
     case stopLoading
     case update(
         categories: [Category],
-        id: UUID,
+        id: String,
         amount: Double,
         category: Category?,
         date: Date,

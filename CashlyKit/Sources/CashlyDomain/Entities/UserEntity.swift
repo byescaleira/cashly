@@ -9,14 +9,14 @@ import SwiftData
 
 @Model
 public class UserEntity {
-    @Attribute(.unique) public var id: UUID
+    @Attribute(.unique) public var id: String
     public var name: String
-    public var photo: Data?
+    public var photo: String
     
     public init(
-        id: UUID,
+        id: String,
         name: String,
-        photo: Data? = nil
+        photo: String
     ) {
         self.id = id
         self.name = name

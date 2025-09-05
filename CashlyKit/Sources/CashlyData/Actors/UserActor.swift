@@ -21,7 +21,7 @@ public actor UserActor: UserUseCase {
         self.adapter = adapter
     }
     
-    public func getUser(id: UUID) async throws -> User? {
+    public func getUser(id: String) async throws -> User? {
         let predicate: Predicate<UserEntity> = #Predicate {
             $0.id == id
         }
@@ -32,6 +32,12 @@ public actor UserActor: UserUseCase {
             name: entity.name,
             photo: entity.photo
         )
+    }
+    
+    public func getCurrentUser() async throws -> User? {
+        let users = try await getUsers()
+        let userID = UserDefaults.standard.string(forKey: "cashly.user")
+        return users.first(where: { $0.id == userID })
     }
     
     public func getUsers() async throws -> [User] {
@@ -50,7 +56,7 @@ public actor UserActor: UserUseCase {
         return users
     }
     
-    public func removeUser(id: UUID) async throws {
+    public func removeUser(id: String) async throws {
         let predicate: Predicate<UserEntity> = #Predicate {
             $0.id == id
         }
@@ -70,9 +76,9 @@ public actor UserActor: UserUseCase {
     }
     
     public func addUser(
-        id: UUID,
+        id: String,
         name: String,
-        photo: Data?
+        photo: String
     ) async throws {
         let entity = UserEntity(
             id: id,

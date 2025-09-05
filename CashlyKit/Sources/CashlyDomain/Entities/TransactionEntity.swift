@@ -9,29 +9,26 @@ import SwiftData
 
 @Model
 public class TransactionEntity {
-    @Attribute(.unique) public var id: UUID
-    public var user: UUID
-    public var participants: [UUID]
-    public var category: UUID
+    @Attribute(.unique) public var id: String
+    public var participants: [String]
+    public var budget: String
     public var amount: Double
     public var date: TimeInterval
     public var summary: String
     public var status: Int
     
     public init(
-        id: UUID,
-        user: UUID,
-        participants: [UUID],
-        category: UUID,
+        id: String,
+        participants: [String],
+        budget: String,
         amount: Double,
         date: TimeInterval,
         summary: String,
         status: Int
     ) {
         self.id = id
-        self.user = user
         self.participants = participants
-        self.category = category
+        self.budget = budget
         self.amount = amount
         self.date = date
         self.summary = summary

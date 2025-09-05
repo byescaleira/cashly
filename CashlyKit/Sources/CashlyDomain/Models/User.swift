@@ -6,14 +6,14 @@
 //
 
 public struct User: CashlyEntity, Sendable {
-    public var id: UUID
+    public var id: String
     public var name: String
-    public var photo: Data?
+    public var photo: String
     
     public init(
-        id: UUID,
+        id: String,
         name: String,
-        photo: Data?
+        photo: String
     ) {
         self.id = id
         self.name = name

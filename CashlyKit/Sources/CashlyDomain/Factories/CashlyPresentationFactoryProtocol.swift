@@ -6,11 +6,17 @@
 //
 
 public protocol CashlyPresentationFactoryProtocol: Sendable {
-    associatedtype AddBudgetReducer: CashlyReducer
-    associatedtype AddBudgetMiddleware: CashlyMiddleware
     associatedtype AddCategoryReducer: CashlyReducer
     associatedtype AddCategoryMiddleware: CashlyMiddleware
+    associatedtype AddBudgetReducer: CashlyReducer
+    associatedtype AddBudgetMiddleware: CashlyMiddleware
+    associatedtype AddTransactionReducer: CashlyReducer
+    associatedtype AddTransactionMiddleware: CashlyMiddleware
+    associatedtype MainReducer: CashlyReducer
+    associatedtype MainMiddleware: CashlyMiddleware
     
-    func makeAddBudgetStore() -> CashlyStore<AddBudgetReducer, AddBudgetMiddleware>
     func makeAddCategoryStore() -> CashlyStore<AddCategoryReducer, AddCategoryMiddleware>
+    func makeAddBudgetStore() -> CashlyStore<AddBudgetReducer, AddBudgetMiddleware>
+    func makeAddTransactionStore() -> CashlyStore<AddTransactionReducer, AddTransactionMiddleware>
+    func makeMainStore() -> CashlyStore<MainReducer, MainMiddleware>
 }

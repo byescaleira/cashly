@@ -9,10 +9,14 @@ import RyzeFoundation
 
 public enum CashlyResourceImage: String, RyzeResourceImage {
     case illustrationEmpty
+    case illustrationNoData
+    case illustrationPeople
     
     public var resource: ImageResource {
         switch self {
         case .illustrationEmpty: return .illustrationEmpty
+        case .illustrationNoData: return .illustrationNoData
+        case .illustrationPeople: return .illustrationPeople
         }
     }
     

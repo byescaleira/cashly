@@ -14,4 +14,6 @@ public protocol CashlyDataFactoryProtocol: Sendable {
     func makeCategoryUseCase() -> CategoryUseCase
     func makeUserUseCase() -> UserUseCase
     func makeTransactionUseCase() -> TransactionUseCase
+    func makeTagUseCase() -> TagUseCase
+    func makeParticipantUseCase() -> ParticipantUseCase
 }

@@ -6,22 +6,21 @@
 //
 
 public protocol TransactionUseCase: Sendable {
-    func getTransaction(id: UUID) async throws -> Transaction?
+    func getTransaction(id: String) async throws -> Transaction?
     func getTransactions() async throws -> [Transaction]
     func getTransactions(
-        budget: UUID?,
-        category: UUID?,
+        budgets: [String]?,
+        tags: [String]?,
         date: Date?
     ) async throws -> [Transaction]
-    func removeTransaction(id: UUID) async throws
+    func removeTransaction(id: String) async throws
     func removeTransactions() async throws
     func addTransaction(
-        id: UUID,
-        user: User,
-        participants: [User],
-        category: Category,
+        id: String,
+        participants: [Participant],
+        budget: Budget,
         amount: Double,
-        date: Date,
+        date: TimeInterval,
         summary: String,
         status: TransactionStatus
     ) async throws

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CashlyResource
 
 public struct CashlyCardView: CashlyView {
     let image: CashlyResourceImage
@@ -33,7 +34,7 @@ public struct CashlyCardView: CashlyView {
             image.image
                 .resizable()
                 .scaledToFit()
-                .frame(height: 144)
+                .frame(height: 100)
             
             CashlyVStack(spacing: .small) {
                 CashlyText(title)
@@ -48,6 +49,7 @@ public struct CashlyCardView: CashlyView {
             button
         }
         .frame(maxWidth: .infinity)
+        .cashly(alignment: .center)
     }
     
     var button: some View {

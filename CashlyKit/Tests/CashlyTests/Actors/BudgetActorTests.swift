@@ -17,15 +17,16 @@ actor BudgetActorTests {
     func testGetBudget() async throws {
         let categoryActual: Category = .mock
         let actual = Budget(
-            id: .init(),
+            id: UUID().uuidString,
             amount: 100,
             category: categoryActual,
-            date: .now,
+            date: Date.now.timeIntervalSince1970,
             summary: "Budget"
         )
         
         try await suite.categoryUseCase.addCategory(
             id: categoryActual.id,
+            user: "",
             name: categoryActual.name,
             color: categoryActual.color,
             icon: categoryActual.icon

@@ -10,7 +10,8 @@ import RyzeUI
 
 public struct AddCategoryState: CashlyState {
     public var isLoading: Bool
-    public var id: UUID
+    public var id: String
+    public var user: User?
     public var name: String
     public var color: Color
     public var icon: String
@@ -19,12 +20,14 @@ public struct AddCategoryState: CashlyState {
     
     public var canSave: Bool {
         name.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3 &&
+        user != nil &&
         !icon.isEmpty
     }
     
     public init(
         isLoading: Bool = true,
-        id: UUID = .init(),
+        id: String = UUID().uuidString,
+        user: User? = nil,
         name: String = "",
         color: String = "",
         icon: String = "",
@@ -33,6 +36,7 @@ public struct AddCategoryState: CashlyState {
     ) {
         self.isLoading = isLoading
         self.id = id
+        self.user = user
         self.name = name
         self.color = Color(hex: color)
         self.icon = icon

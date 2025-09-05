@@ -6,12 +6,14 @@
 //
 
 public protocol CategoryUseCase: Sendable {
-    func getCategory(id: UUID) async throws -> Category?
+    func getCategory(id: String) async throws -> Category?
     func getCategories() async throws -> [Category]
-    func removeCategory(id: UUID) async throws
+    func getCategories(users: [String]?) async throws -> [Category]
+    func removeCategory(id: String) async throws
     func removeCategories() async throws
     func addCategory(
-        id: UUID,
+        id: String,
+        user: String,
         name: String,
         color: String,
         icon: String

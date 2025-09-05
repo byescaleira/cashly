@@ -6,15 +6,16 @@
 //
 
 import CashlyDomain
+import CashlyResource
 import RyzeFoundation
 
 extension CashlyDomain.Category: RyzeMock {
     public static var mock: CashlyDomain.Category {
-        Category(
-            id: UUID(),
-            name: "Mock Category",
-            color: "#9C9C9C",
-            icon: "iphone"
-        )
+        mocks.randomElement()!
+    }
+    
+    public static var mocks: [CashlyDomain.Category] {
+        let categories: [CashlyDomain.Category] = CashlyResourceFile.categories.decoded()
+        return categories.sorted(by: \.name)
     }
 }

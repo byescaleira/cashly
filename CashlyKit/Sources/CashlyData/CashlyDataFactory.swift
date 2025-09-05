@@ -11,17 +11,23 @@ import CashlyDomain
 public struct CashlyDataFactory: CashlyDataFactoryProtocol {
     let modelContainer: ModelContainer
     
-    public init() throws {
-        let schema = Schema(
-            BudgetEntity.self,
-            CategoryEntity.self
-        )
-        
-        let container = try ModelContainer(
-            for: schema,
-            configurations: .init(isStoredInMemoryOnly: true)
-        )
-        modelContainer = container
+    public init() {
+        do {
+            let schema = Schema(
+                BudgetEntity.self,
+                CategoryEntity.self,
+                TransactionEntity.self,
+                UserEntity.self
+            )
+            
+            let container = try ModelContainer(
+                for: schema,
+                configurations: .init(isStoredInMemoryOnly: true)
+            )
+            modelContainer = container
+        } catch {
+            fatalError(error.localizedDescription)
+        }
     }
     
     public func makeModelContext() -> ModelContext {
@@ -64,6 +70,24 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         let modelContext = makeModelContext()
         let adapter = makeAdapter()
         return TransactionActor(
+            modelContext: modelContext,
+            adapter: adapter
+        )
+    }
+    
+    public func makeTagUseCase() -> TagUseCase {
+        let modelContext = makeModelContext()
+        let adapter = makeAdapter()
+        return TagActor(
+            modelContext: modelContext,
+            adapter: adapter
+        )
+    }
+    
+    public func makeParticipantUseCase() -> any ParticipantUseCase {
+        let modelContext = makeModelContext()
+        let adapter = makeAdapter()
+        return ParticipantActor(
             modelContext: modelContext,
             adapter: adapter
         )

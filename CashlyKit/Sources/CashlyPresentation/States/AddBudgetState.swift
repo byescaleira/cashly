@@ -10,13 +10,17 @@ import CashlyDomain
 public struct AddBudgetState: CashlyState {
     public var isLoading: Bool
     public var categories: [Category]
-    public var id: UUID
+    public var id: String
     public var amount: Double
     public var category: Category?
     public var date: Date
     public var summary: String
     public var isNew: Bool
     public var error: CashlyError?
+    
+    public var user: User? {
+        category?.user
+    }
     
     public var canSave: Bool {
         amount > .zero &&
@@ -27,7 +31,7 @@ public struct AddBudgetState: CashlyState {
     public init(
         isLoading: Bool = true,
         categories: [Category] = [],
-        id: UUID = .init(),
+        id: String = UUID().uuidString,
         amount: Double = .zero,
         category: Category? = nil,
         date: Date = .now,

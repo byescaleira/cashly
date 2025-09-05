@@ -8,6 +8,8 @@
 import CashlyDomain
 
 public actor AddBudgetReducer: CashlyReducer {
+    public init() {}
+    
     public func reduce(state: AddBudgetState, action: AddBudgetAction) async -> AddBudgetState {
         var state = state
         switch action {

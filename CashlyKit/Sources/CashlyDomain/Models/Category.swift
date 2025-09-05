@@ -6,18 +6,21 @@
 //
 
 public struct Category: CashlyEntity, Sendable {
-    public var id: UUID
+    public var id: String
+    public var user: User
     public var name: String
     public var color: String
     public var icon: String
     
     public init(
-        id: UUID,
+        id: String,
+        user: User,
         name: String,
         color: String,
         icon: String
     ) {
         self.id = id
+        self.user = user
         self.name = name
         self.color = color
         self.icon = icon

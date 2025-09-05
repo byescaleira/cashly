@@ -13,7 +13,8 @@ public enum AddCategoryAction: CashlyAction {
     case remove
     case stopLoading
     case update(
-        id: UUID,
+        id: String,
+        user: User?,
         name: String,
         color: Color,
         icon: String,

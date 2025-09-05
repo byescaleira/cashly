@@ -8,6 +8,19 @@
 import CashlyDomain
 
 public enum MainAction: CashlyAction {
-    case addBudget(AddBudgetAction)
-    case addCategory(AddCategoryAction)
+    case fetch
+    case stopLoading
+    case update(
+        budgets: [Budget],
+        categories: [CashlyDomain.Category],
+        transactions: [CashlyDomain.Transaction],
+        tags: [Tag],
+        users: [User]
+    )
+    case removeTag(Tag)
+    case removeUser(User)
+    case removeBudget(Budget)
+    case removeCategory(CashlyDomain.Category)
+    case removeTransaction(CashlyDomain.Transaction)
+    case error(CashlyError)
 }

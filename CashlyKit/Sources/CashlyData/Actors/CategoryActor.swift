@@ -21,7 +21,7 @@ public actor CategoryActor: CategoryUseCase {
         self.adapter = adapter
     }
     
-    public func getCategory(id: UUID) async throws -> CashlyDomain.Category? {
+    public func getCategory(id: String) async throws -> CashlyDomain.Category? {
         let predicate: Predicate<CategoryEntity> = #Predicate {
             $0.id == id
         }
@@ -29,6 +29,7 @@ public actor CategoryActor: CategoryUseCase {
         guard let entity = try modelContext.fetch(descriptor).first else { return nil }
         return try await adapter.categoryAdapted(
             id: entity.id,
+            user: entity.user,
             name: entity.name,
             color: entity.color,
             icon: entity.icon
@@ -40,19 +41,46 @@ public actor CategoryActor: CategoryUseCase {
         let entities = try modelContext.fetch(descriptor)
         var categories = [CashlyDomain.Category]()
         for entity in entities {
-            categories.append(
-                try await adapter.categoryAdapted(
-                    id: entity.id,
-                    name: entity.name,
-                    color: entity.color,
-                    icon: entity.icon
-                )
-            )
+            if let category = try await adapter.categoryAdapted(
+                id: entity.id,
+                user: entity.user,
+                name: entity.name,
+                color: entity.color,
+                icon: entity.icon
+            ) {
+                categories.append(category)
+            }
         }
         return categories
     }
     
-    public func removeCategory(id: UUID) async throws {
+    public func getCategories(users: [String]?) async throws -> [CashlyDomain.Category] {
+        let predicate: Predicate<CategoryEntity> = #Predicate { entity in
+            users?.isEmpty == false ? users!.contains(entity.user) : true
+        }
+        
+        let descriptor = FetchDescriptor<CategoryEntity>(
+            predicate: predicate,
+            sortBy: [.init(\.name, order: .forward)]
+        )
+        
+        let entities = try modelContext.fetch(descriptor)
+        var categories = [CashlyDomain.Category]()
+        for entity in entities {
+            if let category = try await adapter.categoryAdapted(
+                id: entity.id,
+                user: entity.user,
+                name: entity.name,
+                color: entity.color,
+                icon: entity.icon
+            ) {
+                categories.append(category)
+            }
+        }
+        return categories
+    }
+    
+    public func removeCategory(id: String) async throws {
         let predicate: Predicate<CategoryEntity> = #Predicate {
             $0.id == id
         }
@@ -72,13 +100,15 @@ public actor CategoryActor: CategoryUseCase {
     }
     
     public func addCategory(
-        id: UUID,
+        id: String,
+        user: String,
         name: String,
         color: String,
         icon: String
     ) async throws {
         let entity = CategoryEntity(
             id: id,
+            user: user,
             name: name,
             color: color,
             icon: icon

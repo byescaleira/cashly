@@ -9,15 +9,21 @@ import CashlyDomain
 import RyzeUI
 
 public actor AddCategoryMiddleware: CashlyMiddleware {
+    let budgetUseCase: BudgetUseCase
     let categoryUseCase: CategoryUseCase
     let transactionUseCase: TransactionUseCase
+    let userUseCase: UserUseCase
     
     public init(
+        budgetUseCase: BudgetUseCase,
         categoryUseCase: CategoryUseCase,
-        transactionUseCase: TransactionUseCase
+        transactionUseCase: TransactionUseCase,
+        userUseCase: UserUseCase
     ) {
+        self.budgetUseCase = budgetUseCase
         self.categoryUseCase = categoryUseCase
         self.transactionUseCase = transactionUseCase
+        self.userUseCase = userUseCase
     }
     
     public func run(state: AddCategoryState, action: AddCategoryAction) async -> AsyncStream<AddCategoryAction> {
@@ -42,10 +48,13 @@ public actor AddCategoryMiddleware: CashlyMiddleware {
     func fetch(state: AddCategoryState, continuation: AsyncStream<AddCategoryAction>.Continuation) async {
         do {
             let category = try await categoryUseCase.getCategory(id: state.id)
+            let users = try await userUseCase.getUsers()
+            let currentUser = try await userUseCase.getCurrentUser()
             let categoryColor = category?.color == nil ? nil : Color(hex: category?.color)
             continuation.yield(
                 .update(
                     id: category?.id ?? state.id,
+                    user: category?.user ?? state.user ?? currentUser ?? users.first,
                     name: category?.name ?? state.name,
                     color: categoryColor ?? state.color,
                     icon: category?.icon ?? state.icon,
@@ -60,13 +69,15 @@ public actor AddCategoryMiddleware: CashlyMiddleware {
     func save(state: AddCategoryState, continuation: AsyncStream<AddCategoryAction>.Continuation) async {
         do {
             guard !state.name.isEmpty,
-                  !state.icon.isEmpty
+                  !state.icon.isEmpty,
+                  let user = state.user
             else {
                 continuation.yield(.error(.onSave))
                 return
             }
             try await categoryUseCase.addCategory(
                 id: state.id,
+                user: user.id,
                 name: state.name,
                 color: state.color.hex,
                 icon: state.icon
@@ -78,12 +89,18 @@ public actor AddCategoryMiddleware: CashlyMiddleware {
     
     func remove(state: AddCategoryState, continuation: AsyncStream<AddCategoryAction>.Continuation) async {
         do {
-            let transaction = try await transactionUseCase.getTransactions(
-                budget: nil,
-                category: state.id,
+            let budgets = try await budgetUseCase.getBudgets(
+                categories: [state.id],
                 date: nil
             )
+            let transaction = try await transactionUseCase.getTransactions(
+                budgets: budgets.map(\.id),
+                tags: nil,
+                date: nil
+            )
+            
             guard let category = try await categoryUseCase.getCategory(id: state.id),
+                  budgets.isEmpty,
                   transaction.isEmpty
             else {
                 continuation.yield(.error(.onRemove))

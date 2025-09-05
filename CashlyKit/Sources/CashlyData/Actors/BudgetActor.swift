@@ -21,7 +21,7 @@ public actor BudgetActor: BudgetUseCase {
         self.adapter = adapter
     }
     
-    public func getBudget(id: UUID) async throws -> Budget? {
+    public func getBudget(id: String) async throws -> Budget? {
         let predicate: Predicate<BudgetEntity> = #Predicate {
             $0.id == id
         }
@@ -54,7 +54,45 @@ public actor BudgetActor: BudgetUseCase {
         return budgets
     }
     
-    public func removeBudget(id: UUID) async throws {
+    public func getBudgets(
+        categories: [String]?,
+        date: Date?
+    ) async throws -> [Budget] {
+        let predicateCategory: Predicate<String> = #Predicate { category in
+            categories?.isEmpty == false ? categories!.contains(category) : true
+        }
+        
+        let predicateDate: Predicate<TimeInterval> = #Predicate { interval in
+            date != nil ? interval.yearMonth == date!.timeIntervalSince1970.yearMonth : true
+        }
+        
+        let predicate: Predicate<BudgetEntity> = #Predicate {
+            predicateCategory.evaluate($0.category) &&
+            predicateDate.evaluate($0.date)
+        }
+        
+        let descriptor = FetchDescriptor<BudgetEntity>(
+            predicate: predicate,
+            sortBy: [.init(\.date, order: .reverse)]
+        )
+        
+        let entities = try modelContext.fetch(descriptor)
+        var budgets = [Budget]()
+        for entity in entities {
+            if let budget = try await adapter.budgetAdapted(
+                id: entity.id,
+                amount: entity.amount,
+                category: entity.category,
+                date: entity.date,
+                summary: entity.summary
+            ) {
+                budgets.append(budget)
+            }
+        }
+        return budgets
+    }
+    
+    public func removeBudget(id: String) async throws {
         let predicate: Predicate<BudgetEntity> = #Predicate {
             $0.id == id
         }
@@ -74,17 +112,17 @@ public actor BudgetActor: BudgetUseCase {
     }
     
     public func addBudget(
-        id: UUID,
+        id: String,
         amount: Double,
         category: CashlyDomain.Category,
-        date: Date,
+        date: TimeInterval,
         summary: String
     ) async throws {
         let entity = BudgetEntity(
             id: id,
             amount: amount,
             category: category.id,
-            date: date.timeIntervalSince1970,
+            date: date,
             summary: summary
         )
         modelContext.insert(entity)

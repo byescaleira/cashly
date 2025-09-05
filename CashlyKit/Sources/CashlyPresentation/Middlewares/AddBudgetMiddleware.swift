@@ -11,15 +11,18 @@ public actor AddBudgetMiddleware: CashlyMiddleware {
     let budgetUseCase: BudgetUseCase
     let categoryUseCase: CategoryUseCase
     let transactionUseCase: TransactionUseCase
+    let userUseCase: UserUseCase
     
     public init(
         budgetUseCase: BudgetUseCase,
         categoryUseCase: CategoryUseCase,
-        transactionUseCase: TransactionUseCase
+        transactionUseCase: TransactionUseCase,
+        userUseCase: UserUseCase
     ) {
         self.budgetUseCase = budgetUseCase
         self.categoryUseCase = categoryUseCase
         self.transactionUseCase = transactionUseCase
+        self.userUseCase = userUseCase
     }
     
     public func run(state: AddBudgetState, action: AddBudgetAction) async -> AsyncStream<AddBudgetAction> {
@@ -44,14 +47,15 @@ public actor AddBudgetMiddleware: CashlyMiddleware {
     func fetch(state: AddBudgetState, continuation: AsyncStream<AddBudgetAction>.Continuation) async {
         do {
             let budget = try await budgetUseCase.getBudget(id: state.id)
-            let categories = try await categoryUseCase.getCategories()
+            let currentUser = try await userUseCase.getCurrentUser()
+            let categories = try await categoryUseCase.getCategories(users: currentUser == nil ? nil : [currentUser!.id])
             continuation.yield(
                 .update(
                     categories: categories,
                     id: budget?.id ?? state.id,
                     amount: budget?.amount ?? state.amount,
                     category: budget?.category ?? state.category ?? categories.first,
-                    date: budget?.date ?? state.date,
+                    date: Date(timeIntervalSince1970: budget?.date ?? state.date.timeIntervalSince1970),
                     summary: budget?.summary ?? state.summary,
                     isNew: budget == nil
                 )
@@ -74,7 +78,7 @@ public actor AddBudgetMiddleware: CashlyMiddleware {
                 id: state.id,
                 amount: state.amount,
                 category: category,
-                date: state.date,
+                date: state.date.timeIntervalSince1970,
                 summary: state.summary
             )
         } catch {
@@ -85,11 +89,13 @@ public actor AddBudgetMiddleware: CashlyMiddleware {
     func remove(state: AddBudgetState, continuation: AsyncStream<AddBudgetAction>.Continuation) async {
         do {
             let transaction = try await transactionUseCase.getTransactions(
-                budget: state.id,
-                category: state.category?.id,
+                budgets: [state.id],
+                tags: nil,
                 date: state.date
             )
+            
             guard let budget = try await budgetUseCase.getBudget(id: state.id),
+                  let _ = state.category,
                   transaction.isEmpty
             else {
                 continuation.yield(.error(.onRemove))

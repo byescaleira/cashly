@@ -6,17 +6,19 @@
 //
 
 public struct Budget: CashlyEntity, Sendable {
-    public var id: UUID
+    public var id: String
     public var amount: Double
     public var category: Category
-    public var date: Date
+    public var date: TimeInterval
     public var summary: String
     
+    public var user: User { category.user }
+    
     public init(
-        id: UUID,
+        id: String,
         amount: Double,
         category: Category,
-        date: Date,
+        date: TimeInterval,
         summary: String
     ) {
         self.id = id

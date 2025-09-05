@@ -8,6 +8,7 @@
 import SwiftUI
 import CashlyMock
 import CashlyDomain
+import CashlyResource
 import CashlyPresentation
 
 public struct AddBudgetScreen: CashlyView {
@@ -26,15 +27,11 @@ public struct AddBudgetScreen: CashlyView {
             dateSection
         }
         .toolbar {
-            ToolbarItemGroup(placement: .bottomBar) {
-                CashlyHStack(spacing: .medium) {
-                    saveButton
-                    removeButton
-                }
-                .cashlyPadding()
-                .cashlyPadding(.horizontal)
-            }
+            ToolbarItem { saveButton }
+            ToolbarItem { removeButton }
         }
+        .task { action(.addBudget(.fetch)) }
+        .environment(\.isLoading, state.isLoading)
     }
     
     var amountSection: some View {
@@ -57,17 +54,19 @@ public struct AddBudgetScreen: CashlyView {
             )
         } header: {
             CashlyText("Summary")
-                .headerProminence(.increased)
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
         }
     }
     
     var categoriesSection: some View {
         Section {
             categoriesView
-            emptyCategoriesView
+            EmptyCategoryView()
         } header: {
             CashlyText("Categories")
-                .headerProminence(.increased)
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
         }
     }
     
@@ -75,27 +74,14 @@ public struct AddBudgetScreen: CashlyView {
     var categoriesView: some View {
         if !state.categories.isEmpty {
             CashlyHorizontalList {
-                CashlyHStack(spacing: .medium) {
+                CashlyHStack {
                     ForEach(state.categories) { category in
                         categoryItemView(category: category)
                     }
                 }
+                .cashlyPadding(.horizontal, .medium)
             }
-        }
-    }
-    
-    @ViewBuilder
-    var emptyCategoriesView: some View {
-        if state.categories.isEmpty {
-            CashlyCardView(
-                image: .illustrationEmpty,
-                title: "No Categories Found",
-                subtitle: "You don’t have any categories yet. Start by creating one to organize your expenses.",
-                buttonTitle: "Create Category"
-            ) {
-                
-            }
-            .cashlyPadding(.medium)
+            .cashlyPadding(.horizontal, .negative(.medium))
         }
     }
     
@@ -105,17 +91,19 @@ public struct AddBudgetScreen: CashlyView {
         } label: {
             CashlySymbol(category.icon)
                 .cashly(font: .system(size: 20))
-                .cashly(color: .hex(category.color))
+                .cashly(color: state.category == category ? .hex(category.color) : .color(.secondary))
                 .frame(width: 45, height: 45)
-                .cashly(background: .color(Color(hex: category.color).opacity(0.2)))
+                .cashly(background: .color((state.category == category ? Color(hex: category.color) : .secondary).opacity(0.2)))
                 .cashly(clip: .circle)
                 .overlay {
                     Circle()
-                        .stroke(Color(hex: category.color), lineWidth: 3)
+                        .stroke(state.category == category ? Color(hex: category.color) : .secondary, lineWidth: 3)
                         .frame(width: 50, height: 50)
                 }
+                .opacity(state.category == category ? 1 : 0.3)
         }
         .buttonStyle(.plain)
+        .cashlyPadding()
     }
     
     var dateSection: some View {
@@ -130,16 +118,17 @@ public struct AddBudgetScreen: CashlyView {
             .cashly(tint: .primary)
         } header: {
             CashlyText("Date")
-                .headerProminence(.increased)
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
         }
     }
     
     var saveButton: some View {
         CashlyButton {
-            action(.addCategory(.save))
+            action(.addBudget(.save))
         } label: {
-            CashlyText(state.isNew ? "Create" : "Save")
-                .cashly(font: .headline, weight: .semibold)
+            CashlySymbol("checkmark")
+                .cashly(font: .headline, weight: .bold)
         }
         .disabled(!state.canSave)
         .cashly(tint: .primary)
@@ -148,14 +137,13 @@ public struct AddBudgetScreen: CashlyView {
     @ViewBuilder
     var removeButton: some View {
         if !state.isNew && !state.isLoading {
-            Divider()
             CashlyButton {
-                action(.addCategory(.remove))
+                action(.addBudget(.remove))
             } label: {
                 CashlySymbol("trash")
                     .cashly(font: .headline, weight: .bold)
-            }
-            .cashly(tint: .primary)
+            } 
+            .cashly(tint: .error)
         }
     }
     
@@ -165,7 +153,9 @@ public struct AddBudgetScreen: CashlyView {
 }
 
 #Preview {
-    AddBudgetScreen
-        .mock
-        .cashlyPreview()
+    NavigationView {
+        AddBudgetScreen
+            .mock
+            .cashlyPreview()
+    }
 }

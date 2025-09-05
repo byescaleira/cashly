@@ -9,16 +9,16 @@ import SwiftData
 
 @Model
 public class BudgetEntity {
-    @Attribute(.unique) public var id: UUID
+    @Attribute(.unique) public var id: String
     public var amount: Double
-    public var category: UUID
+    public var category: String
     public var date: TimeInterval
     public var summary: String
     
     public init(
-        id: UUID,
+        id: String,
         amount: Double,
-        category: UUID,
+        category: String,
         date: TimeInterval,
         summary: String
     ) {

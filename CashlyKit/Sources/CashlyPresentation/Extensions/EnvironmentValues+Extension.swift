@@ -9,8 +9,10 @@ import SwiftUI
 import CashlyDomain
 
 public extension EnvironmentValues {
-    @Entry var addBudgetState = AddBudgetState()
     @Entry var addCategoryState = AddCategoryState()
+    @Entry var addBudgetState = AddBudgetState()
+    @Entry var addTransactionState = AddTransactionState()
+    @Entry var mainState = MainState()
     
-    @Entry var action: (MainAction) -> Void = { _ in }
+    @Entry var action: (ApplicationAction) -> Void = { _ in }
 }

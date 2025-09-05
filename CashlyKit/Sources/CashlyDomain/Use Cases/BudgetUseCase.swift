@@ -6,15 +6,19 @@
 //
 
 public protocol BudgetUseCase: Sendable {
-    func getBudget(id: UUID) async throws -> Budget?
+    func getBudget(id: String) async throws -> Budget?
     func getBudgets() async throws -> [Budget]
-    func removeBudget(id: UUID) async throws
+    func getBudgets(
+        categories: [String]?,
+        date: Date?
+    ) async throws -> [Budget]
+    func removeBudget(id: String) async throws
     func removeBudgets() async throws
     func addBudget(
-        id: UUID,
+        id: String,
         amount: Double,
         category: Category,
-        date: Date,
+        date: TimeInterval,
         summary: String
     ) async throws
 }

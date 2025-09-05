@@ -9,8 +9,8 @@ import Foundation
 import RyzeFoundation
 
 public enum CashlyKey: CashlyEntity {
-    case budget(category: UUID, date: TimeInterval)
-    case category(id: UUID)
+    case budget(category: String, date: TimeInterval)
+    case category(id: String)
     
     public var id: String {
         rawValue
@@ -22,9 +22,9 @@ public enum CashlyKey: CashlyEntity {
             guard let month = Calendar.current.dateComponents([.month], from: date.date).month else {
                 fatalError("🗓️ Failed to extract month from date.")
             }
-            return "\(category.uuidString).\(month)"
+            return "\(category).\(month)"
         case let .category(id):
-            return id.uuidString
+            return id
         }
     }
 }
