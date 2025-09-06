@@ -62,6 +62,15 @@ public enum TransactionStatus: Int, CaseIterable, CashlyEntity, Sendable {
         case .canceled: return .red
         }
     }
+    
+    public var icon: String {
+        switch self {
+        case .pendingToReceive: return "arrow.down"
+        case .pendingToPay: return "arrow.up"
+        case .settled: return "checkmark"
+        case .canceled: return "xmark"
+        }
+    }
 }
 
 public enum TransactionSplitMode: Int, CaseIterable, CashlyEntity, Sendable {
@@ -96,5 +105,23 @@ public enum TransactionSplitMode: Int, CaseIterable, CashlyEntity, Sendable {
         case .payerBased:
             return "One participant pays the full amount, others are marked as owing."
         }
+    }
+    
+    public func value(splitValue: Double?, amount: Double) -> Double? {
+        guard let splitValue else { return nil }
+        switch self {
+        case .equal:
+            if splitValue > .zero {
+                return amount / splitValue
+            }
+        case .fixedAmount:
+            return splitValue
+        case .percentage:
+            return amount * splitValue
+        case .payerBased:
+            return .zero
+        }
+        
+        return nil
     }
 }

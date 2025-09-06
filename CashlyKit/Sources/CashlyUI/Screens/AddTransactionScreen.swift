@@ -37,6 +37,7 @@ public struct AddTransactionScreen: CashlyView {
         }
         .task { action(.addTransaction(.fetch)) }
         .onChange(of: state.date.timeIntervalSince1970.yearMonth) { action(.addTransaction(.fetch)) }
+        .onChange(of: store.state.splitMode) { onChangeUsers() }
         .onChange(of: selectedUsers) { onChangeUsers() }
         .environment(\.isLoading, state.isLoading)
     }
@@ -48,13 +49,31 @@ public struct AddTransactionScreen: CashlyView {
             return
         }
         store.state.splitMode = state.splitMode ?? .equal
-        store.state.splitValue = state.splitValue ?? (selectedUsers.count.double + 1)
+        store.state.splitValue = store.state.splitMode == .equal ? (selectedUsers.count.double + 1) : store.state.splitMode == .payerBased ? 1 : state.splitValue
+        store.state.participants = selectedUsers.map {
+            let splitValue: Double
+            switch store.state.splitMode ?? .equal {
+            case .equal: splitValue = (selectedUsers.count.double + 1)
+            case .fixedAmount: splitValue = .zero
+            case .percentage: splitValue = 1 / (selectedUsers.count.double + 1)
+            case .payerBased: splitValue = .zero
+            }
+            return Participant(
+                id: UUID().uuidString,
+                user: $0,
+                splitMode: store.state.splitMode ?? .equal,
+                splitValue: splitValue,
+                status: .settled,
+                transaction: state.id
+            )
+        }.sorted(by: \.user.name)
     }
     
     var amountSection: some View {
         Section {} header: {
             CashlyVStack(spacing: .small) {
                 transactionStatusView
+                splitValueView
                 
                 CashlyCurrencyTextField(amount: $store.state.amount)
                     .cashly(alignment: .center)
@@ -66,23 +85,44 @@ public struct AddTransactionScreen: CashlyView {
         }
     }
     
+    @ViewBuilder
     var transactionStatusView: some View {
-        Menu {
-            Picker(selection: $store.state.status) {
-                ForEach(TransactionStatus.allCases) {
-                    CashlyText($0.summary)
-                        .tag($0)
+        if state.splitMode == nil {
+            Menu {
+                Picker(selection: $store.state.status) {
+                    ForEach(TransactionStatus.allCases) {
+                        CashlyText($0.summary)
+                            .tag($0)
+                    }
+                } label: {
+                    EmptyView()
                 }
             } label: {
-                EmptyView()
+                CashlyText(state.status.summary.uppercased())
+                    .cashly(font: .caption, weight: .bold)
+                    .cashly(color: .color(state.status.color))
+                    .cashlyPadding()
+                    .cashlyPadding(.horizontal, .extraSmall)
+                    .cashly(glass: .clear.tint(state.status.color.opacity(0.2)).interactive(), in: .capsule)
             }
-        } label: {
-            CashlyText(state.status.summary.uppercased())
-                .cashly(font: .caption, weight: .bold)
-                .cashly(color: .color(state.status.color))
+        }
+    }
+    
+    @ViewBuilder
+    var splitValueView: some View {
+        if state.splitMode != nil {
+            let value = state.amount - state.participants.compactMap {
+                let value = $0.splitMode.value(splitValue: $0.splitValue, amount: state.amount)
+                return value
+            }.reduce(.zero, +)
+            CashlyText(value.currency())
+                .cashly(font: .headline, weight: .semibold)
+                .cashly(color: .primary)
+                .contentTransition(.numericText())
                 .cashlyPadding()
                 .cashlyPadding(.horizontal, .extraSmall)
-                .cashly(glass: .clear.tint(state.status.color.opacity(0.2)).interactive(), in: .capsule)
+                .cashly(glass: .clear.tint(.accentColor.opacity(0.2)), in: .capsule)
+                .animation(.linear, value: state.amount)
         }
     }
     
@@ -184,35 +224,7 @@ public struct AddTransactionScreen: CashlyView {
         if !selectedUsers.isEmpty {
             Section {
                 splitModeView
-                CashlyHorizontalList {
-                    CashlyHStack(spacing: .medium) {
-                        ForEach(selectedUsers.sorted(by: \.name).enumerated(), id: \.offset) { index, user in
-                            CashlyButton {
-                                if selectedUsers.contains(user) {
-                                    selectedUsers.remove(user)
-                                }
-                            } label: {
-                                CashlyVStack(spacing: .small) {
-                                    CashlyAsyncImage(user.photo) { image in
-                                        image
-                                            .resizable()
-                                            .scaledToFit()
-                                    } placeholder: {
-                                        ProgressView()
-                                            .cashly(tint: .textSecondary)
-                                    }
-                                    .frame(width: 50, height: 50)
-                                    
-                                    CashlyText(user.name.components(separatedBy: " ").first)
-                                        .cashly(font: .callout)
-                                        .cashly(color: .text)
-                                }
-                            }
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                }
-                .padding(.horizontal, -20)
+                participantsView
             } header: {
                 CashlyText("Participants")
                     .cashly(font: .title3, weight: .semibold)
@@ -225,7 +237,7 @@ public struct AddTransactionScreen: CashlyView {
     
     var splitModeView: some View {
         CashlyHStack {
-            CashlyText("Split Mode")
+            CashlyText("Select Split Mode")
             
             CashlySpacer()
             
@@ -245,6 +257,25 @@ public struct AddTransactionScreen: CashlyView {
                     .cashlyPadding()
                     .cashlyPadding(.horizontal, .extraSmall)
                     .cashly(glass: .clear.tint(.accentColor.opacity(0.2)), in: .capsule)
+            }
+        }
+    }
+    
+    var participantsView: some View {
+        ForEach(store.state.participants.enumerated(), id: \.offset) { index, participant in
+            ParticipantRowView(
+                participant: $store.state.participants[index],
+                amount: state.amount
+            )
+            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                CashlyButton(role: .destructive) {
+                    if selectedUsers.contains(participant.user) {
+                        selectedUsers.remove(participant.user)
+                    }
+                } label: {
+                    CashlyLabel("Delete", symbol: "trash.fill")
+                }
+                .cashly(tint: .error)
             }
         }
     }

@@ -31,7 +31,7 @@ public actor AddTransactionReducer: CashlyReducer {
         ):
             state.budgets = budgets
             state.id = id
-            state.participants = Set(participants)
+            state.participants = participants
             state.budget = budget
             state.amount = amount
             state.date = date

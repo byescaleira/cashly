@@ -11,7 +11,7 @@ public struct AddTransactionState: CashlyState {
     public var isLoading: Bool
     public var budgets: [Budget]
     public var id: String
-    public var participants: Set<Participant>
+    public var participants: [Participant]
     public var budget: Budget?
     public var amount: Double
     public var date: Date
@@ -46,7 +46,7 @@ public struct AddTransactionState: CashlyState {
         isLoading: Bool = true,
         budgets: [Budget] = [],
         id: String = UUID().uuidString,
-        participants: Set<Participant> = [],
+        participants: [Participant] = [],
         budget: Budget? = nil,
         amount: Double = .zero,
         date: Date = .now,
