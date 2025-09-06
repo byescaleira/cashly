@@ -64,7 +64,7 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
                 .update(
                     budgets: budgets,
                     id: transaction?.id ?? state.id,
-                    participants: transaction?.participants ?? Array(state.participants),
+                    participants: transaction?.participants ?? state.participants,
                     budget: budgets.isEmpty ? nil : transaction?.budget ?? state.budget ?? budgets.first,
                     amount: transaction?.amount ?? state.amount,
                     date: transaction?.date.date ?? state.date,
@@ -81,16 +81,28 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
     
     func save(state: AddTransactionState, continuation: AsyncStream<AddTransactionAction>.Continuation) async {
         do {
+            let valueParticipants: Double = state.participants.compactMap {
+                let value = $0.splitMode.value(
+                    splitValue: $0.splitValue,
+                    amount: state.amount
+                )
+                return value
+            }.reduce(.zero, +)
+            let value = state.splitValue ?? .zero
+            let total = valueParticipants + value
+            let isValidParticipants = Int(total - state.amount) == .zero
+            
             guard let budget = state.budget,
                   state.amount > .zero,
-                  state.summary.trimmingCharacters(in: .whitespacesAndNewlines).count > 3
+                  state.summary.trimmingCharacters(in: .whitespacesAndNewlines).count > 3,
+                  state.participants.isEmpty ? true : isValidParticipants
             else {
                 continuation.yield(.error(.onSave))
                 return
             }
             try await transactionUseCase.addTransaction(
                 id: state.id,
-                participants: Array(state.participants),
+                participants: state.participants,
                 budget: budget,
                 amount: state.amount,
                 date: state.date.timeIntervalSince1970,

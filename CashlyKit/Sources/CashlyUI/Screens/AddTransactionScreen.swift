@@ -26,9 +26,9 @@ public struct AddTransactionScreen: CashlyView {
         Form {
             amountSection
             selectedParticipantsSection
+            dateSection
             categoriesSection
             summarySection
-            dateSection
         }
         .toolbar {
             ToolbarItem(placement: .navigation) { participantsItem }
@@ -39,6 +39,7 @@ public struct AddTransactionScreen: CashlyView {
         .onChange(of: state.date.timeIntervalSince1970.yearMonth) { action(.addTransaction(.fetch)) }
         .onChange(of: store.state.splitMode) { onChangeUsers() }
         .onChange(of: selectedUsers) { onChangeUsers() }
+        .onChange(of: state.participants) { updateSplitValue() }
         .environment(\.isLoading, state.isLoading)
     }
     
@@ -49,8 +50,7 @@ public struct AddTransactionScreen: CashlyView {
             return
         }
         store.state.splitMode = state.splitMode ?? .equal
-        store.state.splitValue = store.state.splitMode == .equal ? (selectedUsers.count.double + 1) : store.state.splitMode == .payerBased ? 1 : state.splitValue
-        store.state.participants = selectedUsers.map {
+        let participants = selectedUsers.map {
             let splitValue: Double
             switch store.state.splitMode ?? .equal {
             case .equal: splitValue = (selectedUsers.count.double + 1)
@@ -67,6 +67,18 @@ public struct AddTransactionScreen: CashlyView {
                 transaction: state.id
             )
         }.sorted(by: \.user.name)
+        store.state.splitValue = state.amount - participants.compactMap {
+            let value = $0.splitMode.value(splitValue: $0.splitValue, amount: state.amount)
+            return value
+        }.reduce(.zero, +)
+        store.state.participants = participants
+    }
+    
+    func updateSplitValue() {
+        store.state.splitValue = state.amount - store.state.participants.compactMap {
+            let value = $0.splitMode.value(splitValue: $0.splitValue, amount: state.amount)
+            return value
+        }.reduce(.zero, +)
     }
     
     var amountSection: some View {
@@ -111,11 +123,7 @@ public struct AddTransactionScreen: CashlyView {
     @ViewBuilder
     var splitValueView: some View {
         if state.splitMode != nil {
-            let value = state.amount - state.participants.compactMap {
-                let value = $0.splitMode.value(splitValue: $0.splitValue, amount: state.amount)
-                return value
-            }.reduce(.zero, +)
-            CashlyText(value.currency())
+            CashlyText(state.splitValue?.currency())
                 .cashly(font: .headline, weight: .semibold)
                 .cashly(color: .primary)
                 .contentTransition(.numericText())

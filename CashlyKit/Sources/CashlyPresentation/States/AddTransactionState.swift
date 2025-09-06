@@ -27,7 +27,21 @@ public struct AddTransactionState: CashlyState {
         category != nil &&
         budget != nil &&
         amount > .zero &&
-        summary.trimmingCharacters(in: .whitespacesAndNewlines).count > 3
+        summary.trimmingCharacters(in: .whitespacesAndNewlines).count > 3 &&
+        (participants.isEmpty ? true : isValidParticipants)
+    }
+    
+    private var isValidParticipants: Bool {
+        let valueParticipants: Double = participants.compactMap {
+            let value = $0.splitMode.value(
+                splitValue: $0.splitValue,
+                amount: amount
+            )
+            return value
+        }.reduce(.zero, +)
+        let value = splitValue ?? .zero
+        let total = valueParticipants + value
+        return Int(total - amount) == .zero
     }
     
     public var categories: [Category] {
