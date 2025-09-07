@@ -232,7 +232,6 @@ public struct AddTransactionScreen: CashlyView {
         if !selectedUsers.isEmpty {
             Section {
                 splitModeView
-                participantsView
             } header: {
                 CashlyText("Participants")
                     .cashly(font: .title3, weight: .semibold)
@@ -240,6 +239,8 @@ public struct AddTransactionScreen: CashlyView {
             } footer: {
                 CashlyText(state.splitMode?.description)
             }
+            
+            participantsView
         }
     }
     
@@ -270,20 +271,22 @@ public struct AddTransactionScreen: CashlyView {
     }
     
     var participantsView: some View {
-        ForEach(store.state.participants.enumerated(), id: \.offset) { index, participant in
-            ParticipantRowView(
-                participant: $store.state.participants[index],
-                amount: state.amount
-            )
-            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                CashlyButton(role: .destructive) {
-                    if selectedUsers.contains(participant.user) {
-                        selectedUsers.remove(participant.user)
+        Section {
+            ForEach(store.state.participants.enumerated(), id: \.offset) { index, participant in
+                ParticipantRowView(
+                    participant: $store.state.participants[index],
+                    amount: state.amount
+                )
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    CashlyButton(role: .destructive) {
+                        if selectedUsers.contains(participant.user) {
+                            selectedUsers.remove(participant.user)
+                        }
+                    } label: {
+                        CashlyLabel("Delete", symbol: "trash.fill")
                     }
-                } label: {
-                    CashlyLabel("Delete", symbol: "trash.fill")
+                    .cashly(tint: .error)
                 }
-                .cashly(tint: .error)
             }
         }
     }
@@ -334,7 +337,6 @@ public struct AddTransactionScreen: CashlyView {
 #Preview {
     NavigationView {
         AddTransactionScreen
-            .mock
             .cashlyPreview()
     }
 }

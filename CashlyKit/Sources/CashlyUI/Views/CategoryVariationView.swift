@@ -81,6 +81,5 @@ struct CategoryVariationView: CashlyView {
 
 #Preview {
     CategoryVariationView
-        .mock
         .cashlyPreview()
 }

@@ -69,7 +69,7 @@ public actor AddBudgetMiddleware: CashlyMiddleware {
         do {
             guard let category = state.category,
                   state.amount > .zero,
-                  !state.summary.isEmpty
+                  state.summary.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3
             else {
                 continuation.yield(.error(.onSave))
                 return

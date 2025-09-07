@@ -155,7 +155,6 @@ public struct AddBudgetScreen: CashlyView {
 #Preview {
     NavigationView {
         AddBudgetScreen
-            .mock
             .cashlyPreview()
     }
 }

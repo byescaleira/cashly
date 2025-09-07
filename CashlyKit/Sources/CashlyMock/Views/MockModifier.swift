@@ -15,6 +15,7 @@ struct MockModifier: ViewModifier {
     @StateObject var addCategoryStore = MockCashlyFactory().makeAddCategoryStore()
     @StateObject var addBudgetStore = MockCashlyFactory().makeAddBudgetStore()
     @StateObject var addTransactionStore = MockCashlyFactory().makeAddTransactionStore()
+    @StateObject var addUserStore = MockCashlyFactory().makeAddUserStore()
     @StateObject var mainStore = MockCashlyFactory().makeMainStore()
     
     func body(content: Content) -> some View {
@@ -22,11 +23,13 @@ struct MockModifier: ViewModifier {
             .environmentObject(addCategoryStore)
             .environmentObject(addBudgetStore)
             .environmentObject(addTransactionStore)
+            .environmentObject(addUserStore)
             .environmentObject(mainStore)
         
             .environment(\.addCategoryState, addCategoryStore.state)
             .environment(\.addBudgetState, addBudgetStore.state)
             .environment(\.addTransactionState, addTransactionStore.state)
+            .environment(\.addUserState, addUserStore.state)
             .environment(\.mainState, mainStore.state)
         
             .environment(\.action, handler(action:))
@@ -46,6 +49,7 @@ struct MockModifier: ViewModifier {
             case let .addCategory(action): try await addCategoryStore.dispatch(action: action)
             case let .addBudget(action): try await addBudgetStore.dispatch(action: action)
             case let .addTransaction(action): try await addTransactionStore.dispatch(action: action)
+            case let .addUser(action): return try await addUserStore.dispatch(action: action)
             case let .main(action): try await mainStore.dispatch(action: action)
             }
         }

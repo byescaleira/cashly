@@ -68,7 +68,7 @@ public actor AddCategoryMiddleware: CashlyMiddleware {
     
     func save(state: AddCategoryState, continuation: AsyncStream<AddCategoryAction>.Continuation) async {
         do {
-            guard !state.name.isEmpty,
+            guard state.name.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3,
                   !state.icon.isEmpty,
                   let user = state.user
             else {

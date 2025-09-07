@@ -135,7 +135,6 @@ struct BalanceView: CashlyView {
 #Preview {
     CashlyList {
         BalanceView
-            .mock
             .cashlyPreview()
     }
 }

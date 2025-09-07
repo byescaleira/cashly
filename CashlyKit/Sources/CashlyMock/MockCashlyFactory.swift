@@ -128,6 +128,26 @@ public struct MockCashlyFactory: CashlyDataFactoryProtocol, CashlyPresentationFa
         )
     }
     
+    public func makeAddUserStore() -> CashlyStore<AddUserReducer, AddUserMiddleware> {
+        let state = AddUserState()
+        let reducer = AddUserReducer()
+        let budgetUseCase = makeBudgetUseCase()
+        let categoryUseCase = makeCategoryUseCase()
+        let transactionUseCase = makeTransactionUseCase()
+        let userUseCase = makeUserUseCase()
+        let middleware = AddUserMiddleware(
+            budgetUseCase: budgetUseCase,
+            categoryUseCase: categoryUseCase,
+            transactionUseCase: transactionUseCase,
+            userUseCase: userUseCase
+        )
+        return .init(
+            state: state,
+            reducer: reducer,
+            middleware: middleware
+        )
+    }
+    
     public func makeMainStore() -> CashlyStore<MainReducer, MainMiddleware> {
         let state = MainState()
         let reducer = MainReducer()

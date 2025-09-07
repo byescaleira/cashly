@@ -22,7 +22,8 @@ public enum AddTransactionAction: CashlyAction {
         summary: String,
         status: TransactionStatus,
         splitMode: TransactionSplitMode?,
-        splitValue: Double?
+        splitValue: Double?,
+        isNew: Bool
     )
     case error(CashlyError)
 }

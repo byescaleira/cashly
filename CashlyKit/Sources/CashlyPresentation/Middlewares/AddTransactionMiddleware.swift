@@ -71,7 +71,8 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
                     summary: transaction?.summary ?? state.summary,
                     status: transaction?.status ?? state.status,
                     splitMode: transaction?.splitMode ?? state.splitMode,
-                    splitValue: transaction?.splitValue ?? state.splitValue
+                    splitValue: transaction?.splitValue ?? state.splitValue,
+                    isNew: transaction == nil
                 )
             )
         } catch {
@@ -94,7 +95,7 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
             
             guard let budget = state.budget,
                   state.amount > .zero,
-                  state.summary.trimmingCharacters(in: .whitespacesAndNewlines).count > 3,
+                  state.summary.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3,
                   state.participants.isEmpty ? true : isValidParticipants
             else {
                 continuation.yield(.error(.onSave))
@@ -116,12 +117,12 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
     
     func remove(state: AddTransactionState, continuation: AsyncStream<AddTransactionAction>.Continuation) async {
         do {
-            guard let _ = state.budget else {
+            guard let transaction = try await transactionUseCase.getTransaction(id: state.id) else {
                 continuation.yield(.error(.onRemove))
                 return
             }
             
-            try await transactionUseCase.removeTransaction(id: state.id)
+            try await transactionUseCase.removeTransaction(id: transaction.id)
         } catch {
             continuation.yield(.error(.onRemove))
         }

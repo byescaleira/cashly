@@ -27,7 +27,8 @@ public actor AddTransactionReducer: CashlyReducer {
             summary,
             status,
             splitMode,
-            splitValue
+            splitValue,
+            isNew
         ):
             state.budgets = budgets
             state.id = id
@@ -39,6 +40,7 @@ public actor AddTransactionReducer: CashlyReducer {
             state.status = status
             state.splitMode = splitMode
             state.splitValue = splitValue
+            state.isNew = isNew
         case let .error(error):
             state.error = error
         case .save, .remove:

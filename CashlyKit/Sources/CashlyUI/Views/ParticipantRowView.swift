@@ -133,9 +133,8 @@ struct ParticipantRowView: CashlyView {
     
     @ViewBuilder
     static var mock: some View {
-        @State var participant: Participant = .mocks.randomElement()!
         ParticipantRowView(
-            participant:$participant,
+            participant: .constant(.mocks.randomElement()!),
             amount: 100
         )
     }

@@ -25,6 +25,5 @@ struct UserItemView: CashlyView {
 
 #Preview {
     UserItemView
-        .mock
         .cashlyPreview()
 }

@@ -79,6 +79,26 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
         )
     }
     
+    public func makeAddUserStore() -> RyzeStore<AddUserReducer, AddUserMiddleware> {
+        let state = AddUserState()
+        let reducer = AddUserReducer()
+        let budgetUseCase = dataFactory.makeBudgetUseCase()
+        let categoryUseCase = dataFactory.makeCategoryUseCase()
+        let transactionUseCase = dataFactory.makeTransactionUseCase()
+        let userUseCase = dataFactory.makeUserUseCase()
+        let middleware = AddUserMiddleware(
+            budgetUseCase: budgetUseCase,
+            categoryUseCase: categoryUseCase,
+            transactionUseCase: transactionUseCase,
+            userUseCase: userUseCase
+        )
+        return .init(
+            state: state,
+            reducer: reducer,
+            middleware: middleware
+        )
+    }
+    
     public func makeMainStore() -> CashlyStore<MainReducer, MainMiddleware> {
         let state = MainState()
         let reducer = MainReducer()

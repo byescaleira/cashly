@@ -136,7 +136,6 @@ public struct CategoryScreen: CashlyView {
 #Preview {
     NavigationView {
         CategoryScreen
-            .mock
             .cashlyPreview()
     }
 }
