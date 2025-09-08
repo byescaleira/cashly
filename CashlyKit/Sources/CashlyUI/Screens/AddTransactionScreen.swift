@@ -145,7 +145,33 @@ public struct AddTransactionScreen: CashlyView {
             CashlyText("Summary")
                 .cashly(font: .title3, weight: .semibold)
                 .cashly(color: .text)
+        } footer: {
+            tagsView
         }
+    }
+    
+    var tagsView: some View {
+        CashlyHorizontalList {
+            CashlyHStack {
+                ForEach(state.summaryTags) { tag in
+                    CashlyHStack {
+                        CashlySymbol(tag.icon)
+                        CashlyText(tag.name.uppercased())
+                    }
+                    .cashly(font: .footnote, weight: .semibold)
+                    .cashly(color: .hex(tag.color))
+                    .cashlyPadding()
+                    .cashlyPadding(.horizontal, .extraSmall)
+                    .cashly(
+                        glass: .clear.tint(Color(hex: tag.color).opacity(0.2)),
+                        in: .capsule
+                    )
+                }
+            }
+            .padding(.horizontal, 40)
+        }
+        .padding(.horizontal, -40)
+        .cashlyPadding(.top, .small)
     }
     
     var categoriesSection: some View {

@@ -19,6 +19,7 @@ public struct AddTransactionState: CashlyState {
     public var status: TransactionStatus
     public var splitMode: TransactionSplitMode?
     public var splitValue: Double?
+    public var tags: [Tag]
     public var isNew: Bool
     public var error: CashlyError?
     
@@ -56,6 +57,11 @@ public struct AddTransactionState: CashlyState {
         category?.user
     }
     
+    public var summaryTags: [Tag] {
+        let summary = summary.lowercased()
+        return tags.filter { summary.contains($0.name.lowercased()) }
+    }
+    
     public init(
         isLoading: Bool = true,
         budgets: [Budget] = [],
@@ -68,6 +74,7 @@ public struct AddTransactionState: CashlyState {
         status: TransactionStatus = .settled,
         splitMode: TransactionSplitMode? = nil,
         splitValue: Double? = nil,
+        tags: [Tag] = [],
         isNew: Bool = true,
         error: CashlyError? = nil
     ) {
@@ -82,6 +89,7 @@ public struct AddTransactionState: CashlyState {
         self.status = status
         self.splitMode = splitMode
         self.splitValue = splitValue
+        self.tags = tags
         self.isNew = isNew
         self.error = error
     }

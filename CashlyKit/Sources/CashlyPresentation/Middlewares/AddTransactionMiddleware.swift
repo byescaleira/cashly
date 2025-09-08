@@ -59,6 +59,7 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
                 categories: categories.isEmpty ? nil : categories.map(\.id),
                 date: state.date
             )
+            let tags = try await tagUseCase.getTags(users: currentUser == nil ? nil : [currentUser!.id])
             
             continuation.yield(
                 .update(
@@ -72,6 +73,7 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
                     status: transaction?.status ?? state.status,
                     splitMode: transaction?.splitMode ?? state.splitMode,
                     splitValue: transaction?.splitValue ?? state.splitValue,
+                    tags: tags,
                     isNew: transaction == nil
                 )
             )
