@@ -14,7 +14,6 @@ public struct AddCategoryScreen: CashlyView {
     @EnvironmentObject var store: CashlyStore<AddCategoryReducer, AddCategoryMiddleware>
     
     @Environment(\.addCategoryState) var state
-    @Environment(\.mainState) var mainState
     @Environment(\.action) var action
     
     @State var category: CashlySymbolCategory = .random
@@ -29,7 +28,7 @@ public struct AddCategoryScreen: CashlyView {
             iconsSection
         }
         .toolbar {
-            ToolbarItem(placement: .navigation) { userItem }
+            ToolbarItem(placement: .navigation) { UserItemView() }
             ToolbarItem { saveButton }
             ToolbarItem { removeButton }
         }
@@ -74,8 +73,12 @@ public struct AddCategoryScreen: CashlyView {
                         CashlyText(category.name)
                     }
                 } label: {
-                    CashlyText(category.name)
-                        .cashly(font: .body, weight: .semibold)
+                    CashlyHStack {
+                        CashlyText(category.name)
+                            .cashly(font: .body, weight: .semibold)
+                        CashlySymbol("chevron.up.chevron.down")
+                            .cashly(font: .footnote, weight: .semibold)
+                    }
                 }
                 .cashly(tint: .color(state.color))
             }
@@ -88,12 +91,17 @@ public struct AddCategoryScreen: CashlyView {
     
     var iconsSection: some View {
         Section {
-            LazyVGrid(columns: [.init(.adaptive(minimum: 50))], spacing: 16) {
+            
+        } header: {
+            LazyVGrid(
+                columns: [.init(.adaptive(minimum: 60), spacing: 14)],
+                spacing: 14
+            ) {
                 ForEach(category.symbols, id: \.self) { icon in
                     iconItemView(item: icon)
                 }
             }
-            .cashlyPadding()
+            .cashlyPadding(.horizontal, .negative(.medium))
         }
     }
     
@@ -102,10 +110,13 @@ public struct AddCategoryScreen: CashlyView {
             store.state.icon = item
         } label: {
             CashlySymbol(item)
-                .cashly(font: .system(size: 20))
+                .cashly(font: .system(size: 25))
                 .cashly(color: item == state.icon ? .color(state.color) : .color(.gray))
-                .frame(width: 45, height: 45)
+                .frame(width: 60, height: 60)
                 .cashly(background: item == state.icon ? .color(state.color.opacity(0.2)) : .color(.clear))
+                .cashly(if: item != state.icon) {
+                    $0.cashlyBackgroundItem()
+                }
                 .cashly(clip: .circle)
         }
         .buttonStyle(.plain)
@@ -133,41 +144,6 @@ public struct AddCategoryScreen: CashlyView {
             .frame(maxWidth: .infinity)
             .contentTransition(.symbolEffect(.replace))
             .cashlyPadding(.top, .medium)
-    }
-    
-    @ViewBuilder
-    var userItem: some View {
-        if let user = state.user {
-            Menu {
-                Picker(selection: $store.state.user) {
-                    ForEach(mainState.users) {
-                        CashlyAsyncImage($0.photo) { image in
-                            image
-                        } placeholder: {
-                            ProgressView()
-                                .cashly(tint: .textSecondary)
-                        }
-                        .cashly(clip: .circle)
-                        .tag($0)
-                    }
-                } label: {
-                    EmptyView()
-                }
-                .pickerStyle(.palette)
-            } label: {
-                CashlyAsyncImage(user.photo) { image in
-                    image
-                        .resizable()
-                        .scaledToFit()
-                        .cashly(clip: .circle)
-                } placeholder: {
-                    ProgressView()
-                        .cashly(tint: .textSecondary)
-                }
-            }
-            .menuStyle(.button)
-            .buttonStyle(.plain)
-        }
     }
     
     var saveButton: some View {

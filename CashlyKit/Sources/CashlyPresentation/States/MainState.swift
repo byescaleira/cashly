@@ -15,6 +15,7 @@ public struct MainState: CashlyState {
     public var transactions: [CashlyDomain.Transaction]
     public var tags: [Tag]
     public var users: [User]
+    public var user: User?
     public var error: CashlyError?
     
     public init(
@@ -25,6 +26,7 @@ public struct MainState: CashlyState {
         transactions: [CashlyDomain.Transaction] = [],
         tags: [Tag] = [],
         users: [User] = [],
+        user: User? = nil,
         error: CashlyError? = nil
     ) {
         self.isLoading = isLoading
@@ -34,6 +36,7 @@ public struct MainState: CashlyState {
         self.transactions = transactions
         self.tags = tags
         self.users = users
+        self.user = user
         self.error = error
     }
     
@@ -77,6 +80,10 @@ public struct MainState: CashlyState {
         }
     }
     
+    public var remainingAmount: Double {
+        budgetsAmount - transactionsAmount
+    }
+    
     public var variation: Double {
         transactionsAmount / budgetsAmount
     }
@@ -100,5 +107,50 @@ public struct MainState: CashlyState {
     
     public func categoryRemainingAmount(category: CashlyDomain.Category) -> Double {
         budgetsAmount(for: category) - transactionsAmount(for: category)
+    }
+    
+    public var transactionSections: [[CashlyDomain.Transaction]] {
+        let dict = Dictionary(grouping: transactions) { transaction in
+            transaction.date.date.cashly(with: .sortPattern)
+        }.sorted(by: \.key)
+        var transactionSections: [[CashlyDomain.Transaction]] = []
+        for (_, transactions) in dict {
+            transactionSections.append(transactions)
+        }
+        return transactionSections
+    }
+    
+    public var transactionUsers: [User] {
+        let participants = transactions.flatMap(\.participants)
+        let dict = Dictionary(grouping: participants, by: \.user).sorted { lhs, rhs in
+            lhs.value.reduce(.zero) { partialResult, participant in
+                partialResult + participant.splitValue
+            } > rhs.value.reduce(.zero) { partialResult, participant in
+                partialResult + participant.splitValue
+            }
+        }
+        return dict.prefix(5).map(\.key)
+    }
+    
+    public var transactionsAverageAmount: Double {
+        let days = Dictionary(grouping: transactions) { transaction in
+            transaction.date.date.cashly(with: .sortPattern)
+        }
+        
+        let total = days.reduce(.zero) { partialResult, transactions in
+            let amount: Double = transactions.value.reduce(.zero) { partialResult, transaction in
+                partialResult + transaction.amount
+            }
+            return partialResult + amount
+        }
+        
+        return total / (days.keys.count == .zero ? 1 : days.keys.count.double)
+    }
+    
+    public var biggestCategories: [CashlyDomain.Category] {
+        budgets
+            .sorted(by: \.amount, using: >)
+            .prefix(5)
+            .map(\.category)
     }
 }

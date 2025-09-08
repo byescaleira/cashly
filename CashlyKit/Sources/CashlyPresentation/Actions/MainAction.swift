@@ -15,12 +15,14 @@ public enum MainAction: CashlyAction {
         categories: [CashlyDomain.Category],
         transactions: [CashlyDomain.Transaction],
         tags: [Tag],
-        users: [User]
+        users: [User],
+        user: User?
     )
     case removeTag(Tag)
     case removeUser(User)
     case removeBudget(Budget)
     case removeCategory(CashlyDomain.Category)
     case removeTransaction(CashlyDomain.Transaction)
+    case selectUser
     case error(CashlyError)
 }

@@ -46,6 +46,8 @@ public actor MainMiddleware: CashlyMiddleware {
                     await removeCategory(category: category, continuation: continuation)
                 case let .removeTransaction(transaction):
                     await removeTransaction(transaction: transaction, continuation: continuation)
+                case .selectUser:
+                    await selectUser(state: state, continuation: continuation)
                 case .error, .stopLoading:
                     break
                 }
@@ -60,6 +62,7 @@ public actor MainMiddleware: CashlyMiddleware {
                 categories: state.filter.categories.map(\.id),
                 date: date
             )
+            let user = try await userUseCase.getCurrentUser()
             let categories = try await categoryUseCase.getCategories()
             let transactions = try await transactionUseCase.getTransactions(
                 budgets: budgets.map(\.id),
@@ -74,7 +77,8 @@ public actor MainMiddleware: CashlyMiddleware {
                     categories: categories,
                     transactions: transactions,
                     tags: tags,
-                    users: users
+                    users: users,
+                    user: user
                 )
             )
         } catch {
@@ -119,6 +123,19 @@ public actor MainMiddleware: CashlyMiddleware {
             try await transactionUseCase.removeTransaction(id: transaction.id)
         } catch {
             continuation.yield(.error(.onRemove))
+        }
+    }
+    
+    func selectUser(state: MainState, continuation: AsyncStream<MainAction>.Continuation) async {
+        do {
+            guard let user = state.filter.user else {
+                continuation.yield(.error(.onSave))
+                return
+            }
+            try await userUseCase.selectUser(user: user)
+            continuation.yield(.fetch)
+        } catch {
+            continuation.yield(.error(.onSave))
         }
     }
 }

@@ -20,6 +20,10 @@ actor MockUserActor: UserUseCase {
         users.first
     }
     
+    func selectUser(user: User) async throws {
+        
+    }
+    
     func getUsers() async throws -> [User] {
         users
     }

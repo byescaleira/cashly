@@ -35,9 +35,19 @@ public actor UserActor: UserUseCase {
     }
     
     public func getCurrentUser() async throws -> User? {
-        let users = try await getUsers()
-        let userID = UserDefaults.standard.string(forKey: "cashly.user")
-        return users.first(where: { $0.id == userID })
+        guard let data = UserDefaults.standard.data(forKey: "cashly.user"),
+              let user = try? data.entity(for: User.self)
+        else {
+            let users = try await getUsers()
+            try? UserDefaults.standard.set(users.first?.data(), forKey: "cashly.user")
+            return users.first
+        }
+        return user
+    }
+    
+    public func selectUser(user: User) async throws {
+        guard let data = try? user.data() else { return }
+        UserDefaults.standard.set(data, forKey: "cashly.user")
     }
     
     public func getUsers() async throws -> [User] {

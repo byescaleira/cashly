@@ -35,8 +35,10 @@ struct MockModifier: ViewModifier {
             .environment(\.action, handler(action:))
     
             .environment(\.isLoading, mainStore.state.isLoading)
+            .environment(\.user, mainStore.state.user)
         
             .onChange(of: mainStore.state.filter) { handler(action: .main(.fetch)) }
+            .onChange(of: mainStore.state.filter.user) { selectUser() }
         
             .task { handler(action: .main(.fetch)) }
         
@@ -53,5 +55,9 @@ struct MockModifier: ViewModifier {
             case let .main(action): try await mainStore.dispatch(action: action)
             }
         }
+    }
+    
+    func selectUser() {
+        handler(action: .main(.selectUser))
     }
 }

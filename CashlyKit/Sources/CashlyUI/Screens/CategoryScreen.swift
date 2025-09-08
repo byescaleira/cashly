@@ -21,12 +21,16 @@ public struct CategoryScreen: CashlyView {
     
     public var body: some View {
         CashlyList {
-            BalanceView()
+            CategoryBalanceView()
             categoriesWithoutBudgetsSection
             categoriesSection
         }
         .lineLimit(2)
         .cashly(font: .callout)
+        .toolbar {
+            ToolbarItem(placement: .navigation) { UserItemView() }
+            ToolbarItem { addButton }
+        }
         .environment(\.isLoading, state.isLoading)
         .navigationTitle("Categories")
     }
@@ -126,6 +130,17 @@ public struct CategoryScreen: CashlyView {
             .cashly(if: isAnimated) {
                 $0.cashly(symbol: .bounce.byLayer, options: .repeat(.continuous).speed(0.1))
             }
+    }
+    
+    var addButton: some View {
+        CashlyButton {
+            
+        } label: {
+            CashlySymbol("plus")
+                .cashly(font: .headline, weight: .bold)
+        }
+        .disabled(state.isLoading)
+        .cashly(tint: .primary)
     }
     
     public static var mock: some View {

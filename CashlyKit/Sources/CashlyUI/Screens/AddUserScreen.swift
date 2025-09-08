@@ -24,6 +24,10 @@ public struct AddUserScreen: CashlyView {
             nameSection
             photosSection
         }
+        .toolbar {
+            ToolbarItem { saveButton }
+            ToolbarItem { removeButton }
+        }
         .task { setStartPhoto() }
     }
     
@@ -40,14 +44,11 @@ public struct AddUserScreen: CashlyView {
                     .cashly(tint: .textSecondary)
             }
             .scaledToFit()
-            .frame(width: 130, height: 130)
+            .frame(width: 150, height: 150)
             .cashly(background: .secondary)
             .cashly(clip: .circle)
-            .overlay(alignment: .bottomTrailing) {
-                repeatButton
-            }
+            .overlay(alignment: .bottomTrailing) { repeatButton }
             .frame(maxWidth: .infinity)
-            .cashlyPadding(.top, .medium)
         }
     }
     
@@ -57,10 +58,8 @@ public struct AddUserScreen: CashlyView {
         } label: {
             CashlySymbol("repeat")
                 .cashly(font: .system(size: 20), weight: .bold)
-                .cashly(color: .white)
-                .frame(width: 45, height: 45)
-                .cashly(glass: .clear.tint(Color.accentColor.opacity(0.8)), in: .circle)
         }
+        .buttonStyle(.glassProminent)
     }
     
     var nameSection: some View {
@@ -78,43 +77,81 @@ public struct AddUserScreen: CashlyView {
     
     var photosSection: some View {
         Section {
-            CashlyVStack(spacing: .large) {
-                Picker(selection: $gender) {
-                    CashlyText("Male")
-                        .tag(0)
-                    CashlyText("Female")
-                        .tag(1)
-                } label: {
-                    EmptyView()
-                }
-                .pickerStyle(.segmented)
-                .controlSize(.large)
-                .cashly(glass: .clear, in: .capsule)
-                
-                LazyVGrid(columns: [.init(.adaptive(minimum: 70), spacing: 12)], spacing: 12) {
-                    ForEach(state.photos(for: gender), id: \.self) { photo in
-                        CashlyButton {
-                            store.state.photo = photo
-                        } label: {
-                            CashlyAsyncImage(photo) { image in
-                                image.resizable()
-                            } placeholder: {
-                                ProgressView()
-                                    .cashly(tint: .textSecondary)
-                            }
-                            .scaledToFit()
-                            .frame(width: 70, height: 70)
-                            .opacity(photo == state.photo ? 1 : 0.4)
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-            }
-            .cashlyPadding()
+            
         } header: {
             CashlyText("Photo")
                 .cashly(font: .title3, weight: .semibold)
                 .cashly(color: .text)
+        } footer: {
+            CashlyVStack(spacing: .extraLarge) {
+                segmentedGenderView
+                photosGridView
+            }
+            .cashlyPadding(.horizontal, .negative(.medium))
+        }
+    }
+    
+    var segmentedGenderView: some View {
+        Picker(selection: $gender) {
+            CashlyText("Male")
+                .tag(0)
+            CashlyText("Female")
+                .tag(1)
+        } label: {
+            EmptyView()
+        }
+        .pickerStyle(.segmented)
+        .controlSize(.large)
+    }
+    
+    var photosGridView: some View {
+        LazyVGrid(columns: [.init(.adaptive(minimum: 70), spacing: 14)], spacing: 14) {
+            ForEach(state.photos(for: gender), id: \.self) { photo in
+                CashlyButton {
+                    store.state.photo = photo
+                } label: {
+                    CashlyAsyncImage(photo) { image in
+                        image.resizable()
+                    } placeholder: {
+                        ProgressView()
+                            .cashly(tint: .textSecondary)
+                    }
+                    .scaledToFit()
+                    .frame(width: 70, height: 70)
+                    .overlay {
+                        if state.photo == photo {
+                            Circle()
+                                .stroke(Color.accentColor, lineWidth: 4)
+                                .cashlyPadding(.negative(.extraSmall))
+                        }
+                    }
+                }
+                .buttonStyle(.plain)
+            }
+        }
+    }
+    
+    var saveButton: some View {
+        CashlyButton {
+            action(.addUser(.save))
+        } label: {
+            CashlySymbol("checkmark")
+                .cashly(font: .headline, weight: .bold)
+        }
+        .disabled(!state.canSave)
+        .cashly(tint: .primary)
+    }
+    
+    @ViewBuilder
+    var removeButton: some View {
+        if !state.isNew && !state.isLoading {
+            CashlyButton {
+                action(.addUser(.remove))
+            } label: {
+                CashlySymbol("trash")
+                    .cashly(font: .headline, weight: .bold)
+            }
+            .cashly(tint: .error)
         }
     }
     
@@ -124,6 +161,8 @@ public struct AddUserScreen: CashlyView {
 }
 
 #Preview {
-    AddUserScreen
-        .cashlyPreview()
+    NavigationView {
+        AddUserScreen
+            .cashlyPreview()
+    }
 }

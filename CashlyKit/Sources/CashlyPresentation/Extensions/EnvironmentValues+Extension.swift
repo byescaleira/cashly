@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CashlyDomain
+import CashlyData
 
 public extension EnvironmentValues {
     @Entry var addCategoryState = AddCategoryState()
@@ -16,4 +17,6 @@ public extension EnvironmentValues {
     @Entry var mainState = MainState()
     
     @Entry var action: (ApplicationAction) -> Void = { _ in }
+    
+    @Entry var user: User?
 }

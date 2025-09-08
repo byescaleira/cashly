@@ -18,30 +18,13 @@ struct BalanceView: CashlyView {
     var body: some View {
         Section {
             CashlyVStack(spacing: .medium) {
-                variationView
-                
+                let variation = state.variation
+                variationView(variation: variation)
                 let warningCategories = state.warningCategories
-                
-                CashlyVStack(spacing: .zero) {
-                    if !warningCategories.isEmpty {
-                        transactionsAmountDescription(categories: warningCategories)
-                    }
-                    
-                    CashlyText(state.transactionsAmount.currency())
-                        .cashly(font: .largeTitle, weight: .black)
-                        .cashly(color: .text)
-                        .contentTransition(.numericText(value: state.transactionsAmount))
-                    
-                    CashlyText(state.budgetsAmount.currency())
-                        .cashly(font: .title3, weight: .bold)
-                        .cashly(color: .textSecondary)
-                        .contentTransition(.numericText(value: state.budgetsAmount))
-                }
-                
+                amountView(categories: warningCategories, variationColor: variation.variationColor)
                 if warningCategories.isEmpty {
                     transactionsAmountDescription(categories: warningCategories)
                 }
-                
                 warningCategoriesView(categories: warningCategories)
             }
             .cashly(alignment: .center)
@@ -67,9 +50,7 @@ struct BalanceView: CashlyView {
             .cashly(color: .textSecondary)
     }
     
-    @ViewBuilder
-    var variationView: some View {
-        let variation = state.variation
+    func variationView(variation: Double) -> some View {
         GlassEffectContainer {
             CashlyHStack(spacing: .negative(.extraSmall)) {
                 CashlyText(variation.variationMessage.uppercased())
@@ -84,6 +65,35 @@ struct BalanceView: CashlyView {
                     .cashlyPadding()
                     .cashlyPadding(.horizontal, .extraSmall)
                     .cashly(glass: .clear.tint(variation.variationColor.opacity(0.2)), in: .capsule)
+            }
+        }
+    }
+    
+    func amountView(categories: [CashlyDomain.Category], variationColor: Color) -> some View {
+        CashlyVStack(spacing: .zero) {
+            let transactionsAmount = state.transactionsAmount
+            let remainingAmount = state.remainingAmount
+            
+            CashlyVStack(spacing: .zero) {
+                if !categories.isEmpty {
+                    transactionsAmountDescription(categories: categories)
+                }
+                
+                CashlyText(transactionsAmount.currency())
+                    .cashly(font: .largeTitle, weight: .black)
+                    .cashly(color: .text)
+                    .contentTransition(.numericText(value: transactionsAmount))
+            }
+            
+            CashlyVStack(spacing: .zero) {
+                CashlyText(remainingAmount.currency())
+                    .cashly(font: .title, weight: .bold)
+                    .cashly(color: .color(variationColor))
+                    .contentTransition(.numericText(value: remainingAmount))
+                
+                CashlyText("Remaining Budget".uppercased())
+                    .cashly(font: .caption, weight: .semibold)
+                    .cashly(color: .textSecondary)
             }
         }
     }

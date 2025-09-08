@@ -36,12 +36,21 @@ public struct AddBudgetScreen: CashlyView {
     
     var amountSection: some View {
         Section {} header: {
-            CashlyCurrencyTextField(amount: $store.state.amount)
-                .frame(maxWidth: .infinity)
-                .cashly(alignment: .center)
-                .cashly(font: .system(size: 40), weight: .black)
-                .cashlyPadding(.top, .medium)
-                .cashly(tint: .color(.clear))
+            CashlyVStack(spacing: .zero) {
+                CashlyText(state.category?.name.uppercased())
+                    .cashly(font: .caption, weight: .bold)
+                    .cashly(color: .hex(state.category?.color))
+                    .cashlyPadding()
+                    .cashlyPadding(.horizontal, .extraSmall)
+                    .cashly(glass: .clear.tint(Color(hex: state.category?.color).opacity(0.2)), in: .capsule)
+                
+                CashlyCurrencyTextField(amount: $store.state.amount)
+                    .frame(maxWidth: .infinity)
+                    .cashly(alignment: .center)
+                    .cashly(font: .system(size: 40), weight: .black)
+                    .cashlyPadding(.top, .medium)
+                    .cashly(tint: .color(.clear))
+            }
         }
     }
     

@@ -17,12 +17,13 @@ public actor MainReducer: CashlyReducer {
             state.isLoading = true
         case .stopLoading:
             state.isLoading = false
-        case let .update(budgets, categories, transactions, tags, users):
+        case let .update(budgets, categories, transactions, tags, users, user):
             state.budgets = budgets
             state.categories = categories
             state.transactions = transactions
             state.tags = tags
             state.users = users
+            state.user = user
         case let .removeTag(tag):
             state.tags = state.tags.filter { $0.id != tag.id }
             state.filter.tags = Set(state.tags.filter { $0.id != tag.id })
@@ -33,11 +34,13 @@ public actor MainReducer: CashlyReducer {
             state.filter.categories = Set(state.categories.filter { $0.id != category.id })
         case let .removeUser(user):
             state.users = state.users.filter { $0.id != user.id }
-            state.filter.users = Set(state.users.filter { $0.id != user.id })
+            state.filter.user = user == state.filter.user ? state.users.first : state.filter.user
         case let .removeTransaction(transaction):
             state.transactions = state.transactions.filter { $0.id != transaction.id }
         case let .error(error):
             state.error = error
+        case .selectUser:
+            break
         }
         return state
     }

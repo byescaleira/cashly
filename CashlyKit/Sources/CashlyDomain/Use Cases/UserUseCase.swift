@@ -8,6 +8,7 @@
 public protocol UserUseCase: Sendable {
     func getUser(id: String) async throws -> User?
     func getCurrentUser() async throws -> User?
+    func selectUser(user: User) async throws
     func getUsers() async throws -> [User]
     func removeUser(id: String) async throws
     func removeUsers() async throws
