@@ -12,14 +12,14 @@ public class BudgetEntity {
     @Attribute(.unique) public var id: String
     public var amount: Double
     public var category: String
-    public var date: TimeInterval
+    public var date: Int
     public var summary: String
     
     public init(
         id: String,
         amount: Double,
         category: String,
-        date: TimeInterval,
+        date: Int,
         summary: String
     ) {
         self.id = id

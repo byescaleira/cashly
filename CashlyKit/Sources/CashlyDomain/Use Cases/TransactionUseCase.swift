@@ -22,6 +22,8 @@ public protocol TransactionUseCase: Sendable {
         amount: Double,
         date: TimeInterval,
         summary: String,
-        status: TransactionStatus
+        status: TransactionStatus,
+        splitMode: TransactionSplitMode?,
+        splitValue: Double?
     ) async throws
 }

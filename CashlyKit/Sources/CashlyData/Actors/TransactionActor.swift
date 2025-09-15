@@ -34,7 +34,9 @@ public actor TransactionActor: TransactionUseCase {
             amount: entity.amount,
             date: entity.date,
             summary: entity.summary,
-            status: entity.status
+            status: entity.status,
+            splitMode: entity.splitMode,
+            splitValue: entity.splitValue
         )
     }
     
@@ -50,7 +52,9 @@ public actor TransactionActor: TransactionUseCase {
                 amount: entity.amount,
                 date: entity.date,
                 summary: entity.summary,
-                status: entity.status
+                status: entity.status,
+                splitMode: entity.splitMode,
+                splitValue: entity.splitValue
             ) {
                 transactions.append(transaction)
             }
@@ -63,22 +67,23 @@ public actor TransactionActor: TransactionUseCase {
         tags: [String]?,
         date: Date?
     ) async throws -> [CashlyDomain.Transaction] {
-        let predicateBudget: Predicate<String> = #Predicate { budget in
-            budgets?.isEmpty == false ? budgets!.contains(budget) : true
+        let predicateBudget: Predicate<String>
+        if let budgets {
+            predicateBudget = #Predicate { budgets.contains($0) }
+        } else {
+            predicateBudget = #Predicate { _ in true }
         }
         
-        let predicateTag: Predicate<String> = #Predicate { summary in
-            tags?.isEmpty == false ? tags!.contains(where: { summary.contains($0) }) : true
-        }
-        
-        let predicateDate: Predicate<TimeInterval> = #Predicate { timeInterval in
-            date != nil ? timeInterval.yearMonth == date!.timeIntervalSince1970.yearMonth : true
+        let predicateTag: Predicate<String>
+        if let tags {
+            predicateTag = #Predicate { tags.contains($0) }
+        } else {
+            predicateTag = #Predicate { _ in true }
         }
         
         let predicate: Predicate<TransactionEntity> = #Predicate {
             predicateBudget.evaluate($0.budget) &&
-            predicateTag.evaluate($0.summary) &&
-            predicateDate.evaluate($0.date)
+            predicateTag.evaluate($0.summary)
         }
         
         let descriptor = FetchDescriptor<TransactionEntity>(
@@ -86,7 +91,12 @@ public actor TransactionActor: TransactionUseCase {
             sortBy: [.init(\.date, order: .reverse)]
         )
         
-        let entities = try modelContext.fetch(descriptor)
+        var entities = try modelContext.fetch(descriptor)
+        if let date {
+            let yearMonth = date.timeIntervalSince1970.yearMonth
+            entities = entities.filter { $0.yearMonth == yearMonth }
+        }
+        
         var transactions = [CashlyDomain.Transaction]()
         for entity in entities {
             if let transaction = try await adapter.transactionAdapted(
@@ -96,7 +106,9 @@ public actor TransactionActor: TransactionUseCase {
                 amount: entity.amount,
                 date: entity.date,
                 summary: entity.summary,
-                status: entity.status
+                status: entity.status,
+                splitMode: entity.splitMode,
+                splitValue: entity.splitValue
             ) {
                 transactions.append(transaction)
             }
@@ -130,7 +142,9 @@ public actor TransactionActor: TransactionUseCase {
         amount: Double,
         date: TimeInterval,
         summary: String,
-        status: TransactionStatus
+        status: TransactionStatus,
+        splitMode: TransactionSplitMode?,
+        splitValue: Double?
     ) async throws {
         let entity = TransactionEntity(
             id: id,
@@ -139,7 +153,9 @@ public actor TransactionActor: TransactionUseCase {
             amount: amount,
             date: date,
             summary: summary,
-            status: status.rawValue
+            status: status.rawValue,
+            splitMode: splitMode?.rawValue,
+            splitValue: splitValue
         )
         modelContext.insert(entity)
         try modelContext.save()

@@ -16,6 +16,12 @@ public class TransactionEntity {
     public var date: TimeInterval
     public var summary: String
     public var status: Int
+    public var splitMode: Int?
+    public var splitValue: Double?
+    
+    public var yearMonth: Int {
+        date.yearMonth
+    }
     
     public init(
         id: String,
@@ -24,7 +30,9 @@ public class TransactionEntity {
         amount: Double,
         date: TimeInterval,
         summary: String,
-        status: Int
+        status: Int,
+        splitMode: Int? = nil,
+        splitValue: Double? = nil
     ) {
         self.id = id
         self.participants = participants
@@ -33,5 +41,7 @@ public class TransactionEntity {
         self.date = date
         self.summary = summary
         self.status = status
+        self.splitMode = splitMode
+        self.splitValue = splitValue
     }
 }

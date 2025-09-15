@@ -10,7 +10,7 @@ import RyzeUI
 
 public extension View {
     func cashly(
-        font: Font,
+        font: Font = .callout,
         weight: Font.Weight? = nil,
         design: Font.Design? = .rounded
     ) -> some View {
@@ -101,5 +101,31 @@ public extension View {
             options: options,
             isActive: isActive
         )
+    }
+    
+    func cashlyDelete(action: @escaping () -> Void) -> some View {
+        self.swipeActions(edge: .trailing, allowsFullSwipe: true) {
+            CashlyButton(role: .destructive) {
+                action()
+            } label: {
+                CashlyLabel("Delete", symbol: "trash.fill")
+            }
+            .cashly(tint: .error)
+        }
+    }
+    
+    func cashlyEdit(action: @escaping () -> Void) -> some View {
+        self.swipeActions(edge: .trailing, allowsFullSwipe: false) {
+            CashlyButton {
+                action()
+            } label: {
+                CashlyLabel("Edit", symbol: "square.and.pencil")
+            }
+            .cashly(tint: .info)
+        }
+    }
+    
+    func cashlyDismiss(isSaved: Bool) -> some View {
+        self.modifier(CashlyDismissModifier(isSaved: isSaved))
     }
 }

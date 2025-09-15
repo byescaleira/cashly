@@ -8,39 +8,41 @@
 import SwiftData
 import CashlyDomain
 
-public struct CashlyDataFactory: CashlyDataFactoryProtocol {
+public struct CashlyDataFactory: @MainActor CashlyDataFactoryProtocol {
     let modelContainer: ModelContainer
     
+    @MainActor
     public init() {
         do {
             let schema = Schema(
                 BudgetEntity.self,
                 CategoryEntity.self,
                 TransactionEntity.self,
-                UserEntity.self
+                UserEntity.self,
+                TagEntity.self,
+                ParticipantEntity.self
             )
             
             let container = try ModelContainer(
                 for: schema,
-                configurations: .init(isStoredInMemoryOnly: true)
+                configurations: .init(isStoredInMemoryOnly: false)
             )
+            
             modelContainer = container
         } catch {
             fatalError(error.localizedDescription)
         }
     }
     
-    public func makeModelContext() -> ModelContext {
-        ModelContext(modelContainer)
-    }
-    
+    @MainActor
     public func makeAdapter() -> AdapterUseCase {
-        let modelContext = makeModelContext()
+        let modelContext = modelContainer.mainContext
         return AdapterActor(modelContext: modelContext)
     }
     
+    @MainActor
     public func makeBudgetUseCase() -> BudgetUseCase {
-        let modelContext = makeModelContext()
+        let modelContext = modelContainer.mainContext
         let adapter = makeAdapter()
         return BudgetActor(
             modelContext: modelContext,
@@ -48,8 +50,9 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         )
     }
     
+    @MainActor
     public func makeCategoryUseCase() -> CategoryUseCase {
-        let modelContext = makeModelContext()
+        let modelContext = modelContainer.mainContext
         let adapter = makeAdapter()
         return CategoryActor(
             modelContext: modelContext,
@@ -57,8 +60,9 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         )
     }
     
+    @MainActor
     public func makeUserUseCase() -> UserUseCase {
-        let modelContext = makeModelContext()
+        let modelContext = modelContainer.mainContext
         let adapter = makeAdapter()
         return UserActor(
             modelContext: modelContext,
@@ -66,8 +70,9 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         )
     }
     
+    @MainActor
     public func makeTransactionUseCase() -> TransactionUseCase {
-        let modelContext = makeModelContext()
+        let modelContext = modelContainer.mainContext
         let adapter = makeAdapter()
         return TransactionActor(
             modelContext: modelContext,
@@ -75,8 +80,9 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         )
     }
     
+    @MainActor
     public func makeTagUseCase() -> TagUseCase {
-        let modelContext = makeModelContext()
+        let modelContext = modelContainer.mainContext
         let adapter = makeAdapter()
         return TagActor(
             modelContext: modelContext,
@@ -84,8 +90,9 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         )
     }
     
+    @MainActor
     public func makeParticipantUseCase() -> any ParticipantUseCase {
-        let modelContext = makeModelContext()
+        let modelContext = modelContainer.mainContext
         let adapter = makeAdapter()
         return ParticipantActor(
             modelContext: modelContext,

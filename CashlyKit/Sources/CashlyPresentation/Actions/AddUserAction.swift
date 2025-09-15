@@ -18,5 +18,6 @@ public enum AddUserAction: CashlyAction {
         photo: String?,
         isNew: Bool
     )
+    case saved
     case error(CashlyError)
 }

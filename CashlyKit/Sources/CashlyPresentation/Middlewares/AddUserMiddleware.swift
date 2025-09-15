@@ -38,7 +38,7 @@ public actor AddUserMiddleware: CashlyMiddleware {
                     await remove(state: state, continuation: continuation)
                 case .update:
                     continuation.yield(.stopLoading)
-                case .stopLoading, .error:
+                case .stopLoading, .saved, .error:
                     break
                 }
             }
@@ -75,6 +75,13 @@ public actor AddUserMiddleware: CashlyMiddleware {
                 name: state.name,
                 photo: photo
             )
+            
+            guard let user = try await userUseCase.getUser(id: state.id) else {
+                continuation.yield(.error(.onSave))
+                return
+            }
+            try await userUseCase.selectUser(user: user)
+            continuation.yield(.saved)
         } catch {
             continuation.yield(.error(.onSave))
         }
@@ -82,7 +89,7 @@ public actor AddUserMiddleware: CashlyMiddleware {
     
     func remove(state: AddUserState, continuation: AsyncStream<AddUserAction>.Continuation) async {
         do {
-            let categories = try await categoryUseCase.getCategories(users: [state.id])
+            let categories = try await categoryUseCase.getCategories(ids: nil, users: [state.id])
             let budgets = try await budgetUseCase.getBudgets(
                 categories: categories.map(\.name),
                 date: nil
@@ -102,6 +109,7 @@ public actor AddUserMiddleware: CashlyMiddleware {
                 return
             }
             try await userUseCase.removeUser(id: user.id)
+            continuation.yield(.saved)
         } catch {
             continuation.yield(.error(.onRemove))
         }

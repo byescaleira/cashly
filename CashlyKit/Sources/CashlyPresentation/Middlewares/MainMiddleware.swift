@@ -38,12 +38,6 @@ public actor MainMiddleware: CashlyMiddleware {
                     continuation.yield(.stopLoading)
                 case let .removeTag(tag):
                     await removeTag(tag: tag, continuation: continuation)
-                case let .removeUser(user):
-                    await removeUser(user: user, continuation: continuation)
-                case let .removeBudget(budget):
-                    await removeBudget(budget: budget, continuation: continuation)
-                case let .removeCategory(category):
-                    await removeCategory(category: category, continuation: continuation)
                 case let .removeTransaction(transaction):
                     await removeTransaction(transaction: transaction, continuation: continuation)
                 case .selectUser:
@@ -58,15 +52,18 @@ public actor MainMiddleware: CashlyMiddleware {
     func fetch(state: MainState, continuation: AsyncStream<MainAction>.Continuation) async {
         do {
             let date: Date? = state.filter.isFilteringByDate ? nil : state.filter.startDate
+            let user = try await userUseCase.getCurrentUser()
+            let categories = try await categoryUseCase.getCategories(
+                ids: state.filter.categories.isEmpty ? nil : state.filter.categories.map(\.id),
+                users: user == nil ? nil : [user?.id ?? ""]
+            )
             let budgets = try await budgetUseCase.getBudgets(
-                categories: state.filter.categories.map(\.id),
+                categories: categories.map(\.id),
                 date: date
             )
-            let user = try await userUseCase.getCurrentUser()
-            let categories = try await categoryUseCase.getCategories()
             let transactions = try await transactionUseCase.getTransactions(
                 budgets: budgets.map(\.id),
-                tags: state.filter.tags.map(\.name),
+                tags: state.filter.tags.isEmpty ? nil : state.filter.tags.map(\.name),
                 date: date
             )
             let tags = try await tagUseCase.getTags()
@@ -88,31 +85,12 @@ public actor MainMiddleware: CashlyMiddleware {
     
     func removeTag(tag: Tag, continuation: AsyncStream<MainAction>.Continuation) async {
         do {
+            guard let tag = try await tagUseCase.getTag(id: tag.id) else {
+                continuation.yield(.error(.onRemove))
+                return
+            }
             try await tagUseCase.removeTag(id: tag.id)
-        } catch {
-            continuation.yield(.error(.onRemove))
-        }
-    }
-    
-    func removeUser(user: User, continuation: AsyncStream<MainAction>.Continuation) async {
-        do {
-            try await userUseCase.removeUser(id: user.id)
-        } catch {
-            continuation.yield(.error(.onRemove))
-        }
-    }
-    
-    func removeBudget(budget: Budget, continuation: AsyncStream<MainAction>.Continuation) async {
-        do {
-            try await budgetUseCase.removeBudget(id: budget.id)
-        } catch {
-            continuation.yield(.error(.onRemove))
-        }
-    }
-    
-    func removeCategory(category: CashlyDomain.Category, continuation: AsyncStream<MainAction>.Continuation) async {
-        do {
-            try await categoryUseCase.removeCategory(id: category.id)
+            continuation.yield(.fetch)
         } catch {
             continuation.yield(.error(.onRemove))
         }
@@ -121,6 +99,7 @@ public actor MainMiddleware: CashlyMiddleware {
     func removeTransaction(transaction: CashlyDomain.Transaction, continuation: AsyncStream<MainAction>.Continuation) async {
         do {
             try await transactionUseCase.removeTransaction(id: transaction.id)
+            continuation.yield(.fetch)
         } catch {
             continuation.yield(.error(.onRemove))
         }
@@ -128,7 +107,7 @@ public actor MainMiddleware: CashlyMiddleware {
     
     func selectUser(state: MainState, continuation: AsyncStream<MainAction>.Continuation) async {
         do {
-            guard let user = state.filter.user else {
+            guard let user = state.user else {
                 continuation.yield(.error(.onSave))
                 return
             }

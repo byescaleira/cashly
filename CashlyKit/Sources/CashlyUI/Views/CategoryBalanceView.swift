@@ -16,33 +16,41 @@ struct CategoryBalanceView: CashlyView {
     
     @State var isAnimated: Bool = false
     
+    @ViewBuilder
     var body: some View {
-        Section {
-            CashlyVStack(spacing: .medium) {
-                categoriesAmountView
-                amountView
-                biggestCategoriesView(categories: state.biggestCategories)
+        if !state.categories.isEmpty,
+           !state.budgets.isEmpty {
+            Section {
+                
+            } header: {
+                CashlyVStack(spacing: .medium) {
+                    statusView
+                    amountView
+                    biggestCategoriesView(categories: state.biggestCategories)
+                }
+                .cashly(alignment: .center)
+                .frame(maxWidth: .infinity)
+                .cashlyPadding(.top, .medium)
             }
-            .cashly(alignment: .center)
-            .frame(maxWidth: .infinity)
-            .cashlyPadding()
-        }
-        .environment(\.isLoading, state.isLoading)
-        .task {
-            Task {
-                try await Task.sleep(for: .seconds(1))
-                isAnimated = true
+            .environment(\.isLoading, state.isLoading)
+            .task {
+                Task {
+                    try await Task.sleep(for: .seconds(1))
+                    isAnimated = true
+                }
             }
         }
     }
     
-    var categoriesAmountView: some View {
-        CashlyText("\(state.categories.count) categories".uppercased())
+    @ViewBuilder
+    var statusView: some View {
+        let status = state.filter.isFilteringByDate ? state.filter.startDate.string(with: CashlyDateFormatter.status) ?? "" : "All Data"
+        CashlyText(status.uppercased())
             .cashly(font: .caption, weight: .bold)
             .cashly(color: .primary)
             .cashlyPadding()
             .cashlyPadding(.horizontal, .extraSmall)
-            .cashly(glass: .clear.tint(theme.color.primary.opacity(0.2)), in: .capsule)
+            .cashly(glass: .clear.tint(theme.color.primary.opacity(0.2)).interactive(), in: .capsule)
     }
     
     var amountView: some View {
@@ -57,11 +65,7 @@ struct CategoryBalanceView: CashlyView {
     @ViewBuilder
     func biggestCategoriesView(categories: [CashlyDomain.Category]) -> some View {
         if !categories.isEmpty {
-            CashlyVStack(spacing: .medium) {
-                CashlyText("\(categories.count) biggest budget categories".uppercased())
-                    .cashly(font: .caption, weight: .semibold)
-                    .cashly(color: .textSecondary)
-                
+            CashlyVStack(spacing: .small) {
                 GlassEffectContainer {
                     CashlyHStack(spacing: .zero) {
                         ForEach(categories.enumerated(), id: \.offset) { index, category in
@@ -87,6 +91,10 @@ struct CategoryBalanceView: CashlyView {
                     }
                 }
                 .minimumScaleFactor(0.3)
+                
+                CashlyText("\(categories.count) biggest budget categories".uppercased())
+                    .cashly(font: .caption2, weight: .semibold)
+                    .cashly(color: .textSecondary)
             }
             .cashly(alignment: .center)
         }

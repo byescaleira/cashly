@@ -17,7 +17,7 @@ actor MockAdapterActor: AdapterUseCase {
         id: String,
         amount: Double,
         category: String,
-        date: TimeInterval,
+        date: Int,
         summary: String
     ) async throws -> Budget? {
         guard let category = categories.first(where: { $0.id == category }) else { return nil }
@@ -83,7 +83,9 @@ actor MockAdapterActor: AdapterUseCase {
         amount: Double,
         date: TimeInterval,
         summary: String,
-        status: Int
+        status: Int,
+        splitMode: Int?,
+        splitValue: Double?
     ) async throws -> Transaction? {
         guard let budget = budgets.first(where: { $0.id == budget }),
               let status = TransactionStatus(rawValue: status)
@@ -97,7 +99,9 @@ actor MockAdapterActor: AdapterUseCase {
             amount: amount,
             date: date,
             summary: summary,
-            status: status
+            status: status,
+            splitMode: TransactionSplitMode(rawValue: splitMode ?? -1),
+            splitValue: splitValue
         )
     }
     

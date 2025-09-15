@@ -15,84 +15,62 @@ struct BalanceView: CashlyView {
     
     @State var isAnimated: Bool = false
     
+    @ViewBuilder
     var body: some View {
-        Section {
-            CashlyVStack(spacing: .medium) {
-                let variation = state.variation
-                variationView(variation: variation)
-                let warningCategories = state.warningCategories
-                amountView(categories: warningCategories, variationColor: variation.variationColor)
-                if warningCategories.isEmpty {
-                    transactionsAmountDescription(categories: warningCategories)
+        if !state.categories.isEmpty,
+           !state.budgets.isEmpty,
+           !state.transactions.isEmpty {
+            Section {
+                
+            } header: {
+                CashlyVStack(spacing: .medium) {
+                    let variation = state.variation
+                    variationView(variation: variation)
+                    let warningCategories = state.warningCategories
+                    amountView(variationColor: variation.variationColor)
+                    warningCategoriesView(categories: warningCategories)
                 }
-                warningCategoriesView(categories: warningCategories)
+                .cashly(alignment: .center)
+                .frame(maxWidth: .infinity)
+                .cashlyPadding(.top, .medium)
             }
-            .cashly(alignment: .center)
-            .frame(maxWidth: .infinity)
-            .cashlyPadding()
-        } header: {
-            CashlyText("Balance")
-                .cashly(font: .title3, weight: .semibold)
-                .cashly(color: .text)
-        }
-        .environment(\.isLoading, state.isLoading)
-        .task {
-            Task {
-                try await Task.sleep(for: .seconds(1))
-                isAnimated = true
+            .environment(\.isLoading, state.isLoading)
+            .task {
+                Task {
+                    try await Task.sleep(for: .seconds(1))
+                    isAnimated = true
+                }
             }
         }
-    }
-    
-    func transactionsAmountDescription(categories: [CashlyDomain.Category]) -> some View {
-        CashlyText((categories.isEmpty ? "You’ve made \(state.transactions.count) transactions, totaling the amount shown above." : "\(state.transactions.count) transactions").uppercased())
-            .cashly(font: .caption, weight: .semibold)
-            .cashly(color: .textSecondary)
     }
     
     func variationView(variation: Double) -> some View {
-        GlassEffectContainer {
-            CashlyHStack(spacing: .negative(.extraSmall)) {
-                CashlyText(variation.variationMessage.uppercased())
-                    .cashly(font: .caption, weight: .bold)
-                    .cashly(color: .color(variation.variationColor))
-                    .cashlyPadding()
-                    .cashlyPadding(.horizontal, .extraSmall)
-                    .cashly(glass: .clear.tint(variation.variationColor.opacity(0.2)), in: .capsule)
-                CashlyText(variation.percentage)
-                    .cashly(font: .caption, weight: .bold)
-                    .cashly(color: .color(variation.variationColor))
-                    .cashlyPadding()
-                    .cashlyPadding(.horizontal, .extraSmall)
-                    .cashly(glass: .clear.tint(variation.variationColor.opacity(0.2)), in: .capsule)
-            }
-        }
+        CashlyText(variation.variationMessage.uppercased())
+            .cashly(font: .caption, weight: .bold)
+            .cashly(color: .color(variation.variationColor))
+            .cashlyPadding()
+            .cashlyPadding(.horizontal, .extraSmall)
+            .cashly(glass: .clear.tint(variation.variationColor.opacity(0.2)), in: .capsule)
     }
     
-    func amountView(categories: [CashlyDomain.Category], variationColor: Color) -> some View {
+    func amountView(variationColor: Color) -> some View {
         CashlyVStack(spacing: .zero) {
             let transactionsAmount = state.transactionsAmount
             let remainingAmount = state.remainingAmount
             
-            CashlyVStack(spacing: .zero) {
-                if !categories.isEmpty {
-                    transactionsAmountDescription(categories: categories)
-                }
-                
-                CashlyText(transactionsAmount.currency())
+            CashlyText(transactionsAmount.currency())
                     .cashly(font: .largeTitle, weight: .black)
                     .cashly(color: .text)
                     .contentTransition(.numericText(value: transactionsAmount))
-            }
             
             CashlyVStack(spacing: .zero) {
                 CashlyText(remainingAmount.currency())
-                    .cashly(font: .title, weight: .bold)
+                    .cashly(font: .title2, weight: .black)
                     .cashly(color: .color(variationColor))
                     .contentTransition(.numericText(value: remainingAmount))
                 
                 CashlyText("Remaining Budget".uppercased())
-                    .cashly(font: .caption, weight: .semibold)
+                    .cashly(font: .caption2, weight: .semibold)
                     .cashly(color: .textSecondary)
             }
         }
@@ -101,11 +79,7 @@ struct BalanceView: CashlyView {
     @ViewBuilder
     func warningCategoriesView(categories: [CashlyDomain.Category]) -> some View {
         if !categories.isEmpty {
-            CashlyVStack(spacing: .medium) {
-                CashlyText("Top \(categories.count) categories where you need to be cautious.".uppercased())
-                    .cashly(font: .caption, weight: .semibold)
-                    .cashly(color: .textSecondary)
-                    .cashlyPadding(.horizontal)
+            CashlyVStack(spacing: .small) {
                 GlassEffectContainer {
                     CashlyHStack(spacing: .zero) {
                         ForEach(categories.enumerated(), id: \.offset) { index, category in
@@ -132,6 +106,11 @@ struct BalanceView: CashlyView {
                     }
                 }
                 .minimumScaleFactor(0.3)
+                
+                CashlyText("Top \(categories.count) categories where\nyou need to be cautious.".uppercased())
+                    .cashly(font: .caption, weight: .semibold)
+                    .cashly(color: .textSecondary)
+                    .cashlyPadding(.horizontal)
             }
             .cashly(alignment: .center)
         }

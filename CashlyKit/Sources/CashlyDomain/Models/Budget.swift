@@ -9,7 +9,7 @@ public struct Budget: CashlyEntity, Sendable {
     public var id: String
     public var amount: Double
     public var category: Category
-    public var date: TimeInterval
+    public var date: Int
     public var summary: String
     
     public var user: User { category.user }
@@ -18,7 +18,7 @@ public struct Budget: CashlyEntity, Sendable {
         id: String,
         amount: Double,
         category: Category,
-        date: TimeInterval,
+        date: Int,
         summary: String
     ) {
         self.id = id

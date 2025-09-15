@@ -26,5 +26,6 @@ public enum AddTransactionAction: CashlyAction {
         tags: [Tag],
         isNew: Bool
     )
+    case saved
     case error(CashlyError)
 }

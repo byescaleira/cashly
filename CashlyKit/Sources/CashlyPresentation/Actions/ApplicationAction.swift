@@ -12,5 +12,6 @@ public enum ApplicationAction: CashlyAction {
     case addBudget(AddBudgetAction)
     case addTransaction(AddTransactionAction)
     case addUser(AddUserAction)
+    case addTag(AddTagAction)
     case main(MainAction)
 }

@@ -27,14 +27,6 @@ public actor MainReducer: CashlyReducer {
         case let .removeTag(tag):
             state.tags = state.tags.filter { $0.id != tag.id }
             state.filter.tags = Set(state.tags.filter { $0.id != tag.id })
-        case let .removeBudget(budget):
-            state.budgets = state.budgets.filter { $0.id != budget.id }
-        case let .removeCategory(category):
-            state.categories = state.categories.filter { $0.id != category.id }
-            state.filter.categories = Set(state.categories.filter { $0.id != category.id })
-        case let .removeUser(user):
-            state.users = state.users.filter { $0.id != user.id }
-            state.filter.user = user == state.filter.user ? state.users.first : state.filter.user
         case let .removeTransaction(transaction):
             state.transactions = state.transactions.filter { $0.id != transaction.id }
         case let .error(error):

@@ -8,10 +8,16 @@
 import SwiftUI
 import CashlyDomain
 import CashlyMock
+import CashlyResource
+import CashlyPresentation
 
 struct ParticipantRowView: CashlyView {
+    @EnvironmentObject var store: CashlyStore<AddTransactionReducer, AddTransactionMiddleware>
+    
     @Binding var participant: Participant
+    var splitMode: TransactionSplitMode?
     var amount: Double
+    var count: Int
     
     var body: some View {
         CashlyHStack(spacing: .medium) {
@@ -22,19 +28,29 @@ struct ParticipantRowView: CashlyView {
                 .contentTransition(.numericText())
         }
         .animation(.linear, value: amount)
+        .onChange(of: splitMode) { updateParticipantSplitMode() }
+        .onChange(of: count) { updateParticipantSplitMode() }
+    }
+    
+    func updateParticipantSplitMode() {
+        guard !store.state.participants.isEmpty else { return }
+        participant.splitMode = splitMode ?? .equal
+        let splitValue: Double
+        switch splitMode ?? .equal {
+        case .equal: splitValue = (store.state.participants.count.double + 1)
+        case .fixedAmount: splitValue =  .zero
+        case .percentage: splitValue =  1 / (store.state.participants.count.double + 1)
+        case .payerBased: splitValue = .zero
+        }
+        participant.splitValue = splitValue
     }
     
     var iconView: some View {
-        CashlyAsyncImage(participant.user.photo) { image in
-            image
-                .resizable()
-                .scaledToFit()
-                .overlay(alignment: .topTrailing) { transactionStatusView }
-        } placeholder: {
-            ProgressView()
-                .cashly(tint: .textSecondary)
-        }
-        .frame(width: 50, height: 50)
+        CashlyResourceImage.avatar(id: participant.user.photo)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 50, height: 50)
+            .overlay(alignment: .topTrailing) { transactionStatusView }
     }
     
     var contentView: some View {
@@ -135,7 +151,8 @@ struct ParticipantRowView: CashlyView {
     static var mock: some View {
         ParticipantRowView(
             participant: .constant(.mocks.randomElement()!),
-            amount: 100
+            amount: 100,
+            count: Participant.mocks.count
         )
     }
 }

@@ -6,7 +6,6 @@
 //
 
 import CashlyDomain
-import RyzeUI
 
 public struct AddUserState: CashlyState {
     public var isLoading: Bool
@@ -14,6 +13,7 @@ public struct AddUserState: CashlyState {
     public var name: String
     public var photo: String?
     public var isNew: Bool
+    public var isSaved: Bool = false
     public var error: CashlyError?
     
     public var canSave: Bool {
@@ -23,11 +23,11 @@ public struct AddUserState: CashlyState {
     
     public func photos(for gender: Int = .zero) -> [String] {
         ((gender == .zero ? 1 : 51) ... (gender == .zero ? 50 : 100)).map {
-            "https://avatar.iran.liara.run/public/\($0)"
+            "\($0)"
         }
     }
     
-    public init(
+    private init(
         isLoading: Bool = true,
         id: String = UUID().uuidString,
         name: String = "",
@@ -41,5 +41,13 @@ public struct AddUserState: CashlyState {
         self.photo = photo
         self.isNew = isNew
         self.error = error
+    }
+    
+    public static func new() -> AddUserState {
+        AddUserState()
+    }
+    
+    public static func edit(id: String) -> AddUserState {
+        AddUserState(id: id, isNew: false)
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import RyzeUI
+import RyzeArchitecture
 
 public typealias CashlyColor = RyzeColor
 public typealias CashlySize = RyzeSize
@@ -29,3 +30,4 @@ public typealias CashlyAsyncImage = RyzeAsyncImage
 public typealias CashlyLabel = RyzeLabel
 public typealias CashlyBrowserView = RyzeBrowserView
 public typealias CashlyLocale = RyzeLocale
+public typealias CashlyNavigationView = RyzeNavigationView

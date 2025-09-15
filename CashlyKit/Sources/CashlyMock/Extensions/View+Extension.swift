@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RyzeUI
+import RyzeArchitecture
 
 public extension View where Self: RyzeUIMock {
     func cashlyPreview() -> some View {

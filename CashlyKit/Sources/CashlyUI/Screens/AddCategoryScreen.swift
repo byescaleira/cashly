@@ -15,10 +15,15 @@ public struct AddCategoryScreen: CashlyView {
     
     @Environment(\.addCategoryState) var state
     @Environment(\.action) var action
+    @Environment(\.router) var router
     
-    @State var category: CashlySymbolCategory = .random
+    @State var category: CashlySymbolCategory = .food
     
-    public init() {}
+    var initialState: AddCategoryState?
+    
+    public init(initialState: AddCategoryState? = nil) {
+        self.initialState = initialState
+    }
     
     public var body: some View {
         Form {
@@ -28,13 +33,35 @@ public struct AddCategoryScreen: CashlyView {
             iconsSection
         }
         .toolbar {
-            ToolbarItem(placement: .navigation) { UserItemView() }
-            ToolbarItem { saveButton }
-            ToolbarItem { removeButton }
+            ToolbarItemGroup(placement: .bottomBar) {
+                UserItemView()
+                CashlySpacer()
+                saveButton
+                removeButton
+            }
         }
+        .toolbar(.hidden, for: .tabBar)
         .onChange(of: state.isLoading) { setIcon() }
-        .task { action(.addCategory(.fetch)) }
+        .onChange(of: state.icon) { onChangeIcon() }
+        .task { await handlerInitialState() }
+        .scrollDismissesKeyboard(.immediately)
+        .cashlyDismiss(isSaved: state.isSaved)
         .environment(\.isLoading, state.isLoading)
+    }
+    
+    func handlerInitialState() async {
+        if let initialState {
+            store.state = initialState
+        }
+        try? await Task.sleep(for: .seconds(0.5))
+        action(.addCategory(.fetch))
+    }
+    
+    func onChangeIcon() {
+        guard !state.isNew else { return }
+        category = CashlySymbolCategory.allCases.first(where: {
+            $0.symbols.contains(state.icon)
+        }) ?? .food
     }
     
     var infoSection: some View {
@@ -128,6 +155,7 @@ public struct AddCategoryScreen: CashlyView {
             .cashly(symbol: .variableColor.reversing.cumulative)
             .cashly(color: .color(state.color))
             .frame(width: 120, height: 120)
+            .animation(.linear.speed(0.1).repeatForever(autoreverses: false), value: state.isLoading)
             .cashly(background: .color(state.color.opacity(0.2)))
             .cashly(clip: .circle)
             .overlay {
@@ -135,7 +163,6 @@ public struct AddCategoryScreen: CashlyView {
                     .stroke(state.color, lineWidth: 5)
                     .cashlyPadding(.negative(.small))
             }
-            .animation(.linear.speed(0.1).repeatForever(autoreverses: false), value: state.isLoading)
             .overlay(alignment: .bottomTrailing) {
                 ColorPicker("", selection: $store.state.color)
                     .scaleEffect(1.5)

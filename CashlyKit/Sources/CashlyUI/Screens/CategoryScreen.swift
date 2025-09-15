@@ -16,12 +16,16 @@ public struct CategoryScreen: CashlyView {
     
     @Environment(\.mainState) var state
     @Environment(\.action) var action
+    @Environment(\.router) var router
     
     public init() {}
     
     public var body: some View {
         CashlyList {
             CategoryBalanceView()
+            EmptyCategoryView()
+            EmptyBudgetView(budgets: state.budgets)
+            EmptyUserView()
             categoriesWithoutBudgetsSection
             categoriesSection
         }
@@ -32,24 +36,33 @@ public struct CategoryScreen: CashlyView {
             ToolbarItem { addButton }
         }
         .environment(\.isLoading, state.isLoading)
+        .onAppear { action(.main(.fetch)) }
         .navigationTitle("Categories")
     }
     
+    @ViewBuilder
     var categoriesSection: some View {
-        Section {
-            ForEach(state.categories, id: \.id) {
-                categoryItemView(category: $0)
+        if !state.categories.isEmpty {
+            Section {
+                ForEach(state.categories, id: \.id) { category in
+                    CashlyButton {
+                        router.route(to: .detailCategory(category: category))
+                    } label: {
+                        categoryItemView(category: category)
+                    }
+                    .cashly(tint: .text)
+                }
+            } header: {
+                CashlyText("Budgets")
+                    .cashly(font: .title3, weight: .semibold)
+                    .cashly(color: .text)
             }
-        } header: {
-            CashlyText("Budgets")
-                .cashly(font: .title3, weight: .semibold)
-                .cashly(color: .text)
         }
     }
     
     @ViewBuilder
     var categoriesWithoutBudgetsSection: some View {
-        let categories = state.categories
+        let categories = state.categoriesWithoutBudgets
         if !categories.isEmpty, state.filter.isFilteringByDate {
             Section {
                 CashlyVStack(alignment: .leading) {
@@ -66,11 +79,15 @@ public struct CategoryScreen: CashlyView {
     }
     
     func categoriesWithoutBudgetsView(categories: [CashlyDomain.Category]) -> some View {
-        CashlyHorizontalList {
+        CashlyHorizontalList { _ in
             CashlyHStack(alignment: .center) {
-                ForEach(categories) {
-                    categoryIcon(category: $0, isAnimated: true)
-                        .cashlyPadding()
+                ForEach(categories) { category in
+                    CashlyButton {
+                        router.route(to: .addBudget(state: .new(category: category, date: state.filter.startDate)))
+                    } label: {
+                        categoryIcon(category: category, isAnimated: true)
+                    }
+                    .cashlyPadding()
                 }
             }
             .cashlyPadding(.horizontal, .medium)
@@ -95,7 +112,6 @@ public struct CategoryScreen: CashlyView {
                 CashlyText(state.budget(for: category)?.summary)
                     .cashly(color: .textSecondary)
             }
-            .cashlyPadding(.trailing, .small)
             
             CashlySpacer()
             
@@ -103,14 +119,24 @@ public struct CategoryScreen: CashlyView {
                 let budgetAmount = state.budgetsAmount(for: category)
                 let transactionsAmount = state.transactionsAmount(for: category)
             
-                CashlyText(budgetAmount.currency())
-                    .cashly(font: .callout, weight: .semibold)
-                CashlyText(transactionsAmount.currency())
-                    .cashly(font: .callout, weight: .semibold)
-                    .cashly(color: .textSecondary)
+                if budgetAmount > .zero {
+                    CashlyText(budgetAmount.currency())
+                        .cashly(font: .callout, weight: .semibold)
+                }
+                
+                if transactionsAmount > .zero {
+                    CashlyText(transactionsAmount.currency())
+                        .cashly(font: .callout, weight: .semibold)
+                        .cashly(color: .textSecondary)
+                }
             }
             .cashly(alignment: .trailing)
+            .cashlyPadding(.trailing, .small)
+            
+            CashlySymbol("chevron.forward")
+                .cashly(color: .disabled)
         }
+        .cashlyEdit { router.route(to: .addCategory(state: .edit(id: category.id))) }
     }
     
     func categoryIcon(category: CashlyDomain.Category, isAnimated: Bool = false) -> some View {
@@ -132,15 +158,17 @@ public struct CategoryScreen: CashlyView {
             }
     }
     
+    @ViewBuilder
     var addButton: some View {
-        CashlyButton {
-            
-        } label: {
-            CashlySymbol("plus")
-                .cashly(font: .headline, weight: .bold)
-        }
-        .disabled(state.isLoading)
-        .cashly(tint: .primary)
+        if !state.users.isEmpty {
+            CashlyButton {
+                router.route(to: .addCategory(state: .new()))
+            } label: {
+                CashlySymbol("plus")
+                    .cashly(font: .headline, weight: .bold)
+            }
+            .disabled(state.isLoading)
+            .cashly(tint: .primary)}
     }
     
     public static var mock: some View {

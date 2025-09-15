@@ -10,22 +10,37 @@ import CashlyDomain
 
 struct EmptyBudgetView: CashlyView {
     @Environment(\.mainState) var state
+    @Environment(\.router) var router
+    
     var budgets: [Budget]
     
     @ViewBuilder
     var body: some View {
-        if budgets.isEmpty, !state.categories.isEmpty {
+        if budgets.isEmpty,
+           !state.categories.isEmpty {
             Section {
-                CashlyCardView(
-                    image: .illustrationNoData,
-                    title: "No Budgets Found",
-                    subtitle: "You don’t have any budgets yet. Start by creating one to manage your expenses.",
-                    buttonTitle: "Create Budget"
-                ) {
-                    
+                CashlyZStack {
+                    if budgets.isEmpty,
+                       !state.categories.isEmpty {
+                        CashlyCardView(
+                            image: .illustrationNoData,
+                            title: "No Budgets Found",
+                            subtitle: "You don’t have any budgets yet. Start by creating one to manage your expenses.",
+                            buttonTitle: "Create Budget"
+                        ) {
+                            router.route(to: .addBudget(state: .new()))
+                        }
+                        .cashlyPadding(.medium)
+                    }
                 }
-                .cashlyPadding(.medium)
+                .animation(.bouncy, value: budgets.isEmpty)
+                .animation(.bouncy, value: state.categories.isEmpty)
+            } header: {
+                CashlyText("Not Found")
+                    .cashly(font: .title3, weight: .semibold)
+                    .cashly(color: .text)
             }
+            .transition(.scale)
         }
     }
     
@@ -38,5 +53,6 @@ struct EmptyBudgetView: CashlyView {
     CashlyList {
         EmptyBudgetView.mock
     }
+    .cashlyPreview()
 }
 

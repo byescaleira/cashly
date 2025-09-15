@@ -17,9 +17,10 @@ public enum AddBudgetAction: CashlyAction {
         id: String,
         amount: Double,
         category: Category?,
-        date: Date,
+        date: Int,
         summary: String,
         isNew: Bool
     )
+    case saved
     case error(CashlyError)
 }

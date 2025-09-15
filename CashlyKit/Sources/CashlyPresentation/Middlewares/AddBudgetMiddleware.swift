@@ -37,7 +37,7 @@ public actor AddBudgetMiddleware: CashlyMiddleware {
                     await remove(state: state, continuation: continuation)
                 case .update:
                     continuation.yield(.stopLoading)
-                case .stopLoading, .error:
+                case .stopLoading, .saved, .error:
                     break
                 }
             }
@@ -46,16 +46,21 @@ public actor AddBudgetMiddleware: CashlyMiddleware {
     
     func fetch(state: AddBudgetState, continuation: AsyncStream<AddBudgetAction>.Continuation) async {
         do {
-            let budget = try await budgetUseCase.getBudget(id: state.id)
+            var budget = try await budgetUseCase.getBudget(id: state.id)
+            let budgets = try await budgetUseCase.getBudgets(categories: nil, date: state.date)
+            budget = budgets.first(where: { $0.category.id == state.category?.id })
             let currentUser = try await userUseCase.getCurrentUser()
-            let categories = try await categoryUseCase.getCategories(users: currentUser == nil ? nil : [currentUser!.id])
+            let categories = try await categoryUseCase.getCategories(
+                ids: nil,
+                users: currentUser == nil ? nil : [currentUser?.id ?? ""]
+            )
             continuation.yield(
                 .update(
                     categories: categories,
-                    id: budget?.id ?? state.id,
+                    id: budget?.id ?? UUID().uuidString,
                     amount: budget?.amount ?? state.amount,
                     category: budget?.category ?? state.category ?? categories.first,
-                    date: Date(timeIntervalSince1970: budget?.date ?? state.date.timeIntervalSince1970),
+                    date: budget?.date ?? state.date.timeIntervalSince1970.yearMonth,
                     summary: budget?.summary ?? state.summary,
                     isNew: budget == nil
                 )
@@ -78,9 +83,10 @@ public actor AddBudgetMiddleware: CashlyMiddleware {
                 id: state.id,
                 amount: state.amount,
                 category: category,
-                date: state.date.timeIntervalSince1970,
+                date: state.date.timeIntervalSince1970.yearMonth,
                 summary: state.summary
             )
+            continuation.yield(.saved)
         } catch {
             continuation.yield(.error(.onSave))
         }
@@ -91,17 +97,17 @@ public actor AddBudgetMiddleware: CashlyMiddleware {
             let transaction = try await transactionUseCase.getTransactions(
                 budgets: [state.id],
                 tags: nil,
-                date: state.date
+                date: nil
             )
             
             guard let budget = try await budgetUseCase.getBudget(id: state.id),
-                  let _ = state.category,
                   transaction.isEmpty
             else {
                 continuation.yield(.error(.onRemove))
                 return
             }
             try await budgetUseCase.removeBudget(id: budget.id)
+            continuation.yield(.saved)
         } catch {
             continuation.yield(.error(.onRemove))
         }

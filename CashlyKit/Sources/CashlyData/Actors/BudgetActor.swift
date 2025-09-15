@@ -58,12 +58,19 @@ public actor BudgetActor: BudgetUseCase {
         categories: [String]?,
         date: Date?
     ) async throws -> [Budget] {
-        let predicateCategory: Predicate<String> = #Predicate { category in
-            categories?.isEmpty == false ? categories!.contains(category) : true
+        let predicateCategory: Predicate<String>
+        if let categories {
+            predicateCategory = #Predicate { categories.contains($0) }
+        } else {
+            predicateCategory = #Predicate { _ in true }
         }
         
-        let predicateDate: Predicate<TimeInterval> = #Predicate { interval in
-            date != nil ? interval.yearMonth == date!.timeIntervalSince1970.yearMonth : true
+        let predicateDate: Predicate<Int>
+        if let date {
+            let yearMonth = date.timeIntervalSince1970.yearMonth
+            predicateDate = #Predicate { $0 == yearMonth }
+        } else {
+            predicateDate = #Predicate { _ in true }
         }
         
         let predicate: Predicate<BudgetEntity> = #Predicate {
@@ -115,7 +122,7 @@ public actor BudgetActor: BudgetUseCase {
         id: String,
         amount: Double,
         category: CashlyDomain.Category,
-        date: TimeInterval,
+        date: Int,
         summary: String
     ) async throws {
         let entity = BudgetEntity(

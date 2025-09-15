@@ -7,16 +7,18 @@
 
 import SwiftUI
 import RyzeUI
+import RyzeArchitecture
 import CashlyPresentation
 
 struct MockModifier: ViewModifier {
     @Environment(\.theme) var theme
     
-    @StateObject var addCategoryStore = MockCashlyFactory().makeAddCategoryStore()
-    @StateObject var addBudgetStore = MockCashlyFactory().makeAddBudgetStore()
-    @StateObject var addTransactionStore = MockCashlyFactory().makeAddTransactionStore()
-    @StateObject var addUserStore = MockCashlyFactory().makeAddUserStore()
-    @StateObject var mainStore = MockCashlyFactory().makeMainStore()
+    @StateObject var addCategoryStore = MockCashlyFactory.shared.makeAddCategoryStore()
+    @StateObject var addBudgetStore = MockCashlyFactory.shared.makeAddBudgetStore()
+    @StateObject var addTransactionStore = MockCashlyFactory.shared.makeAddTransactionStore()
+    @StateObject var addUserStore = MockCashlyFactory.shared.makeAddUserStore()
+    @StateObject var addTagStore = MockCashlyFactory.shared.makeAddTagStore()
+    @StateObject var mainStore = MockCashlyFactory.shared.makeMainStore()
     
     func body(content: Content) -> some View {
         content
@@ -24,12 +26,14 @@ struct MockModifier: ViewModifier {
             .environmentObject(addBudgetStore)
             .environmentObject(addTransactionStore)
             .environmentObject(addUserStore)
+            .environmentObject(addTagStore)
             .environmentObject(mainStore)
         
             .environment(\.addCategoryState, addCategoryStore.state)
             .environment(\.addBudgetState, addBudgetStore.state)
             .environment(\.addTransactionState, addTransactionStore.state)
             .environment(\.addUserState, addUserStore.state)
+            .environment(\.addTagState, addTagStore.state)
             .environment(\.mainState, mainStore.state)
         
             .environment(\.action, handler(action:))
@@ -38,7 +42,7 @@ struct MockModifier: ViewModifier {
             .environment(\.user, mainStore.state.user)
         
             .onChange(of: mainStore.state.filter) { handler(action: .main(.fetch)) }
-            .onChange(of: mainStore.state.filter.user) { selectUser() }
+            .onChange(of: mainStore.state.user) { selectUser() }
         
             .task { handler(action: .main(.fetch)) }
         
@@ -52,6 +56,7 @@ struct MockModifier: ViewModifier {
             case let .addBudget(action): try await addBudgetStore.dispatch(action: action)
             case let .addTransaction(action): try await addTransactionStore.dispatch(action: action)
             case let .addUser(action): return try await addUserStore.dispatch(action: action)
+            case let .addTag(action): return try await addTagStore.dispatch(action: action)
             case let .main(action): try await mainStore.dispatch(action: action)
             }
         }

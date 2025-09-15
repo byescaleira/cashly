@@ -53,7 +53,9 @@ actor MockTransactionActor: TransactionUseCase {
         amount: Double,
         date: TimeInterval,
         summary: String,
-        status: TransactionStatus
+        status: TransactionStatus,
+        splitMode: TransactionSplitMode?,
+        splitValue: Double?
     ) async throws {
         let transaction = CashlyDomain.Transaction(
             id: id,
@@ -62,7 +64,9 @@ actor MockTransactionActor: TransactionUseCase {
             amount: amount,
             date: date,
             summary: summary,
-            status: status
+            status: status,
+            splitMode: splitMode,
+            splitValue: splitValue
         )
         transactions.append(transaction)
     }

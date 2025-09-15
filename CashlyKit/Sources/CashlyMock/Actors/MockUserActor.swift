@@ -11,17 +11,18 @@ import SwiftData
 
 actor MockUserActor: UserUseCase {
     var users = User.mocks
+    var selectedUser: User?
     
     func getUser(id: String) async throws -> User? {
         users.first(where: { $0.id == id })
     }
     
     func getCurrentUser() async throws -> User? {
-        users.first
+        selectedUser ?? users.first
     }
     
     func selectUser(user: User) async throws {
-        
+        selectedUser = user
     }
     
     func getUsers() async throws -> [User] {

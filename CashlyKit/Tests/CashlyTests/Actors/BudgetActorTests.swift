@@ -11,6 +11,7 @@ import CashlyMock
 
 @Suite("Budget Use Case", .tags(.unit, .data, .local))
 actor BudgetActorTests {
+    @MainActor
     let suite: CommonTestSuite = .init()
     
     @Test("Get budget by id")
@@ -20,7 +21,7 @@ actor BudgetActorTests {
             id: UUID().uuidString,
             amount: 100,
             category: categoryActual,
-            date: Date.now.timeIntervalSince1970,
+            date: Date.now.timeIntervalSince1970.yearMonth,
             summary: "Budget"
         )
         

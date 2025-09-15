@@ -21,6 +21,7 @@ public struct AddTransactionState: CashlyState {
     public var splitValue: Double?
     public var tags: [Tag]
     public var isNew: Bool
+    public var isSaved: Bool = false
     public var error: CashlyError?
     
     public var canSave: Bool {
@@ -32,7 +33,7 @@ public struct AddTransactionState: CashlyState {
         (participants.isEmpty ? true : isValidParticipants)
     }
     
-    private var isValidParticipants: Bool {
+    public var isValidParticipants: Bool {
         let valueParticipants: Double = participants.compactMap {
             let value = $0.splitMode.value(
                 splitValue: $0.splitValue,
@@ -40,7 +41,7 @@ public struct AddTransactionState: CashlyState {
             )
             return value
         }.reduce(.zero, +)
-        let value = splitValue ?? .zero
+        let value = splitValue ?? .zero < .zero ? .zero : splitValue ?? .zero
         let total = valueParticipants + value
         return Int(total - amount) == .zero
     }
@@ -62,7 +63,7 @@ public struct AddTransactionState: CashlyState {
         return tags.filter { summary.contains($0.name.lowercased()) }
     }
     
-    public init(
+    private init(
         isLoading: Bool = true,
         budgets: [Budget] = [],
         id: String = UUID().uuidString,
@@ -92,5 +93,17 @@ public struct AddTransactionState: CashlyState {
         self.tags = tags
         self.isNew = isNew
         self.error = error
+    }
+    
+    public static func new() -> AddTransactionState {
+        AddTransactionState()
+    }
+    
+    public static func new(budget: Budget, date: Date) -> AddTransactionState {
+        AddTransactionState(budget: budget, date: date)
+    }
+    
+    public static func edit(id: String) -> AddTransactionState {
+        AddTransactionState(id: id, isNew: false)
     }
 }

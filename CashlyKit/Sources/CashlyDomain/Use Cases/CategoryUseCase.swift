@@ -8,7 +8,10 @@
 public protocol CategoryUseCase: Sendable {
     func getCategory(id: String) async throws -> Category?
     func getCategories() async throws -> [Category]
-    func getCategories(users: [String]?) async throws -> [Category]
+    func getCategories(
+        ids: [String]?,
+        users: [String]?
+    ) async throws -> [Category]
     func removeCategory(id: String) async throws
     func removeCategories() async throws
     func addCategory(

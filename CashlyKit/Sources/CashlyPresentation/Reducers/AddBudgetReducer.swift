@@ -22,9 +22,11 @@ public actor AddBudgetReducer: CashlyReducer {
             state.id = id
             state.amount = amount
             state.category = category
-            state.date = date
+            state.date = date.string.date(with: CashlyDateFormatter.yearMonth) ?? .now
             state.summary = summary
             state.isNew = isNew
+        case .saved:
+            state.isSaved = true
         case let .error(error):
             state.error = error
         case .save, .remove:

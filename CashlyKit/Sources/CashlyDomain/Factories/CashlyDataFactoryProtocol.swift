@@ -7,8 +7,7 @@
 
 import SwiftData
 
-public protocol CashlyDataFactoryProtocol: Sendable {
-    func makeModelContext() -> ModelContext
+public protocol CashlyDataFactoryProtocol {
     func makeAdapter() -> AdapterUseCase
     func makeBudgetUseCase() -> BudgetUseCase
     func makeCategoryUseCase() -> CategoryUseCase

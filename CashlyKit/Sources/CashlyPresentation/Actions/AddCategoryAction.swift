@@ -20,5 +20,6 @@ public enum AddCategoryAction: CashlyAction {
         icon: String,
         isNew: Bool
     )
+    case saved
     case error(CashlyError)
 }

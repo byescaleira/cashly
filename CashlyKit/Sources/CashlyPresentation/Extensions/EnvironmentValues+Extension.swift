@@ -8,14 +8,17 @@
 import SwiftUI
 import CashlyDomain
 import CashlyData
+import RyzeArchitecture
 
 public extension EnvironmentValues {
-    @Entry var addCategoryState = AddCategoryState()
-    @Entry var addBudgetState = AddBudgetState()
-    @Entry var addTransactionState = AddTransactionState()
-    @Entry var addUserState = AddUserState()
+    @Entry var addCategoryState = AddCategoryState.new()
+    @Entry var addBudgetState = AddBudgetState.new()
+    @Entry var addTransactionState = AddTransactionState.new()
+    @Entry var addUserState = AddUserState.new()
+    @Entry var addTagState = AddTagState.new()
     @Entry var mainState = MainState()
     
+    @Entry var router: CashlyRouter<MainRoute> = .init()
     @Entry var action: (ApplicationAction) -> Void = { _ in }
     
     @Entry var user: User?

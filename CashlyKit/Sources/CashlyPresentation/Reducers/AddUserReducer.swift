@@ -22,6 +22,8 @@ public actor AddUserReducer: CashlyReducer {
             state.name = name
             state.photo = photo
             state.isNew = isNew
+        case .saved:
+            state.isSaved = true
         case let .error(error):
             state.error = error
         case .save, .remove:

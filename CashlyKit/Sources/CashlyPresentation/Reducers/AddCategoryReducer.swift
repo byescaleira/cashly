@@ -24,6 +24,8 @@ public actor AddCategoryReducer: CashlyReducer {
             state.color = color
             state.icon = icon
             state.isNew = isNew
+        case .saved:
+            state.isSaved = true
         case let .error(error):
             state.error = error
         case .save, .remove:

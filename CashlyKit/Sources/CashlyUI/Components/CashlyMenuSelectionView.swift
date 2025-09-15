@@ -45,10 +45,8 @@ struct CashlyMenuSelectionView<T: Identifiable & Hashable>: View {
                 }
             } label: {
                 CashlyHStack(spacing: .zero) {
+                    if contains { CashlySymbol("checkmark") }
                     AnyView(content(item))
-                    if contains {
-                        CashlySymbol("checkmark")
-                    }
                 }
             }
         }

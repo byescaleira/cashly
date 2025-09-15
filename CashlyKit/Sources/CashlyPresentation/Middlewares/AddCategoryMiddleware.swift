@@ -38,7 +38,7 @@ public actor AddCategoryMiddleware: CashlyMiddleware {
                     await remove(state: state, continuation: continuation)
                 case .update:
                     continuation.yield(.stopLoading)
-                case .stopLoading, .error:
+                case .stopLoading, .saved, .error:
                     break
                 }
             }
@@ -50,13 +50,13 @@ public actor AddCategoryMiddleware: CashlyMiddleware {
             let category = try await categoryUseCase.getCategory(id: state.id)
             let users = try await userUseCase.getUsers()
             let currentUser = try await userUseCase.getCurrentUser()
-            let categoryColor = category?.color == nil ? nil : Color(hex: category?.color)
+            let color = category?.color == nil ? nil : Color(hex: category?.color)
             continuation.yield(
                 .update(
                     id: category?.id ?? state.id,
                     user: category?.user ?? state.user ?? currentUser ?? users.first,
                     name: category?.name ?? state.name,
-                    color: categoryColor ?? state.color,
+                    color: color ?? state.color,
                     icon: category?.icon ?? state.icon,
                     isNew: category == nil
                 )
@@ -82,6 +82,7 @@ public actor AddCategoryMiddleware: CashlyMiddleware {
                 color: state.color.hex,
                 icon: state.icon
             )
+            continuation.yield(.saved)
         } catch {
             continuation.yield(.error(.onSave))
         }
@@ -107,6 +108,7 @@ public actor AddCategoryMiddleware: CashlyMiddleware {
                 return
             }
             try await categoryUseCase.removeCategory(id: category.id)
+            continuation.yield(.saved)
         } catch {
             continuation.yield(.error(.onRemove))
         }

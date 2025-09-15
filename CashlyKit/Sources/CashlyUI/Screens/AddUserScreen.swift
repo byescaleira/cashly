@@ -8,6 +8,7 @@
 import SwiftUI
 import CashlyMock
 import CashlyDomain
+import CashlyResource
 import CashlyPresentation
 
 public struct AddUserScreen: CashlyView {
@@ -15,8 +16,15 @@ public struct AddUserScreen: CashlyView {
     
     @Environment(\.addUserState) var state
     @Environment(\.action) var action
+    @Environment(\.router) var router
     
     @State var gender: Int = .zero
+    
+    var initialState: AddUserState?
+    
+    public init(initialState: AddUserState? = nil) {
+        self.initialState = initialState
+    }
     
     public var body: some View {
         CashlyList {
@@ -25,30 +33,41 @@ public struct AddUserScreen: CashlyView {
             photosSection
         }
         .toolbar {
-            ToolbarItem { saveButton }
-            ToolbarItem { removeButton }
+            ToolbarItemGroup(placement: .bottomBar) {
+                CashlySpacer()
+                saveButton
+                removeButton
+            }
         }
-        .task { setStartPhoto() }
+        .toolbar(.hidden, for: .tabBar)
+        .onChange(of: state.isLoading) { updatePhoto() }
+        .scrollDismissesKeyboard(.immediately)
+        .cashlyDismiss(isSaved: state.isSaved)
+        .task { await handlerInitialState() }
     }
     
-    func setStartPhoto() {
+    func handlerInitialState() async {
+        if let initialState {
+            store.state = initialState
+        }
+        try? await Task.sleep(for: .seconds(0.5))
+        action(.addUser(.fetch))
+    }
+    
+    func updatePhoto() {
         store.state.photo = state.photo ?? state.photos(for: gender).randomElement()
     }
     
     var photoSection: some View {
         Section {} header: {
-            CashlyAsyncImage(state.photo) { image in
-                image.resizable()
-            } placeholder: {
-                ProgressView()
-                    .cashly(tint: .textSecondary)
-            }
-            .scaledToFit()
-            .frame(width: 150, height: 150)
-            .cashly(background: .secondary)
-            .cashly(clip: .circle)
-            .overlay(alignment: .bottomTrailing) { repeatButton }
-            .frame(maxWidth: .infinity)
+            CashlyResourceImage.avatar(id: state.photo)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 150, height: 150)
+                .cashly(background: .secondary)
+                .cashly(clip: .circle)
+                .overlay(alignment: .bottomTrailing) { repeatButton }
+                .frame(maxWidth: .infinity)
         }
     }
     
@@ -110,21 +129,17 @@ public struct AddUserScreen: CashlyView {
                 CashlyButton {
                     store.state.photo = photo
                 } label: {
-                    CashlyAsyncImage(photo) { image in
-                        image.resizable()
-                    } placeholder: {
-                        ProgressView()
-                            .cashly(tint: .textSecondary)
-                    }
-                    .scaledToFit()
-                    .frame(width: 70, height: 70)
-                    .overlay {
-                        if state.photo == photo {
-                            Circle()
-                                .stroke(Color.accentColor, lineWidth: 4)
-                                .cashlyPadding(.negative(.extraSmall))
+                    CashlyResourceImage.avatar(id: photo)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 70, height: 70)
+                        .overlay {
+                            if state.photo == photo {
+                                Circle()
+                                    .stroke(Color.accentColor, lineWidth: 4)
+                                    .cashlyPadding(.negative(.extraSmall))
+                            }
                         }
-                    }
                 }
                 .buttonStyle(.plain)
             }

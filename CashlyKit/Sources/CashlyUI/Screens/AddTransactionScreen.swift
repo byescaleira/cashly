@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RyzeArchitecture
 import CashlyMock
 import CashlyDomain
 import CashlyResource
@@ -17,45 +18,60 @@ public struct AddTransactionScreen: CashlyView {
     @Environment(\.addTransactionState) var state
     @Environment(\.mainState) var mainState
     @Environment(\.action) var action
+    @Environment(\.router) var router
     
     @State var selectedUsers: Set<User> = []
     
-    public init() {}
+    var initialState: AddTransactionState?
+    
+    public init(initialState: AddTransactionState? = nil) {
+        self.initialState = initialState
+    }
     
     public var body: some View {
         Form {
             amountSection
             selectedParticipantsSection
             dateSection
-            categoriesSection
             summarySection
+            categoriesSection
         }
         .toolbar {
-            ToolbarItem(placement: .navigation) { participantsItem }
-            ToolbarItem { saveButton }
-            ToolbarItem { removeButton }
+            ToolbarItemGroup(placement: .bottomBar) {
+                participantsItem
+                CashlySpacer()
+                saveButton
+                removeButton
+            }
         }
-        .task { action(.addTransaction(.fetch)) }
+        .toolbar(.hidden, for: .tabBar)
+        .task { await handlerInitialState() }
         .onChange(of: state.date.timeIntervalSince1970.yearMonth) { action(.addTransaction(.fetch)) }
-        .onChange(of: store.state.splitMode) { onChangeUsers() }
-        .onChange(of: selectedUsers) { onChangeUsers() }
-        .onChange(of: state.participants) { updateSplitValue() }
+        .onChange(of: selectedUsers) { onChangeSelectedUsers() }
+        .onChange(of: state.participants.count) { updateSplitValue() }
+        .onChange(of: state.amount) { updateSplitValue() }
+        .onDisappear { selectedUsers = [] }
+        .scrollDismissesKeyboard(.immediately)
+        .cashlyDismiss(isSaved: state.isSaved)
         .environment(\.isLoading, state.isLoading)
     }
     
-    func onChangeUsers() {
-        guard !selectedUsers.isEmpty else {
-            store.state.splitMode = nil
-            store.state.splitValue = nil
-            return
+    func handlerInitialState() async {
+        if let initialState {
+            store.state = initialState
         }
-        store.state.splitMode = state.splitMode ?? .equal
-        let participants = selectedUsers.map {
+        try? await Task.sleep(for: .seconds(0.5))
+        action(.addTransaction(.fetch))
+    }
+    
+    func onChangeSelectedUsers() {
+        store.state.splitMode = selectedUsers.isEmpty ? nil : store.state.splitMode ?? .equal
+        store.state.participants = selectedUsers.map {
             let splitValue: Double
             switch store.state.splitMode ?? .equal {
             case .equal: splitValue = (selectedUsers.count.double + 1)
-            case .fixedAmount: splitValue = .zero
-            case .percentage: splitValue = 1 / (selectedUsers.count.double + 1)
+            case .fixedAmount: splitValue =  .zero
+            case .percentage: splitValue =  1 / (selectedUsers.count.double + 1)
             case .payerBased: splitValue = .zero
             }
             return Participant(
@@ -67,18 +83,6 @@ public struct AddTransactionScreen: CashlyView {
                 transaction: state.id
             )
         }.sorted(by: \.user.name)
-        store.state.splitValue = state.amount - participants.compactMap {
-            let value = $0.splitMode.value(splitValue: $0.splitValue, amount: state.amount)
-            return value
-        }.reduce(.zero, +)
-        store.state.participants = participants
-    }
-    
-    func updateSplitValue() {
-        store.state.splitValue = state.amount - store.state.participants.compactMap {
-            let value = $0.splitMode.value(splitValue: $0.splitValue, amount: state.amount)
-            return value
-        }.reduce(.zero, +)
     }
     
     var amountSection: some View {
@@ -88,18 +92,19 @@ public struct AddTransactionScreen: CashlyView {
                 splitValueView
                 
                 CashlyCurrencyTextField(amount: $store.state.amount)
+                    .keyboardType(.numberPad)
                     .cashly(alignment: .center)
                     .cashly(font: .system(size: 40), weight: .black)
                     .cashly(tint: .color(.clear))
             }
             .frame(maxWidth: .infinity)
-            .cashlyPadding(.vertical, .negative(.small))
+            .cashlyPadding(.vertical, .small)
         }
     }
     
     @ViewBuilder
     var transactionStatusView: some View {
-        if state.splitMode == nil {
+        if state.participants.isEmpty {
             Menu {
                 Picker(selection: $store.state.status) {
                     ForEach(TransactionStatus.allCases) {
@@ -122,15 +127,15 @@ public struct AddTransactionScreen: CashlyView {
     
     @ViewBuilder
     var splitValueView: some View {
-        if state.splitMode != nil {
+        if !state.participants.isEmpty {
             CashlyText(state.splitValue?.currency())
                 .cashly(font: .headline, weight: .semibold)
                 .cashly(color: .primary)
                 .contentTransition(.numericText())
+                .animation(.linear, value: store.state.splitValue)
                 .cashlyPadding()
                 .cashlyPadding(.horizontal, .extraSmall)
                 .cashly(glass: .clear.tint(.accentColor.opacity(0.2)), in: .capsule)
-                .animation(.linear, value: state.amount)
         }
     }
     
@@ -150,28 +155,35 @@ public struct AddTransactionScreen: CashlyView {
         }
     }
     
+    @ViewBuilder
     var tagsView: some View {
-        CashlyHorizontalList {
-            CashlyHStack {
-                ForEach(state.summaryTags) { tag in
+        CashlyZStack {
+            if !state.summaryTags.isEmpty {
+                CashlyHorizontalList { _ in
                     CashlyHStack {
-                        CashlySymbol(tag.icon)
-                        CashlyText(tag.name.uppercased())
+                        ForEach(state.summaryTags) { tag in
+                            CashlyHStack {
+                                CashlySymbol(tag.icon)
+                                CashlyText(tag.name.uppercased())
+                            }
+                            .cashly(font: .footnote, weight: .semibold)
+                            .cashly(color: .hex(tag.color))
+                            .cashlyPadding()
+                            .cashlyPadding(.horizontal, .extraSmall)
+                            .cashly(
+                                glass: .clear.tint(Color(hex: tag.color).opacity(0.2)),
+                                in: .capsule
+                            )
+                            .transition(.move(edge: .top).animation(.bouncy.speed(0.2)))
+                        }
                     }
-                    .cashly(font: .footnote, weight: .semibold)
-                    .cashly(color: .hex(tag.color))
-                    .cashlyPadding()
-                    .cashlyPadding(.horizontal, .extraSmall)
-                    .cashly(
-                        glass: .clear.tint(Color(hex: tag.color).opacity(0.2)),
-                        in: .capsule
-                    )
+                    .padding(.horizontal, 30)
                 }
+                .frame(height: 50)
+                .padding(.horizontal, -40)
             }
-            .padding(.horizontal, 40)
         }
-        .padding(.horizontal, -40)
-        .cashlyPadding(.top, .small)
+        .animation(.bouncy, value: state.summaryTags)
     }
     
     var categoriesSection: some View {
@@ -204,13 +216,19 @@ public struct AddTransactionScreen: CashlyView {
     @ViewBuilder
     var categoriesView: some View {
         if !state.categories.isEmpty {
-            CashlyHorizontalList {
+            CashlyHorizontalList { proxy in
                 CashlyHStack {
                     ForEach(state.categories) { category in
                         categoryItemView(category: category)
+                            .id(category)
                     }
                 }
                 .cashlyPadding(.horizontal, .medium)
+                .onChange(of: state.category) {
+                    withAnimation(.bouncy) {
+                        proxy.scrollTo(state.category, anchor: .center)
+                    }
+                }
             }
             .cashlyPadding(.horizontal, .negative(.medium))
         }
@@ -255,7 +273,7 @@ public struct AddTransactionScreen: CashlyView {
     
     @ViewBuilder
     var selectedParticipantsSection: some View {
-        if !selectedUsers.isEmpty {
+        if !state.participants.isEmpty {
             Section {
                 splitModeView
             } header: {
@@ -296,32 +314,53 @@ public struct AddTransactionScreen: CashlyView {
         }
     }
     
+    func participantBinding(at index: Int) -> Binding<Participant> {
+        Binding {
+            guard store.state.participants.indices.contains(index) else { return .empty }
+            return store.state.participants[index]
+        } set: { participant in
+            guard store.state.participants.indices.contains(index) else { return }
+            store.state.participants[index] = participant
+        }
+    }
+    
     var participantsView: some View {
         Section {
-            ForEach(store.state.participants.enumerated(), id: \.offset) { index, participant in
+            ForEach(Array(store.state.participants).enumerated(), id: \.offset) { index, participant in
                 ParticipantRowView(
-                    participant: $store.state.participants[index],
-                    amount: state.amount
+                    participant: participantBinding(at: index),
+                    splitMode: state.splitMode,
+                    amount: state.amount,
+                    count: state.participants.count
                 )
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                     CashlyButton(role: .destructive) {
-                        if selectedUsers.contains(participant.user) {
-                            selectedUsers.remove(participant.user)
+                        if let index = state.participants.firstIndex(of: participant) {
+                            store.state.participants.remove(at: index)
                         }
                     } label: {
                         CashlyLabel("Delete", symbol: "trash.fill")
                     }
                     .cashly(tint: .error)
                 }
+                .onChange(of: participant.splitValue) { updateSplitValue() }
             }
         }
     }
     
+    func updateSplitValue() {
+        store.state.splitValue = store.state.participants.isEmpty ? nil : (store.state.amount - store.state.participants.compactMap {
+            let value = $0.splitMode.value(splitValue: $0.splitValue, amount: store.state.amount)
+            return value
+        }.reduce(.zero, +))
+    }
+
     @ViewBuilder
     var participantsItem: some View {
-        if !mainState.users.isEmpty {
+        let users = mainState.users.filter { $0.id != mainState.user?.id }
+        if !users.isEmpty {
             CashlyMenuSelectionView(
-                items: mainState.users,
+                items: users,
                 selectedItems: $selectedUsers
             ) { user in
                 CashlyText(user.name.capitalized)

@@ -13,6 +13,8 @@ public enum CashlyDateFormatter: RyzeDateFormatter {
     case defaultFormat
     case transactionSection
     case time
+    case yearMonth
+    case status
     
     public var rawValue: DateFormatter {
         switch self {
@@ -21,6 +23,8 @@ public enum CashlyDateFormatter: RyzeDateFormatter {
         case .sortPattern: return getFormatter(from: "yyyyMMdd")
         case .transactionSection: return getFormatter(from: "dd MMMM, yyyy")
         case .time: return getFormatter(from: "HH:mm")
+        case .yearMonth: return getFormatter(from: "yyyyMM")
+        case .status: return getFormatter(from: "MMMM, yyyy")
         }
     }
 }

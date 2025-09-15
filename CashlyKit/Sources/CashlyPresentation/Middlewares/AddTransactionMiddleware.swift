@@ -43,7 +43,7 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
                     await remove(state: state, continuation: continuation)
                 case .update:
                     continuation.yield(.stopLoading)
-                case .stopLoading, .error:
+                case .stopLoading, .saved, .error:
                     break
                 }
             }
@@ -54,7 +54,10 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
         do {
             let transaction = try await transactionUseCase.getTransaction(id: state.id)
             let currentUser = try await userUseCase.getCurrentUser()
-            let categories = try await categoryUseCase.getCategories(users: currentUser == nil ? nil : [currentUser!.id])
+            let categories = try await categoryUseCase.getCategories(
+                ids: nil,
+                users: currentUser == nil ? nil : [currentUser?.id ?? ""]
+            )
             let budgets = try await budgetUseCase.getBudgets(
                 categories: categories.isEmpty ? nil : categories.map(\.id),
                 date: state.date
@@ -65,13 +68,13 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
                 .update(
                     budgets: budgets,
                     id: transaction?.id ?? state.id,
-                    participants: transaction?.participants ?? state.participants,
+                    participants: transaction?.participants ?? Array(state.participants),
                     budget: budgets.isEmpty ? nil : transaction?.budget ?? state.budget ?? budgets.first,
                     amount: transaction?.amount ?? state.amount,
                     date: transaction?.date.date ?? state.date,
                     summary: transaction?.summary ?? state.summary,
                     status: transaction?.status ?? state.status,
-                    splitMode: transaction?.splitMode ?? state.splitMode,
+                    splitMode: transaction?.participants.first?.splitMode ?? state.splitMode,
                     splitValue: transaction?.splitValue ?? state.splitValue,
                     tags: tags,
                     isNew: transaction == nil
@@ -91,7 +94,7 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
                 )
                 return value
             }.reduce(.zero, +)
-            let value = state.splitValue ?? .zero
+            let value = state.splitValue ?? .zero < .zero ? .zero : state.splitValue ?? .zero
             let total = valueParticipants + value
             let isValidParticipants = Int(total - state.amount) == .zero
             
@@ -105,13 +108,27 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
             }
             try await transactionUseCase.addTransaction(
                 id: state.id,
-                participants: state.participants,
+                participants: Array(state.participants),
                 budget: budget,
                 amount: state.amount,
                 date: state.date.timeIntervalSince1970,
                 summary: state.summary,
-                status: state.status
+                status: state.status,
+                splitMode: state.splitMode,
+                splitValue: state.splitValue
             )
+            
+            for participant in state.participants {
+                try await participantUseCase.addParticipant(
+                    id: participant.id,
+                    user: participant.user,
+                    splitMode: participant.splitMode,
+                    splitValue: participant.splitValue,
+                    status: participant.status,
+                    transaction: participant.transaction
+                )
+            }
+            continuation.yield(.saved)
         } catch {
             continuation.yield(.error(.onSave))
         }
@@ -125,6 +142,7 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
             }
             
             try await transactionUseCase.removeTransaction(id: transaction.id)
+            continuation.yield(.saved)
         } catch {
             continuation.yield(.error(.onRemove))
         }

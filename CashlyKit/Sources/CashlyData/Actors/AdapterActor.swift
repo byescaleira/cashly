@@ -19,7 +19,7 @@ public actor AdapterActor: AdapterUseCase {
         id: String,
         amount: Double,
         category: String,
-        date: TimeInterval,
+        date: Int,
         summary: String
     ) async throws -> Budget? {
         let categoryPredicate: Predicate<CategoryEntity> = #Predicate {
@@ -121,7 +121,9 @@ public actor AdapterActor: AdapterUseCase {
         amount: Double,
         date: TimeInterval,
         summary: String,
-        status: Int
+        status: Int,
+        splitMode: Int?,
+        splitValue: Double?
     ) async throws -> Transaction? {
         let participantsPredicate: Predicate<ParticipantEntity> = #Predicate {
             participants.contains($0.id)
@@ -171,7 +173,9 @@ public actor AdapterActor: AdapterUseCase {
             amount: amount,
             date: date,
             summary: summary,
-            status: status
+            status: status,
+            splitMode: TransactionSplitMode(rawValue: splitMode ?? -1),
+            splitValue: splitValue
         )
     }
     

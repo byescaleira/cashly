@@ -16,6 +16,7 @@ public struct AddCategoryState: CashlyState {
     public var color: Color
     public var icon: String
     public var isNew: Bool
+    public var isSaved: Bool = false
     public var error: CashlyError?
     
     public var canSave: Bool {
@@ -24,14 +25,14 @@ public struct AddCategoryState: CashlyState {
         !icon.isEmpty
     }
     
-    public init(
+    private init(
         isLoading: Bool = true,
         id: String = UUID().uuidString,
         user: User? = nil,
         name: String = "",
         color: String = "",
         icon: String = "",
-        isNew: Bool = false,
+        isNew: Bool = true,
         error: CashlyError? = nil
     ) {
         self.isLoading = isLoading
@@ -42,5 +43,13 @@ public struct AddCategoryState: CashlyState {
         self.icon = icon
         self.isNew = isNew
         self.error = error
+    }
+    
+    public static func new() -> AddCategoryState {
+        AddCategoryState()
+    }
+    
+    public static func edit(id: String) -> AddCategoryState {
+        AddCategoryState(id: id, isNew: false)
     }
 }

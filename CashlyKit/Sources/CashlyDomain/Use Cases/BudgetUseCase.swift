@@ -18,7 +18,7 @@ public protocol BudgetUseCase: Sendable {
         id: String,
         amount: Double,
         category: Category,
-        date: TimeInterval,
+        date: Int,
         summary: String
     ) async throws
 }

@@ -13,7 +13,6 @@ public struct FilterState: CashlyState, Equatable, Hashable {
     public var transactionStatuses: Set<TransactionStatus>
     public var categories: Set<CashlyDomain.Category>
     public var tags: Set<Tag>
-    public var user: User?
     public var isFilteringByDate: Bool
     
     public init(
@@ -22,7 +21,6 @@ public struct FilterState: CashlyState, Equatable, Hashable {
         transactionStatuses: Set<TransactionStatus> = [],
         categories: Set<CashlyDomain.Category> = [],
         tags: Set<Tag> = [],
-        user: User? = nil,
         isFilteringByDate: Bool = true
     ) {
         self.startDate = startDate
@@ -30,7 +28,6 @@ public struct FilterState: CashlyState, Equatable, Hashable {
         self.transactionStatuses = transactionStatuses
         self.categories = categories
         self.tags = tags
-        self.user = user
         self.isFilteringByDate = isFilteringByDate
     }
 }

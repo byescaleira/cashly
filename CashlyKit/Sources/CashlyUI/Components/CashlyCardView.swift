@@ -13,6 +13,7 @@ public struct CashlyCardView: CashlyView {
     let title: String
     let subtitle: String
     let buttonTitle: String
+    let size: CGFloat
     let action: () -> Void
     
     public init(
@@ -20,12 +21,14 @@ public struct CashlyCardView: CashlyView {
         title: String,
         subtitle: String,
         buttonTitle: String,
+        size: CGFloat = 110,
         action: @escaping () -> Void
     ) {
         self.image = image
         self.title = title
         self.subtitle = subtitle
         self.buttonTitle = buttonTitle
+        self.size = size
         self.action = action
     }
     
@@ -34,7 +37,7 @@ public struct CashlyCardView: CashlyView {
             image.image
                 .resizable()
                 .scaledToFit()
-                .frame(height: 100)
+                .frame(height: size)
             
             CashlyVStack(spacing: .small) {
                 CashlyText(title)
@@ -53,9 +56,11 @@ public struct CashlyCardView: CashlyView {
     }
     
     var button: some View {
-        CashlyButton {} label: {
+        CashlyButton {
+            action()
+        } label: {
             CashlyText(buttonTitle)
-                .cashly(font: .subheadline, weight: .bold)
+                .cashly(font: .headline, weight: .bold)
                 .frame(maxWidth: .infinity)
         }
         .buttonStyle(.glassProminent)

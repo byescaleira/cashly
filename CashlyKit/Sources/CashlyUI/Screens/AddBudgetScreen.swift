@@ -16,8 +16,13 @@ public struct AddBudgetScreen: CashlyView {
     
     @Environment(\.addBudgetState) var state
     @Environment(\.action) var action
+    @Environment(\.router) var router
     
-    public init() {}
+    var initialState: AddBudgetState?
+    
+    public init(initialState: AddBudgetState? = nil) {
+        self.initialState = initialState
+    }
     
     public var body: some View {
         Form {
@@ -27,11 +32,27 @@ public struct AddBudgetScreen: CashlyView {
             dateSection
         }
         .toolbar {
-            ToolbarItem { saveButton }
-            ToolbarItem { removeButton }
+            ToolbarItemGroup(placement: .bottomBar) {
+                CashlySpacer()
+                saveButton
+                removeButton
+            }
         }
-        .task { action(.addBudget(.fetch)) }
+        .scrollDismissesKeyboard(.immediately)
+        .toolbar(.hidden, for: .tabBar)
+        .onChange(of: state.yearMonth) { action(.addBudget(.fetch)) }
+        .onChange(of: state.category) { action(.addBudget(.fetch)) }
+        .task { await handlerInitialState() }
+        .cashlyDismiss(isSaved: state.isSaved)
         .environment(\.isLoading, state.isLoading)
+    }
+    
+    func handlerInitialState() async {
+        if let initialState {
+            store.state = initialState
+        }
+        try? await Task.sleep(for: .seconds(0.5))
+        action(.addBudget(.fetch))
     }
     
     var amountSection: some View {
@@ -45,6 +66,7 @@ public struct AddBudgetScreen: CashlyView {
                     .cashly(glass: .clear.tint(Color(hex: state.category?.color).opacity(0.2)), in: .capsule)
                 
                 CashlyCurrencyTextField(amount: $store.state.amount)
+                    .keyboardType(.numberPad)
                     .frame(maxWidth: .infinity)
                     .cashly(alignment: .center)
                     .cashly(font: .system(size: 40), weight: .black)
@@ -82,13 +104,19 @@ public struct AddBudgetScreen: CashlyView {
     @ViewBuilder
     var categoriesView: some View {
         if !state.categories.isEmpty {
-            CashlyHorizontalList {
+            CashlyHorizontalList { proxy in
                 CashlyHStack {
                     ForEach(state.categories) { category in
                         categoryItemView(category: category)
+                            .id(category)
                     }
                 }
                 .cashlyPadding(.horizontal, .medium)
+                .onChange(of: state.category) {
+                    withAnimation(.bouncy) {
+                        proxy.scrollTo(state.category, anchor: .center)
+                    }
+                }
             }
             .cashlyPadding(.horizontal, .negative(.medium))
         }

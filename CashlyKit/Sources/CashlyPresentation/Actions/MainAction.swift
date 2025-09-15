@@ -19,9 +19,6 @@ public enum MainAction: CashlyAction {
         user: User?
     )
     case removeTag(Tag)
-    case removeUser(User)
-    case removeBudget(Budget)
-    case removeCategory(CashlyDomain.Category)
     case removeTransaction(CashlyDomain.Transaction)
     case selectUser
     case error(CashlyError)

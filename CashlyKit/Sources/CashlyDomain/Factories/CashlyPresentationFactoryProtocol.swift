@@ -5,25 +5,31 @@
 //  Created by Rafael Escaleira on 01/09/25.
 //
 
-public protocol CashlyPresentationFactoryProtocol: Sendable {
-    associatedtype AddCategoryReducer: CashlyReducer
-    associatedtype AddCategoryMiddleware: CashlyMiddleware
+import RyzeArchitecture
+
+public protocol CashlyPresentationFactoryProtocol {
+    associatedtype AddCategoryReducer: RyzeReducer
+    associatedtype AddCategoryMiddleware: RyzeMiddleware
     
-    associatedtype AddBudgetReducer: CashlyReducer
-    associatedtype AddBudgetMiddleware: CashlyMiddleware
+    associatedtype AddBudgetReducer: RyzeReducer
+    associatedtype AddBudgetMiddleware: RyzeMiddleware
     
-    associatedtype AddTransactionReducer: CashlyReducer
-    associatedtype AddTransactionMiddleware: CashlyMiddleware
+    associatedtype AddTransactionReducer: RyzeReducer
+    associatedtype AddTransactionMiddleware: RyzeMiddleware
     
-    associatedtype MainReducer: CashlyReducer
-    associatedtype MainMiddleware: CashlyMiddleware
+    associatedtype MainReducer: RyzeReducer
+    associatedtype MainMiddleware: RyzeMiddleware
     
-    associatedtype AddUserReducer: CashlyReducer
-    associatedtype AddUserMiddleware: CashlyMiddleware
+    associatedtype AddUserReducer: RyzeReducer
+    associatedtype AddUserMiddleware: RyzeMiddleware
     
-    func makeAddCategoryStore() -> CashlyStore<AddCategoryReducer, AddCategoryMiddleware>
-    func makeAddBudgetStore() -> CashlyStore<AddBudgetReducer, AddBudgetMiddleware>
-    func makeAddTransactionStore() -> CashlyStore<AddTransactionReducer, AddTransactionMiddleware>
-    func makeAddUserStore() -> CashlyStore<AddUserReducer, AddUserMiddleware>
-    func makeMainStore() -> CashlyStore<MainReducer, MainMiddleware>
+    associatedtype AddTagReducer: RyzeReducer
+    associatedtype AddTagMiddleware: RyzeMiddleware
+    
+    func makeAddCategoryStore() -> RyzeStore<AddCategoryReducer, AddCategoryMiddleware>
+    func makeAddBudgetStore() -> RyzeStore<AddBudgetReducer, AddBudgetMiddleware>
+    func makeAddTransactionStore() -> RyzeStore<AddTransactionReducer, AddTransactionMiddleware>
+    func makeAddUserStore() -> RyzeStore<AddUserReducer, AddUserMiddleware>
+    func makeAddTagStore() -> RyzeStore<AddTagReducer, AddTagMiddleware>
+    func makeMainStore() -> RyzeStore<MainReducer, MainMiddleware>
 }

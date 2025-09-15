@@ -23,8 +23,14 @@ actor MockCategoryActor: CategoryUseCase {
         categories
     }
     
-    func getCategories(users: [String]?) async throws -> [CashlyDomain.Category] {
-        categories
+    func getCategories(
+        ids: [String]?,
+        users: [String]?
+    ) async throws -> [CashlyDomain.Category] {
+        categories.filter {
+            ids?.contains($0.id) ?? false &&
+            users?.contains($0.user.id) ?? false
+        }
     }
     
     func removeCategory(id: String) async throws {

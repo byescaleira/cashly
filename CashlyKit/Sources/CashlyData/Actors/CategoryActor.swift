@@ -54,9 +54,24 @@ public actor CategoryActor: CategoryUseCase {
         return categories
     }
     
-    public func getCategories(users: [String]?) async throws -> [CashlyDomain.Category] {
-        let predicate: Predicate<CategoryEntity> = #Predicate { entity in
-            users?.isEmpty == false ? users!.contains(entity.user) : true
+    public func getCategories(ids: [String]?, users: [String]?) async throws -> [CashlyDomain.Category] {
+        let predicateID: Predicate<String>
+        if let ids {
+            predicateID = #Predicate { ids.contains($0) }
+        } else {
+            predicateID = #Predicate { _ in true }
+        }
+        
+        let predicateUser: Predicate<String>
+        if let users {
+            predicateUser = #Predicate { users.contains($0) }
+        } else {
+            predicateUser = #Predicate { _ in true }
+        }
+        
+        let predicate: Predicate<CategoryEntity> = #Predicate {
+            predicateID.evaluate($0.id) &&
+            predicateUser.evaluate($0.user)
         }
         
         let descriptor = FetchDescriptor<CategoryEntity>(

@@ -6,6 +6,7 @@
 //
 
 import CashlyDomain
+import RyzeArchitecture
 
 public struct MainState: CashlyState {
     public var isLoading: Bool
@@ -17,6 +18,10 @@ public struct MainState: CashlyState {
     public var users: [User]
     public var user: User?
     public var error: CashlyError?
+    
+    public var categoryRouter: CashlyRouter<MainRoute> = .init()
+    public var homeRouter: CashlyRouter<MainRoute> = .init()
+    public var transactionRouter: CashlyRouter<MainRoute> = .init()
     
     public init(
         isLoading: Bool = true,
@@ -40,6 +45,22 @@ public struct MainState: CashlyState {
         self.error = error
     }
     
+    public func participantsUser(
+        transaction: String,
+        splitMode: TransactionSplitMode?,
+    ) -> [Participant] {
+        users.map {
+            Participant(
+                id: UUID().uuidString,
+                user: $0,
+                splitMode: splitMode ?? .equal,
+                splitValue: .zero,
+                status: .settled,
+                transaction: transaction
+            )
+        }.sorted(by: \.user.name)
+    }
+    
     public func transactionsAmount(for category: CashlyDomain.Category) -> Double {
         transactions.reduce(.zero) { partialResult, transaction in
             guard transaction.budget.category.id == category.id else { return partialResult }
@@ -52,6 +73,17 @@ public struct MainState: CashlyState {
             guard budget.category.id == category.id else { return partialResult }
             return partialResult + budget.amount
         }
+    }
+    
+    public func transactionsAmount(for budget: Budget) -> Double {
+        transactions.reduce(.zero) { partialResult, transaction in
+            guard transaction.budget.id == budget.id else { return partialResult }
+            return partialResult + transaction.amount
+        }
+    }
+    
+    public func budgets(for category: CashlyDomain.Category) -> [Budget] {
+        budgets.filter { $0.category == category }
     }
     
     public func budget(for category: CashlyDomain.Category) -> Budget? {
@@ -85,7 +117,8 @@ public struct MainState: CashlyState {
     }
     
     public var variation: Double {
-        transactionsAmount / budgetsAmount
+        let budgetsAmount = budgetsAmount
+        return transactionsAmount / (budgetsAmount == .zero ? 1 : budgetsAmount)
     }
     
     public var warningCategories: [CashlyDomain.Category] {
@@ -102,7 +135,7 @@ public struct MainState: CashlyState {
     public func categoryVariation(category: CashlyDomain.Category, amount: Double = .zero) -> Double {
         let transactionsAmount = transactionsAmount(for: category) + amount
         let budgetsAmount = budgetsAmount(for: category)
-        return transactionsAmount / budgetsAmount
+        return transactionsAmount / (budgetsAmount == .zero ? 1 : budgetsAmount)
     }
     
     public func categoryRemainingAmount(category: CashlyDomain.Category) -> Double {
@@ -112,7 +145,7 @@ public struct MainState: CashlyState {
     public var transactionSections: [[CashlyDomain.Transaction]] {
         let dict = Dictionary(grouping: transactions) { transaction in
             transaction.date.date.cashly(with: .sortPattern)
-        }.sorted(by: \.key)
+        }.sorted(by: \.key, using: >)
         var transactionSections: [[CashlyDomain.Transaction]] = []
         for (_, transactions) in dict {
             transactionSections.append(transactions)
@@ -152,5 +185,21 @@ public struct MainState: CashlyState {
             .sorted(by: \.amount, using: >)
             .prefix(5)
             .map(\.category)
+    }
+    
+    public var biggestTags: [Tag] {
+        var tagsAmount: [Tag: Double] = [:]
+        for transaction in transactions {
+            let summary = transaction.summary.lowercased()
+            for tag in tags {
+                if summary.contains(tag.name.lowercased()) {
+                    tagsAmount[tag, default: .zero] += transaction.amount
+                }
+            }
+        }
+        return tagsAmount
+            .sorted(by: \.value, using: >)
+            .prefix(5)
+            .map(\.key)
     }
 }

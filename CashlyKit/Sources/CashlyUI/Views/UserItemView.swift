@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CashlyDomain
+import CashlyResource
 import CashlyPresentation
 import CashlyMock
 
@@ -14,37 +15,41 @@ struct UserItemView: CashlyView {
     @EnvironmentObject var store: CashlyStore<MainReducer, MainMiddleware>
     
     @Environment(\.mainState) var state
-    @Environment(\.user) var user
     @Environment(\.action) var action
+    @Environment(\.router) var router
     
+    @ViewBuilder
     var body: some View {
-        if let user {
+        if !state.users.isEmpty {
             Menu {
-                Picker(selection: $store.state.filter.user) {
-                    ForEach(state.users) {
-                        CashlyAsyncImage($0.photo) { image in
-                            image
-                        } placeholder: {
-                            ProgressView()
-                                .cashly(tint: .textSecondary)
+                Picker(selection: $store.state.user) {
+                    ForEach(state.users) { user in
+                        CashlyHStack {
+                            CashlyResourceImage.avatar(id: user.photo)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 36, height: 36)
+                            
+                            CashlyText(user.name.capitalized)
                         }
-                        .cashly(clip: .circle)
-                        .tag($0)
+                        .tag(user)
                     }
                 } label: {
                     EmptyView()
                 }
-                .pickerStyle(.palette)
-            } label: {
-                CashlyAsyncImage(user.photo) { image in
-                    image
-                        .resizable()
-                        .scaledToFit()
-                        .cashly(clip: .circle)
-                } placeholder: {
-                    ProgressView()
-                        .cashly(tint: .textSecondary)
+                
+                Divider()
+                
+                CashlyButton {
+                    router.route(to: .addUser(state: .new()))
+                } label: {
+                    CashlyLabel("Add User", symbol: "person.crop.circle.badge.plus")
                 }
+            } label: {
+                CashlyResourceImage.avatar(id: store.state.user?.photo)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 36, height: 36)
             }
             .menuStyle(.button)
             .buttonStyle(.plain)
@@ -57,8 +62,12 @@ struct UserItemView: CashlyView {
 }
 
 #Preview {
-    CashlyList {
-        UserItemView
-            .cashlyPreview()
+    NavigationView {
+        CashlyList {
+              
+        }
+        .toolbar {
+            ToolbarItem { UserItemView.cashlyPreview() }
+        }
     }
 }

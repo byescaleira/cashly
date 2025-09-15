@@ -14,6 +14,7 @@ struct CommonTestSuite {
     let budgetUseCase: BudgetUseCase
     let categoryUseCase: CategoryUseCase
     
+    @MainActor
     init() {
         let factory = MockCashlyFactory()
         budgetUseCase = factory.makeBudgetUseCase()

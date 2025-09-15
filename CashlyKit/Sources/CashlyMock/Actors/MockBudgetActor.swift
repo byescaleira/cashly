@@ -28,7 +28,7 @@ actor MockBudgetActor: BudgetUseCase {
     ) async throws -> [Budget] {
         budgets.filter { budget in
             (categories?.isEmpty == false ? categories!.contains(budget.category.id) : true) &&
-            (date == nil ? true : budget.date.yearMonth == date?.timeIntervalSince1970.yearMonth)
+            (date == nil ? true : budget.date == date?.timeIntervalSince1970.yearMonth)
         }
     }
     
@@ -47,7 +47,7 @@ actor MockBudgetActor: BudgetUseCase {
         id: String,
         amount: Double,
         category: CashlyDomain.Category,
-        date: TimeInterval,
+        date: Int,
         summary: String
     ) async throws {
         let budget = Budget(

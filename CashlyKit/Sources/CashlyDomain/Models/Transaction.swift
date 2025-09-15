@@ -23,7 +23,9 @@ public struct Transaction: CashlyEntity, Sendable {
         amount: Double,
         date: TimeInterval,
         summary: String,
-        status: TransactionStatus
+        status: TransactionStatus,
+        splitMode: TransactionSplitMode?,
+        splitValue: Double?
     ) {
         self.id = id
         self.participants = participants
@@ -32,6 +34,8 @@ public struct Transaction: CashlyEntity, Sendable {
         self.date = date
         self.summary = summary
         self.status = status
+        self.splitMode = splitMode
+        self.splitValue = splitValue
     }
 }
 

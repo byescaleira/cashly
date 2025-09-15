@@ -5,6 +5,8 @@
 //  Created by Rafael Escaleira on 05/09/25.
 //
 
+import Foundation
+
 public struct Participant: CashlyEntity, Sendable {
     public var id: String
     public var user: User
@@ -27,5 +29,16 @@ public struct Participant: CashlyEntity, Sendable {
         self.splitValue = splitValue
         self.status = status
         self.transaction = transaction
+    }
+    
+    public static var empty: Participant {
+        Participant(
+            id: "",
+            user: .empty,
+            splitMode: .equal,
+            splitValue: .zero,
+            status: .settled,
+            transaction: ""
+        )
     }
 }

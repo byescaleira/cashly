@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RyzeArchitecture
 import CashlyMock
 import CashlyDomain
 import CashlyResource
@@ -16,12 +17,17 @@ public struct TransactionScreen: CashlyView {
     
     @Environment(\.mainState) var state
     @Environment(\.action) var action
+    @Environment(\.router) var router
     
     public init() {}
     
     public var body: some View {
         CashlyList {
             TransactionBalanceView()
+            EmptyCategoryView()
+            EmptyBudgetView(budgets: state.budgets)
+            EmptyUserView()
+            EmptyTransactionView()
             transactionsSection
         }
         .toolbar {
@@ -29,6 +35,7 @@ public struct TransactionScreen: CashlyView {
             ToolbarItem { addButton }
         }
         .environment(\.isLoading, state.isLoading)
+        .onAppear { action(.main(.fetch)) }
         .navigationTitle("Transactions")
     }
     
@@ -38,9 +45,14 @@ public struct TransactionScreen: CashlyView {
         ForEach(sections.indices, id: \.self) {
             let transactions = sections[$0]
             Section {
-                ForEach(transactions.indices, id: \.self) { index in
-                    let transaction = transactions[index]
-                    transactionView(transaction: transaction)
+                ForEach(transactions) { transaction in
+                    CashlyButton {
+                        router.route(to: .addTransaction(state: .edit(id: transaction.id)))
+                    } label: {
+                        transactionView(transaction: transaction)
+                    }
+                    .cashly(tint: .text)
+                    .cashlyDelete { action(.main(.removeTransaction(transaction))) }
                 }
             } header: {
                 CashlyHStack {
@@ -58,14 +70,14 @@ public struct TransactionScreen: CashlyView {
     func transactionView(transaction: CashlyDomain.Transaction) -> some View {
         CashlyHStack(spacing: .medium) {
             categoryIcon(category: transaction.budget.category)
-                .overlay(alignment: .topTrailing) {
+                .overlay(alignment: .bottomTrailing) {
                     statusView(
                         participants: transaction.participants,
                         status: transaction.status
                     )
                 }
             
-            CashlyVStack(alignment: .leading, spacing: .zero) {
+            CashlyVStack(alignment: .leading, spacing: .extraSmall) {
                 CashlyHStack {
                     CashlyText(transaction.date.date.cashly(with: .time))
                     participantsView(participants: transaction.participants)
@@ -78,7 +90,7 @@ public struct TransactionScreen: CashlyView {
             
             CashlySpacer()
             
-            CashlyVStack(alignment: .trailing, spacing: .zero) {
+            CashlyVStack(alignment: .trailing, spacing: .extraSmall) {
                 CashlyText(transaction.amount.currency())
                     
                 if !transaction.participants.isEmpty {
@@ -87,6 +99,9 @@ public struct TransactionScreen: CashlyView {
                 }
             }
             .cashly(font: .callout, weight: .semibold)
+            
+            CashlySymbol("chevron.forward")
+                .cashly(color: .disabled)
         }
         .lineLimit(2)
     }
@@ -111,7 +126,6 @@ public struct TransactionScreen: CashlyView {
                 .cashly(color: .white)
                 .cashlyPadding(.extraSmall)
                 .cashly(glass: .clear.tint(status.color), in: .circle)
-                .cashlyPadding(.negative(.extraSmall))
         }
     }
     
@@ -123,24 +137,25 @@ public struct TransactionScreen: CashlyView {
                     let participant = participants[index]
                     Circle()
                         .fill(participant.status.color)
-                        .frame(width: 12, height: 12)
-                        .cashly(if: index != .zero) {
-                            $0.cashlyPadding(.leading, .negative(.extraSmall))
-                        }
+                        .frame(width: 10, height: 10)
+                        .padding(.trailing, 2)
                 }
             }
         }
     }
     
+    @ViewBuilder
     var addButton: some View {
-        CashlyButton {
-            
-        } label: {
-            CashlySymbol("plus")
-                .cashly(font: .headline, weight: .bold)
+        if !state.users.isEmpty {
+            CashlyButton {
+                router.route(to: .addTransaction(state: .new()))
+            } label: {
+                CashlySymbol("plus")
+                    .cashly(font: .headline, weight: .bold)
+            }
+            .disabled(state.isLoading)
+            .cashly(tint: .primary)
         }
-        .disabled(state.isLoading)
-        .cashly(tint: .primary)
     }
     
     public static var mock: some View {

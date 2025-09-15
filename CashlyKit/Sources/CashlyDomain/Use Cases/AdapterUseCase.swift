@@ -10,7 +10,7 @@ public protocol AdapterUseCase: Sendable {
         id: String,
         amount: Double,
         category: String,
-        date: TimeInterval,
+        date: Int,
         summary: String
     ) async throws -> Budget?
     
@@ -35,7 +35,9 @@ public protocol AdapterUseCase: Sendable {
         amount: Double,
         date: TimeInterval,
         summary: String,
-        status: Int
+        status: Int,
+        splitMode: Int?,
+        splitValue: Double?
     ) async throws -> Transaction?
     
     func tagAdapted(

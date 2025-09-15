@@ -19,4 +19,12 @@ public struct User: CashlyEntity, Sendable {
         self.name = name
         self.photo = photo
     }
+    
+    public static var empty: User {
+        User(
+            id: "",
+            name: "",
+            photo: ""
+        )
+    }
 }
