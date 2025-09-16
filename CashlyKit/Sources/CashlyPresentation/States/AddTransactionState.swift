@@ -22,6 +22,8 @@ public struct AddTransactionState: CashlyState {
     public var tags: [Tag]
     public var isNew: Bool
     public var isSaved: Bool = false
+    public var installmentIsOn: Bool
+    public var installmentPlan: Int
     public var error: CashlyError?
     
     public var canSave: Bool {
@@ -77,6 +79,8 @@ public struct AddTransactionState: CashlyState {
         splitValue: Double? = nil,
         tags: [Tag] = [],
         isNew: Bool = true,
+        installmentIsOn: Bool = false,
+        installmentPlan: Int = 1,
         error: CashlyError? = nil
     ) {
         self.isLoading = isLoading
@@ -92,6 +96,8 @@ public struct AddTransactionState: CashlyState {
         self.splitValue = splitValue
         self.tags = tags
         self.isNew = isNew
+        self.installmentIsOn = installmentIsOn
+        self.installmentPlan = installmentPlan
         self.error = error
     }
     

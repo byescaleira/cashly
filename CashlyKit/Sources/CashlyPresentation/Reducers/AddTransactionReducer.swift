@@ -29,7 +29,9 @@ public actor AddTransactionReducer: CashlyReducer {
             splitMode,
             splitValue,
             tags,
-            isNew
+            isNew,
+            installmentIsOn,
+            installmentPlan
         ):
             state.budgets = budgets
             state.id = id
@@ -43,6 +45,8 @@ public actor AddTransactionReducer: CashlyReducer {
             state.splitValue = splitValue
             state.tags = tags
             state.isNew = isNew
+            state.installmentIsOn = installmentIsOn
+            state.installmentPlan = installmentPlan
         case .saved:
             state.isSaved = true
         case let .error(error):

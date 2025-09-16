@@ -31,6 +31,9 @@ public struct DetailCategoryScreen: CashlyView {
             budgetsSection
         }
         .navigationTitle(category.name.capitalized)
+        .environment(\.isLoading, state.isLoading)
+        .onAppear { action(.main(.fetch)) }
+        .refreshable { action(.main(.fetch)) }
     }
     
     var headerSection: some View {
@@ -112,7 +115,7 @@ public struct DetailCategoryScreen: CashlyView {
             let budgetAmount = budget.amount
             let variation = transactionAmount / (budgetAmount.isZero ? 1 : budgetAmount)
             CashlyVStack(alignment: .leading, spacing: .extraSmall) {
-                CashlyText(budget.date.string.date(with: CashlyDateFormatter.yearMonth)?.string(with: CashlyDateFormatter.status))
+                CashlyText(budget.date.string.date(with: .cashly(.yearMonth))?.string(with: .cashly(.status)))
                     .cashly(font: .callout, weight: .semibold)
                 CashlyText(variation.percentage)
             }

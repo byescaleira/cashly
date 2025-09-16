@@ -11,6 +11,7 @@ public enum MainAction: CashlyAction {
     case fetch
     case stopLoading
     case update(
+        filter: FilterState,
         budgets: [Budget],
         categories: [CashlyDomain.Category],
         transactions: [CashlyDomain.Transaction],

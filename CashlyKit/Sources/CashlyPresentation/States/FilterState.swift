@@ -10,6 +10,9 @@ import CashlyDomain
 public struct FilterState: CashlyState, Equatable, Hashable {
     public var startDate: Date
     public var endDate: Date?
+    public var allCategories: [CashlyDomain.Category] = []
+    public var allTags: [Tag] = []
+    public var allStatuses: [TransactionStatus] = []
     public var transactionStatuses: Set<TransactionStatus>
     public var categories: Set<CashlyDomain.Category>
     public var tags: Set<Tag>

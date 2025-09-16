@@ -64,7 +64,10 @@ public struct MainState: CashlyState {
     public func transactionsAmount(for category: CashlyDomain.Category) -> Double {
         transactions.reduce(.zero) { partialResult, transaction in
             guard transaction.budget.category.id == category.id else { return partialResult }
-            return partialResult + transaction.amount
+            let amount = !transaction.participants.isEmpty ?
+            transaction.splitValue ?? .zero : transaction.paymentsPlan != nil ?
+            transaction.amount / (transaction.paymentsPlan ?? 1).double : transaction.amount
+            return partialResult + amount
         }
     }
     
@@ -78,7 +81,10 @@ public struct MainState: CashlyState {
     public func transactionsAmount(for budget: Budget) -> Double {
         transactions.reduce(.zero) { partialResult, transaction in
             guard transaction.budget.id == budget.id else { return partialResult }
-            return partialResult + transaction.amount
+            let amount = !transaction.participants.isEmpty ?
+            transaction.splitValue ?? .zero : transaction.paymentsPlan != nil ?
+            transaction.amount / (transaction.paymentsPlan ?? 1).double : transaction.amount
+            return partialResult + amount
         }
     }
     
@@ -100,6 +106,16 @@ public struct MainState: CashlyState {
         return categories
     }
     
+    public var categoriesWithBudgets: [CashlyDomain.Category] {
+        var categories = [CashlyDomain.Category]()
+        for category in self.categories {
+            if budget(for: category) != nil {
+                categories.append(category)
+            }
+        }
+        return categories
+    }
+    
     public var budgetsAmount: Double {
         budgets.reduce(.zero) { partialResult, budget in
             partialResult + budget.amount
@@ -108,8 +124,20 @@ public struct MainState: CashlyState {
     
     public var transactionsAmount: Double {
         transactions.reduce(.zero) { partialResult, transaction in
-            partialResult + transaction.amount
+            let amount = !transaction.participants.isEmpty ?
+            transaction.splitValue ?? .zero : transaction.paymentsPlan != nil ?
+            transaction.amount / (transaction.paymentsPlan ?? 1).double : transaction.amount
+            return partialResult + amount
         }
+    }
+    
+    public var score: BalanceScore {
+        let variation = variation
+        let percentage = variation * 100
+        if percentage <= 85 { return BalanceScore(score: 1000) }
+        let score = (1000 - (800 / 1.15) * (variation - 0.85)).int
+        
+        return BalanceScore(score: score)
     }
     
     public var remainingAmount: Double {
@@ -118,6 +146,7 @@ public struct MainState: CashlyState {
     
     public var variation: Double {
         let budgetsAmount = budgetsAmount
+        let transactionsAmount = transactionsAmount
         return transactionsAmount / (budgetsAmount == .zero ? 1 : budgetsAmount)
     }
     
@@ -172,7 +201,10 @@ public struct MainState: CashlyState {
         
         let total = days.reduce(.zero) { partialResult, transactions in
             let amount: Double = transactions.value.reduce(.zero) { partialResult, transaction in
-                partialResult + transaction.amount
+                let amount = !transaction.participants.isEmpty ?
+                transaction.splitValue ?? .zero : transaction.paymentsPlan != nil ?
+                transaction.amount / (transaction.paymentsPlan ?? 1).double : transaction.amount
+                return partialResult + amount
             }
             return partialResult + amount
         }
@@ -193,7 +225,10 @@ public struct MainState: CashlyState {
             let summary = transaction.summary.lowercased()
             for tag in tags {
                 if summary.contains(tag.name.lowercased()) {
-                    tagsAmount[tag, default: .zero] += transaction.amount
+                    let amount = !transaction.participants.isEmpty ?
+                    transaction.splitValue ?? .zero : transaction.paymentsPlan != nil ?
+                    transaction.amount / (transaction.paymentsPlan ?? 1).double : transaction.amount
+                    tagsAmount[tag, default: .zero] += amount
                 }
             }
         }

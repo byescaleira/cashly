@@ -46,7 +46,7 @@ struct TransactionBalanceView: CashlyView {
     
     @ViewBuilder
     var statusView: some View {
-        let status = state.filter.isFilteringByDate ? state.filter.startDate.string(with: CashlyDateFormatter.status) ?? "" : "All Data"
+        let status = state.filter.isFilteringByDate ? state.filter.startDate.string(with: .cashly(.status)) ?? "" : "All Data"
         CashlyText(status.uppercased())
             .cashly(font: .caption, weight: .bold)
             .cashly(color: .primary)

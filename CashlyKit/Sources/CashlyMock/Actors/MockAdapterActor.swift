@@ -85,7 +85,8 @@ actor MockAdapterActor: AdapterUseCase {
         summary: String,
         status: Int,
         splitMode: Int?,
-        splitValue: Double?
+        splitValue: Double?,
+        paymentsPlan: Int?
     ) async throws -> Transaction? {
         guard let budget = budgets.first(where: { $0.id == budget }),
               let status = TransactionStatus(rawValue: status)
@@ -101,7 +102,8 @@ actor MockAdapterActor: AdapterUseCase {
             summary: summary,
             status: status,
             splitMode: TransactionSplitMode(rawValue: splitMode ?? -1),
-            splitValue: splitValue
+            splitValue: splitValue,
+            paymentsPlan: paymentsPlan
         )
     }
     

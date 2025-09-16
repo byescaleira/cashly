@@ -32,7 +32,10 @@ public struct TransactionScreen: CashlyView {
         }
         .toolbar {
             ToolbarItem(placement: .navigation) { UserItemView() }
-            ToolbarItem { addButton }
+            ToolbarItemGroup {
+                FilterItemView()
+                addButton
+            }
         }
         .environment(\.isLoading, state.isLoading)
         .onAppear { action(.main(.fetch)) }
@@ -78,25 +81,31 @@ public struct TransactionScreen: CashlyView {
                 }
             
             CashlyVStack(alignment: .leading, spacing: .extraSmall) {
+                CashlyText(transaction.summary)
+
                 CashlyHStack {
                     CashlyText(transaction.date.date.cashly(with: .time))
                     participantsView(participants: transaction.participants)
                 }
-                
-                CashlyText(transaction.summary)
-                    .cashly(color: .textSecondary)
+                .cashly(color: .textSecondary)
             }
             .cashly(font: .callout)
             
             CashlySpacer()
             
             CashlyVStack(alignment: .trailing, spacing: .extraSmall) {
-                CashlyText(transaction.amount.currency())
-                    
                 if !transaction.participants.isEmpty {
                     CashlyText(transaction.splitValue?.currency())
-                        .cashly(color: .textSecondary)
+                } else if let paymentPlan = transaction.paymentsPlan {
+                    CashlyHStack(spacing: .extraSmall) {
+                        CashlyText(paymentPlan.string + "x")
+                            .cashly(color: .textSecondary)
+                        CashlyText((transaction.amount / paymentPlan.double).currency())
+                    }
                 }
+                
+                CashlyText(transaction.amount.currency())
+                    .cashly(color: transaction.participants.isEmpty && transaction.paymentsPlan == nil ? .text : .textSecondary)
             }
             .cashly(font: .callout, weight: .semibold)
             
@@ -108,9 +117,9 @@ public struct TransactionScreen: CashlyView {
     
     func categoryIcon(category: CashlyDomain.Category) -> some View {
         CashlySymbol(category.icon)
-            .cashly(font: .system(size: 22))
+            .cashly(font: .system(size: 18))
             .cashly(color: .hex(category.color))
-            .frame(width: 50, height: 50)
+            .frame(width: 40, height: 40)
             .cashly(background: .color((Color(hex: category.color)).opacity(0.2)))
             .cashly(clip: .circle)
     }
@@ -120,12 +129,13 @@ public struct TransactionScreen: CashlyView {
         participants: [Participant],
         status: TransactionStatus
     ) -> some View {
-        if participants.isEmpty, status != .settled {
+        if status != .settled {
             CashlySymbol(status.icon)
-                .cashly(font: .system(size: 14), weight: .bold)
+                .cashly(font: .system(size: 10), weight: .bold)
                 .cashly(color: .white)
                 .cashlyPadding(.extraSmall)
                 .cashly(glass: .clear.tint(status.color), in: .circle)
+                .cashlyPadding([.bottom, .trailing], .negative(.extraSmall))
         }
     }
     
@@ -154,7 +164,6 @@ public struct TransactionScreen: CashlyView {
                     .cashly(font: .headline, weight: .bold)
             }
             .disabled(state.isLoading)
-            .cashly(tint: .primary)
         }
     }
     

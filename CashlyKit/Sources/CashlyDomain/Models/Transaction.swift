@@ -15,6 +15,7 @@ public struct Transaction: CashlyEntity, Sendable {
     public var status: TransactionStatus
     public var splitMode: TransactionSplitMode?
     public var splitValue: Double?
+    public var paymentsPlan: Int?
     
     public init(
         id: String,
@@ -25,7 +26,8 @@ public struct Transaction: CashlyEntity, Sendable {
         summary: String,
         status: TransactionStatus,
         splitMode: TransactionSplitMode?,
-        splitValue: Double?
+        splitValue: Double?,
+        paymentsPlan: Int?
     ) {
         self.id = id
         self.participants = participants
@@ -36,6 +38,7 @@ public struct Transaction: CashlyEntity, Sendable {
         self.status = status
         self.splitMode = splitMode
         self.splitValue = splitValue
+        self.paymentsPlan = paymentsPlan
     }
 }
 
@@ -73,6 +76,15 @@ public enum TransactionStatus: Int, CaseIterable, CashlyEntity, Sendable {
         case .pendingToPay: return "arrow.up"
         case .settled: return "checkmark"
         case .canceled: return "xmark"
+        }
+    }
+    
+    public var reverse: TransactionStatus {
+        switch self {
+        case .pendingToReceive: return .pendingToPay
+        case .pendingToPay: return .pendingToReceive
+        case .settled: return .settled
+        case .canceled: return .canceled
         }
     }
 }

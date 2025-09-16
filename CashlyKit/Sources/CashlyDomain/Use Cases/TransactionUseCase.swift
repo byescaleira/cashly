@@ -11,6 +11,7 @@ public protocol TransactionUseCase: Sendable {
     func getTransactions(
         budgets: [String]?,
         tags: [String]?,
+        statuses: [Int]?,
         date: Date?
     ) async throws -> [Transaction]
     func removeTransaction(id: String) async throws
@@ -24,6 +25,7 @@ public protocol TransactionUseCase: Sendable {
         summary: String,
         status: TransactionStatus,
         splitMode: TransactionSplitMode?,
-        splitValue: Double?
+        splitValue: Double?,
+        paymentsPlan: Int?
     ) async throws
 }

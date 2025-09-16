@@ -23,8 +23,11 @@ public struct HomeScreen: CashlyView {
         CashlyList {
             BalanceView()
         }
+        .toolbar {
+            ToolbarItem(placement: .navigation) { UserItemView() }
+        }
         .onAppear { action(.main(.fetch)) }
-        .navigationTitle("Home")
+        .navigationTitle((state.user?.selfFirstName ?? "") + "Home")
     }
     
     public static var mock: some View {

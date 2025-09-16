@@ -77,7 +77,9 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
                     splitMode: transaction?.participants.first?.splitMode ?? state.splitMode,
                     splitValue: transaction?.splitValue ?? state.splitValue,
                     tags: tags,
-                    isNew: transaction == nil
+                    isNew: transaction == nil,
+                    installmentIsOn: transaction?.paymentsPlan != nil ? true : state.installmentIsOn,
+                    installmentPlan: transaction?.paymentsPlan ?? state.installmentPlan
                 )
             )
         } catch {
@@ -106,6 +108,24 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
                 continuation.yield(.error(.onSave))
                 return
             }
+            
+            var payments: [Int: Int]?
+            let date = state.date.timeIntervalSince1970.yearMonth
+            if state.installmentIsOn {
+                for payment in 1 ... state.installmentPlan {
+                    let sumMonth = payment - 1
+                    let year = date / 100
+                    let month = date % 100
+                    
+                    let newYear = month + sumMonth > 12 ? year + 1 : year
+                    let newMonth = month + sumMonth > 12 ? month + sumMonth - 12 : month + sumMonth
+                    payments?[payment] = (newYear * 100) + newMonth
+                }
+            }
+            
+            let status = state.participants.isEmpty ? state.status :
+            state.participants.first(where: { $0.status != .settled })?.status.reverse ?? .settled
+            
             try await transactionUseCase.addTransaction(
                 id: state.id,
                 participants: Array(state.participants),
@@ -113,9 +133,10 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
                 amount: state.amount,
                 date: state.date.timeIntervalSince1970,
                 summary: state.summary,
-                status: state.status,
+                status: status,
                 splitMode: state.splitMode,
-                splitValue: state.splitValue
+                splitValue: state.splitValue,
+                paymentsPlan: state.installmentIsOn ? state.installmentPlan : nil
             )
             
             for participant in state.participants {

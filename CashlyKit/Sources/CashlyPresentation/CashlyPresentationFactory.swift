@@ -9,19 +9,15 @@ import CashlyDomain
 import CashlyData
 import RyzeArchitecture
 
-public struct CashlyPresentationFactory: @MainActor CashlyPresentationFactoryProtocol {
-    @MainActor
+public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
     let dataFactory: CashlyDataFactoryProtocol
     
-    @MainActor
-    public static let shared = CashlyPresentationFactory()
+    @MainActor public static let shared = CashlyPresentationFactory()
     
-    @MainActor
     public init() {
         self.dataFactory = CashlyDataFactory()
     }
     
-    @MainActor
     public func makeAddCategoryStore() -> CashlyStore<AddCategoryReducer, AddCategoryMiddleware> {
         let state = AddCategoryState.new()
         let reducer = AddCategoryReducer()
@@ -42,7 +38,6 @@ public struct CashlyPresentationFactory: @MainActor CashlyPresentationFactoryPro
         )
     }
     
-    @MainActor
     public func makeAddBudgetStore() -> CashlyStore<AddBudgetReducer, AddBudgetMiddleware> {
         let state = AddBudgetState.new()
         let reducer = AddBudgetReducer()
@@ -63,7 +58,6 @@ public struct CashlyPresentationFactory: @MainActor CashlyPresentationFactoryPro
         )
     }
     
-    @MainActor
     public func makeAddTransactionStore() -> CashlyStore<AddTransactionReducer, AddTransactionMiddleware> {
         let state = AddTransactionState.new()
         let reducer = AddTransactionReducer()
@@ -88,7 +82,6 @@ public struct CashlyPresentationFactory: @MainActor CashlyPresentationFactoryPro
         )
     }
     
-    @MainActor
     public func makeAddUserStore() -> RyzeStore<AddUserReducer, AddUserMiddleware> {
         let state = AddUserState.new()
         let reducer = AddUserReducer()
@@ -109,7 +102,6 @@ public struct CashlyPresentationFactory: @MainActor CashlyPresentationFactoryPro
         )
     }
     
-    @MainActor
     public func makeAddTagStore() -> CashlyStore<AddTagReducer, AddTagMiddleware> {
         let state = AddTagState.new()
         let reducer = AddTagReducer()
@@ -126,7 +118,6 @@ public struct CashlyPresentationFactory: @MainActor CashlyPresentationFactoryPro
         )
     }
     
-    @MainActor
     public func makeMainStore() -> CashlyStore<MainReducer, MainMiddleware> {
         let state = MainState()
         let reducer = MainReducer()

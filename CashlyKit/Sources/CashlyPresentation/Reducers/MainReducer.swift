@@ -17,7 +17,8 @@ public actor MainReducer: CashlyReducer {
             state.isLoading = true
         case .stopLoading:
             state.isLoading = false
-        case let .update(budgets, categories, transactions, tags, users, user):
+        case let .update(filter, budgets, categories, transactions, tags, users, user):
+            state.filter = filter
             state.budgets = budgets
             state.categories = categories
             state.transactions = transactions

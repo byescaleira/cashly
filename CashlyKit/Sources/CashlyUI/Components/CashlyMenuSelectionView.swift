@@ -28,7 +28,16 @@ struct CashlyMenuSelectionView<T: Identifiable & Hashable>: View {
     
     var body: some View {
         Menu {
-           contentView
+            contentView
+            
+            if !selectedItems.isEmpty {
+                Divider()
+                CashlyButton {
+                    selectedItems = []
+                } label: {
+                    CashlyLabel("Clean", symbol: "eraser.line.dashed")
+                }
+            }
         } label: {
             AnyView(label)
         }

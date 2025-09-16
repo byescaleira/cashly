@@ -10,11 +10,13 @@ import RyzeUI
 import RyzeArchitecture
 
 public extension View where Self: RyzeUIMock {
-    func cashlyPreview() -> some View {
-        self.modifier(MockModifier())
-    }
-    
     static func cashlyPreview() -> some View {
         mock.modifier(MockModifier())
+    }
+}
+
+public extension View {
+    func cashlyPreview() -> some View {
+        self.modifier(MockModifier())
     }
 }

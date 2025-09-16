@@ -24,7 +24,9 @@ public enum AddTransactionAction: CashlyAction {
         splitMode: TransactionSplitMode?,
         splitValue: Double?,
         tags: [Tag],
-        isNew: Bool
+        isNew: Bool,
+        installmentIsOn: Bool,
+        installmentPlan: Int
     )
     case saved
     case error(CashlyError)

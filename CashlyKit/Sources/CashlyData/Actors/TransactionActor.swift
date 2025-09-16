@@ -9,17 +9,9 @@ import RyzeFoundation
 import CashlyDomain
 import SwiftData
 
+@ModelActor
 public actor TransactionActor: TransactionUseCase {
-    let modelContext: ModelContext
-    let adapter: AdapterUseCase
-    
-    public init(
-        modelContext: ModelContext,
-        adapter: AdapterUseCase
-    ) {
-        self.modelContext = modelContext
-        self.adapter = adapter
-    }
+    let adapter: AdapterUseCase = CashlyDataFactory().makeAdapter()
     
     public func getTransaction(id: String) async throws -> CashlyDomain.Transaction? {
         let predicate: Predicate<TransactionEntity> = #Predicate {
@@ -36,7 +28,8 @@ public actor TransactionActor: TransactionUseCase {
             summary: entity.summary,
             status: entity.status,
             splitMode: entity.splitMode,
-            splitValue: entity.splitValue
+            splitValue: entity.splitValue,
+            paymentsPlan: entity.paymentsPlan
         )
     }
     
@@ -54,7 +47,8 @@ public actor TransactionActor: TransactionUseCase {
                 summary: entity.summary,
                 status: entity.status,
                 splitMode: entity.splitMode,
-                splitValue: entity.splitValue
+                splitValue: entity.splitValue,
+                paymentsPlan: entity.paymentsPlan
             ) {
                 transactions.append(transaction)
             }
@@ -65,6 +59,7 @@ public actor TransactionActor: TransactionUseCase {
     public func getTransactions(
         budgets: [String]?,
         tags: [String]?,
+        statuses: [Int]?,
         date: Date?
     ) async throws -> [CashlyDomain.Transaction] {
         let predicateBudget: Predicate<String>
@@ -81,8 +76,16 @@ public actor TransactionActor: TransactionUseCase {
             predicateTag = #Predicate { _ in true }
         }
         
+        let predicateStatus: Predicate<Int>
+        if let statuses {
+            predicateStatus = #Predicate { statuses.contains($0) }
+        } else {
+            predicateStatus = #Predicate { _ in true }
+        }
+        
         let predicate: Predicate<TransactionEntity> = #Predicate {
             predicateBudget.evaluate($0.budget) &&
+            predicateStatus.evaluate($0.status) &&
             predicateTag.evaluate($0.summary)
         }
         
@@ -94,7 +97,11 @@ public actor TransactionActor: TransactionUseCase {
         var entities = try modelContext.fetch(descriptor)
         if let date {
             let yearMonth = date.timeIntervalSince1970.yearMonth
-            entities = entities.filter { $0.yearMonth == yearMonth }
+            entities = entities.filter {
+                $0.paymentsPlan == nil ?
+                ($0.yearMonth == yearMonth) :
+                ($0.endDate?.contains(yearMonth) ?? false)
+            }
         }
         
         var transactions = [CashlyDomain.Transaction]()
@@ -108,7 +115,8 @@ public actor TransactionActor: TransactionUseCase {
                 summary: entity.summary,
                 status: entity.status,
                 splitMode: entity.splitMode,
-                splitValue: entity.splitValue
+                splitValue: entity.splitValue,
+                paymentsPlan: entity.paymentsPlan
             ) {
                 transactions.append(transaction)
             }
@@ -144,7 +152,8 @@ public actor TransactionActor: TransactionUseCase {
         summary: String,
         status: TransactionStatus,
         splitMode: TransactionSplitMode?,
-        splitValue: Double?
+        splitValue: Double?,
+        paymentsPlan: Int?
     ) async throws {
         let entity = TransactionEntity(
             id: id,
@@ -155,7 +164,8 @@ public actor TransactionActor: TransactionUseCase {
             summary: summary,
             status: status.rawValue,
             splitMode: splitMode?.rawValue,
-            splitValue: splitValue
+            splitValue: splitValue,
+            paymentsPlan: paymentsPlan
         )
         modelContext.insert(entity)
         try modelContext.save()

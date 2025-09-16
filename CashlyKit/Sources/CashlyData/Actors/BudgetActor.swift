@@ -9,17 +9,9 @@ import RyzeFoundation
 import CashlyDomain
 import SwiftData
 
+@ModelActor
 public actor BudgetActor: BudgetUseCase {
-    let modelContext: ModelContext
-    let adapter: AdapterUseCase
-    
-    public init(
-        modelContext: ModelContext,
-        adapter: AdapterUseCase
-    ) {
-        self.modelContext = modelContext
-        self.adapter = adapter
-    }
+    let adapter: AdapterUseCase = CashlyDataFactory().makeAdapter()
     
     public func getBudget(id: String) async throws -> Budget? {
         let predicate: Predicate<BudgetEntity> = #Predicate {

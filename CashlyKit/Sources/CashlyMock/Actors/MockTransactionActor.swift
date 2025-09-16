@@ -26,11 +26,13 @@ actor MockTransactionActor: TransactionUseCase {
     func getTransactions(
         budgets: [String]?,
         tags: [String]?,
+        statuses: [Int]?,
         date: Date?
     ) async throws -> [CashlyDomain.Transaction] {
         transactions.filter { transaction in
             (budgets?.isEmpty == false ? budgets!.contains(transaction.budget.id) : true) &&
             (tags?.isEmpty == false ? tags!.contains(where: { transaction.summary.contains($0) }) : true) &&
+            (statuses?.isEmpty == false ? statuses!.contains(where: { transaction.status.rawValue == $0 }) : true) &&
             (date != nil ? transaction.date.yearMonth == date?.timeIntervalSince1970.yearMonth : true)
         }
     }
@@ -55,7 +57,8 @@ actor MockTransactionActor: TransactionUseCase {
         summary: String,
         status: TransactionStatus,
         splitMode: TransactionSplitMode?,
-        splitValue: Double?
+        splitValue: Double?,
+        paymentsPlan: Int?
     ) async throws {
         let transaction = CashlyDomain.Transaction(
             id: id,
@@ -66,7 +69,8 @@ actor MockTransactionActor: TransactionUseCase {
             summary: summary,
             status: status,
             splitMode: splitMode,
-            splitValue: splitValue
+            splitValue: splitValue,
+            paymentsPlan: paymentsPlan
         )
         transactions.append(transaction)
     }

@@ -51,7 +51,15 @@ public actor MainMiddleware: CashlyMiddleware {
     
     func fetch(state: MainState, continuation: AsyncStream<MainAction>.Continuation) async {
         do {
-            let date: Date? = state.filter.isFilteringByDate ? nil : state.filter.startDate
+            async let allCategories = categoryUseCase.getCategories()
+            async let allTags = tagUseCase.getTags()
+            
+            var filter = state.filter
+            filter.allCategories = try await allCategories
+            filter.allTags = try await allTags
+            filter.allStatuses = TransactionStatus.allCases
+            
+            let date: Date? = !state.filter.isFilteringByDate ? nil : state.filter.startDate
             let user = try await userUseCase.getCurrentUser()
             let categories = try await categoryUseCase.getCategories(
                 ids: state.filter.categories.isEmpty ? nil : state.filter.categories.map(\.id),
@@ -64,12 +72,14 @@ public actor MainMiddleware: CashlyMiddleware {
             let transactions = try await transactionUseCase.getTransactions(
                 budgets: budgets.map(\.id),
                 tags: state.filter.tags.isEmpty ? nil : state.filter.tags.map(\.name),
+                statuses: state.filter.transactionStatuses.isEmpty ? nil : state.filter.transactionStatuses.map(\.rawValue),
                 date: date
             )
             let tags = try await tagUseCase.getTags()
             let users = try await userUseCase.getUsers()
             continuation.yield(
                 .update(
+                    filter: filter,
                     budgets: budgets,
                     categories: categories,
                     transactions: transactions,

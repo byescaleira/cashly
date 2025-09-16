@@ -31,10 +31,11 @@ public struct AddTransactionScreen: CashlyView {
     public var body: some View {
         Form {
             amountSection
-            selectedParticipantsSection
-            dateSection
             summarySection
             categoriesSection
+            dateSection
+            installmentSection
+            selectedParticipantsSection
         }
         .toolbar {
             ToolbarItemGroup(placement: .bottomBar) {
@@ -91,11 +92,23 @@ public struct AddTransactionScreen: CashlyView {
                 transactionStatusView
                 splitValueView
                 
-                CashlyCurrencyTextField(amount: $store.state.amount)
-                    .keyboardType(.numberPad)
-                    .cashly(alignment: .center)
-                    .cashly(font: .system(size: 40), weight: .black)
-                    .cashly(tint: .color(.clear))
+                CashlyVStack(spacing: .zero) {
+                    CashlyCurrencyTextField(amount: $store.state.amount)
+                        .keyboardType(.numberPad)
+                        .cashly(alignment: .center)
+                        .cashly(font: .system(size: 40), weight: .black)
+                        .cashly(tint: .color(.clear))
+                    
+                    if state.installmentIsOn, state.amount > .zero {
+                        let value = state.amount / state.installmentPlan.double
+                        let description = "\(state.installmentPlan)x payments of \(value.currency() ?? "")"
+                        CashlyText(description)
+                            .cashly(font: .callout, weight: .medium)
+                            .cashly(color: .textSecondary)
+                            .contentTransition(.numericText())
+                            .animation(.bouncy, value: state.amount)
+                    }
+                }
             }
             .frame(maxWidth: .infinity)
             .cashlyPadding(.vertical, .small)
@@ -127,15 +140,16 @@ public struct AddTransactionScreen: CashlyView {
     
     @ViewBuilder
     var splitValueView: some View {
+        let status = state.participants.first(where: { $0.status != .settled })?.status ?? .settled
         if !state.participants.isEmpty {
             CashlyText(state.splitValue?.currency())
                 .cashly(font: .headline, weight: .semibold)
-                .cashly(color: .primary)
+                .cashly(color: .color(status.color))
                 .contentTransition(.numericText())
                 .animation(.linear, value: store.state.splitValue)
                 .cashlyPadding()
                 .cashlyPadding(.horizontal, .extraSmall)
-                .cashly(glass: .clear.tint(.accentColor.opacity(0.2)), in: .capsule)
+                .cashly(glass: .clear.tint(status.color.opacity(0.2)), in: .capsule)
         }
     }
     
@@ -258,7 +272,7 @@ public struct AddTransactionScreen: CashlyView {
     var dateSection: some View {
         Section {
             DatePicker(
-                state.date.string(with: CashlyDateFormatter.weekDay) ?? "",
+                state.date.string(with: .cashly(.weekDay)) ?? "",
                 selection: $store.state.date,
                 displayedComponents: .hourAndMinute.union(.date)
             )
@@ -391,6 +405,30 @@ public struct AddTransactionScreen: CashlyView {
                     .cashly(font: .headline, weight: .bold)
             }
             .cashly(tint: .error)
+        }
+    }
+    
+    var installmentSection: some View {
+        Section {
+            Toggle(isOn: $store.state.installmentIsOn) {
+                CashlyText("Enable installments")
+            }
+            
+            if state.installmentIsOn {
+                Picker(selection: $store.state.installmentPlan) {
+                    ForEach(1 ... 21, id: \.self) {
+                        let value = $0.string + "x"
+                        CashlyText(value)
+                            .tag($0)
+                    }
+                } label: {
+                    CashlyText("Number of installments")
+                }
+            }
+        } header: {
+            CashlyText("Installment")
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
         }
     }
     

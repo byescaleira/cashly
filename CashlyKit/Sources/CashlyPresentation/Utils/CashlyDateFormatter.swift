@@ -15,6 +15,9 @@ public enum CashlyDateFormatter: RyzeDateFormatter {
     case time
     case yearMonth
     case status
+    case year
+    case month
+    case numberMonth
     
     public var rawValue: DateFormatter {
         switch self {
@@ -25,6 +28,9 @@ public enum CashlyDateFormatter: RyzeDateFormatter {
         case .time: return getFormatter(from: "HH:mm")
         case .yearMonth: return getFormatter(from: "yyyyMM")
         case .status: return getFormatter(from: "MMMM, yyyy")
+        case .year: return getFormatter(from: "yyyy")
+        case .month: return getFormatter(from: "MMMM")
+        case .numberMonth: return getFormatter(from: "MM")
         }
     }
 }
@@ -32,5 +38,11 @@ public enum CashlyDateFormatter: RyzeDateFormatter {
 public extension Date {
     func cashly(with formatter: CashlyDateFormatter) -> String {
         self.string(with: formatter) ?? ""
+    }
+}
+
+public extension RyzeDateFormatter where Self == CashlyDateFormatter {
+    static func cashly(_ formatter: CashlyDateFormatter) -> Self {
+        formatter
     }
 }

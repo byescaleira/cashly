@@ -8,10 +8,9 @@
 import SwiftData
 import CashlyDomain
 
-public struct CashlyDataFactory: @MainActor CashlyDataFactoryProtocol {
+public struct CashlyDataFactory: CashlyDataFactoryProtocol {
     let modelContainer: ModelContainer
     
-    @MainActor
     public init() {
         do {
             let schema = Schema(
@@ -25,7 +24,7 @@ public struct CashlyDataFactory: @MainActor CashlyDataFactoryProtocol {
             
             let container = try ModelContainer(
                 for: schema,
-                configurations: .init(isStoredInMemoryOnly: false)
+                configurations: .init(isStoredInMemoryOnly: false),
             )
             
             modelContainer = container
@@ -34,69 +33,31 @@ public struct CashlyDataFactory: @MainActor CashlyDataFactoryProtocol {
         }
     }
     
-    @MainActor
     public func makeAdapter() -> AdapterUseCase {
-        let modelContext = modelContainer.mainContext
-        return AdapterActor(modelContext: modelContext)
+        AdapterActor(modelContainer: modelContainer)
     }
     
-    @MainActor
     public func makeBudgetUseCase() -> BudgetUseCase {
-        let modelContext = modelContainer.mainContext
-        let adapter = makeAdapter()
-        return BudgetActor(
-            modelContext: modelContext,
-            adapter: adapter
-        )
+        BudgetActor(modelContainer: modelContainer)
     }
     
-    @MainActor
     public func makeCategoryUseCase() -> CategoryUseCase {
-        let modelContext = modelContainer.mainContext
-        let adapter = makeAdapter()
-        return CategoryActor(
-            modelContext: modelContext,
-            adapter: adapter
-        )
+        CategoryActor(modelContainer: modelContainer)
     }
     
-    @MainActor
     public func makeUserUseCase() -> UserUseCase {
-        let modelContext = modelContainer.mainContext
-        let adapter = makeAdapter()
-        return UserActor(
-            modelContext: modelContext,
-            adapter: adapter
-        )
+        UserActor(modelContainer: modelContainer)
     }
     
-    @MainActor
     public func makeTransactionUseCase() -> TransactionUseCase {
-        let modelContext = modelContainer.mainContext
-        let adapter = makeAdapter()
-        return TransactionActor(
-            modelContext: modelContext,
-            adapter: adapter
-        )
+        TransactionActor(modelContainer: modelContainer)
     }
     
-    @MainActor
     public func makeTagUseCase() -> TagUseCase {
-        let modelContext = modelContainer.mainContext
-        let adapter = makeAdapter()
-        return TagActor(
-            modelContext: modelContext,
-            adapter: adapter
-        )
+        TagActor(modelContainer: modelContainer)
     }
     
-    @MainActor
     public func makeParticipantUseCase() -> any ParticipantUseCase {
-        let modelContext = modelContainer.mainContext
-        let adapter = makeAdapter()
-        return ParticipantActor(
-            modelContext: modelContext,
-            adapter: adapter
-        )
+        ParticipantActor(modelContainer: modelContainer)
     }
 }

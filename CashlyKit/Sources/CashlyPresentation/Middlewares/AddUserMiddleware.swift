@@ -97,6 +97,7 @@ public actor AddUserMiddleware: CashlyMiddleware {
             let transaction = try await transactionUseCase.getTransactions(
                 budgets: budgets.map(\.id),
                 tags: nil,
+                statuses: nil,
                 date: nil
             )
             

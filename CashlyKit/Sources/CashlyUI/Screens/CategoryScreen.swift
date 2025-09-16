@@ -33,24 +33,30 @@ public struct CategoryScreen: CashlyView {
         .cashly(font: .callout)
         .toolbar {
             ToolbarItem(placement: .navigation) { UserItemView() }
-            ToolbarItem { addButton }
+            ToolbarItemGroup {
+                FilterItemView(menus: [.date, .tags, .statuses])
+                addButton
+            }
         }
         .environment(\.isLoading, state.isLoading)
         .onAppear { action(.main(.fetch)) }
+        .refreshable { action(.main(.fetch)) }
         .navigationTitle("Categories")
     }
     
     @ViewBuilder
     var categoriesSection: some View {
-        if !state.categories.isEmpty {
+        let categories = state.categoriesWithBudgets
+        if !categories.isEmpty {
             Section {
-                ForEach(state.categories, id: \.id) { category in
+                ForEach(categories, id: \.id) { category in
                     CashlyButton {
                         router.route(to: .detailCategory(category: category))
                     } label: {
                         categoryItemView(category: category)
                     }
                     .cashly(tint: .text)
+                    .cashlyEdit { router.route(to: .addCategory(state: .edit(id: category.id))) }
                 }
             } header: {
                 CashlyText("Budgets")
@@ -168,7 +174,7 @@ public struct CategoryScreen: CashlyView {
                     .cashly(font: .headline, weight: .bold)
             }
             .disabled(state.isLoading)
-            .cashly(tint: .primary)}
+        }
     }
     
     public static var mock: some View {

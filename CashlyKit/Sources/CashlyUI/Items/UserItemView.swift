@@ -43,7 +43,7 @@ struct UserItemView: CashlyView {
                 CashlyButton {
                     router.route(to: .addUser(state: .new()))
                 } label: {
-                    CashlyLabel("Add User", symbol: "person.crop.circle.badge.plus")
+                    CashlyLabel("Add User", symbol: "plus")
                 }
             } label: {
                 CashlyResourceImage.avatar(id: store.state.user?.photo)

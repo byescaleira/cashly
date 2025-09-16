@@ -8,13 +8,8 @@
 import CashlyDomain
 import SwiftData
 
+@ModelActor
 public actor AdapterActor: AdapterUseCase {
-    let modelContext: ModelContext
-    
-    public init(modelContext: ModelContext) {
-        self.modelContext = modelContext
-    }
-    
     public func budgetAdapted(
         id: String,
         amount: Double,
@@ -123,7 +118,8 @@ public actor AdapterActor: AdapterUseCase {
         summary: String,
         status: Int,
         splitMode: Int?,
-        splitValue: Double?
+        splitValue: Double?,
+        paymentsPlan: Int?
     ) async throws -> Transaction? {
         let participantsPredicate: Predicate<ParticipantEntity> = #Predicate {
             participants.contains($0.id)
@@ -175,7 +171,8 @@ public actor AdapterActor: AdapterUseCase {
             summary: summary,
             status: status,
             splitMode: TransactionSplitMode(rawValue: splitMode ?? -1),
-            splitValue: splitValue
+            splitValue: splitValue,
+            paymentsPlan: paymentsPlan
         )
     }
     

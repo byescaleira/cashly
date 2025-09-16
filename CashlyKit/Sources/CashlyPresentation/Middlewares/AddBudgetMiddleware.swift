@@ -46,9 +46,12 @@ public actor AddBudgetMiddleware: CashlyMiddleware {
     
     func fetch(state: AddBudgetState, continuation: AsyncStream<AddBudgetAction>.Continuation) async {
         do {
-            var budget = try await budgetUseCase.getBudget(id: state.id)
-            let budgets = try await budgetUseCase.getBudgets(categories: nil, date: state.date)
-            budget = budgets.first(where: { $0.category.id == state.category?.id })
+            let budgets = try await budgetUseCase.getBudgets(
+                categories: state.category == nil ? nil : [state.category?.id ?? ""],
+                date: state.date
+            )
+            let fetchedBudget = try await budgetUseCase.getBudget(id: state.id)
+            let budget = state.category != nil ? budgets.first : fetchedBudget
             let currentUser = try await userUseCase.getCurrentUser()
             let categories = try await categoryUseCase.getCategories(
                 ids: nil,
@@ -58,10 +61,10 @@ public actor AddBudgetMiddleware: CashlyMiddleware {
                 .update(
                     categories: categories,
                     id: budget?.id ?? UUID().uuidString,
-                    amount: budget?.amount ?? state.amount,
+                    amount: budget?.amount ?? .zero,
                     category: budget?.category ?? state.category ?? categories.first,
                     date: budget?.date ?? state.date.timeIntervalSince1970.yearMonth,
-                    summary: budget?.summary ?? state.summary,
+                    summary: budget?.summary ?? "",
                     isNew: budget == nil
                 )
             )
@@ -97,6 +100,7 @@ public actor AddBudgetMiddleware: CashlyMiddleware {
             let transaction = try await transactionUseCase.getTransactions(
                 budgets: [state.id],
                 tags: nil,
+                statuses: nil,
                 date: nil
             )
             

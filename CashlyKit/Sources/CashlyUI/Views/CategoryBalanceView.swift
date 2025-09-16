@@ -44,7 +44,7 @@ struct CategoryBalanceView: CashlyView {
     
     @ViewBuilder
     var statusView: some View {
-        let status = state.filter.isFilteringByDate ? state.filter.startDate.string(with: CashlyDateFormatter.status) ?? "" : "All Data"
+        let status = state.filter.isFilteringByDate ? state.filter.startDate.string(with: .cashly(.status)) ?? "" : "All Data"
         CashlyText(status.uppercased())
             .cashly(font: .caption, weight: .bold)
             .cashly(color: .primary)
@@ -65,7 +65,6 @@ struct CategoryBalanceView: CashlyView {
     @ViewBuilder
     func biggestCategoriesView(categories: [CashlyDomain.Category]) -> some View {
         if !categories.isEmpty {
-            CashlyVStack(spacing: .small) {
                 GlassEffectContainer {
                     CashlyHStack(spacing: .zero) {
                         ForEach(categories.enumerated(), id: \.offset) { index, category in
@@ -91,12 +90,7 @@ struct CategoryBalanceView: CashlyView {
                     }
                 }
                 .minimumScaleFactor(0.3)
-                
-                CashlyText("\(categories.count) biggest budget categories".uppercased())
-                    .cashly(font: .caption2, weight: .semibold)
-                    .cashly(color: .textSecondary)
-            }
-            .cashly(alignment: .center)
+                .cashly(alignment: .center)
         }
     }
     

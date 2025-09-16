@@ -37,7 +37,8 @@ public protocol AdapterUseCase: Sendable {
         summary: String,
         status: Int,
         splitMode: Int?,
-        splitValue: Double?
+        splitValue: Double?,
+        paymentsPlan: Int?
     ) async throws -> Transaction?
     
     func tagAdapted(

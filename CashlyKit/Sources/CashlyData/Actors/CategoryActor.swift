@@ -9,17 +9,9 @@ import RyzeFoundation
 import CashlyDomain
 import SwiftData
 
+@ModelActor
 public actor CategoryActor: CategoryUseCase {
-    let modelContext: ModelContext
-    let adapter: AdapterUseCase
-    
-    public init(
-        modelContext: ModelContext,
-        adapter: AdapterUseCase
-    ) {
-        self.modelContext = modelContext
-        self.adapter = adapter
-    }
+    let adapter: AdapterUseCase = CashlyDataFactory().makeAdapter()
     
     public func getCategory(id: String) async throws -> CashlyDomain.Category? {
         let predicate: Predicate<CategoryEntity> = #Predicate {

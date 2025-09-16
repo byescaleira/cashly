@@ -6,6 +6,8 @@
 //
 
 import SwiftData
+import Foundation
+import RyzeFoundation
 
 @Model
 public class TransactionEntity {
@@ -18,9 +20,28 @@ public class TransactionEntity {
     public var status: Int
     public var splitMode: Int?
     public var splitValue: Double?
+    public var paymentsPlan: Int?
     
     public var yearMonth: Int {
         date.yearMonth
+    }
+    
+    public var endDate: Set<Int>? {
+        guard let paymentsPlan else { return nil }
+        var range: Set<Int> = []
+        let yearMonth = self.yearMonth
+        
+        for payment in 1 ... paymentsPlan {
+            let additionalMonths = payment - 1
+            let year = yearMonth / 100
+            let month = yearMonth % 100
+            let newYear = month + additionalMonths > 12 ? year + 1 : year
+            let newMonth = month + additionalMonths > 12 ? month + additionalMonths - 12 : month + additionalMonths
+            let newYearMonth = newYear * 100 + newMonth
+            range.insert(newYearMonth)
+        }
+        
+        return range
     }
     
     public init(
@@ -32,7 +53,8 @@ public class TransactionEntity {
         summary: String,
         status: Int,
         splitMode: Int? = nil,
-        splitValue: Double? = nil
+        splitValue: Double? = nil,
+        paymentsPlan: Int? = nil
     ) {
         self.id = id
         self.participants = participants
@@ -43,5 +65,22 @@ public class TransactionEntity {
         self.status = status
         self.splitMode = splitMode
         self.splitValue = splitValue
+        self.paymentsPlan = paymentsPlan
+    }
+}
+
+enum TransactionDateFormatter: RyzeDateFormatter {
+    case yearMonth
+    
+    var rawValue: DateFormatter {
+        switch self {
+        case .yearMonth: getFormatter(from: "yyyyMM")
+        }
+    }
+}
+
+extension RyzeDateFormatter where Self == TransactionDateFormatter {
+    static func transaction(_ formatter: TransactionDateFormatter) -> Self {
+        formatter
     }
 }
