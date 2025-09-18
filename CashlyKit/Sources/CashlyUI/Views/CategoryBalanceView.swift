@@ -33,7 +33,8 @@ struct CategoryBalanceView: CashlyView {
                 .cashlyPadding(.top, .medium)
             }
             .environment(\.isLoading, state.isLoading)
-            .task {
+            .onAppear {
+                isAnimated = false
                 Task {
                     try await Task.sleep(for: .seconds(1))
                     isAnimated = true
@@ -85,7 +86,7 @@ struct CategoryBalanceView: CashlyView {
                                 }
                                 .cashly(glass: .clear.tint(Color(hex: category.color).opacity(0.2)).interactive(), in: .circle)
                                 .offset(y: point)
-                                .animation(.linear.speed(0.5).repeatForever(autoreverses: true), value: isAnimated)
+                                .animation(.linear.speed(0.5).repeatCount(isAnimated ? .max : .zero, autoreverses: true), value: isAnimated)
                         }
                     }
                 }

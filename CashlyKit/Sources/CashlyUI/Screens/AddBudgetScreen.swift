@@ -165,7 +165,6 @@ public struct AddBudgetScreen: CashlyView {
             action(.addBudget(.save))
         } label: {
             CashlySymbol("checkmark")
-                .cashly(font: .headline, weight: .bold)
         }
         .disabled(!state.canSave)
         .cashly(tint: .primary)
@@ -178,7 +177,6 @@ public struct AddBudgetScreen: CashlyView {
                 action(.addBudget(.remove))
             } label: {
                 CashlySymbol("trash")
-                    .cashly(font: .headline, weight: .bold)
             } 
             .cashly(tint: .error)
         }

@@ -24,9 +24,9 @@ struct EmptyBudgetView: CashlyView {
                        !state.categories.isEmpty {
                         CashlyCardView(
                             image: .illustrationNoData,
-                            title: "No Budgets Found",
-                            subtitle: "You don’t have any budgets yet. Start by creating one to manage your expenses.",
-                            buttonTitle: "Create Budget"
+                            title: "No Budgets Yet",
+                            subtitle: "Budgets help you stay in control of your spending. Set a budget for your categories to track and manage expenses effectively.",
+                            buttonTitle: "Add Budget"
                         ) {
                             router.route(to: .addBudget(state: .new()))
                         }
@@ -36,7 +36,7 @@ struct EmptyBudgetView: CashlyView {
                 .animation(.bouncy, value: budgets.isEmpty)
                 .animation(.bouncy, value: state.categories.isEmpty)
             } header: {
-                CashlyText("Not Found")
+                CashlyText("Budgets")
                     .cashly(font: .title3, weight: .semibold)
                     .cashly(color: .text)
             }

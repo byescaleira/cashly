@@ -53,7 +53,7 @@ struct FilterItemView: CashlyView {
                 cleanMenu
             } label: {
                 CashlySymbol("slider.horizontal.3")
-                    .cashly(color: .primary)
+                    .cashly(color: .text)
             }
             .menuStyle(.button)
             .buttonStyle(.plain)
@@ -122,6 +122,7 @@ struct FilterItemView: CashlyView {
         } label: {
             CashlyLabel("Date", symbol: "calendar")
         }
+        .cashly(tint: .text)
     }
     
     func updateDate() {
@@ -143,6 +144,7 @@ struct FilterItemView: CashlyView {
                 CashlyText(state.filter.categories.count.string.space + "selected")
             }
         }
+        .cashly(tint: .text)
     }
     
     @ViewBuilder
@@ -153,11 +155,12 @@ struct FilterItemView: CashlyView {
         ) { tag in
             CashlyText(tag.name.capitalized)
         } label: {
-            CashlyLabel("Tags", symbol: "tag.fill")
+            CashlyLabel("Tags", symbol: "tag")
             if state.filter.tags.count > .zero {
                 CashlyText(state.filter.tags.count.string.space + "selected")
             }
         }
+        .cashly(tint: .text)
     }
     
     @ViewBuilder
@@ -173,6 +176,7 @@ struct FilterItemView: CashlyView {
                 CashlyText(state.filter.tags.count.string.space + "selected")
             }
         }
+        .cashly(tint: .text)
     }
     
     @ViewBuilder
@@ -192,6 +196,7 @@ struct FilterItemView: CashlyView {
             } label: {
                 CashlyLabel("Clear", symbol: "eraser.line.dashed")
             }
+            .cashly(tint: .text)
         }
     }
     

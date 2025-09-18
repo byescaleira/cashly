@@ -34,7 +34,7 @@ public struct CategoryScreen: CashlyView {
         .toolbar {
             ToolbarItem(placement: .navigation) { UserItemView() }
             ToolbarItemGroup {
-                FilterItemView(menus: [.date, .tags, .statuses])
+                FilterItemView()
                 addButton
             }
         }
@@ -171,7 +171,7 @@ public struct CategoryScreen: CashlyView {
                 router.route(to: .addCategory(state: .new()))
             } label: {
                 CashlySymbol("plus")
-                    .cashly(font: .headline, weight: .bold)
+                    .cashly(color: .text)
             }
             .disabled(state.isLoading)
         }

@@ -20,9 +20,9 @@ struct EmptyUserView: CashlyView {
                     if state.users.isEmpty {
                         CashlyCardView(
                             image: .illustrationPeople,
-                            title: "No Users Found",
-                            subtitle: "You don’t have any users yet. Start by adding one to manage your team.",
-                            buttonTitle: "Add User",
+                            title: "No Users Yet",
+                            subtitle: "Users let you share and manage your finances as a team. Add your first user to start collaborating.",
+                            buttonTitle: "Add User"
                         ) {
                             router.route(to: .addUser(state: .new()))
                         }
@@ -31,7 +31,7 @@ struct EmptyUserView: CashlyView {
                 }
                 .animation(.bouncy, value: state.users.isEmpty)
             } header: {
-                CashlyText("Not Found")
+                CashlyText("Users")
                     .cashly(font: .title3, weight: .semibold)
                     .cashly(color: .text)
             }

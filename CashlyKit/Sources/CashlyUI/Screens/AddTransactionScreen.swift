@@ -165,7 +165,9 @@ public struct AddTransactionScreen: CashlyView {
                 .cashly(font: .title3, weight: .semibold)
                 .cashly(color: .text)
         } footer: {
-            tagsView
+            if !ProcessInfo.processInfo.isLowPowerModeEnabled {
+                tagsView
+            }
         }
     }
     
@@ -239,8 +241,11 @@ public struct AddTransactionScreen: CashlyView {
                 }
                 .cashlyPadding(.horizontal, .medium)
                 .onChange(of: state.category) {
-                    withAnimation(.bouncy) {
-                        proxy.scrollTo(state.category, anchor: .center)
+                    Task {
+                        try await Task.sleep(for: .seconds(0.2))
+                        withAnimation(.bouncy.speed(0.5)) {
+                            proxy.scrollTo(state.category, anchor: .center)
+                        }
                     }
                 }
             }
@@ -380,6 +385,7 @@ public struct AddTransactionScreen: CashlyView {
                 CashlyText(user.name.capitalized)
             } label: {
                 CashlySymbol("person.2.badge.plus.fill")
+                    .cashly(color: .text)
             }
         }
     }
@@ -389,7 +395,6 @@ public struct AddTransactionScreen: CashlyView {
             action(.addTransaction(.save))
         } label: {
             CashlySymbol("checkmark")
-                .cashly(font: .headline, weight: .bold)
         }
         .disabled(!state.canSave)
         .cashly(tint: .primary)
@@ -402,7 +407,6 @@ public struct AddTransactionScreen: CashlyView {
                 action(.addTransaction(.remove))
             } label: {
                 CashlySymbol("trash")
-                    .cashly(font: .headline, weight: .bold)
             }
             .cashly(tint: .error)
         }

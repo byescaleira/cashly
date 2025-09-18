@@ -88,6 +88,17 @@ public struct MainState: CashlyState {
         }
     }
     
+    public func transactionsAmount(for tag: Tag) -> Double {
+        let tag = tag.name.lowercased()
+        return transactions.reduce(.zero) { partialResult, transaction in
+            guard transaction.summary.lowercased().contains(tag) else { return partialResult }
+            let amount = !transaction.participants.isEmpty ?
+            transaction.splitValue ?? .zero : transaction.paymentsPlan != nil ?
+            transaction.amount / (transaction.paymentsPlan ?? 1).double : transaction.amount
+            return partialResult + amount
+        }
+    }
+    
     public func budgets(for category: CashlyDomain.Category) -> [Budget] {
         budgets.filter { $0.category == category }
     }
@@ -236,5 +247,12 @@ public struct MainState: CashlyState {
             .sorted(by: \.value, using: >)
             .prefix(5)
             .map(\.key)
+    }
+    
+    public var biggestTransactions: [CashlyDomain.Transaction] {
+        transactions
+            .sorted(by: \.amount, using: >)
+            .prefix(5)
+            .map(\.self)
     }
 }

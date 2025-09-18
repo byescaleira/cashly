@@ -20,8 +20,7 @@ struct TransactionBalanceView: CashlyView {
     @ViewBuilder
     var body: some View {
         if !state.categories.isEmpty,
-           !state.budgets.isEmpty,
-           !state.transactions.isEmpty {
+           !state.budgets.isEmpty {
             Section {
                 
             } header: {
@@ -35,7 +34,8 @@ struct TransactionBalanceView: CashlyView {
                 .cashlyPadding(.top, .medium)
             }
             .environment(\.isLoading, state.isLoading)
-            .task {
+            .onAppear {
+                isAnimated = false
                 Task {
                     try await Task.sleep(for: .seconds(1))
                     isAnimated = true
@@ -67,37 +67,31 @@ struct TransactionBalanceView: CashlyView {
     @ViewBuilder
     func biggestTagsView(tags: [Tag]) -> some View {
         if !tags.isEmpty {
-            CashlyVStack(spacing: .small) {
-                GlassEffectContainer {
-                    CashlyHStack(spacing: .zero) {
-                        ForEach(tags.enumerated(), id: \.offset) { index, tag in
-                            let isEven = index.isEven
-                            let point: CGFloat = isAnimated ? (isEven ? -3 : 3) : (isEven ? 3 : -3)
-                            CashlySymbol(tag.icon)
-                                .cashly(font: .system(size: 18))
-                                .cashly(color: .hex(tag.color))
-                                .frame(width: 45, height: 45)
-                                .overlay(alignment: isEven ? .topLeading : .bottomLeading) {
-                                    CashlyText((index + 1).string)
-                                        .cashly(font: .caption, weight: .bold)
-                                        .cashly(color: .hex(tag.color))
-                                        .cashlyPadding()
-                                        .cashly(background: .background)
-                                        .cashly(clip: .circle)
-                                        .cashlyPadding(.negative(.small))
-                                }
-                                .cashly(glass: .clear.tint(Color(hex: tag.color).opacity(0.2)).interactive(), in: .circle)
-                                .offset(y: point)
-                                .animation(.linear.speed(0.5).repeatForever(autoreverses: true), value: isAnimated)
-                        }
+            GlassEffectContainer {
+                CashlyHStack(spacing: .zero) {
+                    ForEach(tags.enumerated(), id: \.offset) { index, tag in
+                        let isEven = index.isEven
+                        let point: CGFloat = isAnimated ? (isEven ? -3 : 3) : (isEven ? 3 : -3)
+                        CashlySymbol(tag.icon)
+                            .cashly(font: .system(size: 18))
+                            .cashly(color: .hex(tag.color))
+                            .frame(width: 45, height: 45)
+                            .overlay(alignment: isEven ? .topLeading : .bottomLeading) {
+                                CashlyText((index + 1).string)
+                                    .cashly(font: .caption, weight: .bold)
+                                    .cashly(color: .hex(tag.color))
+                                    .cashlyPadding()
+                                    .cashly(background: .background)
+                                    .cashly(clip: .circle)
+                                    .cashlyPadding(.negative(.small))
+                            }
+                            .cashly(glass: .clear.tint(Color(hex: tag.color).opacity(0.2)).interactive(), in: .circle)
+                            .offset(y: point)
+                            .animation(.linear.speed(0.5).repeatCount(isAnimated ? .max : .zero, autoreverses: true), value: isAnimated)
                     }
                 }
-                .minimumScaleFactor(0.3)
-                
-                CashlyText("\(tags.count) biggest tags".uppercased())
-                    .cashly(font: .caption2, weight: .semibold)
-                    .cashly(color: .textSecondary)
             }
+            .minimumScaleFactor(0.3)
             .cashly(alignment: .center)
         }
     }

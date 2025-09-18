@@ -27,7 +27,6 @@ public struct TransactionScreen: CashlyView {
             EmptyCategoryView()
             EmptyBudgetView(budgets: state.budgets)
             EmptyUserView()
-            EmptyTransactionView()
             transactionsSection
         }
         .toolbar {
@@ -161,7 +160,7 @@ public struct TransactionScreen: CashlyView {
                 router.route(to: .addTransaction(state: .new()))
             } label: {
                 CashlySymbol("plus")
-                    .cashly(font: .headline, weight: .bold)
+                    .cashly(color: .text)
             }
             .disabled(state.isLoading)
         }

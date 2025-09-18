@@ -178,7 +178,6 @@ public struct AddCategoryScreen: CashlyView {
             action(.addCategory(.save))
         } label: {
             CashlySymbol("checkmark")
-                .cashly(font: .headline, weight: .bold)
         }
         .disabled(!state.canSave)
         .cashly(tint: .primary)
@@ -191,7 +190,6 @@ public struct AddCategoryScreen: CashlyView {
                 action(.addCategory(.remove))
             } label: {
                 CashlySymbol("trash")
-                    .cashly(font: .headline, weight: .bold)
             }
             .cashly(tint: .error)
         }

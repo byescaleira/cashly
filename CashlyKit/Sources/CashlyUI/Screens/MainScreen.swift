@@ -15,11 +15,13 @@ public struct MainScreen: CashlyView {
     @Environment(\.mainState) var state
     @Environment(\.action) var action
     
+    @State var tabItem: MainTabItem = .home
+    
     public init() {}
     
     public var body: some View {
-        TabView {
-            Tab("Categories", systemImage: "swatchpalette.fill") {
+        TabView(selection: $tabItem) {
+            Tab("Categories", systemImage: "tag", value: .category) {
                 CashlyNavigationView(
                     router: $store.state.categoryRouter,
                     destination: destination(_:)
@@ -29,7 +31,7 @@ public struct MainScreen: CashlyView {
                 .environment(\.router, store.state.categoryRouter)
             }
             
-            Tab("Home", systemImage: "house") {
+            Tab("Home", systemImage: "house", value: .home) {
                 CashlyNavigationView(
                     router: $store.state.homeRouter,
                     destination: destination(_:)
@@ -39,7 +41,7 @@ public struct MainScreen: CashlyView {
                 .environment(\.router, store.state.homeRouter)
             }
             
-            Tab("Transactions", systemImage: "creditcard.fill") {
+            Tab("Transactions", systemImage: "wallet.bifold", value: .transaction) {
                 CashlyNavigationView(
                     router: $store.state.transactionRouter,
                     destination: destination(_:)
@@ -49,6 +51,7 @@ public struct MainScreen: CashlyView {
                 .environment(\.router, store.state.transactionRouter)
             }
         }
+        .tabViewStyle(.sidebarAdaptable)
     }
     
     @ViewBuilder
@@ -69,6 +72,14 @@ public struct MainScreen: CashlyView {
     public static var mock: some View {
         MainScreen()
     }
+}
+
+enum MainTabItem: Int, Hashable, Identifiable, CaseIterable {
+    case category
+    case home
+    case transaction
+    
+    var id: Int { rawValue }
 }
 
 #Preview {

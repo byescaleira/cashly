@@ -75,7 +75,7 @@ public actor MainMiddleware: CashlyMiddleware {
                 statuses: state.filter.transactionStatuses.isEmpty ? nil : state.filter.transactionStatuses.map(\.rawValue),
                 date: date
             )
-            let tags = try await tagUseCase.getTags()
+            let tags = try await tagUseCase.getTags(users: user == nil ? nil : [user?.id ?? ""])
             let users = try await userUseCase.getUsers()
             continuation.yield(
                 .update(

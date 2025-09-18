@@ -167,7 +167,6 @@ public struct AddTagScreen: CashlyView {
             action(.addTag(.save))
         } label: {
             CashlySymbol("checkmark")
-                .cashly(font: .headline, weight: .bold)
         }
         .disabled(!state.canSave)
         .cashly(tint: .primary)
@@ -180,7 +179,6 @@ public struct AddTagScreen: CashlyView {
                 action(.addTag(.remove))
             } label: {
                 CashlySymbol("trash")
-                    .cashly(font: .headline, weight: .bold)
             }
             .cashly(tint: .error)
         }

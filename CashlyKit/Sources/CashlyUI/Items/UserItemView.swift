@@ -40,10 +40,20 @@ struct UserItemView: CashlyView {
                 
                 Divider()
                 
+                if let user = state.user {
+                    CashlyButton {
+                        router.route(to: .addUser(state: .edit(id: user.id)))
+                    } label: {
+                        CashlyLabel("Edit User", symbol: "pencil")
+                            .cashly(color: .text)
+                    }
+                }
+                
                 CashlyButton {
                     router.route(to: .addUser(state: .new()))
                 } label: {
                     CashlyLabel("Add User", symbol: "plus")
+                        .cashly(color: .text)
                 }
             } label: {
                 CashlyResourceImage.avatar(id: store.state.user?.photo)

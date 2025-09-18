@@ -21,9 +21,9 @@ struct EmptyCategoryView: CashlyView {
                     if state.categories.isEmpty {
                         CashlyCardView(
                             image: .illustrationEmpty,
-                            title: "No Categories Found",
-                            subtitle: "You don’t have any categories yet. Start by creating one to organize your expenses.",
-                            buttonTitle: "Create Category"
+                            title: "No Categories Yet",
+                            subtitle: "Categories help you understand where your money goes. Create your first category to start organizing your expenses.",
+                            buttonTitle: "Add Category"
                         ) {
                             router.route(to: .addCategory(state: .new()))
                         }
@@ -33,7 +33,7 @@ struct EmptyCategoryView: CashlyView {
                 .animation(.bouncy, value: state.categories.isEmpty)
                 .animation(.bouncy, value: state.users.isEmpty)
             } header: {
-                CashlyText("Not Found")
+                CashlyText("Categories")
                     .cashly(font: .title3, weight: .semibold)
                     .cashly(color: .text)
             }

@@ -54,7 +54,7 @@ extension Score {
             min: 200,
             max: 499,
             summary: """
-            You are spending significantly above your planned budget. Immediate action is required to regain control. Prioritize essential expenses and review discretionary spending carefully.
+            You are spending significantly above your planned budget. Immediate action is required to regain control.
             """,
             color: .red
         )
@@ -93,7 +93,7 @@ extension Score {
             min: 895,
             max: 1000,
             summary: """
-            Excellent! You are within your planned budget and managing your finances well. Continue your good habits to maintain control and increase your savings.
+            Excellent! You are within your planned budget and managing your finances well.
             """,
             color: .green
         )
