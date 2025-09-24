@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RyzeUI
+import CashlyDomain
 
 public extension View {
     func cashly(
@@ -87,6 +88,10 @@ public extension View {
         self.ryze(if: condition, transform: transform)
     }
     
+    func cashly<Content: View, Value>(item: Value?, _ transform: (Self, Value) -> Content) -> some View {
+        self.ryze(item: item, transform: transform)
+    }
+    
     func cashlyConfetti(for seconds: Int = 3) -> some View {
         self.ryzeConfetti(seconds: seconds)
     }
@@ -127,5 +132,27 @@ public extension View {
     
     func cashlyDismiss(isSaved: Bool) -> some View {
         self.modifier(CashlyDismissModifier(isSaved: isSaved))
+    }
+    
+    func cashlyIntelligence(
+        model: CashlyIntelligence,
+        isActive: Bool = true,
+        input: Binding<CashlyPredictionInput>,
+        publishEvery: TimeInterval? = nil,
+        completion: @escaping (CashlyPredictionResult) -> Void
+    ) -> some View {
+        self.modifier(
+            CashlyIntelligenceModifier(
+                model: model,
+                isActive: isActive,
+                input: input,
+                publishEvery: publishEvery,
+                completion: completion
+            )
+        )
+    }
+    
+    func cashly(systemMonitor: Binding<CashlySystemMonitor>) -> some View {
+        self.ryze(systemMonitor: systemMonitor)
     }
 }

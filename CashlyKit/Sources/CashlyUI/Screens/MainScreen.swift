@@ -21,6 +21,16 @@ public struct MainScreen: CashlyView {
     
     public var body: some View {
         TabView(selection: $tabItem) {
+            Tab("Intelligence", systemImage: "cpu.fill", value: .intelligence) {
+                CashlyNavigationView(
+                    router: $store.state.intelligenceRouter,
+                    destination: destination(_:)
+                ) {
+                    IntelligenceScreen()
+                }
+                .environment(\.router, store.state.intelligenceRouter)
+            }
+            
             Tab("Categories", systemImage: "tag", value: .category) {
                 CashlyNavigationView(
                     router: $store.state.categoryRouter,
@@ -75,6 +85,7 @@ public struct MainScreen: CashlyView {
 }
 
 enum MainTabItem: Int, Hashable, Identifiable, CaseIterable {
+    case intelligence
     case category
     case home
     case transaction

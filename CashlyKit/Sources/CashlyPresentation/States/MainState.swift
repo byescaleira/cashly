@@ -19,6 +19,7 @@ public struct MainState: CashlyState {
     public var user: User?
     public var error: CashlyError?
     
+    public var intelligenceRouter: CashlyRouter<MainRoute> = .init()
     public var categoryRouter: CashlyRouter<MainRoute> = .init()
     public var homeRouter: CashlyRouter<MainRoute> = .init()
     public var transactionRouter: CashlyRouter<MainRoute> = .init()

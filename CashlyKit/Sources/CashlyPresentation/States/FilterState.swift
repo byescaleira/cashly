@@ -13,6 +13,7 @@ public struct FilterState: CashlyState, Equatable, Hashable {
     public var allCategories: [CashlyDomain.Category] = []
     public var allTags: [Tag] = []
     public var allStatuses: [TransactionStatus] = []
+    public var allTransactions: [CashlyDomain.Transaction] = []
     public var transactionStatuses: Set<TransactionStatus>
     public var categories: Set<CashlyDomain.Category>
     public var tags: Set<Tag>

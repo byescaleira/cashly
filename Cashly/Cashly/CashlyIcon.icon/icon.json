@@ -1,55 +1,17 @@
 {
   "fill-specializations" : [
     {
-      "value" : {
-        "linear-gradient" : [
-          "srgb:0.18824,0.81961,0.34510,1.00000",
-          "display-p3:0.18467,0.36520,0.18178,1.00000"
-        ]
-      }
+      "value" : "automatic"
     },
     {
       "appearance" : "dark",
-      "value" : {
-        "linear-gradient" : [
-          "display-p3:0.18809,0.37195,0.18515,1.00000",
-          "display-p3:0.05264,0.10409,0.05181,1.00000"
-        ]
-      }
+      "value" : "automatic"
     }
   ],
   "groups" : [
     {
       "layers" : [
-        {
-          "blend-mode" : "normal",
-          "fill-specializations" : [
-            {
-              "value" : {
-                "linear-gradient" : [
-                  "display-p3:0.34185,0.68533,0.33754,1.00000",
-                  "display-p3:0.27521,0.55101,0.27140,1.00000"
-                ]
-              }
-            },
-            {
-              "appearance" : "dark",
-              "value" : {
-                "solid" : "extended-gray:1.00000,1.00000"
-              }
-            }
-          ],
-          "glass" : false,
-          "image-name" : "Vector.svg",
-          "name" : "Vector",
-          "position" : {
-            "scale" : 1,
-            "translation-in-points" : [
-              -0.953125,
-              -99.109375
-            ]
-          }
-        }
+
       ],
       "name" : "Group",
       "shadow" : {
@@ -68,8 +30,8 @@
             {
               "value" : {
                 "linear-gradient" : [
-                  "display-p3:0.28984,0.57704,0.28508,1.00000",
-                  "display-p3:0.18548,0.36593,0.18165,1.00000"
+                  "display-p3:0.94727,0.94629,0.94824,1.00000",
+                  "display-p3:0.92480,0.92627,0.92627,1.00000"
                 ]
               }
             },
@@ -77,8 +39,8 @@
               "appearance" : "dark",
               "value" : {
                 "linear-gradient" : [
-                  "display-p3:0.11185,0.22541,0.11299,1.00000",
-                  "display-p3:0.05203,0.10598,0.05244,1.00000"
+                  "display-p3:0.13098,0.13013,0.12988,1.00000",
+                  "display-p3:0.07892,0.07983,0.07812,1.00000"
                 ]
               }
             }
@@ -86,10 +48,10 @@
           "image-name" : "Rectangle 4.svg",
           "name" : "Rectangle 4",
           "position" : {
-            "scale" : 1,
+            "scale" : 1.21,
             "translation-in-points" : [
-              -1.0859375,
-              220.65625
+              0,
+              285.05861448697726
             ]
           }
         }
@@ -106,16 +68,48 @@
     {
       "layers" : [
         {
+          "blend-mode" : "normal",
           "fill-specializations" : [
             {
               "value" : {
-                "solid" : "srgb:1.00000,1.00000,1.00000,0.84706"
+                "linear-gradient" : [
+                  "display-p3:0.99414,0.99365,0.99219,1.00000",
+                  "display-p3:0.97021,0.97363,0.97266,1.00000"
+                ]
               }
             },
             {
               "appearance" : "dark",
               "value" : {
-                "solid" : "extended-gray:0.00000,1.00000"
+                "linear-gradient" : [
+                  "display-p3:0.18018,0.18042,0.17920,1.00000",
+                  "display-p3:0.11609,0.11426,0.11560,1.00000"
+                ]
+              }
+            }
+          ],
+          "glass" : false,
+          "image-name" : "Vector.svg",
+          "name" : "Vector",
+          "position" : {
+            "scale" : 2.4,
+            "translation-in-points" : [
+              1.068169493794347,
+              -37.74649439734781
+            ]
+          }
+        },
+        {
+          "fill-specializations" : [
+            {
+              "value" : {
+                "solid" : "srgb:0.18824,0.81961,0.34510,1.00000"
+              }
+            },
+            {
+              "appearance" : "dark",
+              "value" : {
+                "solid" : "srgb:0.18824,0.81961,0.34510,0.50000"
               }
             }
           ],
@@ -123,10 +117,10 @@
           "image-name" : "Rectangle 2.svg",
           "name" : "Rectangle 2",
           "position" : {
-            "scale" : 1,
+            "scale" : 1.25,
             "translation-in-points" : [
               0,
-              -41.359375
+              3.403247465184461
             ]
           }
         }

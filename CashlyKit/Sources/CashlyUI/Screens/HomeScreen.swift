@@ -377,6 +377,7 @@ public struct HomeScreen: CashlyView {
                     ForEach(transactions.enumerated(), id: \.offset) { index, transaction in
                         CashlyVStack(spacing: .small) {
                             let category = transaction.budget.category
+                            CashlySpacer()
                             CashlyText(category.name.uppercased())
                                 .cashly(font: .caption2, weight: .bold)
                                 .cashly(color: .hex(category.color))
@@ -390,47 +391,41 @@ public struct HomeScreen: CashlyView {
                         
                             CashlyText(transaction.summary)
                                 .cashly(color: .textSecondary)
+                            CashlySpacer()
                         }
                         .cashly(alignment: .center)
-                        .padding(.horizontal, 30)
+                        .padding(.horizontal, 50)
                         .id(index)
                     }
                 }
                 .tabViewStyle(.page(indexDisplayMode: .never))
                 .frame(height: 170)
-                .padding(-20)
-                .padding(.top, -10)
+                .padding(.horizontal, -20)
                 .animation(.bouncy, value: selectedBiggestTransactionIndex)
             } header: {
-                CashlyHStack(spacing: .medium) {
+                CashlyHStack {
                     CashlyText("Top Spending")
                         .cashly(font: .title3, weight: .semibold)
                         .cashly(color: .text)
                     
                     CashlySpacer()
                     
-                    CashlyButton {
-                        if selectedBiggestTransactionIndex > .zero {
-                            selectedBiggestTransactionIndex -= 1
-                        } else {
-                            selectedBiggestTransactionIndex = transactions.count - 1
+                    CashlyHStack(spacing: .extraSmall) {
+                        ForEach(transactions.enumerated(), id: \.offset) { index, _ in
+                            Circle()
+                                .frame(width: 8, height: 8)
+                                .foregroundStyle(
+                                    index == selectedBiggestTransactionIndex ?
+                                    Color.accentColor : .primary.opacity(0.1)
+                                )
                         }
-                    } label: {
-                        CashlySymbol("chevron.backward")
-                            .cashly(font: .callout, weight: .bold)
                     }
-                    
-                    CashlyButton {
-                        if selectedBiggestTransactionIndex + 1 < transactions.count {
-                            selectedBiggestTransactionIndex += 1
-                        } else {
-                            selectedBiggestTransactionIndex = .zero
-                        }
-                    } label: {
-                        CashlySymbol("chevron.forward")
-                            .cashly(font: .callout, weight: .bold)
-                    }
+                    .cashlyPadding()
+                    .cashlyPadding(.horizontal, .extraSmall)
+                    .cashly(glass: .clear.tint(.secondary.opacity(0.2)), in: .capsule)
                 }
+            } footer: {
+                
             }
         }
     }

@@ -69,13 +69,6 @@ public actor TransactionActor: TransactionUseCase {
             predicateBudget = #Predicate { _ in true }
         }
         
-        let predicateTag: Predicate<String>
-        if let tags {
-            predicateTag = #Predicate { tags.contains($0) }
-        } else {
-            predicateTag = #Predicate { _ in true }
-        }
-        
         let predicateStatus: Predicate<Int>
         if let statuses {
             predicateStatus = #Predicate { statuses.contains($0) }
@@ -85,8 +78,7 @@ public actor TransactionActor: TransactionUseCase {
         
         let predicate: Predicate<TransactionEntity> = #Predicate {
             predicateBudget.evaluate($0.budget) &&
-            predicateStatus.evaluate($0.status) &&
-            predicateTag.evaluate($0.summary)
+            predicateStatus.evaluate($0.status)
         }
         
         let descriptor = FetchDescriptor<TransactionEntity>(
@@ -101,6 +93,18 @@ public actor TransactionActor: TransactionUseCase {
                 $0.paymentsPlan == nil ?
                 ($0.yearMonth == yearMonth) :
                 ($0.endDate?.contains(yearMonth) ?? false)
+            }
+        }
+        
+        if let tags {
+            entities = entities.filter {
+                let summary = $0.summary.lowercased()
+                for tag in tags {
+                    if summary.contains(tag) {
+                        return true
+                    }
+                }
+                return false
             }
         }
         

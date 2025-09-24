@@ -22,6 +22,12 @@ public struct AddTransactionScreen: CashlyView {
     
     @State var selectedUsers: Set<User> = []
     
+    var predictionInput: Binding<CashlyPredictionInput> {
+        Binding {
+            state.summary.isEmpty ? .empty : .text(state.summary)
+        } set: { _ in }
+    }
+    
     var initialState: AddTransactionState?
     
     public init(initialState: AddTransactionState? = nil) {
@@ -53,8 +59,26 @@ public struct AddTransactionScreen: CashlyView {
         .onChange(of: state.amount) { updateSplitValue() }
         .onDisappear { selectedUsers = [] }
         .scrollDismissesKeyboard(.immediately)
+        .cashlyIntelligence(
+            model: .categoryName,
+            input: predictionInput,
+            publishEvery: 1,
+            completion: handlerPrediction(result:)
+        )
         .cashlyDismiss(isSaved: state.isSaved)
         .environment(\.isLoading, state.isLoading)
+    }
+    
+    func handlerPrediction(result: CashlyPredictionResult) {
+        switch result {
+        case .textClassification(let value):
+            let category = value.lowercased()
+            store.state.budget = state.budgets.first(where: {
+                $0.category.name.lowercased() == category
+            }) ?? state.budget
+        default:
+            break
+        }
     }
     
     func handlerInitialState() async {
@@ -164,10 +188,6 @@ public struct AddTransactionScreen: CashlyView {
             CashlyText("Summary")
                 .cashly(font: .title3, weight: .semibold)
                 .cashly(color: .text)
-        } footer: {
-            if !ProcessInfo.processInfo.isLowPowerModeEnabled {
-                tagsView
-            }
         }
     }
     

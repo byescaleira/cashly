@@ -9,6 +9,7 @@ import SwiftUI
 import CashlyDomain
 
 struct EmptyBudgetView: CashlyView {
+    @Environment(\.isLoading) var isLoading
     @Environment(\.mainState) var state
     @Environment(\.router) var router
     
@@ -17,7 +18,8 @@ struct EmptyBudgetView: CashlyView {
     @ViewBuilder
     var body: some View {
         if budgets.isEmpty,
-           !state.categories.isEmpty {
+           !state.categories.isEmpty,
+           !isLoading {
             Section {
                 CashlyZStack {
                     if budgets.isEmpty,

@@ -9,12 +9,14 @@ import SwiftUI
 import CashlyDomain
 
 struct EmptyUserView: CashlyView {
+    @Environment(\.isLoading) var isLoading
     @Environment(\.mainState) var state
     @Environment(\.router) var router
     
     @ViewBuilder
     var body: some View {
-        if state.users.isEmpty {
+        if state.users.isEmpty,
+           !isLoading {
             Section {
                 CashlyZStack {
                     if state.users.isEmpty {

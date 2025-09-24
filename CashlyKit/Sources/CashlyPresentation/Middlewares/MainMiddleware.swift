@@ -53,14 +53,14 @@ public actor MainMiddleware: CashlyMiddleware {
         do {
             async let allCategories = categoryUseCase.getCategories()
             async let allTags = tagUseCase.getTags()
-            
-            var filter = state.filter
-            filter.allCategories = try await allCategories
-            filter.allTags = try await allTags
-            filter.allStatuses = TransactionStatus.allCases
+            async let allTransactions = transactionUseCase.getTransactions()
             
             let date: Date? = !state.filter.isFilteringByDate ? nil : state.filter.startDate
             let user = try await userUseCase.getCurrentUser()
+            
+            async let tags = tagUseCase.getTags(users: user == nil ? nil : [user?.id ?? ""])
+            async let users = userUseCase.getUsers()
+            
             let categories = try await categoryUseCase.getCategories(
                 ids: state.filter.categories.isEmpty ? nil : state.filter.categories.map(\.id),
                 users: user == nil ? nil : [user?.id ?? ""]
@@ -69,15 +69,21 @@ public actor MainMiddleware: CashlyMiddleware {
                 categories: categories.map(\.id),
                 date: date
             )
-            let transactions = try await transactionUseCase.getTransactions(
+            
+            async let transactions = transactionUseCase.getTransactions(
                 budgets: budgets.map(\.id),
-                tags: state.filter.tags.isEmpty ? nil : state.filter.tags.map(\.name),
+                tags: state.filter.tags.isEmpty ? nil : state.filter.tags.map { $0.name.lowercased() },
                 statuses: state.filter.transactionStatuses.isEmpty ? nil : state.filter.transactionStatuses.map(\.rawValue),
                 date: date
             )
-            let tags = try await tagUseCase.getTags(users: user == nil ? nil : [user?.id ?? ""])
-            let users = try await userUseCase.getUsers()
-            continuation.yield(
+            
+            var filter = state.filter
+            filter.allCategories = try await allCategories
+            filter.allTags = try await allTags
+            filter.allStatuses = TransactionStatus.allCases
+            filter.allTransactions = try await allTransactions
+            
+            try await continuation.yield(
                 .update(
                     filter: filter,
                     budgets: budgets,
