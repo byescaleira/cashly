@@ -113,13 +113,20 @@ public actor CategoryActor: CategoryUseCase {
         color: String,
         icon: String
     ) async throws {
-        let entity = CategoryEntity(
+        let predicate: Predicate<CategoryEntity> = #Predicate { $0.id == id }
+        let descriptor = FetchDescriptor<CategoryEntity>(predicate: predicate)
+        let entity = try modelContext.fetch(descriptor).first ?? CategoryEntity(
             id: id,
             user: user,
             name: name,
             color: color,
             icon: icon
         )
+        entity.id = id
+        entity.user = user
+        entity.name = name
+        entity.color = color
+        entity.icon = icon
         modelContext.insert(entity)
         try modelContext.save()
     }

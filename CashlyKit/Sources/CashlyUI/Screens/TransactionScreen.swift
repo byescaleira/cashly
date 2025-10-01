@@ -19,21 +19,40 @@ public struct TransactionScreen: CashlyView {
     @Environment(\.action) var action
     @Environment(\.router) var router
     
+    @State private var editMode = EditMode.inactive
+    @State private var selection: Set<CashlyDomain.Transaction> = []
+    
     public init() {}
     
     public var body: some View {
-        CashlyList {
+        CashlyList(selection: $selection) {
             TransactionBalanceView()
             EmptyCategoryView()
             EmptyBudgetView(budgets: state.budgets)
             EmptyUserView()
             transactionsSection
         }
+        .environment(\.editMode, $editMode)
         .toolbar {
-            ToolbarItem(placement: .navigation) { UserItemView() }
+            ToolbarItem(placement: .navigation) {
+                if editMode != .active {
+                    UserItemView()
+                }
+                selectAllButton
+            }
+            
             ToolbarItemGroup {
+                editButton
                 FilterItemView()
+            }
+            
+            ToolbarSpacer(.fixed)
+            ToolbarItemGroup {
                 addButton
+                
+                shareButton
+                removeButton
+                checkButton
             }
         }
         .environment(\.isLoading, state.isLoading)
@@ -53,6 +72,7 @@ public struct TransactionScreen: CashlyView {
                     } label: {
                         transactionView(transaction: transaction)
                     }
+                    .tag(transaction)
                     .cashly(tint: .text)
                     .cashlyDelete { action(.main(.removeTransaction(transaction))) }
                 }
@@ -155,7 +175,7 @@ public struct TransactionScreen: CashlyView {
     
     @ViewBuilder
     var addButton: some View {
-        if !state.users.isEmpty {
+        if !state.users.isEmpty, editMode == .inactive {
             CashlyButton {
                 router.route(to: .addTransaction(state: .new()))
             } label: {
@@ -163,6 +183,88 @@ public struct TransactionScreen: CashlyView {
                     .cashly(color: .text)
             }
             .disabled(state.isLoading)
+        }
+    }
+    
+    @ViewBuilder
+    var editButton: some View {
+        if !state.users.isEmpty, editMode == .inactive, !state.transactions.isEmpty {
+            CashlyButton {
+                withAnimation(.bouncy(duration: 0.8)) {
+                    editMode = .active
+                }
+            } label: {
+                CashlySymbol("checkmark.circle")
+                    .cashly(color: .text)
+            }
+            .disabled(state.isLoading)
+        }
+    }
+    
+    @ViewBuilder
+    var selectAllButton: some View {
+        let isAllSelected = selection.count == state.transactions.count
+        if editMode == .active {
+            CashlyButton {
+                selection = isAllSelected ? [] : Set(state.transactions)
+            } label: {
+                CashlyText(isAllSelected ? "Clear Selection" : "Select All")
+                    .cashly(font: .body, weight: .bold)
+                    .cashly(color: .text)
+            }
+            .disabled(state.isLoading)
+        }
+    }
+    
+    @ViewBuilder
+    var shareButton: some View {
+        if editMode == .active {
+            ShareLink(item: selection.shareMessage(participants: state.filter.participants)) {
+                CashlySymbol("square.and.arrow.up")
+                    .cashly(color: selection.isEmpty ? .disabled : .text)
+            }
+            .disabled(state.isLoading)
+            .disabled(selection.isEmpty)
+        }
+    }
+    
+    @State var showDeleteAlert = false
+    
+    @ViewBuilder
+    var removeButton: some View {
+        if editMode == .active {
+            CashlyButton {
+                showDeleteAlert = true
+            } label: {
+                CashlySymbol("trash")
+                    .cashly(color: selection.isEmpty ? .disabled : .text)
+            }
+            .disabled(state.isLoading)
+            .disabled(selection.isEmpty)
+            .alert("Delete Transactions", isPresented: $showDeleteAlert) {
+                Button("Cancel", role: .cancel) { }
+                Button("Delete", role: .destructive) {
+                    action(.main(.removeTransactions(selection)))
+                }
+            } message: {
+                CashlyText("Are you sure you want to delete \(selection.count) selected transaction\(selection.count == 1 ? "" : "s")? This action cannot be undone.")
+            }
+
+        }
+    }
+    
+    @ViewBuilder
+    var checkButton: some View {
+        if editMode == .active {
+            CashlyButton {
+                withAnimation(.bouncy(duration: 0.8)) {
+                    editMode = .inactive
+                }
+            } label: {
+                CashlySymbol("checkmark")
+            }
+            .disabled(state.isLoading)
+            .buttonStyle(.glassProminent)
         }
     }
     

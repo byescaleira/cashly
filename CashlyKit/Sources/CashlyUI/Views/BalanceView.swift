@@ -78,7 +78,6 @@ struct BalanceView: CashlyView {
                     ForEach(score.scores) { score in
                         ProgressView(value: score == enabledScore ? score.progress : 1.0, total: 1)
                             .cashly(tint: .color(enabledScoreValue.double > score.max || score == enabledScore ? enabledScore?.color : .clear))
-                            .scaleEffect(y: 2)
                     }
                 }
                 

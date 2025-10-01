@@ -12,9 +12,11 @@ public protocol TransactionUseCase: Sendable {
         budgets: [String]?,
         tags: [String]?,
         statuses: [Int]?,
+        participants: [String]?,
         date: Date?
     ) async throws -> [Transaction]
     func removeTransaction(id: String) async throws
+    func removeTransactions(ids: Set<String>) async throws
     func removeTransactions() async throws
     func addTransaction(
         id: String,

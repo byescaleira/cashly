@@ -14,24 +14,24 @@ struct CashlyIntelligenceModifier: ViewModifier {
  
     @State var prediction: CashlyPrediction?
     @Binding var input: CashlyPredictionInput
+    @Binding var result: CashlyPredictionResult
     
     let timer: Publishers.Autoconnect<Timer.TimerPublisher>?
     
     let model: CashlyIntelligence
     let isActive: Bool
-    let completion: (CashlyPredictionResult) -> Void
     
     init(
         model: CashlyIntelligence,
         isActive: Bool = true,
         input: Binding<CashlyPredictionInput>,
         publishEvery: TimeInterval? = nil,
-        completion: @escaping (CashlyPredictionResult) -> Void
+        result: Binding<CashlyPredictionResult>
     ) {
         self.model = model
         self.isActive = isActive
         self._input = input
-        self.completion = completion
+        self._result = result
         
         if let publishEvery {
             timer = Timer.publish(
@@ -67,13 +67,13 @@ struct CashlyIntelligenceModifier: ViewModifier {
     func predict() {
         guard let prediction, isActive else { return }
         let input = input
-        let completion = completion
         Task { @MainActor in
             switch model {
-            case .budgetValue: completion(await prediction.regressionPrediction(from: input))
-            case .categoryName: completion(await prediction.textPrediction(from: input))
-            case .tagValue: completion(await prediction.regressionPrediction(from: input))
+            case .budgetValue: result = await prediction.regressionPrediction(from: input)
+            case .categoryName: result = await prediction.textPrediction(from: input)
+            case .tagValue: result = await prediction.regressionPrediction(from: input)
             }
         }
+        self.input = .empty
     }
 }

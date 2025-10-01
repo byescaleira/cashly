@@ -17,7 +17,8 @@ public enum MainRoute: CashlyRoutable {
             (.category, .category),
             (.transaction, .transaction),
             (.detailCategory, .detailCategory),
-            (.home, .home): return true
+            (.home, .home),
+            (.intelligence, .intelligence): return true
         default: return false
         }
     }
@@ -31,6 +32,7 @@ public enum MainRoute: CashlyRoutable {
     case category
     case transaction
     case home
+    case intelligence
     
     public var navigationStyle: CashlyNavigationStyle {
         .push

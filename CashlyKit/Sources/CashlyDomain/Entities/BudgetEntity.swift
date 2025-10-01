@@ -9,11 +9,11 @@ import SwiftData
 
 @Model
 public class BudgetEntity {
-    @Attribute(.unique) public var id: String
-    public var amount: Double
-    public var category: String
-    public var date: Int
-    public var summary: String
+    public var id: String = ""
+    public var amount: Double = 0
+    public var category: String = ""
+    public var date: Int = 0
+    public var summary: String = ""
     
     public init(
         id: String,

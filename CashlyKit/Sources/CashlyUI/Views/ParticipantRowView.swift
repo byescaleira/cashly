@@ -34,6 +34,7 @@ struct ParticipantRowView: CashlyView {
     
     func updateParticipantSplitMode() {
         guard !store.state.participants.isEmpty else { return }
+        let participantMode = participant.splitMode
         participant.splitMode = splitMode ?? .equal
         let splitValue: Double
         switch splitMode ?? .equal {
@@ -42,7 +43,7 @@ struct ParticipantRowView: CashlyView {
         case .percentage: splitValue =  1 / (store.state.participants.count.double + 1)
         case .payerBased: splitValue = .zero
         }
-        participant.splitValue = splitValue
+        participant.splitValue = participantMode != participant.splitMode ? splitValue : participant.splitValue
     }
     
     var iconView: some View {

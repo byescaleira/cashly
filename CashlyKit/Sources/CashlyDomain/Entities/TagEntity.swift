@@ -9,11 +9,11 @@ import SwiftData
 
 @Model
 public class TagEntity {
-    @Attribute(.unique) public var id: String
-    @Attribute(.spotlight) public var name: String
-    public var user: String
-    public var color: String
-    public var icon: String
+    public var id: String = ""
+    public var name: String = ""
+    public var user: String = ""
+    public var color: String = ""
+    public var icon: String = ""
     
     public init(
         id: String,

@@ -97,13 +97,20 @@ public actor TagActor: TagUseCase {
         color: String,
         icon: String
     ) async throws {
-        let entity = TagEntity(
+        let predicate: Predicate<TagEntity> = #Predicate { $0.id == id }
+        let descriptor = FetchDescriptor<TagEntity>(predicate: predicate)
+        let entity = try modelContext.fetch(descriptor).first ?? TagEntity(
             id: id,
             user: user,
             name: name,
             color: color,
             icon: icon
         )
+        entity.id = id
+        entity.user = user
+        entity.name = name
+        entity.color = color
+        entity.icon = icon
         modelContext.insert(entity)
         try modelContext.save()
     }

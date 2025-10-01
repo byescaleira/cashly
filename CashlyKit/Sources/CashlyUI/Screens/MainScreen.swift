@@ -20,48 +20,69 @@ public struct MainScreen: CashlyView {
     public init() {}
     
     public var body: some View {
+        tabView
+    }
+    
+    var tabView: some View {
         TabView(selection: $tabItem) {
-            Tab("Intelligence", systemImage: "cpu.fill", value: .intelligence) {
-                CashlyNavigationView(
-                    router: $store.state.intelligenceRouter,
-                    destination: destination(_:)
-                ) {
-                    IntelligenceScreen()
-                }
-                .environment(\.router, store.state.intelligenceRouter)
+            Tab("Intelligence", systemImage: "cpu", value: .intelligence) {
+                intelligenceScreen
             }
             
             Tab("Categories", systemImage: "tag", value: .category) {
-                CashlyNavigationView(
-                    router: $store.state.categoryRouter,
-                    destination: destination(_:)
-                ) {
-                    CategoryScreen()
-                }
-                .environment(\.router, store.state.categoryRouter)
+                categoriesScreen
             }
             
             Tab("Home", systemImage: "house", value: .home) {
-                CashlyNavigationView(
-                    router: $store.state.homeRouter,
-                    destination: destination(_:)
-                ) {
-                    HomeScreen()
-                }
-                .environment(\.router, store.state.homeRouter)
+                homeScreen
             }
             
             Tab("Transactions", systemImage: "wallet.bifold", value: .transaction) {
-                CashlyNavigationView(
-                    router: $store.state.transactionRouter,
-                    destination: destination(_:)
-                ) {
-                    TransactionScreen()
-                }
-                .environment(\.router, store.state.transactionRouter)
+                transactionScreen
             }
         }
+        .tabBarMinimizeBehavior(.onScrollDown)
         .tabViewStyle(.sidebarAdaptable)
+    }
+    
+    var intelligenceScreen: some View {
+        CashlyNavigationView(
+            router: $store.state.intelligenceRouter,
+            destination: destination(_:)
+        ) {
+            IntelligenceScreen()
+        }
+        .environment(\.router, store.state.intelligenceRouter)
+    }
+    
+    var categoriesScreen: some View {
+        CashlyNavigationView(
+            router: $store.state.categoryRouter,
+            destination: destination(_:)
+        ) {
+            CategoryScreen()
+        }
+        .environment(\.router, store.state.categoryRouter)
+    }
+    
+    var homeScreen: some View {
+        CashlyNavigationView(
+            router: $store.state.homeRouter,
+            destination: destination(_:)
+        ) {
+            HomeScreen()
+        }
+        .environment(\.router, store.state.homeRouter)
+    }
+    
+    var transactionScreen: some View {
+        CashlyNavigationView(
+            router: $store.state.transactionRouter,
+            destination: destination(_:)
+        ) {
+            TransactionScreen()
+        }
+        .environment(\.router, store.state.transactionRouter)
     }
     
     @ViewBuilder
@@ -76,6 +97,7 @@ public struct MainScreen: CashlyView {
         case .category: CategoryScreen()
         case .transaction: TransactionScreen()
         case .home: HomeScreen()
+        case .intelligence: IntelligenceScreen()
         }
     }
     

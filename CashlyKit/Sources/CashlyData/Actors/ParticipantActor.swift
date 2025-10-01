@@ -102,7 +102,9 @@ public actor ParticipantActor: ParticipantUseCase {
         status: TransactionStatus,
         transaction: String
     ) async throws {
-        let entity = ParticipantEntity(
+        let predicate: Predicate<ParticipantEntity> = #Predicate { $0.id == id }
+        let descriptor = FetchDescriptor<ParticipantEntity>(predicate: predicate)
+        let entity = try modelContext.fetch(descriptor).first ?? ParticipantEntity(
             id: id,
             user: user.id,
             name: user.name,
@@ -112,6 +114,14 @@ public actor ParticipantActor: ParticipantUseCase {
             status: status.rawValue,
             transaction: transaction
         )
+        entity.id = id
+        entity.user = user.id
+        entity.name = user.name
+        entity.photo = user.photo
+        entity.splitMode = splitMode.rawValue
+        entity.splitValue = splitValue
+        entity.status = status.rawValue
+        entity.transaction = transaction
         modelContext.insert(entity)
         try modelContext.save()
     }

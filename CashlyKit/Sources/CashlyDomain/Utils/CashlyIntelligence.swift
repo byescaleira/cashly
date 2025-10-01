@@ -72,11 +72,16 @@ public enum CashlyIntelligence: String, Identifiable, CaseIterable {
         
         switch self {
         case .budgetValue:
-            let transactions = Dictionary(grouping: transactions, by: \.budget.id)
-            for transaction in transactions.values {
-                let date = transaction.first?.date.yearMonth ?? .zero
-                let category = transaction.first?.budget.category.name ?? ""
-                let target = transaction.reduce(.zero) { $0 + $1.amount }
+            let dict = Dictionary(grouping: transactions, by: \.budget)
+            for item in dict {
+                let date = item.key.date
+                let category = item.key.category.name
+                let target = item.value.reduce(.zero) { partialResult, transaction in
+                    let amount = !transaction.participants.isEmpty ?
+                    transaction.splitValue ?? .zero : transaction.paymentsPlan != nil ?
+                    transaction.amount / (transaction.paymentsPlan ?? 1).double : transaction.amount
+                    return partialResult + amount
+                }
                 data.append(
                     [
                         "date": date,
@@ -140,19 +145,21 @@ public enum CashlyIntelligence: String, Identifiable, CaseIterable {
         transactions: [Transaction],
         tags: [Tag]
     ) async -> CashlyIntelligenceResult {
-        let tabularData = tabularData(transactions: transactions, tags: tags)
         let id = user.id + "_" + rawValue
         
         switch self {
         case .budgetValue:
-            let intelligence = RyzeTabularIntelligence(data: tabularData)
-            return await intelligence.trainingRegressor(id: id, name: name, maxIterations: 2_000)
+            let data = tabularData(transactions: transactions, tags: tags)
+            let intelligence = RyzeTabularIntelligence(data: data)
+            return await intelligence.trainingRegressor(id: id, name: name, maxIterations: 3_500)
         case .categoryName:
-            let intelligence = RyzeTextIntelligence(data: textData(transactions: transactions))
+            let data = textData(transactions: transactions)
+            let intelligence = RyzeTextIntelligence(data: data)
             return await intelligence.trainingTextClassifier(id: id, name: name, maxIterations: 100)
         case .tagValue:
-            let intelligence = RyzeTabularIntelligence(data: tabularData)
-            return await intelligence.trainingRegressor(id: id, name: name, maxIterations: 2_000)
+            let data = tabularData(transactions: transactions, tags: tags)
+            let intelligence = RyzeTabularIntelligence(data: data)
+            return await intelligence.trainingRegressor(id: id, name: name, maxIterations: 3_500)
         }
     }
     
@@ -167,3 +174,20 @@ public typealias CashlyPrediction = RyzeIntelligencePrediction
 public typealias CashlyPredictionResult = RyzeIntelligencePredictionResult
 public typealias CashlyPredictionInput = RyzeIntelligencePredictionInput
 public typealias CashlyFileManager = RyzeFileManager
+public typealias CashlyTabularData = [String: Any]
+
+public extension CashlyTabularData {
+    static func budgetValue(date: Int, category: String) -> [String: Any] {
+        [
+            "date": date,
+            "category": category
+        ]
+    }
+    
+    static func tagValue(date: Int, tag: String) -> [String: Any] {
+        [
+            "date": date,
+            "tag": tag
+        ]
+    }
+}

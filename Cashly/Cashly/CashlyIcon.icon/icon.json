@@ -43,15 +43,21 @@
                   "display-p3:0.07892,0.07983,0.07812,1.00000"
                 ]
               }
+            },
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "solid" : "srgb:0.20392,0.78039,0.34902,1.00000"
+              }
             }
           ],
           "image-name" : "Rectangle 4.svg",
           "name" : "Rectangle 4",
           "position" : {
-            "scale" : 1.21,
+            "scale" : 1.08,
             "translation-in-points" : [
               0,
-              285.05861448697726
+              236.10548948697726
             ]
           }
         }
@@ -81,21 +87,19 @@
             {
               "appearance" : "dark",
               "value" : {
-                "linear-gradient" : [
-                  "display-p3:0.18018,0.18042,0.17920,1.00000",
-                  "display-p3:0.11609,0.11426,0.11560,1.00000"
-                ]
+                "solid" : "display-p3:0.18018,0.18042,0.17920,1.00000"
               }
             }
           ],
           "glass" : false,
           "image-name" : "Vector.svg",
           "name" : "Vector",
+          "opacity" : 0.8,
           "position" : {
-            "scale" : 2.4,
+            "scale" : 2,
             "translation-in-points" : [
-              1.068169493794347,
-              -37.74649439734781
+              0,
+              -65.76211939734782
             ]
           }
         },
@@ -109,7 +113,7 @@
             {
               "appearance" : "dark",
               "value" : {
-                "solid" : "srgb:0.18824,0.81961,0.34510,0.50000"
+                "solid" : "srgb:0.20392,0.78039,0.34902,1.00000"
               }
             }
           ],
@@ -120,7 +124,7 @@
             "scale" : 1.25,
             "translation-in-points" : [
               0,
-              3.403247465184461
+              0
             ]
           }
         }

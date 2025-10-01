@@ -14,6 +14,10 @@ public actor MainMiddleware: CashlyMiddleware {
     let tagUseCase: TagUseCase
     let userUseCase: UserUseCase
     
+    var budgetValuePrediction: CashlyPrediction?
+    var categoryNamePrediction: CashlyPrediction?
+    var tagValuePrediction: CashlyPrediction?
+    
     public init(
         budgetUseCase: BudgetUseCase,
         categoryUseCase: CategoryUseCase,
@@ -40,8 +44,12 @@ public actor MainMiddleware: CashlyMiddleware {
                     await removeTag(tag: tag, continuation: continuation)
                 case let .removeTransaction(transaction):
                     await removeTransaction(transaction: transaction, continuation: continuation)
+                case let .removeTransactions(transactions):
+                    await removeTransactions(transactions: transactions, continuation: continuation)
                 case .selectUser:
                     await selectUser(state: state, continuation: continuation)
+                case .fetchPredictions:
+                    let _ = await setupPredictions(user: state.user)
                 case .error, .stopLoading:
                     break
                 }
@@ -51,19 +59,28 @@ public actor MainMiddleware: CashlyMiddleware {
     
     func fetch(state: MainState, continuation: AsyncStream<MainAction>.Continuation) async {
         do {
-            async let allCategories = categoryUseCase.getCategories()
-            async let allTags = tagUseCase.getTags()
-            async let allTransactions = transactionUseCase.getTransactions()
+            let user = try await userUseCase.getCurrentUser()
+            let userFilter = user == nil ? nil : [user?.id ?? ""]
+            
+            let allCategories = try await categoryUseCase.getCategories(ids: nil, users: userFilter)
+            let allBudgets = try await budgetUseCase.getBudgets(categories: allCategories.map(\.id), date: nil)
+            async let allTags = tagUseCase.getTags(users: userFilter)
+            async let allTransactions = transactionUseCase.getTransactions(
+                budgets: allBudgets.map(\.id),
+                tags: nil,
+                statuses: nil,
+                participants: nil,
+                date: nil
+            )
             
             let date: Date? = !state.filter.isFilteringByDate ? nil : state.filter.startDate
-            let user = try await userUseCase.getCurrentUser()
             
-            async let tags = tagUseCase.getTags(users: user == nil ? nil : [user?.id ?? ""])
+            async let tags = tagUseCase.getTags(users: userFilter)
             async let users = userUseCase.getUsers()
             
             let categories = try await categoryUseCase.getCategories(
                 ids: state.filter.categories.isEmpty ? nil : state.filter.categories.map(\.id),
-                users: user == nil ? nil : [user?.id ?? ""]
+                users: userFilter
             )
             let budgets = try await budgetUseCase.getBudgets(
                 categories: categories.map(\.id),
@@ -74,14 +91,32 @@ public actor MainMiddleware: CashlyMiddleware {
                 budgets: budgets.map(\.id),
                 tags: state.filter.tags.isEmpty ? nil : state.filter.tags.map { $0.name.lowercased() },
                 statuses: state.filter.transactionStatuses.isEmpty ? nil : state.filter.transactionStatuses.map(\.rawValue),
+                participants: state.filter.participants.isEmpty ? nil : state.filter.participants.map(\.id),
                 date: date
             )
             
             var filter = state.filter
-            filter.allCategories = try await allCategories
+            filter.allCategories = allCategories
             filter.allTags = try await allTags
             filter.allStatuses = TransactionStatus.allCases
             filter.allTransactions = try await allTransactions
+            
+            var predictedTransactionsAmount: Double = .zero
+            if await isSetupPredictions(user: user) {
+                for budget in budgets {
+                    let input = CashlyPredictionInput.tabularData(
+                        .budgetValue(
+                            date: state.filter.startDate.timeIntervalSince1970.yearMonth,
+                            category: budget.category.name
+                        )
+                    )
+                    let result = await prediction(input: input, model: .budgetValue)
+                    switch result {
+                    case .tabularRegression(let value): predictedTransactionsAmount += value
+                    default: continue
+                    }
+                }
+            }
             
             try await continuation.yield(
                 .update(
@@ -91,12 +126,47 @@ public actor MainMiddleware: CashlyMiddleware {
                     transactions: transactions,
                     tags: tags,
                     users: users,
-                    user: user
+                    user: user,
+                    predictedTransactionsAmount: predictedTransactionsAmount
                 )
             )
         } catch {
             continuation.yield(.error(.onFetch))
         }
+    }
+    
+    func isSetupPredictions(user: User?) async -> Bool {
+        guard let _ = budgetValuePrediction,
+              let _ = categoryNamePrediction,
+              let _ = tagValuePrediction
+        else { return await setupPredictions(user: user) }
+        return true
+    }
+    
+    nonisolated func prediction(input: CashlyPredictionInput, model: CashlyIntelligence) async -> CashlyPredictionResult {
+        guard let budgetValuePrediction = await budgetValuePrediction,
+              let categoryNamePrediction = await categoryNamePrediction,
+              let tagValuePrediction = await tagValuePrediction
+        else { return .empty }
+        switch model {
+        case .budgetValue: return await budgetValuePrediction.regressionPrediction(from: input)
+        case .categoryName: return await categoryNamePrediction.textPrediction(from: input)
+        case .tagValue: return await tagValuePrediction.regressionPrediction(from: input)
+        }
+    }
+    
+    func setupPredictions(user: User?) async -> Bool {
+        guard let user,
+              let budgetValueModel = CashlyIntelligence.budgetValue.model(for: user),
+              let categoryNameModel = CashlyIntelligence.categoryName.model(for: user),
+              let tagValueModel = CashlyIntelligence.tagValue.model(for: user)
+        else { return false }
+        
+        budgetValuePrediction = await CashlyPrediction(model: budgetValueModel)
+        categoryNamePrediction = await CashlyPrediction(model: categoryNameModel)
+        tagValuePrediction = await CashlyPrediction(model: tagValueModel)
+        
+        return true
     }
     
     func removeTag(tag: Tag, continuation: AsyncStream<MainAction>.Continuation) async {
@@ -115,6 +185,15 @@ public actor MainMiddleware: CashlyMiddleware {
     func removeTransaction(transaction: CashlyDomain.Transaction, continuation: AsyncStream<MainAction>.Continuation) async {
         do {
             try await transactionUseCase.removeTransaction(id: transaction.id)
+            continuation.yield(.fetch)
+        } catch {
+            continuation.yield(.error(.onRemove))
+        }
+    }
+    
+    func removeTransactions(transactions: Set<CashlyDomain.Transaction>, continuation: AsyncStream<MainAction>.Continuation) async {
+        do {
+            try await transactionUseCase.removeTransactions(ids: Set(transactions.map(\.id)))
             continuation.yield(.fetch)
         } catch {
             continuation.yield(.error(.onRemove))

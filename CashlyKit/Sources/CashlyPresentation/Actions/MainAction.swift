@@ -17,10 +17,13 @@ public enum MainAction: CashlyAction {
         transactions: [CashlyDomain.Transaction],
         tags: [Tag],
         users: [User],
-        user: User?
+        user: User?,
+        predictedTransactionsAmount: Double
     )
     case removeTag(Tag)
     case removeTransaction(CashlyDomain.Transaction)
+    case removeTransactions(Set<CashlyDomain.Transaction>)
     case selectUser
+    case fetchPredictions
     case error(CashlyError)
 }

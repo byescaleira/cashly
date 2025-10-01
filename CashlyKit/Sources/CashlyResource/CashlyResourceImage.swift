@@ -25,7 +25,7 @@ public enum CashlyResourceImage: String, RyzeResourceImage {
     }
     
     public static func avatar(id: String?) -> Image {
-        guard let id else { return Image(systemName: "person.fill") }
+        guard let id else { return Image(systemName: "person.crop.circle.dashed") }
         return Image("avatar\(id)", bundle: .module)
     }
     

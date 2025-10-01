@@ -126,6 +126,17 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
             let status = state.participants.isEmpty ? state.status :
             state.participants.first(where: { $0.status != .settled })?.status.reverse ?? .settled
             
+            for participant in state.participants {
+                try await participantUseCase.addParticipant(
+                    id: participant.id,
+                    user: participant.user,
+                    splitMode: participant.splitMode,
+                    splitValue: participant.splitValue,
+                    status: participant.status,
+                    transaction: participant.transaction
+                )
+            }
+            
             try await transactionUseCase.addTransaction(
                 id: state.id,
                 participants: Array(state.participants),
@@ -139,16 +150,6 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
                 paymentsPlan: state.installmentIsOn ? state.installmentPlan : nil
             )
             
-            for participant in state.participants {
-                try await participantUseCase.addParticipant(
-                    id: participant.id,
-                    user: participant.user,
-                    splitMode: participant.splitMode,
-                    splitValue: participant.splitValue,
-                    status: participant.status,
-                    transaction: participant.transaction
-                )
-            }
             continuation.yield(.saved)
         } catch {
             continuation.yield(.error(.onSave))

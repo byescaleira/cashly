@@ -7,6 +7,7 @@
 
 import CashlyDomain
 import RyzeArchitecture
+import RyzeIntelligence
 
 public struct MainState: CashlyState {
     public var isLoading: Bool
@@ -17,6 +18,9 @@ public struct MainState: CashlyState {
     public var tags: [Tag]
     public var users: [User]
     public var user: User?
+    
+    public var predictedTransactionsAmount: Double
+    
     public var error: CashlyError?
     
     public var intelligenceRouter: CashlyRouter<MainRoute> = .init()
@@ -33,6 +37,7 @@ public struct MainState: CashlyState {
         tags: [Tag] = [],
         users: [User] = [],
         user: User? = nil,
+        predictedTransactionsAmount: Double = .zero,
         error: CashlyError? = nil
     ) {
         self.isLoading = isLoading
@@ -43,6 +48,7 @@ public struct MainState: CashlyState {
         self.tags = tags
         self.users = users
         self.user = user
+        self.predictedTransactionsAmount = predictedTransactionsAmount
         self.error = error
     }
     

@@ -98,6 +98,7 @@ public actor AddCategoryMiddleware: CashlyMiddleware {
                 budgets: budgets.map(\.id),
                 tags: nil,
                 statuses: nil,
+                participants: nil,
                 date: nil
             )
             

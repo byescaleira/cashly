@@ -33,10 +33,9 @@ public struct CategoryScreen: CashlyView {
         .cashly(font: .callout)
         .toolbar {
             ToolbarItem(placement: .navigation) { UserItemView() }
-            ToolbarItemGroup {
-                FilterItemView()
-                addButton
-            }
+            ToolbarItem { FilterItemView() }
+            ToolbarSpacer(.fixed)
+            ToolbarItem { addButton }
         }
         .environment(\.isLoading, state.isLoading)
         .onAppear { action(.main(.fetch)) }
@@ -96,21 +95,18 @@ public struct CategoryScreen: CashlyView {
                     .cashlyPadding()
                 }
             }
-            .cashlyPadding(.horizontal, .medium)
+            .padding(.horizontal, 20)
         }
-        .cashlyPadding(.horizontal, .negative(.medium))
+        .padding(.horizontal, -20)
     }
     
     func categoryItemView(category: CashlyDomain.Category) -> some View {
-        CashlyHStack(spacing: .zero) {
+        CashlyHStack(spacing: .medium) {
             categoryIcon(category: category)
-                .cashlyPadding(.trailing, .medium)
             
             CashlyVStack(alignment: .leading, spacing: .extraSmall) {
                 CashlyHStack {
                     CashlyText(category.name)
-                    CategoryVariationView(category: category)
-                        .scaleEffect(0.8)
                     CashlySpacer()
                 }
                 .cashly(font: .callout, weight: .semibold)
@@ -124,6 +120,10 @@ public struct CategoryScreen: CashlyView {
             CashlyVStack(alignment: .trailing, spacing: .extraSmall) {
                 let budgetAmount = state.budgetsAmount(for: category)
                 let transactionsAmount = state.transactionsAmount(for: category)
+                
+                CategoryVariationView(category: category)
+                    .scaleEffect(0.7)
+                    .padding(.trailing, -6)
             
                 if budgetAmount > .zero {
                     CashlyText(budgetAmount.currency())
@@ -137,7 +137,6 @@ public struct CategoryScreen: CashlyView {
                 }
             }
             .cashly(alignment: .trailing)
-            .cashlyPadding(.trailing, .small)
             
             CashlySymbol("chevron.forward")
                 .cashly(color: .disabled)

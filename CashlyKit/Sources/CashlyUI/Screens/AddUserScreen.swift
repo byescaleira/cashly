@@ -33,13 +33,11 @@ public struct AddUserScreen: CashlyView {
             photosSection
         }
         .toolbar {
-            ToolbarItemGroup(placement: .bottomBar) {
-                CashlySpacer()
-                saveButton
+            ToolbarItemGroup {
                 removeButton
+                saveButton
             }
         }
-        .toolbar(.hidden, for: .tabBar)
         .onChange(of: state.isLoading) { updatePhoto() }
         .scrollDismissesKeyboard(.immediately)
         .cashlyDismiss(isSaved: state.isSaved)
@@ -152,6 +150,7 @@ public struct AddUserScreen: CashlyView {
         } label: {
             CashlySymbol("checkmark")
         }
+        .buttonStyle(.glassProminent)
         .disabled(!state.canSave)
         .cashly(tint: .primary)
     }
@@ -164,7 +163,7 @@ public struct AddUserScreen: CashlyView {
             } label: {
                 CashlySymbol("trash")
             }
-            .cashly(tint: .error)
+            .cashly(tint: .text)
         }
     }
     

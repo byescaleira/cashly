@@ -9,14 +9,14 @@ import SwiftData
 
 @Model
 public class ParticipantEntity {
-    @Attribute(.unique) public var id: String
-    public var user: String
-    public var name: String
-    public var photo: String
-    public var splitMode: Int
-    public var splitValue: Double
-    public var status: Int
-    public var transaction: String
+    public var id: String = ""
+    public var user: String = ""
+    public var name: String = ""
+    public var photo: String = ""
+    public var splitMode: Int = 0
+    public var splitValue: Double = 0
+    public var status: Int = 0
+    public var transaction: String = ""
     
     public init(
         id: String,

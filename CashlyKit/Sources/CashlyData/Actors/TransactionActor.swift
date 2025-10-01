@@ -60,6 +60,7 @@ public actor TransactionActor: TransactionUseCase {
         budgets: [String]?,
         tags: [String]?,
         statuses: [Int]?,
+        participants: [String]?,
         date: Date?
     ) async throws -> [CashlyDomain.Transaction] {
         let predicateBudget: Predicate<String>
@@ -122,9 +123,16 @@ public actor TransactionActor: TransactionUseCase {
                 splitValue: entity.splitValue,
                 paymentsPlan: entity.paymentsPlan
             ) {
-                transactions.append(transaction)
+                if let participants {
+                    if transaction.participants.map(\.user.id).contains(participants) {
+                        transactions.append(transaction)
+                    }
+                } else {
+                    transactions.append(transaction)
+                }
             }
         }
+        
         return transactions
     }
     
@@ -135,6 +143,18 @@ public actor TransactionActor: TransactionUseCase {
         let descriptor = FetchDescriptor<TransactionEntity>(predicate: predicate)
         guard let entity = try modelContext.fetch(descriptor).first else { return }
         modelContext.delete(entity)
+        try modelContext.save()
+    }
+    
+    public func removeTransactions(ids: Set<String>) async throws {
+        let predicate: Predicate<TransactionEntity> = #Predicate {
+            ids.contains($0.id)
+        }
+        let descriptor = FetchDescriptor<TransactionEntity>(predicate: predicate)
+        let entities = try modelContext.fetch(descriptor)
+        for entity in entities {
+            modelContext.delete(entity)
+        }
         try modelContext.save()
     }
     
@@ -159,7 +179,9 @@ public actor TransactionActor: TransactionUseCase {
         splitValue: Double?,
         paymentsPlan: Int?
     ) async throws {
-        let entity = TransactionEntity(
+        let predicate: Predicate<TransactionEntity> = #Predicate { $0.id == id }
+        let descriptor = FetchDescriptor<TransactionEntity>(predicate: predicate)
+        let entity = try modelContext.fetch(descriptor).first ?? TransactionEntity(
             id: id,
             participants: participants.map(\.id),
             budget: budget.id,
@@ -171,6 +193,16 @@ public actor TransactionActor: TransactionUseCase {
             splitValue: splitValue,
             paymentsPlan: paymentsPlan
         )
+        entity.id = id
+        entity.participants = participants.map(\.id)
+        entity.budget = budget.id
+        entity.amount = amount
+        entity.date = date
+        entity.summary = summary
+        entity.status = status.rawValue
+        entity.splitMode = splitMode?.rawValue
+        entity.splitValue = splitValue
+        entity.paymentsPlan = paymentsPlan
         modelContext.insert(entity)
         try modelContext.save()
     }

@@ -141,3 +141,54 @@ public enum TransactionSplitMode: Int, CaseIterable, CashlyEntity, Sendable {
         return nil
     }
 }
+
+public extension Set where Element == Transaction {
+    func shareMessage(participants: Set<User>) -> String {
+        let transactions = self.sorted(by: \.date, using: <)
+        
+        let totalAmount = transactions.reduce(.zero) { partialResult, transaction in
+            let amount = participants.isEmpty ?
+            (!transaction.participants.isEmpty ?
+            transaction.splitValue ?? .zero : transaction.paymentsPlan != nil ?
+            transaction.amount / (transaction.paymentsPlan ?? 1).double : transaction.amount) : transaction.participants.filter {
+                participants.contains($0.user)
+            }.reduce(.zero) {
+                $0 + (
+                    $1.splitMode.value(
+                        splitValue: $1.splitValue,
+                        amount: transaction.amount
+                    ) ?? .zero
+                )
+            }
+            return partialResult + amount
+        }
+        
+        var messages = "💸 Expenses Summary ".breakLine.breakLine
+        
+        messages += transactions.map { transaction in
+            let date = transaction.date.date.string(with: .transaction(.shareMessage)) ?? ""
+            let amount = participants.isEmpty ?
+            (!transaction.participants.isEmpty ?
+            transaction.splitValue ?? .zero : transaction.paymentsPlan != nil ?
+            transaction.amount / (transaction.paymentsPlan ?? 1).double : transaction.amount) : transaction.participants.filter {
+                participants.contains($0.user)
+            }.reduce(.zero) {
+                $0 + (
+                    $1.splitMode.value(
+                        splitValue: $1.splitValue,
+                        amount: transaction.amount
+                    ) ?? .zero
+                )
+            }
+            let category = transaction.budget.category.name.capitalized
+            var message = " 💵 \(amount.currency() ?? "")".breakLine
+            message += " 🗓 \(date)".breakLine
+            message += " 🏷️ \(category)".space + "-".space + transaction.summary.breakLine
+            return message
+        }.joined(separator: "\n").breakLine
+        
+        messages += "📊 Transactions: \(transactions.count)\n"
+        messages += "💰 Total: \(totalAmount.currency() ?? "")"
+        return messages
+    }
+}

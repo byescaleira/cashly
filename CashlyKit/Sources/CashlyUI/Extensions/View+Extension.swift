@@ -139,7 +139,7 @@ public extension View {
         isActive: Bool = true,
         input: Binding<CashlyPredictionInput>,
         publishEvery: TimeInterval? = nil,
-        completion: @escaping (CashlyPredictionResult) -> Void
+        result: Binding<CashlyPredictionResult>
     ) -> some View {
         self.modifier(
             CashlyIntelligenceModifier(
@@ -147,7 +147,7 @@ public extension View {
                 isActive: isActive,
                 input: input,
                 publishEvery: publishEvery,
-                completion: completion
+                result: result
             )
         )
     }

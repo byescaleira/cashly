@@ -117,13 +117,20 @@ public actor BudgetActor: BudgetUseCase {
         date: Int,
         summary: String
     ) async throws {
-        let entity = BudgetEntity(
+        let predicate: Predicate<BudgetEntity> = #Predicate { $0.id == id }
+        let descriptor = FetchDescriptor<BudgetEntity>(predicate: predicate)
+        let entity = try modelContext.fetch(descriptor).first ?? BudgetEntity(
             id: id,
             amount: amount,
             category: category.id,
             date: date,
             summary: summary
         )
+        entity.id = id
+        entity.amount = amount
+        entity.category = category.id
+        entity.date = date
+        entity.summary = summary
         modelContext.insert(entity)
         try modelContext.save()
     }

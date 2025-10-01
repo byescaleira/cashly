@@ -17,6 +17,10 @@ public struct AddBudgetScreen: CashlyView {
     @Environment(\.addBudgetState) var state
     @Environment(\.action) var action
     @Environment(\.router) var router
+    @Environment(\.user) var user
+    
+    @State var predictionInput: CashlyPredictionInput = .empty
+    @State var predictionResult: CashlyPredictionResult = .empty
     
     var initialState: AddBudgetState?
     
@@ -32,19 +36,34 @@ public struct AddBudgetScreen: CashlyView {
             dateSection
         }
         .toolbar {
-            ToolbarItemGroup(placement: .bottomBar) {
-                CashlySpacer()
-                saveButton
+            ToolbarItemGroup {
+                quickFillItem
                 removeButton
             }
+            
+            ToolbarItem { saveButton }
         }
         .scrollDismissesKeyboard(.immediately)
-        .toolbar(.hidden, for: .tabBar)
         .onChange(of: state.yearMonth) { action(.addBudget(.fetch)) }
         .onChange(of: state.category) { action(.addBudget(.fetch)) }
+        .onChange(of: predictionResult) { handlerPrediction() }
         .task { await handlerInitialState() }
+        .cashlyIntelligence(
+            model: .budgetValue,
+            input: $predictionInput,
+            result: $predictionResult
+        )
         .cashlyDismiss(isSaved: state.isSaved)
         .environment(\.isLoading, state.isLoading)
+    }
+    
+    func handlerPrediction() {
+        switch predictionResult {
+        case .tabularRegression(let value):
+            store.state.amount = value
+        default:
+            break
+        }
     }
     
     func handlerInitialState() async {
@@ -66,7 +85,9 @@ public struct AddBudgetScreen: CashlyView {
                     .cashly(glass: .clear.tint(Color(hex: state.category?.color).opacity(0.2)), in: .capsule)
                 
                 CashlyCurrencyTextField(amount: $store.state.amount)
+                    #if os(iOS)
                     .keyboardType(.numberPad)
+                    #endif
                     .frame(maxWidth: .infinity)
                     .cashly(alignment: .center)
                     .cashly(font: .system(size: 40), weight: .black)
@@ -166,8 +187,9 @@ public struct AddBudgetScreen: CashlyView {
         } label: {
             CashlySymbol("checkmark")
         }
+        .buttonStyle(.glassProminent)
         .disabled(!state.canSave)
-        .cashly(tint: .primary)
+        .cashly(tint: state.canSave ? .primary : .disabled)
     }
     
     @ViewBuilder
@@ -177,8 +199,27 @@ public struct AddBudgetScreen: CashlyView {
                 action(.addBudget(.remove))
             } label: {
                 CashlySymbol("trash")
-            } 
-            .cashly(tint: .error)
+            }
+            .cashly(tint: .text)
+        }
+    }
+    
+    @ViewBuilder
+    var quickFillItem: some View {
+        if let user,
+           let model = CashlyIntelligence.budgetValue.model(for: user),
+           model.createDate != nil {
+            CashlyButton {
+                predictionInput = .tabularData(
+                    .budgetValue(
+                        date: state.date.timeIntervalSince1970.yearMonth,
+                        category: state.category?.name ?? ""
+                    )
+                )
+            } label: {
+                CashlySymbol("bolt.fill")
+            }
+            .cashly(tint: .color(.yellow))
         }
     }
     

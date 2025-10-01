@@ -30,17 +30,14 @@ public struct AddCategoryScreen: CashlyView {
             infoSection
             nameSection
             iconCategorySection
-            iconsSection
         }
         .toolbar {
-            ToolbarItemGroup(placement: .bottomBar) {
+            ToolbarItemGroup {
                 UserItemView()
-                CashlySpacer()
-                saveButton
                 removeButton
+                saveButton
             }
         }
-        .toolbar(.hidden, for: .tabBar)
         .onChange(of: state.isLoading) { setIcon() }
         .onChange(of: state.icon) { onChangeIcon() }
         .task { await handlerInitialState() }
@@ -113,22 +110,25 @@ public struct AddCategoryScreen: CashlyView {
             CashlyText("Icon")
                 .cashly(font: .title3, weight: .semibold)
                 .cashly(color: .text)
-        }
-    }
-    
-    var iconsSection: some View {
-        Section {
-            
-        } header: {
-            LazyVGrid(
-                columns: [.init(.adaptive(minimum: 60), spacing: 14)],
-                spacing: 14
-            ) {
-                ForEach(category.symbols, id: \.self) { icon in
-                    iconItemView(item: icon)
+        } footer: {
+            CashlyHorizontalList { proxy in
+                CashlyHStack(spacing: .zero) {
+                    ForEach(category.symbols, id: \.self) { icon in
+                        iconItemView(item: icon)
+                            .cashlyPadding()
+                    }
                 }
+                .onChange(of: state.icon) {
+                    Task {
+                        try await Task.sleep(for: .seconds(0.2))
+                        withAnimation(.bouncy.speed(0.5)) {
+                            proxy.scrollTo(state.icon, anchor: .center)
+                        }
+                    }
+                }
+                .padding(.horizontal, 40)
             }
-            .cashlyPadding(.horizontal, .negative(.medium))
+            .padding(.horizontal, -40)
         }
     }
     
@@ -137,14 +137,24 @@ public struct AddCategoryScreen: CashlyView {
             store.state.icon = item
         } label: {
             CashlySymbol(item)
-                .cashly(font: .system(size: 25))
+                .cashly(font: .system(size: 18))
                 .cashly(color: item == state.icon ? .color(state.color) : .color(.gray))
-                .frame(width: 60, height: 60)
-                .cashly(background: item == state.icon ? .color(state.color.opacity(0.2)) : .color(.clear))
-                .cashly(if: item != state.icon) {
-                    $0.cashlyBackgroundItem()
-                }
+                .frame(width: 40, height: 40)
+                .cashly(background: item == state.icon ? .color(state.color.opacity(0.2)) : .color(.gray.opacity(0.2)))
                 .cashly(clip: .circle)
+                .overlay {
+                    if item == state.icon {
+                        Circle()
+                            .stroke(state.color, lineWidth: 2)
+                            .frame(width: 45, height: 45)
+                    }
+                }
+                .cashly(if: item == state.icon) {
+                    $0.cashly(
+                        symbol: .bounce.byLayer,
+                        options: .repeat(.continuous).speed(0.1)
+                    )
+                }
         }
         .buttonStyle(.plain)
     }
@@ -152,10 +162,12 @@ public struct AddCategoryScreen: CashlyView {
     var iconHeaderView: some View {
         CashlySymbol(state.icon, mode: .hierarchical)
             .cashly(font: .system(size: 50))
-            .cashly(symbol: .variableColor.reversing.cumulative)
+            .cashly(
+                symbol: .bounce.byLayer,
+                options: .repeat(.continuous).speed(0.1)
+            )
             .cashly(color: .color(state.color))
             .frame(width: 120, height: 120)
-            .animation(.linear.speed(0.1).repeatForever(autoreverses: false), value: state.isLoading)
             .cashly(background: .color(state.color.opacity(0.2)))
             .cashly(clip: .circle)
             .overlay {
@@ -179,8 +191,9 @@ public struct AddCategoryScreen: CashlyView {
         } label: {
             CashlySymbol("checkmark")
         }
+        .buttonStyle(.glassProminent)
         .disabled(!state.canSave)
-        .cashly(tint: .primary)
+        .cashly(tint: state.canSave ? .primary : .disabled)
     }
     
     @ViewBuilder
@@ -191,7 +204,7 @@ public struct AddCategoryScreen: CashlyView {
             } label: {
                 CashlySymbol("trash")
             }
-            .cashly(tint: .error)
+            .cashly(tint: .text)
         }
     }
     

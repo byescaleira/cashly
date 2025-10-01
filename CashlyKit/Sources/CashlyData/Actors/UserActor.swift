@@ -82,11 +82,16 @@ public actor UserActor: UserUseCase {
         name: String,
         photo: String
     ) async throws {
-        let entity = UserEntity(
+        let predicate: Predicate<UserEntity> = #Predicate { $0.id == id }
+        let descriptor = FetchDescriptor<UserEntity>(predicate: predicate)
+        let entity = try modelContext.fetch(descriptor).first ?? UserEntity(
             id: id,
             name: name,
             photo: photo
         )
+        entity.id = id
+        entity.name = name
+        entity.photo = photo
         modelContext.insert(entity)
         try modelContext.save()
     }

@@ -10,11 +10,13 @@ import SwiftData
 
 import RyzeUI
 import RyzeArchitecture
+import RyzeIntelligence
 
 import CashlyDomain
 import CashlyData
 import CashlyPresentation
 import CashlyUI
+import CashlyMock
 
 @main
 struct CashlyApp: App {
@@ -30,6 +32,9 @@ struct CashlyApp: App {
     var body: some Scene {
         WindowGroup {
             MainScreen()
+                #if targetEnvironment(simulator)
+                .cashlyPreview()
+                #else
                 .environmentObject(addCategoryStore)
                 .environmentObject(addBudgetStore)
                 .environmentObject(addTransactionStore)
@@ -55,6 +60,7 @@ struct CashlyApp: App {
                 .task { handler(action: .main(.fetch)) }
             
                 .tint(theme.color.primary)
+                #endif
         }
     }
     

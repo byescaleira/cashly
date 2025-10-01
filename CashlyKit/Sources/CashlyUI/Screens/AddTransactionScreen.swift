@@ -19,8 +19,11 @@ public struct AddTransactionScreen: CashlyView {
     @Environment(\.mainState) var mainState
     @Environment(\.action) var action
     @Environment(\.router) var router
+    @Environment(\.user) var user
     
     @State var selectedUsers: Set<User> = []
+    @State var isActivePrediction: Bool = true
+    @State var predictionResult: CashlyPredictionResult = .empty
     
     var predictionInput: Binding<CashlyPredictionInput> {
         Binding {
@@ -44,33 +47,35 @@ public struct AddTransactionScreen: CashlyView {
             selectedParticipantsSection
         }
         .toolbar {
-            ToolbarItemGroup(placement: .bottomBar) {
+            ToolbarItemGroup {
+                intelligenceItem
                 participantsItem
-                CashlySpacer()
-                saveButton
                 removeButton
             }
+            
+            ToolbarItem { saveButton }
         }
-        .toolbar(.hidden, for: .tabBar)
         .task { await handlerInitialState() }
         .onChange(of: state.date.timeIntervalSince1970.yearMonth) { action(.addTransaction(.fetch)) }
         .onChange(of: selectedUsers) { onChangeSelectedUsers() }
-        .onChange(of: state.participants.count) { updateSplitValue() }
+        .onChange(of: state.participants) { updateSplitValue() }
         .onChange(of: state.amount) { updateSplitValue() }
+        .onChange(of: predictionResult) { handlerPrediction() }
         .onDisappear { selectedUsers = [] }
         .scrollDismissesKeyboard(.immediately)
         .cashlyIntelligence(
             model: .categoryName,
+            isActive: isActivePrediction,
             input: predictionInput,
             publishEvery: 1,
-            completion: handlerPrediction(result:)
+            result: $predictionResult
         )
         .cashlyDismiss(isSaved: state.isSaved)
         .environment(\.isLoading, state.isLoading)
     }
     
-    func handlerPrediction(result: CashlyPredictionResult) {
-        switch result {
+    func handlerPrediction() {
+        switch predictionResult {
         case .textClassification(let value):
             let category = value.lowercased()
             store.state.budget = state.budgets.first(where: {
@@ -90,6 +95,7 @@ public struct AddTransactionScreen: CashlyView {
     }
     
     func onChangeSelectedUsers() {
+        guard selectedUsers.count != store.state.participants.count else { return }
         store.state.splitMode = selectedUsers.isEmpty ? nil : store.state.splitMode ?? .equal
         store.state.participants = selectedUsers.map {
             let splitValue: Double
@@ -118,7 +124,9 @@ public struct AddTransactionScreen: CashlyView {
                 
                 CashlyVStack(spacing: .zero) {
                     CashlyCurrencyTextField(amount: $store.state.amount)
+                        #if os(iOS)
                         .keyboardType(.numberPad)
+                        #endif
                         .cashly(alignment: .center)
                         .cashly(font: .system(size: 40), weight: .black)
                         .cashly(tint: .color(.clear))
@@ -259,7 +267,6 @@ public struct AddTransactionScreen: CashlyView {
                             .id(category)
                     }
                 }
-                .cashlyPadding(.horizontal, .medium)
                 .onChange(of: state.category) {
                     Task {
                         try await Task.sleep(for: .seconds(0.2))
@@ -268,13 +275,15 @@ public struct AddTransactionScreen: CashlyView {
                         }
                     }
                 }
+                .padding(.horizontal, 20)
             }
-            .cashlyPadding(.horizontal, .negative(.medium))
+            .padding(.horizontal, -20)
         }
     }
     
     func categoryItemView(category: CashlyDomain.Category) -> some View {
         CashlyButton {
+            isActivePrediction = false
             store.state.budget = state.budgets.first(where: { $0.category.id == category.id })
         } label: {
             CashlySymbol(category.icon)
@@ -388,6 +397,10 @@ public struct AddTransactionScreen: CashlyView {
     }
     
     func updateSplitValue() {
+        if store.state.participants.count != selectedUsers.count {
+            selectedUsers = Set(state.participants.map(\.user))
+        }
+        
         store.state.splitValue = store.state.participants.isEmpty ? nil : (store.state.amount - store.state.participants.compactMap {
             let value = $0.splitMode.value(splitValue: $0.splitValue, amount: store.state.amount)
             return value
@@ -416,8 +429,9 @@ public struct AddTransactionScreen: CashlyView {
         } label: {
             CashlySymbol("checkmark")
         }
+        .buttonStyle(.glassProminent)
         .disabled(!state.canSave)
-        .cashly(tint: .primary)
+        .cashly(tint: state.canSave ? .primary : .disabled)
     }
     
     @ViewBuilder
@@ -428,7 +442,7 @@ public struct AddTransactionScreen: CashlyView {
             } label: {
                 CashlySymbol("trash")
             }
-            .cashly(tint: .error)
+            .cashly(tint: .text)
         }
     }
     
@@ -453,6 +467,20 @@ public struct AddTransactionScreen: CashlyView {
             CashlyText("Installment")
                 .cashly(font: .title3, weight: .semibold)
                 .cashly(color: .text)
+        }
+    }
+    
+    @ViewBuilder
+    var intelligenceItem: some View {
+        if let user,
+           let model = CashlyIntelligence.categoryName.model(for: user),
+           model.createDate != nil,
+           !isActivePrediction {
+            CashlyButton {
+                isActivePrediction = true
+            } label: {
+                CashlySymbol("bolt.fill")
+            }
         }
     }
     

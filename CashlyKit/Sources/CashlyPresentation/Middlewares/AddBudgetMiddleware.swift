@@ -101,6 +101,7 @@ public actor AddBudgetMiddleware: CashlyMiddleware {
                 budgets: [state.id],
                 tags: nil,
                 statuses: nil,
+                participants: nil,
                 date: nil
             )
             

@@ -11,13 +11,13 @@ import RyzeFoundation
 
 @Model
 public class TransactionEntity {
-    @Attribute(.unique) public var id: String
-    public var participants: [String]
-    public var budget: String
-    public var amount: Double
-    public var date: TimeInterval
-    public var summary: String
-    public var status: Int
+    public var id: String = ""
+    public var participants: [String] = []
+    public var budget: String = ""
+    public var amount: Double = 0
+    public var date: TimeInterval = 0
+    public var summary: String = ""
+    public var status: Int = 0
     public var splitMode: Int?
     public var splitValue: Double?
     public var paymentsPlan: Int?
@@ -71,10 +71,12 @@ public class TransactionEntity {
 
 enum TransactionDateFormatter: RyzeDateFormatter {
     case yearMonth
+    case shareMessage
     
     var rawValue: DateFormatter {
         switch self {
         case .yearMonth: getFormatter(from: "yyyyMM")
+        case .shareMessage: getFormatter(from: "dd MMMM, yyyy | HH:mm")
         }
     }
 }

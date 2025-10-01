@@ -27,12 +27,14 @@ actor MockTransactionActor: TransactionUseCase {
         budgets: [String]?,
         tags: [String]?,
         statuses: [Int]?,
+        participants: [String]?,
         date: Date?
     ) async throws -> [CashlyDomain.Transaction] {
         transactions.filter { transaction in
             (budgets?.isEmpty == false ? budgets!.contains(transaction.budget.id) : true) &&
             (tags?.isEmpty == false ? tags!.contains(where: { transaction.summary.contains($0) }) : true) &&
             (statuses?.isEmpty == false ? statuses!.contains(where: { transaction.status.rawValue == $0 }) : true) &&
+            (participants?.isEmpty == false ? transaction.participants.map(\.id).contains(participants!) : true) &&
             (date != nil ? transaction.date.yearMonth == date?.timeIntervalSince1970.yearMonth : true)
         }
     }
@@ -42,6 +44,12 @@ actor MockTransactionActor: TransactionUseCase {
               let index = transactions.firstIndex(of: transaction)
         else { return }
         let _ = transactions.remove(at: index)
+    }
+    
+    func removeTransactions(ids: Set<String>) async throws {
+        transactions.removeAll(where: {
+            !ids.contains($0.id)
+        })
     }
     
     func removeTransactions() async throws {

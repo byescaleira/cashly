@@ -22,11 +22,22 @@ public struct IntelligenceScreen: CashlyView {
     public var body: some View {
         CashlyList {
             CashlySystemMonitorView()
-            modelsSection
-            trainButton
+            Group {
+                modelsSection
+                trainButton
+            }
+            .opacity(state.filter.allTransactions.count < 50 ? 0.5 : 1)
+            .disabled(state.filter.allTransactions.count < 50)
         }
         .navigationTitle("Intelligence")
+        .toolbar {
+            ToolbarItem(placement: .navigation) { UserItemView() }
+        }
         .onAppear { action(.main(.fetch)) }
+        .onChange(of: isTraining) {
+            guard isTraining.allSatisfy({ !$0.value }) else { return }
+            action(.main(.fetchPredictions))
+        }
     }
     
     @ViewBuilder
@@ -72,7 +83,7 @@ public struct IntelligenceScreen: CashlyView {
                                     
                                     
                                     CashlyText(intelligenceModel?.size)
-                                        .cashly(font: .callout, weight: .bold)
+                                        .cashly(font: .callout)
                                         .cashly(color: .textSecondary)
                                 }
                                 .transition(.scale)
@@ -99,6 +110,7 @@ public struct IntelligenceScreen: CashlyView {
                 let disabled = isTraining.contains(where: { $0.value == true })
                 CashlyButton {
                     guard let user = state.user else { return }
+                    CashlyIntelligence.clean()
                     for model in CashlyIntelligence.allCases {
                         train(model: model, user: user)
                     }
@@ -114,10 +126,10 @@ public struct IntelligenceScreen: CashlyView {
                 
                 CashlyButton {
                     CashlyIntelligence.clean()
+                    action(.main(.fetch))
                 } label: {
-                    CashlyText("Clean Models")
-                        .underline()
-                        .cashly(font: .footnote, weight: .bold)
+                    CashlyText("Clean Models".uppercased())
+                        .cashly(font: .caption, weight: .semibold)
                         .cashly(color: .textSecondary)
                 }
             }
@@ -126,7 +138,6 @@ public struct IntelligenceScreen: CashlyView {
     
     func train(model: CashlyIntelligence, user: User) {
         guard !isTraining[model, default: false] else { return }
-        CashlyIntelligence.clean()
         Task {
             let _ = await model.train(
                 user: user,

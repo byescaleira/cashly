@@ -22,9 +22,15 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
                 ParticipantEntity.self
             )
             
+            let configuration = ModelConfiguration(
+                schema: schema,
+                isStoredInMemoryOnly: false,
+                cloudKitDatabase: .private("iCloud.cashly")
+            )
+            
             let container = try ModelContainer(
                 for: schema,
-                configurations: .init(isStoredInMemoryOnly: false),
+                configurations: configuration
             )
             
             modelContainer = container

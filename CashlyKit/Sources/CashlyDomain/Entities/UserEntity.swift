@@ -9,9 +9,9 @@ import SwiftData
 
 @Model
 public class UserEntity {
-    @Attribute(.unique) public var id: String
-    public var name: String
-    public var photo: String
+    public var id: String = ""
+    public var name: String = ""
+    public var photo: String = ""
     
     public init(
         id: String,
