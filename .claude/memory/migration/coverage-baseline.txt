@@ -26,7 +26,7 @@ Root cause:
 
 Why app builds: Xcode adds implicit Foundation/SwiftUI imports for app/widget targets and processes app-target Assets.xcassets. SPM CLI does not.
 
-Resolution path: xcodebuild-based CI (this Wave 0) sidesteps the issue. True fix tracked as new gap (G025) for Wave 1 — add explicit imports + relocate ImageResource lookup to a target that has the asset catalog OR add an asset catalog to CashlyResource.
+Resolution path: xcodebuild-based CI (this Wave 0) sidesteps the issue. True fix tracked as new gap (G027) for Wave 1 — add explicit imports + relocate ImageResource lookup to a target that has the asset catalog OR add an asset catalog to CashlyResource.
 
 Ryze→Prism upstream
 -------------------

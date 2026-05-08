@@ -5,16 +5,18 @@
 
 ## Sprint / Milestone
 
-**Atual**: Migration Wave 0
-**Objetivo**: Obter aprovação humana do `migration/migration-plan.md` e das 8 decisões bloqueadoras antes de iniciar Wave 0
+**Atual**: Migration Wave 0 → Wave 1
+**Objetivo**: Concluir Wave 1 (smoke/snapshot tests) após desbloquear G027
 **Deadline**: _(none)_
 
 ## Em Progresso
 
-- Aguardando aprovação humana do `migration/migration-plan.md` antes de Wave 0
+- Wave 0 partial commitada (22f6034). Smoke tests e snapshot tests deferidos — aguardam resolução de G027 (SPM CLI quebrado em CashlyResource).
+- Wave 1 ainda não iniciada.
 
 ## Bloqueios Conhecidos
 
+- **G027** — `swift test` CLI quebra em CashlyResource (falta de explicit imports de Foundation/SwiftUI; asset catalog não-bundled). Bloqueia smoke/snapshot tests. CI usa xcodebuild como workaround.
 - 8 decisões humanas pendentes bloqueiam Wave 5 (Ryze→Prism) — ver "Decisões Pendentes" abaixo.
 
 ## Decisões Pendentes
@@ -36,6 +38,7 @@ _(nenhuma)_
 
 ## Notas para a Próxima Sessão
 
-- Resolver itens de "Decisões Pendentes" com o time antes de rodar `/migrate Wave 0`.
+- Iniciar Wave 1 após resolver G027 (SPM CLI / CashlyResource explicit imports).
+- G026, G027, G028 já registrados em `migration/gap-analysis.md` — não duplicar aqui.
+- 8 decisões humanas em "Decisões Pendentes" ainda abertas — resolver antes de Wave 5.
 - `migration/baseline.md` é imutável — referência para comparar métricas futuras.
-- `migration/gap-analysis.md` contém 24 gaps priorizados (7 críticos, 11 importantes, 6 nice-to-have).

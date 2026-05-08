@@ -291,14 +291,14 @@ Ver tabela em G022. **DECISÃO HUMANA PENDENTE** consolidada:
 
 ## Descoberto durante migração
 
-### G023 — Ryze upstream renomeado para Prism (HEAD da `main`)
+### G026 — Ryze upstream renomeado para Prism (HEAD da `main`)
 - **Severidade:** Crítica (build quebra em máquina limpa sem pin)
 - **Esforço:** P (mitigado em Wave 0 via revision pin)
 - **Onda:** Wave 0 mitigado; resolução real = Wave 5
 - **Ação Wave 0:** Package.swift pinado em `revision: 15b047569bd780e5362c351140c49308da2e055e` (último commit Ryze-named).
 - **Resolução final:** Wave 5a substitui dependência por Prism + atualiza imports.
 
-### G024 — `swift test` CLI quebrado em CashlyResource (Foundation/SwiftUI/ImageResource)
+### G027 — `swift test` CLI quebrado em CashlyResource (Foundation/SwiftUI/ImageResource)
 - **Severidade:** Importante
 - **Esforço:** S (1 dia)
 - **Onda:** Wave 1
@@ -306,7 +306,7 @@ Ver tabela em G022. **DECISÃO HUMANA PENDENTE** consolidada:
 - **Mitigação Wave 0:** CI usa xcodebuild em vez de `swift test`.
 - **Fix:** explicit `import Foundation` + `import SwiftUI` em CashlyResource; mover ImageResource para target com .xcassets ou criar .xcassets em CashlyResource.
 
-### G025 — `xcbeautify` ausente em runner; CI depende do binário
+### G028 — `xcbeautify` ausente em runner; CI depende do binário
 - **Severidade:** Nice-to-have
 - **Esforço:** P
 - **Onda:** Wave 0 follow-up
