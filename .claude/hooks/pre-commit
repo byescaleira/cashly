@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# pre-commit hook — Wave 0 (warning-only)
+#
+# Runs swift-format --lint and swiftlint --quiet on staged Swift files.
+# Exits 0 even when warnings are found (no blocking behaviour in Wave 0).
+# In Wave 2+ this will be tightened to block on errors.
+
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+# Collect staged Swift files
+STAGED_SWIFT=$(git diff --cached --name-only --diff-filter=ACM | grep '\.swift$' || true)
+
+if [ -z "$STAGED_SWIFT" ]; then
+    exit 0
+fi
+
+SWIFT_FORMAT_ISSUES=0
+SWIFTLINT_ISSUES=0
+
+# --- swift-format lint ---
+if command -v swift-format &>/dev/null; then
+    while IFS= read -r file; do
+        ABS="$REPO_ROOT/$file"
+        [ -f "$ABS" ] || continue
+        if ! swift-format lint --configuration "$REPO_ROOT/.swift-format" "$ABS" 2>/dev/null; then
+            SWIFT_FORMAT_ISSUES=$((SWIFT_FORMAT_ISSUES + 1))
+        fi
+    done <<< "$STAGED_SWIFT"
+    if [ "$SWIFT_FORMAT_ISSUES" -gt 0 ]; then
+        echo "swift-format: $SWIFT_FORMAT_ISSUES file(s) have formatting issues (warning-only in Wave 0)"
+    fi
+else
+    echo "swift-format not found — skipping format lint"
+fi
+
+# --- swiftlint ---
+if command -v swiftlint &>/dev/null; then
+    # Build a temp file list for swiftlint
+    TMP_FILES=$(mktemp)
+    while IFS= read -r file; do
+        ABS="$REPO_ROOT/$file"
+        [ -f "$ABS" ] && echo "$ABS" >> "$TMP_FILES"
+    done <<< "$STAGED_SWIFT"
+
+    if [ -s "$TMP_FILES" ]; then
+        swiftlint lint --quiet \
+            --config "$REPO_ROOT/.swiftlint.yml" \
+            $(cat "$TMP_FILES") 2>/dev/null || SWIFTLINT_ISSUES=$?
+        if [ "$SWIFTLINT_ISSUES" -ne 0 ]; then
+            echo "swiftlint: warnings found (warning-only in Wave 0)"
+        fi
+    fi
+    rm -f "$TMP_FILES"
+else
+    echo "swiftlint not found — skipping lint"
+fi
+
+# Wave 0: always exit 0 (warning-only).
+# TODO Wave 2: change to exit 1 when SWIFTLINT_ISSUES > 0 for error-level rules.
+exit 0

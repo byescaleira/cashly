@@ -1,0 +1,59 @@
+# SwiftLint configuration — Wave 0 (permissive baseline)
+# All rules that would fail the build are disabled or set to warning-only.
+# Rules will be promoted to error in Wave 2 (force_unwrapping, force_try, force_cast)
+# and beyond as the codebase is hardened.
+
+# Paths included in linting
+included:
+  - Cashly
+  - CashlyKit/Sources
+
+# Paths excluded from linting
+excluded:
+  - .build
+  - .swiftpm
+  - CashlyKit/.build
+  - Packages
+  - DerivedData
+
+# Rules that are off by default but we want enabled as warnings
+opt_in_rules:
+  - force_unwrapping
+  - force_try
+  - force_cast
+  - large_tuple
+  - function_body_length
+  - type_body_length
+
+# Configuration for individual rules — all warning-only in Wave 0
+force_unwrapping:
+  severity: warning
+
+force_try:
+  severity: warning
+
+force_cast:
+  severity: warning
+
+large_tuple:
+  warning: 3
+  error: 4
+
+function_body_length:
+  warning: 60
+  error: 100
+
+type_body_length:
+  warning: 350
+  error: 500
+
+line_length:
+  warning: 140
+  error: 200
+  ignores_urls: true
+  ignores_comments: true
+
+# Disable rules that would produce too much noise before Wave 1+
+disabled_rules:
+  - todo
+  - trailing_whitespace

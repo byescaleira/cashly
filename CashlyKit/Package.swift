@@ -114,15 +114,15 @@ enum CashlyDependency: String, CaseIterable {
         }
     }
     
-    var branch: String {
+    var revision: String {
         switch self {
-        case .ryze: return "main"
+        case .ryze: return "15b047569bd780e5362c351140c49308da2e055e"
         }
     }
-    
+
     var dependency: Package.Dependency {
         switch self {
-        case .ryze: return .package(url: url, branch: branch)
+        case .ryze: return .package(url: url, revision: revision)
         }
     }
 }

@@ -1,0 +1,34 @@
+Coverage Baseline — Wave 0
+==========================
+
+Date: 2026-05-08
+Method: deferred — local execution blocked by SPM-CLI build issue (see below).
+CI will populate this on first successful run.
+
+Known state at Wave 0:
+- Existing tests: CashlyKit/Tests/CashlyTests/Actors/BudgetActorTests.swift only.
+- All other targets (Domain, Data, Presentation, UI, Mock): 0% covered.
+
+Wave 0 added smoke tests for Data actors and snapshot tests for UI screens (TODO: see SmokeTests.swift, __Snapshots__/).
+After CI runs once, paste output of:
+  xcrun xccov view --report --files-for-path Cashly/Cashly.xcodeproj <result-bundle>
+
+Blocker discovered during Wave 0
+--------------------------------
+`swift test` from CLI fails on CashlyResource module:
+
+  CashlyResourceFile.swift:18:22  cannot find type 'Data' in scope
+  CashlyResourceImage.swift:17:26 cannot find type 'ImageResource' in scope
+
+Root cause:
+1. Sources `import RyzeFoundation` only. Foundation/SwiftUI not transitively re-exported.
+2. `ImageResource` requires .xcassets bundled in package; current package only `.copy`s JSON mocks. App's Assets.xcassets lives in app target.
+
+Why app builds: Xcode adds implicit Foundation/SwiftUI imports for app/widget targets and processes app-target Assets.xcassets. SPM CLI does not.
+
+Resolution path: xcodebuild-based CI (this Wave 0) sidesteps the issue. True fix tracked as new gap (G025) for Wave 1 — add explicit imports + relocate ImageResource lookup to a target that has the asset catalog OR add an asset catalog to CashlyResource.
+
+Ryze→Prism upstream
+-------------------
+Upstream `rafaelesantos/ryze` `main` branch was renamed to Prism (commits c0981be onward).
+Cashly Package.swift now pins `revision: 15b047569bd780e5362c351140c49308da2e055e` (last Ryze-named commit) to keep build green until Wave 5 migration.

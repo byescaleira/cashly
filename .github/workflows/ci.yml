@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build & Test (Xcode)
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 16+
+        run: |
+          XCODE=$(ls /Applications | grep -E '^Xcode[_-]?1[6-9]|^Xcode\.app' | sort -V | tail -1)
+          echo "Using Xcode: $XCODE"
+          sudo xcode-select -s "/Applications/$XCODE/Contents/Developer"
+          xcodebuild -version
+
+      - name: Install xcbeautify
+        run: brew install xcbeautify
+
+      - name: Cache SPM
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/Library/Developer/Xcode/DerivedData/**/SourcePackages
+            CashlyKit/.build
+          key: spm-${{ runner.os }}-${{ hashFiles('CashlyKit/Package.resolved') }}
+          restore-keys: |
+            spm-${{ runner.os }}-
+
+      - name: List schemes
+        working-directory: Cashly
+        run: xcodebuild -workspace ../Cashly.xcworkspace -list || xcodebuild -project Cashly.xcodeproj -list
+
+      - name: Build app
+        run: |
+          xcodebuild build \
+            -workspace Cashly.xcworkspace \
+            -scheme Production \
+            -destination 'generic/platform=iOS Simulator' \
+            -skipMacroValidation \
+            CODE_SIGNING_ALLOWED=NO \
+            | xcbeautify --renderer github-actions || exit 1
+
+      - name: Run tests
+        run: |
+          xcodebuild test \
+            -workspace Cashly.xcworkspace \
+            -scheme Production \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -enableCodeCoverage YES \
+            -skipMacroValidation \
+            CODE_SIGNING_ALLOWED=NO \
+            | xcbeautify --renderer github-actions || exit 1
