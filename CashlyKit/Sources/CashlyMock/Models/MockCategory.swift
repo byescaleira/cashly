@@ -15,7 +15,7 @@ extension CashlyDomain.Category: RyzeMock {
     }
     
     public static var mocks: [CashlyDomain.Category] {
-        let categories: [CashlyDomain.Category] = CashlyResourceFile.categories.decoded()
+        let categories: [CashlyDomain.Category] = (try? CashlyResourceFile.categories.decoded()) ?? []
         return categories.sorted { $0.name < $1.name }
     }
 }

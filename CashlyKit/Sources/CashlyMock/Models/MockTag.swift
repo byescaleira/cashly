@@ -15,7 +15,7 @@ extension Tag: RyzeMock {
     }
     
     public static var mocks: [Tag] {
-        let tags: [Tag] = CashlyResourceFile.tags.decoded()
+        let tags: [Tag] = (try? CashlyResourceFile.tags.decoded()) ?? []
         return tags.sorted { $0.name < $1.name }
     }
 }

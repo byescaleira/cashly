@@ -12,7 +12,7 @@ import SwiftData
 
 @ModelActor
 public actor CategoryActor: CategoryUseCase {
-    let adapter: AdapterUseCase = CashlyDataFactory().makeAdapter()
+    lazy var adapter: AdapterUseCase = AdapterActor(modelContainer: modelContainer)
     
     public func getCategory(id: String) async throws -> CashlyDomain.Category? {
         let predicate: Predicate<CategoryEntity> = #Predicate {

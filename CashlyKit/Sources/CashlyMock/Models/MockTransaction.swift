@@ -15,7 +15,7 @@ extension CashlyDomain.Transaction: RyzeMock {
     }
     
     public static var mocks: [CashlyDomain.Transaction] {
-        let transactions: [CashlyDomain.Transaction] = CashlyResourceFile.transactions.decoded()
+        let transactions: [CashlyDomain.Transaction] = (try? CashlyResourceFile.transactions.decoded()) ?? []
         return transactions.sorted { $0.date > $1.date }
     }
 }

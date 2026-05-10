@@ -10,33 +10,33 @@ import CashlyDomain
 
 public struct CashlyDataFactory: CashlyDataFactoryProtocol {
     let modelContainer: ModelContainer
-    
-    public init() {
-        do {
-            let schema = Schema(
-                BudgetEntity.self,
-                CategoryEntity.self,
-                TransactionEntity.self,
-                UserEntity.self,
-                TagEntity.self,
-                ParticipantEntity.self
-            )
-            
-            let configuration = ModelConfiguration(
-                schema: schema,
-                isStoredInMemoryOnly: false,
-                cloudKitDatabase: .private("iCloud.cashly")
-            )
-            
-            let container = try ModelContainer(
-                for: schema,
-                configurations: configuration
-            )
-            
-            modelContainer = container
-        } catch {
-            fatalError(error.localizedDescription)
-        }
+
+    public init(modelContainer: ModelContainer) {
+        self.modelContainer = modelContainer
+    }
+
+    public static func make() throws -> CashlyDataFactory {
+        let schema = Schema(
+            BudgetEntity.self,
+            CategoryEntity.self,
+            TransactionEntity.self,
+            UserEntity.self,
+            TagEntity.self,
+            ParticipantEntity.self
+        )
+
+        let configuration = ModelConfiguration(
+            schema: schema,
+            isStoredInMemoryOnly: false,
+            cloudKitDatabase: .private("iCloud.cashly")
+        )
+
+        let container = try ModelContainer(
+            for: schema,
+            configurations: configuration
+        )
+
+        return CashlyDataFactory(modelContainer: container)
     }
     
     public func makeAdapter() -> AdapterUseCase {

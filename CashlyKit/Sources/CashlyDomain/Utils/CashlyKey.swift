@@ -19,9 +19,7 @@ public enum CashlyKey: CashlyEntity {
     public var rawValue: String {
         switch self {
         case let .budget(category, date):
-            guard let month = Calendar.current.dateComponents([.month], from: date.date).month else {
-                fatalError("🗓️ Failed to extract month from date.")
-            }
+            let month = Calendar.current.component(.month, from: date.date)
             return "\(category).\(month)"
         case let .category(id):
             return id

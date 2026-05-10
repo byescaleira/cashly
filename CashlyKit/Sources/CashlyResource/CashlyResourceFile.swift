@@ -23,11 +23,7 @@ public enum CashlyResourceFile: String, CaseIterable {
         return data
     }
     
-    public func decoded<T>() -> T where T: Decodable {
-        do {
-            return try data.entity(for: T.self)
-        } catch {
-            fatalError(error.localizedDescription)
-        }
+    public func decoded<T>() throws -> T where T: Decodable {
+        try data.entity(for: T.self)
     }
 }

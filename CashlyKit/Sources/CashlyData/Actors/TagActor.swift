@@ -12,7 +12,7 @@ import SwiftData
 
 @ModelActor
 public actor TagActor: TagUseCase {
-    let adapter: AdapterUseCase = CashlyDataFactory().makeAdapter()
+    lazy var adapter: AdapterUseCase = AdapterActor(modelContainer: modelContainer)
     
     public func getTag(id: String) async throws -> Tag? {
         let predicate: Predicate<TagEntity> = #Predicate {

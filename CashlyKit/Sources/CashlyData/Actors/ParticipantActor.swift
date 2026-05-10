@@ -12,7 +12,7 @@ import SwiftData
 
 @ModelActor
 public actor ParticipantActor: ParticipantUseCase {
-    let adapter: AdapterUseCase = CashlyDataFactory().makeAdapter()
+    lazy var adapter: AdapterUseCase = AdapterActor(modelContainer: modelContainer)
     
     public func getParticipant(id: String) async throws -> Participant? {
         let predicate: Predicate<ParticipantEntity> = #Predicate {

@@ -19,23 +19,24 @@ public struct MockCashlyFactory: CashlyDataFactoryProtocol, CashlyPresentationFa
     
     @MainActor
     public init() {
+        // In-memory container init can only fail if SwiftData itself is
+        // misconfigured at compile time. Treat as programmer error.
+        // G005 (Wave 4 target): kill singleton + throw at composition root.
+        let schema = Schema(
+            BudgetEntity.self,
+            CategoryEntity.self,
+            TransactionEntity.self,
+            UserEntity.self,
+            TagEntity.self,
+            ParticipantEntity.self
+        )
         do {
-            let schema = Schema(
-                BudgetEntity.self,
-                CategoryEntity.self,
-                TransactionEntity.self,
-                UserEntity.self,
-                TagEntity.self,
-                ParticipantEntity.self
-            )
-            
-            let container = try ModelContainer(
+            modelContainer = try ModelContainer(
                 for: schema,
                 configurations: .init(isStoredInMemoryOnly: true)
             )
-            modelContainer = container
         } catch {
-            fatalError(error.localizedDescription)
+            preconditionFailure("MockCashlyFactory in-memory bootstrap failed: \(error.localizedDescription)")
         }
     }
     
