@@ -113,7 +113,7 @@ public struct AddTransactionScreen: CashlyView {
                 status: .settled,
                 transaction: state.id
             )
-        }.sorted(by: \.user.name)
+        }.sorted { $0.user.name < $1.user.name }
     }
     
     var amountSection: some View {

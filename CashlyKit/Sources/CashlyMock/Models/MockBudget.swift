@@ -16,6 +16,6 @@ extension Budget: RyzeMock {
     
     public static var mocks: [Budget] {
         let budgets: [Budget] = CashlyResourceFile.budgets.decoded()
-        return budgets.sorted(by: \.date, using: >)
+        return budgets.sorted { $0.date > $1.date }
     }
 }

@@ -16,6 +16,6 @@ extension Participant: RyzeMock {
     
     public static var mocks: [Participant] {
         let participants: [Participant] = CashlyResourceFile.participants.decoded()
-        return participants.sorted(by: \.user.name)
+        return participants.sorted { $0.user.name < $1.user.name }
     }
 }

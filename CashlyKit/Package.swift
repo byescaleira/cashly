@@ -116,7 +116,7 @@ enum CashlyDependency: String, CaseIterable {
     
     var revision: String {
         switch self {
-        case .ryze: return "15b047569bd780e5362c351140c49308da2e055e"
+        case .ryze: return "2b619d8e98f00174719dcab07d5fad08b23ff2dd"
         }
     }
 

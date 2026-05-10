@@ -65,7 +65,7 @@ public struct MainState: CashlyState {
                 status: .settled,
                 transaction: transaction
             )
-        }.sorted(by: \.user.name)
+        }.sorted { $0.user.name < $1.user.name }
     }
     
     public func transactionsAmount(for category: CashlyDomain.Category) -> Double {
@@ -176,7 +176,7 @@ public struct MainState: CashlyState {
                 categories.append((category, variation))
             }
         }
-        return categories.sorted(by: \.1, using: >).prefix(5).map(\.0)
+        return categories.sorted { $0.1 > $1.1 }.prefix(5).map(\.0)
     }
     
     public func categoryVariation(category: CashlyDomain.Category, amount: Double = .zero) -> Double {
@@ -192,7 +192,7 @@ public struct MainState: CashlyState {
     public var transactionSections: [[CashlyDomain.Transaction]] {
         let dict = Dictionary(grouping: transactions) { transaction in
             transaction.date.date.cashly(with: .sortPattern)
-        }.sorted(by: \.key, using: >)
+        }.sorted { $0.key > $1.key }
         var transactionSections: [[CashlyDomain.Transaction]] = []
         for (_, transactions) in dict {
             transactionSections.append(transactions)
@@ -232,7 +232,7 @@ public struct MainState: CashlyState {
     
     public var biggestCategories: [CashlyDomain.Category] {
         budgets
-            .sorted(by: \.amount, using: >)
+            .sorted { $0.amount > $1.amount }
             .prefix(5)
             .map(\.category)
     }
@@ -251,14 +251,14 @@ public struct MainState: CashlyState {
             }
         }
         return tagsAmount
-            .sorted(by: \.value, using: >)
+            .sorted { $0.value > $1.value }
             .prefix(5)
             .map(\.key)
     }
     
     public var biggestTransactions: [CashlyDomain.Transaction] {
         transactions
-            .sorted(by: \.amount, using: >)
+            .sorted { $0.amount > $1.amount }
             .prefix(5)
             .map(\.self)
     }

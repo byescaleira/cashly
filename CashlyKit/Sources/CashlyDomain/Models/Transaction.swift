@@ -145,44 +145,37 @@ public enum TransactionSplitMode: Int, CaseIterable, CashlyEntity, Sendable {
     }
 }
 
+public extension Transaction {
+    func participantsAmount(filter participants: Set<User>) -> Double {
+        if participants.isEmpty {
+            if !self.participants.isEmpty {
+                return splitValue ?? .zero
+            }
+            if let plan = paymentsPlan {
+                return amount / Double(plan)
+            }
+            return amount
+        }
+        let filtered = self.participants.filter { participants.contains($0.user) }
+        return filtered.reduce(Double.zero) { acc, participant in
+            acc + (participant.splitMode.value(splitValue: participant.splitValue, amount: amount) ?? .zero)
+        }
+    }
+}
+
 public extension Set where Element == Transaction {
     func shareMessage(participants: Set<User>) -> String {
-        let transactions = self.sorted(by: \.date, using: <)
-        
-        let totalAmount = transactions.reduce(.zero) { partialResult, transaction in
-            let amount = participants.isEmpty ?
-            (!transaction.participants.isEmpty ?
-            transaction.splitValue ?? .zero : transaction.paymentsPlan != nil ?
-            transaction.amount / (transaction.paymentsPlan ?? 1).double : transaction.amount) : transaction.participants.filter {
-                participants.contains($0.user)
-            }.reduce(.zero) {
-                $0 + (
-                    $1.splitMode.value(
-                        splitValue: $1.splitValue,
-                        amount: transaction.amount
-                    ) ?? .zero
-                )
-            }
-            return partialResult + amount
+        let transactions = self.sorted { $0.date < $1.date }
+
+        let totalAmount = transactions.reduce(Double.zero) { partial, transaction in
+            partial + transaction.participantsAmount(filter: participants)
         }
-        
+
         var messages = "💸 Expenses Summary ".breakLine.breakLine
-        
+
         messages += transactions.map { transaction in
-            let date = transaction.date.date.string(with: .transaction(.shareMessage)) ?? ""
-            let amount = participants.isEmpty ?
-            (!transaction.participants.isEmpty ?
-            transaction.splitValue ?? .zero : transaction.paymentsPlan != nil ?
-            transaction.amount / (transaction.paymentsPlan ?? 1).double : transaction.amount) : transaction.participants.filter {
-                participants.contains($0.user)
-            }.reduce(.zero) {
-                $0 + (
-                    $1.splitMode.value(
-                        splitValue: $1.splitValue,
-                        amount: transaction.amount
-                    ) ?? .zero
-                )
-            }
+            let date = Date(timeIntervalSince1970: transaction.date).string(with: .transaction(.shareMessage)) ?? ""
+            let amount = transaction.participantsAmount(filter: participants)
             let category = transaction.budget.category.name.capitalized
             var message = " 💵 \(amount.currency() ?? "")".breakLine
             message += " 🗓 \(date)".breakLine

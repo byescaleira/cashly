@@ -1,0 +1,14 @@
+{
+  "originHash" : "5d861a8f80440c4c0c647258a29f489d16827594d330ae26f66af1a2b525b4b1",
+  "pins" : [
+    {
+      "identity" : "ryze",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rafaelesantos/ryze",
+      "state" : {
+        "revision" : "2b619d8e98f00174719dcab07d5fad08b23ff2dd"
+      }
+    }
+  ],
+  "version" : 3
+}
