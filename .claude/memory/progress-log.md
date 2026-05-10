@@ -1,3 +1,15 @@
+## 2026-05-10 — Wave 2 Partial (G030 + Ryze re-pin + keypath refactor)
+
+**Tipo**: chore (migration)
+**Módulos**: CashlyKit/Package.swift, Domain, Presentation, Mock, UI
+**Resumo**: Wave 2 parcial (commit `0b203eb`). Ryze re-pinado para `2b619d8` (último commit antes do refactor da58a6f que mudou RyzeReducer API). G030 fix: MainRoute `hash(into:)` adicionado. 8 call sites `sorted(by: \.KeyPath, using:)` substituídos por closure form. Transaction.shareMessage nested ternary refatorado em helper `participantsAmount(filter:)`.
+**Impacto**: Build CLI progrediu de Reducers (G029) para MockModifier (G018 territory). ~80% da dep graph compila. RyzeStore @Observable agora válido (re-pin); MockModifier `@StateObject` legado bloqueia próximo passo.
+**ADR**: nenhum (re-pin é tactical, não policy)
+**PRs**: commit 0b203eb
+**Aprendizados**: Re-pin de Ryze pra `2b619d8` resolveu G029 (signature match) automaticamente. Cashly code é stale vs current Ryze API. Pinning é mitigação até Wave 5 (Ryze→Prism). `sorted(by: \KeyPath)` extension em Ryze mudou para esperar optional keypaths — call sites de Cashly precisaram closures. Nested ternaries em Transaction.shareMessage não type-checkable em compiler atual — extração de helper resolve.
+
+---
+
 ## 2026-05-10 — Wave 0.5 Partial (Explicit Imports)
 
 **Tipo**: chore (migration)

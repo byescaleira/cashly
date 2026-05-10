@@ -5,21 +5,21 @@
 
 ## Sprint / Milestone
 
-**Atual**: Wave 0.5 Partial → Wave 2 (G030) + Wave 5 (G029)
-**Objetivo**: Desbloquear build CLI resolvendo G029 (Reducers) + G030 (MainRoute Hashable)
+**Atual**: Wave 2 Partial → Wave 6 (G018)
+**Objetivo**: Desbloquear build CLI resolvendo G018 (MockModifier @StateObject → @State)
 **Deadline**: _(none)_
 
 ## Em Progresso
 
-- Wave 0 partial (22f6034).
+- Wave 0 partial (`22f6034`).
 - Wave 1 partial: G012 + G013 (`6db8b65`, `7bab811`).
-- Wave 0.5 partial: 23 files com explicit imports (`3047f6f`). Build progrediu até Reducers.
-- Build CLI bloqueado por G029 (Reducers actor vs RyzeReducer global isolation) e G030 (MainRoute Hashable missing).
+- Wave 0.5 partial: 23 files imports explícitos (`3047f6f`).
+- Wave 2 partial: G030 + Ryze re-pin `2b619d8` + keypath sort refactor (`0b203eb`). G029 resolvido via re-pin.
+- Build CLI agora ~80% verde. Bloqueio remanescente: MockModifier `@StateObject` (G018).
 
 ## Bloqueios Conhecidos
 
-- **G029** — Reducers declarados como `actor` mas conformam `RyzeReducer` (global-isolated). Build CLI quebra. Xcode IDE compila por timing diferente. Fix exige Wave 5 (Ryze→Prism, PrismReducer pode ter isolation diferente) ou redesign isolado.
-- **G030** — `MainRoute` declara `==` mas falta `hash(into:)`. Fix simples Wave 2.
+- **G018** — MockModifier.swift usa `@StateObject` + `.environmentObject` com RyzeStore que é `@Observable`. Estrutural, Wave 6 territory. Fix = converter para `@State` + `.environment(store)`.
 - 8 decisões humanas pendentes bloqueiam Wave 5 (Ryze→Prism) — ver "Decisões Pendentes" abaixo.
 
 ## Decisões Pendentes
