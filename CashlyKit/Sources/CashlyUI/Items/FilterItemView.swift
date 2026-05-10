@@ -69,7 +69,8 @@ struct FilterItemView: CashlyView {
     
     @ViewBuilder
     var toggleDateMenu: some View {
-        Menu {
+        @Bindable var store = store
+        return Menu {
             Toggle(isOn: $store.state.filter.isFilteringByDate) {
                 CashlyText("Filter by Date")
             }
@@ -137,6 +138,7 @@ struct FilterItemView: CashlyView {
     
     @ViewBuilder
     var categoriesMenu: some View {
+        @Bindable var store = store
         CashlyMenuSelectionView(
             items: state.filter.allCategories,
             selectedItems: $store.state.filter.categories
@@ -153,6 +155,7 @@ struct FilterItemView: CashlyView {
     
     @ViewBuilder
     var tagsMenu: some View {
+        @Bindable var store = store
         CashlyMenuSelectionView(
             items: state.filter.allTags,
             selectedItems: $store.state.filter.tags
@@ -169,6 +172,7 @@ struct FilterItemView: CashlyView {
     
     @ViewBuilder
     var statusesMenu: some View {
+        @Bindable var store = store
         CashlyMenuSelectionView(
             items: state.filter.allStatuses,
             selectedItems: $store.state.filter.transactionStatuses
@@ -185,6 +189,7 @@ struct FilterItemView: CashlyView {
     
     @ViewBuilder
     var participantsMenu: some View {
+        @Bindable var store = store
         CashlyMenuSelectionView(
             items: state.users,
             selectedItems: $store.state.filter.participants

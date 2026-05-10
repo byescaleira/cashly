@@ -92,8 +92,8 @@ public extension View {
         self.ryze(item: item, transform: transform)
     }
     
-    func cashlyConfetti(for seconds: Int = 3) -> some View {
-        self.ryzeConfetti(seconds: seconds)
+    func cashlyConfetti(for seconds: Int = 3, isActive: Bool = true) -> some View {
+        self.ryzeConfetti(seconds: seconds, isActive: isActive)
     }
     
     func cashly<T: IndefiniteSymbolEffect & SymbolEffect>(

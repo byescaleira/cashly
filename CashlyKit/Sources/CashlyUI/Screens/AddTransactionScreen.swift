@@ -117,7 +117,8 @@ public struct AddTransactionScreen: CashlyView {
     }
     
     var amountSection: some View {
-        Section {} header: {
+        @Bindable var store = store
+        return Section {} header: {
             CashlyVStack(spacing: .small) {
                 transactionStatusView
                 splitValueView
@@ -149,6 +150,7 @@ public struct AddTransactionScreen: CashlyView {
     
     @ViewBuilder
     var transactionStatusView: some View {
+        @Bindable var store = store
         if state.participants.isEmpty {
             Menu {
                 Picker(selection: $store.state.status) {
@@ -186,7 +188,8 @@ public struct AddTransactionScreen: CashlyView {
     }
     
     var summarySection: some View {
-        Section {
+        @Bindable var store = store
+        return Section {
             TextField(
                 "Provide a summary of your transaction",
                 text: $store.state.summary,
@@ -304,7 +307,8 @@ public struct AddTransactionScreen: CashlyView {
     }
     
     var dateSection: some View {
-        Section {
+        @Bindable var store = store
+        return Section {
             DatePicker(
                 state.date.string(with: .cashly(.weekDay)) ?? "",
                 selection: $store.state.date,
@@ -337,11 +341,12 @@ public struct AddTransactionScreen: CashlyView {
     }
     
     var splitModeView: some View {
-        CashlyHStack {
+        @Bindable var store = store
+        return CashlyHStack {
             CashlyText("Select Split Mode")
-            
+
             CashlySpacer()
-            
+
             Menu {
                 Picker(selection: $store.state.splitMode) {
                     ForEach(TransactionSplitMode.allCases) {
@@ -447,7 +452,8 @@ public struct AddTransactionScreen: CashlyView {
     }
     
     var installmentSection: some View {
-        Section {
+        @Bindable var store = store
+        return Section {
             Toggle(isOn: $store.state.installmentIsOn) {
                 CashlyText("Enable installments")
             }

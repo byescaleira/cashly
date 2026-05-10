@@ -20,6 +20,7 @@ struct UserItemView: CashlyView {
     
     @ViewBuilder
     var body: some View {
+        @Bindable var store = store
         if !state.users.isEmpty {
             Menu {
                 Picker(selection: $store.state.user) {

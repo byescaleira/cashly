@@ -80,7 +80,8 @@ public struct AddUserScreen: CashlyView {
     }
     
     var nameSection: some View {
-        Section {
+        @Bindable var store = store
+        return Section {
             TextField(
                 "Enter the user name",
                 text: $store.state.name

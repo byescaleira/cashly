@@ -68,7 +68,8 @@ public struct AddCategoryScreen: CashlyView {
     }
     
     var nameSection: some View {
-        Section {
+        @Bindable var store = store
+        return Section {
             TextField(
                 "Enter the category name",
                 text: $store.state.name
@@ -160,7 +161,8 @@ public struct AddCategoryScreen: CashlyView {
     }
     
     var iconHeaderView: some View {
-        CashlySymbol(state.icon, mode: .hierarchical)
+        @Bindable var store = store
+        return CashlySymbol(state.icon, mode: .hierarchical)
             .cashly(font: .system(size: 50))
             .cashly(
                 symbol: .bounce.byLayer,

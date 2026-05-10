@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import RyzeIntelligence
 
-public enum CashlyIntelligence: String, Identifiable, CaseIterable {
+public enum CashlyIntelligence: String, Identifiable, CaseIterable, Sendable {
     case budgetValue
     case categoryName
     case tagValue
@@ -175,6 +175,8 @@ public typealias CashlyIntelligenceResult = RyzeIntelligenceResult
 public typealias CashlyPrediction = RyzeIntelligencePrediction
 public typealias CashlyPredictionResult = RyzeIntelligencePredictionResult
 public typealias CashlyPredictionInput = RyzeIntelligencePredictionInput
+
+extension RyzeIntelligencePredictionInput: @retroactive @unchecked Sendable {}
 public typealias CashlyFileManager = RyzeFileManager
 public typealias CashlyTabularData = [String: Any]
 

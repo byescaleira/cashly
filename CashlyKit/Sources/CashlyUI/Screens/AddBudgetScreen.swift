@@ -75,7 +75,8 @@ public struct AddBudgetScreen: CashlyView {
     }
     
     var amountSection: some View {
-        Section {} header: {
+        @Bindable var store = store
+        return Section {} header: {
             CashlyVStack(spacing: .zero) {
                 CashlyText(state.category?.name.uppercased())
                     .cashly(font: .caption, weight: .bold)
@@ -98,7 +99,8 @@ public struct AddBudgetScreen: CashlyView {
     }
     
     var summarySection: some View {
-        Section {
+        @Bindable var store = store
+        return Section {
             TextField(
                 "Provide a summary of your budget",
                 text: $store.state.summary,
@@ -165,7 +167,8 @@ public struct AddBudgetScreen: CashlyView {
     }
     
     var dateSection: some View {
-        Section {
+        @Bindable var store = store
+        return Section {
             DatePicker(
                 "",
                 selection: $store.state.date,
