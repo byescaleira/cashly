@@ -19,7 +19,7 @@
   "testTargets" : [
     {
       "target" : {
-        "containerPath" : "container:",
+        "containerPath" : "container:CashlyKit",
         "identifier" : "CashlyTests",
         "name" : "CashlyTests"
       }

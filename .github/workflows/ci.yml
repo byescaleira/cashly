@@ -55,8 +55,8 @@ jobs:
         run: |
           xcodebuild test \
             -workspace Cashly.xcworkspace \
-            -scheme Production \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -scheme Core \
+            -destination 'platform=iOS Simulator,name=iPhone 17,OS=latest' \
             -enableCodeCoverage YES \
             -skipMacroValidation \
             CODE_SIGNING_ALLOWED=NO \
