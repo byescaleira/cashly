@@ -333,3 +333,11 @@ Ver tabela em G022. **DECISÃO HUMANA PENDENTE** consolidada:
 - **Descoberto:** Wave 6 (2026-05-10)
 - **Causa:** `RyzeView` protocol em Ryze 2b619d8 herda `RyzeUIMock` que requer `static func mocked() -> MockView`. 14 tipos Cashly (todos Screens + alguns Views/Components) declaram `: CashlyView` mas não implementam `mocked()`. Xcode IDE talvez tolere via default; CLI não.
 - **Fix:** Adicionar `static func mocked() -> some View { ... }` em cada tipo, ou criar conformance default em CashlyUI.swift via extension genérica que retorna placeholder.
+
+### G032 — `$store` binding projection ausente após migração para `@Environment(T.self)`
+- **Severidade:** Importante (bloqueia build CLI — 25 call sites)
+- **Esforço:** M-G (audit + reescrita Bindings)
+- **Onda:** Wave 6 (G018 completo)
+- **Descoberto:** Wave 6 (2026-05-10)
+- **Causa:** `@EnvironmentObject` sintetiza `$store.x` para bindings. `@Environment(T.self)` não. Substituir por `@Bindable var store = store` em body ou `Binding(get:set:)` explícito.
+- **Fix:** Em cada call site `$store.state.x` → `@Bindable var store = store` + `$store.state.x` (com `@Observable`, Bindable provê $). Ou explícito `Binding(get: { store.state.x }, set: { store.state.x = $0 })`. Trade-off: @Bindable é menos invasivo mas exige store mutável; manual binding é universal mas verboso.

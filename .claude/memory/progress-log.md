@@ -1,3 +1,15 @@
+## 2026-05-10 — Wave 6 Partial (G018 + G031 + Sendable)
+
+**Tipo**: chore (migration)
+**Módulos**: CashlyApp, CashlyMock, CashlyUI, CashlyPresentation
+**Resumo**: Wave 6 parcial (commits `08e17b0`, `697dd16`, `fd7f73e`). 13 views + CashlyApp + MockModifier migrados de `@StateObject`/`@EnvironmentObject` para `@State`/`@Environment(T.self)`. RyzeView default `mocked()` extension fecha G031. RyzeStore retroactive Sendable resolve race em MockModifier.
+**Impacto**: Build CLI ~95% verde. Bloqueio remanescente: G032 (25 call sites usam `$store` projection que não existe em `@Environment(T.self)`).
+**ADR**: nenhum
+**PRs**: commits 08e17b0, 697dd16, fd7f73e
+**Aprendizados**: `@Environment(T.self)` não tem `$projection`. Use `@Bindable var store = store` no body para reativar `$store.x` bindings com `@Observable` types. Migração StateObject→State é mecânica para storage e ambient supply, mas bindings exigem @Bindable. `@retroactive @unchecked Sendable` mitiga ausência de Sendable em RyzeStore pinned ver.
+
+---
+
 ## 2026-05-10 — Wave 2 Partial (G030 + Ryze re-pin + keypath refactor)
 
 **Tipo**: chore (migration)

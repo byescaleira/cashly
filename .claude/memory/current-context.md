@@ -5,22 +5,23 @@
 
 ## Sprint / Milestone
 
-**Atual**: Wave 2 Partial → Wave 6 (G018)
-**Objetivo**: Desbloquear build CLI resolvendo G018 (MockModifier @StateObject → @State)
+**Atual**: Wave 6 Partial → G032 ($store bindings)
+**Objetivo**: Migrar 25 call sites `$store.x` → `@Bindable var store = store`
 **Deadline**: _(none)_
 
 ## Em Progresso
 
 - Wave 0 partial (`22f6034`).
 - Wave 1 partial: G012 + G013 (`6db8b65`, `7bab811`).
-- Wave 0.5 partial: 23 files imports explícitos (`3047f6f`).
-- Wave 2 partial: G030 + Ryze re-pin `2b619d8` + keypath sort refactor (`0b203eb`). G029 resolvido via re-pin.
-- Build CLI agora ~80% verde. Bloqueio remanescente: MockModifier `@StateObject` (G018).
+- Wave 0.5 partial: 23 files imports (`3047f6f`).
+- Wave 2 partial: G030 + Ryze re-pin + keypath (`0b203eb`).
+- Wave 6 partial: G018 + G031 + Sendable (`08e17b0`, `697dd16`, `fd7f73e`).
+- Build CLI ~95% verde. Bloqueio: G032 — 25 call sites com `$store` projection.
 
 ## Bloqueios Conhecidos
 
-- **G018** — MockModifier.swift usa `@StateObject` + `.environmentObject` com RyzeStore que é `@Observable`. Estrutural, Wave 6 territory. Fix = converter para `@State` + `.environment(store)`.
-- 8 decisões humanas pendentes bloqueiam Wave 5 (Ryze→Prism) — ver "Decisões Pendentes" abaixo.
+- **G032** — `@Environment(T.self)` não tem `$projection`. 25 call sites em Screens/Items usam `$store.state.x`. Fix: `@Bindable var store = store` em body de cada view ou Binding(get:set:) explícito.
+- 8 decisões humanas pendentes bloqueiam Wave 5 (Ryze→Prism).
 
 ## Decisões Pendentes
 
