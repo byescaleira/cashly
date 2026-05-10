@@ -5,8 +5,8 @@
 
 ## Sprint / Milestone
 
-**Atual**: Wave 6 Partial → G032 ($store bindings)
-**Objetivo**: Migrar 25 call sites `$store.x` → `@Bindable var store = store`
+**Atual**: Build CLI verde — retomar Wave 1 (G008, G007) + Wave 2 (G009, G010)
+**Objetivo**: Escrever smoke tests/snapshots + retomar G008/G007/G009/G010
 **Deadline**: _(none)_
 
 ## Em Progresso
@@ -15,12 +15,11 @@
 - Wave 1 partial: G012 + G013 (`6db8b65`, `7bab811`).
 - Wave 0.5 partial: 23 files imports (`3047f6f`).
 - Wave 2 partial: G030 + Ryze re-pin + keypath (`0b203eb`).
-- Wave 6 partial: G018 + G031 + Sendable (`08e17b0`, `697dd16`, `fd7f73e`).
-- Build CLI ~95% verde. Bloqueio: G032 — 25 call sites com `$store` projection.
+- Wave 6 complete: G018 + G031 + G032 + Sendable + cashlyConfetti (`08e17b0`, `697dd16`, `fd7f73e`, `5bdbd6f`).
+- **BUILD CLI VERDE** em iOS Simulator destination.
 
 ## Bloqueios Conhecidos
 
-- **G032** — `@Environment(T.self)` não tem `$projection`. 25 call sites em Screens/Items usam `$store.state.x`. Fix: `@Bindable var store = store` em body de cada view ou Binding(get:set:) explícito.
 - 8 decisões humanas pendentes bloqueiam Wave 5 (Ryze→Prism).
 
 ## Decisões Pendentes
@@ -42,9 +41,9 @@ _(nenhuma)_
 
 ## Notas para a Próxima Sessão
 
-- Resolver G030 (MainRoute hash) em Wave 2 — fix simples, desbloqueia ~1 step do build.
-- G029 (Reducers) precisa decisão: redesign isolado ou aguardar Wave 5. Sem build CLI, tests não rodam.
-- Após build CLI verde: retomar G008 (CashlyKey + CashlyDataFactory throwing) e G007 (CashlyMock dep).
-- G026, G027, G028, G029, G030 registrados em `migration/gap-analysis.md` — não duplicar aqui.
+- **Build CLI verde** — Wave 0 deferred items (smoke tests, snapshot tests, coverage baseline) podem ser executados.
+- Retomar Wave 1: G008 (CashlyKey + CashlyDataFactory throwing) e G007 (CashlyMock dep).
+- Wave 2: G009 (CashlyError hierarchy) e G010 (~85 force unwraps).
+- G026, G027, G028, G029, G030, G031, G032 registrados em `migration/gap-analysis.md`.
 - 8 decisões humanas em "Decisões Pendentes" ainda abertas — resolver antes de Wave 5.
 - `migration/baseline.md` é imutável — referência para comparar métricas futuras.

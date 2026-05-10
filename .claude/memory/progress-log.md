@@ -1,3 +1,15 @@
+## 2026-05-10 — Wave 6 Complete + BUILD GREEN
+
+**Tipo**: chore (migration)
+**Módulos**: CashlyUI, CashlyDomain
+**Resumo**: Build CLI verde pela primeira vez. G032 fechado: 8 views com `@Bindable var store = store` em computeds que usam `$store.x`. Bonus fixes: `cashlyConfetti` ganha param `isActive`, `CashlyIntelligence` declara `Sendable`, `RyzeIntelligencePredictionInput` retroactive `@unchecked Sendable`.
+**Impacto**: `xcodebuild build` retorna `BUILD SUCCEEDED` em iOS Simulator destination. CI agora viável. Tests/snapshots deferidos de Wave 0 podem ser escritos.
+**ADR**: nenhum
+**PRs**: commit 5bdbd6f
+**Aprendizados**: Pattern `@Bindable var store = store` dentro de computed property é o equivalente moderno de `@EnvironmentObject` + `$store.x` projection. Funciona porque `@Bindable` shadowing em scope local sintetiza `$` para acesso a propriedades de `@Observable` types. Retroactive Sendable usado pragmaticamente para types upstream sem conformance (`RyzeStore`, `RyzeIntelligencePredictionInput`) — não ideal mas desbloqueia até Wave 5 (Prism migration).
+
+---
+
 ## 2026-05-10 — Wave 6 Partial (G018 + G031 + Sendable)
 
 **Tipo**: chore (migration)
