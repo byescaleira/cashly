@@ -11,7 +11,7 @@ import RyzeArchitecture
 
 public extension View where Self: RyzeUIMock {
     static func cashlyPreview() -> some View {
-        mock.modifier(MockModifier())
+        mocked().modifier(MockModifier())
     }
 }
 

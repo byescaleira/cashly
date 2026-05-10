@@ -10,7 +10,7 @@ import CashlyMock
 import CashlyPresentation
 
 public struct MainScreen: CashlyView {
-    @EnvironmentObject var store: CashlyStore<MainReducer, MainMiddleware>
+    @Environment(CashlyStore<MainReducer, MainMiddleware>.self) var store
     
     @Environment(\.mainState) var state
     @Environment(\.action) var action

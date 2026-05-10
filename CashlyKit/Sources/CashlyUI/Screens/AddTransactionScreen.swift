@@ -13,7 +13,7 @@ import CashlyResource
 import CashlyPresentation
 
 public struct AddTransactionScreen: CashlyView {
-    @EnvironmentObject var store: CashlyStore<AddTransactionReducer, AddTransactionMiddleware>
+    @Environment(CashlyStore<AddTransactionReducer, AddTransactionMiddleware>.self) var store
     
     @Environment(\.addTransactionState) var state
     @Environment(\.mainState) var mainState

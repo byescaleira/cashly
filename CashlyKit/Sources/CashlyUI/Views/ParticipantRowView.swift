@@ -12,7 +12,7 @@ import CashlyResource
 import CashlyPresentation
 
 struct ParticipantRowView: CashlyView {
-    @EnvironmentObject var store: CashlyStore<AddTransactionReducer, AddTransactionMiddleware>
+    @Environment(CashlyStore<AddTransactionReducer, AddTransactionMiddleware>.self) var store
     
     @Binding var participant: Participant
     var splitMode: TransactionSplitMode?

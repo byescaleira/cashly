@@ -13,21 +13,21 @@ import CashlyPresentation
 struct MockModifier: ViewModifier {
     @Environment(\.theme) var theme
     
-    @StateObject var addCategoryStore = MockCashlyFactory.shared.makeAddCategoryStore()
-    @StateObject var addBudgetStore = MockCashlyFactory.shared.makeAddBudgetStore()
-    @StateObject var addTransactionStore = MockCashlyFactory.shared.makeAddTransactionStore()
-    @StateObject var addUserStore = MockCashlyFactory.shared.makeAddUserStore()
-    @StateObject var addTagStore = MockCashlyFactory.shared.makeAddTagStore()
-    @StateObject var mainStore = MockCashlyFactory.shared.makeMainStore()
-    
+    @State var addCategoryStore = MockCashlyFactory.shared.makeAddCategoryStore()
+    @State var addBudgetStore = MockCashlyFactory.shared.makeAddBudgetStore()
+    @State var addTransactionStore = MockCashlyFactory.shared.makeAddTransactionStore()
+    @State var addUserStore = MockCashlyFactory.shared.makeAddUserStore()
+    @State var addTagStore = MockCashlyFactory.shared.makeAddTagStore()
+    @State var mainStore = MockCashlyFactory.shared.makeMainStore()
+
     func body(content: Content) -> some View {
         content
-            .environmentObject(addCategoryStore)
-            .environmentObject(addBudgetStore)
-            .environmentObject(addTransactionStore)
-            .environmentObject(addUserStore)
-            .environmentObject(addTagStore)
-            .environmentObject(mainStore)
+            .environment(addCategoryStore)
+            .environment(addBudgetStore)
+            .environment(addTransactionStore)
+            .environment(addUserStore)
+            .environment(addTagStore)
+            .environment(mainStore)
         
             .environment(\.addCategoryState, addCategoryStore.state)
             .environment(\.addBudgetState, addBudgetStore.state)
@@ -49,6 +49,7 @@ struct MockModifier: ViewModifier {
             .tint(theme.color.primary)
     }
     
+    @MainActor
     func handler(action: ApplicationAction) {
         Task(priority: .high) { @MainActor in
             switch action {

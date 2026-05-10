@@ -22,25 +22,25 @@ import CashlyMock
 struct CashlyApp: App {
     @Environment(\.theme) var theme
     
-    @StateObject var addCategoryStore = CashlyPresentationFactory.shared.makeAddCategoryStore()
-    @StateObject var addBudgetStore = CashlyPresentationFactory.shared.makeAddBudgetStore()
-    @StateObject var addTransactionStore = CashlyPresentationFactory.shared.makeAddTransactionStore()
-    @StateObject var addUserStore = CashlyPresentationFactory.shared.makeAddUserStore()
-    @StateObject var addTagStore = CashlyPresentationFactory.shared.makeAddTagStore()
-    @StateObject var mainStore = CashlyPresentationFactory.shared.makeMainStore()
-    
+    @State var addCategoryStore = CashlyPresentationFactory.shared.makeAddCategoryStore()
+    @State var addBudgetStore = CashlyPresentationFactory.shared.makeAddBudgetStore()
+    @State var addTransactionStore = CashlyPresentationFactory.shared.makeAddTransactionStore()
+    @State var addUserStore = CashlyPresentationFactory.shared.makeAddUserStore()
+    @State var addTagStore = CashlyPresentationFactory.shared.makeAddTagStore()
+    @State var mainStore = CashlyPresentationFactory.shared.makeMainStore()
+
     var body: some Scene {
         WindowGroup {
             MainScreen()
                 #if targetEnvironment(simulator)
                 .cashlyPreview()
                 #else
-                .environmentObject(addCategoryStore)
-                .environmentObject(addBudgetStore)
-                .environmentObject(addTransactionStore)
-                .environmentObject(addUserStore)
-                .environmentObject(addTagStore)
-                .environmentObject(mainStore)
+                .environment(addCategoryStore)
+                .environment(addBudgetStore)
+                .environment(addTransactionStore)
+                .environment(addUserStore)
+                .environment(addTagStore)
+                .environment(mainStore)
             
                 .environment(\.addCategoryState, addCategoryStore.state)
                 .environment(\.addBudgetState, addBudgetStore.state)
