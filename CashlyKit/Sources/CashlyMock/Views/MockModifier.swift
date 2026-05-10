@@ -51,14 +51,15 @@ struct MockModifier: ViewModifier {
     
     @MainActor
     func handler(action: ApplicationAction) {
+        let stores = (addCategoryStore, addBudgetStore, addTransactionStore, addUserStore, addTagStore, mainStore)
         Task(priority: .high) { @MainActor in
             switch action {
-            case let .addCategory(action): try await addCategoryStore.dispatch(action: action)
-            case let .addBudget(action): try await addBudgetStore.dispatch(action: action)
-            case let .addTransaction(action): try await addTransactionStore.dispatch(action: action)
-            case let .addUser(action): return try await addUserStore.dispatch(action: action)
-            case let .addTag(action): return try await addTagStore.dispatch(action: action)
-            case let .main(action): try await mainStore.dispatch(action: action)
+            case let .addCategory(action): await stores.0.dispatch(action: action)
+            case let .addBudget(action): await stores.1.dispatch(action: action)
+            case let .addTransaction(action): await stores.2.dispatch(action: action)
+            case let .addUser(action): await stores.3.dispatch(action: action)
+            case let .addTag(action): await stores.4.dispatch(action: action)
+            case let .main(action): await stores.5.dispatch(action: action)
             }
         }
     }

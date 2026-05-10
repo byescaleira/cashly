@@ -32,3 +32,10 @@ public typealias CashlyBrowserView = RyzeBrowserView
 public typealias CashlyLocale = RyzeLocale
 public typealias CashlyNavigationView = RyzeNavigationView
 public typealias CashlySystemMonitor = RyzeSystemMonitor
+
+public extension RyzeView {
+    @MainActor
+    static func mocked() -> some View {
+        EmptyView()
+    }
+}

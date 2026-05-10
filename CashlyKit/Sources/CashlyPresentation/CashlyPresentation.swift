@@ -7,6 +7,8 @@
 
 import RyzeArchitecture
 
+extension RyzeStore: @retroactive @unchecked Sendable {}
+
 public typealias CashlyState = RyzeState
 public typealias CashlyAction = RyzeAction
 public typealias CashlyReducer = RyzeReducer
