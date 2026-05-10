@@ -74,18 +74,51 @@ Onda N só começa quando N-1 está **mergeada e estável (24h em main sem rever
 
 ---
 
+## Wave 0.5 — Explicit import audit (INSERIDO POR DESCOBERTA)
+
+**Contexto:** Durante Wave 1, descoberto que xcodebuild CLI nunca constrói Cashly limpo — Xcode IDE faz implicit imports que CLI não replica. Bloqueia CI real, tests, e qualquer refactor que toque Domain/Resource.
+
+**Objetivo:** Tornar build CLI verde via explicit imports nos arquivos que dependem de Foundation/SwiftUI transitivos.
+
+**Gaps endereçados:** G027 (completa), G024 (parcial).
+
+**Tarefas:**
+- [ ] Auditar todos arquivos `.swift` em `CashlyKit/Sources/CashlyDomain/` sem `import Foundation`/`import SwiftUI` que usem tipos como Date, TimeInterval, Color, UUID, etc. Lista mínima: 12 arquivos (Models/*.swift, Use Cases/*.swift).
+- [ ] Adicionar `import Foundation` (ou `import SwiftUI` se usa Color/Image) em cada.
+- [ ] `CashlyResourceImage.swift`: remover dependência de `ImageResource` (asset gerado não disponível em SPM). Refatorar `var image: Image` para `Image(rawValue, bundle: .module)`. Remover `var resource: ImageResource`. Validar nenhum call site usa `.resource`.
+- [ ] Auditar `CashlyData`, `CashlyPresentation`, `CashlyUI`, `CashlyMock` similar (provavelmente mais files import-less).
+- [ ] Validar `xcodebuild build -destination 'generic/platform=iOS Simulator'` retorna 0 errors.
+- [ ] Validar `swift build` em CashlyKit retorna 0 errors (objetivo: SPM CLI funcional).
+- [ ] Atualizar `.swiftlint.yml` com regra `implicit_foundation_import` (custom) ou similar para prevenir regressão.
+
+**Critério de pronto:**
+- xcodebuild build verde em iOS Simulator e iOS device destinations
+- `swift build` em CashlyKit verde
+- Smoke tests deferidos de Wave 0 podem ser escritos
+
+**Estimativa:** 0.5–1 dia.
+
+**ADR:** Não necessário (mudança mecânica).
+
+**Risco:** Médio. Mexer em 12+ arquivos. Cascading diagnostics esperadas — fazer 1 arquivo por vez, build após cada batch.
+
+**Rollback:** `git revert` por arquivo se algum import quebrar algo.
+
+---
+
 ## Wave 1 — Higiene básica + boundary fixes seguros
 
 **Objetivo:** eliminar problemas óbvios sem mudança arquitetural.
 
 **Gaps endereçados:** G007, G008, G012, G013.
 
+**Status (2026-05-10):** PARCIAL. G012 + G013 commitados (`6db8b65`, `7bab811`). G008, G007 deferidos para após Wave 0.5 (G008 requer build CLI verde para validação).
+
 **Tarefas:**
-- [ ] **G008** — substituir `fatalError` em `CashlyDataFactory.swift:39` e `CashlyKey.swift:29` por `throws`
-  - `CashlyKey.rawValue` deve virar throwing computed (`func resolveRawValue() throws -> String`) ou usar `Calendar.current.component(.month, from:)` direto (não opcional)
-- [ ] **G012** — `Info.plist`: corrigir `NSUbiquitousContainerName = "NomeDoSeuApp"` → confirmar nome real com humano antes (decisão pendente)
-- [ ] **G013** — separar entitlements `Debug.entitlements` (aps-environment=development) e `Release.entitlements` (production) e configurar build settings
-- [ ] **G007** — investigar dependência de `CashlyMock` em `CashlyUI`. Mover utilidades de Preview de `CashlyMock/Views/MockModifier.swift` e `Extensions/View+Extension.swift` para um novo target `CashlyPreview` (ou marcar dep como `.when(configuration: .debug)` em `Package.swift`)
+- [x] **G012** — `Info.plist`: `NSUbiquitousContainerName = "iCloud.cashly"` ✅ commit `6db8b65`
+- [x] **G013** — entitlements Debug/Release split ✅ commit `7bab811`
+- [ ] **G008** — substituir `fatalError` em `CashlyDataFactory.swift:39` e `CashlyKey.swift:29` por `throws` — **DEFERIDO até Wave 0.5 concluída**. Tentativa anterior cascateou breakage por interação com imports faltantes.
+- [ ] **G007** — `CashlyMock` dep em `CashlyUI` — **DEFERIDO até Wave 0.5 concluída**
 
 **Critério de pronto:**
 - 0 `fatalError` em produção (grep deve retornar 0 fora de testes).

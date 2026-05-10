@@ -1,3 +1,15 @@
+## 2026-05-10 — Wave 1 Partial (G012 + G013) + Wave 0.5 Inserted
+
+**Tipo**: chore (migration)
+**Módulos**: Info.plist, entitlements, migration-plan
+**Resumo**: Wave 1 parcial — G012 (Info.plist NSUbiquitousContainerName → "iCloud.cashly") e G013 (split entitlements Debug=development / Release=production) commitados (`6db8b65`, `7bab811`). G008 (fatalError) e G007 (CashlyMock dep) deferidos para após Wave 0.5. G027 tentado mas revertido — cascade de imports faltantes em CashlyDomain expôs problema maior.
+**Impacto**: Config corrigida para iCloud + push notifications. Build CLI ainda falha (pré-existente, agora documentado). Nova Wave 0.5 inserida no plano para auditoria de imports explícitos em CashlyDomain/Resource antes de prosseguir.
+**ADR**: nenhum novo
+**PRs**: commits 6db8b65, 7bab811
+**Aprendizados**: Cashly nunca compilou via xcodebuild CLI — Xcode IDE faz implicit imports que CLI não replica. Bloqueia CI real e qualquer refactor downstream. Wave 0.5 nova: audit explícito de imports antes de G008. Tentativa de G008 + G027 simultânea cascateou para 60+ files; resetado para clean state (`7bab811`).
+
+---
+
 ## 2026-05-08 — Wave 0 Partial (Rede de Segurança)
 
 **Tipo**: chore (migration)
