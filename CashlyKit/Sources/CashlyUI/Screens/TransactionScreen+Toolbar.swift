@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CashlyDomain
+import CashlyResource
 
 extension TransactionScreen {
     @ViewBuilder
@@ -75,9 +76,9 @@ extension TransactionScreen {
             }
             .disabled(state.isLoading)
             .disabled(selection.isEmpty)
-            .alert("Delete Transactions", isPresented: $showDeleteAlert) {
-                Button("Cancel", role: .cancel) { }
-                Button("Delete", role: .destructive) {
+            .alert(CashlyL10n.string("Delete Transactions"), isPresented: $showDeleteAlert) {
+                Button(CashlyL10n.string("Cancel"), role: .cancel) { }
+                Button(CashlyL10n.string("Delete"), role: .destructive) {
                     action(.main(.removeTransactions(selection)))
                 }
             } message: {

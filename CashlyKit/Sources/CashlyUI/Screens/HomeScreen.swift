@@ -41,7 +41,7 @@ public struct HomeScreen: CashlyView {
             ToolbarItem { FilterItemView() }
         }
         .onAppear { action(.main(.fetch)) }
-        .navigationTitle((state.user?.selfFirstName ?? "") + "Home")
+        .navigationTitle((state.user?.selfFirstName ?? "") + CashlyL10n.string("Home"))
     }
 
     public static var mock: some View {

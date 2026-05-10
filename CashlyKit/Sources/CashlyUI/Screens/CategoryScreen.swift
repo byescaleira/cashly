@@ -42,7 +42,7 @@ public struct CategoryScreen: CashlyView {
         .environment(\.isLoading, state.isLoading)
         .onAppear { action(.main(.fetch)) }
         .refreshable { action(.main(.fetch)) }
-        .navigationTitle("Categories")
+        .navigationTitle(CashlyL10n.string("Categories"))
     }
     
     @ViewBuilder

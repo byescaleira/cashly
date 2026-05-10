@@ -354,3 +354,9 @@ Ver tabela em G022. **DECISÃO HUMANA PENDENTE** consolidada:
   3. Replicar para 5 reducers restantes + 6 middlewares.
   4. Atualizar todos os dispatch sites (handlers em CashlyApp, MockModifier, screens).
   5. Possivelmente: Color.init(hex:) signature mudou (extraneous label) — verificar PrismUI.
+
+### G020 — Status (Wave 7 partial)
+- **Infrastructure**: complete. `CashlyResource/Localizable.xcstrings` created with 50 base strings + pt-BR translations. `CashlyL10n.string(_:)` helper exposes them via `String(localized: key, bundle: .module)`. Package.swift adds `.process("Localizable.xcstrings")` to CashlyResource resources.
+- **Migrated call sites**: navigation titles (Main tabs, Transaction/Category/Intelligence/Home screens), TransactionScreen delete alert.
+- **Remaining ~60 hardcoded strings** in body Text/section headers/empty-state copy across CashlyUI/Screens and CashlyUI/Views. Mechanical wrap with `CashlyL10n.string("...")` + `import CashlyResource` per file. Translations already in catalog for top ~50; add as needed.
+- **Done in Wave 7**: catalog infra + system-visible surfaces (tabs/titles/alerts). Body text sweep tracked as G020-tail.

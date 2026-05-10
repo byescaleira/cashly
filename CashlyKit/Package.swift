@@ -53,6 +53,7 @@ enum CashlyTarget: String, CaseIterable {
                     .copy("Mocks/MockTransactions.json"),
                     .copy("Mocks/MockTags.json"),
                     .copy("Mocks/MockParticipants.json"),
+                    .process("Localizable.xcstrings")
                 ]
             )
         default:

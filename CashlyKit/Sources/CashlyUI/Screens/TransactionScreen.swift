@@ -61,7 +61,7 @@ public struct TransactionScreen: CashlyView {
         }
         .environment(\.isLoading, state.isLoading)
         .onAppear { action(.main(.fetch)) }
-        .navigationTitle("Transactions")
+        .navigationTitle(CashlyL10n.string("Transactions"))
     }
 
     public static var mock: some View {

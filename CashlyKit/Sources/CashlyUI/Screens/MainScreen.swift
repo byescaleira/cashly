@@ -10,6 +10,7 @@ import SwiftUI
 import CashlyMock
 #endif
 import CashlyPresentation
+import CashlyResource
 
 public struct MainScreen: CashlyView {
     @Environment(CashlyStore<MainReducer, MainMiddleware>.self) var store
@@ -27,19 +28,19 @@ public struct MainScreen: CashlyView {
     
     var tabView: some View {
         TabView(selection: $tabItem) {
-            Tab("Intelligence", systemImage: "cpu", value: .intelligence) {
+            Tab(CashlyL10n.string("Intelligence"), systemImage: "cpu", value: .intelligence) {
                 intelligenceScreen
             }
-            
-            Tab("Categories", systemImage: "tag", value: .category) {
+
+            Tab(CashlyL10n.string("Categories"), systemImage: "tag", value: .category) {
                 categoriesScreen
             }
-            
-            Tab("Home", systemImage: "house", value: .home) {
+
+            Tab(CashlyL10n.string("Home"), systemImage: "house", value: .home) {
                 homeScreen
             }
-            
-            Tab("Transactions", systemImage: "wallet.bifold", value: .transaction) {
+
+            Tab(CashlyL10n.string("Transactions"), systemImage: "wallet.bifold", value: .transaction) {
                 transactionScreen
             }
         }

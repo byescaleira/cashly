@@ -1,0 +1,349 @@
+{
+  "sourceLanguage" : "en",
+  "version" : "1.0",
+  "strings" : {
+    "Add Budget" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add Budget" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Adicionar Orçamento" } }
+      }
+    },
+    "Add Category" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add Category" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Adicionar Categoria" } }
+      }
+    },
+    "Add Tag" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add Tag" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Adicionar Tag" } }
+      }
+    },
+    "Add User" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add User" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Adicionar Usuário" } }
+      }
+    },
+    "Add new tag" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add new tag" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Adicionar nova tag" } }
+      }
+    },
+    "Available" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Available" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Disponível" } }
+      }
+    },
+    "Budget" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Budget" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Orçamento" } }
+      }
+    },
+    "Budgets" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Budgets" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Orçamentos" } }
+      }
+    },
+    "Cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Cancelar" } }
+      }
+    },
+    "Categories" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Categories" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Categorias" } }
+      }
+    },
+    "Category" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Category" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Categoria" } }
+      }
+    },
+    "Clear" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Clear" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Limpar" } }
+      }
+    },
+    "Clear Selection" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Clear Selection" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Limpar Seleção" } }
+      }
+    },
+    "Date" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Date" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Data" } }
+      }
+    },
+    "Delete" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Excluir" } }
+      }
+    },
+    "Delete Transactions" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete Transactions" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Excluir Transações" } }
+      }
+    },
+    "Edit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Edit" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Editar" } }
+      }
+    },
+    "Edit User" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Edit User" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Editar Usuário" } }
+      }
+    },
+    "Enable installments" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enable installments" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Ativar parcelamento" } }
+      }
+    },
+    "Enter the category name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter the category name" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Digite o nome da categoria" } }
+      }
+    },
+    "Enter the tag name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter the tag name" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Digite o nome da tag" } }
+      }
+    },
+    "Enter the user name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter the user name" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Digite o nome do usuário" } }
+      }
+    },
+    "Expense" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Expense" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Despesa" } }
+      }
+    },
+    "Female" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Female" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Feminino" } }
+      }
+    },
+    "Filter by Date" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Filter by Date" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Filtrar por Data" } }
+      }
+    },
+    "First & Last Name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "First & Last Name" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Nome e Sobrenome" } }
+      }
+    },
+    "Home" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Home" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Início" } }
+      }
+    },
+    "Icon" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Icon" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Ícone" } }
+      }
+    },
+    "Installment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Installment" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Parcelamento" } }
+      }
+    },
+    "Intelligence" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Intelligence" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Inteligência" } }
+      }
+    },
+    "Male" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Male" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Masculino" } }
+      }
+    },
+    "Name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Name" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Nome" } }
+      }
+    },
+    "Number of installments" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Number of installments" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Número de parcelas" } }
+      }
+    },
+    "Participants" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Participants" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Participantes" } }
+      }
+    },
+    "Photo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Photo" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Foto" } }
+      }
+    },
+    "Provide a summary of your budget" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Provide a summary of your budget" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Descreva seu orçamento" } }
+      }
+    },
+    "Provide a summary of your transaction" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Provide a summary of your transaction" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Descreva sua transação" } }
+      }
+    },
+    "Score" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Score" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Pontuação" } }
+      }
+    },
+    "Select All" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Select All" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Selecionar Tudo" } }
+      }
+    },
+    "Select Split Mode" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Select Split Mode" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Selecionar Modo de Divisão" } }
+      }
+    },
+    "Selected category" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Selected category" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Categoria selecionada" } }
+      }
+    },
+    "Spending Forecast" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Spending Forecast" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Previsão de Gastos" } }
+      }
+    },
+    "Statuses" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Statuses" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Status" } }
+      }
+    },
+    "Summary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Summary" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Descrição" } }
+      }
+    },
+    "Tags" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Tags" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Tags" } }
+      }
+    },
+    "Top Spending" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Top Spending" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Maiores Gastos" } }
+      }
+    },
+    "Transactions" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Transactions" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Transações" } }
+      }
+    },
+    "Users" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Users" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Usuários" } }
+      }
+    },
+    "Variance" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Variance" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Variação" } }
+      }
+    }
+  }
+}

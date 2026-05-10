@@ -31,7 +31,7 @@ public struct IntelligenceScreen: CashlyView {
             .opacity(state.filter.allTransactions.count < 50 ? 0.5 : 1)
             .disabled(state.filter.allTransactions.count < 50)
         }
-        .navigationTitle("Intelligence")
+        .navigationTitle(CashlyL10n.string("Intelligence"))
         .toolbar {
             ToolbarItem(placement: .navigation) { UserItemView() }
         }
