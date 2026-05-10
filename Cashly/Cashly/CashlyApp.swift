@@ -23,13 +23,28 @@ import CashlyMock
 @main
 struct CashlyApp: App {
     @Environment(\.theme) var theme
-    
-    @State var addCategoryStore = CashlyPresentationFactory.shared.makeAddCategoryStore()
-    @State var addBudgetStore = CashlyPresentationFactory.shared.makeAddBudgetStore()
-    @State var addTransactionStore = CashlyPresentationFactory.shared.makeAddTransactionStore()
-    @State var addUserStore = CashlyPresentationFactory.shared.makeAddUserStore()
-    @State var addTagStore = CashlyPresentationFactory.shared.makeAddTagStore()
-    @State var mainStore = CashlyPresentationFactory.shared.makeMainStore()
+
+    @State var addCategoryStore: CashlyStore<AddCategoryReducer, AddCategoryMiddleware>
+    @State var addBudgetStore: CashlyStore<AddBudgetReducer, AddBudgetMiddleware>
+    @State var addTransactionStore: CashlyStore<AddTransactionReducer, AddTransactionMiddleware>
+    @State var addUserStore: CashlyStore<AddUserReducer, AddUserMiddleware>
+    @State var addTagStore: CashlyStore<AddTagReducer, AddTagMiddleware>
+    @State var mainStore: CashlyStore<MainReducer, MainMiddleware>
+
+    init() {
+        let factory: CashlyPresentationFactory
+        do {
+            factory = try CashlyPresentationFactory()
+        } catch {
+            preconditionFailure("Failed to bootstrap CashlyPresentationFactory: \(error.localizedDescription)")
+        }
+        _addCategoryStore = State(initialValue: factory.makeAddCategoryStore())
+        _addBudgetStore = State(initialValue: factory.makeAddBudgetStore())
+        _addTransactionStore = State(initialValue: factory.makeAddTransactionStore())
+        _addUserStore = State(initialValue: factory.makeAddUserStore())
+        _addTagStore = State(initialValue: factory.makeAddTagStore())
+        _mainStore = State(initialValue: factory.makeMainStore())
+    }
 
     var body: some Scene {
         WindowGroup {

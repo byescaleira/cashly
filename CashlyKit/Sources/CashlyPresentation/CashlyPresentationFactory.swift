@@ -12,17 +12,6 @@ import RyzeArchitecture
 public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
     let dataFactory: CashlyDataFactoryProtocol
 
-    // G005 (Wave 4 target): singleton must die. Until then, use try! at
-    // composition root once. If CloudKit container init fails here, the
-    // app cannot start regardless — surface via crash log, not silently.
-    @MainActor public static let shared: CashlyPresentationFactory = {
-        do {
-            return try CashlyPresentationFactory()
-        } catch {
-            preconditionFailure("Failed to bootstrap CashlyPresentationFactory.shared: \(error.localizedDescription)")
-        }
-    }()
-
     public init(dataFactory: CashlyDataFactoryProtocol) {
         self.dataFactory = dataFactory
     }

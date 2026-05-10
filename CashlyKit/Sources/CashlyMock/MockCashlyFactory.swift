@@ -13,10 +13,7 @@ import RyzeArchitecture
 
 public struct MockCashlyFactory: CashlyDataFactoryProtocol, CashlyPresentationFactoryProtocol {
     let modelContainer: ModelContainer
-    
-    @MainActor
-    static let shared = MockCashlyFactory()
-    
+
     @MainActor
     public init() {
         // In-memory container init can only fail if SwiftData itself is

@@ -12,13 +12,23 @@ import CashlyPresentation
 
 struct MockModifier: ViewModifier {
     @Environment(\.theme) var theme
-    
-    @State var addCategoryStore = MockCashlyFactory.shared.makeAddCategoryStore()
-    @State var addBudgetStore = MockCashlyFactory.shared.makeAddBudgetStore()
-    @State var addTransactionStore = MockCashlyFactory.shared.makeAddTransactionStore()
-    @State var addUserStore = MockCashlyFactory.shared.makeAddUserStore()
-    @State var addTagStore = MockCashlyFactory.shared.makeAddTagStore()
-    @State var mainStore = MockCashlyFactory.shared.makeMainStore()
+
+    @State var addCategoryStore: CashlyStore<AddCategoryReducer, AddCategoryMiddleware>
+    @State var addBudgetStore: CashlyStore<AddBudgetReducer, AddBudgetMiddleware>
+    @State var addTransactionStore: CashlyStore<AddTransactionReducer, AddTransactionMiddleware>
+    @State var addUserStore: CashlyStore<AddUserReducer, AddUserMiddleware>
+    @State var addTagStore: CashlyStore<AddTagReducer, AddTagMiddleware>
+    @State var mainStore: CashlyStore<MainReducer, MainMiddleware>
+
+    init() {
+        let factory = MockCashlyFactory()
+        _addCategoryStore = State(initialValue: factory.makeAddCategoryStore())
+        _addBudgetStore = State(initialValue: factory.makeAddBudgetStore())
+        _addTransactionStore = State(initialValue: factory.makeAddTransactionStore())
+        _addUserStore = State(initialValue: factory.makeAddUserStore())
+        _addTagStore = State(initialValue: factory.makeAddTagStore())
+        _mainStore = State(initialValue: factory.makeMainStore())
+    }
 
     func body(content: Content) -> some View {
         content
