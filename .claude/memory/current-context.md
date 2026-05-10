@@ -5,8 +5,8 @@
 
 ## Sprint / Milestone
 
-**Atual**: Build CLI verde — retomar Wave 1 (G008, G007) + Wave 2 (G009, G010)
-**Objetivo**: Escrever smoke tests/snapshots + retomar G008/G007/G009/G010
+**Atual**: Wave 5a aborted (G033) — Wave 5 needs dedicated session w/ Reducer spike
+**Objetivo**: Wave 7 (modularization, god files, i18n) ou Wave 8 (observability) enquanto Wave 5 não tem timeline
 **Deadline**: _(none)_
 
 ## Em Progresso

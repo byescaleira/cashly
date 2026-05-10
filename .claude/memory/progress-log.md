@@ -1,3 +1,15 @@
+## 2026-05-10 — Wave 5a Aborted (G033 — Reducer API incompatible)
+
+**Tipo**: chore (migration — exploration)
+**Módulos**: CashlyKit/Package.swift, all CashlyKit sources (sed-renamed, then reverted via stash drop)
+**Resumo**: Tentativa Wave 5a. Strategy aprovada: gradual via typealiases, Prism local path, fix PrismUI missing components via CashlyDesignSystem interno. Package.swift atualizado para usar submódulos Prism diretos (evita PrismSecurity broken upstream UIKit import). Bulk sed renomeou `import Ryze*` → `import Prism*` (44 files) e `Ryze*` symbols → `Prism*` (todos os refs). Build falhou: 6 Reducers + 6 Middlewares incompatíveis com nova API PrismReducer/Middleware (assinaturas + isolation diferentes). Stash dropado.
+**Impacto**: Main intacto em `ccd419a`. Aprendizado consolidado em G033. Wave 5 real requer sessão dedicada com spike.
+**ADR**: nenhum (não houve mudança de policy, só exploração)
+**PRs**: nenhum
+**Aprendizados**: PrismReducer = `func reduce(into state: inout State, action: Action) -> PrismEffect<Action>` (sync, MainActor, mutating). Cashly = `func reduce(state:action:) async -> State` (async, actor, value return). Não é rename: é redesign. Mesma situação para Middleware/Store/dispatch. Usar Prism submódulos diretos (PrismFoundation, PrismArchitecture, PrismIntelligence, PrismUI) em vez do umbrella `Prism` evita PrismSecurity broken upstream (`import UIKit` faltando em PrismIntegrityChecker.swift). Color.init(hex:) também mudou signature em PrismUI.
+
+---
+
 ## 2026-05-10 — Wave 6 Complete + BUILD GREEN
 
 **Tipo**: chore (migration)

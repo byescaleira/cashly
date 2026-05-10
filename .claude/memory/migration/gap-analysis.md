@@ -341,3 +341,16 @@ Ver tabela em G022. **DECISÃO HUMANA PENDENTE** consolidada:
 - **Descoberto:** Wave 6 (2026-05-10)
 - **Causa:** `@EnvironmentObject` sintetiza `$store.x` para bindings. `@Environment(T.self)` não. Substituir por `@Bindable var store = store` em body ou `Binding(get:set:)` explícito.
 - **Fix:** Em cada call site `$store.state.x` → `@Bindable var store = store` + `$store.state.x` (com `@Observable`, Bindable provê $). Ou explícito `Binding(get: { store.state.x }, set: { store.state.x = $0 })`. Trade-off: @Bindable é menos invasivo mas exige store mutável; manual binding é universal mas verboso.
+
+### G033 — PrismReducer/Middleware API incompatible with Cashly's Redux flavor
+- **Severidade:** Crítica (bloqueia Wave 5a real)
+- **Esforço:** XG (vários dias)
+- **Onda:** Wave 5a — precisa redesign, não rename mecânico
+- **Descoberto:** Wave 5a (2026-05-10), tentativa abortada
+- **Causa:** PrismReducer assina `func reduce(into state: inout State, action: Action) -> PrismEffect<Action>` em vez de `func reduce(state:action:) async -> State`. Cashly's 6 Reducers + 6 Middlewares + dispatch sites em Stores requerem reescrita ponta a ponta (não swap mecânico). PrismStore API também diferente (provavelmente PrismEffect-based dispatch). PrismSecurity tem `import UIKit` faltando upstream — usar submódulos diretos (PrismFoundation/Architecture/Intelligence/UI) em vez do umbrella `Prism` evita.
+- **Fix:** Sessão dedicada com:
+  1. Audit completo da API PrismReducer/PrismMiddleware/PrismStore + PrismEffect.
+  2. Migrar AddUserReducer como spike isolado (smallest reducer) para validar padrão.
+  3. Replicar para 5 reducers restantes + 6 middlewares.
+  4. Atualizar todos os dispatch sites (handlers em CashlyApp, MockModifier, screens).
+  5. Possivelmente: Color.init(hex:) signature mudou (extraneous label) — verificar PrismUI.
