@@ -17,7 +17,8 @@ let package = Package(
         .ui
     ],
     dependencies: [
-        .ryze
+        .ryze,
+        .snapshotTesting
     ],
     targets: [
         .domain,
@@ -88,7 +89,7 @@ enum CashlyTarget: String, CaseIterable {
         case .ui: return [.domain, .presentation, .mock, .ryze, .resource]
         case .resource: return [.ryze]
         case .mock: return [.domain, .data, .presentation, .ryze, .resource]
-        case .tests: return [.domain, .data, .presentation, .ui, .mock, .ryze]
+        case .tests: return [.domain, .data, .presentation, .ui, .mock, .ryze, .snapshotTesting]
         }
     }
     
@@ -107,22 +108,35 @@ enum CashlyTarget: String, CaseIterable {
 
 enum CashlyDependency: String, CaseIterable {
     case ryze = "ryze"
-    
+    case snapshotTesting = "swift-snapshot-testing"
+
     var url: String {
         switch self {
         case .ryze: return "https://github.com/rafaelesantos/ryze"
+        case .snapshotTesting: return "https://github.com/pointfreeco/swift-snapshot-testing"
         }
     }
-    
-    var revision: String {
+
+    var revision: String? {
         switch self {
         case .ryze: return "2b619d8e98f00174719dcab07d5fad08b23ff2dd"
+        case .snapshotTesting: return nil
+        }
+    }
+
+    var range: Range<Version>? {
+        switch self {
+        case .ryze: return nil
+        case .snapshotTesting: return "1.17.0" ..< "2.0.0"
         }
     }
 
     var dependency: Package.Dependency {
         switch self {
-        case .ryze: return .package(url: url, revision: revision)
+        case .ryze:
+            return .package(url: url, revision: revision!)
+        case .snapshotTesting:
+            return .package(url: url, range!)
         }
     }
 }
@@ -158,10 +172,12 @@ extension Target.Dependency {
     static var ui: Self { CashlyTarget.ui.dependency }
     static var resource: Self { CashlyTarget.resource.dependency }
     static var ryze: Self { .product(name: "Ryze", package: "ryze") }
+    static var snapshotTesting: Self { .product(name: "SnapshotTesting", package: "swift-snapshot-testing") }
 }
 
 extension Package.Dependency {
     static var ryze: Package.Dependency { CashlyDependency.ryze.dependency }
+    static var snapshotTesting: Package.Dependency { CashlyDependency.snapshotTesting.dependency }
 }
 
 extension Array where Element == String {
