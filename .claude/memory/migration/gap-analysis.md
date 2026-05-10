@@ -325,3 +325,11 @@ Ver tabela em G022. **DECISÃO HUMANA PENDENTE** consolidada:
 - **Onda:** Wave 2
 - **Descoberto:** Wave 0.5
 - **Fix:** Implementar `hash(into:)` manualmente OU remover `==` custom e deixar enum gerar (mas associated values exigem Hashable em todos).
+
+### G031 — CashlyView types não implementam `RyzeUIMock.mocked()`
+- **Severidade:** Importante (bloqueia build CLI)
+- **Esforço:** M (1 dia) ou G se exigir mock data robusto
+- **Onda:** Wave 6 ou Wave 5 (parte da migração Ryze→Prism)
+- **Descoberto:** Wave 6 (2026-05-10)
+- **Causa:** `RyzeView` protocol em Ryze 2b619d8 herda `RyzeUIMock` que requer `static func mocked() -> MockView`. 14 tipos Cashly (todos Screens + alguns Views/Components) declaram `: CashlyView` mas não implementam `mocked()`. Xcode IDE talvez tolere via default; CLI não.
+- **Fix:** Adicionar `static func mocked() -> some View { ... }` em cada tipo, ou criar conformance default em CashlyUI.swift via extension genérica que retorna placeholder.
