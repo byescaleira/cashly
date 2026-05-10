@@ -8,7 +8,9 @@
 import SwiftUI
 import CashlyDomain
 import CashlyResource
+#if DEBUG
 import CashlyMock
+#endif
 
 public struct IntelligenceScreen: CashlyView {
     @Environment(\.mainState) var state
@@ -163,7 +165,9 @@ public struct IntelligenceScreen: CashlyView {
     }
 }
 
+#if DEBUG
 #Preview {
     IntelligenceScreen
         .cashlyPreview()
 }
+#endif

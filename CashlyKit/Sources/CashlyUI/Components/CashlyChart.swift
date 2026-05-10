@@ -8,6 +8,9 @@
 import SwiftUI
 import Charts
 import CashlyDomain
+#if DEBUG
+import CashlyMock
+#endif
 
 struct CashlyChart: CashlyView {
     @Environment(\.theme) var theme
@@ -98,6 +101,7 @@ struct CashlyChart: CashlyView {
         return .zero ... (max + 10)
     }
     
+    #if DEBUG
     @ViewBuilder
     static var mock: some View {
         let categories = CashlyDomain.Category.mocks
@@ -109,9 +113,12 @@ struct CashlyChart: CashlyView {
         }
         CashlyChart(data: data)
     }
+    #endif
 }
 
+#if DEBUG
 #Preview {
     CashlyChart
         .mock
 }
+#endif

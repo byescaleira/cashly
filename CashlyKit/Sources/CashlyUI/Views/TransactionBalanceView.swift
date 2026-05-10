@@ -9,7 +9,9 @@ import SwiftUI
 import CashlyDomain
 import CashlyResource
 import CashlyPresentation
+#if DEBUG
 import CashlyMock
+#endif
 
 struct TransactionBalanceView: CashlyView {
     @Environment(\.theme) var theme
@@ -101,9 +103,11 @@ struct TransactionBalanceView: CashlyView {
     }
 }
 
+#if DEBUG
 #Preview {
     CashlyList {
         TransactionBalanceView
             .cashlyPreview()
     }
 }
+#endif

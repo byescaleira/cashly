@@ -6,7 +6,9 @@
 //
 
 import SwiftUI
+#if DEBUG
 import CashlyMock
+#endif
 import CashlyDomain
 import CashlyResource
 import CashlyPresentation
@@ -134,15 +136,19 @@ public struct DetailCategoryScreen: CashlyView {
         .cashly(font: .callout)
     }
     
+    #if DEBUG
     public static var mock: some View {
         DetailCategoryScreen(category: .mock)
     }
+    #endif
 }
 
+#if DEBUG
 #Preview {
     NavigationView {
         DetailCategoryScreen
             .cashlyPreview()
     }
 }
+#endif
 

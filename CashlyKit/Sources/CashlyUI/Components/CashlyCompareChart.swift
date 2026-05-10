@@ -8,6 +8,9 @@
 import SwiftUI
 import Charts
 import CashlyDomain
+#if DEBUG
+import CashlyMock
+#endif
 
 enum CashlyChartType {
     case line
@@ -123,6 +126,7 @@ struct CashlyCompareChart: CashlyView {
         return .zero ... (max + 10)
     }
     
+    #if DEBUG
     @ViewBuilder
     static var mock: some View {
         let categories = CashlyDomain.Category.mocks
@@ -135,9 +139,12 @@ struct CashlyCompareChart: CashlyView {
         }
         CashlyCompareChart(data: data)
     }
+    #endif
 }
 
+#if DEBUG
 #Preview {
     CashlyCompareChart
         .mock
 }
+#endif

@@ -9,7 +9,9 @@ import SwiftUI
 import CashlyDomain
 import CashlyResource
 import CashlyPresentation
+#if DEBUG
 import CashlyMock
+#endif
 
 struct FilterItemView: CashlyView {
     @Environment(CashlyStore<MainReducer, MainMiddleware>.self) var store
@@ -244,13 +246,15 @@ public enum FilterItem: Int, Identifiable, CaseIterable {
     }
 }
 
+#if DEBUG
 #Preview {
     NavigationView {
         CashlyList {
-              
+
         }
         .toolbar {
             ToolbarItem { FilterItemView.cashlyPreview() }
         }
     }
 }
+#endif

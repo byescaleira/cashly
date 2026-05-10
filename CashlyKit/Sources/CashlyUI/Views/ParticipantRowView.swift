@@ -7,7 +7,9 @@
 
 import SwiftUI
 import CashlyDomain
+#if DEBUG
 import CashlyMock
+#endif
 import CashlyResource
 import CashlyPresentation
 
@@ -148,6 +150,7 @@ struct ParticipantRowView: CashlyView {
             .cashly(color: .color(.accentColor.opacity(0.75)))
     }
     
+    #if DEBUG
     @ViewBuilder
     static var mock: some View {
         ParticipantRowView(
@@ -156,8 +159,10 @@ struct ParticipantRowView: CashlyView {
             count: Participant.mocks.count
         )
     }
+    #endif
 }
 
+#if DEBUG
 #Preview {
     CashlyList {
         ParticipantRowView.mock
@@ -173,3 +178,4 @@ struct ParticipantRowView: CashlyView {
     }
     .cashlyPreview()
 }
+#endif

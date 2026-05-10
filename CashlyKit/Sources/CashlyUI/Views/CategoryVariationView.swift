@@ -8,7 +8,9 @@
 import SwiftUI
 import CashlyDomain
 import CashlyPresentation
+#if DEBUG
 import CashlyMock
+#endif
 
 struct CategoryVariationView: CashlyView {
     @Environment(\.mainState) var state
@@ -74,12 +76,16 @@ struct CategoryVariationView: CashlyView {
         }
     }
     
+    #if DEBUG
     static var mock: some View {
         CategoryVariationView(category: .mock)
     }
+    #endif
 }
 
+#if DEBUG
 #Preview {
     CategoryVariationView
         .cashlyPreview()
 }
+#endif

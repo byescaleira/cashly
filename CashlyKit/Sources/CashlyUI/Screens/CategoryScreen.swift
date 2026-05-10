@@ -6,7 +6,9 @@
 //
 
 import SwiftUI
+#if DEBUG
 import CashlyMock
+#endif
 import CashlyDomain
 import CashlyResource
 import CashlyPresentation
@@ -181,9 +183,11 @@ public struct CategoryScreen: CashlyView {
     }
 }
 
+#if DEBUG
 #Preview {
     NavigationView {
         CategoryScreen
             .cashlyPreview()
     }
 }
+#endif

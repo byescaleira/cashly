@@ -16,7 +16,9 @@ import CashlyDomain
 import CashlyData
 import CashlyPresentation
 import CashlyUI
+#if DEBUG || targetEnvironment(simulator)
 import CashlyMock
+#endif
 
 @main
 struct CashlyApp: App {

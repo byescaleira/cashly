@@ -7,7 +7,9 @@
 
 import SwiftUI
 import RyzeArchitecture
+#if DEBUG
 import CashlyMock
+#endif
 import CashlyDomain
 import CashlyResource
 import CashlyPresentation
@@ -273,10 +275,12 @@ public struct TransactionScreen: CashlyView {
     }
 }
 
+#if DEBUG
 #Preview {
     NavigationView {
         TransactionScreen
             .cashlyPreview()
     }
 }
+#endif
 

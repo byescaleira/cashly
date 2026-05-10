@@ -6,7 +6,9 @@
 //
 
 import SwiftUI
+#if DEBUG
 import CashlyMock
+#endif
 import CashlyPresentation
 
 public struct MainScreen: CashlyView {
@@ -119,7 +121,9 @@ enum MainTabItem: Int, Hashable, Identifiable, CaseIterable {
     var id: Int { rawValue }
 }
 
+#if DEBUG
 #Preview {
     MainScreen
         .cashlyPreview()
 }
+#endif

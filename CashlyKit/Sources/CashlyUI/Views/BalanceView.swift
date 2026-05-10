@@ -8,7 +8,9 @@
 import SwiftUI
 import CashlyDomain
 import CashlyPresentation
+#if DEBUG
 import CashlyMock
+#endif
 
 struct BalanceView: CashlyView {
     @Environment(\.mainState) var state
@@ -150,9 +152,11 @@ struct BalanceView: CashlyView {
     }
 }
 
+#if DEBUG
 #Preview {
     CashlyList {
         BalanceView
             .cashlyPreview()
     }
 }
+#endif

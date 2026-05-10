@@ -51,10 +51,13 @@ struct EmptyBudgetView: CashlyView {
     }
 }
 
+#if DEBUG
+import CashlyMock
 #Preview {
     CashlyList {
         EmptyBudgetView.mock
     }
     .cashlyPreview()
 }
+#endif
 

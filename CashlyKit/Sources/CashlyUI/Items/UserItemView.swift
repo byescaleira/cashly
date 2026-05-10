@@ -9,7 +9,9 @@ import SwiftUI
 import CashlyDomain
 import CashlyResource
 import CashlyPresentation
+#if DEBUG
 import CashlyMock
+#endif
 
 struct UserItemView: CashlyView {
     @Environment(CashlyStore<MainReducer, MainMiddleware>.self) var store
@@ -72,13 +74,15 @@ struct UserItemView: CashlyView {
     }
 }
 
+#if DEBUG
 #Preview {
     NavigationView {
         CashlyList {
-              
+
         }
         .toolbar {
             ToolbarItem { UserItemView.cashlyPreview() }
         }
     }
 }
+#endif
