@@ -5,6 +5,7 @@
 //  Created by Rafael Escaleira on 29/08/25.
 //
 
+import Foundation
 import CashlyDomain
 import SwiftData
 
@@ -47,7 +48,7 @@ public actor AdapterActor: AdapterUseCase {
         name: String,
         color: String,
         icon: String
-    ) async throws -> Category? {
+    ) async throws -> CashlyDomain.Category? {
         let userPredicate: Predicate<UserEntity> = #Predicate {
             $0.id == user
         }

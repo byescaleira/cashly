@@ -5,6 +5,7 @@
 //  Created by Rafael Escaleira on 05/09/25.
 //
 
+import Foundation
 import RyzeFoundation
 import CashlyDomain
 import SwiftData

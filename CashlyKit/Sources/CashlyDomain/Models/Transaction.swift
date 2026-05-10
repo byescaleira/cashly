@@ -5,6 +5,9 @@
 //  Created by Rafael Escaleira on 31/08/25.
 //
 
+import Foundation
+import SwiftUI
+
 public struct Transaction: CashlyEntity, Sendable {
     public var id: String
     public var participants: [Participant]

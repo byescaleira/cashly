@@ -5,6 +5,8 @@
 //  Created by Rafael Escaleira on 29/08/25.
 //
 
+import Foundation
+
 public protocol AdapterUseCase: Sendable {
     func budgetAdapted(
         id: String,

@@ -5,6 +5,7 @@
 //  Created by Rafael Escaleira on 01/09/25.
 //
 
+import Foundation
 import CashlyDomain
 
 public enum AddTransactionAction: CashlyAction {

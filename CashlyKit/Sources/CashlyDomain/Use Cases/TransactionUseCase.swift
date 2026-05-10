@@ -5,6 +5,8 @@
 //  Created by Rafael Escaleira on 31/08/25.
 //
 
+import Foundation
+
 public protocol TransactionUseCase: Sendable {
     func getTransaction(id: String) async throws -> Transaction?
     func getTransactions() async throws -> [Transaction]

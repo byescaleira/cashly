@@ -5,6 +5,7 @@
 //  Created by Rafael Escaleira on 03/09/25.
 //
 
+import Foundation
 import RyzeFoundation
 
 public enum CashlyResourceFile: String, CaseIterable {

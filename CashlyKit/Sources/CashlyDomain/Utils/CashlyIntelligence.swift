@@ -5,6 +5,8 @@
 //  Created by Rafael Escaleira on 19/09/25.
 //
 
+import Foundation
+import SwiftUI
 import RyzeIntelligence
 
 public enum CashlyIntelligence: String, Identifiable, CaseIterable {

@@ -5,6 +5,7 @@
 //  Created by Rafael Escaleira on 10/09/25.
 //
 
+import SwiftUI
 import CashlyDomain
 
 public enum AddTagAction: CashlyAction {

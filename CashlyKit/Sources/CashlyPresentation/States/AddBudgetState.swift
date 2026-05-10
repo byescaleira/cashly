@@ -5,14 +5,15 @@
 //  Created by Rafael Escaleira on 01/09/25.
 //
 
+import Foundation
 import CashlyDomain
 
 public struct AddBudgetState: CashlyState {
     public var isLoading: Bool
-    public var categories: [Category]
+    public var categories: [CashlyDomain.Category]
     public var id: String
     public var amount: Double
-    public var category: Category?
+    public var category: CashlyDomain.Category?
     public var date: Date
     public var summary: String
     public var isNew: Bool
@@ -35,10 +36,10 @@ public struct AddBudgetState: CashlyState {
     
     private init(
         isLoading: Bool = true,
-        categories: [Category] = [],
+        categories: [CashlyDomain.Category] = [],
         id: String = UUID().uuidString,
         amount: Double = .zero,
-        category: Category? = nil,
+        category: CashlyDomain.Category? = nil,
         date: Date = .now,
         summary: String = "",
         isNew: Bool = true,
@@ -59,7 +60,7 @@ public struct AddBudgetState: CashlyState {
         AddBudgetState()
     }
     
-    public static func new(category: Category, date: Date) -> AddBudgetState {
+    public static func new(category: CashlyDomain.Category, date: Date) -> AddBudgetState {
         AddBudgetState(category: category, date: date)
     }
     

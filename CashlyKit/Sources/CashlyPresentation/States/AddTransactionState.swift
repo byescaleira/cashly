@@ -5,6 +5,7 @@
 //  Created by Rafael Escaleira on 01/09/25.
 //
 
+import Foundation
 import CashlyDomain
 
 public struct AddTransactionState: CashlyState {
@@ -48,11 +49,11 @@ public struct AddTransactionState: CashlyState {
         return Int(total - amount) == .zero
     }
     
-    public var categories: [Category] {
+    public var categories: [CashlyDomain.Category] {
         budgets.map(\.category)
     }
     
-    public var category: Category? {
+    public var category: CashlyDomain.Category? {
         budget?.category
     }
     
