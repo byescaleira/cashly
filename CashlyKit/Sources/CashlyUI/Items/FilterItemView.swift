@@ -74,7 +74,7 @@ struct FilterItemView: CashlyView {
         @Bindable var store = store
         return Menu {
             Toggle(isOn: $store.state.filter.isFilteringByDate) {
-                CashlyText("Filter by Date")
+                CashlyText(CashlyL10n.string("Filter by Date"))
             }
             
             if state.filter.isFilteringByDate {
@@ -122,12 +122,12 @@ struct FilterItemView: CashlyView {
                     CashlyButton {
                         store.state.filter.startDate = .now
                     } label: {
-                        CashlyLabel("Today", symbol: "location")
+                        CashlyLabel(CashlyL10n.string("Today"), symbol: "location")
                     }
                 }
             }
         } label: {
-            CashlyLabel("Date", symbol: "calendar")
+            CashlyLabel(CashlyL10n.string("Date"), symbol: "calendar")
         }
         .cashly(tint: .text)
     }
@@ -147,7 +147,7 @@ struct FilterItemView: CashlyView {
         ) { category in
             CashlyText(category.name.capitalized)
         } label: {
-            CashlyLabel("Categories", symbol: "swatchpalette")
+            CashlyLabel(CashlyL10n.string("Categories"), symbol: "swatchpalette")
             if state.filter.categories.count > .zero {
                 CashlyText(state.filter.categories.count.string.space + "selected")
             }
@@ -164,7 +164,7 @@ struct FilterItemView: CashlyView {
         ) { tag in
             CashlyText(tag.name.capitalized)
         } label: {
-            CashlyLabel("Tags", symbol: "tag")
+            CashlyLabel(CashlyL10n.string("Tags"), symbol: "tag")
             if state.filter.tags.count > .zero {
                 CashlyText(state.filter.tags.count.string.space + "selected")
             }
@@ -181,7 +181,7 @@ struct FilterItemView: CashlyView {
         ) { status in
             CashlyText(status.summary)
         } label: {
-            CashlyLabel("Statuses", symbol: "text.pad.header.badge.clock")
+            CashlyLabel(CashlyL10n.string("Statuses"), symbol: "text.pad.header.badge.clock")
             if state.filter.transactionStatuses.count > .zero {
                 CashlyText(state.filter.transactionStatuses.count.string.space + "selected")
             }
@@ -198,7 +198,7 @@ struct FilterItemView: CashlyView {
         ) { user in
             CashlyText(user.name)
         } label: {
-            CashlyLabel("Participants", symbol: "person.2")
+            CashlyLabel(CashlyL10n.string("Participants"), symbol: "person.2")
             if state.filter.participants.count > .zero {
                 CashlyText(state.filter.participants.count.string.space + "selected")
             }
@@ -223,7 +223,7 @@ struct FilterItemView: CashlyView {
                 store.state.filter.transactionStatuses = []
                 store.state.filter.participants = []
             } label: {
-                CashlyLabel("Clear", symbol: "eraser.line.dashed")
+                CashlyLabel(CashlyL10n.string("Clear"), symbol: "eraser.line.dashed")
             }
             .cashly(tint: .text)
         }

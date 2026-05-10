@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CashlyResource
 import CashlyDomain
 
 struct EmptyTagView: CashlyView {
@@ -37,7 +38,7 @@ struct EmptyTagView: CashlyView {
                 .animation(.bouncy, value: state.users.isEmpty)
                 .animation(.bouncy, value: state.tags.isEmpty)
             } header: {
-                CashlyText("Tags")
+                CashlyText(CashlyL10n.string("Tags"))
                     .cashly(font: .title3, weight: .semibold)
                     .cashly(color: .text)
             }

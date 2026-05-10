@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CashlyResource
 import CashlyDomain
 
 struct CashlyMenuSelectionView<T: Identifiable & Hashable>: View {
@@ -35,7 +36,7 @@ struct CashlyMenuSelectionView<T: Identifiable & Hashable>: View {
                 CashlyButton {
                     selectedItems = []
                 } label: {
-                    CashlyLabel("Clean", symbol: "eraser.line.dashed")
+                    CashlyLabel(CashlyL10n.string("Clean"), symbol: "eraser.line.dashed")
                 }
             }
         } label: {

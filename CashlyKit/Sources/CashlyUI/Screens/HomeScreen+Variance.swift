@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CashlyResource
 import CashlyDomain
 
 extension HomeScreen {
@@ -36,7 +37,7 @@ extension HomeScreen {
                             .contentTransition(.numericText())
                             .animation(.bouncy, value: budgetAmount)
 
-                        CashlyText("Budget")
+                        CashlyText(CashlyL10n.string("Budget"))
                             .cashly(font: .callout, weight: .semibold)
                             .cashly(color: .info)
                     }
@@ -58,7 +59,7 @@ extension HomeScreen {
                                 .contentTransition(.numericText())
                                 .animation(.bouncy, value: percentage)
 
-                            CashlyText("Expense")
+                            CashlyText(CashlyL10n.string("Expense"))
                                 .cashly(font: .callout, weight: .semibold)
                                 .cashly(color: .primary)
                         }
@@ -69,7 +70,7 @@ extension HomeScreen {
                 CashlyCompareChart(type: .bar, data: data)
             } header: {
                 CashlyVStack(alignment: .leading, spacing: .small) {
-                    CashlyText("Variance")
+                    CashlyText(CashlyL10n.string("Variance"))
                         .cashly(font: .title3, weight: .semibold)
                         .cashly(color: .text)
 

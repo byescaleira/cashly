@@ -47,7 +47,7 @@ struct UserItemView: CashlyView {
                     CashlyButton {
                         router.route(to: .addUser(state: .edit(id: user.id)))
                     } label: {
-                        CashlyLabel("Edit User", symbol: "pencil")
+                        CashlyLabel(CashlyL10n.string("Edit User"), symbol: "pencil")
                             .cashly(color: .text)
                     }
                 }
@@ -55,7 +55,7 @@ struct UserItemView: CashlyView {
                 CashlyButton {
                     router.route(to: .addUser(state: .new()))
                 } label: {
-                    CashlyLabel("Add User", symbol: "plus")
+                    CashlyLabel(CashlyL10n.string("Add User"), symbol: "plus")
                         .cashly(color: .text)
                 }
             } label: {

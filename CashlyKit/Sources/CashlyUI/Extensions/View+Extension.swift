@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CashlyResource
 import RyzeUI
 import CashlyDomain
 
@@ -113,7 +114,7 @@ public extension View {
             CashlyButton(role: .destructive) {
                 action()
             } label: {
-                CashlyLabel("Delete", symbol: "trash.fill")
+                CashlyLabel(CashlyL10n.string("Delete"), symbol: "trash.fill")
             }
             .cashly(tint: .error)
         }
@@ -124,7 +125,7 @@ public extension View {
             CashlyButton {
                 action()
             } label: {
-                CashlyLabel("Edit", symbol: "square.and.pencil")
+                CashlyLabel(CashlyL10n.string("Edit"), symbol: "square.and.pencil")
             }
             .cashly(tint: .info)
         }

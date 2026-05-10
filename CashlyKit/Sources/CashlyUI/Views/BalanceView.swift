@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CashlyResource
 import CashlyDomain
 import CashlyPresentation
 #if DEBUG
@@ -88,7 +89,7 @@ struct BalanceView: CashlyView {
             }
             .cashlyPadding()
         } header: {
-            CashlyText("Score")
+            CashlyText(CashlyL10n.string("Score"))
                 .cashly(font: .title3, weight: .semibold)
                 .cashly(color: .text)
         }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CashlyResource
 #if DEBUG
 import CashlyMock
 #endif
@@ -77,7 +78,7 @@ public struct AddCategoryScreen: CashlyView {
                 text: $store.state.name
             )
         } header: {
-            CashlyText("Name")
+            CashlyText(CashlyL10n.string("Name"))
                 .cashly(font: .title3, weight: .semibold)
                 .cashly(color: .text)
         }
@@ -86,7 +87,7 @@ public struct AddCategoryScreen: CashlyView {
     var iconCategorySection: some View {
         Section {
             CashlyHStack {
-                CashlyText("Category")
+                CashlyText(CashlyL10n.string("Category"))
                 
                 CashlySpacer()
                 
@@ -110,7 +111,7 @@ public struct AddCategoryScreen: CashlyView {
                 .cashly(tint: .color(state.color))
             }
         } header: {
-            CashlyText("Icon")
+            CashlyText(CashlyL10n.string("Icon"))
                 .cashly(font: .title3, weight: .semibold)
                 .cashly(color: .text)
         } footer: {

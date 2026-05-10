@@ -82,7 +82,8 @@ extension TransactionScreen {
                     action(.main(.removeTransactions(selection)))
                 }
             } message: {
-                CashlyText("Are you sure you want to delete \(selection.count) selected transaction\(selection.count == 1 ? "" : "s")? This action cannot be undone.")
+                let count = selection.count
+                CashlyText(CashlyL10n.string("Are you sure you want to delete \(count) selected transactions? This action cannot be undone."))
             }
         }
     }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CashlyResource
 
 struct CashlySystemMonitorView: CashlyView {
     @State var systemMonitor = CashlySystemMonitor()
@@ -20,11 +21,11 @@ struct CashlySystemMonitorView: CashlyView {
             }
             .cashlyPadding()
         } header: {
-            CashlyText("System Monitor")
+            CashlyText(CashlyL10n.string("System Monitor"))
                 .cashly(font: .title3, weight: .semibold)
                 .cashly(color: .text)
         } footer: {
-            CashlyText("Monitor CPU and memory usage to track performance during model training below and ensure optimal system conditions.")
+            CashlyText(CashlyL10n.string("Monitor CPU and memory usage to track performance during model training below and ensure optimal system conditions."))
         }
         .cashly(systemMonitor: $systemMonitor)
     }
@@ -50,7 +51,7 @@ struct CashlySystemMonitorView: CashlyView {
                 .animation(.spring(response: 0.8, dampingFraction: 0.8), value: systemMonitor.cpuPercentageUsage)
             
             CashlyVStack(spacing: .zero) {
-                CashlyText("CPU")
+                CashlyText(CashlyL10n.string("CPU"))
                     .cashly(font: .footnote, weight: .semibold)
                     .cashly(color: .textSecondary)
                 
@@ -89,7 +90,7 @@ struct CashlySystemMonitorView: CashlyView {
     var infoView: some View {
         CashlyHStack {
             CashlyVStack {
-                CashlyText("Memory".uppercased())
+                CashlyText(CashlyL10n.string("Memory").uppercased())
                     .cashly(font: .caption)
                     .cashly(color: .textSecondary)
                 CashlyHStack {

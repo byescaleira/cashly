@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CashlyResource
 import CashlyDomain
 
 extension AddTransactionScreen {
@@ -50,7 +51,7 @@ extension AddTransactionScreen {
                 axis: .vertical
             )
         } header: {
-            CashlyText("Summary")
+            CashlyText(CashlyL10n.string("Summary"))
                 .cashly(font: .title3, weight: .semibold)
                 .cashly(color: .text)
         }
@@ -63,7 +64,7 @@ extension AddTransactionScreen {
             EmptyBudgetView(budgets: state.budgets)
         } header: {
             CashlyHStack {
-                CashlyText("Categories")
+                CashlyText(CashlyL10n.string("Categories"))
                     .cashly(font: .title3, weight: .semibold)
                     .cashly(color: .text)
                 CashlySpacer()
@@ -94,7 +95,7 @@ extension AddTransactionScreen {
             .datePickerStyle(.compact)
             .cashly(tint: .primary)
         } header: {
-            CashlyText("Date")
+            CashlyText(CashlyL10n.string("Date"))
                 .cashly(font: .title3, weight: .semibold)
                 .cashly(color: .text)
         }
@@ -106,7 +107,7 @@ extension AddTransactionScreen {
             Section {
                 splitModeView
             } header: {
-                CashlyText("Participants")
+                CashlyText(CashlyL10n.string("Participants"))
                     .cashly(font: .title3, weight: .semibold)
                     .cashly(color: .text)
             } footer: {
@@ -121,7 +122,7 @@ extension AddTransactionScreen {
         @Bindable var store = store
         return Section {
             Toggle(isOn: $store.state.installmentIsOn) {
-                CashlyText("Enable installments")
+                CashlyText(CashlyL10n.string("Enable installments"))
             }
 
             if state.installmentIsOn {
@@ -132,11 +133,11 @@ extension AddTransactionScreen {
                             .tag($0)
                     }
                 } label: {
-                    CashlyText("Number of installments")
+                    CashlyText(CashlyL10n.string("Number of installments"))
                 }
             }
         } header: {
-            CashlyText("Installment")
+            CashlyText(CashlyL10n.string("Installment"))
                 .cashly(font: .title3, weight: .semibold)
                 .cashly(color: .text)
         }

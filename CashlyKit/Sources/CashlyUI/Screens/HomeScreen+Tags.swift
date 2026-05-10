@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CashlyResource
 import CashlyDomain
 
 extension HomeScreen {
@@ -59,7 +60,7 @@ extension HomeScreen {
                     router.route(to: .addTag(state: .new()))
                 } label: {
                     CashlyHStack {
-                        CashlyText("Add new tag")
+                        CashlyText(CashlyL10n.string("Add new tag"))
                         CashlySpacer()
                         CashlySymbol("chevron.forward")
                             .cashly(color: .disabled)
@@ -68,7 +69,7 @@ extension HomeScreen {
                 .cashly(tint: .text)
             } header: {
                 CashlyVStack(alignment: .leading, spacing: .small) {
-                    CashlyText("Tags")
+                    CashlyText(CashlyL10n.string("Tags"))
                         .cashly(font: .title3, weight: .semibold)
                         .cashly(color: .text)
 

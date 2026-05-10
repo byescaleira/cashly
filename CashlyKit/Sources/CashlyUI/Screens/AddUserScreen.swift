@@ -89,7 +89,7 @@ public struct AddUserScreen: CashlyView {
                 text: $store.state.name
             )
         } header: {
-            CashlyText("First & Last Name")
+            CashlyText(CashlyL10n.string("First & Last Name"))
                 .cashly(font: .title3, weight: .semibold)
                 .cashly(color: .text)
         }
@@ -99,7 +99,7 @@ public struct AddUserScreen: CashlyView {
         Section {
             
         } header: {
-            CashlyText("Photo")
+            CashlyText(CashlyL10n.string("Photo"))
                 .cashly(font: .title3, weight: .semibold)
                 .cashly(color: .text)
         } footer: {
@@ -113,9 +113,9 @@ public struct AddUserScreen: CashlyView {
     
     var segmentedGenderView: some View {
         Picker(selection: $gender) {
-            CashlyText("Male")
+            CashlyText(CashlyL10n.string("Male"))
                 .tag(0)
-            CashlyText("Female")
+            CashlyText(CashlyL10n.string("Female"))
                 .tag(1)
         } label: {
             EmptyView()

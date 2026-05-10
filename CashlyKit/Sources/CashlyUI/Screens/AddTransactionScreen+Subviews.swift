@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CashlyResource
 import CashlyDomain
 
 extension AddTransactionScreen {
@@ -105,7 +106,7 @@ extension AddTransactionScreen {
     var splitModeView: some View {
         @Bindable var store = store
         return CashlyHStack {
-            CashlyText("Select Split Mode")
+            CashlyText(CashlyL10n.string("Select Split Mode"))
 
             CashlySpacer()
 
@@ -144,7 +145,7 @@ extension AddTransactionScreen {
                             store.state.participants.remove(at: index)
                         }
                     } label: {
-                        CashlyLabel("Delete", symbol: "trash.fill")
+                        CashlyLabel(CashlyL10n.string("Delete"), symbol: "trash.fill")
                     }
                     .cashly(tint: .error)
                 }

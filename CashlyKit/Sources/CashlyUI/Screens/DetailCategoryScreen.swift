@@ -104,7 +104,7 @@ public struct DetailCategoryScreen: CashlyView {
                     .cashly(color: .text)
                 }
             } header: {
-                CashlyText("Budgets")
+                CashlyText(CashlyL10n.string("Budgets"))
                     .cashly(font: .title3, weight: .semibold)
                     .cashly(color: .text)
             }

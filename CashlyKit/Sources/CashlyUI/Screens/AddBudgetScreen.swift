@@ -109,7 +109,7 @@ public struct AddBudgetScreen: CashlyView {
                 axis: .vertical
             )
         } header: {
-            CashlyText("Summary")
+            CashlyText(CashlyL10n.string("Summary"))
                 .cashly(font: .title3, weight: .semibold)
                 .cashly(color: .text)
         }
@@ -120,7 +120,7 @@ public struct AddBudgetScreen: CashlyView {
             categoriesView
             EmptyCategoryView()
         } header: {
-            CashlyText("Categories")
+            CashlyText(CashlyL10n.string("Categories"))
                 .cashly(font: .title3, weight: .semibold)
                 .cashly(color: .text)
         }
@@ -180,7 +180,7 @@ public struct AddBudgetScreen: CashlyView {
             .cashlyPadding(.vertical, .negative(.medium))
             .cashly(tint: .primary)
         } header: {
-            CashlyText("Date")
+            CashlyText(CashlyL10n.string("Date"))
                 .cashly(font: .title3, weight: .semibold)
                 .cashly(color: .text)
         }

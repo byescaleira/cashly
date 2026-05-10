@@ -60,7 +60,7 @@ public struct CategoryScreen: CashlyView {
                     .cashlyEdit { router.route(to: .addCategory(state: .edit(id: category.id))) }
                 }
             } header: {
-                CashlyText("Budgets")
+                CashlyText(CashlyL10n.string("Budgets"))
                     .cashly(font: .title3, weight: .semibold)
                     .cashly(color: .text)
             }
@@ -73,12 +73,12 @@ public struct CategoryScreen: CashlyView {
         if !categories.isEmpty, state.filter.isFilteringByDate {
             Section {
                 CashlyVStack(alignment: .leading) {
-                    CashlyText("This category doesn’t have a budget yet. Add one below to help track your spending.")
+                    CashlyText(CashlyL10n.string("This category doesn’t have a budget yet. Add one below to help track your spending."))
                     categoriesWithoutBudgetsView(categories: categories)
                 }
                 .frame(maxWidth: .infinity)
             } header: {
-                CashlyText("Want more control?")
+                CashlyText(CashlyL10n.string("Want more control?"))
                     .cashly(font: .title3, weight: .semibold)
                     .cashly(color: .text)
             }

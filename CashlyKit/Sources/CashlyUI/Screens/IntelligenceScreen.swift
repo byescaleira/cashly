@@ -95,7 +95,7 @@ public struct IntelligenceScreen: CashlyView {
                     }
                 } header: {
                     if model == .budgetValue {
-                        CashlyText("Models")
+                        CashlyText(CashlyL10n.string("Models"))
                             .cashly(font: .title3, weight: .semibold)
                             .cashly(color: .text)
                     }
@@ -117,7 +117,7 @@ public struct IntelligenceScreen: CashlyView {
                         train(model: model, user: user)
                     }
                 } label: {
-                    CashlyText("Train Models")
+                    CashlyText(CashlyL10n.string("Train Models"))
                         .cashly(font: .headline, weight: .semibold)
                         .frame(maxWidth: .infinity)
                 }
@@ -130,7 +130,7 @@ public struct IntelligenceScreen: CashlyView {
                     CashlyIntelligence.clean()
                     action(.main(.fetch))
                 } label: {
-                    CashlyText("Clean Models".uppercased())
+                    CashlyText(CashlyL10n.string("Clean Models").uppercased())
                         .cashly(font: .caption, weight: .semibold)
                         .cashly(color: .textSecondary)
                 }
