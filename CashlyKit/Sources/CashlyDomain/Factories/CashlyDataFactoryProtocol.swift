@@ -5,8 +5,6 @@
 //  Created by Rafael Escaleira on 29/08/25.
 //
 
-import SwiftData
-
 public protocol CashlyDataFactoryProtocol {
     func makeAdapter() -> AdapterUseCase
     func makeBudgetUseCase() -> BudgetUseCase

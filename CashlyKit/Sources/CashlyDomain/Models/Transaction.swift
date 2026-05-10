@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 public struct Transaction: CashlyEntity, Sendable {
     public var id: String
@@ -61,15 +60,6 @@ public enum TransactionStatus: Int, CaseIterable, CashlyEntity, Sendable {
         case .pendingToPay: return "Pending to Pay"
         case .settled: return "Settled"
         case .canceled: return "Canceled"
-        }
-    }
-    
-    public var color: Color {
-        switch self {
-        case .pendingToReceive: return .blue
-        case .pendingToPay: return .orange
-        case .settled: return .green
-        case .canceled: return .red
         }
     }
     
@@ -173,8 +163,14 @@ public extension Set where Element == Transaction {
 
         var messages = "💸 Expenses Summary ".breakLine.breakLine
 
+        let dateFormatter: DateFormatter = {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .short
+            formatter.timeStyle = .short
+            return formatter
+        }()
         messages += transactions.map { transaction in
-            let date = Date(timeIntervalSince1970: transaction.date).string(with: .transaction(.shareMessage)) ?? ""
+            let date = dateFormatter.string(from: Date(timeIntervalSince1970: transaction.date))
             let amount = transaction.participantsAmount(filter: participants)
             let category = transaction.budget.category.name.capitalized
             var message = " 💵 \(amount.currency() ?? "")".breakLine

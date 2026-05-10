@@ -5,44 +5,51 @@
 //  Created by Rafael Escaleira on 16/09/25.
 //
 
-import SwiftUI
+import Foundation
 
-public struct Score: Equatable, Identifiable {
+public enum ScoreLevel: String, Sendable, Equatable {
+    case critical
+    case atRisk
+    case overBudget
+    case healthy
+}
+
+public struct Score: Equatable, Identifiable, Sendable {
     public var title: String
     public var score: Int
     public var min: Double
     public var max: Double
     public var summary: String
-    public var color: Color
-    
+    public var level: ScoreLevel
+
     public var id: String {
         title
     }
-    
+
     public var isEnable: Bool {
         let score = score.double
         return score >= min && score <= max
     }
-    
+
     public var progress: Double {
         let score = score.double
         return (score - min) / (max - min)
     }
-    
+
     public init(
         title: String,
         score: Int,
         min: Double,
         max: Double,
         summary: String,
-        color: Color
+        level: ScoreLevel
     ) {
         self.title = title
         self.score = score
         self.min = min
         self.max = max
         self.summary = summary
-        self.color = color
+        self.level = level
     }
 }
 
@@ -56,7 +63,7 @@ extension Score {
             summary: """
             You are spending significantly above your planned budget. Immediate action is required to regain control.
             """,
-            color: .red
+            level: .critical
         )
     }
 
@@ -69,7 +76,7 @@ extension Score {
             summary: """
             Your spending is above your budget. Take steps to reduce discretionary expenses and monitor your cash flow closely to avoid further overspending.
             """,
-            color: .orange
+            level: .atRisk
         )
     }
 
@@ -82,7 +89,7 @@ extension Score {
             summary: """
             You have exceeded your planned budget. Adjust your spending immediately and focus on essential costs to regain control of your finances.
             """,
-            color: .yellow
+            level: .overBudget
         )
     }
 
@@ -95,7 +102,7 @@ extension Score {
             summary: """
             Excellent! You are within your planned budget and managing your finances well.
             """,
-            color: .green
+            level: .healthy
         )
     }
 
@@ -112,13 +119,13 @@ public extension Array where Element == Score {
     }
 }
 
-public struct BalanceScore: Equatable {
+public struct BalanceScore: Equatable, Sendable {
     var score: Int
-    
+
     public init(score: Int) {
         self.score = score
     }
-    
+
     public var scores: [Score] {
         .scores(for: score)
     }

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 import RyzeIntelligence
 
 public enum CashlyIntelligence: String, Identifiable, CaseIterable, Sendable {
@@ -50,16 +49,6 @@ public enum CashlyIntelligence: String, Identifiable, CaseIterable, Sendable {
         }
     }
     
-    public var color: Color {
-        switch self {
-        case .budgetValue:
-            return .blue
-        case .categoryName:
-            return .green
-        case .tagValue:
-            return .orange
-        }
-    }
     
     public var icon: String {
         switch self {
