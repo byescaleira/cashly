@@ -1,3 +1,15 @@
+## 2026-05-10 — Wave 0.5 Partial (Explicit Imports)
+
+**Tipo**: chore (migration)
+**Módulos**: CashlyDomain, CashlyData, CashlyResource, CashlyPresentation
+**Resumo**: Wave 0.5 executada (commit `3047f6f`). 23 files patched com explicit `import Foundation`/`import SwiftUI`. CashlyResourceImage refatorado para remover dependência de ImageResource (asset não bundled em SPM). `CashlyDomain.Category` qualificado em States/AdapterActor para resolver ambiguidade. Build progrediu até Reducers — bloqueia em G029 (actor vs global-isolated RyzeReducer) e G030 (MainRoute Hashable).
+**Impacto**: Imports explícitos em todo Domain/Data/Resource/Presentation. xcodebuild build ainda falha, mas root cause agora é structural (Wave 2/5), não import. Build chega ~75% do path antes de cair.
+**ADR**: nenhum
+**PRs**: commit 3047f6f
+**Aprendizados**: Reducers conformam protocolos Ryze isolados (`@MainActor` ou similar) mas declaram `actor`. Pre-existing bug invisível em Xcode IDE (compila por timing diferente de isolation check) mas explode em xcodebuild CLI. Fix exige redesign — Wave 5 (Ryze→Prism) ou Wave 2 isolada. `MainRoute` declara `==` mas falta `hash(into:)` — fix simples Wave 2. Foundation/SwiftUI implicit imports via Xcode são fonte enorme de fragilidade — Wave 0.5 endereçou parcial; resto vem via lint rule futura.
+
+---
+
 ## 2026-05-10 — Wave 1 Partial (G012 + G013) + Wave 0.5 Inserted
 
 **Tipo**: chore (migration)

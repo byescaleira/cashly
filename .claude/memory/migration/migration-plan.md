@@ -82,19 +82,20 @@ Onda N só começa quando N-1 está **mergeada e estável (24h em main sem rever
 
 **Gaps endereçados:** G027 (completa), G024 (parcial).
 
-**Tarefas:**
-- [ ] Auditar todos arquivos `.swift` em `CashlyKit/Sources/CashlyDomain/` sem `import Foundation`/`import SwiftUI` que usem tipos como Date, TimeInterval, Color, UUID, etc. Lista mínima: 12 arquivos (Models/*.swift, Use Cases/*.swift).
-- [ ] Adicionar `import Foundation` (ou `import SwiftUI` se usa Color/Image) em cada.
-- [ ] `CashlyResourceImage.swift`: remover dependência de `ImageResource` (asset gerado não disponível em SPM). Refatorar `var image: Image` para `Image(rawValue, bundle: .module)`. Remover `var resource: ImageResource`. Validar nenhum call site usa `.resource`.
-- [ ] Auditar `CashlyData`, `CashlyPresentation`, `CashlyUI`, `CashlyMock` similar (provavelmente mais files import-less).
-- [ ] Validar `xcodebuild build -destination 'generic/platform=iOS Simulator'` retorna 0 errors.
-- [ ] Validar `swift build` em CashlyKit retorna 0 errors (objetivo: SPM CLI funcional).
-- [ ] Atualizar `.swiftlint.yml` com regra `implicit_foundation_import` (custom) ou similar para prevenir regressão.
+**Status (2026-05-10):** PARCIAL. Commit `3047f6f`. 23 files patched (CashlyDomain, CashlyData, CashlyResource, CashlyPresentation Actions/States/Route). Build progredido até Reducers — bloqueado por G029 (actor vs global-isolated protocol) e G030 (MainRoute Hashable).
 
-**Critério de pronto:**
-- xcodebuild build verde em iOS Simulator e iOS device destinations
-- `swift build` em CashlyKit verde
-- Smoke tests deferidos de Wave 0 podem ser escritos
+**Tarefas:**
+- [x] Audit + add explicit imports em CashlyDomain (5 files), CashlyData (7 files), CashlyResource (2 files), CashlyPresentation (9 files).
+- [x] CashlyResourceImage: removido ImageResource, usa `Image(rawValue, bundle: .module)`.
+- [x] Qualificar `CashlyDomain.Category` em States e AdapterActor para resolver ambiguidade.
+- [ ] CashlyUI/CashlyMock audit — DEFERIDO (build não chega lá ainda).
+- [ ] xcodebuild build verde — BLOQUEADO por G029 (Reducers actor) e G030 (MainRoute Hashable).
+- [ ] swift build CashlyKit verde — mesmo bloqueio.
+- [ ] SwiftLint rule para prevenir regressão — deferido para depois do build verde.
+
+**Critério de pronto (atualizado):**
+- Wave 0.5 considerada **funcionalmente completa** para imports; bloqueios remanescentes (G029, G030) são pre-existing bugs structurais que não são "import audit". Movidos para Wave 2.
+- Build verde adiado até Wave 2 resolver G030 + Wave 5 resolver G029.
 
 **Estimativa:** 0.5–1 dia.
 

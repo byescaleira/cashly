@@ -311,3 +311,17 @@ Ver tabela em G022. **DECISÃO HUMANA PENDENTE** consolidada:
 - **Esforço:** P
 - **Onda:** Wave 0 follow-up
 - **Ação:** adicionar step `brew install xcbeautify` antes do build, ou substituir por `| cat`.
+
+### G029 — Reducers (`AddUserReducer`, `MainReducer`, etc.) são `actor` mas conformam a `RyzeReducer` (global-actor-isolated)
+- **Severidade:** Crítica (build CLI quebra; Xcode IDE compila por timing diferente de isolation check)
+- **Esforço:** M (1 dia) ou G se exigir API redesign
+- **Onda:** Wave 5 (Ryze→Prism reduce — PrismReducer pode ter isolation diferente) ou Wave 2 isolada
+- **Descoberto:** Wave 0.5 (2026-05-10)
+- **Mitigação:** Build via xcodebuild CLI ainda falha; Xcode IDE continua compilando. CI segue bloqueado até Wave 2 ou Wave 5.
+
+### G030 — `MainRoute` declara `==` manualmente mas falta `hash(into:)` para conformance Hashable
+- **Severidade:** Importante (build CLI quebra)
+- **Esforço:** P
+- **Onda:** Wave 2
+- **Descoberto:** Wave 0.5
+- **Fix:** Implementar `hash(into:)` manualmente OU remover `==` custom e deixar enum gerar (mas associated values exigem Hashable em todos).

@@ -5,20 +5,21 @@
 
 ## Sprint / Milestone
 
-**Atual**: Wave 1 Partial → Wave 0.5
-**Objetivo**: Executar Wave 0.5 (audit de imports explícitos) para desbloquear G008 + G007 + tests
+**Atual**: Wave 0.5 Partial → Wave 2 (G030) + Wave 5 (G029)
+**Objetivo**: Desbloquear build CLI resolvendo G029 (Reducers) + G030 (MainRoute Hashable)
 **Deadline**: _(none)_
 
 ## Em Progresso
 
-- Wave 0 partial commitada (22f6034).
-- Wave 1 PARCIAL: G012 + G013 commitados (`6db8b65`, `7bab811`). G008 + G007 deferidos.
-- Wave 0.5 NOVA: inserida no plano após descoberta de que xcodebuild CLI nunca compila Cashly (Xcode IDE faz implicit imports). Wave 0.5 = audit de explicit imports em CashlyDomain/Resource/etc.
+- Wave 0 partial (22f6034).
+- Wave 1 partial: G012 + G013 (`6db8b65`, `7bab811`).
+- Wave 0.5 partial: 23 files com explicit imports (`3047f6f`). Build progrediu até Reducers.
+- Build CLI bloqueado por G029 (Reducers actor vs RyzeReducer global isolation) e G030 (MainRoute Hashable missing).
 
 ## Bloqueios Conhecidos
 
-- **xcodebuild CLI não compila Cashly** (descoberto durante Wave 1). Bloqueia CI real, tests, e qualquer refactor downstream (G008). Resolve em Wave 0.5.
-- **G027** (parcial) — só CashlyResource imports adicionados originalmente; cascateou para Domain. Wave 0.5 endereça completo.
+- **G029** — Reducers declarados como `actor` mas conformam `RyzeReducer` (global-isolated). Build CLI quebra. Xcode IDE compila por timing diferente. Fix exige Wave 5 (Ryze→Prism, PrismReducer pode ter isolation diferente) ou redesign isolado.
+- **G030** — `MainRoute` declara `==` mas falta `hash(into:)`. Fix simples Wave 2.
 - 8 decisões humanas pendentes bloqueiam Wave 5 (Ryze→Prism) — ver "Decisões Pendentes" abaixo.
 
 ## Decisões Pendentes
@@ -40,9 +41,9 @@ _(nenhuma)_
 
 ## Notas para a Próxima Sessão
 
-- Wave 0.5 é next: audit explícito de imports em CashlyDomain/Resource/Data/Presentation/UI. Validar via xcodebuild + swift build após cada batch. Lista mínima conhecida: 12 arquivos em CashlyDomain sem import (Models/*.swift, Use Cases/*.swift).
-- Após Wave 0.5 verde: retomar G008 (CashlyKey + CashlyDataFactory throwing) e G007 (CashlyMock dep).
-- G026, G027, G028 já registrados em `migration/gap-analysis.md` — não duplicar aqui.
+- Resolver G030 (MainRoute hash) em Wave 2 — fix simples, desbloqueia ~1 step do build.
+- G029 (Reducers) precisa decisão: redesign isolado ou aguardar Wave 5. Sem build CLI, tests não rodam.
+- Após build CLI verde: retomar G008 (CashlyKey + CashlyDataFactory throwing) e G007 (CashlyMock dep).
+- G026, G027, G028, G029, G030 registrados em `migration/gap-analysis.md` — não duplicar aqui.
 - 8 decisões humanas em "Decisões Pendentes" ainda abertas — resolver antes de Wave 5.
 - `migration/baseline.md` é imutável — referência para comparar métricas futuras.
-- Backup branch removido durante recovery (não havia mais conteúdo único após reset).
