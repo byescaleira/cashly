@@ -26,8 +26,9 @@ actor MockBudgetActor: BudgetUseCase {
         categories: [String]?,
         date: Date?
     ) async throws -> [Budget] {
-        budgets.filter { budget in
-            (categories?.isEmpty == false ? categories!.contains(budget.category.id) : true) &&
+        let categoryIDs = categories ?? []
+        return budgets.filter { budget in
+            (categoryIDs.isEmpty || categoryIDs.contains(budget.category.id)) &&
             (date == nil ? true : budget.date == date?.timeIntervalSince1970.yearMonth)
         }
     }

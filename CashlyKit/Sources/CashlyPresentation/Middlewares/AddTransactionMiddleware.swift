@@ -62,7 +62,7 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
                 categories: categories.isEmpty ? nil : categories.map(\.id),
                 date: state.date
             )
-            let tags = try await tagUseCase.getTags(users: currentUser == nil ? nil : [currentUser!.id])
+            let tags = try await tagUseCase.getTags(users: currentUser.map { [$0.id] })
             
             continuation.yield(
                 .update(

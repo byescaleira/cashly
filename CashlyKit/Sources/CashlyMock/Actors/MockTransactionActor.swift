@@ -30,11 +30,15 @@ actor MockTransactionActor: TransactionUseCase {
         participants: [String]?,
         date: Date?
     ) async throws -> [CashlyDomain.Transaction] {
-        transactions.filter { transaction in
-            (budgets?.isEmpty == false ? budgets!.contains(transaction.budget.id) : true) &&
-            (tags?.isEmpty == false ? tags!.contains(where: { transaction.summary.contains($0) }) : true) &&
-            (statuses?.isEmpty == false ? statuses!.contains(where: { transaction.status.rawValue == $0 }) : true) &&
-            (participants?.isEmpty == false ? transaction.participants.map(\.id).contains(participants!) : true) &&
+        let budgetIDs = budgets ?? []
+        let tagValues = tags ?? []
+        let statusValues = statuses ?? []
+        let participantIDs = participants ?? []
+        return transactions.filter { transaction in
+            (budgetIDs.isEmpty || budgetIDs.contains(transaction.budget.id)) &&
+            (tagValues.isEmpty || tagValues.contains(where: { transaction.summary.contains($0) })) &&
+            (statusValues.isEmpty || statusValues.contains(where: { transaction.status.rawValue == $0 })) &&
+            (participantIDs.isEmpty || !Set(transaction.participants.map(\.id)).isDisjoint(with: participantIDs)) &&
             (date != nil ? transaction.date.yearMonth == date?.timeIntervalSince1970.yearMonth : true)
         }
     }

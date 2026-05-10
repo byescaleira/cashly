@@ -48,8 +48,9 @@ public actor TagActor: TagUseCase {
     }
     
     public func getTags(users: [String]?) async throws -> [Tag] {
+        let userIDs = users ?? []
         let predicate: Predicate<TagEntity> = #Predicate { entity in
-            users?.isEmpty == false ? users!.contains(entity.user) : true
+            userIDs.isEmpty || userIDs.contains(entity.user)
         }
         
         let descriptor = FetchDescriptor<TagEntity>(
