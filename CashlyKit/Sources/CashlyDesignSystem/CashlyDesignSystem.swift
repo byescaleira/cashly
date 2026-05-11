@@ -2,14 +2,12 @@
 //  CashlyDesignSystem.swift
 //  CashlyKit
 //
-//  Wave 5b: vocabulary layer for Cashly UI. Currently re-exports Ryze
-//  types via typealiases; in Wave 5b/5d, swap re-exports to Prism +
-//  Cashly-owned wrappers without touching call sites in CashlyUI.
+//  Wave 5b: vocabulary layer for Cashly UI. Cashly-owned wrappers
+//  over SwiftUI primitives. See per-type files for implementations —
+//  this file just enumerates what lives here for navigation.
 //
 
 import SwiftUI
-import PrismUI
-import PrismArchitecture
 
 // CashlyColor: Cashly-owned enum (see CashlyColor.swift).
 // CashlySize: unused. Removed.

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import PrismUI
 import PrismArchitecture
 import CashlyPresentation
 

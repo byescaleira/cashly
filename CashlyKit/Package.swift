@@ -99,7 +99,7 @@ enum CashlyTarget: String, CaseIterable {
             return [.domain, .data, .presentation, .mock, .designSystem, .prismUI, .prismArchitecture, .resource]
         case .resource: return [.prismFoundation]
         case .mock: return [.domain, .data, .presentation, .designSystem, .prismArchitecture, .resource]
-        case .designSystem: return [.resource, .prismUI, .prismArchitecture]
+        case .designSystem: return []
         case .tests: return [.domain, .data, .presentation, .ui, .mock, .prismArchitecture, .snapshotTesting]
         }
     }
