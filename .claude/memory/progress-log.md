@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5t (reducer+middleware composition + State factories)
+
+**Tipo**: test
+**Módulos**: CashlyTests/Presentation/ReducerCompositionTests, CashlyTests/States/StateFactoryTests
+**Resumo**: 17 testes novos. ReducerCompositionTests (5): drive PrismStore.init(reducer:middleware:) end-to-end. .update sync sets fields + async middleware emits .stopLoading; .saved sets flag sem cascade; .replace swap sem cascade; .fetch sync flips loading; .error termina sem follow-up. StateFactoryTests (12): every Add*State.new() / .edit(id:) baseline + parameterized factories (Budget.new(category:date:), Transaction.new(budget:date:)) prefill correctly. MainState default init: routers empty, collections empty, loading=true. 313 tests / 49 suites passing.
+**Impacto**: PrismStore composition seam (reducer + middleware merge via `handling(with:)`) testado end-to-end. Confirma reducer arm sync + middleware effect async no mesmo store.
+**ADR**: nenhum
+**PRs**: 1 commit em main
+**Aprendizados**: Em PrismStore, reducer arm executa síncrono dentro de send() ANTES da effect AsyncStream começar drain. Pattern útil para tests: assertar reducer-side mutations imediatamente após send, depois Task.sleep para middleware emissions.
+
+---
+
 ## 2026-05-11 — Wave 5s (CashlyResource + CashlyLogger tests)
 
 **Tipo**: test
