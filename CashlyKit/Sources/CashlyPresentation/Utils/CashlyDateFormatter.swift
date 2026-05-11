@@ -1,11 +1,9 @@
 //
-import Foundation
 //  CashlyDateFormatter.swift
 //  CashlyKit
 //
-//  Created by Rafael Escaleira on 05/09/25.
-//
 
+import Foundation
 import PrismFoundation
 
 public enum CashlyDateFormatter: PrismDateFormatter {

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import PrismFoundation
 
 public enum CashlyKey: CashlyEntity {
     case budget(category: String, date: TimeInterval)

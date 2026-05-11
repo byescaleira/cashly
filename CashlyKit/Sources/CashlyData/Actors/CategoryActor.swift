@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import PrismFoundation
 import CashlyDomain
 import SwiftData
 
