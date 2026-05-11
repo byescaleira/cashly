@@ -1,3 +1,19 @@
+## 2026-05-11 — Wave 6e (strip Wave/Gap from tests + DocC)
+
+**Tipo**: chore
+**Módulos**: CashlyTests/Snapshots/ScreenSnapshotTests, CashlyTests/Actors/SmokeTests, CashlyData.docc/CashlyData.md, CashlyUI.docc/CashlyUI.md
+**Resumo**: Cleanup pass remanescente. Wave/Gap tags removidos de:
+- ScreenSnapshotTests + SmokeTests headers (Wave 0 deferred → plain description).
+- CashlyData DocC ("Lifted out of Domain in Wave 5c" → drop).
+- CashlyUI DocC ("see G007 in gap-analysis" → inline explanation da SwiftPM condition limitation).
+Final audit: zero matches `Wave [0-9]`/`G0[0-9][0-9]`/`Ryze` em Sources, Tests, Cashly app, e DocC `.md`. Migration history vive APENAS em `.claude/memory/`.
+**Impacto**: Source + docs limpos. Onboard docs falam sobre comportamento atual, não trajetória.
+**ADR**: nenhum
+**PRs**: 1 commit em main
+**Aprendizados**: DocC markdown também conta como source documentation — Wave/Gap tags lá têm a mesma rot-rate que em headers swift. Audit deve incluir `.md` files.
+
+---
+
 ## 2026-05-11 — Wave 6d (strip Wave/Gap migration tags from source)
 
 **Tipo**: chore
