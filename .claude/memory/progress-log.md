@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 6g (.gitignore + stale schemes cleanup)
+
+**Tipo**: chore
+**Módulos**: .gitignore, .DS_Store untracking, CashlyKit/.swiftpm/xcode/xcshareddata/xcschemes/ (4 stale schemes)
+**Resumo**: Repo hygiene. .gitignore ganhou .DS_Store, .claude/projects/, .codex/, DerivedData/ entries. 2 .DS_Store files untracked + 5 .DS_Store removed do source tree. 4 stale CashlyKit schemes (Core/Data/Interface/Presentation — Ryze-era target names que não existem mais) deletados. Workspace `xcodebuild -list` agora matches active target list. SwiftPM auto-gera CashlyKit-Package + per-library schemes — aliases legacy não eram necessários.
+**Impacto**: Repo limpo. Sem stale references. Cashly.xcworkspace funcional sem schemes broken.
+**ADR**: nenhum
+**PRs**: 2 commits em main
+**Aprendizados**: SwiftPM Xcode schemes em .swiftpm/xcode/xcshareddata/xcschemes/ ficam stale após module renames. Limpar periodicamente para evitar broken xcodebuild scheme lookups. Default scheme generation (CashlyKit-Package) é suficiente — não precisa custom aliases.
+
+---
+
 ## 2026-05-11 — Wave 6f (README rewrite — accurate post-migration state)
 
 **Tipo**: docs
