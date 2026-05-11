@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5m (Domain+Presentation DocC + hot-path signposts)
+
+**Tipo**: docs + perf
+**Módulos**: CashlyDomain.docc, CashlyPresentation.docc, MainState+Computed (signposts)
+**Resumo**: DocC catalogs para Domain (entities, transaction enums, scoring, use cases, errors, intelligence types) e Presentation (stores, replace seam, States/Actions/Reducers/Middlewares, MainRoute, factory). Signposts adicionados em `MainState.transactionSections` (Dictionary grouping by date) e `MainState.biggestTags` (nested transactions × tags loop) — junto com o existente `MainState.score`, ficam 3 hot paths agora visíveis no Instruments Signposts track. 240 tests ainda passando.
+**Impacto**: G024 ampliado. DocC catalogs prontos para `docc preview` por target. Performance observability cobre os 3 derived properties mais caros do MainState.
+**ADR**: nenhum
+**PRs**: 1 commit em main
+**Aprendizados**: DocC `.docc/` bundle dentro de Sources/{Module} é auto-detectado pelo SwiftPM build sem Package.swift change. Symbol refs em DocC topic lists podem ser cross-target via fully-qualified module name (e.g. `PrismArchitecture/PrismStore/cashlyBinding(_:)`).
+
+---
+
 ## 2026-05-11 — Wave 5l (CI rewrite + CashlyDesignSystem DocC)
 
 **Tipo**: ci + docs
