@@ -2,9 +2,10 @@
 //  ScreenSnapshotTests.swift
 //  CashlyKit
 //
-//  Wave 0 deferred snapshot tests for 8 primary screens.
-//  Uses pointfreeco/swift-snapshot-testing. First run records baselines.
-//  Subsequent runs assert against recorded reference images.
+//  Snapshot tests for the primary screens. Uses
+//  pointfreeco/swift-snapshot-testing. First run records baselines;
+//  subsequent runs assert against the recorded reference images.
+//  Toggle `isRecording = true` once on a clean checkout to regenerate.
 //
 
 #if canImport(UIKit)
@@ -41,8 +42,9 @@ struct ScreenSnapshotTests {
         snapshot(of: AddCategoryScreen(), named: "AddCategoryScreen")
     }
 
-    // AddTagScreen snapshot disabled — random icon/color in MockTag.mocks
-    // causes flake. Re-enable after deterministic mock seeding (Wave 2 G014).
+    // AddTagScreen snapshot disabled — random icon/color in
+    // MockTag.mocks causes flake. Re-enable once mock seeding is
+    // deterministic.
     // @Test("AddTagScreen renders")
     // func addTag() {
     //     snapshot(of: AddTagScreen(), named: "AddTagScreen")

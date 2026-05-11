@@ -22,8 +22,10 @@ Screens follow a standard shape:
    `cashlyMutate(\.field, value)`.
 
 `#if DEBUG` `import CashlyMock` brings preview fixtures; the
-SPM-target edge stays unconditional but symbols dead-code-eliminate in
-Release thanks to the import guard (see G007 in gap-analysis).
+SPM-target edge stays unconditional but symbols dead-code-eliminate
+out of Release thanks to the import guard. SwiftPM lacks a
+debug-only target dep condition, so the linker pass is the only
+gate.
 
 ## Topics
 

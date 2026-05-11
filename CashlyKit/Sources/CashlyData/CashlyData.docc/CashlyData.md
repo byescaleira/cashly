@@ -18,8 +18,8 @@ implementation here:
   `ModelContext`. Marked `@MainActor` because PrismStore (which
   consumes the factory output) is MainActor-bound.
 - ``CashlyIntelligenceService`` — wraps PrismTabularIntelligence /
-  PrismTextIntelligence training. Lifted out of Domain in Wave 5c
-  so Domain stays infrastructure-free.
+  PrismTextIntelligence training so CashlyDomain stays
+  infrastructure-free.
 
 The SwiftData entities (`BudgetEntity`, `CategoryEntity`, etc.) are
 private to this target; consumers only see the Domain values returned

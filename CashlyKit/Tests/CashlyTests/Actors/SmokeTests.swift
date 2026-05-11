@@ -2,9 +2,10 @@
 //  SmokeTests.swift
 //  CashlyKit
 //
-//  Wave 0 deferred smoke tests for Data layer actors.
-//  Verifies: factory wires each UseCase, init succeeds, getAll-equivalent
-//  returns a non-nil array (empty is acceptable on fresh in-memory store).
+//  Smoke tests for the Data-layer actor surface. Verifies that the
+//  factory wires every UseCase, each init succeeds, and the
+//  getAll-equivalent returns a non-nil array (empty is acceptable
+//  on a fresh in-memory store).
 //
 
 import Testing
