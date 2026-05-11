@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 6c (Ryze residuals removed)
+
+**Tipo**: chore
+**Módulos**: 9 swift headers em CashlyDesignSystem + CashlyDomain, Cashly.xcodeproj Package.resolved, CashlyKit/Package.resolved
+**Resumo**: Pós Wave 5a real merge, restavam apenas comentários "Wave 5b: replaces RyzeX" + stale Ryze pin no Cashly app Package.resolved (não SPM-fresh desde Wave 5a). Reescritos 9 file headers para descrever comportamento atual em vez de migration history. Cashly.xcodeproj/Package.resolved removido (Prism agora local path → SPM não mantém resolved file). CashlyKit/Package.resolved regenerado sem Ryze pin. CashlyDesignSystem.swift entry file virou navigation index puro (sem metadata Wave 5b). 336 tests passing. Zero matches `Ryze`/`ryze` em Sources/Xcodeproj/Package files.
+**Impacto**: Codebase agora Prism-only. Sem traces de Ryze. Fácil onboarding para novos devs — não há "qual é Ryze?" question.
+**ADR**: nenhum
+**PRs**: 1 commit em main
+**Aprendizados**: SwiftPM gera Package.resolved só para remote-source deps. Local-path deps (Prism = ../../prism) não criam pin entries. `xcodebuild -resolvePackageDependencies` força re-resolve sem alterar source files.
+
+---
+
 ## 2026-05-11 — Wave 6b (lint pass: trailing whitespace + double blanks)
 
 **Tipo**: chore
