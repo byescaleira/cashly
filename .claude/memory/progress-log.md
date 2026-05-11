@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5x (hygiene: drop unused imports + DesignSystem dep prune)
+
+**Tipo**: chore
+**Módulos**: CashlyDesignSystem (3 files), CashlyMock (MockModifier + 6 actors), CashlyData (5 actors + TransactionEntity), CashlyPresentation (CashlyDateFormatter), CashlyDomain (CashlyKey), Package.swift (designSystem deps)
+**Resumo**: Imports auditados pós Wave 5a/5b. CashlyDesignSystem agora é pure SwiftUI module: `import PrismUI/PrismArchitecture/CashlyResource` dropados (zero usage) + Package.swift deps de `[.resource, .prismUI, .prismArchitecture]` para `[]`. Outros 11 arquivos com `import PrismFoundation` leftover dropados (zero usage); 2 explicit-kept (TransactionEntity + CashlyDateFormatter precisam PrismDateFormatter). 336 tests passing pós cleanup.
+**Impacto**: Build mais rápido (DesignSystem não compila contra Prism graph). Imports limpos refletem real graph dependencies. Cashly hygiene.
+**ADR**: nenhum
+**PRs**: 2 commits em main
+**Aprendizados**: Após bulk rename Ryze→Prism, imports ficaram leftover em arquivos que não usavam tipos do módulo. SourceKit não flagga unused imports — só ferramentas externas (e.g. periphery). Manual audit via `grep -L "PrismX|PrismY" ...` é cheap-effective.
+
+---
+
 ## 2026-05-11 — Wave 5w (entity .mock/.mocks + cashlyPreview helpers)
 
 **Tipo**: test
