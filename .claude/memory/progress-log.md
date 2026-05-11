@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5u (composition factories + flaky poll fix)
+
+**Tipo**: test + fix
+**Módulos**: CashlyTests/Data/CashlyDataFactoryTests, CashlyTests/Presentation/CashlyPresentationFactoryTests, ReducerCompositionTests (flake fix)
+**Resumo**: 9 testes novos. CashlyDataFactoryTests (2): in-memory init via init(modelContainer:); cada makeXUseCase build; budget roundtrip end-to-end. CashlyPresentationFactoryTests (7): each makeXStore baseline + independência entre instances. Flake fix em ReducerCompositionTests: trocado fixed 200ms sleep por 10ms-tick poll até 2s — async middleware effect ocasionalmente passava do budget em cold runs. 322 tests / 51 suites passing.
+**Impacto**: Composition root coverage end-to-end. Test stability melhor (poll exits early on green, full budget só em failure).
+**ADR**: nenhum
+**PRs**: 1 commit em main
+**Aprendizados**: Async test patterns devem polling em vez de fixed sleep para evitar flakes em runners CI lentos. `for _ in 0 ..< N where condition { sleep(10ms) }` é o pattern canônico para "wait for state change".
+
+---
+
 ## 2026-05-11 — Wave 5t (reducer+middleware composition + State factories)
 
 **Tipo**: test
