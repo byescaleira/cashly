@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5a Real Attempt (Architecture layer green, UI gap → G035)
+
+**Tipo**: chore (migration — exploration, branch deleted)
+**Módulos**: Reducers, Middlewares, Factories, Protocols, EnvironmentValues, MockModifier
+**Resumo**: Terceira tentativa Wave 5a em branch `migration/wave-5a-prism`. Architecture layer (Reducer/Middleware/Factory/Store) portado completo e compilando. UI layer (CashlyUI typealiases) bloqueia com 57 errors em tipos PrismUI inexistentes (PrismView/Text/Label/Symbol/HStack/...). Branch deletado, main intacto. Lições consolidadas em G035.
+**Impacto**: Padrão de migração Reducer/Middleware validado end-to-end. Wave 5b = CashlyDesignSystem target ou per-call-site SwiftUI replacement. Pre-requisitos resolvidos (G034 State Sendable, ADR-0002 mapping).
+**ADR**: 0002 ainda válido + futuro 0003 quando Wave 5b decidir CashlyDesignSystem strategy
+**PRs**: nenhum
+**Aprendizados**: PrismStore<State, Action> não PrismStore<Reducer, Middleware> — typealiases CashlyStore generic params mudam. CashlyPresentationFactoryProtocol não pode estar em Domain (referencia States/Actions de Presentation). Protocol associatedtypes não funcionam com Prism — usar concreto PrismStore<S,A>. EnvironmentValues @Entry de tipos MainActor requer EnvironmentKey explícito com @preconcurrency. theme env renomeado para prismTheme em Prism. PrismMock substitui PrismUIMock (sem View constraint). PrismTheme usa color(.brand) não color.primary. PrismUI carece de 14+ tipos visuais que Cashly usa pesadamente → G035 dedicado.
+
+---
+
 ## 2026-05-10 — Wave 5a Second Spike (ADR-0002 + G034)
 
 **Tipo**: chore (migration — exploration, branch deleted)

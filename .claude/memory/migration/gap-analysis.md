@@ -373,3 +373,30 @@ Ver tabela em G022. **DECISÃO HUMANA PENDENTE** consolidada:
 - **Causa:** 5 dos 6 States carregam `SwiftUI.Color` (MainActor-bound). `PrismMiddleware.run` retorna `PrismEffect<Action>` cujo `.run { send in ... }` body é `@Sendable` e captura `state`. State precisa ser Sendable cross-isolation.
 - **Fix recomendado (opção a)**: AddCategoryState.color/AddTagState.color/AddTransactionState (qualquer Color em state) → `String` (hex). UI converte com `Color(hex:)` no boundary. Helper já existe em CashlyUI/Extensions.
 - **Alternativa (opção b)**: marcar States e Middleware como `@MainActor`, confinar todos os effects ao MainActor. Reduz paralelismo de I/O.
+
+### G035 — PrismUI surface gaps (Wave 5b blocker)
+- **Severidade:** Crítica para Wave 5 conclusão (mas não bloqueia Wave 5a 5b/Architecture layer)
+- **Esforço:** XG (vários dias, possivelmente semana)
+- **Onda:** Wave 5b
+- **Descoberto:** Wave 5a real attempt (2026-05-11)
+- **Estado:** Wave 5a port validado para Reducer/Middleware/Factory/Store. UI layer falha com 57 errors em ~CashlyUI typealiases referenciando tipos PrismUI inexistentes: PrismView, PrismText, PrismLabel, PrismSymbol, PrismHStack/VStack/ZStack, PrismList, PrismHorizontalList, PrismBrowserView, PrismSystemMonitor, PrismColor, PrismShape, PrismSize, PrismSpacing, PrismCurrencyTextField. Plus modifier methods `.ryze(...)`, `.ryzePadding`, `.ryzeSymbol`, `.ryzeBackgroundRow`, etc.
+- **Fix opções:**
+  - **(a) CashlyDesignSystem target**: criar wrappers próprios sobre SwiftUI primitives. 14 tipos + 10+ modifiers. Grande esforço, controle total.
+  - **(b) Per-call-site SwiftUI**: substituir `CashlyText` por `Text`, `CashlyHStack` por `HStack`, etc., em todos os ~200 call sites. Direto mas perde styling default do Ryze.
+  - **(c) Upstream contribute**: PR Prism com tipos faltantes. Lento, dependente de aprovação externa.
+- **Recomendação:** opção (a) — CashlyDesignSystem target reusa convenção do projeto.
+
+### Wave 5a real attempt outcome (2026-05-11)
+- **Branch deletado:** `migration/wave-5a-prism`
+- **Validado funcionando** em Reducer/Middleware/Factory/Store layer:
+  - 6 Reducers ported para `@MainActor struct: PrismReducer` com `reduce(into state: inout State, action: Action) -> PrismEffect<Action>`
+  - 6 Middlewares ported para `struct: PrismMiddleware` com `run(state:action:) -> PrismEffect<Action>` usando `PrismEffect.run { send in ... }`
+  - MainMiddleware mantém cache de prediction em actor (`MainPredictionCache`) — pattern para reducers com cache mutável
+  - CashlyPresentationFactoryProtocol movido de Domain → Presentation (associatedtypes não funcionam, refatorado para retornar `PrismStore<State, Action>` direto)
+  - CashlyDataFactoryProtocol + CashlyPresentationFactoryProtocol marcados `@preconcurrency` para cross-isolation
+  - MainState init `@MainActor` (constrói CashlyRouter que é MainActor)
+  - EnvironmentValues defaults com EnvironmentKey + `@preconcurrency` para evitar isolation cross em macro context
+  - `theme` rename para `prismTheme` env; `theme.color.primary` → `theme.color(.brand)` (ColorToken-based)
+  - `PrismUIMock` rename para `PrismMock`; `.mocked()` → `.mock`
+  - State Sendable resolvido por G034 (Color → String hex)
+- **Bloqueado em** PrismUI surface (G035 acima).
