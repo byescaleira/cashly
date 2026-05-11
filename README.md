@@ -6,16 +6,18 @@ forecasting (CreateML on-device).
 
 ## Requirements
 
-- Xcode 16+
+- Xcode 26+
 - iOS 26 / macOS 26 / visionOS 26 SDK
 - Swift 6.3 toolchain
+- Local `prism` checkout next to `cashly/` (sibling directory) — see
+  `INSTALL.md`
 
 ## Quickstart
 
 ```bash
 git clone https://github.com/byescaleira/cashly.git
 cd cashly
-open Cashly.xcworkspace
+open Cashly/Cashly.xcodeproj
 ```
 
 Build/run **Production** scheme on iPhone 17 simulator (or device).
@@ -23,9 +25,9 @@ Build/run **Production** scheme on iPhone 17 simulator (or device).
 ### Tests
 
 ```bash
+cd Cashly
 xcodebuild test \
-  -workspace Cashly.xcworkspace \
-  -scheme Core \
+  -scheme Production \
   -destination 'platform=iOS Simulator,name=iPhone 17,OS=latest'
 ```
 
@@ -34,35 +36,48 @@ live in `CashlyKit/Tests/CashlyTests/Snapshots/__Snapshots__/`.
 
 ### CI
 
-GitHub Actions on `macos-15`. Builds Production scheme + runs full
+GitHub Actions on `macos-26`. Builds Production scheme + runs full
 test suite on every push/PR to `main`. See `.github/workflows/ci.yml`.
 
 ## Architecture
 
-Clean Architecture, 6 SPM targets in `CashlyKit/`:
+Clean Architecture, 7 SPM targets in `CashlyKit/`:
 
 ```
-CashlyDomain      ← pure Swift: Models, Use Cases, Errors
+CashlyDomain         ← pure Swift: Models, Use Cases, Errors, Intelligence enums
    ↑
-CashlyData        ← SwiftData persistence + CloudKit sync
+CashlyData           ← SwiftData persistence + CloudKit sync + IntelligenceService
    ↑
-CashlyPresentation← Redux-style Stores, Reducers, Middlewares (via Ryze)
+CashlyResource       ← Localizable.xcstrings, mock JSON, Logger, Image helpers
    ↑
-CashlyUI          ← SwiftUI Screens, Items, Views, Components
+CashlyDesignSystem   ← Cashly-owned UI vocabulary (Text/Stack/Button/Color/Shape/…)
+   ↑                   + Router + NavigationView + SystemMonitor + ConfettiOverlay
+CashlyPresentation   ← Redux-style Stores/Reducers/Middlewares (via Prism)
+   ↑                   + CashlyStore binding helpers (cashlyBinding / cashlyMutate)
+CashlyUI             ← SwiftUI Screens, Items, Views, Components
    ↑
-CashlyMock        ← test/preview fixtures (DEBUG-only in production builds)
-
-CashlyResource    ← Localizable.xcstrings, mock JSON, Logger, Image helpers
+CashlyMock           ← test/preview fixtures (DEBUG-only in production builds)
 ```
 
 Composition root: `Cashly/Cashly/CashlyApp.swift`. Builds
 `CashlyPresentationFactory` once at app launch, injects 6 stores into
-`MainScreen` via `@Environment`.
+`MainScreen` via `@Environment`. No singletons.
 
-State management: Ryze (Redux-flavored). Each feature has its own
-Store<Reducer, Middleware>. Reducers are pure; middlewares produce
-async side effects via Use Case protocols implemented by SwiftData
-@ModelActors in CashlyData.
+### State management
+
+Prism (Redux-flavored, post Wave 5a). Each feature has its own
+`CashlyStore<State, Action>` (= `PrismStore<State, Action>`,
+`@MainActor @Observable`). Reducers are `@MainActor struct: PrismReducer`
+with `reduce(into:action:) -> PrismEffect<Action>` — pure, no async.
+Middlewares are `struct: PrismMiddleware` returning
+`PrismEffect.run { send in ... }` for side effects against Use Case
+protocols implemented by SwiftData `@ModelActor` actors in CashlyData.
+
+`PrismStore.state` is `private(set)`. Views write through
+`store.cashlyBinding(_:)` / `store.cashlyMutate(_:_:)` /
+`store.cashlyReplace(_:)`, all of which dispatch a
+`Action.replace(State)` case (via the `CashlyReplaceableAction`
+protocol) and resolve through the reducer.
 
 ## Project memory
 
@@ -74,7 +89,8 @@ async side effects via Use Case protocols implemented by SwiftData
 - `glossary.md` — domain terms (Budget, Transaction, Tag, etc.)
 - `migration/migration-plan.md` — 9-wave migration roadmap
 - `migration/gap-analysis.md` — all gaps, severity, target wave
-- `adr/` — architectural decision records
+- `adr/` — architectural decision records (0001 onboard, 0002 Prism
+  spike, 0003 CashlyDesignSystem)
 
 Read these before non-trivial work.
 
@@ -93,8 +109,7 @@ concrete implementation; modules below take the protocol.
 ## Internationalization
 
 Strings live in `CashlyKit/Sources/CashlyResource/Localizable.xcstrings`.
-en (source) + pt-BR currently. Access via `CashlyL10n.string("Key")`.
-~75 keys covering UI surfaces + a11y labels.
+en (source) + pt-BR. Access via `CashlyL10n.string("Key")`.
 
 ## Accessibility
 
@@ -105,9 +120,10 @@ en (source) + pt-BR currently. Access via `CashlyL10n.string("Key")`.
 
 ## Status
 
-Migration in progress. Wave 7 (god-files + i18n + a11y core) complete.
-Wave 5 (Ryze→Prism) blocked by API redesign — see G033 in
-`gap-analysis.md`.
+Migration complete. All 36 gaps from `gap-analysis.md` closed except
+docs/god-files/a11y tail (G016 README — this file, G019 residual god
+files, G020 i18n/a11y tail). Cashly is on Prism. Domain is pure (no
+SwiftUI, no SwiftData). DI at composition root.
 
 ## License
 
