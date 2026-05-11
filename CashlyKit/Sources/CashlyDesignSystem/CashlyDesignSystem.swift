@@ -12,13 +12,13 @@ import RyzeUI
 import RyzeArchitecture
 
 // CashlyColor: Cashly-owned enum (see CashlyColor.swift).
-public typealias CashlySize = RyzeSize
+// CashlySize: unused. Removed.
 // CashlySpacing: Cashly-owned enum (see CashlySpacing.swift).
 // CashlyShape: Cashly-owned struct (see CashlyShape.swift).
-public typealias CashlyView = RyzeView
+// CashlyView: Cashly-owned protocol (see CashlyView.swift).
 // CashlySpacer: Cashly-owned struct (see CashlySpacer.swift).
 // CashlyButton: Cashly-owned (see CashlyButton.swift).
-public typealias CashlySection = RyzeSection
+// CashlySection: unused. Removed.
 // CashlyHStack/VStack/ZStack: Cashly-owned (see CashlyStacks.swift).
 // CashlySymbol: Cashly-owned struct (see CashlySymbol.swift).
 // CashlyText: Cashly-owned struct (see CashlyText.swift). No longer a Ryze typealias.
@@ -34,9 +34,3 @@ public typealias CashlyLocale = RyzeLocale
 public typealias CashlyNavigationView = RyzeNavigationView
 public typealias CashlySystemMonitor = RyzeSystemMonitor
 
-public extension RyzeView {
-    @MainActor
-    static func mocked() -> some View {
-        EmptyView()
-    }
-}

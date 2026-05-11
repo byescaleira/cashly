@@ -6,10 +6,10 @@
 //
 
 import SwiftUI
-import RyzeUI
+import CashlyDesignSystem
 import RyzeArchitecture
 
-public extension View where Self: RyzeUIMock {
+public extension View where Self: CashlyView {
     static func cashlyPreview() -> some View {
         mocked().modifier(MockModifier())
     }
