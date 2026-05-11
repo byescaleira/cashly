@@ -189,8 +189,9 @@ public struct AddTagScreen: CashlyView {
         .buttonStyle(.glassProminent)
         .disabled(!state.canSave)
         .cashly(tint: state.canSave ? .primary : .disabled)
+        .accessibilityLabel(CashlyL10n.string("Save"))
     }
-    
+
     @ViewBuilder
     var removeButton: some View {
         if !state.isNew && !state.isLoading {
@@ -200,6 +201,7 @@ public struct AddTagScreen: CashlyView {
                 CashlySymbol("trash")
             }
             .cashly(tint: .text)
+            .accessibilityLabel(CashlyL10n.string("Delete"))
         }
     }
     
