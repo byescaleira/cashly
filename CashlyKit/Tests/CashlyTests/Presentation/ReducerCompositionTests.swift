@@ -22,8 +22,10 @@ struct ReducerCompositionTests {
         let store = makeAddUserStore()
         store.send(.update(id: "u1", name: "Alice", photo: "https://x/a.png", isNew: false))
 
-        // give middleware effect time to run
-        try? await Task.sleep(nanoseconds: 200_000_000)
+        // Poll up to 2s for the async middleware effect to land.
+        for _ in 0 ..< 200 where store.state.isLoading == true {
+            try? await Task.sleep(nanoseconds: 10_000_000) // 10ms tick
+        }
 
         #expect(store.state.id == "u1")
         #expect(store.state.name == "Alice")
