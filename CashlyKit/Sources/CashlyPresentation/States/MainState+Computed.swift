@@ -136,14 +136,16 @@ public extension MainState {
     }
 
     var transactionSections: [[CashlyDomain.Transaction]] {
-        let dict = Dictionary(grouping: transactions) { transaction in
-            transaction.date.date.cashly(with: .sortPattern)
-        }.sorted { $0.key > $1.key }
-        var transactionSections: [[CashlyDomain.Transaction]] = []
-        for (_, transactions) in dict {
-            transactionSections.append(transactions)
+        CashlySignpost.withInterval("MainState.transactionSections") {
+            let dict = Dictionary(grouping: transactions) { transaction in
+                transaction.date.date.cashly(with: .sortPattern)
+            }.sorted { $0.key > $1.key }
+            var sections: [[CashlyDomain.Transaction]] = []
+            for (_, transactions) in dict {
+                sections.append(transactions)
+            }
+            return sections
         }
-        return transactionSections
     }
 
     var transactionUsers: [User] {
@@ -184,22 +186,24 @@ public extension MainState {
     }
 
     var biggestTags: [Tag] {
-        var tagsAmount: [Tag: Double] = [:]
-        for transaction in transactions {
-            let summary = transaction.summary.lowercased()
-            for tag in tags {
-                if summary.contains(tag.name.lowercased()) {
-                    let amount = !transaction.participants.isEmpty ?
-                    transaction.splitValue ?? .zero : transaction.paymentsPlan != nil ?
-                    transaction.amount / (transaction.paymentsPlan ?? 1).double : transaction.amount
-                    tagsAmount[tag, default: .zero] += amount
+        CashlySignpost.withInterval("MainState.biggestTags") {
+            var tagsAmount: [Tag: Double] = [:]
+            for transaction in transactions {
+                let summary = transaction.summary.lowercased()
+                for tag in tags {
+                    if summary.contains(tag.name.lowercased()) {
+                        let amount = !transaction.participants.isEmpty ?
+                        transaction.splitValue ?? .zero : transaction.paymentsPlan != nil ?
+                        transaction.amount / (transaction.paymentsPlan ?? 1).double : transaction.amount
+                        tagsAmount[tag, default: .zero] += amount
+                    }
                 }
             }
+            return tagsAmount
+                .sorted { $0.value > $1.value }
+                .prefix(5)
+                .map(\.key)
         }
-        return tagsAmount
-            .sorted { $0.value > $1.value }
-            .prefix(5)
-            .map(\.key)
     }
 
     var biggestTransactions: [CashlyDomain.Transaction] {
