@@ -51,11 +51,11 @@ public extension View {
     }
     
     func cashly(clip shape: CashlyShape) -> some View {
-        self.ryze(clip: shape)
+        self.clipShape(shape)
     }
-    
+
     func cashly(alignment: TextAlignment) -> some View {
-        self.ryze(alignment: alignment)
+        self.multilineTextAlignment(alignment)
     }
     
     func cashly(loading: Bool) -> some View {
