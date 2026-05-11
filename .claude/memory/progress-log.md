@@ -1,3 +1,18 @@
+## 2026-05-11 — Wave 5z (Package.swift dep graph trim)
+
+**Tipo**: chore
+**Módulos**: Package.swift, MainState, EnvironmentValues+Extension
+**Resumo**: Trimm dep graph SPM. EnvironmentValues+Extension dropou `import CashlyData` (unused). MainState dropou `import PrismIntelligence` (leftover Wave 5c). Package.swift edges:
+- `.presentation` deps: removido `.prismIntelligence`. Presentation só importa PrismArchitecture (state/store/effect) + PrismFoundation (PrismDateFormatter). Intelligence types chegam transitivamente via Domain.
+- `.ui` deps: removido `.prismUI` e `.prismArchitecture`. CashlyUI tem zero `import Prism*` — todo Prism wrapped por CashlyDesignSystem ou CashlyPresentation typealiases.
+336 tests / 54 suites passing.
+**Impacto**: Build graph mais explícito. UI target zero-Prism-dep — confirma Wave 5b vocabulary boundary. Faster builds.
+**ADR**: nenhum
+**PRs**: 2 commits em main
+**Aprendizados**: Auditoria de Package.swift deps deve cross-verify com `grep "^import Prism*"` por target. Edges declarados mas não usados causam transitive bloat + unnecessary recompilation cascade.
+
+---
+
 ## 2026-05-11 — Wave 5y (final imports audit: Foundation/Domain/Resource/PrismArchitecture)
 
 **Tipo**: chore
