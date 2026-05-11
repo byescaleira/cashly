@@ -88,7 +88,7 @@ enum CashlyTarget: String, CaseIterable {
         switch self {
         case .domain: return [.prismFoundation, .prismIntelligence]
         case .data: return [.domain, .prismFoundation, .prismIntelligence]
-        case .presentation: return [.domain, .data, .resource, .designSystem, .prismArchitecture, .prismFoundation, .prismIntelligence]
+        case .presentation: return [.domain, .data, .resource, .designSystem, .prismArchitecture, .prismFoundation]
         case .ui:
             // CashlyMock symbols are gated by `#if DEBUG` in every
             // import site (preview/mock helpers only). SPM lacks a
@@ -96,7 +96,7 @@ enum CashlyTarget: String, CaseIterable {
             // unconditional, but the linker dead-codes mock symbols
             // out of Release because no reference remains after the
             // preprocessor pass.
-            return [.domain, .data, .presentation, .mock, .designSystem, .prismUI, .prismArchitecture, .resource]
+            return [.domain, .data, .presentation, .mock, .designSystem, .resource]
         case .resource: return [.prismFoundation]
         case .mock: return [.domain, .data, .presentation, .designSystem, .prismArchitecture, .resource]
         case .designSystem: return []
