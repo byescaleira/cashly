@@ -86,7 +86,7 @@ enum CashlyTarget: String, CaseIterable {
         switch self {
         case .domain: return [.ryze]
         case .data: return [.domain, .ryze]
-        case .presentation: return [.domain, .data, .ryze]
+        case .presentation: return [.domain, .data, .resource, .ryze]
         case .ui: return [.domain, .presentation, .mock, .ryze, .resource]
         case .resource: return [.ryze]
         case .mock: return [.domain, .data, .presentation, .ryze, .resource]

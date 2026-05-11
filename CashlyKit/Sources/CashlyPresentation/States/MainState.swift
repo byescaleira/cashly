@@ -6,6 +6,7 @@
 //
 
 import CashlyDomain
+import CashlyResource
 import RyzeArchitecture
 import RyzeIntelligence
 
@@ -150,12 +151,13 @@ public struct MainState: CashlyState {
     }
     
     public var score: BalanceScore {
-        let variation = variation
-        let percentage = variation * 100
-        if percentage <= 85 { return BalanceScore(score: 1000) }
-        let score = (1000 - (800 / 1.15) * (variation - 0.85)).int
-        
-        return BalanceScore(score: score)
+        CashlySignpost.withInterval("MainState.score") {
+            let variation = variation
+            let percentage = variation * 100
+            if percentage <= 85 { return BalanceScore(score: 1000) }
+            let score = (1000 - (800 / 1.15) * (variation - 0.85)).int
+            return BalanceScore(score: score)
+        }
     }
     
     public var remainingAmount: Double {
