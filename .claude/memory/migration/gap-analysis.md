@@ -364,3 +364,12 @@ Ver tabela em G022. **DECISÃO HUMANA PENDENTE** consolidada:
 ### a11y (Wave 7 partial)
 - **Done**: accessibilityLabel + isButton trait on 11 icon-only toolbar/menu buttons (AddTransactionScreen 4, TransactionScreen 6, FilterItemView 1). accessibilityLabel on CashlyChart + CashlyCompareChart summarizing data points. `View.cashlyAnimation(_:value:)` helper added respecting Reduce Motion.
 - **Deferred (a11y-tail)**: Sweep 35 existing `.animation(...)` sites to use `cashlyAnimation`. Dynamic Type audit (manual — verify xxxLarge doesn't break layouts). VoiceOver pass on form labels (most have TextField placeholder = OK). Reduce Transparency support.
+
+### G034 — State Sendability for Wave 5
+- **Severidade:** Crítica (bloqueia Wave 5a real)
+- **Esforço:** M (1 dia para refactor Color→hex; 2-3 dias para alternativa MainActor)
+- **Onda:** Wave 5 pré-requisito
+- **Descoberto:** Spike Wave 5a (2026-05-10, ADR-0002)
+- **Causa:** 5 dos 6 States carregam `SwiftUI.Color` (MainActor-bound). `PrismMiddleware.run` retorna `PrismEffect<Action>` cujo `.run { send in ... }` body é `@Sendable` e captura `state`. State precisa ser Sendable cross-isolation.
+- **Fix recomendado (opção a)**: AddCategoryState.color/AddTagState.color/AddTransactionState (qualquer Color em state) → `String` (hex). UI converte com `Color(hex:)` no boundary. Helper já existe em CashlyUI/Extensions.
+- **Alternativa (opção b)**: marcar States e Middleware como `@MainActor`, confinar todos os effects ao MainActor. Reduz paralelismo de I/O.

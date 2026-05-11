@@ -1,3 +1,15 @@
+## 2026-05-10 — Wave 5a Second Spike (ADR-0002 + G034)
+
+**Tipo**: chore (migration — exploration, branch deleted)
+**Módulos**: ADR-0002, gap-analysis G034, progress-log
+**Resumo**: Segunda tentativa Wave 5a em branch `migration/wave-5a-prism`. Package.swift trocado para submódulos Prism (`../../prism`). Bulk rename Ryze→Prism completo. 6 Reducers portados para `@MainActor struct: PrismReducer` com `reduce(into:action:) -> PrismEffect<Action>`. 2 Middlewares portados (AddUser, AddCategory). Bloqueio: State Sendability — 5 dos 6 States carregam `SwiftUI.Color` (MainActor-bound) que viola `@Sendable` capture em `PrismEffect.run`. Branch deletado, main intacto.
+**Impacto**: Main em `f3349dd`. ADR-0002 escrito com mapping table validada. G034 novo gap. Wave 5 segue bloqueado mas com plano claro.
+**ADR**: 0002-wave-5-prism-migration-spike
+**PRs**: nenhum
+**Aprendizados**: PrismStore `init(initialState:reducer:middleware:)` matches Cashly call sites — não há ajuste de dispatch sites. State refactor é blocker real, não API redesign. Recomendado: opção (a) drop SwiftUI.Color de State, usar String hex + Color(hex:) na UI. PrismMiddleware.run retorna PrismEffect; `.run { send in ... }` substitui AsyncStream + continuation.yield. Prerequisite para Wave 5a real: 1) decisão State Sendability, 2) port AddUser trio end-to-end como validation, 3) ripple para 5 outras trios.
+
+---
+
 ## 2026-05-10 — Wave 5a Aborted (G033 — Reducer API incompatible)
 
 **Tipo**: chore (migration — exploration)
