@@ -7,8 +7,8 @@
 
 import SwiftUI
 import CashlyResource
-import RyzeUI
 import CashlyDomain
+import CashlyDesignSystem
 
 public extension View {
     func cashly(
@@ -16,11 +16,9 @@ public extension View {
         weight: Font.Weight? = nil,
         design: Font.Design? = .rounded
     ) -> some View {
-        self.ryze(
-            font: font,
-            weight: weight,
-            design: design
-        )
+        self.font(font)
+            .fontWeight(weight)
+            .fontDesign(design)
     }
     
     func cashly(color: CashlyColor?) -> some View {
@@ -59,11 +57,12 @@ public extension View {
     }
     
     func cashly(loading: Bool) -> some View {
-        self.ryze(if: loading) { $0.redacted(reason: .placeholder) }
+        self.redacted(reason: loading ? .placeholder : [])
+            .environment(\.isLoading, loading)
     }
-    
+
     func cashlyBackgroundItem() -> some View {
-        self.ryzeBackgroundRow()
+        self.modifier(CashlyBackgroundRowModifier())
     }
     
     func cashlyRounded() -> some View {
@@ -82,28 +81,26 @@ public extension View {
         self.preferredColorScheme(colorScheme)
     }
     
+    @ViewBuilder
     func cashly<Content: View>(if condition: Bool, _ transform: (Self) -> Content) -> some View {
-        self.ryze(if: condition, transform: transform)
+        if condition { transform(self) } else { self }
     }
-    
+
+    @ViewBuilder
     func cashly<Content: View, Value>(item: Value?, _ transform: (Self, Value) -> Content) -> some View {
-        self.ryze(item: item, transform: transform)
+        if let item { transform(self, item) } else { self }
     }
-    
+
     func cashlyConfetti(for seconds: Int = 3, isActive: Bool = true) -> some View {
-        self.ryzeConfetti(seconds: seconds, isActive: isActive)
+        self.cashlyConfetti(amount: 30, seconds: seconds, isActive: isActive)
     }
-    
+
     func cashly<T: IndefiniteSymbolEffect & SymbolEffect>(
         symbol effect: T,
         options: SymbolEffectOptions = .default,
         isActive: Bool = true
     ) -> some View {
-        self.ryzeSymbol(
-            effect: effect,
-            options: options,
-            isActive: isActive
-        )
+        self.symbolEffect(effect, options: options, isActive: isActive)
     }
     
     func cashlyDelete(action: @escaping () -> Void) -> some View {
