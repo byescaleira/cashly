@@ -2,9 +2,8 @@
 //  CashlyBackgroundRow.swift
 //  CashlyKit
 //
-//  Wave 5a'': Cashly-owned list-row background. Mirrors Ryze behavior of
-//  using the secondary system background in dark mode and the primary
-//  system background in light mode.
+//  List-row background that adapts to colorScheme: secondary system
+//  background in dark mode, primary in light.
 //
 
 import SwiftUI

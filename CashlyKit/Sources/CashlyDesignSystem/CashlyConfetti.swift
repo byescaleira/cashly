@@ -2,8 +2,8 @@
 //  CashlyConfetti.swift
 //  CashlyKit
 //
-//  Wave 5a'': Cashly-owned confetti overlay. Replaces RyzeConfettiModifier
-//  with native SwiftUI. Used by cashlyConfetti(for:isActive:) in CashlyUI.
+//  Confetti overlay in pure SwiftUI. Exposed via the
+//  `cashlyConfetti(for:isActive:)` modifier on `View`.
 //
 
 import SwiftUI

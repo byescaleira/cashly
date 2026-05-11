@@ -2,8 +2,9 @@
 //  CashlyRoutable.swift
 //  CashlyKit
 //
-//  Wave 5b: Cashly-owned routing protocol stack. Replaces RyzeRoutable +
-//  RyzeNavigationStyle without changing call-site semantics.
+//  Cashly-owned routing protocol stack. Routes conform to
+//  ``CashlyRoutable``; navigation policies expressed via
+//  ``CashlyNavigationStyle`` are interpreted by ``CashlyRouter``.
 //
 
 import SwiftUI

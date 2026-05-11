@@ -2,8 +2,8 @@
 //  CashlyNavigationView.swift
 //  CashlyKit
 //
-//  Wave 5b: Cashly-owned navigation container. Replaces
-//  RyzeNavigationView, keeping push/present/full surfaces.
+//  Navigation container driving NavigationStack + sheet +
+//  fullScreenCover from a single ``CashlyRouter`` binding.
 //
 
 import SwiftUI

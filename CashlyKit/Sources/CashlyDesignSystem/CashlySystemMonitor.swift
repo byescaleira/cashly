@@ -2,8 +2,9 @@
 //  CashlySystemMonitor.swift
 //  CashlyKit
 //
-//  Wave 5b: Cashly-owned CPU/memory probe via Mach task APIs.
-//  Replaces RyzeSystemMonitor + RyzeSystemMonitorModifier.
+//  CPU + memory probe via Mach task APIs. The ViewModifier
+//  refreshes a binding once per second and dispatches updates
+//  through withAnimation(.bouncy) on the main actor.
 //
 
 import SwiftUI

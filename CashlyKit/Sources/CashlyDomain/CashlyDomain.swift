@@ -1,14 +1,12 @@
 //
-//  CashlyTypealias.swift
+//  CashlyDomain.swift
 //  CashlyKit
-//
-//  Created by Rafael Escaleira on 29/08/25.
 //
 
 @_exported import PrismFoundation
 
-/// Cashly's domain entity protocol. Refines PrismEntity with Identifiable
-/// because most Cashly use cases (lists, pickers, ForEach) rely on the
-/// entity-as-Identifiable convention that RyzeEntity bundled.
+/// Domain entity protocol. Refines `PrismEntity` with `Identifiable`
+/// + `Sendable` because Cashly use cases (lists, pickers, ForEach,
+/// cross-actor effects) assume both.
 public protocol CashlyEntity: PrismEntity, Identifiable, Sendable {}
 

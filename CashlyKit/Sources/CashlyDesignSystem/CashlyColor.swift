@@ -2,8 +2,8 @@
 //  CashlyColor.swift
 //  CashlyKit
 //
-//  Wave 5b: Cashly-owned color token. Replaces Ryze theme indirection
-//  with fixed semantic mappings to SwiftUI.Color.
+//  Cashly-owned color token. Semantic cases map directly to
+//  SwiftUI.Color values without theme indirection.
 //
 
 import SwiftUI

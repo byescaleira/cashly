@@ -2,8 +2,9 @@
 //  IsLoadingEnvironment.swift
 //  CashlyKit
 //
-//  Wave 5a: Cashly-owned `\.isLoading` env value. Replaces the
-//  RyzeUI-provided key consumed by CashlyText/CashlyLabel/CashlySymbol.
+//  Cashly-owned `\.isLoading` environment value consumed by
+//  CashlyText / CashlyLabel / CashlySymbol to render redacted
+//  skeletons while data is in flight.
 //
 
 import SwiftUI

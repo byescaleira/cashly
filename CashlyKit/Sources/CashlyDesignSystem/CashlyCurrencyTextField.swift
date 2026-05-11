@@ -2,8 +2,10 @@
 //  CashlyCurrencyTextField.swift
 //  CashlyKit
 //
-//  Wave 5b: Cashly-owned currency-masked text field. Replaces
-//  RyzeCurrencyTextField with native SwiftUI + Foundation formatting.
+//  Currency-masked text field built on SwiftUI.TextField + Foundation
+//  NumberFormatter. Two-way binding maintains a digits-only mental
+//  model: typed digits accumulate into `amount`; the displayed text
+//  is reformatted on every change.
 //
 
 import SwiftUI

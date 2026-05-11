@@ -2,9 +2,8 @@
 //  CashlyRouter.swift
 //  CashlyKit
 //
-//  Wave 5b: Cashly-owned router. Replaces RyzeRouter with the same
-//  push/present/full semantics + dismiss/root affordances. Uses
-//  @Observable so SwiftUI can track stack changes.
+//  Cashly-owned router. Push/present/full semantics + dismiss/root
+//  affordances. @Observable so SwiftUI tracks stack changes.
 //
 
 import SwiftUI

@@ -2,33 +2,28 @@
 //  CashlyDesignSystem.swift
 //  CashlyKit
 //
-//  Wave 5b: vocabulary layer for Cashly UI. Cashly-owned wrappers
-//  over SwiftUI primitives. See per-type files for implementations —
-//  this file just enumerates what lives here for navigation.
+//  Vocabulary layer for Cashly UI. Cashly-owned wrappers over SwiftUI
+//  primitives. See the per-type files for implementations — this file
+//  is a navigation index for the module.
+//
+//  Types:
+//  - CashlyColor          (CashlyColor.swift)
+//  - CashlySpacing        (CashlySpacing.swift)
+//  - CashlyShape          (CashlyShape.swift)
+//  - CashlyView           (CashlyView.swift)
+//  - CashlySpacer         (CashlySpacer.swift)
+//  - CashlyButton         (CashlyButton.swift)
+//  - CashlyHStack/VStack/ZStack (CashlyStacks.swift)
+//  - CashlySymbol         (CashlySymbol.swift)
+//  - CashlyText           (CashlyText.swift)
+//  - CashlyLabel          (CashlyLabel.swift)
+//  - CashlyCurrencyTextField (CashlyCurrencyTextField.swift)
+//  - CashlyList           (CashlyList.swift)
+//  - CashlyHorizontalList (CashlyHorizontalList.swift)
+//  - CashlyRoutable / CashlyNavigationStyle (CashlyRoutable.swift)
+//  - CashlyRouter         (CashlyRouter.swift)
+//  - CashlyNavigationView (CashlyNavigationView.swift)
+//  - CashlySystemMonitor  (CashlySystemMonitor.swift)
 //
 
 import SwiftUI
-
-// CashlyColor: Cashly-owned enum (see CashlyColor.swift).
-// CashlySize: unused. Removed.
-// CashlySpacing: Cashly-owned enum (see CashlySpacing.swift).
-// CashlyShape: Cashly-owned struct (see CashlyShape.swift).
-// CashlyView: Cashly-owned protocol (see CashlyView.swift).
-// CashlySpacer: Cashly-owned struct (see CashlySpacer.swift).
-// CashlyButton: Cashly-owned (see CashlyButton.swift).
-// CashlySection: unused. Removed.
-// CashlyHStack/VStack/ZStack: Cashly-owned (see CashlyStacks.swift).
-// CashlySymbol: Cashly-owned struct (see CashlySymbol.swift).
-// CashlyText: Cashly-owned struct (see CashlyText.swift). No longer a Ryze typealias.
-// CashlyTextField: unused. Removed.
-// CashlyCurrencyTextField: Cashly-owned (see CashlyCurrencyTextField.swift).
-// CashlyTextFieldConfiguration: unused. Removed.
-// CashlyList: Cashly-owned (see CashlyList.swift).
-// CashlyHorizontalList: Cashly-owned (see CashlyHorizontalList.swift).
-// CashlyAsyncImage: unused. Removed.
-// CashlyLabel: Cashly-owned (see CashlyLabel.swift).
-// CashlyBrowserView: unused. Removed.
-// CashlyLocale: unused. Removed.
-// CashlyNavigationView: Cashly-owned (see CashlyNavigationView.swift).
-// CashlySystemMonitor: Cashly-owned (see CashlySystemMonitor.swift).
-
