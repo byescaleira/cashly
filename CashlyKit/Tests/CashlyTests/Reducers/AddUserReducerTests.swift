@@ -57,7 +57,7 @@ struct AddUserReducerTests {
     func errorStoresError() {
         var state = AddUserState.new()
         _ = reducer.reduce(into: &state, action: .error(.onSave))
-        #expect(state.error == .onSave)
+        if case .onSave = state.error {} else { Issue.record("expected .onSave") }
     }
 
     @Test("replace swaps entire state")

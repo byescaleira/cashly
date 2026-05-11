@@ -60,7 +60,7 @@ struct AddTagReducerTests {
     func errorStores() {
         var state = AddTagState.new()
         _ = reducer.reduce(into: &state, action: .error(.onRemove))
-        #expect(state.error == .onRemove)
+        if case .onRemove = state.error {} else { Issue.record("expected .onRemove") }
     }
 
     @Test("replace swaps state")

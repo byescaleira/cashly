@@ -120,7 +120,7 @@ public extension Array where Element == Score {
 }
 
 public struct BalanceScore: Equatable, Sendable {
-    var score: Int
+    public var score: Int
 
     public init(score: Int) {
         self.score = score

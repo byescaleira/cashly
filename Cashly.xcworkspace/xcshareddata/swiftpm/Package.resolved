@@ -1,14 +1,6 @@
 {
-  "originHash" : "fce457fa7d733bb413109e9766ae4c3aeaa91ad4116ee16e58321fb8679fd986",
+  "originHash" : "29bffba2c1b7862aa1d27add401ceb578b97567c5cf3e5cbcd83641f7fd87d6f",
   "pins" : [
-    {
-      "identity" : "ryze",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/rafaelesantos/ryze",
-      "state" : {
-        "revision" : "2b619d8e98f00174719dcab07d5fad08b23ff2dd"
-      }
-    },
     {
       "identity" : "swift-custom-dump",
       "kind" : "remoteSourceControl",

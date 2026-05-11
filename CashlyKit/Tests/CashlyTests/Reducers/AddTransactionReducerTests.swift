@@ -47,7 +47,7 @@ struct AddTransactionReducerTests {
             amount: 123.45,
             date: date,
             summary: "Dinner",
-            status: .pending,
+            status: .pendingToPay,
             splitMode: .equal,
             splitValue: 7.5,
             tags: tags,
@@ -63,7 +63,7 @@ struct AddTransactionReducerTests {
         #expect(state.amount == 123.45)
         #expect(state.date == date)
         #expect(state.summary == "Dinner")
-        #expect(state.status == .pending)
+        #expect(state.status == .pendingToPay)
         #expect(state.splitMode == .equal)
         #expect(state.splitValue == 7.5)
         #expect(state.tags == tags)
@@ -83,7 +83,7 @@ struct AddTransactionReducerTests {
     func errorStores() {
         var state = AddTransactionState.new()
         _ = reducer.reduce(into: &state, action: .error(.onRemove))
-        #expect(state.error == .onRemove)
+        if case .onRemove = state.error {} else { Issue.record("expected .onRemove") }
     }
 
     @Test("replace swaps state")

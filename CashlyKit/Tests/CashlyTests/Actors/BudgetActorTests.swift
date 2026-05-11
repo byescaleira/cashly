@@ -5,6 +5,7 @@
 //  Created by Rafael Escaleira on 30/08/25.
 //
 
+import Foundation
 import Testing
 import CashlyDomain
 import CashlyMock
@@ -16,7 +17,7 @@ actor BudgetActorTests {
     
     @Test("Get budget by id")
     func testGetBudget() async throws {
-        let categoryActual: Category = .mock
+        let categoryActual: CashlyDomain.Category = .mock
         let actual = Budget(
             id: UUID().uuidString,
             amount: 100,

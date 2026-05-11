@@ -60,7 +60,7 @@ struct AddCategoryReducerTests {
     func errorStores() {
         var state = AddCategoryState.new()
         _ = reducer.reduce(into: &state, action: .error(.onFetch))
-        #expect(state.error == .onFetch)
+        if case .onFetch = state.error {} else { Issue.record("expected .onFetch") }
     }
 
     @Test("replace swaps state")
