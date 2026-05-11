@@ -9,17 +9,27 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-test:
     name: Build & Test (Xcode)
     runs-on: macos-15
 
     steps:
-      - name: Checkout
+      - name: Checkout cashly
         uses: actions/checkout@v4
+        with:
+          path: cashly
 
-      - name: Select Xcode 16+
+      # Prism is consumed as `../../prism` from CashlyKit/Package.swift.
+      # Layout on the runner: $GITHUB_WORKSPACE/cashly + $GITHUB_WORKSPACE/prism
+      - name: Checkout prism (sibling for SPM local path)
+        uses: actions/checkout@v4
+        with:
+          repository: rafaelesantos/prism
+          path: prism
+
+      - name: Select latest Xcode
         run: |
-          XCODE=$(ls /Applications | grep -E '^Xcode[_-]?1[6-9]|^Xcode\.app' | sort -V | tail -1)
+          XCODE=$(ls /Applications | grep -E '^Xcode[_-]?[12][0-9]|^Xcode\.app' | sort -V | tail -1)
           echo "Using Xcode: $XCODE"
           sudo xcode-select -s "/Applications/$XCODE/Contents/Developer"
           xcodebuild -version
@@ -27,37 +37,40 @@ jobs:
       - name: Install xcbeautify
         run: brew install xcbeautify
 
-      - name: Cache SPM
+      - name: Cache SPM artifacts
         uses: actions/cache@v4
         with:
           path: |
             ~/Library/Developer/Xcode/DerivedData/**/SourcePackages
-            CashlyKit/.build
-          key: spm-${{ runner.os }}-${{ hashFiles('CashlyKit/Package.resolved') }}
+            cashly/CashlyKit/.build
+          key: spm-${{ runner.os }}-${{ hashFiles('cashly/CashlyKit/Package.swift') }}
           restore-keys: |
             spm-${{ runner.os }}-
 
       - name: List schemes
-        working-directory: Cashly
-        run: xcodebuild -workspace ../Cashly.xcworkspace -list || xcodebuild -project Cashly.xcodeproj -list
+        working-directory: cashly/Cashly
+        run: xcodebuild -project Cashly.xcodeproj -list
 
-      - name: Build app
+      - name: Build app (Production)
+        working-directory: cashly/Cashly
         run: |
+          set -o pipefail
           xcodebuild build \
-            -workspace Cashly.xcworkspace \
+            -project Cashly.xcodeproj \
             -scheme Production \
             -destination 'generic/platform=iOS Simulator' \
             -skipMacroValidation \
             CODE_SIGNING_ALLOWED=NO \
-            | xcbeautify --renderer github-actions || exit 1
+            | xcbeautify --renderer github-actions
 
-      - name: Run tests
+      - name: Run CashlyKit tests
+        working-directory: cashly/CashlyKit
         run: |
+          set -o pipefail
           xcodebuild test \
-            -workspace Cashly.xcworkspace \
-            -scheme Core \
+            -scheme CashlyKit-Package \
             -destination 'platform=iOS Simulator,name=iPhone 17,OS=latest' \
             -enableCodeCoverage YES \
             -skipMacroValidation \
             CODE_SIGNING_ALLOWED=NO \
-            | xcbeautify --renderer github-actions || exit 1
+            | xcbeautify --renderer github-actions
