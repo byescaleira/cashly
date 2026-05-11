@@ -6,7 +6,6 @@
 //
 
 import CashlyDomain
-import RyzeUI
 
 public actor AddTagMiddleware: CashlyMiddleware {
     let tagUseCase: TagUseCase
@@ -44,13 +43,12 @@ public actor AddTagMiddleware: CashlyMiddleware {
             let tag = try await tagUseCase.getTag(id: state.id)
             let users = try await userUseCase.getUsers()
             let currentUser = try await userUseCase.getCurrentUser()
-            let color = tag?.color == nil ? nil : Color(hex: tag?.color)
             continuation.yield(
                 .update(
                     id: tag?.id ?? state.id,
                     user: tag?.user ?? state.user ?? currentUser ?? users.first,
                     name: tag?.name ?? state.name,
-                    color: color ?? state.color,
+                    color: tag?.color ?? state.color,
                     icon: tag?.icon ?? state.icon,
                     isNew: tag == nil
                 )
@@ -73,7 +71,7 @@ public actor AddTagMiddleware: CashlyMiddleware {
                 id: state.id,
                 user: user.id,
                 name: state.name,
-                color: state.color.hex,
+                color: state.color,
                 icon: state.icon
             )
             continuation.yield(.saved)

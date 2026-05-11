@@ -2,10 +2,7 @@
 //  AddTagAction.swift
 //  CashlyKit
 //
-//  Created by Rafael Escaleira on 10/09/25.
-//
 
-import SwiftUI
 import CashlyDomain
 
 public enum AddTagAction: CashlyAction {
@@ -17,7 +14,7 @@ public enum AddTagAction: CashlyAction {
         id: String,
         user: User?,
         name: String,
-        color: Color,
+        color: String,
         icon: String,
         isNew: Bool
     )

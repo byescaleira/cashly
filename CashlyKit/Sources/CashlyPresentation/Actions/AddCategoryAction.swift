@@ -2,10 +2,7 @@
 //  AddCategoryAction.swift
 //  CashlyKit
 //
-//  Created by Rafael Escaleira on 01/09/25.
-//
 
-import SwiftUI
 import CashlyDomain
 
 public enum AddCategoryAction: CashlyAction {
@@ -17,7 +14,7 @@ public enum AddCategoryAction: CashlyAction {
         id: String,
         user: User?,
         name: String,
-        color: Color,
+        color: String,
         icon: String,
         isNew: Bool
     )

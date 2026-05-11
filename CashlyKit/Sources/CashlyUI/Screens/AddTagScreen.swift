@@ -100,7 +100,7 @@ public struct AddTagScreen: CashlyView {
                             .cashly(font: .footnote, weight: .semibold)
                     }
                 }
-                .cashly(tint: .color(state.color))
+                .cashly(tint: .color(Color(hex: state.color)))
             }
         } header: {
             CashlyText(CashlyL10n.string("Icon"))
@@ -134,14 +134,14 @@ public struct AddTagScreen: CashlyView {
         } label: {
             CashlySymbol(item)
                 .cashly(font: .system(size: 18))
-                .cashly(color: item == state.icon ? .color(state.color) : .color(.gray))
+                .cashly(color: item == state.icon ? .color(Color(hex: state.color)) : .color(.gray))
                 .frame(width: 40, height: 40)
-                .cashly(background: item == state.icon ? .color(state.color.opacity(0.2)) : .color(.gray.opacity(0.2)))
+                .cashly(background: item == state.icon ? .color(Color(hex: state.color).opacity(0.2)) : .color(.gray.opacity(0.2)))
                 .cashly(clip: .circle)
                 .overlay {
                     if item == state.icon {
                         Circle()
-                            .stroke(state.color, lineWidth: 2)
+                            .stroke(Color(hex: state.color), lineWidth: 2)
                             .frame(width: 45, height: 45)
                     }
                 }
@@ -163,15 +163,18 @@ public struct AddTagScreen: CashlyView {
                 symbol: .bounce.byLayer,
                 options: .repeat(.continuous).speed(0.1)
             )
-            .cashly(color: .color(state.color))
+            .cashly(color: .color(Color(hex: state.color)))
             .background(alignment: .center) {
                 CashlySymbol("tag.fill")
-                    .cashly(color: .color(state.color.opacity(0.3)))
+                    .cashly(color: .color(Color(hex: state.color).opacity(0.3)))
                     .cashly(font: .system(size: 130))
             }
             .frame(width: 140, height: 140)
             .overlay(alignment: .bottom) {
-                ColorPicker("", selection: $store.state.color)
+                ColorPicker("", selection: Binding(
+                    get: { Color(hex: store.state.color) },
+                    set: { store.state.color = $0.hex }
+                ))
                     .scaleEffect(1.5)
             }
             .frame(maxWidth: .infinity)
