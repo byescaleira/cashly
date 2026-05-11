@@ -144,9 +144,5 @@ struct StateFactoryTests {
         #expect(s.users.isEmpty)
         #expect(s.user == nil)
         #expect(s.predictedTransactionsAmount == 0)
-        #expect(s.intelligenceRouter.navigationPath.isEmpty)
-        #expect(s.categoryRouter.navigationPath.isEmpty)
-        #expect(s.homeRouter.navigationPath.isEmpty)
-        #expect(s.transactionRouter.navigationPath.isEmpty)
     }
 }

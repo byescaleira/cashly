@@ -20,6 +20,11 @@ public struct MainScreen: CashlyView {
 
     @State var tabItem: MainTabItem = .home
 
+    @State var intelligenceRouter = CashlyRouter<MainRoute>()
+    @State var categoryRouter = CashlyRouter<MainRoute>()
+    @State var homeRouter = CashlyRouter<MainRoute>()
+    @State var transactionRouter = CashlyRouter<MainRoute>()
+
     public init() {}
 
     public var body: some View {
@@ -49,43 +54,43 @@ public struct MainScreen: CashlyView {
     }
 
     var intelligenceScreen: some View {
-        return CashlyNavigationView(
-            router: store.cashlyBinding(\.intelligenceRouter),
+        CashlyNavigationView(
+            router: $intelligenceRouter,
             destination: destination(_:)
         ) {
             IntelligenceScreen()
         }
-        .environment(\.router, store.state.intelligenceRouter)
+        .environment(\.router, intelligenceRouter)
     }
 
     var categoriesScreen: some View {
-        return CashlyNavigationView(
-            router: store.cashlyBinding(\.categoryRouter),
+        CashlyNavigationView(
+            router: $categoryRouter,
             destination: destination(_:)
         ) {
             CategoryScreen()
         }
-        .environment(\.router, store.state.categoryRouter)
+        .environment(\.router, categoryRouter)
     }
 
     var homeScreen: some View {
-        return CashlyNavigationView(
-            router: store.cashlyBinding(\.homeRouter),
+        CashlyNavigationView(
+            router: $homeRouter,
             destination: destination(_:)
         ) {
             HomeScreen()
         }
-        .environment(\.router, store.state.homeRouter)
+        .environment(\.router, homeRouter)
     }
 
     var transactionScreen: some View {
-        return CashlyNavigationView(
-            router: store.cashlyBinding(\.transactionRouter),
+        CashlyNavigationView(
+            router: $transactionRouter,
             destination: destination(_:)
         ) {
             TransactionScreen()
         }
-        .environment(\.router, store.state.transactionRouter)
+        .environment(\.router, transactionRouter)
     }
 
     @ViewBuilder
