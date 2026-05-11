@@ -16,13 +16,13 @@ public typealias CashlySize = RyzeSize
 public typealias CashlySpacing = RyzeSpacing
 public typealias CashlyShape = RyzeShape
 public typealias CashlyView = RyzeView
-public typealias CashlySpacer = RyzeSpacer
+// CashlySpacer: Cashly-owned struct (see CashlySpacer.swift).
 public typealias CashlyButton = RyzeButton
 public typealias CashlySection = RyzeSection
 public typealias CashlyHStack = RyzeHStack
 public typealias CashlyVStack = RyzeVStack
 public typealias CashlyZStack = RyzeZStack
-public typealias CashlySymbol = RyzeSymbol
+// CashlySymbol: Cashly-owned struct (see CashlySymbol.swift).
 // CashlyText: Cashly-owned struct (see CashlyText.swift). No longer a Ryze typealias.
 public typealias CashlyTextField = RyzeTextField
 public typealias CashlyCurrencyTextField = RyzeCurrencyTextField
