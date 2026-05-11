@@ -18,8 +18,8 @@
 | Críticos (correção / segurança / arquitetura) | 7 originais + G029/G033/G034/G035 descobertos |
 | Importantes (manutenibilidade / escalabilidade) | 11 originais + G026-G032 descobertos |
 | Nice-to-have (qualidade / processo) | 6 |
-| **Fechados** | **G001 (Wave 5c), G002 (Wave 3), G003 (Wave 5a), G004 (Wave 3), G005 (Wave 4), G006 (Wave 4), G007 parcial, G008, G009, G010, G011, G012, G013, G014 parcial, G015, G017 parcial, G018, G019 parcial, G020 parcial, G022 (Wave 5a), G023 (Wave 5b), G024, G026, G027 mitigado, G028, G029, G030, G031, G032, G033 (Wave 5a), G034, G035 (Wave 5b), G036 (Wave 5a')** |
-| **Abertos** | **(G016 README, G019 god files restantes, G020 i18n/a11y restantes)** |
+| **Fechados** | **G001 (Wave 5c), G002 (Wave 3), G003 (Wave 5a), G004 (Wave 3), G005 (Wave 4), G006 (Wave 4), G007 parcial, G008, G009, G010, G011, G012, G013, G014 parcial, G015, G016 (Wave 8), G017 parcial, G018, G019 (Wave 7 + Wave 5d), G020, G022 (Wave 5a), G023 (Wave 5b), G024 (Wave 8), G026, G027 mitigado, G028, G029, G030, G031, G032, G033 (Wave 5a), G034, G035 (Wave 5b), G036 (Wave 5a')** |
+| **Abertos** | **nenhum bloqueador estrutural; G007/G014/G017 ainda parciais — manutenção contínua** |
 | Dívida estimada (com migração Ryze→Prism) | **~22-30 dias úteis** |
 | Dívida estimada (sem migração Ryze→Prism, só higiene) | **~7-9 dias** |
 

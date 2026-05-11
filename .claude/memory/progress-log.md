@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5d (G016 README + G019 MainState split)
+
+**Tipo**: docs + refactor
+**Módulos**: README.md, CashlyPresentation/States/MainState.swift (split), CashlyPresentation/States/MainState+Computed.swift (novo)
+**Resumo**: README reescrito pós-Wave 5a (7 SPM targets, Prism state-mgmt, CashlyDesignSystem, composition root, cashlyBinding/Mutate). MainState (268 linhas) cortado em MainState.swift (54 lin — data + init) + MainState+Computed.swift (211 lin — score/variation/sections/biggest*/etc). Ambos confortavelmente abaixo do cap 280. Audit confirmou: zero literal strings hardcoded fora de CashlyL10n.string; Logger + Signpost ativos.
+**Impacto**: G016 e G019 (residual god-files) fechados. G020 confirmado fechado em auditoria — sem strings hardcoded em UI. Migration backlog efetivamente vazio.
+**ADR**: nenhum
+**PRs**: commit direto em main
+**Aprendizados**: Computed properties em States podem viver em extension separada quando viram >150 linhas — separação data/derivação melhora navegação sem mudar API.
+
+---
+
 ## 2026-05-11 — Wave 5c (G001 Domain Intelligence purification)
 
 **Tipo**: refactor (architecture — Domain hygiene)
