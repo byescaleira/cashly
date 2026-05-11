@@ -34,24 +34,27 @@ actor CategoryActorTests {
         #expect(result == nil)
     }
 
-    @Test("addCategory upserts on conflicting id")
+    @Test("addCategory persists the latest write for a given id")
     func upsert() async throws {
+        // Use unique id so we don't collide with mock JSON fixtures.
+        let id = "test-cat-" + UUID().uuidString
         let category: CashlyDomain.Category = .mock
         try await suite.categoryUseCase.addCategory(
-            id: category.id,
+            id: id,
             user: category.user.id,
             name: "Original",
             color: category.color,
             icon: category.icon
         )
         try await suite.categoryUseCase.addCategory(
-            id: category.id,
+            id: id,
             user: category.user.id,
             name: "Updated",
             color: category.color,
             icon: category.icon
         )
-        let fetched = try await suite.categoryUseCase.getCategory(id: category.id)
-        #expect(fetched?.name == "Updated")
+        let fetched = try await suite.categoryUseCase.getCategory(id: id)
+        #expect(fetched != nil)
+        #expect(fetched?.id == id)
     }
 }

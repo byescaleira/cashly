@@ -118,11 +118,16 @@ struct AddStateComputedTests {
         #expect(state.user == user)
     }
 
-    @Test("AddBudgetState.yearMonth packs date.timeIntervalSince1970")
+    @Test("AddBudgetState.yearMonth packs as YYYYMM")
     func budgetYearMonth() {
         var state = AddBudgetState.new()
-        state.date = Date(timeIntervalSince1970: 0) // 1970-01
-        #expect(state.yearMonth == 197001)
+        // mid-month UTC-safe choice to avoid TZ rollover at month boundary.
+        var components = DateComponents()
+        components.year = 2024
+        components.month = 6
+        components.day = 15
+        state.date = Calendar.current.date(from: components) ?? .now
+        #expect(state.yearMonth == 202406)
     }
 
     // MARK: - AddTransactionState

@@ -22,8 +22,10 @@ public protocol CashlyRoutable: Hashable, Identifiable {
 
 public extension CashlyRoutable {
     var id: Self { self }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
 }
+
+// Note: conforming types provide their own `hash(into:)`. The previous
+// default that combined `id` recursed infinitely once `id == Self`, so
+// we no longer offer a default. RawRepresentable enums get Hashable
+// synthesis for free; payload-carrying enums must implement it
+// explicitly (see MainRoute's discriminator-based hash).
