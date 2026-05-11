@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5a Attempt #4 (deferred again, G036 discovered)
+
+**Tipo**: chore (migration — exploration, branch deleted)
+**Módulos**: Package.swift, todos Reducers, Middlewares, Factories, MockModifier (todos no branch deletado)
+**Resumo**: Quarta tentativa Wave 5a em branch `migration/wave-5a-prism-attempt-4`. Package.swift trocado para local Prism, 6 Reducers + 6 Middlewares portados para `@MainActor struct: PrismReducer/Middleware` com `inout state` + `PrismEffect.run`. MainMiddleware ganhou `PredictionCache` actor interno para cache mutável. Factory protocols movidos para Presentation, marcados `@MainActor`. View+Extension reverteu `.cashly(...)` para nativo (color/tint/clip/alignment). Bulk sed Ryze→Prism limpo. Bloqueio: `$store.state.x` two-way bindings em ~25 sites — PrismStore.state é `private(set)`, mutação só via `send(action:)`. Branch deletado, main intacto.
+**Impacto**: ADR-0002 atualizado com findings attempt #4. G036 novo gap criado (bloqueia Wave 5a real merge). Próxima tentativa precisa de Wave 5a' (refactor bindings → actions ou PrismStore.scope) antes do Package swap.
+**ADR**: 0002 atualizado, 0003 não tocado
+**PRs**: nenhum
+**Aprendizados**: PrismStore.state é read-only por design — Cashly's `@Bindable var store = store; $store.state.filter.X` pattern não compila. Opção mais limpa: `PrismStore.scope(state: keyPath, action: action)` cria child stores binable. `\.theme` env não migrou para PrismUI; usar `Color.accentColor` nativo. PrismFileManager/PrismTabularIntelligence/PrismTextIntelligence existem 1:1. `\.isLoading` env é Cashly-side now — adicionar EnvironmentKey próprio em CashlyDesignSystem. CashlyDataFactoryProtocol precisa `@MainActor` (PrismStore é @MainActor). MockCashlyFactory tinha que ser @MainActor inteiro.
+
+---
+
 ## 2026-05-11 — Wave 5b Completo + ADR-0003 (CashlyDesignSystem Cashly-owned)
 
 **Tipo**: feat (migration — design system layer)

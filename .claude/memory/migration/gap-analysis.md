@@ -14,12 +14,12 @@
 
 | Categoria | Qtd |
 |---|---|
-| Gaps totais identificados | **35** (G001-G035) |
+| Gaps totais identificados | **36** (G001-G036) |
 | Críticos (correção / segurança / arquitetura) | 7 originais + G029/G033/G034/G035 descobertos |
 | Importantes (manutenibilidade / escalabilidade) | 11 originais + G026-G032 descobertos |
 | Nice-to-have (qualidade / processo) | 6 |
 | **Fechados** | **G007 parcial, G008, G009, G010, G011, G012, G013, G014 parcial, G015, G017 parcial, G018, G019 parcial, G020 parcial, G023 (Wave 5b), G024, G026, G027 mitigado, G028, G029, G030, G031, G032, G034, G035 (Wave 5b)** |
-| **Abertos** | **G001, G002, G003, G004, G005, G006, G022, G033** |
+| **Abertos** | **G001, G002, G003, G004, G005, G006, G022, G033, G036** |
 | Dívida estimada (com migração Ryze→Prism) | **~22-30 dias úteis** |
 | Dívida estimada (sem migração Ryze→Prism, só higiene) | **~7-9 dias** |
 
@@ -74,6 +74,7 @@ Status: ✅=fechado | 🔲=aberto | ⚡=parcial
 | G033  | 🔲     | A   | Arch / Migração     | PrismReducer/Middleware API incompatível com flavor Redux do Cashly              | XG      | A     | —                | Wave 5a   |
 | G034  | ✅     | A   | Concorrência        | State Sendability: 5 States carregam `SwiftUI.Color` que viola `@Sendable` capture em PrismEffect | M | A | G022 | Wave 5 pré-requisito |
 | G035  | ✅     | A   | Arch / Migração     | PrismUI surface gaps: ~14 tipos e ~10+ modifiers inexistentes bloqueiam CashlyUI port. **Resolvido Wave 5b**: Cashly não depende mais do surface PrismUI — tipos próprios em CashlyDesignSystem. | XG | A | G022 | Wave 5b ✅ |
+| G036  | 🔲     | A   | Arch / Migração     | Direct `$store.state.x` bindings (~25 sites em 8 arquivos) incompatíveis com PrismStore read-only state. Bloqueia Wave 5a real merge. | G | A | G022 | Wave 5a' |
 
 Ordem de execução pretendida (resumo): **0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8**.
 Wave 5 (Ryze→Prism) é a maior; fatiada em 5a (Architecture ✅) / 5b (UI — bloqueado G035) / 5c (Intelligence) / 5d (tokens/theme).
@@ -368,3 +369,18 @@ Ver tabela em G022. **DECISÃO HUMANA PENDENTE** consolidada:
   - `PrismUIMock` rename para `PrismMock`; `.mocked()` → `.mock`
   - State Sendable resolvido por G034 (Color → String hex)
 - **Bloqueado em** PrismUI surface (G035 acima).
+
+### G036 — Direct $store.state.x bindings blocking Wave 5a real merge
+
+- **Severidade**: Crítica para Wave 5a conclusão
+- **Esforço**: G–XG (~25 call sites across 8 screen files)
+- **Onda**: Wave 5a' (pre-Wave 5a, prepare-the-seam)
+- **Descoberto**: Wave 5a attempt #4 (2026-05-11, branch deleted)
+- **Estado**: Cashly screens write to store via `@Bindable var store = store` + `$store.state.filter.X` bindings to SwiftUI controls. PrismStore exposes `state` as `private(set)`, mutation only via `send(action:)` or `dispatch(action:)`. Direct binding pattern incompatible with Prism API.
+- **Fix opções**:
+  - **(a) Action-per-field**: add Action cases for every mutable field; bind via custom `Binding(get:set:)`. Wave-specific work, clean separation.
+  - **(b) PrismStore.scope(state:action:)**: Prism provides scoped child stores that can be bound. Read upstream docs/usage to validate two-way write path.
+  - **(c) PrismDerivedStore**: alternative pattern Prism exposes — investigate.
+- **Recomendação**: opção (b) — leverage Prism's existing scope API before adding boilerplate actions.
+- **Sites afetados**: `MockModifier.swift`, `FilterItemView.swift`, plus per-screen Add* views.
+- **Dependência**: bloqueia Wave 5a real merge (G022).

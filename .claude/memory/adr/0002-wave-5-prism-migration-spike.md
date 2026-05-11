@@ -89,3 +89,66 @@ the next attempt:
 The local `migration/wave-5a-prism` branch was created, modified, and
 deleted during this spike. No code from the spike landed on `main`.
 Findings are recorded here.
+
+## 2026-05-11 attempt #4 — additional blockers discovered (post Wave 5b)
+
+After Wave 5b shipped (CashlyDesignSystem owns vocabulary), a fourth
+attempt at the Package.swift swap surfaced **deeper API-shape blockers
+beyond State Sendability**:
+
+1. **`$store.state.x` two-way bindings everywhere.** Cashly screens
+   (FilterItemView, MockModifier, several Add* screens) write directly
+   to `store.state` via `@Bindable var store = store` and bind
+   `$store.state.field` to Toggle/Picker/TextField. PrismStore exposes
+   `state` as `private(set)`, mutation only via `send(action:)` /
+   `dispatch(action:)`. Every direct-mutation site needs a new
+   Action case + reducer arm. Rough count: ~25 binding sites across
+   8 screen files.
+
+2. **`Self: RyzeView` static `mocked()` ergonomics gap.** PrismMock has
+   no View constraint — refactor of `cashlyPreview()` already landed
+   in Wave 5b but assumes Cashly-owned `CashlyView` protocol still
+   in place after the swap. Compatible, but worth noting.
+
+3. **`.ryze(...)` modifier residue.** Wave 5b lifted color/tint/clip/
+   alignment/background/systemMonitor/clip to native, but 8 modifiers
+   still forward to Ryze: `ryze(font:weight:design:)`, `ryze(if:)`,
+   `ryze(item:)`, `ryzeConfetti`, `ryzeSymbol`, `ryzeBackgroundRow`,
+   plus internal helpers. Each needs native rewrite or PrismUI
+   equivalent before the Package swap.
+
+4. **Domain references `RyzeFileManager`/`RyzeTabularIntelligence`/
+   `RyzeTextIntelligence`.** PrismFoundation/PrismIntelligence rename
+   these to `Prism*` directly. Bulk sed handles it cleanly. New issue:
+   `CashlyDataFactoryProtocol` was non-isolated, but PrismStore is
+   `@MainActor`, so the protocol must be `@MainActor` too. Same for
+   `CashlyDataFactory` and `MockCashlyFactory`. Compatible but
+   touches Domain.
+
+5. **`Category`/`Tag`/`User`/`TransactionStatus` Identifiable.**
+   `CashlyMenuSelectionView` and ForEach call sites in
+   `FilterItemView`/`ParticipantRowView` require these to be
+   Identifiable. Already are in some cases, but the loss of
+   `RyzeIdentifiable` default conformance reveals gaps.
+
+6. **Concurrency conformance crosses.** `MockCashlyFactory` marked
+   `@MainActor` conflicts with `CashlyDataFactoryProtocol` if the
+   latter isn't `@MainActor`. Both must align.
+
+### Revised pre-requisites
+
+Before another attempt, all 6 items above need a defined plan:
+- Refactor direct `$store.state.x` bindings into actions, OR
+- Adopt PrismDerivedStore/PrismStore.scope to create writable child
+  stores for binding (PrismStore has this — see `scope(state:action:)`).
+- Drop residual `.ryze(...)` modifiers to native equivalents.
+- Mark Cashly factory protocols `@MainActor`.
+- Audit Identifiable conformance on Domain models.
+
+### Decision
+
+**Defer Wave 5a real merge again.** Post Wave 5b unblocks the
+vocabulary layer but the binding/mutation surface remains the
+blocker. Recommended path: a dedicated mini-wave 5a' that ports
+binding sites to actions (zero Prism work, prepares the seam), then
+the actual Package swap becomes mechanical.
