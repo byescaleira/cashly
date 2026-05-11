@@ -3,7 +3,6 @@
 //  CashlyKit
 //
 
-import Foundation
 import CashlyDomain
 import CashlyResource
 import PrismArchitecture

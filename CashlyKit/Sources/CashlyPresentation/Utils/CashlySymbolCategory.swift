@@ -6,7 +6,6 @@
 //  lives in CashlySymbolCategory+Symbols.swift.
 //
 
-import Foundation
 
 public enum CashlySymbolCategory: Int, Hashable, CaseIterable {
     case food

@@ -5,8 +5,6 @@
 //  Created by Rafael Escaleira on 16/09/25.
 //
 
-import Foundation
-
 public enum ScoreLevel: String, Sendable, Equatable {
     case critical
     case atRisk

@@ -5,7 +5,6 @@
 
 import CashlyDomain
 import PrismArchitecture
-import Foundation
 
 public struct AddTransactionMiddleware: PrismMiddleware {
     let budgetUseCase: BudgetUseCase

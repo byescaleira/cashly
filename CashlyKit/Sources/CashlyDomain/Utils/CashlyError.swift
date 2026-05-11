@@ -5,7 +5,6 @@
 //  Created by Rafael Escaleira on 01/09/25.
 //
 
-import Foundation
 import PrismFoundation
 
 // MARK: - Umbrella
