@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5s (CashlyResource + CashlyLogger tests)
+
+**Tipo**: test
+**Módulos**: CashlyTests/Resource/{CashlyResourceTests, CashlyLoggerTests}
+**Resumo**: 11 testes novos. CashlyResourceTests (8): CashlyL10n fallback + non-empty known keys; CashlyResourceFile data + decoded<[User]> + decoded<[Category]>; CashlyResourceImage rawValues + avatar fallback paths. CashlyLoggerTests (3): subsystem const + 6 categories reachable + .info logging non-crash. 296 tests / 47 suites passing.
+**Impacto**: Resource target leaf agora coberto. Coverage map: Domain (28) + Data (32+9=41) + Presentation (107) + DesignSystem (47) + Resource (25) + UI (11) + Snapshots (7) = 296 tests.
+**ADR**: nenhum
+**PRs**: 1 commit em main
+**Aprendizados**: Bundle.module resolução de localized strings funciona em test runner; non-existent keys retornam a própria chave (Apple fallback behavior). Em testes XCTest, `os.Logger.info(_:)` é safe-to-call sem capture/verification — apenas smoke.
+
+---
+
 ## 2026-05-11 — Wave 5r (FilterState + CashlyError tests)
 
 **Tipo**: test
