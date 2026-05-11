@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5l (CI rewrite + CashlyDesignSystem DocC)
+
+**Tipo**: ci + docs
+**Módulos**: .github/workflows/ci.yml, CashlyDesignSystem.docc/CashlyDesignSystem.md, symbol docs em CashlyText/Color/Spacing/Shape/Routable/Router
+**Resumo**: CI workflow stale (referenciava Cashly.xcworkspace inexistente + scheme Core dropado, sem provisão de Prism sibling). Reescrito: checkout cashly + prism sibling, xcodebuild test via CashlyKit-Package scheme (validado localmente — `** TEST SUCCEEDED **` 240 testes). DocC: CashlyDesignSystem.md landing page com topic grouping (Text/Layout/Lists/Controls/Tokens/Navigation/View/Observability/Loading). Symbol-level docs nos types mais tocados — CashlyText loading-state behavior, CashlyColor per-case semantic, CashlySpacing rhythm guidance, CashlyShape mapping, CashlyRoutable Hashable note pós hash-recursion fix, CashlyRouter dismiss priority. Drop stale `import PrismUI` em CashlyText. 240 testes ainda passando.
+**Impacto**: G024 (observability/docs) ampliado. CI alinhada com Prism-based build. DocC ready para `docc preview`.
+**ADR**: nenhum
+**PRs**: 2 commits em main (CI + docs separadamente)
+**Aprendizados**: SwiftPM local path deps (`../../prism`) requerem sibling checkout em CI. `set -o pipefail` antes de xcodebuild | xcbeautify é mandatory — `|| exit 1` depois do pipe não captura xcodebuild failures porque xcbeautify exits 0.
+
+---
+
 ## 2026-05-11 — Wave 5k (test suite GREEN — 240 testes passing)
 
 **Tipo**: fix + test
