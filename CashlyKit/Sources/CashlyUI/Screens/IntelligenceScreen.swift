@@ -84,7 +84,6 @@ public struct IntelligenceScreen: CashlyView {
                                         .cashly(font: .body, weight: .bold)
                                         .cashly(color: .color(accuracyColor(intelligenceModel?.accuracy)))
 
-
                                     CashlyText(intelligenceModel?.size)
                                         .cashly(font: .callout)
                                         .cashly(color: .textSecondary)

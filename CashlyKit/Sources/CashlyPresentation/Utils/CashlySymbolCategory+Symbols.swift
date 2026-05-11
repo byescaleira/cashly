@@ -5,7 +5,6 @@
 //  Wave 7 G019: symbol catalog data extracted from CashlySymbolCategory.swift.
 //
 
-
 extension CashlySymbolCategory {
     public var symbols: [String] {
         switch self {

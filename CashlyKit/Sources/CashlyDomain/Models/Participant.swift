@@ -5,7 +5,6 @@
 //  Created by Rafael Escaleira on 05/09/25.
 //
 
-
 public struct Participant: CashlyEntity, Sendable {
     public var id: String
     public var user: User

@@ -20,7 +20,6 @@ enum CashlyChartType {
 
 struct CashlyCompareChart: CashlyView {
 
-
     let type: CashlyChartType
     let data: [(String, Double, Double)]
     let startItemsAmount: Double

@@ -15,7 +15,6 @@ import CashlyMock
 
 struct CashlyChart: CashlyView {
 
-
     let type: CashlyChartType
     let data: [(String, Double)]
     let startItemsAmount: Double
