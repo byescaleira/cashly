@@ -1,3 +1,20 @@
+## 2026-05-11 — Wave 5k (test suite GREEN — 240 testes passing)
+
+**Tipo**: fix + test
+**Módulos**: CashlyDesignSystem/CashlyRoutable (hash bug fix), CashlyTests (assertion adjustments), Snapshots (re-recorded)
+**Resumo**: Primeira execução real `xcodebuild test` revelou 3 classes de issues:
+1. **CashlyRoutable.hash recursion**: default `hash(into:)` combinava `id` que era `Self` → infinite recursion. Crash em todos os 36 test suites. Fix: removido default hash; conformers fornecem próprio. MainRoute já tinha (discriminator-based); RawRepresentable enums (SimpleRoute, TestRoute) ganham Hashable synthesis grátis.
+2. **Mock fixture interference**: User.mocks JSON pre-seeds 5 users. Tests assumindo store vazio quebravam. Fix: assert por id presence ao invés de exact ordering / value match. Mock contracts diferem do real actor (MockUserActor appends sem upsert vs UserActor SwiftData upsert real).
+3. **TZ-sensitive yearMonth test**: `Date(timeIntervalSince1970: 0)` em BRT → 1969-12-31 → yearMonth 196912 ≠ 197001. Fix: usar DateComponents explícitos.
+4. Snapshot baselines regravados post Wave 5a (UI mudou).
+**Resultado**: 240 tests passing. `** TEST SUCCEEDED **`.
+**Impacto**: Source bug real (CashlyRoutable hash recursion) descoberto por testes — bug latente que nunca crashou em produção porque NavigationStack codifica path em vez de hashear. Vale o investimento em test execution real, não apenas compilation.
+**ADR**: nenhum
+**PRs**: 1 commit em main
+**Aprendizados**: SPM `xcodebuild test` via `CashlyKit-Package` scheme funciona (não o app Production scheme — esse só roda app target). Mock actor semantic é approximation do real SwiftData actor — tests precisam ser robustos ao contract diff.
+
+---
+
 ## 2026-05-11 — Wave 5j (G017 MockAdapter FK + entity Codable; G007 SPM note)
 
 **Tipo**: test + chore
