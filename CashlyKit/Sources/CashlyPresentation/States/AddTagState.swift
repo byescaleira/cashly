@@ -12,7 +12,7 @@ public struct AddTagState: CashlyState {
     public var user: User?
     public var name: String
     /// Hex string (e.g. "#FF8800"). UI converts via `Color(hex:)` at the
-    /// boundary. Wave 5 G034.
+    /// boundary. 
     public var color: String
     public var icon: String
     public var isNew: Bool

@@ -2,7 +2,7 @@
 //  CashlyShape.swift
 //  CashlyKit
 //
-//  Wave 5b: Cashly-owned shape token. Sendable enum used by .cashly(clip:)
+//  //  Cashly-owned shape token. Sendable enum used by .cashly(clip:)
 //  and .cashly(glass:in:) modifiers.
 //
 

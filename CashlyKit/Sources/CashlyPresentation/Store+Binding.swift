@@ -2,7 +2,7 @@
 //  Store+Binding.swift
 //  CashlyKit
 //
-//  Wave 5a: PrismStore.state is `private(set)`. All writes from views
+//  //  PrismStore.state is `private(set)`. All writes from views
 //  funnel through `Action.replace(State)` dispatched via `send(_:)`.
 //  This file is the only thing that changed when the Package.swift swap
 //  to Prism landed.

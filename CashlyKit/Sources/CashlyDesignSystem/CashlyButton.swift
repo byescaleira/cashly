@@ -2,7 +2,7 @@
 //  CashlyButton.swift
 //  CashlyKit
 //
-//  Wave 5b: Cashly-owned button. Wraps SwiftUI.Button. Async action
+//  //  Cashly-owned button. Wraps SwiftUI.Button. Async action
 //  is wrapped in Task. Light haptic feedback on iOS.
 //
 

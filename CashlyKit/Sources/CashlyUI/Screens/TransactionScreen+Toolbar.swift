@@ -2,7 +2,7 @@
 //  TransactionScreen+Toolbar.swift
 //  CashlyKit
 //
-//  Wave 7 G019: toolbar buttons extracted from TransactionScreen.swift.
+//  //  toolbar buttons extracted from TransactionScreen.swift.
 //
 
 import SwiftUI

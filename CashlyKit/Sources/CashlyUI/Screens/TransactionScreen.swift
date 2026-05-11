@@ -2,7 +2,7 @@
 //  TransactionScreen.swift
 //  CashlyKit
 //
-//  Wave 7 G019: body + @State only. Rows + toolbar live in
+//  //  body + @State only. Rows + toolbar live in
 //  TransactionScreen+*.swift.
 //
 

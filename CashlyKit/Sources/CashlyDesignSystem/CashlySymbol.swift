@@ -2,7 +2,7 @@
 //  CashlySymbol.swift
 //  CashlyKit
 //
-//  Wave 5b: Cashly-owned SF Symbol view. Wraps SwiftUI.Image with
+//  //  Cashly-owned SF Symbol view. Wraps SwiftUI.Image with
 //  symbol rendering mode + variants. Applies redacted skeleton when
 //  `\.isLoading` is true.
 //

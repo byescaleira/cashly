@@ -2,7 +2,7 @@
 //  CashlySpacer.swift
 //  CashlyKit
 //
-//  Wave 5b: Cashly-owned spacer. Thin wrapper around SwiftUI.Spacer.
+//  //  Cashly-owned spacer. Thin wrapper around SwiftUI.Spacer.
 //
 
 import SwiftUI

@@ -2,8 +2,8 @@
 //  CashlyUI.swift
 //  CashlyKit
 //
-//  Wave 5b: vocabulary lives in CashlyDesignSystem now. Keep this file
-//  as the public surface entry of CashlyUI for back-compat.
+//  Public entry. Re-exports the design-system vocabulary so screen
+//  files only need `import CashlyUI`.
 //
 
 @_exported import CashlyDesignSystem

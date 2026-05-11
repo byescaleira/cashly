@@ -2,7 +2,7 @@
 //  CashlySymbolCategory+Symbols.swift
 //  CashlyKit
 //
-//  Wave 7 G019: symbol catalog data extracted from CashlySymbolCategory.swift.
+//  //  symbol catalog data extracted from CashlySymbolCategory.swift.
 //
 
 extension CashlySymbolCategory {

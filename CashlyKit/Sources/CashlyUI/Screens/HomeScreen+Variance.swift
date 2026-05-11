@@ -2,7 +2,7 @@
 //  HomeScreen+Variance.swift
 //  CashlyKit
 //
-//  Wave 7 G019: Variance section + shared categoriesView extracted from HomeScreen.swift.
+//  //  Variance section + shared categoriesView extracted from HomeScreen.swift.
 //
 
 import SwiftUI

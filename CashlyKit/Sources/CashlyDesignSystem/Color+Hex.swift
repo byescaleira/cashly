@@ -2,7 +2,7 @@
 //  Color+Hex.swift
 //  CashlyKit
 //
-//  Wave 5b: hex-string initializer for SwiftUI.Color. Accepts
+//  //  hex-string initializer for SwiftUI.Color. Accepts
 //  "#RRGGBB" or "RRGGBB" or "#RRGGBBAA". Falls back to .clear when
 //  string is nil or unparseable.
 //

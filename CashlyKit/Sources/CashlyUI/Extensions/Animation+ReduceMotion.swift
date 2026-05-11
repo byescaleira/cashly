@@ -2,7 +2,7 @@
 //  Animation+ReduceMotion.swift
 //  CashlyKit
 //
-//  Wave 7 a11y: helper that respects accessibilityReduceMotion env value.
+//  //  helper that respects accessibilityReduceMotion env value.
 //  Use `view.cashlyAnimation(.bouncy, value: x)` instead of `.animation(...)`
 //  to disable motion when the user has the system flag on.
 //

@@ -2,7 +2,7 @@
 //  CashlyLabel.swift
 //  CashlyKit
 //
-//  Wave 5b: Cashly-owned label. SwiftUI.Label + isLoading skeleton.
+//  //  Cashly-owned label. SwiftUI.Label + isLoading skeleton.
 //
 
 import SwiftUI

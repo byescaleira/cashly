@@ -2,7 +2,7 @@
 //  CashlyHorizontalList.swift
 //  CashlyKit
 //
-//  Wave 5b: Cashly-owned horizontal scroller. Wraps ScrollViewReader +
+//  //  Cashly-owned horizontal scroller. Wraps ScrollViewReader +
 //  ScrollView(.horizontal) and exposes the proxy to the content closure.
 //
 

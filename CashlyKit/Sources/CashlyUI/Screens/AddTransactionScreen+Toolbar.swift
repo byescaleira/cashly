@@ -2,7 +2,7 @@
 //  AddTransactionScreen+Toolbar.swift
 //  CashlyKit
 //
-//  Toolbar items split out from AddTransactionScreen.swift (Wave 7 G019).
+//  Toolbar items split out from AddTransactionScreen.swift.
 //
 
 import SwiftUI

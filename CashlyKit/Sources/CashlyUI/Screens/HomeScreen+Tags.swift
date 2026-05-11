@@ -2,7 +2,7 @@
 //  HomeScreen+Tags.swift
 //  CashlyKit
 //
-//  Wave 7 G019: Tags section extracted from HomeScreen.swift.
+//  //  Tags section extracted from HomeScreen.swift.
 //
 
 import SwiftUI

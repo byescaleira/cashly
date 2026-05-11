@@ -3,7 +3,7 @@
 //  CashlyKit
 //
 //  Side-effect handlers and state-update helpers split out from
-//  AddTransactionScreen.swift to keep that file at <= 250 lines (Wave 7 G019).
+//  AddTransactionScreen.swift to keep that file at <= 250 lines.
 //
 
 import SwiftUI

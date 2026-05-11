@@ -2,8 +2,8 @@
 //  Score+Color.swift
 //  CashlyKit
 //
-//  Maps domain ScoreLevel to SwiftUI Color at the UI boundary.
-//  Keeps CashlyDomain free of SwiftUI dependency (G004).
+//  Maps domain ScoreLevel to SwiftUI Color at the UI boundary so
+//  CashlyDomain stays SwiftUI-free.
 //
 
 import SwiftUI

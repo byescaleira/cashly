@@ -2,7 +2,7 @@
 //  CashlySpacing.swift
 //  CashlyKit
 //
-//  Wave 5b: Cashly-owned spacing token. Fixed CGFloat scale (no theme
+//  //  Cashly-owned spacing token. Fixed CGFloat scale (no theme
 //  protocol indirection). Use via CashlyHStack/VStack/ZStack and the
 //  `.cashlyPadding(...)` modifier.
 //

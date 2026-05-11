@@ -2,7 +2,7 @@
 //  CashlyList.swift
 //  CashlyKit
 //
-//  Wave 5b: Cashly-owned list. Wraps SwiftUI.List with optional selection
+//  //  Cashly-owned list. Wraps SwiftUI.List with optional selection
 //  binding.
 //
 

@@ -2,7 +2,7 @@
 //  CashlyView.swift
 //  CashlyKit
 //
-//  Wave 5b: Cashly-owned base protocol for screen and component views.
+//  //  Cashly-owned base protocol for screen and component views.
 //  Adds a canAppear hook for navigation gating and a mocked() factory for
 //  preview/test stubs.
 //

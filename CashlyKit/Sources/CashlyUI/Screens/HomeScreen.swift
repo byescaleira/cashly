@@ -2,7 +2,7 @@
 //  HomeScreen.swift
 //  CashlyKit
 //
-//  Wave 7 G019: body + @State only. Sections live in HomeScreen+*.swift.
+//  //  body + @State only. Sections live in HomeScreen+*.swift.
 //
 
 import SwiftUI

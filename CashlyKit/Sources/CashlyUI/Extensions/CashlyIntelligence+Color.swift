@@ -2,7 +2,8 @@
 //  CashlyIntelligence+Color.swift
 //  CashlyKit
 //
-//  UI-side color mapping. Keeps CashlyDomain free of SwiftUI (G004/G001).
+//  UI-side color mapping. Lives in CashlyUI so CashlyDomain stays
+//  SwiftUI-free.
 //
 
 import SwiftUI

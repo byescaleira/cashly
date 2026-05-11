@@ -12,7 +12,7 @@ public struct AddCategoryState: CashlyState {
     public var user: User?
     public var name: String
     /// Hex string (e.g. "#FF8800"). UI converts via `Color(hex:)` at the
-    /// boundary. Wave 5 G034: keeps State `Sendable` for cross-isolation
+    /// boundary. keeps State `Sendable` for cross-isolation
     /// capture under PrismMiddleware.
     public var color: String
     public var icon: String

@@ -2,7 +2,7 @@
 //  CashlyStacks.swift
 //  CashlyKit
 //
-//  Wave 5b: Cashly-owned HStack/VStack/ZStack. Thin SwiftUI wrappers
+//  //  Cashly-owned HStack/VStack/ZStack. Thin SwiftUI wrappers
 //  taking CashlySpacing for spacing.
 //
 

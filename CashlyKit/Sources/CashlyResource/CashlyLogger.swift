@@ -2,7 +2,7 @@
 //  CashlyLogger.swift
 //  CashlyKit
 //
-//  Wave 8 G024: per-subsystem unified loggers + signpost helpers.
+//  //  per-subsystem unified loggers + signpost helpers.
 //  All call sites use `CashlyLogger.<subsystem>.<level>(...)` instead of
 //  `print(...)` or scattered `os.Logger` instances.
 //

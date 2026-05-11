@@ -2,10 +2,11 @@
 //  CashlyIntelligenceService.swift
 //  CashlyKit
 //
-//  G001: lifts PrismIntelligence-coupled training out of Domain into
-//  Data. Domain keeps only the `CashlyIntelligence` enum + typealiases
-//  required by State; concrete tabular/text intelligence wiring lives
-//  here.
+//  Concrete training pipeline for the on-device models declared by
+//  the `CashlyIntelligence` enum in Domain. Wraps
+//  PrismTabularIntelligence + PrismTextIntelligence; called from
+//  IntelligenceScreen via the train(model:user:transactions:tags:)
+//  entry point.
 //
 
 import Foundation

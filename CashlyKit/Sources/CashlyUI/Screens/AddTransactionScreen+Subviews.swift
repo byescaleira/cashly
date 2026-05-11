@@ -2,7 +2,7 @@
 //  AddTransactionScreen+Subviews.swift
 //  CashlyKit
 //
-//  Reusable sub-views split out from AddTransactionScreen.swift (Wave 7 G019).
+//  Reusable sub-views split out from AddTransactionScreen.swift.
 //
 
 import SwiftUI

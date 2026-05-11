@@ -2,7 +2,7 @@
 //  AddTransactionScreen.swift
 //  CashlyKit
 //
-//  Wave 7 G019: body + state declarations only. Sections, sub-views,
+//  //  body + state declarations only. Sections, sub-views,
 //  toolbar items and handlers live in AddTransactionScreen+*.swift.
 //
 

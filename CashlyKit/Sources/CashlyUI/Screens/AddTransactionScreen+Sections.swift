@@ -2,7 +2,7 @@
 //  AddTransactionScreen+Sections.swift
 //  CashlyKit
 //
-//  Form sections split out from AddTransactionScreen.swift (Wave 7 G019).
+//  Form sections split out from AddTransactionScreen.swift.
 //
 
 import SwiftUI

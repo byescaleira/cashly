@@ -2,7 +2,7 @@
 //  HomeScreen+OtherSections.swift
 //  CashlyKit
 //
-//  Wave 7 G019: Available/BiggestTransaction/SpendingForecast sections
+//  //  Available/BiggestTransaction/SpendingForecast sections
 //  extracted from HomeScreen.swift.
 //
 

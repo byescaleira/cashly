@@ -2,7 +2,7 @@
 //  CashlySymbolCategory.swift
 //  CashlyKit
 //
-//  Wave 7 G019: enum + name + random helpers only. Symbol catalog data
+//  //  enum + name + random helpers only. Symbol catalog data
 //  lives in CashlySymbolCategory+Symbols.swift.
 //
 

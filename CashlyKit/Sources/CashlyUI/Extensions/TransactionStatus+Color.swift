@@ -2,8 +2,8 @@
 //  TransactionStatus+Color.swift
 //  CashlyKit
 //
-//  UI-side color mapping for TransactionStatus. Keeps CashlyDomain free
-//  of SwiftUI dependency (G004/G001).
+//  UI-side color mapping for TransactionStatus. Lives in CashlyUI so
+//  the Domain model stays SwiftUI-free.
 //
 
 import SwiftUI

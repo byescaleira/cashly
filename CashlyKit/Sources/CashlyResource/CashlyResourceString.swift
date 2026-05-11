@@ -2,8 +2,9 @@
 //  CashlyResourceString.swift
 //  CashlyKit
 //
-//  Wave 7 G020: typed accessor for Localizable.xcstrings in CashlyResource.
-//  Use `CashlyL10n.save` instead of "Save" in user-facing UI strings.
+//  Typed accessor for Localizable.xcstrings. Call sites use
+//  `CashlyL10n.string("Save")` instead of inline string literals so
+//  the strings catalog can pick them up.
 //
 
 import Foundation

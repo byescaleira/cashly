@@ -2,7 +2,7 @@
 //  TransactionScreen+Rows.swift
 //  CashlyKit
 //
-//  Wave 7 G019: row + section views extracted from TransactionScreen.swift.
+//  //  row + section views extracted from TransactionScreen.swift.
 //
 
 import SwiftUI
