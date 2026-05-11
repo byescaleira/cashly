@@ -4,7 +4,6 @@
 //
 
 import CashlyDomain
-import PrismIntelligence
 
 public struct MainState: CashlyState {
     public var isLoading: Bool

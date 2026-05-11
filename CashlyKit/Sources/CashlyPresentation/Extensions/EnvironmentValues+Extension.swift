@@ -7,7 +7,6 @@
 
 import SwiftUI
 import CashlyDomain
-import CashlyData
 
 public extension EnvironmentValues {
     @Entry var addCategoryState = AddCategoryState.new()
