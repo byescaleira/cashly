@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5g (G014: data actors + Domain Score tests)
+
+**Tipo**: test
+**Módulos**: CashlyTests/Actors/{Category, User, Tag, Transaction}ActorTests, CashlyTests/Domain/ScoreTests, CashlyTests/Common/CommonTestSuite (expandido)
+**Resumo**: G014 fechado em "parcial avançado". Expandido CommonTestSuite para expor todos 6 UseCase handles (era apenas budget+category). 4 atores SwiftData novos cobertos com integration tests pattern BudgetActorTests: roundtrip add+fetch, unknown returns nil, remove drops, upsert on conflicting id. Sort/list paths cobertos onde aplicável. Domain Score ganhou tests puro-função: level cutoffs (200-499, 500-699, 700-894, 895-1000), progress linear, stable id == title. Total: 22 testes novos (15 actors + 7 score).
+**Impacto**: G014 status: BudgetActor-only → 5 atores cobertos (Adapter ainda smoke-only). Inventory total: 28 files / 156 @Test declarations.
+**ADR**: nenhum
+**PRs**: 2 commits direto em main
+**Aprendizados**: SwiftData @ModelActor + isStoredInMemoryOnly cria store fresh por suite struct instance. Tests não precisam tearDown — cada CommonTestSuite() bootstrapa novo container. Mock adapter resolve user FK via User.mocks JSON — tests precisam usar `User.mock` para que adapter encontre o user no JSON, OU inserir via UserUseCase antes (TagActor pattern).
+
+---
+
 ## 2026-05-11 — Wave 5f (G017 middleware integration tests, all 6 middlewares)
 
 **Tipo**: test
