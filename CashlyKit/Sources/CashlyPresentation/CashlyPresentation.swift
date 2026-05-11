@@ -6,6 +6,7 @@
 //
 
 import RyzeArchitecture
+@_exported import CashlyDesignSystem
 
 extension RyzeStore: @retroactive @unchecked Sendable {}
 
@@ -14,6 +15,5 @@ public typealias CashlyAction = RyzeAction
 public typealias CashlyReducer = RyzeReducer
 public typealias CashlyMiddleware = RyzeMiddleware
 public typealias CashlyStore = RyzeStore
-public typealias CashlyRoutable = RyzeRoutable
-public typealias CashlyNavigationStyle = RyzeNavigationStyle
-public typealias CashlyRouter = RyzeRouter
+// CashlyRoutable/CashlyNavigationStyle/CashlyRouter: Cashly-owned
+// in CashlyDesignSystem, re-exported above.

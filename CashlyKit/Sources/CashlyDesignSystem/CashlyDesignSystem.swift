@@ -7,7 +7,7 @@
 //  Cashly-owned wrappers without touching call sites in CashlyUI.
 //
 
-@_exported import SwiftUI
+import SwiftUI
 import RyzeUI
 import RyzeArchitecture
 
@@ -31,6 +31,6 @@ import RyzeArchitecture
 // CashlyLabel: Cashly-owned (see CashlyLabel.swift).
 // CashlyBrowserView: unused. Removed.
 // CashlyLocale: unused. Removed.
-public typealias CashlyNavigationView = RyzeNavigationView
+// CashlyNavigationView: Cashly-owned (see CashlyNavigationView.swift).
 // CashlySystemMonitor: Cashly-owned (see CashlySystemMonitor.swift).
 
