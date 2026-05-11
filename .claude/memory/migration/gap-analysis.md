@@ -18,8 +18,8 @@
 | Críticos (correção / segurança / arquitetura) | 7 originais + G029/G033/G034/G035 descobertos |
 | Importantes (manutenibilidade / escalabilidade) | 11 originais + G026-G032 descobertos |
 | Nice-to-have (qualidade / processo) | 6 |
-| **Fechados** | **G007 parcial, G008, G009, G010, G011, G012, G013, G014 parcial, G015, G017 parcial, G018, G019 parcial, G020 parcial, G024, G026, G027 mitigado, G028, G029, G030, G031, G032, G034** |
-| **Abertos** | **G001, G002, G003, G004, G005, G006, G022, G023, G033, G035** |
+| **Fechados** | **G007 parcial, G008, G009, G010, G011, G012, G013, G014 parcial, G015, G017 parcial, G018, G019 parcial, G020 parcial, G023 (Wave 5b), G024, G026, G027 mitigado, G028, G029, G030, G031, G032, G034, G035 (Wave 5b)** |
+| **Abertos** | **G001, G002, G003, G004, G005, G006, G022, G033** |
 | Dívida estimada (com migração Ryze→Prism) | **~22-30 dias úteis** |
 | Dívida estimada (sem migração Ryze→Prism, só higiene) | **~7-9 dias** |
 
@@ -62,7 +62,7 @@ Status: ✅=fechado | 🔲=aberto | ⚡=parcial
 | G020  | ⚡     | M   | i18n / a11y         | `defaultLocalization = pt-BR` mas strings hardcoded em inglês; sem String Catalog | M     | B     | —                | Wave 7    |
 | G021  | 🔲     | M   | Routing             | `MainDeeplink.swift` vazio; `MainState` carrega 4 routers separados sem semântica documentada | M | M | G014        | Wave 4    |
 | G022  | 🔲     | A   | Arch / Migração     | Migrar Ryze → Prism (transversal). API surface não-trivialmente equivalente.    | XG      | A     | G014, G015       | Wave 5    |
-| G023  | 🔲     | M   | Arch / Migração     | `RyzeUI` (33 typealiases) sem 1:1 em PrismUI: HStack/VStack/ZStack consolidados em `PrismStack`; nenhum `PrismView`/`PrismText`/`PrismLabel`/`PrismHorizontalList` direto | XG | A | G022 | Wave 5b (DECISÃO HUMANA PENDENTE) |
+| G023  | ✅     | M   | Arch / Migração     | `RyzeUI` (33 typealiases) sem 1:1 em PrismUI: HStack/VStack/ZStack consolidados em `PrismStack`; nenhum `PrismView`/`PrismText`/`PrismLabel`/`PrismHorizontalList` direto. **Resolvido Wave 5b**: CashlyDesignSystem agora possui os tipos próprios. | XG | A | G022 | Wave 5b ✅ |
 | G024  | ✅     | M   | Observabilidade     | Sem `os.Logger` configurado; sem tracking de analytics                          | M       | B     | —                | Wave 8    |
 | G026  | ✅     | A   | Toolchain           | Ryze upstream renomeado para Prism em HEAD — build quebra sem pin               | P       | B     | —                | Wave 0    |
 | G027  | ⚡     | M   | Toolchain           | `swift test` CLI quebrado em CashlyResource (Foundation/SwiftUI/ImageResource)  | M       | M     | —                | Wave 1    |
@@ -73,7 +73,7 @@ Status: ✅=fechado | 🔲=aberto | ⚡=parcial
 | G032  | ✅     | M   | Compilação          | `$store` binding projection ausente após migração para `@Environment(T.self)`   | M       | M     | G018             | Wave 6    |
 | G033  | 🔲     | A   | Arch / Migração     | PrismReducer/Middleware API incompatível com flavor Redux do Cashly              | XG      | A     | —                | Wave 5a   |
 | G034  | ✅     | A   | Concorrência        | State Sendability: 5 States carregam `SwiftUI.Color` que viola `@Sendable` capture em PrismEffect | M | A | G022 | Wave 5 pré-requisito |
-| G035  | 🔲     | A   | Arch / Migração     | PrismUI surface gaps: ~14 tipos e ~10+ modifiers inexistentes bloqueiam CashlyUI port | XG | A | G022 | Wave 5b   |
+| G035  | ✅     | A   | Arch / Migração     | PrismUI surface gaps: ~14 tipos e ~10+ modifiers inexistentes bloqueiam CashlyUI port. **Resolvido Wave 5b**: Cashly não depende mais do surface PrismUI — tipos próprios em CashlyDesignSystem. | XG | A | G022 | Wave 5b ✅ |
 
 Ordem de execução pretendida (resumo): **0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8**.
 Wave 5 (Ryze→Prism) é a maior; fatiada em 5a (Architecture ✅) / 5b (UI — bloqueado G035) / 5c (Intelligence) / 5d (tokens/theme).

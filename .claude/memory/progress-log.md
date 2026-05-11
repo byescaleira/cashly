@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5b Completo + ADR-0003 (CashlyDesignSystem Cashly-owned)
+
+**Tipo**: feat (migration — design system layer)
+**Módulos**: CashlyDesignSystem (novo target), CashlyUI, CashlyMock, CashlyPresentation, Package.swift
+**Resumo**: Wave 5b inteiro entregue. CashlyDesignSystem agora possui tipos próprios: CashlyText/Spacer/Symbol/Spacing/HStack/VStack/ZStack/Button/Label/Color/Shape/View/CurrencyTextField/List/HorizontalList/SystemMonitor/Routable/Router/NavigationView. Surface Cashly* não depende mais de RyzeUI/RyzeArchitecture para vocabulário (apenas State/Action/Reducer/Middleware/Store remanescentes). Modifiers `.cashly(color:tint:background:clip:alignment:systemMonitor:)` reescritos para SwiftUI nativo. CashlyDesignSystem virou dep de CashlyPresentation (router types). G023 e G035 fechados.
+**Impacto**: 9 commits this session. Wave 5a real merge (Ryze→Prism Package swap) permanece deferred per ADR-0002 (escopo 6 Reducers + 6 Middlewares com mudança de API actor→@MainActor inout state). Wave 5b unblocked desse trabalho — Prism cutover futuro só toca Architecture layer + 2 aliases (State/Action/Reducer/Middleware/Store).
+**ADR**: 0003-cashly-design-system (vocabulário Cashly-owned, layering, ownership table)
+**PRs**: pushes diretos em main
+**Aprendizados**: `@_exported import SwiftUI` em DS root vaza ObjC `Category` (UIKit typedef) via UIKit transitivo — quebra CashlyDomain.Category lookup em CashlyPresentation. Usar `import SwiftUI` plain. CashlyColor enum precisa de cases ópticos (Color?, String?) para casar com call sites que passam Color opcional. CashlyShape como enum Sendable é mais clean que struct com closure não-Sendable.
+
+---
+
 ## 2026-05-11 — Wave 5a Real Attempt (Architecture layer green, UI gap → G035)
 
 **Tipo**: chore (migration — exploration, branch deleted)
