@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5c (G001 Domain Intelligence purification)
+
+**Tipo**: refactor (architecture — Domain hygiene)
+**Módulos**: CashlyData/Services/CashlyIntelligenceService (novo), CashlyDomain/Utils/CashlyIntelligence (slim), CashlyUI/Screens/IntelligenceScreen, Package.swift
+**Resumo**: G001 fechado. PrismIntelligence training (PrismTabularIntelligence, PrismTextIntelligence) movido de Domain p/ Data via `CashlyIntelligenceService`. Domain mantém apenas o enum `CashlyIntelligence` (cases + display strings + `model(for:)`) e os typealiases (Model/Result/Prediction/PredictionResult/PredictionInput) que State types referenciam — necessários para boundary, não infraestrutura. Auditoria adicional confirmou: G002 (SwiftData @Model em Domain), G004 (SwiftUI.Color em Score), G005 (singletons), G006 (BudgetActor inline factory) já fechados em waves anteriores. Stale `CashlyDomain/Factories/CashlyPresentationFactoryProtocol.swift` placeholder removido. BUILD SUCCEEDED.
+**Impacto**: 5 gaps de arquitetura fechados (G001 + auditoria G002/G004/G005/G006). Migration backlog praticamente vazio — restam só docs (G016 README), god-files residuais (G019), e i18n/a11y tail (G020).
+**ADR**: nenhum novo
+**PRs**: commit direto em main
+**Aprendizados**: Domain pode importar PrismIntelligence apenas para typealiases sem trazer infraestrutura — pattern aceitável onde lib provê tipos de dado e algoritmos juntos. Decisão: tipos de dado em Domain, algoritmos em Data via Service struct injetável.
+
+---
+
 ## 2026-05-11 — Wave 5a COMPLETO (Prism merged + G003+G022+G033+G036 fechados)
 
 **Tipo**: feat (migration — Architecture cutover, MAIN GREEN)

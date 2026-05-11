@@ -18,8 +18,8 @@
 | Críticos (correção / segurança / arquitetura) | 7 originais + G029/G033/G034/G035 descobertos |
 | Importantes (manutenibilidade / escalabilidade) | 11 originais + G026-G032 descobertos |
 | Nice-to-have (qualidade / processo) | 6 |
-| **Fechados** | **G003 (Wave 5a), G007 parcial, G008, G009, G010, G011, G012, G013, G014 parcial, G015, G017 parcial, G018, G019 parcial, G020 parcial, G022 (Wave 5a), G023 (Wave 5b), G024, G026, G027 mitigado, G028, G029, G030, G031, G032, G033 (Wave 5a), G034, G035 (Wave 5b), G036 (Wave 5a')** |
-| **Abertos** | **G001, G002, G004, G005, G006** |
+| **Fechados** | **G001 (Wave 5c), G002 (Wave 3), G003 (Wave 5a), G004 (Wave 3), G005 (Wave 4), G006 (Wave 4), G007 parcial, G008, G009, G010, G011, G012, G013, G014 parcial, G015, G017 parcial, G018, G019 parcial, G020 parcial, G022 (Wave 5a), G023 (Wave 5b), G024, G026, G027 mitigado, G028, G029, G030, G031, G032, G033 (Wave 5a), G034, G035 (Wave 5b), G036 (Wave 5a')** |
+| **Abertos** | **(G016 README, G019 god files restantes, G020 i18n/a11y restantes)** |
 | Dívida estimada (com migração Ryze→Prism) | **~22-30 dias úteis** |
 | Dívida estimada (sem migração Ryze→Prism, só higiene) | **~7-9 dias** |
 
@@ -40,12 +40,12 @@ Status: ✅=fechado | 🔲=aberto | ⚡=parcial
 
 | ID    | Status | Sev | Dimensão            | Gap (one-liner)                                                                 | Esforço | Risco | Depende de       | Onda alvo |
 |-------|--------|-----|---------------------|----------------------------------------------------------------------------------|---------|-------|------------------|-----------|
-| G001  | 🔲     | A   | Arch / Domain       | Domain importa SwiftData, SwiftUI (Color), RyzeIntelligence, RyzeFoundation     | G       | A     | G002, G004       | Wave 3    |
-| G002  | 🔲     | A   | Arch / Domain       | Entities `@Model` SwiftData declaradas em CashlyDomain (vazam infra)            | G       | A     | G014 (testes)    | Wave 3    |
-| G003  | 🔲     | A   | Arch / Cross-cutting| `Ryze*` atravessa Domain/Data/Presentation/UI/Mock; viola Dependency Rule       | XG      | A     | G014, G015       | Wave 5–7  |
-| G004  | 🔲     | A   | Domain              | `Score.swift` usa `SwiftUI.Color` em camada de domínio                          | P       | B     | —                | Wave 3    |
-| G005  | 🔲     | A   | DI / Composição     | Singletons em produção: `CashlyPresentationFactory.shared`, `MockCashlyFactory.shared` | M | M     | G014             | Wave 4    |
-| G006  | 🔲     | A   | DI / Composição     | `BudgetActor` instancia `CashlyDataFactory()` localmente — DI quebrada          | M       | M     | G005             | Wave 4    |
+| G001  | ✅     | A   | Arch / Domain       | Domain importa SwiftData, SwiftUI (Color), RyzeIntelligence, RyzeFoundation. **Fechado Wave 5c**: SwiftData/SwiftUI já fora; PrismIntelligence training movido p/ CashlyData (CashlyIntelligenceService) — Domain só mantém enum + typealiases. | G | A | G002, G004 | Wave 5c ✅ |
+| G002  | ✅     | A   | Arch / Domain       | Entities `@Model` SwiftData declaradas em CashlyDomain (vazam infra). **Fechado**: entidades movidas para CashlyData/Persistence/Entities. | G | A | G014 | Wave 3 ✅ |
+| G003  | ✅     | A   | Arch / Cross-cutting| `Ryze*` atravessa Domain/Data/Presentation/UI/Mock. **Fechado Wave 5a**: substituído por Prism + CashlyDesignSystem. | XG | A | G014, G015 | Wave 5a ✅ |
+| G004  | ✅     | A   | Domain              | `Score.swift` usa `SwiftUI.Color`. **Fechado**: Score atual não tem SwiftUI; usa só Foundation. | P | B | — | Wave 3 ✅ |
+| G005  | ✅     | A   | DI / Composição     | Singletons. **Fechado**: CashlyPresentationFactory criado no composition root (CashlyApp.init); MockCashlyFactory criado em MockModifier.init. Nenhum `.shared`. | M | M | G014 | Wave 4 ✅ |
+| G006  | ✅     | A   | DI / Composição     | `BudgetActor` instanciava `CashlyDataFactory()`. **Fechado**: BudgetActor usa `@ModelActor` recebendo modelContainer via DI; adapter lazy inicializa do mesmo container. | M | M | G005 | Wave 4 ✅ |
 | G007  | ⚡     | A   | Arch / Boundaries   | `CashlyUI` depende de `CashlyMock` (acoplamento prod → preview)                 | M       | M     | —                | Wave 1    |
 | G008  | ✅     | S/A | Correção            | 2× `fatalError` em produção (CashlyDataFactory:39, CashlyKey:29)                | P       | B     | —                | Wave 1    |
 | G009  | ✅     | A   | Erros               | `CashlyError` é genérico (3 cases sem contexto), sem mensagens user-facing      | M       | B     | —                | Wave 2    |
