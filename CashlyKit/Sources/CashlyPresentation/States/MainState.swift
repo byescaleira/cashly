@@ -4,7 +4,6 @@
 //
 
 import CashlyDomain
-import CashlyResource
 import PrismArchitecture
 import PrismIntelligence
 

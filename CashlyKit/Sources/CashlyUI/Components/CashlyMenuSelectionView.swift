@@ -7,7 +7,6 @@
 
 import SwiftUI
 import CashlyResource
-import CashlyDomain
 
 struct CashlyMenuSelectionView<T: Identifiable & Hashable>: View {
     var items: [T]

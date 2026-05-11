@@ -7,7 +7,6 @@
 
 import SwiftUI
 import CashlyDomain
-import CashlyResource
 import CashlyPresentation
 #if DEBUG
 import CashlyMock

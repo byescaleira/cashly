@@ -12,7 +12,6 @@ import PrismArchitecture
 import CashlyMock
 #endif
 import CashlyDomain
-import CashlyResource
 import CashlyPresentation
 
 public struct AddTransactionScreen: CashlyView {
