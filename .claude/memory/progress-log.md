@@ -1,3 +1,21 @@
+## 2026-05-11 — Wave 5i (G017 IntelligenceService + Routable + MainRoute + enums)
+
+**Tipo**: test
+**Módulos**: CashlyTests/Data/CashlyIntelligenceServiceTests, CashlyTests/DesignSystem/{CashlyRoutable, CashlySystemMonitor}Tests, CashlyTests/Presentation/MainRouteTests, CashlyTests/Domain/TransactionEnumsTests
+**Resumo**: G017 cobertura quase saturada. 34 novos testes:
+- IntelligenceService (9): tabularData/textData data shaping com participant/paymentsPlan respect; rejects wrong-model.
+- CashlyRoutable defaults (4): id == self, hash, NavigationStyle distinct.
+- CashlySystemMonitor (3): default/explicit init + Equatable.
+- MainRoute (6): discriminator-based equality ignora payload — addUser(state: A) == addUser(state: B). Hash matches case identity.
+- TransactionEnums (12): Status.reverse pairs, SplitMode.value para cada modo (equal/fixedAmount/percentage/payerBased), nil-guards.
+Inventory total: 38 files / 226 @Test declarations.
+**Impacto**: G017 "parcial muito avançado" → "essencialmente fechado". Pure-function Domain + Data shaping + state derivation + design tokens + routing tudo coberto.
+**ADR**: nenhum
+**PRs**: 2 commits direto em main
+**Aprendizados**: MainRoute equality é intencionalmente discriminator-only (case identity), não case+payload — navegação não deve diferir por mudança no State carregado. Padrão útil para Routes que carregam State como navegação argument.
+
+---
+
 ## 2026-05-11 — Wave 5h (G017 DesignSystem + state computed + Store binding tests)
 
 **Tipo**: test
