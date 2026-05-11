@@ -24,11 +24,11 @@ public extension View {
     }
     
     func cashly(color: CashlyColor?) -> some View {
-        self.ryze(color: color ?? .textSecondary)
+        self.foregroundStyle((color ?? .textSecondary).resolved)
     }
-    
+
     func cashly(tint: CashlyColor) -> some View {
-        self.ryze(tint: tint)
+        self.tint(tint.resolved)
     }
     
     func cashlyPadding(
@@ -47,7 +47,7 @@ public extension View {
     }
     
     func cashly(background color: CashlyColor) -> some View {
-        self.ryze(background: color)
+        self.background(color.resolved)
     }
     
     func cashly(clip shape: CashlyShape) -> some View {

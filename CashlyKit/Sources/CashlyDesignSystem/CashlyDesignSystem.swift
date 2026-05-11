@@ -11,7 +11,7 @@
 import RyzeUI
 import RyzeArchitecture
 
-public typealias CashlyColor = RyzeColor
+// CashlyColor: Cashly-owned enum (see CashlyColor.swift).
 public typealias CashlySize = RyzeSize
 // CashlySpacing: Cashly-owned enum (see CashlySpacing.swift).
 public typealias CashlyShape = RyzeShape
