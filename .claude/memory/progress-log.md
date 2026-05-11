@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 6f (README rewrite — accurate post-migration state)
+
+**Tipo**: docs
+**Módulos**: README.md
+**Resumo**: README stale. Reescrito: sibling-checkout pattern (cashly + prism peers), test command corrigido (CashlyKit-Package + 336/54), migration Status section dropada (gap IDs não existem em source), DocC section nova (per-target catalogs + preview command). Zero `Wave`/`G0XX`/`Ryze`/INSTALL refs.
+**Impacto**: README primeiro-contact-friendly. Reflete estado real do projeto.
+**ADR**: nenhum
+**PRs**: 1 commit em main
+**Aprendizados**: README é onboarding canvas — não pode listar gaps in-flight quando migration está completa. History → memory log only.
+
+---
+
 ## 2026-05-11 — Wave 6e (strip Wave/Gap from tests + DocC)
 
 **Tipo**: chore
