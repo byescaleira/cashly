@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5p (cross-cutting glue tests: ApplicationAction + env + analytics + signpost)
+
+**Tipo**: test
+**Módulos**: CashlyTests/Presentation/{ApplicationAction, EnvironmentValues}Tests, CashlyTests/Resource/{AnalyticsTracker, CashlySignpost}Tests
+**Resumo**: 15 testes novos cobrindo glue layer. ApplicationAction umbrella wrapping (1), EnvironmentValues @Entry defaults (8 — verify state.new() defaults, nil user, no-op action closure), AnalyticsTracker protocol (3 — default track(event:) forwards, NoopAnalyticsTracker, SpyTracker), CashlySignpost.withInterval (3 — sync/async returns body value + rethrows). 255 tests / 44 files / 40 suites passing.
+**Impacto**: Cross-cutting layer agora testado — composition root patterns (env defaults, analytics injection) e observability primitives (signpost return-passthrough) cobertos.
+**ADR**: nenhum
+**PRs**: 1 commit em main
+**Aprendizados**: SwiftUI EnvironmentValues() default-init instancia todos os @Entry defaults — tests podem assertar contra eles sem mock view hierarchy.
+
+---
+
 ## 2026-05-11 — Wave 5o (G020 a11y tail — icon-only buttons labeled)
 
 **Tipo**: a11y
