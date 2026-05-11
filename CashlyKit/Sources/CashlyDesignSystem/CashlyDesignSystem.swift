@@ -23,7 +23,7 @@ public typealias CashlyHStack = RyzeHStack
 public typealias CashlyVStack = RyzeVStack
 public typealias CashlyZStack = RyzeZStack
 public typealias CashlySymbol = RyzeSymbol
-public typealias CashlyText = RyzeText
+// CashlyText: Cashly-owned struct (see CashlyText.swift). No longer a Ryze typealias.
 public typealias CashlyTextField = RyzeTextField
 public typealias CashlyCurrencyTextField = RyzeCurrencyTextField
 public typealias CashlyTextFieldConfiguration = RyzeTextFieldConfiguration
