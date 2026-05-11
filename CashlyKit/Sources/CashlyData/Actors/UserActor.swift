@@ -2,17 +2,33 @@
 //  UserActor.swift
 //  CashlyKit
 //
-//  Created by Rafael Escaleira on 31/08/25.
+//  SwiftData-backed user persistence + current-user selection. Manual
+//  ModelActor implementation (instead of the `@ModelActor` macro) so
+//  we can inject a `UserPreferencesUseCase` for the
+//  currentUser/selectUser surface without coupling Data to
+//  UserDefaults directly.
 //
 
 import Foundation
-import PrismFoundation
 import CashlyDomain
 import SwiftData
 
-@ModelActor
-public actor UserActor: UserUseCase {
-    lazy var adapter: AdapterUseCase = AdapterActor(modelContainer: modelContainer)
+public actor UserActor: UserUseCase, ModelActor {
+    public nonisolated let modelContainer: ModelContainer
+    public nonisolated let modelExecutor: any ModelExecutor
+
+    private let preferences: UserPreferencesUseCase
+    private lazy var adapter: AdapterUseCase = AdapterActor(modelContainer: modelContainer)
+
+    public init(
+        modelContainer: ModelContainer,
+        preferences: UserPreferencesUseCase
+    ) {
+        self.modelContainer = modelContainer
+        let context = ModelContext(modelContainer)
+        self.modelExecutor = DefaultSerialModelExecutor(modelContext: context)
+        self.preferences = preferences
+    }
 
     public func getUser(id: String) async throws -> User? {
         let predicate: Predicate<UserEntity> = #Predicate {
@@ -28,19 +44,20 @@ public actor UserActor: UserUseCase {
     }
 
     public func getCurrentUser() async throws -> User? {
-        guard let data = UserDefaults.standard.data(forKey: "cashly.user"),
-              let user = try? data.entity(for: User.self)
-        else {
-            let users = try await getUsers()
-            try? UserDefaults.standard.set(users.first?.data(), forKey: "cashly.user")
-            return users.first
+        if let id = await preferences.currentUserId(),
+           let user = try await getUser(id: id) {
+            return user
         }
-        return user
+        // Fall back to the first stored user and persist that choice.
+        let users = try await getUsers()
+        if let first = users.first {
+            await preferences.setCurrentUserId(first.id)
+        }
+        return users.first
     }
 
     public func selectUser(user: User) async throws {
-        guard let data = try? user.data() else { return }
-        UserDefaults.standard.set(data, forKey: "cashly.user")
+        await preferences.setCurrentUserId(user.id)
     }
 
     public func getUsers() async throws -> [User] {

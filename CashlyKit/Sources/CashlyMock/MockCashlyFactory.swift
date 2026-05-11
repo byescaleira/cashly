@@ -37,6 +37,7 @@ public struct MockCashlyFactory: CashlyDataFactoryProtocol, CashlyPresentationFa
     public func makeBudgetUseCase() -> BudgetUseCase { MockBudgetActor() }
     public func makeCategoryUseCase() -> CategoryUseCase { MockCategoryActor() }
     public func makeUserUseCase() -> UserUseCase { MockUserActor() }
+    public func makeUserPreferences() -> UserPreferencesUseCase { InMemoryUserPreferences() }
     public func makeTransactionUseCase() -> TransactionUseCase { MockTransactionActor() }
     public func makeTagUseCase() -> any TagUseCase { MockTagActor() }
     public func makeParticipantUseCase() -> any ParticipantUseCase { MockParticipantActor() }

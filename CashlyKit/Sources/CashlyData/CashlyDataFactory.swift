@@ -11,9 +11,14 @@ import CashlyDomain
 @MainActor
 public struct CashlyDataFactory: CashlyDataFactoryProtocol {
     let modelContainer: ModelContainer
+    let userPreferences: UserPreferencesUseCase
 
-    public init(modelContainer: ModelContainer) {
+    public init(
+        modelContainer: ModelContainer,
+        userPreferences: UserPreferencesUseCase = UserDefaultsUserPreferences()
+    ) {
         self.modelContainer = modelContainer
+        self.userPreferences = userPreferences
     }
 
     public static func make() throws -> CashlyDataFactory {
@@ -53,7 +58,11 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
     }
 
     public func makeUserUseCase() -> UserUseCase {
-        UserActor(modelContainer: modelContainer)
+        UserActor(modelContainer: modelContainer, preferences: userPreferences)
+    }
+
+    public func makeUserPreferences() -> UserPreferencesUseCase {
+        userPreferences
     }
 
     public func makeTransactionUseCase() -> TransactionUseCase {
