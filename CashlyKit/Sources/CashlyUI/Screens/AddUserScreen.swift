@@ -44,6 +44,7 @@ public struct AddUserScreen: CashlyView {
         .scrollDismissesKeyboard(.immediately)
         .cashlyDismiss(isSaved: state.isSaved)
         .task { await handlerInitialState() }
+        .onDisappear { store.cancelEffects() }
     }
 
     func handlerInitialState() async {

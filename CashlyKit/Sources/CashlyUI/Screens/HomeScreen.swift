@@ -41,6 +41,7 @@ public struct HomeScreen: CashlyView {
             ToolbarItem { FilterItemView() }
         }
         .onAppear { action(.main(.fetch)) }
+        .onDisappear { store.cancelEffects() }
         .navigationTitle((state.user?.selfFirstName ?? "") + CashlyL10n.string("Home"))
     }
 

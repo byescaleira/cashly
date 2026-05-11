@@ -8,12 +8,14 @@
 import SwiftUI
 import CashlyDomain
 import CashlyData
+import CashlyPresentation
 import CashlyResource
 #if DEBUG
 import CashlyMock
 #endif
 
 public struct IntelligenceScreen: CashlyView {
+    @Environment(CashlyStore<MainState, MainAction>.self) var store
     @Environment(\.mainState) var state
     @Environment(\.action) var action
     @Environment(\.router) var router
@@ -37,6 +39,7 @@ public struct IntelligenceScreen: CashlyView {
             ToolbarItem(placement: .navigation) { UserItemView() }
         }
         .onAppear { action(.main(.fetch)) }
+        .onDisappear { store.cancelEffects() }
         .onChange(of: isTraining) {
             guard isTraining.allSatisfy({ !$0.value }) else { return }
             action(.main(.fetchPredictions))

@@ -61,7 +61,10 @@ public struct AddTransactionScreen: CashlyView {
         .onChange(of: state.participants) { updateSplitValue() }
         .onChange(of: state.amount) { updateSplitValue() }
         .onChange(of: predictionResult) { handlerPrediction() }
-        .onDisappear { selectedUsers = [] }
+        .onDisappear {
+            selectedUsers = []
+            store.cancelEffects()
+        }
         .scrollDismissesKeyboard(.immediately)
         .cashlyIntelligence(
             model: .categoryName,
