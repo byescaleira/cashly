@@ -44,6 +44,11 @@ public struct Transaction: CashlyEntity, Sendable {
     }
 }
 
+/// Lifecycle status of a transaction (or per-participant share).
+///
+/// `pendingToReceive` / `pendingToPay` form a directional pair —
+/// ``reverse`` swaps them. `settled` / `canceled` are terminal:
+/// ``reverse`` returns the same value.
 public enum TransactionStatus: Int, CaseIterable, CashlyEntity, Sendable {
     case pendingToReceive = 3
     case pendingToPay = 2
@@ -82,10 +87,17 @@ public enum TransactionStatus: Int, CaseIterable, CashlyEntity, Sendable {
     }
 }
 
+/// How a transaction's amount is split among participants. See
+/// ``value(splitValue:amount:)`` for the per-mode arithmetic.
 public enum TransactionSplitMode: Int, CaseIterable, CashlyEntity, Sendable {
+    /// Divide `amount` evenly across `splitValue` participants.
     case equal = 0
+    /// Each participant owes a fixed amount equal to `splitValue`.
     case fixedAmount = 1
+    /// Each participant owes `amount * splitValue` (0–1 range).
     case percentage = 2
+    /// One participant pays the full amount; others are tracked as
+    /// owing 0.
     case payerBased = 3
     
     public var id: Int { rawValue }
