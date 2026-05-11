@@ -77,8 +77,24 @@ Chave composta para identificação de domínio. Cases:
 - `CashlyDomain/Utils/CashlyKey.swift`
 
 ### **CashlyError**
-Erro de domínio único. Cases: `.onFetch`, `.onSave`, `.onRemove`. ⚠️ `description = ""` — não carrega mensagem.
+Erro de domínio raiz. Cases atuais: `.onFetch`, `.onSave`, `.onRemove`. `description = ""` — sem mensagem user-facing (gap G009). Migração planejada para hierarquia:
+- **PersistenceError**: falhas de SwiftData/CRUD (`onFetch`, `onSave`, `onRemove` migram aqui).
+- **DomainError**: violações de regra de negócio (ex: Budget sem Category, valor negativo).
+- **PresentationError**: estado inválido em ViewModel/Reducer (ex: ação sem store ativo).
 - `CashlyDomain/Utils/CashlyError.swift`
+- Ver G009 em `migration/gap-analysis.md` para roadmap.
+
+### **BalanceScore**
+Pontuação de saúde financeira derivada do conjunto de `Score`s do usuário. Provável agregado calculado em `MainState` a partir de transações do período corrente. Termo inferido — confirmar se existe tipo `BalanceScore` ou se é apenas exibição de `Score.score` no dashboard.
+- ⚠️ _(precisa revisão)_ Verificar se BalanceScore é tipo concreto ou label UI.
+
+### **ScoreLevel**
+Nível semântico de um `Score`. Correlacionado com `Score.color` atual (red/orange/yellow/green). Candidato a substituir `SwiftUI.Color` no Domain por enum com semântica:
+- `.critical` — score muito abaixo do mínimo (vermelho)
+- `.atRisk` — score abaixo do esperado (laranja)
+- `.overBudget` — score ligeiramente acima (amarelo)
+- `.healthy` — score dentro do intervalo saudável (verde)
+- Estratégia G004 em `migration/gap-analysis.md` propõe introduzir `ScoreLevel` (ou `SeverityLevel`) no Domain, eliminando `SwiftUI.Color` de `Score.swift`.
 
 ## Termos de Intelligence
 

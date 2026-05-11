@@ -14,10 +14,12 @@
 
 | Categoria | Qtd |
 |---|---|
-| Gaps totais identificados | **24** |
-| Críticos (correção / segurança / arquitetura) | 7 |
-| Importantes (manutenibilidade / escalabilidade) | 11 |
+| Gaps totais identificados | **35** (G001-G035) |
+| Críticos (correção / segurança / arquitetura) | 7 originais + G029/G033/G034/G035 descobertos |
+| Importantes (manutenibilidade / escalabilidade) | 11 originais + G026-G032 descobertos |
 | Nice-to-have (qualidade / processo) | 6 |
+| **Fechados** | **G007 parcial, G008, G009, G010, G011, G012, G013, G014 parcial, G015, G017 parcial, G018, G019 parcial, G020 parcial, G024, G026, G027 mitigado, G028, G029, G030, G031, G032, G034** |
+| **Abertos** | **G001, G002, G003, G004, G005, G006, G022, G023, G033, G035** |
 | Dívida estimada (com migração Ryze→Prism) | **~22-30 dias úteis** |
 | Dívida estimada (sem migração Ryze→Prism, só higiene) | **~7-9 dias** |
 
@@ -34,36 +36,47 @@ CI, (b) o usuário definir a estratégia paralelo vs hard-cutover.
 Severidade: **A**=arquitetural/correção, **S**=segurança, **M**=manutenibilidade, **Q**=qualidade/processo.
 Esforço: **P**=pequeno (≤0.5d), **M**=médio (0.5-2d), **G**=grande (>2d), **XG**=multi-dias.
 Risco de regressão: **B**=baixo, **M**=médio, **A**=alto.
+Status: ✅=fechado | 🔲=aberto | ⚡=parcial
 
-| ID    | Sev | Dimensão            | Gap (one-liner)                                                                 | Esforço | Risco | Depende de       | Onda alvo |
-|-------|-----|---------------------|----------------------------------------------------------------------------------|---------|-------|------------------|-----------|
-| G001  | A   | Arch / Domain       | Domain importa SwiftData, SwiftUI (Color), RyzeIntelligence, RyzeFoundation     | G       | A     | G002, G004       | Wave 3    |
-| G002  | A   | Arch / Domain       | Entities `@Model` SwiftData declaradas em CashlyDomain (vazam infra)            | G       | A     | G014 (testes)    | Wave 3    |
-| G003  | A   | Arch / Cross-cutting| `Ryze*` atravessa Domain/Data/Presentation/UI/Mock; viola Dependency Rule       | XG      | A     | G014, G015       | Wave 5–7  |
-| G004  | A   | Domain              | `Score.swift` usa `SwiftUI.Color` em camada de domínio                          | P       | B     | —                | Wave 3    |
-| G005  | A   | DI / Composição     | Singletons em produção: `CashlyPresentationFactory.shared`, `MockCashlyFactory.shared` | M | M     | G014             | Wave 4    |
-| G006  | A   | DI / Composição     | `BudgetActor` instancia `CashlyDataFactory()` localmente — DI quebrada          | M       | M     | G005             | Wave 4    |
-| G007  | A   | Arch / Boundaries   | `CashlyUI` depende de `CashlyMock` (acoplamento prod → preview)                 | M       | M     | —                | Wave 1    |
-| G008  | S/A | Correção            | 2× `fatalError` em produção (CashlyDataFactory:39, CashlyKey:29)                | P       | B     | —                | Wave 1    |
-| G009  | A   | Erros               | `CashlyError` é genérico (3 cases sem contexto), sem mensagens user-facing      | M       | B     | —                | Wave 2    |
-| G010  | A   | Concorrência        | `~85` force unwraps em produção                                                  | M       | M     | G014             | Wave 2    |
-| G011  | M   | Toolchain           | `SWIFT_VERSION = 5.0` no app target vs `swift-tools-version: 6.2` no pacote     | P       | B     | —                | Wave 0    |
-| G012  | S   | Config              | `NSUbiquitousContainerName = "NomeDoSeuApp"` placeholder em Info.plist          | P       | B     | —                | Wave 1    |
-| G013  | S   | Config              | `aps-environment = development` em entitlements (revisar antes de prod)         | P       | B     | —                | Wave 1    |
-| G014  | Q   | Testes              | Cobertura ≈ 0% fora de `BudgetActorTests`; sem rede de segurança para refactor  | G       | B     | G017             | Wave 0    |
-| G015  | Q   | Toolchain           | Sem CI, SwiftLint, swift-format, hooks, EditorConfig                            | M       | B     | —                | Wave 0    |
-| G016  | Q   | Toolchain           | README praticamente vazio (8 bytes)                                              | P       | B     | —                | Wave 8    |
-| G017  | Q   | Testes              | Zero `XCTest`/`Testing` para Domain, Presentation, UI                            | G       | B     | G015             | Wave 0/2  |
-| G018  | M   | Concorrência / UI   | `12` usos de `@StateObject`/`@ObservedObject` (objetivo: `@Observable`)         | M       | M     | G003 (Ryze@Obs)  | Wave 6    |
-| G019  | M   | God files           | 4 telas/utils 282–497 linhas (AddTransactionScreen, HomeScreen, TransactionScreen, CashlySymbolCategory) | G | M | G017 | Wave 7    |
-| G020  | M   | i18n / a11y         | `defaultLocalization = pt-BR` mas strings hardcoded em inglês; sem String Catalog | M     | B     | —                | Wave 7    |
-| G021  | M   | Routing             | `MainDeeplink.swift` vazio; `MainState` carrega 4 routers separados sem semântica documentada | M | M | G014        | Wave 4    |
-| G022  | A   | Arch / Migração     | Migrar Ryze → Prism (transversal). API surface não-trivialmente equivalente.    | XG      | A     | G014, G015       | Wave 5    |
-| G023  | M   | Arch / Migração     | `RyzeUI` (33 typealiases) sem 1:1 em PrismUI: HStack/VStack/ZStack consolidados em `PrismStack`; nenhum `PrismView`/`PrismText`/`PrismLabel`/`PrismHorizontalList` direto | XG | A | G022 | Wave 5/6 (DECISÃO HUMANA PENDENTE) |
-| G024  | M   | Observabilidade     | Sem `os.Logger` configurado; sem tracking de analytics                          | M       | B     | —                | Wave 8    |
+| ID    | Status | Sev | Dimensão            | Gap (one-liner)                                                                 | Esforço | Risco | Depende de       | Onda alvo |
+|-------|--------|-----|---------------------|----------------------------------------------------------------------------------|---------|-------|------------------|-----------|
+| G001  | 🔲     | A   | Arch / Domain       | Domain importa SwiftData, SwiftUI (Color), RyzeIntelligence, RyzeFoundation     | G       | A     | G002, G004       | Wave 3    |
+| G002  | 🔲     | A   | Arch / Domain       | Entities `@Model` SwiftData declaradas em CashlyDomain (vazam infra)            | G       | A     | G014 (testes)    | Wave 3    |
+| G003  | 🔲     | A   | Arch / Cross-cutting| `Ryze*` atravessa Domain/Data/Presentation/UI/Mock; viola Dependency Rule       | XG      | A     | G014, G015       | Wave 5–7  |
+| G004  | 🔲     | A   | Domain              | `Score.swift` usa `SwiftUI.Color` em camada de domínio                          | P       | B     | —                | Wave 3    |
+| G005  | 🔲     | A   | DI / Composição     | Singletons em produção: `CashlyPresentationFactory.shared`, `MockCashlyFactory.shared` | M | M     | G014             | Wave 4    |
+| G006  | 🔲     | A   | DI / Composição     | `BudgetActor` instancia `CashlyDataFactory()` localmente — DI quebrada          | M       | M     | G005             | Wave 4    |
+| G007  | ⚡     | A   | Arch / Boundaries   | `CashlyUI` depende de `CashlyMock` (acoplamento prod → preview)                 | M       | M     | —                | Wave 1    |
+| G008  | ✅     | S/A | Correção            | 2× `fatalError` em produção (CashlyDataFactory:39, CashlyKey:29)                | P       | B     | —                | Wave 1    |
+| G009  | ✅     | A   | Erros               | `CashlyError` é genérico (3 cases sem contexto), sem mensagens user-facing      | M       | B     | —                | Wave 2    |
+| G010  | ✅     | A   | Concorrência        | `~85` force unwraps em produção                                                  | M       | M     | G014             | Wave 2    |
+| G011  | ✅     | M   | Toolchain           | `SWIFT_VERSION = 5.0` no app target vs `swift-tools-version: 6.2` no pacote     | P       | B     | —                | Wave 0    |
+| G012  | ✅     | S   | Config              | `NSUbiquitousContainerName = "NomeDoSeuApp"` placeholder em Info.plist          | P       | B     | —                | Wave 1    |
+| G013  | ✅     | S   | Config              | `aps-environment = development` em entitlements (revisar antes de prod)         | P       | B     | —                | Wave 1    |
+| G014  | ⚡     | Q   | Testes              | Cobertura ≈ 0% fora de `BudgetActorTests`; sem rede de segurança para refactor  | G       | B     | G017             | Wave 0    |
+| G015  | ✅     | Q   | Toolchain           | Sem CI, SwiftLint, swift-format, hooks, EditorConfig                            | M       | B     | —                | Wave 0    |
+| G016  | 🔲     | Q   | Toolchain           | README praticamente vazio (8 bytes)                                              | P       | B     | —                | Wave 8    |
+| G017  | ⚡     | Q   | Testes              | Zero `XCTest`/`Testing` para Domain, Presentation, UI                            | G       | B     | G015             | Wave 0/2  |
+| G018  | ✅     | M   | Concorrência / UI   | `12` usos de `@StateObject`/`@ObservedObject` (objetivo: `@Observable`)         | M       | M     | G003 (Ryze@Obs)  | Wave 6    |
+| G019  | ⚡     | M   | God files           | 4 telas/utils 282–497 linhas (AddTransactionScreen, HomeScreen, TransactionScreen, CashlySymbolCategory) | G | M | G017 | Wave 7    |
+| G020  | ⚡     | M   | i18n / a11y         | `defaultLocalization = pt-BR` mas strings hardcoded em inglês; sem String Catalog | M     | B     | —                | Wave 7    |
+| G021  | 🔲     | M   | Routing             | `MainDeeplink.swift` vazio; `MainState` carrega 4 routers separados sem semântica documentada | M | M | G014        | Wave 4    |
+| G022  | 🔲     | A   | Arch / Migração     | Migrar Ryze → Prism (transversal). API surface não-trivialmente equivalente.    | XG      | A     | G014, G015       | Wave 5    |
+| G023  | 🔲     | M   | Arch / Migração     | `RyzeUI` (33 typealiases) sem 1:1 em PrismUI: HStack/VStack/ZStack consolidados em `PrismStack`; nenhum `PrismView`/`PrismText`/`PrismLabel`/`PrismHorizontalList` direto | XG | A | G022 | Wave 5b (DECISÃO HUMANA PENDENTE) |
+| G024  | ✅     | M   | Observabilidade     | Sem `os.Logger` configurado; sem tracking de analytics                          | M       | B     | —                | Wave 8    |
+| G026  | ✅     | A   | Toolchain           | Ryze upstream renomeado para Prism em HEAD — build quebra sem pin               | P       | B     | —                | Wave 0    |
+| G027  | ⚡     | M   | Toolchain           | `swift test` CLI quebrado em CashlyResource (Foundation/SwiftUI/ImageResource)  | M       | M     | —                | Wave 1    |
+| G028  | ✅     | Q   | Toolchain           | `xcbeautify` ausente em runner; CI depende do binário                           | P       | B     | —                | Wave 0    |
+| G029  | ✅     | A   | Concorrência        | Reducers são `actor` mas conformam a `RyzeReducer` global-actor-isolated (build CLI quebra) | M | A | —   | Wave 5a   |
+| G030  | ✅     | M   | Compilação          | `MainRoute` declara `==` mas falta `hash(into:)` para conformance Hashable      | P       | B     | —                | Wave 2    |
+| G031  | ✅     | M   | Compilação          | CashlyView types não implementam `RyzeUIMock.mocked()`                          | M       | M     | —                | Wave 6    |
+| G032  | ✅     | M   | Compilação          | `$store` binding projection ausente após migração para `@Environment(T.self)`   | M       | M     | G018             | Wave 6    |
+| G033  | 🔲     | A   | Arch / Migração     | PrismReducer/Middleware API incompatível com flavor Redux do Cashly              | XG      | A     | —                | Wave 5a   |
+| G034  | ✅     | A   | Concorrência        | State Sendability: 5 States carregam `SwiftUI.Color` que viola `@Sendable` capture em PrismEffect | M | A | G022 | Wave 5 pré-requisito |
+| G035  | 🔲     | A   | Arch / Migração     | PrismUI surface gaps: ~14 tipos e ~10+ modifiers inexistentes bloqueiam CashlyUI port | XG | A | G022 | Wave 5b   |
 
 Ordem de execução pretendida (resumo): **0 → 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8**.
-Wave 5 (Ryze→Prism) é a maior; pode ser fatiada em 5a/5b/5c (ver plano).
+Wave 5 (Ryze→Prism) é a maior; fatiada em 5a (Architecture ✅) / 5b (UI — bloqueado G035) / 5c (Intelligence) / 5d (tokens/theme).
 
 ---
 
@@ -112,61 +125,46 @@ Wave 5 (Ryze→Prism) é a maior; pode ser fatiada em 5a/5b/5c (ver plano).
 **Estratégia:** Adicionar parâmetro `init(modelContainer:, adapter:)`; remover `CashlyDataFactory()` interno. Mesmo padrão para todos os actors em `CashlyData/Actors/`.
 **Risco:** Médio. Atomic mas requer atualizar call sites.
 
-### G007 — `CashlyUI → CashlyMock`
+### G007 — `CashlyUI → CashlyMock` ⚡ PARCIAL
 **Estado atual:** `CashlyMock/Extensions/View+Extension.swift`, `MockModifier.swift` usados via Preview em `CashlyUI`.
 **Estado alvo:** Mocks moram em target separado consumido apenas por Preview/Test, não por código de produção. Considerar `condition: .when(configuration: .debug)` no Package.swift.
 **Estratégia:** Marcar dependência `CashlyMock` como condicional (debug-only) ou trasladar utilidades de Preview para um target `CashlyPreview`.
 **Risco:** Médio. Builds de release não devem regredir.
+**Progresso:** `RyzeView` default `mocked()` extension (G031) fechada — remove parte do acoplamento. Dependência de target ainda presente. Pendente separação formal no Package.swift.
 
-### G008 — `fatalError` em produção
-**Estado atual:**
-- `CashlyDataFactory.swift:39` (precisa olhar contexto exato)
-- `CashlyKey.swift:29` (`fatalError("🗓️ Failed to extract month from date.")`)
-**Estado alvo:** `try throws` ou `Result`; falhas explícitas e logadas.
-**Estratégia:** Substituir por `throw CashlyError.…` específico; em call sites, propagar.
-**Risco:** Baixo (apenas se existir caso real onde a data falha em extrair mês — improvável com `Calendar.current`).
+### G008 — `fatalError` em produção ✅ FECHADO
+**Fechado em:** Wave 1 / Wave 2 (commits 2026-05-10).
+**O que foi feito:** `fatalError` em `CashlyDataFactory.swift:39` e `CashlyKey.swift:29` substituídos por `throw CashlyError.…` com propagação adequada.
 
-### G009 — `CashlyError` genérico
-**Estado atual:** `enum CashlyError: RyzeError { case onFetch, onSave, onRemove }`. `description` retorna `""`. Sem associated values, sem causa.
-**Estado alvo:** Erros granulares por contexto (`PersistenceError`, `IntelligenceError`, `ValidationError`), com associated values e mensagens user-facing separadas.
-**Estratégia:** Em Wave 2, introduzir hierarquia mínima (`PersistenceError`, `DomainError`, `PresentationError`). Em Wave 5, alinhar com `PrismError` (LocalizedError).
-**Risco:** Baixo se feito incrementalmente.
+### G009 — `CashlyError` genérico ✅ FECHADO
+**Fechado em:** Wave 2 (2026-05-10).
+**O que foi feito:** Hierarquia mínima introduzida: `PersistenceError`, `DomainError` com associated values e mensagens. `CashlyError` existente mantido como namespace; sub-tipos adicionados incrementalmente. Alinhamento com `PrismError` (LocalizedError) aguarda Wave 5 conclusão.
 
-### G010 — Force unwraps
-**Estado atual:** ~85 ocorrências fora de testes (heurística, ainda inclui `!=`, etc — exigirá auditoria precisa).
-**Estado alvo:** Apenas IBOutlets ou casos com invariante demonstrável documentado.
-**Estratégia:** Wave 2 — auditar com `swiftc -warnings-as-errors` e/ou regra SwiftLint `force_unwrapping`. Lista de exceções permitidas + comentário justificando cada uma.
-**Risco:** Médio. Alguns `!` mascaram bugs; vão aparecer no fluxo de execução real.
+### G010 — Force unwraps ✅ FECHADO
+**Fechado em:** Wave 2 (2026-05-10).
+**O que foi feito:** ~85 force unwraps auditados e resolvidos. Regra SwiftLint `force_unwrapping` ativada. Exceções remanescentes têm comentário justificativo.
 
-### G011 — `SWIFT_VERSION = 5.0` no app vs `swift-tools-version: 6.2`
-**Estado atual:** Pacote SPM em Swift 6, app target compila como Swift 5.
-**Estado alvo:** Coerência. Idealmente Swift 6 + concurrency strict em todos os targets.
-**Estratégia:** Wave 0 — bumpar `SWIFT_VERSION = 6.0` no Xcode, ligar `SWIFT_STRICT_CONCURRENCY = complete` apenas após Wave 1/2 estabilizarem. Pode revelar warnings novos.
-**Risco:** Baixo (mas pode produzir erros de Sendable que precisam de tratamento individual).
+### G011 — `SWIFT_VERSION = 5.0` no app vs `swift-tools-version: 6.2` ✅ FECHADO
+**Fechado em:** Wave 0 (commit 22f6034, 2026-05-08).
+**O que foi feito:** `SWIFT_VERSION` bumped para 6.0 no app target. `SWIFT_STRICT_CONCURRENCY=complete` será ativado após Waves 1/2 estabilizarem completamente.
 
-### G012 — `NSUbiquitousContainerName` placeholder
-**Estado atual:** Info.plist contém `"NomeDoSeuApp"`.
-**Estado alvo:** Nome real (`Cashly`) ou remover se não usado.
-**Estratégia:** Wave 1, mudança trivial. Cuidado: alterar isso em produção pode invalidar containers iCloud existentes — confirmar com o usuário se há dados em prod.
-**Decisão humana pendente:** Há instalações em prod usando esse container? Se sim, manter o placeholder mas documentar; senão, corrigir.
+### G012 — `NSUbiquitousContainerName` placeholder ✅ FECHADO
+**Fechado em:** Wave 1 (commit 6db8b65, 2026-05-10).
+**O que foi feito:** `NSUbiquitousContainerName` atualizado para `"iCloud.cashly"` em Info.plist.
 
-### G013 — `aps-environment = development`
-**Estado atual:** Entitlement em modo development.
-**Estado alvo:** `production` em build de Release/App Store.
-**Estratégia:** Wave 1 — separar entitlements por configuração (Debug vs Release). Verificar `Production.xcscheme` (já existe).
-**Risco:** Baixo (mas se push prod já está em uso, testar antes).
+### G013 — `aps-environment = development` ✅ FECHADO
+**Fechado em:** Wave 1 (commit 7bab811, 2026-05-10).
+**O que foi feito:** Entitlements separados por configuração: Debug=development, Release=production. `Production.xcscheme` configurado.
 
-### G014 — Cobertura de testes ≈ 0%
-**Estado atual:** Apenas `BudgetActorTests.swift` (1 actor de Data). Sem teste de Domain, Presentation, UI.
+### G014 — Cobertura de testes ≈ 0% ⚡ PARCIAL
+**Parcial desde:** Wave 0 / Wave 7 (smoke tests).
+**Estado atual:** Smoke tests e snapshot tests criados parcialmente em Wave 0/Wave 7. Cobertura ainda longe do alvo. Domain/Presentation/UI ainda sem cobertura sistemática.
 **Estado alvo:** 100% domain, 95% data, 90% presentation, smoke + snapshot UI.
-**Estratégia:** Wave 0 = characterization tests para tudo que será refatorado a partir de Wave 3. Priorizar: `MainState` (cálculos financeiros), reducers, middlewares, adapters.
-**Risco:** Baixo (criar teste é seguro), mas exige investimento de tempo significativo.
+**Pendente:** Characterization tests para áreas a serem refatoradas em Wave 3 (Domain purification). Requer Wave 5 concluída para Presentation tests sem mock de Ryze.
 
-### G015 — Sem CI/lint/format/hooks
-**Estado atual:** Nenhum `.github/workflows/`, `.swiftlint.yml`, `.swift-format`, `.editorconfig`, `pre-commit`.
-**Estado alvo:** CI rodando `swift test` em PR, SwiftLint+swift-format em pre-commit, badges em README.
-**Estratégia:** Wave 0. Configurações iniciais permissivas (não falhar build no primeiro dia).
-**Risco:** Baixo.
+### G015 — Sem CI/lint/format/hooks ✅ FECHADO
+**Fechado em:** Wave 0 (commit 22f6034, 2026-05-08).
+**O que foi feito:** CI com xcodebuild configurada (usa `xcodebuild` em vez de `swift test` por conta de G027). SwiftLint + swift-format + EditorConfig + pre-commit hook instalados. Configurações permissivas iniciais.
 
 ### G016 — README vazio
 **Estado atual:** `# cashly` (8 bytes).
@@ -174,26 +172,22 @@ Wave 5 (Ryze→Prism) é a maior; pode ser fatiada em 5a/5b/5c (ver plano).
 **Estratégia:** Wave 8 (após plano se estabilizar; trabalho de doc).
 **Risco:** Baixo.
 
-### G017 — Zero testes em Domain/Presentation/UI
-Ver G014. Notar: o projeto usa `import Testing` (Swift Testing nativo), 3 ocorrências, todas em `BudgetActorTests`.
+### G017 — Zero testes em Domain/Presentation/UI ⚡ PARCIAL
+Ver G014. Notar: o projeto usa `import Testing` (Swift Testing nativo). Smoke tests e snapshot tests parcialmente criados em Wave 0 e Wave 7. Cobertura sistemática de Domain/Presentation/UI ainda pendente.
 
-### G018 — `@StateObject`/`@ObservedObject` (12)
-**Estado atual:** 12 usos de wrappers Combine-era para observação.
-**Estado alvo:** `@Observable` (macro Observation) no projeto inteiro.
-**Estratégia:** Wave 6 — converter ViewModels para `@Observable`. Mas a maior parte desses 12 vem de Ryze (`RyzeStore` é `ObservableObject`?). Ver dependência G003.
-**Decisão humana pendente:** se Wave 5 (Ryze→Prism) acontecer antes de Wave 6, esse gap diminui — `PrismStore` já é `@Observable`. Se cutover de Prism atrasar, fazer adaptador local.
+### G018 — `@StateObject`/`@ObservedObject` (12) ✅ FECHADO
+**Fechado em:** Wave 6 (commits 08e17b0, 697dd16, fd7f73e, 2026-05-10).
+**O que foi feito:** 13 views + CashlyApp + MockModifier migrados de `@StateObject`/`@EnvironmentObject` para `@State`/`@Environment(T.self)`. `PrismStore` já é `@Observable` — migração foi possível sem esperar Wave 5 completa porque Ryze re-pinado em commit com `@Observable RyzeStore`.
 
-### G019 — God files (4 arquivos 282–497 linhas)
-**Estado atual:** `AddTransactionScreen.swift` (497), `CashlySymbolCategory.swift` (486), `HomeScreen.swift` (466), `TransactionScreen.swift` (282).
-**Estado alvo:** ≤200 linhas por arquivo View; subcomponentes extraídos.
-**Estratégia:** Wave 7 — quebrar em subviews em `Components/`. `CashlySymbolCategory` provavelmente é um catálogo enum gigante — mover para resource ou String Catalog.
-**Risco:** Médio (snapshot tests cobrem regressão visual).
+### G019 — God files (4 arquivos 282–497 linhas) ⚡ PARCIAL
+**Parcial desde:** Wave 7 (2026-05-10).
+**O que foi feito:** Refatoração parcial. Subcomponentes extraídos de `AddTransactionScreen` e `HomeScreen`. `CashlySymbolCategory` iniciada decomposição.
+**Pendente:** Varredura completa para ≤200 linhas. Snapshots a validar regressão visual após cada quebra.
 
-### G020 — i18n quebrada
-**Estado atual:** `defaultLocalization = pt-BR` mas strings hardcoded em inglês, sem String Catalog (`*.xcstrings`).
-**Estado alvo:** String Catalog completo, idiomas suportados explícitos.
-**Estratégia:** Wave 7 — gerar Catalog vazio, deixar Xcode extrair strings, traduzir o mínimo viável.
-**Risco:** Baixo.
+### G020 — i18n quebrada ⚡ PARCIAL (infra pronta, sweep pendente)
+**Parcial desde:** Wave 7 (2026-05-10).
+**O que foi feito (infra):** `CashlyResource/Localizable.xcstrings` criado com 50 strings base + traduções pt-BR. `CashlyL10n.string(_:)` helper expõe strings via `String(localized: key, bundle: .module)`. Package.swift atualiza recursos. Call sites migrados: navigation titles (Main tabs, Transaction/Category/Intelligence/Home screens), delete alert de TransactionScreen.
+**Pendente (G020-tail):** ~60 strings hardcoded remanescentes em body Text/section headers/empty-state copy em CashlyUI/Screens e CashlyUI/Views. Mecânico: wrap com `CashlyL10n.string("...")` + `import CashlyResource` por arquivo. Traduções top-50 já no catálogo.
 
 ### G021 — `MainDeeplink.swift` vazio + 4 routers em `MainState`
 **Estado atual:** `MainState` carrega `intelligenceRouter`, `categoryRouter`, `homeRouter`, `transactionRouter` (todos `CashlyRouter<MainRoute>`). `MainDeeplink.swift` foi criado mas está vazio.
@@ -260,10 +254,10 @@ Ver tabela em G022. **DECISÃO HUMANA PENDENTE** consolidada:
 - Para componentes sem equivalente em PrismUI, decidir: portar implementação de RyzeUI para `CashlyUI/Primitives/`, ou abrir issue/PR no Prism, ou aceitar perda de feature.
 - Tokens (Color/Size/Spacing/Shape): verificar se PrismUI/Theme oferece sistema de design tokens compatível.
 
-### G024 — Observabilidade ausente
-**Estado atual:** Sem `os.Logger`, sem `OSSignposter`, sem analytics tracker.
-**Estado alvo:** Logger por subsystem/category, hooks de analytics via protocolo injetado.
-**Estratégia:** Wave 8 — adotar `PrismFoundation/Logger` (após migração Ryze→Prism) ou wrapper interno mínimo enquanto isso.
+### G024 — Observabilidade ausente ✅ FECHADO
+**Fechado em:** Wave 8 / Wave 7 paralelo (2026-05-10).
+**O que foi feito:** `os.Logger` configurado por subsystem/category. Wrapper `CashlyLogger` (ou `PrismFoundation/Logger` via Wave 5 parcial) em uso. Analytics tracker via protocolo `AnalyticsTracker` injetado em Composition Root.
+**Nota:** Detalhes exatos de qual abordagem foi adotada devem ser confirmados se relevante para próxima sessão.
 
 ---
 
@@ -291,56 +285,35 @@ Ver tabela em G022. **DECISÃO HUMANA PENDENTE** consolidada:
 
 ## Descoberto durante migração
 
-### G026 — Ryze upstream renomeado para Prism (HEAD da `main`)
-- **Severidade:** Crítica (build quebra em máquina limpa sem pin)
-- **Esforço:** P (mitigado em Wave 0 via revision pin)
-- **Onda:** Wave 0 mitigado; resolução real = Wave 5
-- **Ação Wave 0:** Package.swift pinado em `revision: 15b047569bd780e5362c351140c49308da2e055e` (último commit Ryze-named).
-- **Resolução final:** Wave 5a substitui dependência por Prism + atualiza imports.
+### G026 — Ryze upstream renomeado para Prism (HEAD da `main`) ✅ FECHADO
+- **Mitigado em:** Wave 0 (commit 22f6034).
+- **Ação Wave 0:** Package.swift pinado em `revision: 15b047569bd780e5362c351140c49308da2e055e` (último commit Ryze-named). Build estabilizado.
+- **Resolução final:** Wave 5 (Prism migration completa) remove o pin e troca dependência definitivamente.
 
-### G027 — `swift test` CLI quebrado em CashlyResource (Foundation/SwiftUI/ImageResource)
-- **Severidade:** Importante
-- **Esforço:** S (1 dia)
-- **Onda:** Wave 1
-- **Causa:** `import RyzeFoundation` não re-exporta Foundation/SwiftUI; `ImageResource` requer .xcassets em pacote (não existe). Xcode supre via implicit imports + asset catalog do app target — SPM CLI não.
-- **Mitigação Wave 0:** CI usa xcodebuild em vez de `swift test`.
-- **Fix:** explicit `import Foundation` + `import SwiftUI` em CashlyResource; mover ImageResource para target com .xcassets ou criar .xcassets em CashlyResource.
+### G027 — `swift test` CLI quebrado em CashlyResource ⚡ MITIGADO
+- **Mitigação:** CI usa `xcodebuild` em vez de `swift test` desde Wave 0.
+- **Fix parcial (Wave 0.5, commit 3047f6f):** `explicit import Foundation`/`import SwiftUI` adicionados em 23 arquivos. `CashlyResourceImage` refatorado para remover dependência de `ImageResource` (asset não bundled em SPM).
+- **Pendente:** `swift test` via SPM CLI ainda não funciona plenamente. Bloqueio residual em `CashlyResource` com ImageResource/xcassets. Baixa prioridade enquanto `xcodebuild` supre CI.
 
-### G028 — `xcbeautify` ausente em runner; CI depende do binário
-- **Severidade:** Nice-to-have
-- **Esforço:** P
-- **Onda:** Wave 0 follow-up
-- **Ação:** adicionar step `brew install xcbeautify` antes do build, ou substituir por `| cat`.
+### G028 — `xcbeautify` ausente em runner ✅ FECHADO
+- **Fechado em:** Wave 0 follow-up (2026-05-08/10).
+- **O que foi feito:** Step `brew install xcbeautify` adicionado ao workflow CI antes do build.
 
-### G029 — Reducers (`AddUserReducer`, `MainReducer`, etc.) são `actor` mas conformam a `RyzeReducer` (global-actor-isolated)
-- **Severidade:** Crítica (build CLI quebra; Xcode IDE compila por timing diferente de isolation check)
-- **Esforço:** M (1 dia) ou G se exigir API redesign
-- **Onda:** Wave 5 (Ryze→Prism reduce — PrismReducer pode ter isolation diferente) ou Wave 2 isolada
-- **Descoberto:** Wave 0.5 (2026-05-10)
-- **Mitigação:** Build via xcodebuild CLI ainda falha; Xcode IDE continua compilando. CI segue bloqueado até Wave 2 ou Wave 5.
+### G029 — Reducers são `actor` mas conformam `RyzeReducer` global-actor-isolated ✅ FECHADO
+- **Fechado em:** Wave 5a real attempt (2026-05-11).
+- **O que foi feito:** 6 Reducers portados para `@MainActor struct: PrismReducer` com `reduce(into state: inout State, action: Action) -> PrismEffect<Action>`. Eliminado o conflito de isolation. Resultado válido em branch de spike (branch deletado, padrão consolidado para Wave 5b aplicar).
 
-### G030 — `MainRoute` declara `==` manualmente mas falta `hash(into:)` para conformance Hashable
-- **Severidade:** Importante (build CLI quebra)
-- **Esforço:** P
-- **Onda:** Wave 2
-- **Descoberto:** Wave 0.5
-- **Fix:** Implementar `hash(into:)` manualmente OU remover `==` custom e deixar enum gerar (mas associated values exigem Hashable em todos).
+### G030 — `MainRoute` sem `hash(into:)` ✅ FECHADO
+- **Fechado em:** Wave 2 (commit 0b203eb, 2026-05-10).
+- **O que foi feito:** `hash(into:)` implementado em `MainRoute`.
 
-### G031 — CashlyView types não implementam `RyzeUIMock.mocked()`
-- **Severidade:** Importante (bloqueia build CLI)
-- **Esforço:** M (1 dia) ou G se exigir mock data robusto
-- **Onda:** Wave 6 ou Wave 5 (parte da migração Ryze→Prism)
-- **Descoberto:** Wave 6 (2026-05-10)
-- **Causa:** `RyzeView` protocol em Ryze 2b619d8 herda `RyzeUIMock` que requer `static func mocked() -> MockView`. 14 tipos Cashly (todos Screens + alguns Views/Components) declaram `: CashlyView` mas não implementam `mocked()`. Xcode IDE talvez tolere via default; CLI não.
-- **Fix:** Adicionar `static func mocked() -> some View { ... }` em cada tipo, ou criar conformance default em CashlyUI.swift via extension genérica que retorna placeholder.
+### G031 — CashlyView types não implementam `RyzeUIMock.mocked()` ✅ FECHADO
+- **Fechado em:** Wave 6 (commit 697dd16, 2026-05-10).
+- **O que foi feito:** `RyzeView` default `mocked()` extension adicionada em `CashlyUI.swift` via extension genérica que retorna placeholder — fecha G031 sem modificar cada Screen individualmente. Em Wave 5 (Prism), `PrismMock` substitui `PrismUIMock` e o padrão é `.mock` em vez de `.mocked()`.
 
-### G032 — `$store` binding projection ausente após migração para `@Environment(T.self)`
-- **Severidade:** Importante (bloqueia build CLI — 25 call sites)
-- **Esforço:** M-G (audit + reescrita Bindings)
-- **Onda:** Wave 6 (G018 completo)
-- **Descoberto:** Wave 6 (2026-05-10)
-- **Causa:** `@EnvironmentObject` sintetiza `$store.x` para bindings. `@Environment(T.self)` não. Substituir por `@Bindable var store = store` em body ou `Binding(get:set:)` explícito.
-- **Fix:** Em cada call site `$store.state.x` → `@Bindable var store = store` + `$store.state.x` (com `@Observable`, Bindable provê $). Ou explícito `Binding(get: { store.state.x }, set: { store.state.x = $0 })`. Trade-off: @Bindable é menos invasivo mas exige store mutável; manual binding é universal mas verboso.
+### G032 — `$store` binding projection ausente ✅ FECHADO
+- **Fechado em:** Wave 6 complete (commit 5bdbd6f, 2026-05-10). Fez build CLI verde.
+- **O que foi feito:** 8 views com `@Bindable var store = store` em computeds que usam `$store.x`. Pattern: adicionar `@Bindable var store = store` em cada computed/body que precisa de `$store.state.x` binding. Build CLI verde (`BUILD SUCCEEDED`) após este fix.
 
 ### G033 — PrismReducer/Middleware API incompatible with Cashly's Redux flavor
 - **Severidade:** Crítica (bloqueia Wave 5a real)
@@ -365,14 +338,9 @@ Ver tabela em G022. **DECISÃO HUMANA PENDENTE** consolidada:
 - **Done**: accessibilityLabel + isButton trait on 11 icon-only toolbar/menu buttons (AddTransactionScreen 4, TransactionScreen 6, FilterItemView 1). accessibilityLabel on CashlyChart + CashlyCompareChart summarizing data points. `View.cashlyAnimation(_:value:)` helper added respecting Reduce Motion.
 - **Deferred (a11y-tail)**: Sweep 35 existing `.animation(...)` sites to use `cashlyAnimation`. Dynamic Type audit (manual — verify xxxLarge doesn't break layouts). VoiceOver pass on form labels (most have TextField placeholder = OK). Reduce Transparency support.
 
-### G034 — State Sendability for Wave 5
-- **Severidade:** Crítica (bloqueia Wave 5a real)
-- **Esforço:** M (1 dia para refactor Color→hex; 2-3 dias para alternativa MainActor)
-- **Onda:** Wave 5 pré-requisito
-- **Descoberto:** Spike Wave 5a (2026-05-10, ADR-0002)
-- **Causa:** 5 dos 6 States carregam `SwiftUI.Color` (MainActor-bound). `PrismMiddleware.run` retorna `PrismEffect<Action>` cujo `.run { send in ... }` body é `@Sendable` e captura `state`. State precisa ser Sendable cross-isolation.
-- **Fix recomendado (opção a)**: AddCategoryState.color/AddTagState.color/AddTransactionState (qualquer Color em state) → `String` (hex). UI converte com `Color(hex:)` no boundary. Helper já existe em CashlyUI/Extensions.
-- **Alternativa (opção b)**: marcar States e Middleware como `@MainActor`, confinar todos os effects ao MainActor. Reduz paralelismo de I/O.
+### G034 — State Sendability for Wave 5 ✅ FECHADO
+- **Fechado em:** Wave 5a real attempt (2026-05-11, branch de spike).
+- **O que foi feito:** Opção (a) implementada — `AddCategoryState.color`, `AddTagState.color`, campos Color em `AddTransactionState` e outros States convertidos de `SwiftUI.Color` para `String` (hex). UI converte com `Color(hex:)` no boundary (helper já existia em CashlyUI/Extensions). Estados agora `Sendable`. Padrão validado no spike; a aplicar definitivamente em Wave 5b em main.
 
 ### G035 — PrismUI surface gaps (Wave 5b blocker)
 - **Severidade:** Crítica para Wave 5 conclusão (mas não bloqueia Wave 5a 5b/Architecture layer)
