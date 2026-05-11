@@ -17,7 +17,7 @@ public typealias CashlySize = RyzeSize
 public typealias CashlyShape = RyzeShape
 public typealias CashlyView = RyzeView
 // CashlySpacer: Cashly-owned struct (see CashlySpacer.swift).
-public typealias CashlyButton = RyzeButton
+// CashlyButton: Cashly-owned (see CashlyButton.swift).
 public typealias CashlySection = RyzeSection
 // CashlyHStack/VStack/ZStack: Cashly-owned (see CashlyStacks.swift).
 // CashlySymbol: Cashly-owned struct (see CashlySymbol.swift).
@@ -28,7 +28,7 @@ public typealias CashlyTextFieldConfiguration = RyzeTextFieldConfiguration
 public typealias CashlyList = RyzeList
 public typealias CashlyHorizontalList = RyzeHorizontalList
 public typealias CashlyAsyncImage = RyzeAsyncImage
-public typealias CashlyLabel = RyzeLabel
+// CashlyLabel: Cashly-owned (see CashlyLabel.swift).
 public typealias CashlyBrowserView = RyzeBrowserView
 public typealias CashlyLocale = RyzeLocale
 public typealias CashlyNavigationView = RyzeNavigationView
