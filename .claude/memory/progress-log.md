@@ -1,3 +1,20 @@
+## 2026-05-11 — Wave 5y (final imports audit: Foundation/Domain/Resource/PrismArchitecture)
+
+**Tipo**: chore
+**Módulos**: 17 arquivos trimmed across Domain/Data/Presentation/UI/Mock
+**Resumo**: Wave 5x continuação. Audit + drops:
+- 7 unused `import Foundation` (Score, Participant, CashlyError, MainState, CashlySymbolCategory(+Symbols), AddTransactionMiddleware); 3 SwiftData actors explicit-kept (CategoryActor/TagActor/ParticipantActor — need Foundation para Predicate macro).
+- 1 unused `import CashlyDomain` (CashlyMenuSelectionView).
+- 3 unused `import CashlyResource` (AddTransactionScreen, TransactionBalanceView, MainState).
+- 8 unused `import PrismArchitecture` (CashlyStore typealias resolve via CashlyPresentation re-export); 2 explicit-kept para factory files que retornam CashlyStore<...> em public API (CashlyPresentationFactory + MockCashlyFactory).
+Total: 19 import lines removidas em 3 commits. 336 tests ainda passing.
+**Impacto**: Build mais limpo. Cada arquivo importa só o que usa. Acoplamento real entre modules reflete graph dependencies.
+**ADR**: nenhum
+**PRs**: 3 commits em main
+**Aprendizados**: Public API com generic type retornado (e.g., `func make() -> CashlyStore<S, A>`) requer import do módulo definidor mesmo quando há typealias — Swift type resolution não chase aliases through module boundaries para public surfaces.
+
+---
+
 ## 2026-05-11 — Wave 5x (hygiene: drop unused imports + DesignSystem dep prune)
 
 **Tipo**: chore
