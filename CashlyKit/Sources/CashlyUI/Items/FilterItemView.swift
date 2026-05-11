@@ -73,9 +73,8 @@ struct FilterItemView: CashlyView {
     
     @ViewBuilder
     var toggleDateMenu: some View {
-        @Bindable var store = store
         return Menu {
-            Toggle(isOn: $store.state.filter.isFilteringByDate) {
+            Toggle(isOn: store.cashlyBinding(\.filter).isFilteringByDate) {
                 CashlyText(CashlyL10n.string("Filter by Date"))
             }
             
@@ -122,7 +121,7 @@ struct FilterItemView: CashlyView {
                     Divider()
                     
                     CashlyButton {
-                        store.state.filter.startDate = .now
+                        store.cashlyMutate(\.filter.startDate, .now)
                     } label: {
                         CashlyLabel(CashlyL10n.string("Today"), symbol: "location")
                     }
@@ -137,15 +136,14 @@ struct FilterItemView: CashlyView {
     func updateDate() {
         let month = month.date(with: .cashly(.month))?.string(with: .cashly(.numberMonth))?.int ?? 0
         let date = ((year * 100) + month).string.date(with: .cashly(.yearMonth)) ?? .now
-        store.state.filter.startDate = date
+        store.cashlyMutate(\.filter.startDate, date)
     }
     
     @ViewBuilder
     var categoriesMenu: some View {
-        @Bindable var store = store
         CashlyMenuSelectionView(
             items: state.filter.allCategories,
-            selectedItems: $store.state.filter.categories
+            selectedItems: store.cashlyBinding(\.filter).categories
         ) { category in
             CashlyText(category.name.capitalized)
         } label: {
@@ -159,10 +157,9 @@ struct FilterItemView: CashlyView {
     
     @ViewBuilder
     var tagsMenu: some View {
-        @Bindable var store = store
         CashlyMenuSelectionView(
             items: state.filter.allTags,
-            selectedItems: $store.state.filter.tags
+            selectedItems: store.cashlyBinding(\.filter).tags
         ) { tag in
             CashlyText(tag.name.capitalized)
         } label: {
@@ -176,10 +173,9 @@ struct FilterItemView: CashlyView {
     
     @ViewBuilder
     var statusesMenu: some View {
-        @Bindable var store = store
         CashlyMenuSelectionView(
             items: state.filter.allStatuses,
-            selectedItems: $store.state.filter.transactionStatuses
+            selectedItems: store.cashlyBinding(\.filter).transactionStatuses
         ) { status in
             CashlyText(status.summary)
         } label: {
@@ -193,10 +189,9 @@ struct FilterItemView: CashlyView {
     
     @ViewBuilder
     var participantsMenu: some View {
-        @Bindable var store = store
         CashlyMenuSelectionView(
             items: state.users,
-            selectedItems: $store.state.filter.participants
+            selectedItems: store.cashlyBinding(\.filter).participants
         ) { user in
             CashlyText(user.name)
         } label: {
@@ -218,12 +213,14 @@ struct FilterItemView: CashlyView {
             !state.filter.participants.isEmpty {
             Divider()
             CashlyButton {
-                store.state.filter.isFilteringByDate = true
-                store.state.filter.startDate = Date.now
-                store.state.filter.categories = []
-                store.state.filter.tags = []
-                store.state.filter.transactionStatuses = []
-                store.state.filter.participants = []
+                var filter = store.state.filter
+                filter.isFilteringByDate = true
+                filter.startDate = Date.now
+                filter.categories = []
+                filter.tags = []
+                filter.transactionStatuses = []
+                filter.participants = []
+                store.cashlyMutate(\.filter, filter)
             } label: {
                 CashlyLabel(CashlyL10n.string("Clear"), symbol: "eraser.line.dashed")
             }

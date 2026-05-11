@@ -14,9 +14,10 @@ extension AddTransactionScreen {
         switch predictionResult {
         case .textClassification(let value):
             let category = value.lowercased()
-            store.state.budget = state.budgets.first(where: {
+            let matched = state.budgets.first(where: {
                 $0.category.name.lowercased() == category
             }) ?? state.budget
+            store.cashlyMutate(\.budget, matched)
         default:
             break
         }
@@ -24,7 +25,7 @@ extension AddTransactionScreen {
 
     func handlerInitialState() async {
         if let initialState {
-            store.state = initialState
+            store.cashlyReplace(initialState)
         }
         try? await Task.sleep(for: .seconds(0.5))
         action(.addTransaction(.fetch))
@@ -32,8 +33,8 @@ extension AddTransactionScreen {
 
     func onChangeSelectedUsers() {
         guard selectedUsers.count != store.state.participants.count else { return }
-        store.state.splitMode = selectedUsers.isEmpty ? nil : store.state.splitMode ?? .equal
-        store.state.participants = selectedUsers.map {
+        store.cashlyMutate(\.splitMode, selectedUsers.isEmpty ? nil : store.state.splitMode ?? .equal)
+        let newParticipants = selectedUsers.map { user -> Participant in
             let splitValue: Double
             switch store.state.splitMode ?? .equal {
             case .equal: splitValue = (selectedUsers.count.double + 1)
@@ -43,13 +44,14 @@ extension AddTransactionScreen {
             }
             return Participant(
                 id: UUID().uuidString,
-                user: $0,
+                user: user,
                 splitMode: store.state.splitMode ?? .equal,
                 splitValue: splitValue,
                 status: .settled,
                 transaction: state.id
             )
         }.sorted { $0.user.name < $1.user.name }
+        store.cashlyMutate(\.participants, newParticipants)
     }
 
     func updateSplitValue() {
@@ -57,10 +59,11 @@ extension AddTransactionScreen {
             selectedUsers = Set(state.participants.map(\.user))
         }
 
-        store.state.splitValue = store.state.participants.isEmpty ? nil : (store.state.amount - store.state.participants.compactMap {
+        let newSplitValue: Double? = store.state.participants.isEmpty ? nil : (store.state.amount - store.state.participants.compactMap {
             let value = $0.splitMode.value(splitValue: $0.splitValue, amount: store.state.amount)
             return value
         }.reduce(.zero, +))
+        store.cashlyMutate(\.splitValue, newSplitValue)
     }
 
     func participantBinding(at index: Int) -> Binding<Participant> {
@@ -69,14 +72,16 @@ extension AddTransactionScreen {
             return store.state.participants[index]
         } set: { participant in
             guard store.state.participants.indices.contains(index) else { return }
-            store.state.participants[index] = participant
+            var arr = store.state.participants
+            arr[index] = participant
+            store.cashlyMutate(\.participants, arr)
         }
     }
 
     func categoryItemView(category: CashlyDomain.Category) -> some View {
         CashlyButton {
             isActivePrediction = false
-            store.state.budget = state.budgets.first(where: { $0.category.id == category.id })
+            store.cashlyMutate(\.budget, state.budgets.first(where: { $0.category.id == category.id }))
         } label: {
             CashlySymbol(category.icon)
                 .cashly(font: .system(size: 20))

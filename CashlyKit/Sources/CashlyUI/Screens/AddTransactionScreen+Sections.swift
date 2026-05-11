@@ -11,14 +11,13 @@ import CashlyDomain
 
 extension AddTransactionScreen {
     var amountSection: some View {
-        @Bindable var store = store
         return Section {} header: {
             CashlyVStack(spacing: .small) {
                 transactionStatusView
                 splitValueView
 
                 CashlyVStack(spacing: .zero) {
-                    CashlyCurrencyTextField(amount: $store.state.amount)
+                    CashlyCurrencyTextField(amount: store.cashlyBinding(\.amount))
                         #if os(iOS)
                         .keyboardType(.numberPad)
                         #endif
@@ -43,11 +42,10 @@ extension AddTransactionScreen {
     }
 
     var summarySection: some View {
-        @Bindable var store = store
         return Section {
             TextField(
                 "Provide a summary of your transaction",
-                text: $store.state.summary,
+                text: store.cashlyBinding(\.summary),
                 axis: .vertical
             )
         } header: {
@@ -85,11 +83,10 @@ extension AddTransactionScreen {
     }
 
     var dateSection: some View {
-        @Bindable var store = store
         return Section {
             DatePicker(
                 state.date.string(with: .cashly(.weekDay)) ?? "",
-                selection: $store.state.date,
+                selection: store.cashlyBinding(\.date),
                 displayedComponents: .hourAndMinute.union(.date)
             )
             .datePickerStyle(.compact)
@@ -119,14 +116,13 @@ extension AddTransactionScreen {
     }
 
     var installmentSection: some View {
-        @Bindable var store = store
         return Section {
-            Toggle(isOn: $store.state.installmentIsOn) {
+            Toggle(isOn: store.cashlyBinding(\.installmentIsOn)) {
                 CashlyText(CashlyL10n.string("Enable installments"))
             }
 
             if state.installmentIsOn {
-                Picker(selection: $store.state.installmentPlan) {
+                Picker(selection: store.cashlyBinding(\.installmentPlan)) {
                     ForEach(1 ... 21, id: \.self) {
                         let value = $0.string + "x"
                         CashlyText(value)

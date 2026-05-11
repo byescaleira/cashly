@@ -22,10 +22,9 @@ struct UserItemView: CashlyView {
     
     @ViewBuilder
     var body: some View {
-        @Bindable var store = store
         if !state.users.isEmpty {
             Menu {
-                Picker(selection: $store.state.user) {
+                Picker(selection: store.cashlyBinding(\.user)) {
                     ForEach(state.users) { user in
                         CashlyHStack {
                             CashlyResourceImage.avatar(id: user.photo)

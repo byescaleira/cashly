@@ -12,10 +12,9 @@ import CashlyDomain
 extension AddTransactionScreen {
     @ViewBuilder
     var transactionStatusView: some View {
-        @Bindable var store = store
         if state.participants.isEmpty {
             Menu {
-                Picker(selection: $store.state.status) {
+                Picker(selection: store.cashlyBinding(\.status)) {
                     ForEach(TransactionStatus.allCases) {
                         CashlyText($0.summary)
                             .tag($0)
@@ -104,14 +103,13 @@ extension AddTransactionScreen {
     }
 
     var splitModeView: some View {
-        @Bindable var store = store
         return CashlyHStack {
             CashlyText(CashlyL10n.string("Select Split Mode"))
 
             CashlySpacer()
 
             Menu {
-                Picker(selection: $store.state.splitMode) {
+                Picker(selection: store.cashlyBinding(\.splitMode)) {
                     ForEach(TransactionSplitMode.allCases) {
                         CashlyText($0.summary)
                             .tag($0)

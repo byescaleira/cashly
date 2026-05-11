@@ -49,9 +49,8 @@ public struct MainScreen: CashlyView {
     }
     
     var intelligenceScreen: some View {
-        @Bindable var store = store
         return CashlyNavigationView(
-            router: $store.state.intelligenceRouter,
+            router: store.cashlyBinding(\.intelligenceRouter),
             destination: destination(_:)
         ) {
             IntelligenceScreen()
@@ -60,9 +59,8 @@ public struct MainScreen: CashlyView {
     }
 
     var categoriesScreen: some View {
-        @Bindable var store = store
         return CashlyNavigationView(
-            router: $store.state.categoryRouter,
+            router: store.cashlyBinding(\.categoryRouter),
             destination: destination(_:)
         ) {
             CategoryScreen()
@@ -71,9 +69,8 @@ public struct MainScreen: CashlyView {
     }
 
     var homeScreen: some View {
-        @Bindable var store = store
         return CashlyNavigationView(
-            router: $store.state.homeRouter,
+            router: store.cashlyBinding(\.homeRouter),
             destination: destination(_:)
         ) {
             HomeScreen()
@@ -82,9 +79,8 @@ public struct MainScreen: CashlyView {
     }
 
     var transactionScreen: some View {
-        @Bindable var store = store
         return CashlyNavigationView(
-            router: $store.state.transactionRouter,
+            router: store.cashlyBinding(\.transactionRouter),
             destination: destination(_:)
         ) {
             TransactionScreen()

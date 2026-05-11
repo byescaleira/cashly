@@ -48,14 +48,14 @@ public struct AddUserScreen: CashlyView {
     
     func handlerInitialState() async {
         if let initialState {
-            store.state = initialState
+            store.cashlyReplace(initialState)
         }
         try? await Task.sleep(for: .seconds(0.5))
         action(.addUser(.fetch))
     }
     
     func updatePhoto() {
-        store.state.photo = state.photo ?? state.photos(for: gender).randomElement()
+        store.cashlyMutate(\.photo, state.photo ?? state.photos(for: gender).randomElement())
     }
     
     var photoSection: some View {
@@ -73,7 +73,7 @@ public struct AddUserScreen: CashlyView {
     
     var repeatButton: some View {
         CashlyButton {
-            store.state.photo = state.photos(for: gender).randomElement()
+            store.cashlyMutate(\.photo, state.photos(for: gender).randomElement())
         } label: {
             CashlySymbol("repeat")
                 .cashly(font: .system(size: 20), weight: .bold)
@@ -82,11 +82,10 @@ public struct AddUserScreen: CashlyView {
     }
     
     var nameSection: some View {
-        @Bindable var store = store
         return Section {
             TextField(
                 "Enter the user name",
-                text: $store.state.name
+                text: store.cashlyBinding(\.name)
             )
         } header: {
             CashlyText(CashlyL10n.string("First & Last Name"))
@@ -128,7 +127,7 @@ public struct AddUserScreen: CashlyView {
         LazyVGrid(columns: [.init(.adaptive(minimum: 70), spacing: 14)], spacing: 14) {
             ForEach(state.photos(for: gender), id: \.self) { photo in
                 CashlyButton {
-                    store.state.photo = photo
+                    store.cashlyMutate(\.photo, photo)
                 } label: {
                     CashlyResourceImage.avatar(id: photo)
                         .resizable()

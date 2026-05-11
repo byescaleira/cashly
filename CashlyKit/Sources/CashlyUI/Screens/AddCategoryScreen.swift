@@ -51,7 +51,7 @@ public struct AddCategoryScreen: CashlyView {
     
     func handlerInitialState() async {
         if let initialState {
-            store.state = initialState
+            store.cashlyReplace(initialState)
         }
         try? await Task.sleep(for: .seconds(0.5))
         action(.addCategory(.fetch))
@@ -71,11 +71,10 @@ public struct AddCategoryScreen: CashlyView {
     }
     
     var nameSection: some View {
-        @Bindable var store = store
         return Section {
             TextField(
                 "Enter the category name",
-                text: $store.state.name
+                text: store.cashlyBinding(\.name)
             )
         } header: {
             CashlyText(CashlyL10n.string("Name"))
@@ -138,7 +137,7 @@ public struct AddCategoryScreen: CashlyView {
     
     func iconItemView(item: String) -> some View {
         CashlyButton {
-            store.state.icon = item
+            store.cashlyMutate(\.icon, item)
         } label: {
             CashlySymbol(item)
                 .cashly(font: .system(size: 18))
@@ -164,7 +163,6 @@ public struct AddCategoryScreen: CashlyView {
     }
     
     var iconHeaderView: some View {
-        @Bindable var store = store
         return CashlySymbol(state.icon, mode: .hierarchical)
             .cashly(font: .system(size: 50))
             .cashly(
@@ -183,7 +181,7 @@ public struct AddCategoryScreen: CashlyView {
             .overlay(alignment: .bottomTrailing) {
                 ColorPicker("", selection: Binding(
                     get: { Color(hex: store.state.color) },
-                    set: { store.state.color = $0.hex }
+                    set: { store.cashlyMutate(\.color, $0.hex) }
                 ))
                     .scaleEffect(1.5)
                     .cashlyPadding(.trailing, .large )
@@ -218,7 +216,7 @@ public struct AddCategoryScreen: CashlyView {
     
     func setIcon() {
         guard !state.isLoading && state.isNew && state.icon.isEmpty else { return }
-        store.state.icon = category.symbols.first ?? ""
+        store.cashlyMutate(\.icon, category.symbols.first ?? "")
     }
     
     public static var mock: some View {

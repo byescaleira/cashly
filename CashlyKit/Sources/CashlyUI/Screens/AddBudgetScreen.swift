@@ -62,7 +62,7 @@ public struct AddBudgetScreen: CashlyView {
     func handlerPrediction() {
         switch predictionResult {
         case .tabularRegression(let value):
-            store.state.amount = value
+            store.cashlyMutate(\.amount, value)
         default:
             break
         }
@@ -70,14 +70,13 @@ public struct AddBudgetScreen: CashlyView {
     
     func handlerInitialState() async {
         if let initialState {
-            store.state = initialState
+            store.cashlyReplace(initialState)
         }
         try? await Task.sleep(for: .seconds(0.5))
         action(.addBudget(.fetch))
     }
     
     var amountSection: some View {
-        @Bindable var store = store
         return Section {} header: {
             CashlyVStack(spacing: .zero) {
                 CashlyText(state.category?.name.uppercased())
@@ -87,7 +86,7 @@ public struct AddBudgetScreen: CashlyView {
                     .cashlyPadding(.horizontal, .extraSmall)
                     .cashly(glass: .clear.tint(Color(hex: state.category?.color).opacity(0.2)), in: .capsule)
                 
-                CashlyCurrencyTextField(amount: $store.state.amount)
+                CashlyCurrencyTextField(amount: store.cashlyBinding(\.amount))
                     #if os(iOS)
                     .keyboardType(.numberPad)
                     #endif
@@ -101,11 +100,10 @@ public struct AddBudgetScreen: CashlyView {
     }
     
     var summarySection: some View {
-        @Bindable var store = store
         return Section {
             TextField(
                 "Provide a summary of your budget",
-                text: $store.state.summary,
+                text: store.cashlyBinding(\.summary),
                 axis: .vertical
             )
         } header: {
@@ -149,7 +147,7 @@ public struct AddBudgetScreen: CashlyView {
     
     func categoryItemView(category: CashlyDomain.Category) -> some View {
         CashlyButton {
-            store.state.category = category
+            store.cashlyMutate(\.category, category)
         } label: {
             CashlySymbol(category.icon)
                 .cashly(font: .system(size: 20))
@@ -169,11 +167,10 @@ public struct AddBudgetScreen: CashlyView {
     }
     
     var dateSection: some View {
-        @Bindable var store = store
         return Section {
             DatePicker(
                 "",
-                selection: $store.state.date,
+                selection: store.cashlyBinding(\.date),
                 displayedComponents: .date
             )
             .datePickerStyle(.graphical)
