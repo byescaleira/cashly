@@ -22,9 +22,9 @@ import RyzeArchitecture
 // CashlyHStack/VStack/ZStack: Cashly-owned (see CashlyStacks.swift).
 // CashlySymbol: Cashly-owned struct (see CashlySymbol.swift).
 // CashlyText: Cashly-owned struct (see CashlyText.swift). No longer a Ryze typealias.
-public typealias CashlyTextField = RyzeTextField
-public typealias CashlyCurrencyTextField = RyzeCurrencyTextField
-public typealias CashlyTextFieldConfiguration = RyzeTextFieldConfiguration
+// CashlyTextField: unused. Removed.
+// CashlyCurrencyTextField: Cashly-owned (see CashlyCurrencyTextField.swift).
+// CashlyTextFieldConfiguration: unused. Removed.
 public typealias CashlyList = RyzeList
 public typealias CashlyHorizontalList = RyzeHorizontalList
 public typealias CashlyAsyncImage = RyzeAsyncImage
