@@ -32,5 +32,5 @@ import RyzeArchitecture
 // CashlyBrowserView: unused. Removed.
 // CashlyLocale: unused. Removed.
 public typealias CashlyNavigationView = RyzeNavigationView
-public typealias CashlySystemMonitor = RyzeSystemMonitor
+// CashlySystemMonitor: Cashly-owned (see CashlySystemMonitor.swift).
 

@@ -150,7 +150,4 @@ public extension View {
         )
     }
     
-    func cashly(systemMonitor: Binding<CashlySystemMonitor>) -> some View {
-        self.ryze(systemMonitor: systemMonitor)
-    }
 }
