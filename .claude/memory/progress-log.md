@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5v (MockCashlyFactory dual-conformance tests)
+
+**Tipo**: test
+**Módulos**: CashlyTests/Mocks/MockCashlyFactoryTests
+**Resumo**: 4 testes novos cobrindo MockCashlyFactory que implementa BOTH CashlyDataFactoryProtocol e CashlyPresentationFactoryProtocol. Data use cases (adapter + 6 actors) buildam; presentation stores buildam no baseline correto; makeModelContext OK; instances independentes (sem shared global). 326 tests / 52 suites passing.
+**Impacto**: Dual-conformance factory surface coberto. Garante que previews + tests podem rebuildar todo o graph sem SwiftData on-disk init.
+**ADR**: nenhum
+**PRs**: 1 commit em main
+**Aprendizados**: MockCashlyFactory cria new MockUserActor / MockBudgetActor / etc por chamada — cada makeXUseCase() retorna instance fresh. Tests de visibility cross-instance precisam fixar uma única actor instance, não múltiplas via factory calls.
+
+---
+
 ## 2026-05-11 — Wave 5u (composition factories + flaky poll fix)
 
 **Tipo**: test + fix
