@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CashlyDomain
+import CashlyData
 import CashlyResource
 #if DEBUG
 import CashlyMock
@@ -141,7 +142,8 @@ public struct IntelligenceScreen: CashlyView {
     func train(model: CashlyIntelligence, user: User) {
         guard !isTraining[model, default: false] else { return }
         Task {
-            let _ = await model.train(
+            _ = await CashlyIntelligenceService().train(
+                model: model,
                 user: user,
                 transactions: state.filter.allTransactions,
                 tags: state.filter.allTags

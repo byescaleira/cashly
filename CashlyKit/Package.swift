@@ -87,9 +87,9 @@ enum CashlyTarget: String, CaseIterable {
     var dependencies: [Target.Dependency] {
         switch self {
         case .domain: return [.prismFoundation, .prismIntelligence]
-        case .data: return [.domain, .prismFoundation]
+        case .data: return [.domain, .prismFoundation, .prismIntelligence]
         case .presentation: return [.domain, .data, .resource, .designSystem, .prismArchitecture, .prismFoundation, .prismIntelligence]
-        case .ui: return [.domain, .presentation, .mock, .designSystem, .prismUI, .prismArchitecture, .resource]
+        case .ui: return [.domain, .data, .presentation, .mock, .designSystem, .prismUI, .prismArchitecture, .resource]
         case .resource: return [.prismFoundation]
         case .mock: return [.domain, .data, .presentation, .designSystem, .prismArchitecture, .resource]
         case .designSystem: return [.resource, .prismUI, .prismArchitecture]
@@ -102,7 +102,7 @@ enum CashlyTarget: String, CaseIterable {
         case .domain: return []
         case .data: return [.domain]
         case .presentation: return [.domain, .data, .designSystem]
-        case .ui: return [.domain, .presentation, .mock, .designSystem]
+        case .ui: return [.domain, .data, .presentation, .mock, .designSystem]
         case .resource: return []
         case .mock: return [.domain, .data, .presentation, .designSystem]
         case .designSystem: return []
