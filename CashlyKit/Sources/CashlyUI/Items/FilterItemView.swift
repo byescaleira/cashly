@@ -60,6 +60,8 @@ struct FilterItemView: CashlyView {
             } label: {
                 CashlySymbol("line.3.horizontal.decrease")
                     .cashly(color: .text)
+                    .accessibilityLabel(CashlyL10n.string("Filter"))
+                    .accessibilityAddTraits(.isButton)
             }
             .menuStyle(.button)
             .buttonStyle(.plain)

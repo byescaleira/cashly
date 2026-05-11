@@ -435,6 +435,90 @@
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Are you sure you want to delete %lld selected transactions? This action cannot be undone." } },
         "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Tem certeza que deseja excluir %lld transações selecionadas? Esta ação não pode ser desfeita." } }
       }
+    },
+    "Save transaction" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save transaction" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Salvar transação" } }
+      }
+    },
+    "Save" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Salvar" } }
+      }
+    },
+    "Add participants" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add participants" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Adicionar participantes" } }
+      }
+    },
+    "Enable AI prediction" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enable AI prediction" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Ativar previsão por IA" } }
+      }
+    },
+    "Add new" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add new" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Adicionar novo" } }
+      }
+    },
+    "Enter edit mode" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter edit mode" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Entrar no modo de edição" } }
+      }
+    },
+    "Exit edit mode" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Exit edit mode" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Sair do modo de edição" } }
+      }
+    },
+    "Share selection" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Share selection" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Compartilhar seleção" } }
+      }
+    },
+    "Delete selection" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete selection" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Excluir seleção" } }
+      }
+    },
+    "Filter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Filter" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Filtrar" } }
+      }
+    },
+    "Selected user" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Selected user" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Usuário selecionado" } }
+      }
+    },
+    "Empty chart" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Empty chart" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Gráfico vazio" } }
+      }
     }
   }
 }

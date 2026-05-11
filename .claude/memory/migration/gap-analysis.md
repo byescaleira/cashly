@@ -360,3 +360,7 @@ Ver tabela em G022. **DECISÃO HUMANA PENDENTE** consolidada:
 - **Migrated call sites**: navigation titles (Main tabs, Transaction/Category/Intelligence/Home screens), TransactionScreen delete alert.
 - **Remaining ~60 hardcoded strings** in body Text/section headers/empty-state copy across CashlyUI/Screens and CashlyUI/Views. Mechanical wrap with `CashlyL10n.string("...")` + `import CashlyResource` per file. Translations already in catalog for top ~50; add as needed.
 - **Done in Wave 7**: catalog infra + system-visible surfaces (tabs/titles/alerts). Body text sweep tracked as G020-tail.
+
+### a11y (Wave 7 partial)
+- **Done**: accessibilityLabel + isButton trait on 11 icon-only toolbar/menu buttons (AddTransactionScreen 4, TransactionScreen 6, FilterItemView 1). accessibilityLabel on CashlyChart + CashlyCompareChart summarizing data points. `View.cashlyAnimation(_:value:)` helper added respecting Reduce Motion.
+- **Deferred (a11y-tail)**: Sweep 35 existing `.animation(...)` sites to use `cashlyAnimation`. Dynamic Type audit (manual — verify xxxLarge doesn't break layouts). VoiceOver pass on form labels (most have TextField placeholder = OK). Reduce Transparency support.

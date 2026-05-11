@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CashlyResource
 import Charts
 import CashlyDomain
 #if DEBUG
@@ -64,6 +65,7 @@ struct CashlyCompareChart: CashlyView {
         )
         .frame(height: 120)
         .cashlyPadding(.bottom, .medium)
+        .accessibilityLabel(chartAccessibilityLabel)
     }
     
     var lineChart: some View {
@@ -88,8 +90,18 @@ struct CashlyCompareChart: CashlyView {
         )
         .frame(height: 120)
         .cashlyPadding(.bottom, .medium)
+        .accessibilityLabel(chartAccessibilityLabel)
     }
     
+    private var chartAccessibilityLabel: String {
+        guard !data.isEmpty else { return CashlyL10n.string("Empty chart") }
+        let budget = CashlyL10n.string("Budget")
+        let expense = CashlyL10n.string("Expense")
+        return data.map {
+            "\($0.0): \(budget) \($0.1.currency() ?? String(format: "%.2f", $0.1)), \(expense) \($0.2.currency() ?? String(format: "%.2f", $0.2))"
+        }.joined(separator: ". ")
+    }
+
     func buildBarMark(x: String, y: Double, id: String) -> some ChartContent {
         BarMark(
             x: .value("x", x),

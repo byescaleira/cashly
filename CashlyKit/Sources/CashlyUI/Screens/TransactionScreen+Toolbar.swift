@@ -20,6 +20,8 @@ extension TransactionScreen {
                     .cashly(color: .text)
             }
             .disabled(state.isLoading)
+            .accessibilityLabel(CashlyL10n.string("Add new"))
+            .accessibilityAddTraits(.isButton)
         }
     }
 
@@ -35,6 +37,8 @@ extension TransactionScreen {
                     .cashly(color: .text)
             }
             .disabled(state.isLoading)
+            .accessibilityLabel(CashlyL10n.string("Enter edit mode"))
+            .accessibilityAddTraits(.isButton)
         }
     }
 
@@ -45,7 +49,7 @@ extension TransactionScreen {
             CashlyButton {
                 selection = isAllSelected ? [] : Set(state.transactions)
             } label: {
-                CashlyText(isAllSelected ? "Clear Selection" : "Select All")
+                CashlyText(CashlyL10n.string(isAllSelected ? "Clear Selection" : "Select All"))
                     .cashly(font: .body, weight: .bold)
                     .cashly(color: .text)
             }
@@ -62,6 +66,8 @@ extension TransactionScreen {
             }
             .disabled(state.isLoading)
             .disabled(selection.isEmpty)
+            .accessibilityLabel(CashlyL10n.string("Share selection"))
+            .accessibilityAddTraits(.isButton)
         }
     }
 
@@ -76,6 +82,8 @@ extension TransactionScreen {
             }
             .disabled(state.isLoading)
             .disabled(selection.isEmpty)
+            .accessibilityLabel(CashlyL10n.string("Delete selection"))
+            .accessibilityAddTraits(.isButton)
             .alert(CashlyL10n.string("Delete Transactions"), isPresented: $showDeleteAlert) {
                 Button(CashlyL10n.string("Cancel"), role: .cancel) { }
                 Button(CashlyL10n.string("Delete"), role: .destructive) {
@@ -100,6 +108,8 @@ extension TransactionScreen {
             }
             .disabled(state.isLoading)
             .buttonStyle(.glassProminent)
+            .accessibilityLabel(CashlyL10n.string("Exit edit mode"))
+            .accessibilityAddTraits(.isButton)
         }
     }
 }

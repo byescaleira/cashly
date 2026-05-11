@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CashlyResource
 import Charts
 import CashlyDomain
 #if DEBUG
@@ -52,8 +53,9 @@ struct CashlyChart: CashlyView {
         .chartXVisibleDomain(length: startItemsAmount)
         .frame(height: 120)
         .cashlyPadding(.bottom, .medium)
+        .accessibilityLabel(chartAccessibilityLabel)
     }
-    
+
     var lineChart: some View {
         Chart {
             ForEach(data.indices, id: \.self) { index in
@@ -69,6 +71,14 @@ struct CashlyChart: CashlyView {
         .chartXVisibleDomain(length: startItemsAmount)
         .frame(height: 120)
         .cashlyPadding(.bottom, .medium)
+        .accessibilityLabel(chartAccessibilityLabel)
+    }
+
+    private var chartAccessibilityLabel: String {
+        guard !data.isEmpty else { return CashlyL10n.string("Empty chart") }
+        let formatted = data.map { "\($0.0): \($0.1.currency() ?? String(format: "%.2f", $0.1))" }
+            .joined(separator: ", ")
+        return formatted
     }
     
     func buildBarMark(x: String, y: Double) -> some ChartContent {

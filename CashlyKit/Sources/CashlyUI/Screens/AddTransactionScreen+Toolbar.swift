@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CashlyDomain
+import CashlyResource
 
 extension AddTransactionScreen {
     @ViewBuilder
@@ -21,6 +22,7 @@ extension AddTransactionScreen {
             } label: {
                 CashlySymbol("person.2.badge.plus.fill")
                     .cashly(color: .text)
+                    .accessibilityLabel(CashlyL10n.string("Add participants"))
             }
         }
     }
@@ -34,6 +36,8 @@ extension AddTransactionScreen {
         .buttonStyle(.glassProminent)
         .disabled(!state.canSave)
         .cashly(tint: state.canSave ? .primary : .disabled)
+        .accessibilityLabel(CashlyL10n.string("Save transaction"))
+        .accessibilityAddTraits(.isButton)
     }
 
     @ViewBuilder
@@ -45,6 +49,8 @@ extension AddTransactionScreen {
                 CashlySymbol("trash")
             }
             .cashly(tint: .text)
+            .accessibilityLabel(CashlyL10n.string("Delete"))
+            .accessibilityAddTraits(.isButton)
         }
     }
 
@@ -59,6 +65,8 @@ extension AddTransactionScreen {
             } label: {
                 CashlySymbol("bolt.fill")
             }
+            .accessibilityLabel(CashlyL10n.string("Enable AI prediction"))
+            .accessibilityAddTraits(.isButton)
         }
     }
 }
