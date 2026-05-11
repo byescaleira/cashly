@@ -1,3 +1,21 @@
+## 2026-05-11 — Wave 5h (G017 DesignSystem + state computed + Store binding tests)
+
+**Tipo**: test
+**Módulos**: CashlyTests/DesignSystem/{CashlyShape, CashlyColor, CashlyRouter}Tests, CashlyTests/States/AddStateComputedTests, CashlyTests/Presentation/StoreBindingTests
+**Resumo**: G017 cobertura ampliada para o seam UI ↔ Presentation. 36 testes novos:
+- CashlyShape (4): path geometry matches SwiftUI primitives via boundingRect.
+- CashlyColor (9): cada token semântico + .color(nil)/.hex(nil) → .clear + .color(c) passthrough.
+- CashlyRouter (8): push/present/full + root()/dismiss() priority (path → present → full → isPresented). TestRoute fixture conforming CashlyRoutable.
+- Add*State.canSave (10): regras de cada formulário + AddUserState.photos male/female + AddBudgetState.user derivation + yearMonth packing + AddTransactionState.categories projection + summaryTags substring filter.
+- StoreBinding (5): cashlyBinding/Mutate/Replace dispatch via .replace + nested keypath round-trip via SwiftUI.Binding dynamic member lookup.
+Inventory total: 33 files / 192 @Test declarations.
+**Impacto**: G017 "parcial avançado" → "parcial muito avançado". Cobertura: Domain (Score), Data (5 actors), Presentation (reducers/middlewares/states/bindings), DesignSystem (shape/color/spacing/router/Color(hex)), UI snapshots.
+**ADR**: nenhum
+**PRs**: 2 commits direto em main
+**Aprendizados**: PrismStore.send(_:) síncrono dispara reducer mas reentrant guards/effect handling exigem Task.yield para state observable atualizar em testes. SwiftUI.Binding @dynamicMemberLookup projeta keypaths nested mantendo binding chain — `binding.field.wrappedValue` é syntax válida pós-projection.
+
+---
+
 ## 2026-05-11 — Wave 5g (G014: data actors + Domain Score tests)
 
 **Tipo**: test
