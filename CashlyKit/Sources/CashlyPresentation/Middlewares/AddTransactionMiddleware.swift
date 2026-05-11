@@ -2,19 +2,19 @@
 //  AddTransactionMiddleware.swift
 //  CashlyKit
 //
-//  Created by Rafael Escaleira on 01/09/25.
-//
 
 import CashlyDomain
+import PrismArchitecture
+import Foundation
 
-public actor AddTransactionMiddleware: CashlyMiddleware {
+public struct AddTransactionMiddleware: PrismMiddleware {
     let budgetUseCase: BudgetUseCase
     let categoryUseCase: CategoryUseCase
     let transactionUseCase: TransactionUseCase
     let tagUseCase: TagUseCase
     let userUseCase: UserUseCase
     let participantUseCase: ParticipantUseCase
-    
+
     public init(
         budgetUseCase: BudgetUseCase,
         categoryUseCase: CategoryUseCase,
@@ -30,42 +30,32 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
         self.userUseCase = userUseCase
         self.participantUseCase = participantUseCase
     }
-    
-    public func run(state: AddTransactionState, action: AddTransactionAction) async -> AsyncStream<AddTransactionAction> {
-        AsyncStream { continuation in
-            Task {
-                switch action {
-                case .fetch:
-                    await fetch(state: state, continuation: continuation)
-                case .save:
-                    await save(state: state, continuation: continuation)
-                case .remove:
-                    await remove(state: state, continuation: continuation)
-                case .update:
-                    continuation.yield(.stopLoading)
-                case .stopLoading, .saved, .error:
-                    break
-                }
-            }
+
+    public func run(state: AddTransactionState, action: AddTransactionAction) -> PrismEffect<AddTransactionAction> {
+        switch action {
+        case .fetch: return fetch(state: state)
+        case .save: return save(state: state)
+        case .remove: return remove(state: state)
+        case .update: return .send(.stopLoading)
+        case .stopLoading, .saved, .error, .replace: return .none
         }
     }
-    
-    func fetch(state: AddTransactionState, continuation: AsyncStream<AddTransactionAction>.Continuation) async {
-        do {
-            let transaction = try await transactionUseCase.getTransaction(id: state.id)
-            let currentUser = try await userUseCase.getCurrentUser()
-            let categories = try await categoryUseCase.getCategories(
-                ids: nil,
-                users: currentUser == nil ? nil : [currentUser?.id ?? ""]
-            )
-            let budgets = try await budgetUseCase.getBudgets(
-                categories: categories.isEmpty ? nil : categories.map(\.id),
-                date: state.date
-            )
-            let tags = try await tagUseCase.getTags(users: currentUser.map { [$0.id] })
-            
-            continuation.yield(
-                .update(
+
+    private func fetch(state: AddTransactionState) -> PrismEffect<AddTransactionAction> {
+        .run { send in
+            do {
+                let transaction = try await transactionUseCase.getTransaction(id: state.id)
+                let currentUser = try await userUseCase.getCurrentUser()
+                let categories = try await categoryUseCase.getCategories(
+                    ids: nil, users: currentUser == nil ? nil : [currentUser?.id ?? ""]
+                )
+                let budgets = try await budgetUseCase.getBudgets(
+                    categories: categories.isEmpty ? nil : categories.map(\.id),
+                    date: state.date
+                )
+                let tags = try await tagUseCase.getTags(users: currentUser.map { [$0.id] })
+
+                send(.update(
                     budgets: budgets,
                     id: transaction?.id ?? state.id,
                     participants: transaction?.participants ?? Array(state.participants),
@@ -80,93 +70,74 @@ public actor AddTransactionMiddleware: CashlyMiddleware {
                     isNew: transaction == nil,
                     installmentIsOn: transaction?.paymentsPlan != nil ? true : state.installmentIsOn,
                     installmentPlan: transaction?.paymentsPlan ?? state.installmentPlan
-                )
-            )
-        } catch {
-            continuation.yield(.error(.onFetch))
+                ))
+            } catch {
+                send(.error(.onFetch))
+            }
         }
     }
-    
-    func save(state: AddTransactionState, continuation: AsyncStream<AddTransactionAction>.Continuation) async {
-        do {
-            let valueParticipants: Double = state.participants.compactMap {
-                let value = $0.splitMode.value(
-                    splitValue: $0.splitValue,
-                    amount: state.amount
-                )
-                return value
-            }.reduce(.zero, +)
-            let value = state.splitValue ?? .zero < .zero ? .zero : state.splitValue ?? .zero
-            let total = valueParticipants + value
-            let isValidParticipants = Int(total - state.amount) == .zero
-            
-            guard let budget = state.budget,
-                  state.amount > .zero,
-                  state.summary.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3,
-                  state.participants.isEmpty ? true : isValidParticipants
-            else {
-                continuation.yield(.error(.onSave))
-                return
-            }
-            
-            var payments: [Int: Int]?
-            let date = state.date.timeIntervalSince1970.yearMonth
-            if state.installmentIsOn {
-                for payment in 1 ... state.installmentPlan {
-                    let sumMonth = payment - 1
-                    let year = date / 100
-                    let month = date % 100
-                    
-                    let newYear = month + sumMonth > 12 ? year + 1 : year
-                    let newMonth = month + sumMonth > 12 ? month + sumMonth - 12 : month + sumMonth
-                    payments?[payment] = (newYear * 100) + newMonth
+
+    private func save(state: AddTransactionState) -> PrismEffect<AddTransactionAction> {
+        .run { send in
+            do {
+                let valueParticipants: Double = state.participants.compactMap {
+                    $0.splitMode.value(splitValue: $0.splitValue, amount: state.amount)
+                }.reduce(.zero, +)
+                let value = state.splitValue ?? .zero < .zero ? .zero : state.splitValue ?? .zero
+                let total = valueParticipants + value
+                let isValidParticipants = Int(total - state.amount) == .zero
+
+                guard let budget = state.budget,
+                      state.amount > .zero,
+                      state.summary.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3,
+                      state.participants.isEmpty ? true : isValidParticipants
+                else {
+                    send(.error(.onSave))
+                    return
                 }
-            }
-            
-            let status = state.participants.isEmpty ? state.status :
-            state.participants.first(where: { $0.status != .settled })?.status.reverse ?? .settled
-            
-            for participant in state.participants {
-                try await participantUseCase.addParticipant(
-                    id: participant.id,
-                    user: participant.user,
-                    splitMode: participant.splitMode,
-                    splitValue: participant.splitValue,
-                    status: participant.status,
-                    transaction: participant.transaction
+
+                let status = state.participants.isEmpty ? state.status :
+                state.participants.first(where: { $0.status != .settled })?.status.reverse ?? .settled
+
+                for participant in state.participants {
+                    try await participantUseCase.addParticipant(
+                        id: participant.id, user: participant.user,
+                        splitMode: participant.splitMode, splitValue: participant.splitValue,
+                        status: participant.status, transaction: participant.transaction
+                    )
+                }
+
+                try await transactionUseCase.addTransaction(
+                    id: state.id,
+                    participants: Array(state.participants),
+                    budget: budget,
+                    amount: state.amount,
+                    date: state.date.timeIntervalSince1970,
+                    summary: state.summary,
+                    status: status,
+                    splitMode: state.splitMode,
+                    splitValue: state.splitValue,
+                    paymentsPlan: state.installmentIsOn ? state.installmentPlan : nil
                 )
+                send(.saved)
+            } catch {
+                send(.error(.onSave))
             }
-            
-            try await transactionUseCase.addTransaction(
-                id: state.id,
-                participants: Array(state.participants),
-                budget: budget,
-                amount: state.amount,
-                date: state.date.timeIntervalSince1970,
-                summary: state.summary,
-                status: status,
-                splitMode: state.splitMode,
-                splitValue: state.splitValue,
-                paymentsPlan: state.installmentIsOn ? state.installmentPlan : nil
-            )
-            
-            continuation.yield(.saved)
-        } catch {
-            continuation.yield(.error(.onSave))
         }
     }
-    
-    func remove(state: AddTransactionState, continuation: AsyncStream<AddTransactionAction>.Continuation) async {
-        do {
-            guard let transaction = try await transactionUseCase.getTransaction(id: state.id) else {
-                continuation.yield(.error(.onRemove))
-                return
+
+    private func remove(state: AddTransactionState) -> PrismEffect<AddTransactionAction> {
+        .run { send in
+            do {
+                guard let transaction = try await transactionUseCase.getTransaction(id: state.id) else {
+                    send(.error(.onRemove))
+                    return
+                }
+                try await transactionUseCase.removeTransaction(id: transaction.id)
+                send(.saved)
+            } catch {
+                send(.error(.onRemove))
             }
-            
-            try await transactionUseCase.removeTransaction(id: transaction.id)
-            continuation.yield(.saved)
-        } catch {
-            continuation.yield(.error(.onRemove))
         }
     }
 }

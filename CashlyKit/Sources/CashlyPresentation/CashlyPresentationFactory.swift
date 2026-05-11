@@ -2,13 +2,12 @@
 //  CashlyPresentationFactory.swift
 //  CashlyKit
 //
-//  Created by Rafael Escaleira on 01/09/25.
-//
 
 import CashlyDomain
 import CashlyData
-import RyzeArchitecture
+import PrismArchitecture
 
+@MainActor
 public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
     let dataFactory: CashlyDataFactoryProtocol
 
@@ -19,126 +18,83 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
     public init() throws {
         self.dataFactory = try CashlyDataFactory.make()
     }
-    
-    public func makeAddCategoryStore() -> CashlyStore<AddCategoryReducer, AddCategoryMiddleware> {
-        let state = AddCategoryState.new()
-        let reducer = AddCategoryReducer()
-        let budgetUseCase = dataFactory.makeBudgetUseCase()
-        let categoryUseCase = dataFactory.makeCategoryUseCase()
-        let transactionUseCase = dataFactory.makeTransactionUseCase()
-        let userUseCase = dataFactory.makeUserUseCase()
-        let middleware = AddCategoryMiddleware(
-            budgetUseCase: budgetUseCase,
-            categoryUseCase: categoryUseCase,
-            transactionUseCase: transactionUseCase,
-            userUseCase: userUseCase
-        )
-        return .init(
-            state: state,
-            reducer: reducer,
-            middleware: middleware
+
+    public func makeAddCategoryStore() -> CashlyStore<AddCategoryState, AddCategoryAction> {
+        CashlyStore(
+            initialState: .new(),
+            reducer: AddCategoryReducer(),
+            middleware: AddCategoryMiddleware(
+                budgetUseCase: dataFactory.makeBudgetUseCase(),
+                categoryUseCase: dataFactory.makeCategoryUseCase(),
+                transactionUseCase: dataFactory.makeTransactionUseCase(),
+                userUseCase: dataFactory.makeUserUseCase()
+            )
         )
     }
-    
-    public func makeAddBudgetStore() -> CashlyStore<AddBudgetReducer, AddBudgetMiddleware> {
-        let state = AddBudgetState.new()
-        let reducer = AddBudgetReducer()
-        let budgetUseCase = dataFactory.makeBudgetUseCase()
-        let categoryUseCase = dataFactory.makeCategoryUseCase()
-        let transactionUseCase = dataFactory.makeTransactionUseCase()
-        let userUseCase = dataFactory.makeUserUseCase()
-        let middleware = AddBudgetMiddleware(
-            budgetUseCase: budgetUseCase,
-            categoryUseCase: categoryUseCase,
-            transactionUseCase: transactionUseCase,
-            userUseCase: userUseCase
-        )
-        return .init(
-            state: state,
-            reducer: reducer,
-            middleware: middleware
+
+    public func makeAddBudgetStore() -> CashlyStore<AddBudgetState, AddBudgetAction> {
+        CashlyStore(
+            initialState: .new(),
+            reducer: AddBudgetReducer(),
+            middleware: AddBudgetMiddleware(
+                budgetUseCase: dataFactory.makeBudgetUseCase(),
+                categoryUseCase: dataFactory.makeCategoryUseCase(),
+                transactionUseCase: dataFactory.makeTransactionUseCase(),
+                userUseCase: dataFactory.makeUserUseCase()
+            )
         )
     }
-    
-    public func makeAddTransactionStore() -> CashlyStore<AddTransactionReducer, AddTransactionMiddleware> {
-        let state = AddTransactionState.new()
-        let reducer = AddTransactionReducer()
-        let budgetUseCase = dataFactory.makeBudgetUseCase()
-        let categoryUseCase = dataFactory.makeCategoryUseCase()
-        let transactionUseCase = dataFactory.makeTransactionUseCase()
-        let tagUseCase = dataFactory.makeTagUseCase()
-        let userUseCase = dataFactory.makeUserUseCase()
-        let participantUseCase = dataFactory.makeParticipantUseCase()
-        let middleware = AddTransactionMiddleware(
-            budgetUseCase: budgetUseCase,
-            categoryUseCase: categoryUseCase,
-            transactionUseCase: transactionUseCase,
-            tagUseCase: tagUseCase,
-            userUseCase: userUseCase,
-            participantUseCase: participantUseCase
-        )
-        return .init(
-            state: state,
-            reducer: reducer,
-            middleware: middleware
+
+    public func makeAddTransactionStore() -> CashlyStore<AddTransactionState, AddTransactionAction> {
+        CashlyStore(
+            initialState: .new(),
+            reducer: AddTransactionReducer(),
+            middleware: AddTransactionMiddleware(
+                budgetUseCase: dataFactory.makeBudgetUseCase(),
+                categoryUseCase: dataFactory.makeCategoryUseCase(),
+                transactionUseCase: dataFactory.makeTransactionUseCase(),
+                tagUseCase: dataFactory.makeTagUseCase(),
+                userUseCase: dataFactory.makeUserUseCase(),
+                participantUseCase: dataFactory.makeParticipantUseCase()
+            )
         )
     }
-    
-    public func makeAddUserStore() -> RyzeStore<AddUserReducer, AddUserMiddleware> {
-        let state = AddUserState.new()
-        let reducer = AddUserReducer()
-        let budgetUseCase = dataFactory.makeBudgetUseCase()
-        let categoryUseCase = dataFactory.makeCategoryUseCase()
-        let transactionUseCase = dataFactory.makeTransactionUseCase()
-        let userUseCase = dataFactory.makeUserUseCase()
-        let middleware = AddUserMiddleware(
-            budgetUseCase: budgetUseCase,
-            categoryUseCase: categoryUseCase,
-            transactionUseCase: transactionUseCase,
-            userUseCase: userUseCase
-        )
-        return .init(
-            state: state,
-            reducer: reducer,
-            middleware: middleware
+
+    public func makeAddUserStore() -> CashlyStore<AddUserState, AddUserAction> {
+        CashlyStore(
+            initialState: .new(),
+            reducer: AddUserReducer(),
+            middleware: AddUserMiddleware(
+                budgetUseCase: dataFactory.makeBudgetUseCase(),
+                categoryUseCase: dataFactory.makeCategoryUseCase(),
+                transactionUseCase: dataFactory.makeTransactionUseCase(),
+                userUseCase: dataFactory.makeUserUseCase()
+            )
         )
     }
-    
-    public func makeAddTagStore() -> CashlyStore<AddTagReducer, AddTagMiddleware> {
-        let state = AddTagState.new()
-        let reducer = AddTagReducer()
-        let tagUseCase = dataFactory.makeTagUseCase()
-        let userUseCase = dataFactory.makeUserUseCase()
-        let middleware = AddTagMiddleware(
-            tagUseCase: tagUseCase,
-            userUseCase: userUseCase
-        )
-        return .init(
-            state: state,
-            reducer: reducer,
-            middleware: middleware
+
+    public func makeAddTagStore() -> CashlyStore<AddTagState, AddTagAction> {
+        CashlyStore(
+            initialState: .new(),
+            reducer: AddTagReducer(),
+            middleware: AddTagMiddleware(
+                tagUseCase: dataFactory.makeTagUseCase(),
+                userUseCase: dataFactory.makeUserUseCase()
+            )
         )
     }
-    
-    public func makeMainStore() -> CashlyStore<MainReducer, MainMiddleware> {
-        let state = MainState()
-        let reducer = MainReducer()
-        let budgetUseCase = dataFactory.makeBudgetUseCase()
-        let categoryUseCase = dataFactory.makeCategoryUseCase()
-        let transactionUseCase = dataFactory.makeTransactionUseCase()
-        let tagUseCase = dataFactory.makeTagUseCase()
-        let userUseCase = dataFactory.makeUserUseCase()
-        let middleware = MainMiddleware(
-            budgetUseCase: budgetUseCase,
-            categoryUseCase: categoryUseCase,
-            transactionUseCase: transactionUseCase,
-            tagUseCase: tagUseCase,
-            userUseCase: userUseCase
-        )
-        return .init(
-            state: state,
-            reducer: reducer,
-            middleware: middleware
+
+    public func makeMainStore() -> CashlyStore<MainState, MainAction> {
+        CashlyStore(
+            initialState: MainState(),
+            reducer: MainReducer(),
+            middleware: MainMiddleware(
+                budgetUseCase: dataFactory.makeBudgetUseCase(),
+                categoryUseCase: dataFactory.makeCategoryUseCase(),
+                transactionUseCase: dataFactory.makeTransactionUseCase(),
+                tagUseCase: dataFactory.makeTagUseCase(),
+                userUseCase: dataFactory.makeUserUseCase()
+            )
         )
     }
 }

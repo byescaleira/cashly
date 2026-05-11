@@ -8,8 +8,8 @@
 //
 
 import SwiftUI
-import RyzeUI
-import RyzeArchitecture
+import PrismUI
+import PrismArchitecture
 
 // CashlyColor: Cashly-owned enum (see CashlyColor.swift).
 // CashlySize: unused. Removed.

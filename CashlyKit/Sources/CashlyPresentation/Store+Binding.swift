@@ -2,48 +2,42 @@
 //  Store+Binding.swift
 //  CashlyKit
 //
-//  Wave 5a': intermediate binding helper that bridges Cashly screens to
-//  CashlyStore without the call sites depending on `state` being a
-//  settable property on the store. The previous `@Bindable var store;
-//  binding-to-state-field` pattern compiles today against Ryze (state
-//  is `var`) but breaks against PrismStore (state is `private(set)`).
-//
-//  By routing all writable bindings through `store.cashlyBinding(...)`,
-//  the Wave 5a Package.swift swap to Prism becomes mechanical: this file
-//  is the one place that changes — set the closure to call
-//  `send(.updateX($0))` (action-based) or `store.scope(...)` (child
-//  store) instead of writing `state[keyPath:] = $0`.
+//  Wave 5a: PrismStore.state is `private(set)`. All writes from views
+//  funnel through `Action.replace(State)` dispatched via `send(_:)`.
+//  This file is the only thing that changed when the Package.swift swap
+//  to Prism landed.
 //
 
 import SwiftUI
-import RyzeArchitecture
+import PrismArchitecture
 
-public extension RyzeStore {
+public extension PrismStore where Action: CashlyReplaceableAction, Action.State == State {
     /// Two-way binding into a writable key path of the store's State.
-    ///
-    /// Today (Ryze): writes go straight to `state[keyPath:]` because
-    /// RyzeStore.state is publicly settable.
-    /// Tomorrow (Prism): this single function gets rewritten to dispatch
-    /// an action or open a scoped child store; all call sites stay put.
+    /// Writes synthesize a new State and dispatch `.replace(newState)`.
     @MainActor
-    func cashlyBinding<Value>(_ keyPath: WritableKeyPath<Reducer.State, Value>) -> Binding<Value> {
+    func cashlyBinding<Value>(_ keyPath: WritableKeyPath<State, Value>) -> Binding<Value> {
         Binding(
             get: { self.state[keyPath: keyPath] },
-            set: { self.state[keyPath: keyPath] = $0 }
+            set: { newValue in
+                var current = self.state
+                current[keyPath: keyPath] = newValue
+                self.send(.replace(current))
+            }
         )
     }
 
-    /// One-shot state mutation seam. Today writes directly into
-    /// `state[keyPath:]`; after the Prism swap, gets rewritten to a
-    /// dispatched action without touching any call site.
+    /// One-shot field write. Dispatches `.replace(newState)` with the
+    /// updated copy.
     @MainActor
-    func cashlyMutate<Value>(_ keyPath: WritableKeyPath<Reducer.State, Value>, _ newValue: Value) {
-        self.state[keyPath: keyPath] = newValue
+    func cashlyMutate<Value>(_ keyPath: WritableKeyPath<State, Value>, _ newValue: Value) {
+        var current = state
+        current[keyPath: keyPath] = newValue
+        send(.replace(current))
     }
 
-    /// Whole-state replacement seam (initial-state hydration only).
+    /// Whole-state replacement seam (initial-state hydration).
     @MainActor
-    func cashlyReplace(_ newState: Reducer.State) {
-        self.state = newState
+    func cashlyReplace(_ newState: State) {
+        send(.replace(newState))
     }
 }

@@ -5,7 +5,10 @@
 //  Created by Rafael Escaleira on 29/08/25.
 //
 
-@_exported import RyzeFoundation
+@_exported import PrismFoundation
 
-public typealias CashlyEntity = RyzeEntity
+/// Cashly's domain entity protocol. Refines PrismEntity with Identifiable
+/// because most Cashly use cases (lists, pickers, ForEach) rely on the
+/// entity-as-Identifiable convention that RyzeEntity bundled.
+public protocol CashlyEntity: PrismEntity, Identifiable, Sendable {}
 

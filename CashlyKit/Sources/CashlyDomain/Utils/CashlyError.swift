@@ -6,14 +6,14 @@
 //
 
 import Foundation
-import RyzeFoundation
+import PrismFoundation
 
 // MARK: - Umbrella
 
 /// Top-level error returned by Domain APIs and stored in state.
 /// Wraps more specific error categories (persistence, domain rules)
 /// so call sites can pattern-match by category without losing detail.
-public enum CashlyError: RyzeError {
+public enum CashlyError: PrismError {
     case persistence(PersistenceError)
     case domain(DomainError)
     case unknown(message: String)
@@ -59,7 +59,7 @@ public enum CashlyError: RyzeError {
 
 // MARK: - Persistence
 
-public enum PersistenceError: RyzeError {
+public enum PersistenceError: PrismError {
     case fetchFailed(entity: String, underlying: String)
     case saveFailed(entity: String, underlying: String)
     case removeFailed(entity: String, underlying: String)
@@ -99,7 +99,7 @@ public enum PersistenceError: RyzeError {
 
 // MARK: - Domain
 
-public enum DomainError: RyzeError {
+public enum DomainError: PrismError {
     case invalidInput(field: String, reason: String)
     case businessRuleViolated(rule: String)
 

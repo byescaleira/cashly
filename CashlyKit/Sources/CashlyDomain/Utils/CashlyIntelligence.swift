@@ -6,18 +6,18 @@
 //
 
 import Foundation
-import RyzeIntelligence
+import PrismIntelligence
 
 public enum CashlyIntelligence: String, Identifiable, CaseIterable, Sendable {
     case budgetValue
     case categoryName
     case tagValue
     
-    public func model(for user: User) -> RyzeIntelligenceModel? {
+    public func model(for user: User) -> PrismIntelligenceModel? {
         let id = user.id + "_" + rawValue
-        return RyzeIntelligenceModel.models.first { model in
+        return PrismIntelligenceModel.models.first { model in
             model.id == id
-        } ?? RyzeIntelligenceModel(
+        } ?? PrismIntelligenceModel(
             id: id,
             name: name
         )
@@ -141,15 +141,15 @@ public enum CashlyIntelligence: String, Identifiable, CaseIterable, Sendable {
         switch self {
         case .budgetValue:
             let data = tabularData(transactions: transactions, tags: tags)
-            let intelligence = RyzeTabularIntelligence(data: data)
+            let intelligence = PrismTabularIntelligence(data: data)
             return await intelligence.trainingRegressor(id: id, name: name, maxIterations: 3_500)
         case .categoryName:
             let data = textData(transactions: transactions)
-            let intelligence = RyzeTextIntelligence(data: data)
+            let intelligence = PrismTextIntelligence(data: data)
             return await intelligence.trainingTextClassifier(id: id, name: name, maxIterations: 100)
         case .tagValue:
             let data = tabularData(transactions: transactions, tags: tags)
-            let intelligence = RyzeTabularIntelligence(data: data)
+            let intelligence = PrismTabularIntelligence(data: data)
             return await intelligence.trainingRegressor(id: id, name: name, maxIterations: 3_500)
         }
     }
@@ -159,14 +159,14 @@ public enum CashlyIntelligence: String, Identifiable, CaseIterable, Sendable {
     }
 }
 
-public typealias CashlyIntelligenceModel = RyzeIntelligenceModel
-public typealias CashlyIntelligenceResult = RyzeIntelligenceResult
-public typealias CashlyPrediction = RyzeIntelligencePrediction
-public typealias CashlyPredictionResult = RyzeIntelligencePredictionResult
-public typealias CashlyPredictionInput = RyzeIntelligencePredictionInput
+public typealias CashlyIntelligenceModel = PrismIntelligenceModel
+public typealias CashlyIntelligenceResult = PrismIntelligenceResult
+public typealias CashlyPrediction = PrismIntelligencePrediction
+public typealias CashlyPredictionResult = PrismIntelligencePredictionResult
+public typealias CashlyPredictionInput = PrismIntelligencePredictionInput
 
-extension RyzeIntelligencePredictionInput: @retroactive @unchecked Sendable {}
-public typealias CashlyFileManager = RyzeFileManager
+extension PrismIntelligencePredictionInput: @retroactive @unchecked Sendable {}
+public typealias CashlyFileManager = PrismFileManager
 public typealias CashlyTabularData = [String: Any]
 
 public extension CashlyTabularData {

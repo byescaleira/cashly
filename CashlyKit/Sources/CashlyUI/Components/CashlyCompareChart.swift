@@ -19,7 +19,7 @@ enum CashlyChartType {
 }
 
 struct CashlyCompareChart: CashlyView {
-    @Environment(\.theme) var theme
+    
     
     let type: CashlyChartType
     let data: [(String, Double, Double)]
@@ -59,7 +59,7 @@ struct CashlyCompareChart: CashlyView {
         .chartXVisibleDomain(length: startItemsAmount)
         .chartForegroundStyleScale(
             [
-                "budget": theme.color.info,
+                "budget": Color.blue,
                 "transaction": Color.accentColor
             ]
         )
@@ -84,7 +84,7 @@ struct CashlyCompareChart: CashlyView {
         .chartXVisibleDomain(length: startItemsAmount)
         .chartForegroundStyleScale(
             [
-                "budget": theme.color.info,
+                "budget": Color.blue,
                 "transaction": Color.accentColor
             ]
         )

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import RyzeFoundation
+import PrismFoundation
 import CashlyDomain
 import SwiftData
 

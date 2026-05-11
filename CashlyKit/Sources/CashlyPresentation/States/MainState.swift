@@ -1,4 +1,5 @@
 //
+import Foundation
 //  MainState.swift
 //  CashlyKit
 //
@@ -7,8 +8,8 @@
 
 import CashlyDomain
 import CashlyResource
-import RyzeArchitecture
-import RyzeIntelligence
+import PrismArchitecture
+import PrismIntelligence
 
 public struct MainState: CashlyState {
     public var isLoading: Bool

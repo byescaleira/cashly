@@ -7,7 +7,9 @@
 
 import CashlyDomain
 
-public enum MainAction: CashlyAction {
+public enum MainAction: CashlyAction, CashlyReplaceableAction {
+    public typealias State = MainState
+
     case fetch
     case stopLoading
     case update(
@@ -26,4 +28,5 @@ public enum MainAction: CashlyAction {
     case selectUser
     case fetchPredictions
     case error(CashlyError)
+    case replace(MainState)
 }

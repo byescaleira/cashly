@@ -2,36 +2,21 @@
 //  AddTransactionReducer.swift
 //  CashlyKit
 //
-//  Created by Rafael Escaleira on 04/09/25.
-//
 
 import CashlyDomain
+import PrismArchitecture
 
-public actor AddTransactionReducer: CashlyReducer {
+@MainActor
+public struct AddTransactionReducer: PrismReducer {
     public init() {}
-    
-    public func reduce(state: AddTransactionState, action: AddTransactionAction) async -> AddTransactionState {
-        var state = state
+
+    public func reduce(into state: inout AddTransactionState, action: AddTransactionAction) -> PrismEffect<AddTransactionAction> {
         switch action {
-        case .fetch:
-            state.isLoading = true
-        case .stopLoading:
-            state.isLoading = false
+        case .fetch: state.isLoading = true
+        case .stopLoading: state.isLoading = false
         case let .update(
-            budgets,
-            id,
-            participants,
-            budget,
-            amount,
-            date,
-            summary,
-            status,
-            splitMode,
-            splitValue,
-            tags,
-            isNew,
-            installmentIsOn,
-            installmentPlan
+            budgets, id, participants, budget, amount, date, summary, status,
+            splitMode, splitValue, tags, isNew, installmentIsOn, installmentPlan
         ):
             state.budgets = budgets
             state.id = id
@@ -47,13 +32,11 @@ public actor AddTransactionReducer: CashlyReducer {
             state.isNew = isNew
             state.installmentIsOn = installmentIsOn
             state.installmentPlan = installmentPlan
-        case .saved:
-            state.isSaved = true
-        case let .error(error):
-            state.error = error
-        case .save, .remove:
-            break
+        case .saved: state.isSaved = true
+        case let .error(error): state.error = error
+        case let .replace(newState): state = newState
+        case .save, .remove: break
         }
-        return state
+        return .none
     }
 }

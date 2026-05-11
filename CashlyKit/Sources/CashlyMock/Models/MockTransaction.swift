@@ -7,9 +7,9 @@
 
 import CashlyDomain
 import CashlyResource
-import RyzeFoundation
+import PrismFoundation
 
-extension CashlyDomain.Transaction: RyzeMock {
+extension CashlyDomain.Transaction: PrismMock {
     public static var mock: CashlyDomain.Transaction {
         mocks.randomElement()!
     }

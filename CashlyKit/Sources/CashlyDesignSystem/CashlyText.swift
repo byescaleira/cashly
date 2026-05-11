@@ -8,7 +8,7 @@
 //
 
 import SwiftUI
-import RyzeUI
+import PrismUI
 
 public struct CashlyText: View {
     @Environment(\.isLoading) private var isLoading

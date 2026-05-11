@@ -14,7 +14,7 @@ import CashlyResource
 import CashlyPresentation
 
 public struct AddUserScreen: CashlyView {
-    @Environment(CashlyStore<AddUserReducer, AddUserMiddleware>.self) var store
+    @Environment(CashlyStore<AddUserState, AddUserAction>.self) var store
     
     @Environment(\.addUserState) var state
     @Environment(\.action) var action

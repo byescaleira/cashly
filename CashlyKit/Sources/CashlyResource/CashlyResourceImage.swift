@@ -6,9 +6,9 @@
 //
 
 import SwiftUI
-import RyzeFoundation
+import PrismFoundation
 
-public enum CashlyResourceImage: String, RyzeResourceImage {
+public enum CashlyResourceImage: String, PrismResourceImage {
     case illustrationEmpty
     case illustrationNoData
     case illustrationPeople

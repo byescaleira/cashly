@@ -1,13 +1,14 @@
 //
+import Foundation
 //  CashlyDateFormatter.swift
 //  CashlyKit
 //
 //  Created by Rafael Escaleira on 05/09/25.
 //
 
-import RyzeFoundation
+import PrismFoundation
 
-public enum CashlyDateFormatter: RyzeDateFormatter {
+public enum CashlyDateFormatter: PrismDateFormatter {
     case weekDay
     case sortPattern
     case defaultFormat
@@ -41,7 +42,7 @@ public extension Date {
     }
 }
 
-public extension RyzeDateFormatter where Self == CashlyDateFormatter {
+public extension PrismDateFormatter where Self == CashlyDateFormatter {
     static func cashly(_ formatter: CashlyDateFormatter) -> Self {
         formatter
     }

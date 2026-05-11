@@ -14,7 +14,7 @@ import CashlyMock
 #endif
 
 struct CashlyChart: CashlyView {
-    @Environment(\.theme) var theme
+    
     
     let type: CashlyChartType
     let data: [(String, Double)]

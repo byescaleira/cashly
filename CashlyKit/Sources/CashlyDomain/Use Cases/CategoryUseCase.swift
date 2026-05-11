@@ -6,7 +6,7 @@
 //
 
 public protocol CategoryUseCase: Sendable {
-    func getCategory(id: String) async throws -> Category?
+    func getCategory(id: String) async throws -> CashlyDomain.Category?
     func getCategories() async throws -> [Category]
     func getCategories(
         ids: [String]?,

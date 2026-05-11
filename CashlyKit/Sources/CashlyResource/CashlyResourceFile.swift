@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import RyzeFoundation
+import PrismFoundation
 
 public enum CashlyResourceFile: String, CaseIterable {
     case users = "MockUsers"

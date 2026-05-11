@@ -13,7 +13,7 @@ import CashlyMock
 #endif
 
 struct CategoryBalanceView: CashlyView {
-    @Environment(\.theme) var theme
+    
     @Environment(\.mainState) var state
     
     @State var isAnimated: Bool = false
@@ -53,7 +53,7 @@ struct CategoryBalanceView: CashlyView {
             .cashly(color: .primary)
             .cashlyPadding()
             .cashlyPadding(.horizontal, .extraSmall)
-            .cashly(glass: .clear.tint(theme.color.primary.opacity(0.2)).interactive(), in: .capsule)
+            .cashly(glass: .clear.tint(Color.accentColor.opacity(0.2)).interactive(), in: .capsule)
     }
     
     var amountView: some View {

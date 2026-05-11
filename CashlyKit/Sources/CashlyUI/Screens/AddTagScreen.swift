@@ -14,7 +14,7 @@ import CashlyDomain
 import CashlyPresentation
 
 public struct AddTagScreen: CashlyView {
-    @Environment(CashlyStore<AddTagReducer, AddTagMiddleware>.self) var store
+    @Environment(CashlyStore<AddTagState, AddTagAction>.self) var store
     
     @Environment(\.addTagState) var state
     @Environment(\.action) var action

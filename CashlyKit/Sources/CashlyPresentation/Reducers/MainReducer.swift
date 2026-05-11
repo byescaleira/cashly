@@ -2,21 +2,18 @@
 //  MainReducer.swift
 //  CashlyKit
 //
-//  Created by Rafael Escaleira on 04/09/25.
-//
 
 import CashlyDomain
+import PrismArchitecture
 
-public actor MainReducer: CashlyReducer {
+@MainActor
+public struct MainReducer: PrismReducer {
     public init() {}
-    
-    public func reduce(state: MainState, action: MainAction) async -> MainState {
-        var state = state
+
+    public func reduce(into state: inout MainState, action: MainAction) -> PrismEffect<MainAction> {
         switch action {
-        case .fetch:
-            state.isLoading = true
-        case .stopLoading:
-            state.isLoading = false
+        case .fetch: state.isLoading = true
+        case .stopLoading: state.isLoading = false
         case let .update(filter, budgets, categories, transactions, tags, users, user, predictedTransactionsAmount):
             state.filter = filter
             state.budgets = budgets
@@ -33,11 +30,10 @@ public actor MainReducer: CashlyReducer {
             state.transactions = state.transactions.filter { $0.id != transaction.id }
         case let .removeTransactions(transactions):
             state.transactions = state.transactions.filter { !transactions.contains($0) }
-        case let .error(error):
-            state.error = error
-        case .selectUser, .fetchPredictions:
-            break
+        case let .error(error): state.error = error
+        case let .replace(newState): state = newState
+        case .selectUser, .fetchPredictions: break
         }
-        return state
+        return .none
     }
 }

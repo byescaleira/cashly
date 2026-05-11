@@ -140,7 +140,9 @@ extension AddTransactionScreen {
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                     CashlyButton(role: .destructive) {
                         if let index = state.participants.firstIndex(of: participant) {
-                            store.state.participants.remove(at: index)
+                            var arr = store.state.participants
+                            arr.remove(at: index)
+                            store.cashlyMutate(\.participants, arr)
                         }
                     } label: {
                         CashlyLabel(CashlyL10n.string("Delete"), symbol: "trash.fill")

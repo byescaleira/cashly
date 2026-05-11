@@ -22,7 +22,7 @@ public protocol AdapterUseCase: Sendable {
         name: String,
         color: String,
         icon: String
-    ) async throws -> Category?
+    ) async throws -> CashlyDomain.Category?
     
     func userAdapted(
         id: String,

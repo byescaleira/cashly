@@ -2,17 +2,17 @@
 //  AddBudgetMiddleware.swift
 //  CashlyKit
 //
-//  Created by Rafael Escaleira on 01/09/25.
-//
 
 import CashlyDomain
+import PrismArchitecture
+import Foundation
 
-public actor AddBudgetMiddleware: CashlyMiddleware {
+public struct AddBudgetMiddleware: PrismMiddleware {
     let budgetUseCase: BudgetUseCase
     let categoryUseCase: CategoryUseCase
     let transactionUseCase: TransactionUseCase
     let userUseCase: UserUseCase
-    
+
     public init(
         budgetUseCase: BudgetUseCase,
         categoryUseCase: CategoryUseCase,
@@ -24,41 +24,32 @@ public actor AddBudgetMiddleware: CashlyMiddleware {
         self.transactionUseCase = transactionUseCase
         self.userUseCase = userUseCase
     }
-    
-    public func run(state: AddBudgetState, action: AddBudgetAction) async -> AsyncStream<AddBudgetAction> {
-        AsyncStream { continuation in
-            Task {
-                switch action {
-                case .fetch:
-                    await fetch(state: state, continuation: continuation)
-                case .save:
-                    await save(state: state, continuation: continuation)
-                case .remove:
-                    await remove(state: state, continuation: continuation)
-                case .update:
-                    continuation.yield(.stopLoading)
-                case .stopLoading, .saved, .error:
-                    break
-                }
-            }
+
+    public func run(state: AddBudgetState, action: AddBudgetAction) -> PrismEffect<AddBudgetAction> {
+        switch action {
+        case .fetch: return fetch(state: state)
+        case .save: return save(state: state)
+        case .remove: return remove(state: state)
+        case .update: return .send(.stopLoading)
+        case .stopLoading, .saved, .error, .replace: return .none
         }
     }
-    
-    func fetch(state: AddBudgetState, continuation: AsyncStream<AddBudgetAction>.Continuation) async {
-        do {
-            let budgets = try await budgetUseCase.getBudgets(
-                categories: state.category == nil ? nil : [state.category?.id ?? ""],
-                date: state.date
-            )
-            let fetchedBudget = try await budgetUseCase.getBudget(id: state.id)
-            let budget = state.category != nil ? budgets.first : fetchedBudget
-            let currentUser = try await userUseCase.getCurrentUser()
-            let categories = try await categoryUseCase.getCategories(
-                ids: nil,
-                users: currentUser == nil ? nil : [currentUser?.id ?? ""]
-            )
-            continuation.yield(
-                .update(
+
+    private func fetch(state: AddBudgetState) -> PrismEffect<AddBudgetAction> {
+        .run { send in
+            do {
+                let budgets = try await budgetUseCase.getBudgets(
+                    categories: state.category == nil ? nil : [state.category?.id ?? ""],
+                    date: state.date
+                )
+                let fetchedBudget = try await budgetUseCase.getBudget(id: state.id)
+                let budget = state.category != nil ? budgets.first : fetchedBudget
+                let currentUser = try await userUseCase.getCurrentUser()
+                let categories = try await categoryUseCase.getCategories(
+                    ids: nil,
+                    users: currentUser == nil ? nil : [currentUser?.id ?? ""]
+                )
+                send(.update(
                     categories: categories,
                     id: budget?.id ?? UUID().uuidString,
                     amount: budget?.amount ?? .zero,
@@ -66,55 +57,54 @@ public actor AddBudgetMiddleware: CashlyMiddleware {
                     date: budget?.date ?? state.date.timeIntervalSince1970.yearMonth,
                     summary: budget?.summary ?? "",
                     isNew: budget == nil
+                ))
+            } catch {
+                send(.error(.onFetch))
+            }
+        }
+    }
+
+    private func save(state: AddBudgetState) -> PrismEffect<AddBudgetAction> {
+        .run { send in
+            do {
+                guard let category = state.category,
+                      state.amount > .zero,
+                      state.summary.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3
+                else {
+                    send(.error(.onSave))
+                    return
+                }
+                try await budgetUseCase.addBudget(
+                    id: state.id,
+                    amount: state.amount,
+                    category: category,
+                    date: state.date.timeIntervalSince1970.yearMonth,
+                    summary: state.summary
                 )
-            )
-        } catch {
-            continuation.yield(.error(.onFetch))
+                send(.saved)
+            } catch {
+                send(.error(.onSave))
+            }
         }
     }
-    
-    func save(state: AddBudgetState, continuation: AsyncStream<AddBudgetAction>.Continuation) async {
-        do {
-            guard let category = state.category,
-                  state.amount > .zero,
-                  state.summary.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3
-            else {
-                continuation.yield(.error(.onSave))
-                return
+
+    private func remove(state: AddBudgetState) -> PrismEffect<AddBudgetAction> {
+        .run { send in
+            do {
+                let transaction = try await transactionUseCase.getTransactions(
+                    budgets: [state.id], tags: nil, statuses: nil, participants: nil, date: nil
+                )
+                guard let budget = try await budgetUseCase.getBudget(id: state.id),
+                      transaction.isEmpty
+                else {
+                    send(.error(.onRemove))
+                    return
+                }
+                try await budgetUseCase.removeBudget(id: budget.id)
+                send(.saved)
+            } catch {
+                send(.error(.onRemove))
             }
-            try await budgetUseCase.addBudget(
-                id: state.id,
-                amount: state.amount,
-                category: category,
-                date: state.date.timeIntervalSince1970.yearMonth,
-                summary: state.summary
-            )
-            continuation.yield(.saved)
-        } catch {
-            continuation.yield(.error(.onSave))
-        }
-    }
-    
-    func remove(state: AddBudgetState, continuation: AsyncStream<AddBudgetAction>.Continuation) async {
-        do {
-            let transaction = try await transactionUseCase.getTransactions(
-                budgets: [state.id],
-                tags: nil,
-                statuses: nil,
-                participants: nil,
-                date: nil
-            )
-            
-            guard let budget = try await budgetUseCase.getBudget(id: state.id),
-                  transaction.isEmpty
-            else {
-                continuation.yield(.error(.onRemove))
-                return
-            }
-            try await budgetUseCase.removeBudget(id: budget.id)
-            continuation.yield(.saved)
-        } catch {
-            continuation.yield(.error(.onRemove))
         }
     }
 }

@@ -2,21 +2,18 @@
 //  AddCategoryReducer.swift
 //  CashlyKit
 //
-//  Created by Rafael Escaleira on 01/09/25.
-//
 
 import CashlyDomain
+import PrismArchitecture
 
-public actor AddCategoryReducer: CashlyReducer {
+@MainActor
+public struct AddCategoryReducer: PrismReducer {
     public init() {}
-    
-    public func reduce(state: AddCategoryState, action: AddCategoryAction) async -> AddCategoryState {
-        var state = state
+
+    public func reduce(into state: inout AddCategoryState, action: AddCategoryAction) -> PrismEffect<AddCategoryAction> {
         switch action {
-        case .fetch:
-            state.isLoading = true
-        case .stopLoading:
-            state.isLoading = false
+        case .fetch: state.isLoading = true
+        case .stopLoading: state.isLoading = false
         case let .update(id, user, name, color, icon, isNew):
             state.id = id
             state.user = user
@@ -24,13 +21,11 @@ public actor AddCategoryReducer: CashlyReducer {
             state.color = color
             state.icon = icon
             state.isNew = isNew
-        case .saved:
-            state.isSaved = true
-        case let .error(error):
-            state.error = error
-        case .save, .remove:
-            break
+        case .saved: state.isSaved = true
+        case let .error(error): state.error = error
+        case let .replace(newState): state = newState
+        case .save, .remove: break
         }
-        return state
+        return .none
     }
 }

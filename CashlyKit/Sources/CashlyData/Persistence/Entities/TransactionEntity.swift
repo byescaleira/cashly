@@ -7,7 +7,7 @@
 
 import SwiftData
 import Foundation
-import RyzeFoundation
+import PrismFoundation
 
 @Model
 public class TransactionEntity {
@@ -69,7 +69,7 @@ public class TransactionEntity {
     }
 }
 
-enum TransactionDateFormatter: RyzeDateFormatter {
+enum TransactionDateFormatter: PrismDateFormatter {
     case yearMonth
     case shareMessage
     
@@ -81,7 +81,7 @@ enum TransactionDateFormatter: RyzeDateFormatter {
     }
 }
 
-extension RyzeDateFormatter where Self == TransactionDateFormatter {
+extension PrismDateFormatter where Self == TransactionDateFormatter {
     static func transaction(_ formatter: TransactionDateFormatter) -> Self {
         formatter
     }

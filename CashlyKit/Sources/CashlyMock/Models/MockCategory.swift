@@ -7,9 +7,9 @@
 
 import CashlyDomain
 import CashlyResource
-import RyzeFoundation
+import PrismFoundation
 
-extension CashlyDomain.Category: RyzeMock {
+extension CashlyDomain.Category: PrismMock {
     public static var mock: CashlyDomain.Category {
         mocks.randomElement()!
     }

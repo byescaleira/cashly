@@ -7,7 +7,7 @@
 
 import SwiftUI
 import CashlyDesignSystem
-import RyzeArchitecture
+import PrismArchitecture
 
 public extension View where Self: CashlyView {
     static func cashlyPreview() -> some View {

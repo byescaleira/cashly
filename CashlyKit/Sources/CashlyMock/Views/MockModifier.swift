@@ -6,19 +6,17 @@
 //
 
 import SwiftUI
-import RyzeUI
-import RyzeArchitecture
+import PrismUI
+import PrismArchitecture
 import CashlyPresentation
 
 struct MockModifier: ViewModifier {
-    @Environment(\.theme) var theme
-
-    @State var addCategoryStore: CashlyStore<AddCategoryReducer, AddCategoryMiddleware>
-    @State var addBudgetStore: CashlyStore<AddBudgetReducer, AddBudgetMiddleware>
-    @State var addTransactionStore: CashlyStore<AddTransactionReducer, AddTransactionMiddleware>
-    @State var addUserStore: CashlyStore<AddUserReducer, AddUserMiddleware>
-    @State var addTagStore: CashlyStore<AddTagReducer, AddTagMiddleware>
-    @State var mainStore: CashlyStore<MainReducer, MainMiddleware>
+    @State var addCategoryStore: CashlyStore<AddCategoryState, AddCategoryAction>
+    @State var addBudgetStore: CashlyStore<AddBudgetState, AddBudgetAction>
+    @State var addTransactionStore: CashlyStore<AddTransactionState, AddTransactionAction>
+    @State var addUserStore: CashlyStore<AddUserState, AddUserAction>
+    @State var addTagStore: CashlyStore<AddTagState, AddTagAction>
+    @State var mainStore: CashlyStore<MainState, MainAction>
 
     init() {
         let factory = MockCashlyFactory()
@@ -55,8 +53,8 @@ struct MockModifier: ViewModifier {
             .onChange(of: mainStore.state.user) { selectUser() }
         
             .task { handler(action: .main(.fetch)) }
-        
-            .tint(theme.color.primary)
+
+            .tint(Color.accentColor)
     }
     
     @MainActor

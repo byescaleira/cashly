@@ -2,21 +2,18 @@
 //  AddBudgetReducer.swift
 //  CashlyKit
 //
-//  Created by Rafael Escaleira on 01/09/25.
-//
 
 import CashlyDomain
+import PrismArchitecture
 
-public actor AddBudgetReducer: CashlyReducer {
+@MainActor
+public struct AddBudgetReducer: PrismReducer {
     public init() {}
-    
-    public func reduce(state: AddBudgetState, action: AddBudgetAction) async -> AddBudgetState {
-        var state = state
+
+    public func reduce(into state: inout AddBudgetState, action: AddBudgetAction) -> PrismEffect<AddBudgetAction> {
         switch action {
-        case .fetch:
-            state.isLoading = true
-        case .stopLoading:
-            state.isLoading = false
+        case .fetch: state.isLoading = true
+        case .stopLoading: state.isLoading = false
         case let .update(categories, id, amount, category, date, summary, isNew):
             state.categories = categories
             state.id = id
@@ -25,13 +22,11 @@ public actor AddBudgetReducer: CashlyReducer {
             state.date = date.string.date(with: .cashly(.yearMonth)) ?? .now
             state.summary = summary
             state.isNew = isNew
-        case .saved:
-            state.isSaved = true
-        case let .error(error):
-            state.error = error
-        case .save, .remove:
-            break
+        case .saved: state.isSaved = true
+        case let .error(error): state.error = error
+        case let .replace(newState): state = newState
+        case .save, .remove: break
         }
-        return state
+        return .none
     }
 }

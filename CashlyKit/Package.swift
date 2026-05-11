@@ -17,7 +17,7 @@ let package = Package(
         .ui
     ],
     dependencies: [
-        .ryze,
+        .prism,
         .snapshotTesting
     ],
     targets: [
@@ -86,14 +86,14 @@ enum CashlyTarget: String, CaseIterable {
     
     var dependencies: [Target.Dependency] {
         switch self {
-        case .domain: return [.ryze]
-        case .data: return [.domain, .ryze]
-        case .presentation: return [.domain, .data, .resource, .designSystem, .ryze]
-        case .ui: return [.domain, .presentation, .mock, .designSystem, .ryze, .resource]
-        case .resource: return [.ryze]
-        case .mock: return [.domain, .data, .presentation, .designSystem, .ryze, .resource]
-        case .designSystem: return [.resource, .ryze]
-        case .tests: return [.domain, .data, .presentation, .ui, .mock, .ryze, .snapshotTesting]
+        case .domain: return [.prismFoundation, .prismIntelligence]
+        case .data: return [.domain, .prismFoundation]
+        case .presentation: return [.domain, .data, .resource, .designSystem, .prismArchitecture, .prismFoundation, .prismIntelligence]
+        case .ui: return [.domain, .presentation, .mock, .designSystem, .prismUI, .prismArchitecture, .resource]
+        case .resource: return [.prismFoundation]
+        case .mock: return [.domain, .data, .presentation, .designSystem, .prismArchitecture, .resource]
+        case .designSystem: return [.resource, .prismUI, .prismArchitecture]
+        case .tests: return [.domain, .data, .presentation, .ui, .mock, .prismArchitecture, .snapshotTesting]
         }
     }
 
@@ -112,34 +112,27 @@ enum CashlyTarget: String, CaseIterable {
 }
 
 enum CashlyDependency: String, CaseIterable {
-    case ryze = "ryze"
+    case prism = "prism"
     case snapshotTesting = "swift-snapshot-testing"
 
     var url: String {
         switch self {
-        case .ryze: return "https://github.com/rafaelesantos/ryze"
+        case .prism: return "../../prism"
         case .snapshotTesting: return "https://github.com/pointfreeco/swift-snapshot-testing"
-        }
-    }
-
-    var revision: String? {
-        switch self {
-        case .ryze: return "2b619d8e98f00174719dcab07d5fad08b23ff2dd"
-        case .snapshotTesting: return nil
         }
     }
 
     var range: Range<Version>? {
         switch self {
-        case .ryze: return nil
+        case .prism: return nil
         case .snapshotTesting: return "1.17.0" ..< "2.0.0"
         }
     }
 
     var dependency: Package.Dependency {
         switch self {
-        case .ryze:
-            return .package(url: url, revision: revision!)
+        case .prism:
+            return .package(path: url)
         case .snapshotTesting:
             return .package(url: url, range!)
         }
@@ -178,12 +171,15 @@ extension Target.Dependency {
     static var ui: Self { CashlyTarget.ui.dependency }
     static var resource: Self { CashlyTarget.resource.dependency }
     static var designSystem: Self { CashlyTarget.designSystem.dependency }
-    static var ryze: Self { .product(name: "Ryze", package: "ryze") }
+    static var prismFoundation: Self { .product(name: "PrismFoundation", package: "prism") }
+    static var prismArchitecture: Self { .product(name: "PrismArchitecture", package: "prism") }
+    static var prismUI: Self { .product(name: "PrismUI", package: "prism") }
+    static var prismIntelligence: Self { .product(name: "PrismIntelligence", package: "prism") }
     static var snapshotTesting: Self { .product(name: "SnapshotTesting", package: "swift-snapshot-testing") }
 }
 
 extension Package.Dependency {
-    static var ryze: Package.Dependency { CashlyDependency.ryze.dependency }
+    static var prism: Package.Dependency { CashlyDependency.prism.dependency }
     static var snapshotTesting: Package.Dependency { CashlyDependency.snapshotTesting.dependency }
 }
 

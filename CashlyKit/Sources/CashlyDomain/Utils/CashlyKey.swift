@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import RyzeFoundation
+import PrismFoundation
 
 public enum CashlyKey: CashlyEntity {
     case budget(category: String, date: TimeInterval)

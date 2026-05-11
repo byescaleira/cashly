@@ -1,4 +1,5 @@
 //
+import Foundation
 //  MockAdapterActor.swift
 //  CashlyKit
 //
@@ -36,7 +37,7 @@ actor MockAdapterActor: AdapterUseCase {
         name: String,
         color: String,
         icon: String
-    ) async throws -> Category? {
+    ) async throws -> CashlyDomain.Category? {
         guard let user = users.first(where: { $0.id == user }) else { return nil }
         return Category(
             id: id,

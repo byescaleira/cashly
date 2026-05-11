@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-import RyzeArchitecture
+import PrismArchitecture
 #if DEBUG
 import CashlyMock
 #endif
@@ -16,7 +16,7 @@ import CashlyResource
 import CashlyPresentation
 
 public struct TransactionScreen: CashlyView {
-    @Environment(CashlyStore<MainReducer, MainMiddleware>.self) var store
+    @Environment(CashlyStore<MainState, MainAction>.self) var store
 
     @Environment(\.mainState) var state
     @Environment(\.action) var action

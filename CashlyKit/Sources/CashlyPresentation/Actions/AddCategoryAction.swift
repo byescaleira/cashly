@@ -5,7 +5,9 @@
 
 import CashlyDomain
 
-public enum AddCategoryAction: CashlyAction {
+public enum AddCategoryAction: CashlyAction, CashlyReplaceableAction {
+    public typealias State = AddCategoryState
+
     case fetch
     case save
     case remove
@@ -20,4 +22,5 @@ public enum AddCategoryAction: CashlyAction {
     )
     case saved
     case error(CashlyError)
+    case replace(AddCategoryState)
 }

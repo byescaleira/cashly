@@ -8,6 +8,7 @@
 import SwiftData
 import CashlyDomain
 
+@MainActor
 public struct CashlyDataFactory: CashlyDataFactoryProtocol {
     let modelContainer: ModelContainer
 

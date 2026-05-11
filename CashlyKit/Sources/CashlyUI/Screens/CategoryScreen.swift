@@ -14,7 +14,7 @@ import CashlyResource
 import CashlyPresentation
 
 public struct CategoryScreen: CashlyView {
-    @Environment(CashlyStore<MainReducer, MainMiddleware>.self) var store
+    @Environment(CashlyStore<MainState, MainAction>.self) var store
     
     @Environment(\.mainState) var state
     @Environment(\.action) var action
