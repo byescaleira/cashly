@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5j (G017 MockAdapter FK + entity Codable; G007 SPM note)
+
+**Tipo**: test + chore
+**Módulos**: CashlyTests/Mocks/MockAdapterActorTests, CashlyTests/Domain/EntityCodableTests, Package.swift comment
+**Resumo**: 15 testes novos cobrindo gaps remanescentes. MockAdapterActor (7): FK miss/hit em categoryAdapted/tagAdapted/transactionAdapted; userAdapted sem FK; invalid status raw. Entity Codable (8): User/Category/Budget/Tag/Participant/Transaction + TransactionStatus/SplitMode roundtrip JSON. G007 SPM: tentou `condition: .when(configuration: .debug)` em target dep — não existe na API SwiftPM (`configuration:` só para `.platforms`). Edge `.ui → .mock` permanece unconditional; symbols `#if DEBUG`-guarded em todos os 21 imports → linker dead-codes em Release. Comment atualizado em Package.swift. Inventory total: 40 files / 241 @Test declarations.
+**Impacto**: Coverage chega no surface mais wide possível por static testing — entity persistence, FK resolution, e adapter behavior cobertos. G017 essencialmente fechado.
+**ADR**: nenhum
+**PRs**: 1 commit
+**Aprendizados**: SwiftPM `condition:` API só aceita `.when(platforms:)`. Para debug-only deps usar `#if DEBUG` em imports + confiar em dead-code elimination — não há flag SPM nativa.
+
+---
+
 ## 2026-05-11 — Wave 5i (G017 IntelligenceService + Routable + MainRoute + enums)
 
 **Tipo**: test
