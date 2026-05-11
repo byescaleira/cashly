@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 6b (lint pass: trailing whitespace + double blanks)
+
+**Tipo**: chore
+**Módulos**: 73 swift files (Sources + Tests)
+**Resumo**: Lint pass. sed -i '' 's/[[:space:]]*$//' removeu 508 lines de trailing whitespace. awk-pass squashed 6 double-blank line occurrences (IntelligenceScreen, CashlyChart, CashlyCompareChart, CashlySymbolCategory(+Symbols), Participant). Verified: zero tabs, todos files com final newline. Alinhado com Apple Swift style.
+**Impacto**: Source tree limpo. swift-format friendly. 336 tests still passing.
+**ADR**: nenhum
+**PRs**: 2 commits em main
+**Aprendizados**: Bulk sed strip + awk dedup é cheap-effective para lint pass sem instalar swift-format ou SwiftLint. Future enforce via CI step `swift-format lint --recursive Sources Tests`.
+
+---
+
 ## 2026-05-11 — Wave 6a (Package.swift Apple-standard rewrite)
 
 **Tipo**: chore
