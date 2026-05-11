@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5n (DocC for Data/UI/Mock/Resource + Domain symbol docs)
+
+**Tipo**: docs
+**Módulos**: CashlyData.docc, CashlyUI.docc, CashlyMock.docc, CashlyResource.docc; symbol docs em Budget/Category/TransactionStatus/TransactionSplitMode/CashlyState/Action/Reducer/Middleware/Store
+**Resumo**: 4 catalogos DocC adicionais — agora todos os 7 SPM targets têm DocC catalog (CashlyDesignSystem, CashlyDomain, CashlyPresentation já tinham). Per-target topics: Data (factory + actors + adapter + intelligence), UI (screens + view extensions), Mock (factory + mock actors + MockModifier), Resource (L10n + files + Logger/Signpost + AnalyticsTracker). Symbol docs em Domain entities clarificam packed YYYYMM dates, hex color convention, directional vs terminal TransactionStatus, per-case SplitMode arithmetic. Typealiases em CashlyPresentation ganham descrições dos roles + write-seam pattern. 240 tests ainda passando.
+**Impacto**: G016 + G024 essencialmente fechados. Documentação navegável por `docc preview` em qualquer target.
+**ADR**: nenhum
+**PRs**: 1 commit em main
+**Aprendizados**: DocC catalog `.docc/` dentro de Sources/{Module} é auto-detectado pelo SwiftPM — nada precisa ser adicionado ao Package.swift. Cross-module symbol refs em topic lists usam `ModuleName/Type/symbol(args:)` pattern.
+
+---
+
 ## 2026-05-11 — Wave 5m (Domain+Presentation DocC + hot-path signposts)
 
 **Tipo**: docs + perf
