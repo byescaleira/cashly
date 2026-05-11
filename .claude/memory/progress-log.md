@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5q (Double + Transaction extensions + Participant tests)
+
+**Tipo**: test
+**Módulos**: CashlyTests/UI/DoubleExtensionTests, CashlyTests/Domain/TransactionExtensionsTests, CashlyTests/Actors/ParticipantActorTests
+**Resumo**: 12 testes novos. DoubleExtension (4): currencyColor polarity (zero vs non-zero reference), percentage rounding, variationMessage/Color thresholds. TransactionExtension (6): participantsAmount(filter:) empty/paymentsPlan/participants paths + filter sum/no-match; shareMessage header/count/total structure. ParticipantActor (2): smoke + add/remove roundtrip via MockParticipantActor. 269 tests / 43 suites passing.
+**Impacto**: Extension surfaces e Participant actor cobertos. Coverage map agora cobre Domain (entities, enums, score, transaction extensions, Codable), Data (5 actors + IntelligenceService + Adapter FK), Presentation (6 reducers + 6 middlewares + states + bindings + route + ApplicationAction + env), DesignSystem (color/shape/spacing/router/routable/systemMonitor/Color(hex)), Resource (Analytics + Signpost), UI (Double extension + snapshots).
+**ADR**: nenhum
+**PRs**: 1 commit em main
+**Aprendizados**: `@testable import CashlyUI` permite testar extensions internal (Double.currencyColor não é public — não bate em compile barrier mas precisa @testable).
+
+---
+
 ## 2026-05-11 — Wave 5p (cross-cutting glue tests: ApplicationAction + env + analytics + signpost)
 
 **Tipo**: test
