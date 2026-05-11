@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5o (G020 a11y tail — icon-only buttons labeled)
+
+**Tipo**: a11y
+**Módulos**: 4 Add* screens (AddBudget/AddCategory/AddTag/AddUser)
+**Resumo**: VoiceOver tail. Audit identificou 4 screens com saveButton/removeButton icon-only sem accessibilityLabel — só checkmark/trash CashlySymbol. AddTransactionScreen+Toolbar e TransactionScreen+Toolbar já tinham labels. Adicionados `.accessibilityLabel(CashlyL10n.string("Save"))` / `"Delete"` em todos. Snapshots re-gravados (sem mudança visual mas snapshot harness rejeitava attribute change). 240 tests passing. a11y label count: 14 → 22.
+**Impacto**: G020 tail efetivamente fechado. Toda toolbar action icon-only agora anuncia ação para VoiceOver.
+**ADR**: nenhum
+**PRs**: 1 commit em main
+**Aprendizados**: snapshot-testing detecta attribute-tree changes mesmo quando visual diff é zero — accessibilityLabel não muda pixels mas muda hierarchy; precisa re-record.
+
+---
+
 ## 2026-05-11 — Wave 5n (DocC for Data/UI/Mock/Resource + Domain symbol docs)
 
 **Tipo**: docs
