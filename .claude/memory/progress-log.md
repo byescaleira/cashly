@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 6a (Package.swift Apple-standard rewrite)
+
+**Tipo**: chore
+**Módulos**: CashlyKit/Package.swift
+**Resumo**: Removida toda metaprogramming do Package.swift. Antes: enum CashlyTarget gerando targets/products/deps via switches; CashlyDependency enum para package URLs; extensions em Product/Target/Target.Dependency/Package.Dependency/Array. Agora: declarativo plain — `dependencies:`, `products:`, `targets:` blocks com `.target(name:dependencies:)` literais. Match style Apple usa em SDK packages. 200 → 145 linhas. "What does target X depend on" agora lê em 5 linhas em vez de chase via 4 computed properties. 336 tests ainda passing.
+**Impacto**: Manutenibilidade Package.swift drasticamente melhor. Lint-friendly. Add/remove target é um delta inline, não 5 sites diferentes.
+**ADR**: nenhum
+**PRs**: 1 commit em main
+**Aprendizados**: Bespoke enum-driven Package.swift patterns são DRY-attractive mas anti-readability. Apple convention é deliberadamente verbose para que cada target self-document deps. Ferramentas (swift-format, IDE refactoring) handle padrão estandard, não o custom.
+
+---
+
 ## 2026-05-11 — Wave 5z (Package.swift dep graph trim)
 
 **Tipo**: chore
