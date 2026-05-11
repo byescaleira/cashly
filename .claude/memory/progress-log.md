@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5r (FilterState + CashlyError tests)
+
+**Tipo**: test
+**Módulos**: CashlyTests/States/FilterStateTests, CashlyTests/Domain/CashlyErrorTests
+**Resumo**: 16 testes novos. FilterStateTests (5): default init, Equatable/Hashable polish, Set membership. CashlyErrorTests (11): legacy cases + .unknown + PersistenceError + DomainError + umbrella forwarding + description fallback. 285 tests / 45 suites passing.
+**Impacto**: Coverage agora cobre estados de filtro (importante para `onChange(of: filter)` em CashlyApp) e error surface completa (legacy + typed variants).
+**ADR**: nenhum
+**PRs**: 1 commit em main
+**Aprendizados**: CashlyError tem 3 buckets de variants — legacy (onFetch/onSave/onRemove para retrocompat), .unknown(message:) para erros anônimos, e wrappers tipados (.persistence(.fetchFailed(...)) / .domain(.invalidInput(...))). Tests confirmam que cada bucket tem mensagem + recovery + failure reason coerente.
+
+---
+
 ## 2026-05-11 — Wave 5q (Double + Transaction extensions + Participant tests)
 
 **Tipo**: test
