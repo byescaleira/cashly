@@ -1,3 +1,75 @@
+## 2026-05-11 — Wave A6 (strict-Sendable State: extract routers from MainState)
+
+**Tipo**: refactor
+**Módulos**: CashlyPresentation/States/MainState (4 router properties removidos), CashlyUI/Screens/MainScreen (@State routers added), CashlyTests/States/StateFactoryTests (router asserts removidos)
+**Resumo**: `MainState` carregava 4 `CashlyRouter<MainRoute>` (intelligenceRouter, categoryRouter, homeRouter, transactionRouter). CashlyRouter é `@unchecked Sendable` class (final, reference type, mutable nav stack). Estado value-type segurando reference-type que é `@unchecked Sendable` = mentira que nunca seria flagada por strict concurrency mas quebrava semântica de `replace(State)`. A6 move routers para `MainScreen.@State`, binding direto via `$intelligenceRouter` em vez de `store.cashlyBinding(\.intelligenceRouter)`. MainState agora 100% value type, Sendable honesto.
+**Impacto**: Zero `@unchecked Sendable` em States. `replace(state:)` preserva nav stack (não overwrite mais). iOS build-for-testing ✅. Restam apenas 2 `@unchecked Sendable` no codebase: CashlyRouter (justificado, MainActor-bound) e Prism `PrismIntelligencePredictionInput` extension (external).
+**ADR**: 0006-mainstate-router-extraction
+**PRs**: pending commit
+**Aprendizados**: Reducer-shaped state (value type) e SwiftUI navigation state (reference type) precisam ficar separados. Quando se mistura, perdem-se invariantes de ambos. Routers em @State per tab é a posição canônica — sobrevivem re-renders, morrem com a view.
+
+---
+
+## 2026-05-11 — Wave A2 (cancellable middleware effects)
+
+**Tipo**: refactor
+**Módulos**: CashlyUI/Screens (HomeScreen, IntelligenceScreen, AddBudgetScreen, AddCategoryScreen, AddTagScreen, AddUserScreen, AddTransactionScreen)
+**Resumo**: `PrismStore.cancelEffects()` existia mas nenhuma screen Cashly chamava. Background fetches continuavam após dismiss — possíveis state mutations stale + memory pressure em rapid navigation. A2 adicionou `.onDisappear { store.cancelEffects() }` em 7 screens com fetch background. IntelligenceScreen ganhou `@Environment(CashlyStore<MainState, MainAction>.self) var store` + `import CashlyPresentation` (faltava). AddTransactionScreen agregou cancelEffects ao onDisappear existente (que já zerava selectedUsers).
+**Impacto**: Effects in-flight cancelam quando view desaparece. SwiftUI `.task` auto-cancela o closure mas não o Task interno do PrismStore (criado em `.run` via `Task { ... }`) — agora ambos. iOS build ✅.
+**ADR**: nenhum (segue padrão Prism existente — apenas usa API pública)
+**PRs**: pending commit
+**Aprendizados**: `.task` SwiftUI != cancelamento de effects do store. O closure do `.task` é cancelado mas o `action(...)` dispara um effect que vive no store, separado da view lifecycle. Sem `cancelEffects()` explícito, fetch background pode mutar state após dismiss e disparar UI updates em hierarchy desmontada.
+
+---
+
+## 2026-05-11 — Wave A5 (god-file splits: AddBudget/AddCategory/AddTag/FilterItemView)
+
+**Tipo**: refactor
+**Módulos**: CashlyUI/Screens (AddBudgetScreen, AddCategoryScreen, AddTagScreen — cada um split em +Sections/+Subviews/+Toolbar), CashlyUI/Items (FilterItemView split em +DateMenu/+SelectionMenus)
+**Resumo**: 4 god-files (242/236/225/259 LOC) excediam convention <= 200. Aplicada estratégia HomeScreen+/AddTransaction+ existente: extension per concern. AddBudgetScreen: shell+state+handlers (93) / +Sections (78) / +Subviews (53) / +Toolbar (57). AddCategoryScreen: shell (86) / +Sections (84) / +Subviews (67) / +Toolbar (37). AddTagScreen: shell (78) / +Sections (84) / +Subviews (65) / +Toolbar (37). FilterItemView: shell (103) / +DateMenu (79) / +SelectionMenus (101). Todos abaixo de 200 LOC.
+**Impacto**: Convention compliance. Cada arquivo tem foco singular (sections vs subviews vs toolbar vs date filtering vs multi-select filtering). iOS build ✅. Sem mudança comportamental.
+**ADR**: nenhum (refactor estrutural seguindo padrão existente)
+**PRs**: pending commit
+**Aprendizados**: Pattern HomeScreen+/AddTransaction+ é genérico: extension por concern (Sections para form layout, Subviews para reusable building blocks, Toolbar para toolbar items, Handlers para action dispatchers). Custo de split é ~zero (extension preserva access a propriedades stored), benefício é navegação imediata.
+
+---
+
+## 2026-05-11 — Wave A4 (deferred — Intelligence typealias migration)
+
+**Tipo**: planning
+**Módulos**: nenhum
+**Resumo**: Reavaliação durante ultrathink: o ganho proposto (remover `import PrismIntelligence` de `CashlyDomain`) custaria adicionar `import CashlyData` em ~10 arquivos de UI/Presentation, sem ganho semântico real. PrismIntelligence é um peer module estável (parte da família Prism, similar a PrismFoundation que já vem `@_exported` por Domain). Acoplamento é ambient, não infra. Decisão: A4 fica **deferida sem ADR**. Typealiases permanecem em Domain. Roadmap atualizado para refletir.
+**Impacto**: nenhum — pula direto para A5.
+**ADR**: nenhum (rejection de A4)
+**PRs**: pending commit
+**Aprendizados**: Roadmap waves precisam ser revalidadas no momento da execução. Custo vs benefício pode mudar quando se vê os real callsites. Skip é resultado válido — não força execução de wave por completude.
+
+---
+
+## 2026-05-11 — Wave A3 (typed CashlyError — kill legacy onFetch/onSave/onRemove)
+
+**Tipo**: refactor
+**Módulos**: CashlyDomain (CashlyError enum), CashlyPresentation (6 middlewares: AddBudget/AddCategory/AddTag/AddTransaction/AddUser/Main), CashlyTests (6 middleware test suites, 5 reducer test suites, CashlyErrorTests, ReducerCompositionTests, UseCaseDoubles)
+**Resumo**: Segunda onda do Eixo A. `CashlyError` ganhou `.persistence`/`.domain` typed wrappers há tempos mas todos middlewares continuavam emitindo `.onFetch/.onSave/.onRemove` opaco. A3 mapeou cada emissão por intenção: catch de use-case throw → `.persistence(.fetchFailed/saveFailed/removeFailed)` com entity + underlying.localizedDescription; guard fail por input ruim → `.domain(.invalidInput(field:reason:))`; guard fail por dep existente (remoção bloqueada) → `.domain(.businessRuleViolated(rule:))`; guard fail por target ausente → `.persistence(.notFound(entity:id:))`. Legacy cases deletados do enum. Testes migraram para pattern match em nível de categoria (`.persistence(.saveFailed)` vs `.domain(.invalidInput)`), não em entity string.
+**Impacto**: state.error agora carrega entity + underlying + categoria — analytics conseguem split por tipo. Foundation para Wave B2 (paywall errors via `.domain(.featureGated)`). iOS build-for-testing ✅. Reducer composition + middleware tests passam compilação.
+**ADR**: 0005-typed-cashly-error
+**PRs**: pending commit
+**Aprendizados**: Quando typed e legacy convivem por muito tempo, callsites estagnam no fácil. Solução: deletar legacy em uma onda só (não deprecation ramp) quando o codebase ainda é pequeno. Pattern match no nível de categoria (`.error(.persistence)`) preserva intenção do teste sem acoplar a entity strings.
+
+---
+
+## 2026-05-11 — Wave A1 (UserPreferences abstraction — decouple UserActor from UserDefaults)
+
+**Tipo**: refactor
+**Módulos**: CashlyDomain (UserPreferencesUseCase + factory protocol), CashlyData (UserDefaultsUserPreferences, UserActor manual ModelActor), CashlyMock (InMemoryUserPreferences, factory wire)
+**Resumo**: Primeira onda do roadmap-2026 Eixo A. UserActor não fala mais UserDefaults direto — recebe `UserPreferencesUseCase` no init. Production impl é actor `UserDefaultsUserPreferences` em Data: armazena `cashly.user.id` (string), migra one-shot do legacy `cashly.user` (full User blob) na primeira leitura. UserActor dropou `@ModelActor` macro (init signature fixa bloqueava injeção) — conforma `ModelActor` manualmente com `modelContainer` + `preferences`. Demais actors (Budget/Category/Tag/Transaction/Participant) mantêm macro. MockCashlyFactory + CashlyDataFactoryProtocol ganharam `makeUserPreferences()`.
+**Impacto**: Seam de teste limpo (InMemoryUserPreferences). Storage format passa de blob codificado para id plano (sem name/photo stale). UserUseCase API inalterada — 5 middleware callsites zero-touch. iOS build ✅ via xcodebuild -sdk iphonesimulator. swift test bloqueado por bug pré-existente em CashlyUI (EditMode/onScrollDown unavail em macOS) — não é regressão A1.
+**ADR**: 0004-user-preferences-abstraction
+**PRs**: pending commit
+**Aprendizados**: `@ModelActor` macro é açúcar, não lei — quando precisa de DI extra, dropar macro e implementar `ModelActor` à mão custa ~6 linhas. UserDefaults migration shim deve preservar key legacy até clear explícito (idempotência em re-installs). swift test no monorepo Cashly compila CashlyUI mesmo com --filter; xcodebuild iOS é a única forma de validar A1 enquanto UI macOS-broken existir.
+
+---
+
 ## 2026-05-11 — Wave 6g (.gitignore + stale schemes cleanup)
 
 **Tipo**: chore
