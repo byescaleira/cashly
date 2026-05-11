@@ -18,8 +18,8 @@
 | Críticos (correção / segurança / arquitetura) | 7 originais + G029/G033/G034/G035 descobertos |
 | Importantes (manutenibilidade / escalabilidade) | 11 originais + G026-G032 descobertos |
 | Nice-to-have (qualidade / processo) | 6 |
-| **Fechados** | **G007 parcial, G008, G009, G010, G011, G012, G013, G014 parcial, G015, G017 parcial, G018, G019 parcial, G020 parcial, G023 (Wave 5b), G024, G026, G027 mitigado, G028, G029, G030, G031, G032, G034, G035 (Wave 5b)** |
-| **Abertos** | **G001, G002, G003, G004, G005, G006, G022, G033, G036** |
+| **Fechados** | **G003 (Wave 5a), G007 parcial, G008, G009, G010, G011, G012, G013, G014 parcial, G015, G017 parcial, G018, G019 parcial, G020 parcial, G022 (Wave 5a), G023 (Wave 5b), G024, G026, G027 mitigado, G028, G029, G030, G031, G032, G033 (Wave 5a), G034, G035 (Wave 5b), G036 (Wave 5a')** |
+| **Abertos** | **G001, G002, G004, G005, G006** |
 | Dívida estimada (com migração Ryze→Prism) | **~22-30 dias úteis** |
 | Dívida estimada (sem migração Ryze→Prism, só higiene) | **~7-9 dias** |
 

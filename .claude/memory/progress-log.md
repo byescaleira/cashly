@@ -1,3 +1,35 @@
+## 2026-05-11 — Wave 5a COMPLETO (Prism merged + G003+G022+G033+G036 fechados)
+
+**Tipo**: feat (migration — Architecture cutover, MAIN GREEN)
+**Módulos**: Package.swift, todos 6 Reducers, 6 Middlewares, 6 Action enums, Factory protocols, MockModifier, CashlyApp, EnvKeys
+**Resumo**: Quinta tentativa Wave 5a em branch `migration/wave-5a-attempt-5` — SUCESSO. Package.swift trocado para local Prism path. Pre-requisites de Wave 5a' (binding seam) + Wave 5a'' (drop `.ryze(...)` modifiers) habilitaram o cutover mecânico. Padrão final: `case replace(State)` em cada Action, conforming a `CashlyReplaceableAction`, dispatched via PrismStore.send a partir dos helpers cashlyBinding/cashlyMutate/cashlyReplace. PredictionCache lift para actor privado interno em MainMiddleware. CashlyEntity refinada com Identifiable (PrismEntity dropou esse refinement). CashlyApp.swift e MockModifier dropam `@Environment(\.theme)`; usam `Color.accentColor`. BUILD SUCCEEDED iPhone 17 simulator. Branch fast-forwarded para main.
+**Impacto**: G003 (cross-cutting Ryze), G022 (Ryze→Prism), G033 (Reducer API incompat), G036 (binding pattern) todos fechados. Abertos restantes: G001, G002, G004 (Domain hygiene), G005, G006 (DI). Apenas hygiene/DI gaps continuam abertos — todo o pesado de migração resolvido.
+**ADR**: 0002 + 0003 já documentavam estratégia; outcome confirmado.
+**PRs**: merge direto main via fast-forward de migration/wave-5a-attempt-5.
+**Aprendizados**: PrismStore<State, Action> (não <Reducer, Middleware>) — direct generic params mudam call sites. `state` é `private(set)` — write seam via `.replace(State)` case é mais clean que `replaceState` API exposure. PrismReducer associatedtypes resolvem associada limpa quando Reducer e Middleware compartilham State/Action concretos. PrismMiddleware Sendable struct OK desde que cache mutável vire actor interno. CashlyEntity precisa Identifiable explicit (PrismEntity não tem). `\.isLoading` env é Cashly-owned now. Sem `@retroactive @unchecked Sendable` necessário — PrismStore já é @MainActor.
+
+---
+
+## 2026-05-11 — Wave 5a'' (drop residual .ryze() modifiers)
+
+**Tipo**: refactor (migration prep)
+**Módulos**: CashlyUI/Extensions/View+Extension, CashlyDesignSystem/CashlyConfetti, CashlyDesignSystem/CashlyBackgroundRow
+**Resumo**: 7 `.ryze(...)` modifiers restantes em CashlyUI eliminados. CashlyConfetti (piece+container+modifier) e CashlyBackgroundRowModifier portados para CashlyDesignSystem. View+Extension reescrito 100% nativo: cashly(font:weight:design:), cashly(loading:), cashlyBackgroundItem, cashly(if:), cashly(item:), cashlyConfetti, cashly(symbol:). Drop `import RyzeUI` da View+Extension. Build verde.
+**Impacto**: Última ponte de modifier visual com Ryze removida. Pre-requisite para Wave 5a real merge mecânico.
+**Aprendizados**: SwiftUI Binding.@dynamicMemberLookup permite `store.cashlyBinding(\.filter).startDate` nested projection sem keypath chain manual.
+
+---
+
+## 2026-05-11 — Wave 5a' (binding seam — G036 fix)
+
+**Tipo**: refactor (migration prep)
+**Módulos**: Store+Binding.swift (novo), 11 view files
+**Resumo**: Cashly screens usavam `@Bindable var store; $store.state.field` (23 sites) e `store.state.X = value` (~15 sites) — pattern impossível com PrismStore (state é private(set)). Introduzido `Store+Binding.swift` com `cashlyBinding(_:)`, `cashlyMutate(_:_:)`, `cashlyReplace(_:)`. Hoje (Ryze) escreve direto em state[keyPath:]; depois (Prism) só esse arquivo precisa mudar. 24 `@Bindable var store = store` shadows removidos. Build green ainda em Ryze.
+**Impacto**: G036 fix preparado. Wave 5a real merge agora mecânico.
+**Aprendizados**: Multi-field mutations refatoradas para copy-mutate-write-back pattern: `var arr = store.state.X; arr[i] = v; store.cashlyMutate(\.X, arr)`. Comportamento idêntico, semântica explícita.
+
+---
+
 ## 2026-05-11 — Wave 5a Attempt #4 (deferred again, G036 discovered)
 
 **Tipo**: chore (migration — exploration, branch deleted)
