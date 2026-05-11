@@ -40,7 +40,7 @@ public struct AddTagMiddleware: PrismMiddleware {
                     isNew: tag == nil
                 ))
             } catch {
-                send(.error(.onFetch))
+                send(.error(.persistence(.fetchFailed(entity: "Tag", underlying: error.localizedDescription))))
             }
         }
     }
@@ -48,11 +48,16 @@ public struct AddTagMiddleware: PrismMiddleware {
     private func save(state: AddTagState) -> PrismEffect<AddTagAction> {
         .run { send in
             do {
-                guard state.name.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3,
-                      !state.icon.isEmpty,
-                      let user = state.user
-                else {
-                    send(.error(.onSave))
+                guard state.name.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3 else {
+                    send(.error(.domain(.invalidInput(field: "name", reason: "Name must be at least 3 characters."))))
+                    return
+                }
+                guard !state.icon.isEmpty else {
+                    send(.error(.domain(.invalidInput(field: "icon", reason: "Icon is required."))))
+                    return
+                }
+                guard let user = state.user else {
+                    send(.error(.domain(.invalidInput(field: "user", reason: "User is required."))))
                     return
                 }
                 try await tagUseCase.addTag(
@@ -61,7 +66,7 @@ public struct AddTagMiddleware: PrismMiddleware {
                 )
                 send(.saved)
             } catch {
-                send(.error(.onSave))
+                send(.error(.persistence(.saveFailed(entity: "Tag", underlying: error.localizedDescription))))
             }
         }
     }
@@ -70,13 +75,13 @@ public struct AddTagMiddleware: PrismMiddleware {
         .run { send in
             do {
                 guard let tag = try await tagUseCase.getTag(id: state.id) else {
-                    send(.error(.onRemove))
+                    send(.error(.persistence(.notFound(entity: "Tag", id: state.id))))
                     return
                 }
                 try await tagUseCase.removeTag(id: tag.id)
                 send(.saved)
             } catch {
-                send(.error(.onRemove))
+                send(.error(.persistence(.removeFailed(entity: "Tag", underlying: error.localizedDescription))))
             }
         }
     }

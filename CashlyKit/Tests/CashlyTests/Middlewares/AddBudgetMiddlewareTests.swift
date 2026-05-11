@@ -41,7 +41,7 @@ struct AddBudgetMiddlewareTests {
     @Test("passive actions emit nothing")
     func passiveActionsEmitNothing() async {
         let mw = makeMiddleware()
-        for action: AddBudgetAction in [.stopLoading, .saved, .error(.onSave), .replace(.new())] {
+        for action: AddBudgetAction in [.stopLoading, .saved, .error(.persistence(.saveFailed(entity: "Budget", underlying: "x"))), .replace(.new())] {
             let actions = await collectActions(from: mw.run(state: .new(), action: action))
             #expect(actions.isEmpty)
         }
@@ -65,10 +65,10 @@ struct AddBudgetMiddlewareTests {
         state.amount = 0
         state.summary = "x"
         let actions = await collectActions(from: mw.run(state: state, action: .save))
-        if case .error(.onSave) = actions.first {} else { Issue.record("expected .error(.onSave)") }
+        if case .error(.domain(.invalidInput)) = actions.first {} else { Issue.record("expected .error(.domain(.invalidInput))") }
     }
 
-    @Test("save throws → .error(.onSave)")
+    @Test("save throws → .error(.persistence(.saveFailed))")
     func saveThrows() async {
         let budgetUC = BudgetUseCaseDouble()
         budgetUC.throwOnAdd = true
@@ -80,19 +80,19 @@ struct AddBudgetMiddlewareTests {
         state.amount = 100
         state.summary = "Valid summary"
         let actions = await collectActions(from: mw.run(state: state, action: .save))
-        if case .error(.onSave) = actions.first {} else { Issue.record("expected .error(.onSave)") }
+        if case .error(.persistence(.saveFailed)) = actions.first {} else { Issue.record("expected .error(.persistence(.saveFailed))") }
     }
 
-    @Test("remove unknown budget emits .error(.onRemove)")
+    @Test("remove unknown budget emits .error(.persistence(.notFound))")
     func removeUnknown() async {
         let mw = makeMiddleware()
         var state = AddBudgetState.new()
         state.id = "ghost"
         let actions = await collectActions(from: mw.run(state: state, action: .remove))
-        if case .error(.onRemove) = actions.first {} else { Issue.record("expected .error(.onRemove)") }
+        if case .error(.persistence(.notFound)) = actions.first {} else { Issue.record("expected .error(.persistence(.notFound))") }
     }
 
-    @Test("remove blocked by existing transactions emits .error(.onRemove)")
+    @Test("remove blocked by existing transactions emits .error(.domain(.businessRuleViolated))")
     func removeBlocked() async {
         let user = User(id: "u", name: "A", photo: "https://x/a.png")
         let category = CashlyDomain.Category(id: "c", user: user, name: "C", color: "#000", icon: "x")
@@ -109,6 +109,6 @@ struct AddBudgetMiddlewareTests {
         var state = AddBudgetState.new()
         state.id = "b1"
         let actions = await collectActions(from: mw.run(state: state, action: .remove))
-        if case .error(.onRemove) = actions.first {} else { Issue.record("expected .error(.onRemove)") }
+        if case .error(.domain(.businessRuleViolated)) = actions.first {} else { Issue.record("expected .error(.domain(.businessRuleViolated))") }
     }
 }

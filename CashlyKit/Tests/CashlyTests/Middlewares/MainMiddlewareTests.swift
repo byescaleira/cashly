@@ -44,19 +44,19 @@ struct MainMiddlewareTests {
     @Test("error / stopLoading / replace emit nothing")
     func passiveActionsEmitNothing() async {
         let mw = makeMiddleware()
-        for action: MainAction in [.error(.onSave), .stopLoading, .replace(MainState())] {
+        for action: MainAction in [.error(.persistence(.saveFailed(entity: "x", underlying: "x"))), .stopLoading, .replace(MainState())] {
             let actions = await collectActions(from: mw.run(state: MainState(), action: action))
             #expect(actions.isEmpty)
         }
     }
 
-    @Test("removeTag with no matching tag emits .error(.onRemove)")
+    @Test("removeTag with no matching tag emits .error(.persistence(.notFound))")
     func removeTagUnknown() async {
         let user = User(id: "u", name: "A", photo: "https://x/a.png")
         let tag = Tag(id: "t-ghost", user: user, name: "Ghost", color: "#000", icon: "x")
         let mw = makeMiddleware()
         let actions = await collectActions(from: mw.run(state: MainState(), action: .removeTag(tag)))
-        if case .error(.onRemove) = actions.first {} else { Issue.record("expected .error(.onRemove)") }
+        if case .error(.persistence(.notFound)) = actions.first {} else { Issue.record("expected .error(.persistence(.notFound))") }
     }
 
     @Test("removeTag with matching tag emits .fetch")
@@ -102,11 +102,11 @@ struct MainMiddlewareTests {
         if case .fetch = actions.first {} else { Issue.record("expected .fetch") }
     }
 
-    @Test("selectUser with nil user emits .error(.onSave)")
+    @Test("selectUser with nil user emits .error(.domain(.invalidInput))")
     func selectUserNil() async {
         let mw = makeMiddleware()
         let actions = await collectActions(from: mw.run(state: MainState(), action: .selectUser))
-        if case .error(.onSave) = actions.first {} else { Issue.record("expected .error(.onSave)") }
+        if case .error(.domain(.invalidInput)) = actions.first {} else { Issue.record("expected .error(.domain(.invalidInput))") }
     }
 
     @Test("selectUser with user emits .fetch")

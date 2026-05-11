@@ -71,7 +71,7 @@ public struct AddTransactionMiddleware: PrismMiddleware {
                     installmentPlan: transaction?.paymentsPlan ?? state.installmentPlan
                 ))
             } catch {
-                send(.error(.onFetch))
+                send(.error(.persistence(.fetchFailed(entity: "Transaction", underlying: error.localizedDescription))))
             }
         }
     }
@@ -86,12 +86,20 @@ public struct AddTransactionMiddleware: PrismMiddleware {
                 let total = valueParticipants + value
                 let isValidParticipants = Int(total - state.amount) == .zero
 
-                guard let budget = state.budget,
-                      state.amount > .zero,
-                      state.summary.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3,
-                      state.participants.isEmpty ? true : isValidParticipants
-                else {
-                    send(.error(.onSave))
+                guard let budget = state.budget else {
+                    send(.error(.domain(.invalidInput(field: "budget", reason: "Budget is required."))))
+                    return
+                }
+                guard state.amount > .zero else {
+                    send(.error(.domain(.invalidInput(field: "amount", reason: "Amount must be greater than zero."))))
+                    return
+                }
+                guard state.summary.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3 else {
+                    send(.error(.domain(.invalidInput(field: "summary", reason: "Summary must be at least 3 characters."))))
+                    return
+                }
+                guard state.participants.isEmpty || isValidParticipants else {
+                    send(.error(.domain(.businessRuleViolated(rule: "Participant splits must sum to the transaction amount."))))
                     return
                 }
 
@@ -120,7 +128,7 @@ public struct AddTransactionMiddleware: PrismMiddleware {
                 )
                 send(.saved)
             } catch {
-                send(.error(.onSave))
+                send(.error(.persistence(.saveFailed(entity: "Transaction", underlying: error.localizedDescription))))
             }
         }
     }
@@ -129,13 +137,13 @@ public struct AddTransactionMiddleware: PrismMiddleware {
         .run { send in
             do {
                 guard let transaction = try await transactionUseCase.getTransaction(id: state.id) else {
-                    send(.error(.onRemove))
+                    send(.error(.persistence(.notFound(entity: "Transaction", id: state.id))))
                     return
                 }
                 try await transactionUseCase.removeTransaction(id: transaction.id)
                 send(.saved)
             } catch {
-                send(.error(.onRemove))
+                send(.error(.persistence(.removeFailed(entity: "Transaction", underlying: error.localizedDescription))))
             }
         }
     }

@@ -17,20 +17,11 @@ public enum CashlyError: PrismError {
     case domain(DomainError)
     case unknown(message: String)
 
-    // Legacy generic cases kept for backward compatibility with existing
-    // call sites that haven't migrated yet. Prefer the typed variants above.
-    case onFetch
-    case onSave
-    case onRemove
-
     public var errorDescription: String? {
         switch self {
         case let .persistence(error): return error.errorDescription
         case let .domain(error): return error.errorDescription
         case let .unknown(message): return message
-        case .onFetch: return "Failed to fetch data."
-        case .onSave: return "Failed to save data."
-        case .onRemove: return "Failed to remove data."
         }
     }
 
@@ -38,7 +29,7 @@ public enum CashlyError: PrismError {
         switch self {
         case let .persistence(error): return error.failureReason
         case let .domain(error): return error.failureReason
-        case .unknown, .onFetch, .onSave, .onRemove: return nil
+        case .unknown: return nil
         }
     }
 
@@ -47,7 +38,6 @@ public enum CashlyError: PrismError {
         case let .persistence(error): return error.recoverySuggestion
         case let .domain(error): return error.recoverySuggestion
         case .unknown: return "Try again. If the issue persists, contact support."
-        case .onFetch, .onSave, .onRemove: return "Try again."
         }
     }
 

@@ -37,7 +37,7 @@ struct AddCategoryMiddlewareTests {
     @Test("passive actions emit nothing")
     func passiveActionsEmitNothing() async {
         let mw = makeMiddleware()
-        for action: AddCategoryAction in [.stopLoading, .saved, .error(.onSave), .replace(.new())] {
+        for action: AddCategoryAction in [.stopLoading, .saved, .error(.persistence(.saveFailed(entity: "Category", underlying: "x"))), .replace(.new())] {
             let actions = await collectActions(from: mw.run(state: .new(), action: action))
             #expect(actions.isEmpty)
         }
@@ -78,13 +78,13 @@ struct AddCategoryMiddlewareTests {
         #expect(isNew == false)
     }
 
-    @Test("fetch throws → .error(.onFetch)")
+    @Test("fetch throws → .error(.persistence(.fetchFailed))")
     func fetchThrows() async {
         let categoryUC = CategoryUseCaseDouble()
         categoryUC.throwOnGet = true
         let mw = makeMiddleware(categoryUseCase: categoryUC)
         let actions = await collectActions(from: mw.run(state: .new(), action: .fetch))
-        if case .error(.onFetch) = actions.first {} else { Issue.record("expected .error(.onFetch)") }
+        if case .error(.persistence(.fetchFailed)) = actions.first {} else { Issue.record("expected .error(.persistence(.fetchFailed))") }
     }
 
     @Test("save validates name >= 3 and icon non-empty and user present")
@@ -94,7 +94,7 @@ struct AddCategoryMiddlewareTests {
         state.name = "ab" // too short
         state.icon = "x"
         let actions = await collectActions(from: mw.run(state: state, action: .save))
-        if case .error(.onSave) = actions.first {} else { Issue.record("expected .error(.onSave)") }
+        if case .error(.domain(.invalidInput)) = actions.first {} else { Issue.record("expected .error(.domain(.invalidInput))") }
     }
 
     @Test("save happy path emits .saved")
@@ -112,7 +112,7 @@ struct AddCategoryMiddlewareTests {
         if case .saved = actions.first {} else { Issue.record("expected .saved") }
     }
 
-    @Test("remove blocked by existing budgets emits .error(.onRemove)")
+    @Test("remove blocked by existing budgets emits .error(.domain(.businessRuleViolated))")
     func removeBlockedByBudgets() async {
         let categoryUC = CategoryUseCaseDouble()
         let budgetUC = BudgetUseCaseDouble()
@@ -126,6 +126,6 @@ struct AddCategoryMiddlewareTests {
         var state = AddCategoryState.new()
         state.id = "cat-x"
         let actions = await collectActions(from: mw.run(state: state, action: .remove))
-        if case .error(.onRemove) = actions.first {} else { Issue.record("expected .error(.onRemove)") }
+        if case .error(.domain(.businessRuleViolated)) = actions.first {} else { Issue.record("expected .error(.domain(.businessRuleViolated))") }
     }
 }

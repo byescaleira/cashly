@@ -65,10 +65,10 @@ struct ReducerCompositionTests {
     @Test("MainStore: .error sets state.error but emits no follow-up actions")
     func errorTerminates() async {
         let store = makeMainStore()
-        store.send(.error(.onFetch))
+        store.send(.error(.persistence(.fetchFailed(entity: "Test", underlying: "boom"))))
         try? await Task.sleep(nanoseconds: 100_000_000)
-        if case .onFetch = store.state.error {} else {
-            Issue.record("expected state.error == .onFetch")
+        if case .persistence(.fetchFailed) = store.state.error {} else {
+            Issue.record("expected state.error == .persistence(.fetchFailed)")
         }
     }
 

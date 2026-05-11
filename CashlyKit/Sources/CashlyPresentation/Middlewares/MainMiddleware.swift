@@ -145,7 +145,7 @@ public struct MainMiddleware: PrismMiddleware {
                     predictedTransactionsAmount: predictedTransactionsAmount
                 ))
             } catch {
-                send(.error(.onFetch))
+                send(.error(.persistence(.fetchFailed(entity: "Main", underlying: error.localizedDescription))))
             }
         }
     }
@@ -160,13 +160,13 @@ public struct MainMiddleware: PrismMiddleware {
         .run { send in
             do {
                 guard let tag = try await tagUseCase.getTag(id: tag.id) else {
-                    send(.error(.onRemove))
+                    send(.error(.persistence(.notFound(entity: "Tag", id: tag.id))))
                     return
                 }
                 try await tagUseCase.removeTag(id: tag.id)
                 send(.fetch)
             } catch {
-                send(.error(.onRemove))
+                send(.error(.persistence(.removeFailed(entity: "Tag", underlying: error.localizedDescription))))
             }
         }
     }
@@ -177,7 +177,7 @@ public struct MainMiddleware: PrismMiddleware {
                 try await transactionUseCase.removeTransaction(id: transaction.id)
                 send(.fetch)
             } catch {
-                send(.error(.onRemove))
+                send(.error(.persistence(.removeFailed(entity: "Transaction", underlying: error.localizedDescription))))
             }
         }
     }
@@ -188,7 +188,7 @@ public struct MainMiddleware: PrismMiddleware {
                 try await transactionUseCase.removeTransactions(ids: Set(transactions.map(\.id)))
                 send(.fetch)
             } catch {
-                send(.error(.onRemove))
+                send(.error(.persistence(.removeFailed(entity: "Transaction", underlying: error.localizedDescription))))
             }
         }
     }
@@ -197,13 +197,13 @@ public struct MainMiddleware: PrismMiddleware {
         .run { send in
             do {
                 guard let user = state.user else {
-                    send(.error(.onSave))
+                    send(.error(.domain(.invalidInput(field: "user", reason: "No user selected."))))
                     return
                 }
                 try await userUseCase.selectUser(user: user)
                 send(.fetch)
             } catch {
-                send(.error(.onSave))
+                send(.error(.persistence(.saveFailed(entity: "User", underlying: error.localizedDescription))))
             }
         }
     }

@@ -64,8 +64,8 @@ struct AddBudgetReducerTests {
     @Test("error stores error")
     func errorStores() {
         var state = AddBudgetState.new()
-        _ = reducer.reduce(into: &state, action: .error(.onSave))
-        if case .onSave = state.error {} else { Issue.record("expected .onSave") }
+        _ = reducer.reduce(into: &state, action: .error(.persistence(.saveFailed(entity: "Test", underlying: "boom"))))
+        if case .persistence(.saveFailed) = state.error {} else { Issue.record("expected .persistence(.saveFailed)") }
     }
 
     @Test("replace swaps state")

@@ -59,8 +59,8 @@ struct AddTagReducerTests {
     @Test("error stores error")
     func errorStores() {
         var state = AddTagState.new()
-        _ = reducer.reduce(into: &state, action: .error(.onRemove))
-        if case .onRemove = state.error {} else { Issue.record("expected .onRemove") }
+        _ = reducer.reduce(into: &state, action: .error(.persistence(.removeFailed(entity: "Test", underlying: "boom"))))
+        if case .persistence(.removeFailed) = state.error {} else { Issue.record("expected .persistence(.removeFailed)") }
     }
 
     @Test("replace swaps state")

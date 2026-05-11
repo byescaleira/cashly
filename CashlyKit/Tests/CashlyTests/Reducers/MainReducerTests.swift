@@ -93,8 +93,8 @@ struct MainReducerTests {
     @Test("error stores")
     func errorStores() {
         var state = MainState()
-        _ = reducer.reduce(into: &state, action: .error(.onFetch))
-        if case .onFetch = state.error {} else { Issue.record("expected .onFetch") }
+        _ = reducer.reduce(into: &state, action: .error(.persistence(.fetchFailed(entity: "Test", underlying: "boom"))))
+        if case .persistence(.fetchFailed) = state.error {} else { Issue.record("expected .persistence(.fetchFailed)") }
     }
 
     @Test("replace swaps state")

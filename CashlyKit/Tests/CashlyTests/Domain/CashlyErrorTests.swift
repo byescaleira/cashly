@@ -9,29 +9,6 @@ import CashlyDomain
 @Suite("CashlyError + nested errors", .tags(.unit, .data, .local))
 struct CashlyErrorTests {
 
-    // MARK: - Legacy cases
-
-    @Test("legacy .onFetch/.onSave/.onRemove expose user-facing messages")
-    func legacyMessages() {
-        #expect(CashlyError.onFetch.errorDescription == "Failed to fetch data.")
-        #expect(CashlyError.onSave.errorDescription == "Failed to save data.")
-        #expect(CashlyError.onRemove.errorDescription == "Failed to remove data.")
-    }
-
-    @Test("legacy cases have a recovery suggestion")
-    func legacyRecovery() {
-        for c in [CashlyError.onFetch, .onSave, .onRemove] {
-            #expect(c.recoverySuggestion == "Try again.")
-        }
-    }
-
-    @Test("legacy cases have no failure reason")
-    func legacyNoFailureReason() {
-        for c in [CashlyError.onFetch, .onSave, .onRemove] {
-            #expect(c.failureReason == nil)
-        }
-    }
-
     // MARK: - .unknown
 
     @Test(".unknown carries the supplied message")
@@ -93,7 +70,7 @@ struct CashlyErrorTests {
 
     @Test("CashlyError.description mirrors errorDescription")
     func descriptionMirrorsErrorDescription() {
-        let error: CashlyError = .onSave
+        let error: CashlyError = .persistence(.saveFailed(entity: "X", underlying: "boom"))
         #expect(error.description == error.errorDescription)
     }
 }

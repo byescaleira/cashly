@@ -39,7 +39,7 @@ struct AddUserMiddlewareTests {
     func passiveActionsEmitNothing() async {
         let mw = makeMiddleware()
         let state = AddUserState.new()
-        for action: AddUserAction in [.stopLoading, .saved, .error(.onSave), .replace(state)] {
+        for action: AddUserAction in [.stopLoading, .saved, .error(.persistence(.saveFailed(entity: "User", underlying: "x"))), .replace(state)] {
             let actions = await collectActions(from: mw.run(state: state, action: action))
             #expect(actions.isEmpty, "expected no emissions for \(action)")
         }
@@ -77,16 +77,16 @@ struct AddUserMiddlewareTests {
         #expect(isNew == false)
     }
 
-    @Test("fetch throws → emits .error(.onFetch)")
+    @Test("fetch throws → emits .error(.persistence(.fetchFailed))")
     func fetchThrows() async {
         let userUC = UserUseCaseDouble()
         userUC.throwOnGet = true
         let mw = makeMiddleware(userUseCase: userUC)
         let actions = await collectActions(from: mw.run(state: .new(), action: .fetch))
-        if case .error(.onFetch) = actions.first {} else { Issue.record("expected .error(.onFetch)") }
+        if case .error(.persistence(.fetchFailed)) = actions.first {} else { Issue.record("expected .error(.persistence(.fetchFailed))") }
     }
 
-    @Test("save with short name emits .error(.onSave) without DB write")
+    @Test("save with short name emits .error(.domain(.invalidInput)) without DB write")
     func saveValidatesNameLength() async {
         let userUC = UserUseCaseDouble()
         let mw = makeMiddleware(userUseCase: userUC)
@@ -94,11 +94,11 @@ struct AddUserMiddlewareTests {
         state.name = "ab"
         state.photo = "https://x/p.png"
         let actions = await collectActions(from: mw.run(state: state, action: .save))
-        if case .error(.onSave) = actions.first {} else { Issue.record("expected .error(.onSave)") }
+        if case .error(.domain(.invalidInput)) = actions.first {} else { Issue.record("expected .error(.domain(.invalidInput))") }
         #expect(userUC.addUserCalls.calls.isEmpty)
     }
 
-    @Test("save with invalid photo URL emits .error(.onSave)")
+    @Test("save with invalid photo URL emits .error(.domain(.invalidInput))")
     func saveValidatesPhotoURL() async {
         let userUC = UserUseCaseDouble()
         let mw = makeMiddleware(userUseCase: userUC)
@@ -106,7 +106,7 @@ struct AddUserMiddlewareTests {
         state.name = "Valid Name"
         state.photo = nil
         let actions = await collectActions(from: mw.run(state: state, action: .save))
-        if case .error(.onSave) = actions.first {} else { Issue.record("expected .error(.onSave)") }
+        if case .error(.domain(.invalidInput)) = actions.first {} else { Issue.record("expected .error(.domain(.invalidInput))") }
         #expect(userUC.addUserCalls.calls.isEmpty)
     }
 
@@ -126,7 +126,7 @@ struct AddUserMiddlewareTests {
         #expect(userUC.selectUserCalls.calls.count == 1)
     }
 
-    @Test("save propagates addUser throw as .error(.onSave)")
+    @Test("save propagates addUser throw as .error(.persistence(.saveFailed))")
     func saveAddThrows() async {
         let userUC = UserUseCaseDouble()
         userUC.throwOnAdd = true
@@ -135,7 +135,7 @@ struct AddUserMiddlewareTests {
         state.name = "Alice"
         state.photo = "https://x/a.png"
         let actions = await collectActions(from: mw.run(state: state, action: .save))
-        if case .error(.onSave) = actions.first {} else { Issue.record("expected .error(.onSave)") }
+        if case .error(.persistence(.saveFailed)) = actions.first {} else { Issue.record("expected .error(.persistence(.saveFailed))") }
     }
 
     @Test("remove with empty deps and existing user emits .saved")
@@ -151,7 +151,7 @@ struct AddUserMiddlewareTests {
         #expect(userUC.removeUserCalls.calls.contains("remove-me"))
     }
 
-    @Test("remove with related categories emits .error(.onRemove)")
+    @Test("remove with related categories emits .error(.domain(.businessRuleViolated))")
     func removeBlockedByDependencies() async {
         let userUC = UserUseCaseDouble()
         let user = User(id: "u-blocked", name: "Carol", photo: "https://x/c.png")
@@ -164,7 +164,7 @@ struct AddUserMiddlewareTests {
         var state = AddUserState.new()
         state.id = "u-blocked"
         let actions = await collectActions(from: mw.run(state: state, action: .remove))
-        if case .error(.onRemove) = actions.first {} else { Issue.record("expected .error(.onRemove)") }
+        if case .error(.domain(.businessRuleViolated)) = actions.first {} else { Issue.record("expected .error(.domain(.businessRuleViolated))") }
         #expect(userUC.removeUserCalls.calls.isEmpty)
     }
 }

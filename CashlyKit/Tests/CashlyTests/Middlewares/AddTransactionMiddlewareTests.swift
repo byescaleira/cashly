@@ -46,7 +46,7 @@ struct AddTransactionMiddlewareTests {
     @Test("passive actions emit nothing")
     func passiveActionsEmitNothing() async {
         let mw = makeMiddleware()
-        for action: AddTransactionAction in [.stopLoading, .saved, .error(.onSave), .replace(.new())] {
+        for action: AddTransactionAction in [.stopLoading, .saved, .error(.persistence(.saveFailed(entity: "Transaction", underlying: "x"))), .replace(.new())] {
             let actions = await collectActions(from: mw.run(state: .new(), action: action))
             #expect(actions.isEmpty)
         }
@@ -59,7 +59,7 @@ struct AddTransactionMiddlewareTests {
         state.amount = 100
         state.summary = "Valid summary"
         let actions = await collectActions(from: mw.run(state: state, action: .save))
-        if case .error(.onSave) = actions.first {} else { Issue.record("expected .error(.onSave)") }
+        if case .error(.domain(.invalidInput)) = actions.first {} else { Issue.record("expected .error(.domain(.invalidInput))") }
     }
 
     @Test("save validation fails on short summary")
@@ -73,16 +73,16 @@ struct AddTransactionMiddlewareTests {
         state.amount = 50
         state.summary = "ab"
         let actions = await collectActions(from: mw.run(state: state, action: .save))
-        if case .error(.onSave) = actions.first {} else { Issue.record("expected .error(.onSave)") }
+        if case .error(.domain(.invalidInput)) = actions.first {} else { Issue.record("expected .error(.domain(.invalidInput))") }
     }
 
-    @Test("remove unknown transaction emits .error(.onRemove)")
+    @Test("remove unknown transaction emits .error(.persistence(.notFound))")
     func removeUnknown() async {
         let mw = makeMiddleware()
         var state = AddTransactionState.new()
         state.id = "ghost"
         let actions = await collectActions(from: mw.run(state: state, action: .remove))
-        if case .error(.onRemove) = actions.first {} else { Issue.record("expected .error(.onRemove)") }
+        if case .error(.persistence(.notFound)) = actions.first {} else { Issue.record("expected .error(.persistence(.notFound))") }
     }
 
     @Test("remove existing transaction emits .saved")

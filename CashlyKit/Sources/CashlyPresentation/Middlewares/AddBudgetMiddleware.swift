@@ -59,7 +59,7 @@ public struct AddBudgetMiddleware: PrismMiddleware {
                     isNew: budget == nil
                 ))
             } catch {
-                send(.error(.onFetch))
+                send(.error(.persistence(.fetchFailed(entity: "Budget", underlying: error.localizedDescription))))
             }
         }
     }
@@ -67,11 +67,16 @@ public struct AddBudgetMiddleware: PrismMiddleware {
     private func save(state: AddBudgetState) -> PrismEffect<AddBudgetAction> {
         .run { send in
             do {
-                guard let category = state.category,
-                      state.amount > .zero,
-                      state.summary.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3
-                else {
-                    send(.error(.onSave))
+                guard let category = state.category else {
+                    send(.error(.domain(.invalidInput(field: "category", reason: "Category is required."))))
+                    return
+                }
+                guard state.amount > .zero else {
+                    send(.error(.domain(.invalidInput(field: "amount", reason: "Amount must be greater than zero."))))
+                    return
+                }
+                guard state.summary.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3 else {
+                    send(.error(.domain(.invalidInput(field: "summary", reason: "Summary must be at least 3 characters."))))
                     return
                 }
                 try await budgetUseCase.addBudget(
@@ -83,7 +88,7 @@ public struct AddBudgetMiddleware: PrismMiddleware {
                 )
                 send(.saved)
             } catch {
-                send(.error(.onSave))
+                send(.error(.persistence(.saveFailed(entity: "Budget", underlying: error.localizedDescription))))
             }
         }
     }
@@ -94,16 +99,18 @@ public struct AddBudgetMiddleware: PrismMiddleware {
                 let transaction = try await transactionUseCase.getTransactions(
                     budgets: [state.id], tags: nil, statuses: nil, participants: nil, date: nil
                 )
-                guard let budget = try await budgetUseCase.getBudget(id: state.id),
-                      transaction.isEmpty
-                else {
-                    send(.error(.onRemove))
+                guard let budget = try await budgetUseCase.getBudget(id: state.id) else {
+                    send(.error(.persistence(.notFound(entity: "Budget", id: state.id))))
+                    return
+                }
+                guard transaction.isEmpty else {
+                    send(.error(.domain(.businessRuleViolated(rule: "Budget has related transactions."))))
                     return
                 }
                 try await budgetUseCase.removeBudget(id: budget.id)
                 send(.saved)
             } catch {
-                send(.error(.onRemove))
+                send(.error(.persistence(.removeFailed(entity: "Budget", underlying: error.localizedDescription))))
             }
         }
     }

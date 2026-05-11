@@ -49,7 +49,7 @@ public struct AddCategoryMiddleware: PrismMiddleware {
                     isNew: category == nil
                 ))
             } catch {
-                send(.error(.onFetch))
+                send(.error(.persistence(.fetchFailed(entity: "Category", underlying: error.localizedDescription))))
             }
         }
     }
@@ -57,11 +57,16 @@ public struct AddCategoryMiddleware: PrismMiddleware {
     private func save(state: AddCategoryState) -> PrismEffect<AddCategoryAction> {
         .run { send in
             do {
-                guard state.name.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3,
-                      !state.icon.isEmpty,
-                      let user = state.user
-                else {
-                    send(.error(.onSave))
+                guard state.name.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3 else {
+                    send(.error(.domain(.invalidInput(field: "name", reason: "Name must be at least 3 characters."))))
+                    return
+                }
+                guard !state.icon.isEmpty else {
+                    send(.error(.domain(.invalidInput(field: "icon", reason: "Icon is required."))))
+                    return
+                }
+                guard let user = state.user else {
+                    send(.error(.domain(.invalidInput(field: "user", reason: "User is required."))))
                     return
                 }
                 try await categoryUseCase.addCategory(
@@ -70,7 +75,7 @@ public struct AddCategoryMiddleware: PrismMiddleware {
                 )
                 send(.saved)
             } catch {
-                send(.error(.onSave))
+                send(.error(.persistence(.saveFailed(entity: "Category", underlying: error.localizedDescription))))
             }
         }
     }
@@ -82,16 +87,18 @@ public struct AddCategoryMiddleware: PrismMiddleware {
                 let transaction = try await transactionUseCase.getTransactions(
                     budgets: budgets.map(\.id), tags: nil, statuses: nil, participants: nil, date: nil
                 )
-                guard let category = try await categoryUseCase.getCategory(id: state.id),
-                      budgets.isEmpty, transaction.isEmpty
-                else {
-                    send(.error(.onRemove))
+                guard let category = try await categoryUseCase.getCategory(id: state.id) else {
+                    send(.error(.persistence(.notFound(entity: "Category", id: state.id))))
+                    return
+                }
+                guard budgets.isEmpty, transaction.isEmpty else {
+                    send(.error(.domain(.businessRuleViolated(rule: "Category has related budgets or transactions."))))
                     return
                 }
                 try await categoryUseCase.removeCategory(id: category.id)
                 send(.saved)
             } catch {
-                send(.error(.onRemove))
+                send(.error(.persistence(.removeFailed(entity: "Category", underlying: error.localizedDescription))))
             }
         }
     }

@@ -30,7 +30,7 @@ struct AddTagMiddlewareTests {
     @Test("passive actions emit nothing")
     func passiveActionsEmitNothing() async {
         let mw = makeMiddleware()
-        for action: AddTagAction in [.stopLoading, .saved, .error(.onSave), .replace(.new())] {
+        for action: AddTagAction in [.stopLoading, .saved, .error(.persistence(.saveFailed(entity: "Tag", underlying: "x"))), .replace(.new())] {
             let actions = await collectActions(from: mw.run(state: .new(), action: action))
             #expect(actions.isEmpty)
         }
@@ -77,7 +77,7 @@ struct AddTagMiddlewareTests {
         state.icon = "x"
         state.user = User(id: "u", name: "A", photo: "https://x/a.png")
         let actions = await collectActions(from: mw.run(state: state, action: .save))
-        if case .error(.onSave) = actions.first {} else { Issue.record("expected .error(.onSave)") }
+        if case .error(.domain(.invalidInput)) = actions.first {} else { Issue.record("expected .error(.domain(.invalidInput))") }
     }
 
     @Test("save happy path emits .saved")
@@ -106,12 +106,12 @@ struct AddTagMiddlewareTests {
         if case .saved = actions.first {} else { Issue.record("expected .saved") }
     }
 
-    @Test("remove unknown tag emits .error(.onRemove)")
+    @Test("remove unknown tag emits .error(.persistence(.notFound))")
     func removeUnknown() async {
         let mw = makeMiddleware()
         var state = AddTagState.new()
         state.id = "nope"
         let actions = await collectActions(from: mw.run(state: state, action: .remove))
-        if case .error(.onRemove) = actions.first {} else { Issue.record("expected .error(.onRemove)") }
+        if case .error(.persistence(.notFound)) = actions.first {} else { Issue.record("expected .error(.persistence(.notFound))") }
     }
 }

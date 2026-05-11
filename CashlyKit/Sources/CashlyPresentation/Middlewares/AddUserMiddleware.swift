@@ -46,7 +46,7 @@ public struct AddUserMiddleware: PrismMiddleware {
                     isNew: user == nil
                 ))
             } catch {
-                send(.error(.onFetch))
+                send(.error(.persistence(.fetchFailed(entity: "User", underlying: error.localizedDescription))))
             }
         }
     }
@@ -54,22 +54,23 @@ public struct AddUserMiddleware: PrismMiddleware {
     private func save(state: AddUserState) -> PrismEffect<AddUserAction> {
         .run { send in
             do {
-                guard state.name.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3,
-                      let photo = state.photo,
-                      URL(string: photo) != nil
-                else {
-                    send(.error(.onSave))
+                guard state.name.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3 else {
+                    send(.error(.domain(.invalidInput(field: "name", reason: "Name must be at least 3 characters."))))
+                    return
+                }
+                guard let photo = state.photo, URL(string: photo) != nil else {
+                    send(.error(.domain(.invalidInput(field: "photo", reason: "Photo must be a valid URL."))))
                     return
                 }
                 try await userUseCase.addUser(id: state.id, name: state.name, photo: photo)
                 guard let user = try await userUseCase.getUser(id: state.id) else {
-                    send(.error(.onSave))
+                    send(.error(.persistence(.notFound(entity: "User", id: state.id))))
                     return
                 }
                 try await userUseCase.selectUser(user: user)
                 send(.saved)
             } catch {
-                send(.error(.onSave))
+                send(.error(.persistence(.saveFailed(entity: "User", underlying: error.localizedDescription))))
             }
         }
     }
@@ -82,16 +83,18 @@ public struct AddUserMiddleware: PrismMiddleware {
                 let transaction = try await transactionUseCase.getTransactions(
                     budgets: budgets.map(\.id), tags: nil, statuses: nil, participants: nil, date: nil
                 )
-                guard let user = try await userUseCase.getUser(id: state.id),
-                      categories.isEmpty, budgets.isEmpty, transaction.isEmpty
-                else {
-                    send(.error(.onRemove))
+                guard let user = try await userUseCase.getUser(id: state.id) else {
+                    send(.error(.persistence(.notFound(entity: "User", id: state.id))))
+                    return
+                }
+                guard categories.isEmpty, budgets.isEmpty, transaction.isEmpty else {
+                    send(.error(.domain(.businessRuleViolated(rule: "User has related categories, budgets or transactions."))))
                     return
                 }
                 try await userUseCase.removeUser(id: user.id)
                 send(.saved)
             } catch {
-                send(.error(.onRemove))
+                send(.error(.persistence(.removeFailed(entity: "User", underlying: error.localizedDescription))))
             }
         }
     }
