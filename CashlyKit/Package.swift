@@ -89,7 +89,14 @@ enum CashlyTarget: String, CaseIterable {
         case .domain: return [.prismFoundation, .prismIntelligence]
         case .data: return [.domain, .prismFoundation, .prismIntelligence]
         case .presentation: return [.domain, .data, .resource, .designSystem, .prismArchitecture, .prismFoundation, .prismIntelligence]
-        case .ui: return [.domain, .data, .presentation, .mock, .designSystem, .prismUI, .prismArchitecture, .resource]
+        case .ui:
+            // CashlyMock symbols are gated by `#if DEBUG` in every
+            // import site (preview/mock helpers only). SPM lacks a
+            // debug-only target-dep condition, so the edge stays
+            // unconditional, but the linker dead-codes mock symbols
+            // out of Release because no reference remains after the
+            // preprocessor pass.
+            return [.domain, .data, .presentation, .mock, .designSystem, .prismUI, .prismArchitecture, .resource]
         case .resource: return [.prismFoundation]
         case .mock: return [.domain, .data, .presentation, .designSystem, .prismArchitecture, .resource]
         case .designSystem: return [.resource, .prismUI, .prismArchitecture]
