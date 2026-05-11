@@ -25,8 +25,8 @@ import RyzeArchitecture
 // CashlyTextField: unused. Removed.
 // CashlyCurrencyTextField: Cashly-owned (see CashlyCurrencyTextField.swift).
 // CashlyTextFieldConfiguration: unused. Removed.
-public typealias CashlyList = RyzeList
-public typealias CashlyHorizontalList = RyzeHorizontalList
+// CashlyList: Cashly-owned (see CashlyList.swift).
+// CashlyHorizontalList: Cashly-owned (see CashlyHorizontalList.swift).
 public typealias CashlyAsyncImage = RyzeAsyncImage
 // CashlyLabel: Cashly-owned (see CashlyLabel.swift).
 public typealias CashlyBrowserView = RyzeBrowserView
