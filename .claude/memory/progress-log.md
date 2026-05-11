@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 6d (strip Wave/Gap migration tags from source)
+
+**Tipo**: chore
+**Módulos**: 37 swift files across CashlyUI, CashlyResource, CashlyData, CashlyPresentation/States
+**Resumo**: Strip migration metadata (`Wave 5b`, `Wave 7 G019`, `G004/G001`, `Wave 5 G034`, `Wave 8 G024`) de file headers + inline comments. Substituídos por descrições do que o código faz hoje. Zero matches `Wave [0-9]` / `G0[0-9][0-9]` em Sources agora. Migration history continua em `.claude/memory/progress-log.md` — source comments descrevem código, não archaeology.
+**Impacto**: Source mais clean para onboarding. Comments don't rot — futurama developer não precisa saber Wave numbering ou gap IDs.
+**ADR**: nenhum
+**PRs**: 1 commit em main
+**Aprendizados**: Comments com migration metadata têm validade curta. Útil durante wave para tracking, deve ser strippado quando wave fecha. Memory log + ADRs são home apropriado para project archaeology.
+
+---
+
 ## 2026-05-11 — Wave 6c (Ryze residuals removed)
 
 **Tipo**: chore
