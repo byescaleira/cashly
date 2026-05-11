@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import PrismArchitecture
 import CashlyPresentation
 
 struct MockModifier: ViewModifier {

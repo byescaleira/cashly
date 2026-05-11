@@ -7,7 +7,6 @@
 
 import SwiftUI
 import CashlyDesignSystem
-import PrismArchitecture
 
 public extension View where Self: CashlyView {
     static func cashlyPreview() -> some View {

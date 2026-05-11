@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import PrismArchitecture
 import CashlyDomain
 
 public enum MainRoute: CashlyRoutable {

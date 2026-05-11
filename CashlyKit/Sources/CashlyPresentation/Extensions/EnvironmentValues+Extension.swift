@@ -8,7 +8,6 @@
 import SwiftUI
 import CashlyDomain
 import CashlyData
-import PrismArchitecture
 
 public extension EnvironmentValues {
     @Entry var addCategoryState = AddCategoryState.new()

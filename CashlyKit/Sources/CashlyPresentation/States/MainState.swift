@@ -4,7 +4,6 @@
 //
 
 import CashlyDomain
-import PrismArchitecture
 import PrismIntelligence
 
 public struct MainState: CashlyState {
