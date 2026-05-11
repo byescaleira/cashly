@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5w (entity .mock/.mocks + cashlyPreview helpers)
+
+**Tipo**: test
+**Módulos**: CashlyTests/Mocks/{EntityMocks, CashlyPreview}Tests
+**Resumo**: 10 testes novos. EntityMocksTests (8): User/Budget/Category/Tag/Participant/Transaction PrismMock conformances — .mocks JSON resolves, sort orders correct (User asc by name, Budget desc by date), e .mock always resolves. CashlyPreviewTests (2): both instance and static cashlyPreview() build sem crash. 336 tests / 54 suites passing.
+**Impacto**: Mock fixture surface coberto. Tests garantem JSON parsing está funcional + ordenação esperada.
+**ADR**: nenhum
+**PRs**: 1 commit em main
+**Aprendizados**: Static cashlyPreview() é constrained `where Self: CashlyView` e usa `mocked()` default (EmptyView) — preview-only TestView fixture funciona como conformer mínimo.
+
+---
+
 ## 2026-05-11 — Wave 5v (MockCashlyFactory dual-conformance tests)
 
 **Tipo**: test
