@@ -8,15 +8,32 @@
 
 import SwiftUI
 
+/// How a route should be presented when handed to a ``CashlyRouter``.
 public enum CashlyNavigationStyle: Sendable {
+    /// Push onto the navigation stack.
     case push
+    /// Present as a sheet.
     case present
+    /// Present as a fullscreen cover (iOS only — collapses to sheet on
+    /// other platforms via SwiftUI).
     case full
 }
 
+/// A destination that ``CashlyRouter`` can navigate to.
+///
+/// Conformers must be `Hashable` (so the navigation stack can encode
+/// the path) and `Identifiable` — a default `id == Self` is supplied
+/// by the protocol. The Hashable conformance must be implemented by
+/// the concrete type: `RawRepresentable` enums get synthesis for free,
+/// payload-carrying enums use a discriminator-based hash (see
+/// `MainRoute` in CashlyPresentation).
 public protocol CashlyRoutable: Hashable, Identifiable {
     associatedtype Content: View
+    /// How this route prefers to be presented.
     var navigationStyle: CashlyNavigationStyle { get }
+    /// Renders the destination view. `content` is provided by the host
+    /// router so the conformer can defer to a shared destination
+    /// factory.
     func makeView(content: @escaping (Self) -> any View) -> Content
 }
 

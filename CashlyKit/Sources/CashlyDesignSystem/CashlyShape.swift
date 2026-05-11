@@ -8,9 +8,14 @@
 
 import SwiftUI
 
+/// Shape token used by ``cashly(clip:)`` and ``cashly(glass:in:)``.
+/// Sendable enum that resolves to one of the SwiftUI shape primitives.
 public enum CashlyShape: Shape, Sendable {
+    /// `Capsule` primitive.
     case capsule
+    /// `Circle` primitive.
     case circle
+    /// `RoundedRectangle` with the given corner radius.
     case rounded(radius: CGFloat)
 
     public func path(in rect: CGRect) -> Path {

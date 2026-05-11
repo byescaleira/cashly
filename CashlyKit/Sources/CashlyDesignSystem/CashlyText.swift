@@ -2,19 +2,28 @@
 //  CashlyText.swift
 //  CashlyKit
 //
-//  Wave 5b: Cashly-owned text primitive backed by SwiftUI.Text.
-//  Reads `\.isLoading` from the upstream environment to apply a
-//  redacted placeholder skeleton.
-//
 
 import SwiftUI
-import PrismUI
 
+/// A text primitive that renders a redacted skeleton while the
+/// surrounding view hierarchy reports `\.isLoading == true`.
+///
+/// Pass a non-nil `String` to render normally; pass `nil` together
+/// with an active loading state to display a sized placeholder that
+/// keeps row heights stable while data loads.
+///
+/// ```swift
+/// CashlyText(user?.name)
+///     .environment(\.isLoading, state.isLoading)
+/// ```
 public struct CashlyText: View {
     @Environment(\.isLoading) private var isLoading
 
     private let text: String?
 
+    /// Creates a text view from an optional string.
+    /// - Parameter text: The string to render, or `nil` to render only
+    ///   the skeleton placeholder.
     public init(_ text: String?) {
         self.text = text
     }

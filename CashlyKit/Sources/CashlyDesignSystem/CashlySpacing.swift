@@ -9,6 +9,12 @@
 
 import SwiftUI
 
+/// Spacing token used by stacks and the `.cashlyPadding(...)`
+/// modifier. Fixed CGFloat scale — no theme indirection.
+///
+/// Use named cases (`extraSmall` ... `section`) for visual rhythm,
+/// `negative(_:)` for overlap effects, and `custom(_:)` as an escape
+/// hatch.
 public indirect enum CashlySpacing: Sendable, Equatable {
     case zero
     case extraSmall

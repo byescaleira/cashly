@@ -9,6 +9,18 @@
 
 import SwiftUI
 
+/// Stack-aware navigation router for a single route type.
+///
+/// Tracks three independent surfaces:
+/// - a push stack (`navigationPath`),
+/// - a single sheet route (`presentRoute`),
+/// - a single fullscreen route (`fullRoute`).
+///
+/// ``CashlyNavigationView`` consumes the router to drive a
+/// `NavigationStack` plus `.sheet` and `.fullScreenCover` modifiers.
+/// `dismiss()` pops in priority order (path → present → full → host
+/// binding), so a single back-button call works regardless of which
+/// surface produced the current destination.
 @Observable
 public final class CashlyRouter<Route: CashlyRoutable>: @unchecked Sendable, Equatable {
     public var navigationPath = NavigationPath()
