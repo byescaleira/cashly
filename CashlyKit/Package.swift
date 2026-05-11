@@ -27,6 +27,7 @@ let package = Package(
         .mock,
         .ui,
         .resource,
+        .designSystem,
         .tests
     ]
 )
@@ -38,6 +39,7 @@ enum CashlyTarget: String, CaseIterable {
     case ui = "CashlyUI"
     case resource = "CashlyResource"
     case mock = "CashlyMock"
+    case designSystem = "CashlyDesignSystem"
     case tests = "CashlyTests"
     
     var target: Target {
@@ -87,21 +89,23 @@ enum CashlyTarget: String, CaseIterable {
         case .domain: return [.ryze]
         case .data: return [.domain, .ryze]
         case .presentation: return [.domain, .data, .resource, .ryze]
-        case .ui: return [.domain, .presentation, .mock, .ryze, .resource]
+        case .ui: return [.domain, .presentation, .mock, .designSystem, .ryze, .resource]
         case .resource: return [.ryze]
-        case .mock: return [.domain, .data, .presentation, .ryze, .resource]
+        case .mock: return [.domain, .data, .presentation, .designSystem, .ryze, .resource]
+        case .designSystem: return [.resource, .ryze]
         case .tests: return [.domain, .data, .presentation, .ui, .mock, .ryze, .snapshotTesting]
         }
     }
-    
+
     var targets: [CashlyTarget] {
         switch self {
         case .domain: return []
         case .data: return [.domain]
         case .presentation: return [.domain, .data]
-        case .ui: return [.domain, .presentation, .mock]
+        case .ui: return [.domain, .presentation, .mock, .designSystem]
         case .resource: return []
-        case .mock: return [.domain, .data, .presentation]
+        case .mock: return [.domain, .data, .presentation, .designSystem]
+        case .designSystem: return []
         case .tests: return [.domain, .data, .presentation, .ui]
         }
     }
@@ -162,6 +166,7 @@ extension Target {
     static var mock: Target { CashlyTarget.mock.target }
     static var ui: Target { CashlyTarget.ui.target }
     static var resource: Target { CashlyTarget.resource.target }
+    static var designSystem: Target { CashlyTarget.designSystem.target }
     static var tests: Target { CashlyTarget.tests.testTarget }
 }
 
@@ -172,6 +177,7 @@ extension Target.Dependency {
     static var mock: Self { CashlyTarget.mock.dependency }
     static var ui: Self { CashlyTarget.ui.dependency }
     static var resource: Self { CashlyTarget.resource.dependency }
+    static var designSystem: Self { CashlyTarget.designSystem.dependency }
     static var ryze: Self { .product(name: "Ryze", package: "ryze") }
     static var snapshotTesting: Self { .product(name: "SnapshotTesting", package: "swift-snapshot-testing") }
 }
@@ -187,6 +193,6 @@ extension Array where Element == String {
     }
     
     static var cashlyTargets: [CashlyTarget] {
-        [.domain, .data, .presentation, .ui, .mock, .resource]
+        [.domain, .data, .presentation, .ui, .mock, .resource, .designSystem]
     }
 }
