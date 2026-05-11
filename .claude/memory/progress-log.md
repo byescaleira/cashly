@@ -1,3 +1,15 @@
+## 2026-05-11 — Wave 5f (G017 middleware integration tests, all 6 middlewares)
+
+**Tipo**: test
+**Módulos**: CashlyTests/Common/{EffectHelpers, UseCaseDoubles}, CashlyTests/Middlewares/{AddUser, AddCategory, AddTag, AddBudget, AddTransaction, Main}MiddlewareTests
+**Resumo**: Cobertura completa de middleware integrations. Infraestrutura nova: `collectActions(from:timeout:)` para drenar PrismEffect.actions AsyncStream em [Action] com bounded 5s timeout; UseCaseDoubles para todos os 6 Domain UseCase protocols com programmable returns + throw flags + CallRecorder thread-safe. Tests dirigidos por ações: dispatch action → observe action sequence emitted by effect → assert. Sem SwiftData, sem in-memory store. 6 middlewares cobertos: AddUser (11), AddCategory (8), AddTag (8), AddBudget (7), AddTransaction (6), Main (9) — total 49 testes de middleware. Inventory total: 23 arquivos / 134 @Test declarations.
+**Impacto**: G017 fechado em "parcial substancial" → "parcial avançado". Middleware happy paths + error paths + dependency-blocked paths cobertos. Faltam: snapshot tests post-Wave-5a (alguns podem precisar re-record) e UI interaction tests (futuro).
+**ADR**: nenhum
+**PRs**: 2 commits direto em main
+**Aprendizados**: PrismEffect.actions AsyncStream é drainable a partir de qualquer Task — útil para tests. CashlyError não conforma Equatable (PrismError refina apenas Codable/CustomStringConvertible) — usar `if case .X = state.error` em vez de `==`. Test doubles thread-safe via NSLock são cheaper que actor wrappers e suficientes para tests sync.
+
+---
+
 ## 2026-05-11 — Wave 5e (G017 test coverage boost)
 
 **Tipo**: test
