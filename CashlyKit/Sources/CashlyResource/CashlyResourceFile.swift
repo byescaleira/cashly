@@ -15,14 +15,14 @@ public enum CashlyResourceFile: String, CaseIterable {
     case transactions = "MockTransactions"
     case tags = "MockTags"
     case participants = "MockParticipants"
-    
+
     public var data: Data {
         guard let url = Bundle.module.url(forResource: rawValue, withExtension: ".json"),
               let data = try? Data(contentsOf: url)
         else { return Data() }
         return data
     }
-    
+
     public func decoded<T>() throws -> T where T: Decodable {
         try data.entity(for: T.self)
     }

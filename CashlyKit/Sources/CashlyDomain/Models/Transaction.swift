@@ -18,7 +18,7 @@ public struct Transaction: CashlyEntity, Sendable {
     public var splitMode: TransactionSplitMode?
     public var splitValue: Double?
     public var paymentsPlan: Int?
-    
+
     public init(
         id: String,
         participants: [Participant],
@@ -54,11 +54,11 @@ public enum TransactionStatus: Int, CaseIterable, CashlyEntity, Sendable {
     case pendingToPay = 2
     case settled = 0
     case canceled = 1
-    
+
     public var id: Int {
         rawValue
     }
-    
+
     public var summary: String {
         switch self {
         case .pendingToReceive: return "Pending to Receive"
@@ -67,7 +67,7 @@ public enum TransactionStatus: Int, CaseIterable, CashlyEntity, Sendable {
         case .canceled: return "Canceled"
         }
     }
-    
+
     public var icon: String {
         switch self {
         case .pendingToReceive: return "arrow.down"
@@ -76,7 +76,7 @@ public enum TransactionStatus: Int, CaseIterable, CashlyEntity, Sendable {
         case .canceled: return "xmark"
         }
     }
-    
+
     public var reverse: TransactionStatus {
         switch self {
         case .pendingToReceive: return .pendingToPay
@@ -99,9 +99,9 @@ public enum TransactionSplitMode: Int, CaseIterable, CashlyEntity, Sendable {
     /// One participant pays the full amount; others are tracked as
     /// owing 0.
     case payerBased = 3
-    
+
     public var id: Int { rawValue }
-    
+
     public var summary: String {
         switch self {
         case .equal:
@@ -114,7 +114,7 @@ public enum TransactionSplitMode: Int, CaseIterable, CashlyEntity, Sendable {
             return "Payer Based"
         }
     }
-    
+
     public var description: String {
         switch self {
         case .equal:
@@ -127,7 +127,7 @@ public enum TransactionSplitMode: Int, CaseIterable, CashlyEntity, Sendable {
             return "One participant pays the full amount, others are marked as owing."
         }
     }
-    
+
     public func value(splitValue: Double?, amount: Double) -> Double? {
         guard let splitValue else { return nil }
         switch self {
@@ -142,7 +142,7 @@ public enum TransactionSplitMode: Int, CaseIterable, CashlyEntity, Sendable {
         case .payerBased:
             return .zero
         }
-        
+
         return nil
     }
 }
@@ -190,7 +190,7 @@ public extension Set where Element == Transaction {
             message += " 🏷️ \(category)".space + "-".space + transaction.summary.breakLine
             return message
         }.joined(separator: "\n").breakLine
-        
+
         messages += "📊 Transactions: \(transactions.count)\n"
         messages += "💰 Total: \(totalAmount.currency() ?? "")"
         return messages

@@ -12,17 +12,17 @@ import SwiftData
 actor MockTransactionActor: TransactionUseCase {
     let budgets = Budget.mocks
     var transactions = CashlyDomain.Transaction.mocks
-    
+
     init() {}
-    
+
     func getTransaction(id: String) async throws -> CashlyDomain.Transaction? {
         transactions.first(where: { $0.id == id })
     }
-    
+
     func getTransactions() async throws -> [CashlyDomain.Transaction] {
         transactions
     }
-    
+
     func getTransactions(
         budgets: [String]?,
         tags: [String]?,
@@ -42,24 +42,24 @@ actor MockTransactionActor: TransactionUseCase {
             (date != nil ? transaction.date.yearMonth == date?.timeIntervalSince1970.yearMonth : true)
         }
     }
-    
+
     func removeTransaction(id: String) async throws {
         guard let transaction = try await getTransaction(id: id),
               let index = transactions.firstIndex(of: transaction)
         else { return }
         let _ = transactions.remove(at: index)
     }
-    
+
     func removeTransactions(ids: Set<String>) async throws {
         transactions.removeAll(where: {
             !ids.contains($0.id)
         })
     }
-    
+
     func removeTransactions() async throws {
         transactions = []
     }
-    
+
     func addTransaction(
         id: String,
         participants: [Participant],

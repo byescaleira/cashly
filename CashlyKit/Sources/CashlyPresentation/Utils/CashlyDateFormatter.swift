@@ -17,7 +17,7 @@ public enum CashlyDateFormatter: PrismDateFormatter {
     case year
     case month
     case numberMonth
-    
+
     public var rawValue: DateFormatter {
         switch self {
         case .weekDay: return getFormatter(from: "EEEE")

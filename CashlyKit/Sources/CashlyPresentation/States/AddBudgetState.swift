@@ -19,21 +19,21 @@ public struct AddBudgetState: CashlyState {
     public var isNew: Bool
     public var isSaved: Bool = false
     public var error: CashlyError?
-    
+
     public var user: User? {
         category?.user
     }
-    
+
     public var canSave: Bool {
         amount > .zero &&
         category != nil &&
         summary.trimmingCharacters(in: .whitespacesAndNewlines).count > 3
     }
-    
+
     public var yearMonth: Int {
         date.timeIntervalSince1970.yearMonth
     }
-    
+
     private init(
         isLoading: Bool = true,
         categories: [CashlyDomain.Category] = [],
@@ -55,15 +55,15 @@ public struct AddBudgetState: CashlyState {
         self.isNew = isNew
         self.error = error
     }
-    
+
     public static func new() -> AddBudgetState {
         AddBudgetState()
     }
-    
+
     public static func new(category: CashlyDomain.Category, date: Date) -> AddBudgetState {
         AddBudgetState(category: category, date: date)
     }
-    
+
     public static func edit(id: String) -> AddBudgetState {
         AddBudgetState(id: id, isNew: false)
     }

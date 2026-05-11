@@ -18,7 +18,7 @@ public struct Category: CashlyEntity, Sendable {
     public var color: String
     /// SF Symbol name.
     public var icon: String
-    
+
     public init(
         id: String,
         user: User,

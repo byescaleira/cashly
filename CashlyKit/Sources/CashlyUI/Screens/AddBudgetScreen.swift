@@ -15,21 +15,21 @@ import CashlyPresentation
 
 public struct AddBudgetScreen: CashlyView {
     @Environment(CashlyStore<AddBudgetState, AddBudgetAction>.self) var store
-    
+
     @Environment(\.addBudgetState) var state
     @Environment(\.action) var action
     @Environment(\.router) var router
     @Environment(\.user) var user
-    
+
     @State var predictionInput: CashlyPredictionInput = .empty
     @State var predictionResult: CashlyPredictionResult = .empty
-    
+
     var initialState: AddBudgetState?
-    
+
     public init(initialState: AddBudgetState? = nil) {
         self.initialState = initialState
     }
-    
+
     public var body: some View {
         Form {
             amountSection
@@ -42,7 +42,7 @@ public struct AddBudgetScreen: CashlyView {
                 quickFillItem
                 removeButton
             }
-            
+
             ToolbarItem { saveButton }
         }
         .scrollDismissesKeyboard(.immediately)
@@ -58,7 +58,7 @@ public struct AddBudgetScreen: CashlyView {
         .cashlyDismiss(isSaved: state.isSaved)
         .environment(\.isLoading, state.isLoading)
     }
-    
+
     func handlerPrediction() {
         switch predictionResult {
         case .tabularRegression(let value):
@@ -67,7 +67,7 @@ public struct AddBudgetScreen: CashlyView {
             break
         }
     }
-    
+
     func handlerInitialState() async {
         if let initialState {
             store.cashlyReplace(initialState)
@@ -75,7 +75,7 @@ public struct AddBudgetScreen: CashlyView {
         try? await Task.sleep(for: .seconds(0.5))
         action(.addBudget(.fetch))
     }
-    
+
     var amountSection: some View {
         return Section {} header: {
             CashlyVStack(spacing: .zero) {
@@ -85,7 +85,7 @@ public struct AddBudgetScreen: CashlyView {
                     .cashlyPadding()
                     .cashlyPadding(.horizontal, .extraSmall)
                     .cashly(glass: .clear.tint(Color(hex: state.category?.color).opacity(0.2)), in: .capsule)
-                
+
                 CashlyCurrencyTextField(amount: store.cashlyBinding(\.amount))
                     #if os(iOS)
                     .keyboardType(.numberPad)
@@ -98,7 +98,7 @@ public struct AddBudgetScreen: CashlyView {
             }
         }
     }
-    
+
     var summarySection: some View {
         return Section {
             TextField(
@@ -112,7 +112,7 @@ public struct AddBudgetScreen: CashlyView {
                 .cashly(color: .text)
         }
     }
-    
+
     var categoriesSection: some View {
         Section {
             categoriesView
@@ -123,7 +123,7 @@ public struct AddBudgetScreen: CashlyView {
                 .cashly(color: .text)
         }
     }
-    
+
     @ViewBuilder
     var categoriesView: some View {
         if !state.categories.isEmpty {
@@ -144,7 +144,7 @@ public struct AddBudgetScreen: CashlyView {
             .cashlyPadding(.horizontal, .negative(.medium))
         }
     }
-    
+
     func categoryItemView(category: CashlyDomain.Category) -> some View {
         CashlyButton {
             store.cashlyMutate(\.category, category)
@@ -165,7 +165,7 @@ public struct AddBudgetScreen: CashlyView {
         .buttonStyle(.plain)
         .cashlyPadding()
     }
-    
+
     var dateSection: some View {
         return Section {
             DatePicker(
@@ -182,7 +182,7 @@ public struct AddBudgetScreen: CashlyView {
                 .cashly(color: .text)
         }
     }
-    
+
     var saveButton: some View {
         CashlyButton {
             action(.addBudget(.save))
@@ -207,7 +207,7 @@ public struct AddBudgetScreen: CashlyView {
             .cashly(tint: .text)
         }
     }
-    
+
     @ViewBuilder
     var quickFillItem: some View {
         if let user,
@@ -226,7 +226,7 @@ public struct AddBudgetScreen: CashlyView {
             .cashly(tint: .color(.yellow))
         }
     }
-    
+
     public static var mock: some View {
         AddBudgetScreen()
     }

@@ -20,7 +20,7 @@ public struct FilterState: CashlyState, Equatable, Hashable {
     public var tags: Set<Tag>
     public var participants: Set<User>
     public var isFilteringByDate: Bool
-    
+
     public init(
         startDate: Date = .now,
         endDate: Date? = nil,

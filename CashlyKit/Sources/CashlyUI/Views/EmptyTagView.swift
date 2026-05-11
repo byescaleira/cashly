@@ -13,7 +13,7 @@ struct EmptyTagView: CashlyView {
     @Environment(\.isLoading) var isLoading
     @Environment(\.mainState) var state
     @Environment(\.router) var router
-    
+
     @ViewBuilder
     var body: some View {
         if !state.categories.isEmpty,
@@ -45,7 +45,7 @@ struct EmptyTagView: CashlyView {
             .transition(.scale)
         }
     }
-    
+
     static var mock: some View {
         EmptyTagView()
     }

@@ -26,7 +26,7 @@ public struct AddTransactionState: CashlyState {
     public var installmentIsOn: Bool
     public var installmentPlan: Int
     public var error: CashlyError?
-    
+
     public var canSave: Bool {
         user != nil &&
         category != nil &&
@@ -35,7 +35,7 @@ public struct AddTransactionState: CashlyState {
         summary.trimmingCharacters(in: .whitespacesAndNewlines).count > 3 &&
         (participants.isEmpty ? true : isValidParticipants)
     }
-    
+
     public var isValidParticipants: Bool {
         let valueParticipants: Double = participants.compactMap {
             let value = $0.splitMode.value(
@@ -48,24 +48,24 @@ public struct AddTransactionState: CashlyState {
         let total = valueParticipants + value
         return Int(total - amount) == .zero
     }
-    
+
     public var categories: [CashlyDomain.Category] {
         budgets.map(\.category)
     }
-    
+
     public var category: CashlyDomain.Category? {
         budget?.category
     }
-    
+
     public var user: User? {
         category?.user
     }
-    
+
     public var summaryTags: [Tag] {
         let summary = summary.lowercased()
         return tags.filter { summary.contains($0.name.lowercased()) }
     }
-    
+
     private init(
         isLoading: Bool = true,
         budgets: [Budget] = [],
@@ -101,15 +101,15 @@ public struct AddTransactionState: CashlyState {
         self.installmentPlan = installmentPlan
         self.error = error
     }
-    
+
     public static func new() -> AddTransactionState {
         AddTransactionState()
     }
-    
+
     public static func new(budget: Budget, date: Date) -> AddTransactionState {
         AddTransactionState(budget: budget, date: date)
     }
-    
+
     public static func edit(id: String) -> AddTransactionState {
         AddTransactionState(id: id, isNew: false)
     }

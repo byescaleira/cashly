@@ -13,7 +13,7 @@ extension Tag: PrismMock {
     public static var mock: Tag {
         mocks.randomElement()!
     }
-    
+
     public static var mocks: [Tag] {
         let tags: [Tag] = (try? CashlyResourceFile.tags.decoded()) ?? []
         return tags.sorted { $0.name < $1.name }

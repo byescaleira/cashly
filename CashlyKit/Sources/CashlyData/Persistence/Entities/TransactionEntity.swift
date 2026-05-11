@@ -21,16 +21,16 @@ public class TransactionEntity {
     public var splitMode: Int?
     public var splitValue: Double?
     public var paymentsPlan: Int?
-    
+
     public var yearMonth: Int {
         date.yearMonth
     }
-    
+
     public var endDate: Set<Int>? {
         guard let paymentsPlan else { return nil }
         var range: Set<Int> = []
         let yearMonth = self.yearMonth
-        
+
         for payment in 1 ... paymentsPlan {
             let additionalMonths = payment - 1
             let year = yearMonth / 100
@@ -40,10 +40,10 @@ public class TransactionEntity {
             let newYearMonth = newYear * 100 + newMonth
             range.insert(newYearMonth)
         }
-        
+
         return range
     }
-    
+
     public init(
         id: String,
         participants: [String],
@@ -72,7 +72,7 @@ public class TransactionEntity {
 enum TransactionDateFormatter: PrismDateFormatter {
     case yearMonth
     case shareMessage
-    
+
     var rawValue: DateFormatter {
         switch self {
         case .yearMonth: getFormatter(from: "yyyyMM")

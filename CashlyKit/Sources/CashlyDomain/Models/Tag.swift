@@ -11,7 +11,7 @@ public struct Tag: CashlyEntity, Sendable {
     public var name: String
     public var color: String
     public var icon: String
-    
+
     public init(
         id: String,
         user: User,

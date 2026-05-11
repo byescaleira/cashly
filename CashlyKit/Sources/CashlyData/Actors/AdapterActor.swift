@@ -22,7 +22,7 @@ public actor AdapterActor: AdapterUseCase {
             $0.id == category
         }
         let categoryDescriptor = FetchDescriptor<CategoryEntity>(predicate: categoryPredicate)
-        
+
         guard let categoryEntity = try modelContext.fetch(categoryDescriptor).first,
               let category = try await categoryAdapted(
                 id: categoryEntity.id,
@@ -32,7 +32,7 @@ public actor AdapterActor: AdapterUseCase {
                 icon: categoryEntity.icon
               )
         else { return nil }
-        
+
         return Budget(
             id: id,
             amount: amount,
@@ -41,7 +41,7 @@ public actor AdapterActor: AdapterUseCase {
             summary: summary
         )
     }
-    
+
     public func categoryAdapted(
         id: String,
         user: String,
@@ -53,14 +53,14 @@ public actor AdapterActor: AdapterUseCase {
             $0.id == user
         }
         let userDescriptor = FetchDescriptor<UserEntity>(predicate: userPredicate)
-        
+
         guard let userEntity = try modelContext.fetch(userDescriptor).first else { return nil }
         let user = try await userAdapted(
             id: userEntity.id,
             name: userEntity.name,
             photo: userEntity.photo
         )
-        
+
         return Category(
             id: id,
             user: user,
@@ -69,7 +69,7 @@ public actor AdapterActor: AdapterUseCase {
             icon: icon
         )
     }
-    
+
     public func userAdapted(
         id: String,
         name: String,
@@ -81,7 +81,7 @@ public actor AdapterActor: AdapterUseCase {
             photo: photo
         )
     }
-    
+
     public func tagAdapted(
         id: String,
         user: String,
@@ -93,14 +93,14 @@ public actor AdapterActor: AdapterUseCase {
             $0.id == user
         }
         let userDescriptor = FetchDescriptor<UserEntity>(predicate: userPredicate)
-        
+
         guard let userEntity = try modelContext.fetch(userDescriptor).first else { return nil }
         let user = try await userAdapted(
             id: userEntity.id,
             name: userEntity.name,
             photo: userEntity.photo
         )
-        
+
         return Tag(
             id: id,
             user: user,
@@ -109,7 +109,7 @@ public actor AdapterActor: AdapterUseCase {
             icon: icon
         )
     }
-    
+
     public func transactionAdapted(
         id: String,
         participants: [String],
@@ -125,18 +125,18 @@ public actor AdapterActor: AdapterUseCase {
         let participantsPredicate: Predicate<ParticipantEntity> = #Predicate {
             participants.contains($0.id)
         }
-        
+
         let participantsDescriptor = FetchDescriptor<ParticipantEntity>(
             predicate: participantsPredicate,
             sortBy: [.init(\.name, order: .forward)]
         )
-        
+
         let budgetPredicate: Predicate<BudgetEntity> = #Predicate {
             $0.id == budget
         }
-        
+
         let budgetDescriptor = FetchDescriptor<BudgetEntity>(predicate: budgetPredicate)
-        
+
         let participantEntities = try modelContext.fetch(participantsDescriptor)
         guard let budgetEntity = try modelContext.fetch(budgetDescriptor).first,
               let budget = try await budgetAdapted(
@@ -148,7 +148,7 @@ public actor AdapterActor: AdapterUseCase {
               ),
               let status = TransactionStatus(rawValue: status)
         else { return nil }
-        
+
         var participants = [Participant]()
         for participantEntity in participantEntities {
             if let participant = try await participantAdapted(
@@ -162,7 +162,7 @@ public actor AdapterActor: AdapterUseCase {
                 participants.append(participant)
             }
         }
-        
+
         return CashlyDomain.Transaction(
             id: id,
             participants: participants,
@@ -176,7 +176,7 @@ public actor AdapterActor: AdapterUseCase {
             paymentsPlan: paymentsPlan
         )
     }
-    
+
     public func participantAdapted(
         id: String,
         user: String,
@@ -189,7 +189,7 @@ public actor AdapterActor: AdapterUseCase {
             $0.id == user
         }
         let userDescriptor = FetchDescriptor<UserEntity>(predicate: userPredicate)
-        
+
         guard let userEntity = try modelContext.fetch(userDescriptor).first,
               let splitMode = TransactionSplitMode(rawValue: splitMode),
               let status = TransactionStatus(rawValue: status)
@@ -199,7 +199,7 @@ public actor AdapterActor: AdapterUseCase {
             name: userEntity.name,
             photo: userEntity.photo
         )
-        
+
         return Participant(
             id: id,
             user: user,

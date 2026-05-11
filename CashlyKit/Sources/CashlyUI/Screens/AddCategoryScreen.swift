@@ -15,19 +15,19 @@ import CashlyPresentation
 
 public struct AddCategoryScreen: CashlyView {
     @Environment(CashlyStore<AddCategoryState, AddCategoryAction>.self) var store
-    
+
     @Environment(\.addCategoryState) var state
     @Environment(\.action) var action
     @Environment(\.router) var router
-    
+
     @State var category: CashlySymbolCategory = .food
-    
+
     var initialState: AddCategoryState?
-    
+
     public init(initialState: AddCategoryState? = nil) {
         self.initialState = initialState
     }
-    
+
     public var body: some View {
         Form {
             infoSection
@@ -48,7 +48,7 @@ public struct AddCategoryScreen: CashlyView {
         .cashlyDismiss(isSaved: state.isSaved)
         .environment(\.isLoading, state.isLoading)
     }
-    
+
     func handlerInitialState() async {
         if let initialState {
             store.cashlyReplace(initialState)
@@ -56,20 +56,20 @@ public struct AddCategoryScreen: CashlyView {
         try? await Task.sleep(for: .seconds(0.5))
         action(.addCategory(.fetch))
     }
-    
+
     func onChangeIcon() {
         guard !state.isNew else { return }
         category = CashlySymbolCategory.allCases.first(where: {
             $0.symbols.contains(state.icon)
         }) ?? .food
     }
-    
+
     var infoSection: some View {
         Section {} header: {
             iconHeaderView
         }
     }
-    
+
     var nameSection: some View {
         return Section {
             TextField(
@@ -82,14 +82,14 @@ public struct AddCategoryScreen: CashlyView {
                 .cashly(color: .text)
         }
     }
-    
+
     var iconCategorySection: some View {
         Section {
             CashlyHStack {
                 CashlyText(CashlyL10n.string("Category"))
-                
+
                 CashlySpacer()
-                
+
                 Menu {
                     Picker(selection: $category) {
                         ForEach(CashlySymbolCategory.allCases, id: \.self) {
@@ -134,7 +134,7 @@ public struct AddCategoryScreen: CashlyView {
             .padding(.horizontal, -40)
         }
     }
-    
+
     func iconItemView(item: String) -> some View {
         CashlyButton {
             store.cashlyMutate(\.icon, item)
@@ -161,7 +161,7 @@ public struct AddCategoryScreen: CashlyView {
         }
         .buttonStyle(.plain)
     }
-    
+
     var iconHeaderView: some View {
         return CashlySymbol(state.icon, mode: .hierarchical)
             .cashly(font: .system(size: 50))
@@ -190,7 +190,7 @@ public struct AddCategoryScreen: CashlyView {
             .contentTransition(.symbolEffect(.replace))
             .cashlyPadding(.top, .medium)
     }
-    
+
     var saveButton: some View {
         CashlyButton {
             action(.addCategory(.save))
@@ -215,12 +215,12 @@ public struct AddCategoryScreen: CashlyView {
             .accessibilityLabel(CashlyL10n.string("Delete"))
         }
     }
-    
+
     func setIcon() {
         guard !state.isLoading && state.isNew && state.icon.isEmpty else { return }
         store.cashlyMutate(\.icon, category.symbols.first ?? "")
     }
-    
+
     public static var mock: some View {
         AddCategoryScreen()
     }

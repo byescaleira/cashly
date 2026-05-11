@@ -12,7 +12,7 @@ import SwiftData
 @ModelActor
 public actor ParticipantActor: ParticipantUseCase {
     lazy var adapter: AdapterUseCase = AdapterActor(modelContainer: modelContainer)
-    
+
     public func getParticipant(id: String) async throws -> Participant? {
         let predicate: Predicate<ParticipantEntity> = #Predicate {
             $0.id == id
@@ -28,7 +28,7 @@ public actor ParticipantActor: ParticipantUseCase {
             transaction: entity.transaction
         )
     }
-    
+
     public func getParticipants() async throws -> [Participant] {
         let descriptor = FetchDescriptor<ParticipantEntity>()
         let entities = try modelContext.fetch(descriptor)
@@ -47,17 +47,17 @@ public actor ParticipantActor: ParticipantUseCase {
         }
         return participants
     }
-    
+
     public func getParticipants(transaction: String) async throws -> [Participant] {
         let predicate: Predicate<ParticipantEntity> = #Predicate {
             $0.transaction == transaction
         }
-        
+
         let descriptor = FetchDescriptor<ParticipantEntity>(
             predicate: predicate,
             sortBy: [.init(\.name, order: .forward)]
         )
-        
+
         let entities = try modelContext.fetch(descriptor)
         var participants = [Participant]()
         for entity in entities {
@@ -74,7 +74,7 @@ public actor ParticipantActor: ParticipantUseCase {
         }
         return participants
     }
-    
+
     public func removeParticipant(id: String) async throws {
         let predicate: Predicate<ParticipantEntity> = #Predicate {
             $0.id == id
@@ -84,7 +84,7 @@ public actor ParticipantActor: ParticipantUseCase {
         modelContext.delete(entity)
         try modelContext.save()
     }
-    
+
     public func removeParticipants() async throws {
         let descriptor = FetchDescriptor<ParticipantEntity>()
         let entities = try modelContext.fetch(descriptor)
@@ -93,7 +93,7 @@ public actor ParticipantActor: ParticipantUseCase {
         }
         try modelContext.save()
     }
-    
+
     public func addParticipant(
         id: String,
         user: User,

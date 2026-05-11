@@ -12,7 +12,7 @@ import SwiftData
 @ModelActor
 public actor TagActor: TagUseCase {
     lazy var adapter: AdapterUseCase = AdapterActor(modelContainer: modelContainer)
-    
+
     public func getTag(id: String) async throws -> Tag? {
         let predicate: Predicate<TagEntity> = #Predicate {
             $0.id == id
@@ -27,7 +27,7 @@ public actor TagActor: TagUseCase {
             icon: entity.icon
         )
     }
-    
+
     public func getTags() async throws -> [Tag] {
         let descriptor = FetchDescriptor<TagEntity>(sortBy: [.init(\.name, order: .forward)])
         let entities = try modelContext.fetch(descriptor)
@@ -45,13 +45,13 @@ public actor TagActor: TagUseCase {
         }
         return tags
     }
-    
+
     public func getTags(users: [String]?) async throws -> [Tag] {
         let userIDs = users ?? []
         let predicate: Predicate<TagEntity> = #Predicate { entity in
             userIDs.isEmpty || userIDs.contains(entity.user)
         }
-        
+
         let descriptor = FetchDescriptor<TagEntity>(
             predicate: predicate,
             sortBy: [.init(\.name, order: .forward)]
@@ -71,7 +71,7 @@ public actor TagActor: TagUseCase {
         }
         return tags
     }
-    
+
     public func removeTag(id: String) async throws {
         let predicate: Predicate<TagEntity> = #Predicate {
             $0.id == id
@@ -81,7 +81,7 @@ public actor TagActor: TagUseCase {
         modelContext.delete(entity)
         try modelContext.save()
     }
-    
+
     public func removeTags() async throws {
         let descriptor = FetchDescriptor<TagEntity>()
         let entities = try modelContext.fetch(descriptor)
@@ -90,7 +90,7 @@ public actor TagActor: TagUseCase {
         }
         try modelContext.save()
     }
-    
+
     public func addTag(
         id: String,
         user: String,

@@ -17,11 +17,11 @@ public struct IntelligenceScreen: CashlyView {
     @Environment(\.mainState) var state
     @Environment(\.action) var action
     @Environment(\.router) var router
-    
+
     @State var isTraining: [CashlyIntelligence: Bool] = [:]
-    
+
     public init() {}
-    
+
     public var body: some View {
         CashlyList {
             CashlySystemMonitorView()
@@ -42,7 +42,7 @@ public struct IntelligenceScreen: CashlyView {
             action(.main(.fetchPredictions))
         }
     }
-    
+
     @ViewBuilder
     var modelsSection: some View {
         if let user = state.user {
@@ -57,12 +57,12 @@ public struct IntelligenceScreen: CashlyView {
                             .frame(width: 40, height: 40)
                             .cashly(background: .color(model.color.opacity(0.2)))
                             .cashly(clip: .circle)
-                        
+
                         CashlyVStack(alignment: .leading, spacing: .extraSmall) {
                             CashlyText(model.name)
                                 .cashly(font: .body, weight: .semibold)
                                 .cashly(color: .text)
-                            
+
                             if let lastUpdate = intelligenceModel?.updateDate?.date.string(with: .cashly(.transactionSection)) {
                                 CashlyText(lastUpdate)
                                     .cashly(font: .callout, weight: .regular)
@@ -70,9 +70,9 @@ public struct IntelligenceScreen: CashlyView {
                             }
                         }
                         .lineLimit(1)
-                        
+
                         CashlySpacer()
-                        
+
                         CashlyZStack {
                             if isTraining[model, default: false] {
                                 ProgressView()
@@ -83,8 +83,8 @@ public struct IntelligenceScreen: CashlyView {
                                     CashlyText(intelligenceModel?.accuracy?.percentage)
                                         .cashly(font: .body, weight: .bold)
                                         .cashly(color: .color(accuracyColor(intelligenceModel?.accuracy)))
-                                    
-                                    
+
+
                                     CashlyText(intelligenceModel?.size)
                                         .cashly(font: .callout)
                                         .cashly(color: .textSecondary)
@@ -106,7 +106,7 @@ public struct IntelligenceScreen: CashlyView {
             }
         }
     }
-    
+
     var trainButton: some View {
         Section {} footer: {
             CashlyVStack {
@@ -126,7 +126,7 @@ public struct IntelligenceScreen: CashlyView {
                 .buttonStyle(.glassProminent)
                 .disabled(disabled)
                 .cashly(tint: disabled ? .disabled : .primary)
-                
+
                 CashlyButton {
                     CashlyIntelligence.clean()
                     action(.main(.fetch))
@@ -138,7 +138,7 @@ public struct IntelligenceScreen: CashlyView {
             }
         }
     }
-    
+
     func train(model: CashlyIntelligence, user: User) {
         guard !isTraining[model, default: false] else { return }
         Task {
@@ -152,7 +152,7 @@ public struct IntelligenceScreen: CashlyView {
         }
         isTraining[model, default: false].toggle()
     }
-    
+
     func accuracyColor(_ accuracy: Double?) -> Color {
         guard let accuracy else { return .red }
         switch accuracy {
@@ -161,7 +161,7 @@ public struct IntelligenceScreen: CashlyView {
         default: return .red
         }
     }
-    
+
     public static var mock: some View {
         IntelligenceScreen()
     }

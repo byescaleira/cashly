@@ -15,9 +15,9 @@ import CashlyMock
 
 struct BalanceView: CashlyView {
     @Environment(\.mainState) var state
-    
+
     @State var isAnimated: Bool = false
-    
+
     @ViewBuilder
     var body: some View {
         if !state.users.isEmpty {
@@ -35,10 +35,10 @@ struct BalanceView: CashlyView {
             }
         }
     }
-    
+
     var balanceSection: some View {
         Section {
-            
+
         } header: {
             CashlyVStack(spacing: .medium) {
                 let variation = state.variation
@@ -52,13 +52,13 @@ struct BalanceView: CashlyView {
             .cashlyPadding(.top, .medium)
         }
     }
-    
+
     var scoreSection: some View {
         Section {
             let score = state.score
             let enabledScore = score.scores.first(where: { $0.isEnable })
             let enabledScoreValue = enabledScore?.score ?? .zero
-            
+
             CashlyVStack(alignment: .leading, spacing: .medium) {
                 CashlyHStack(spacing: .small) {
                     CashlyText(enabledScoreValue.string)
@@ -68,7 +68,7 @@ struct BalanceView: CashlyView {
                         .cashly(color: .textSecondary)
                         .cashlyPadding(.bottom, .negative(.small))
                     CashlySpacer()
-                    
+
                     CashlyText(enabledScore?.title.uppercased())
                         .cashly(font: .caption2, weight: .bold)
                         .cashly(color: .color(enabledScore?.color))
@@ -76,14 +76,14 @@ struct BalanceView: CashlyView {
                         .cashlyPadding(.horizontal, .extraSmall)
                         .cashly(glass: .clear.tint(enabledScore?.color.opacity(0.2)).interactive(), in: .capsule)
                 }
-                
+
                 CashlyHStack(spacing: .small) {
                     ForEach(score.scores) { score in
                         ProgressView(value: score == enabledScore ? score.progress : 1.0, total: 1)
                             .cashly(tint: .color(enabledScoreValue.double > score.max || score == enabledScore ? enabledScore?.color : .clear))
                     }
                 }
-                
+
                 CashlyText(enabledScore?.summary)
                     .cashly(font: .callout)
             }
@@ -94,7 +94,7 @@ struct BalanceView: CashlyView {
                 .cashly(color: .text)
         }
     }
-    
+
     func variationView(variation: Double) -> some View {
         CashlyText(variation.variationMessage.uppercased())
             .cashly(font: .caption, weight: .bold)
@@ -103,18 +103,18 @@ struct BalanceView: CashlyView {
             .cashlyPadding(.horizontal, .extraSmall)
             .cashly(glass: .clear.tint(variation.variationColor.opacity(0.2)).interactive(), in: .capsule)
     }
-    
+
     func amountView(variationColor: Color) -> some View {
         CashlyVStack(spacing: .zero) {
             let transactionsAmount = state.transactionsAmount
-            
+
             CashlyText(transactionsAmount.currency())
                     .cashly(font: .largeTitle, weight: .black)
                     .cashly(color: .text)
                     .contentTransition(.numericText(value: transactionsAmount))
         }
     }
-    
+
     @ViewBuilder
     func warningCategoriesView(categories: [CashlyDomain.Category]) -> some View {
         if !categories.isEmpty {
@@ -147,7 +147,7 @@ struct BalanceView: CashlyView {
             .cashly(alignment: .center)
         }
     }
-    
+
     static var mock: some View {
         BalanceView()
     }

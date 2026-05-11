@@ -13,7 +13,7 @@ extension CashlyDomain.Transaction: PrismMock {
     public static var mock: CashlyDomain.Transaction {
         mocks.randomElement()!
     }
-    
+
     public static var mocks: [CashlyDomain.Transaction] {
         let transactions: [CashlyDomain.Transaction] = (try? CashlyResourceFile.transactions.decoded()) ?? []
         return transactions.sorted { $0.date > $1.date }

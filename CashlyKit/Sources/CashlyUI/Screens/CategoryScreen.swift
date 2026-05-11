@@ -15,13 +15,13 @@ import CashlyPresentation
 
 public struct CategoryScreen: CashlyView {
     @Environment(CashlyStore<MainState, MainAction>.self) var store
-    
+
     @Environment(\.mainState) var state
     @Environment(\.action) var action
     @Environment(\.router) var router
-    
+
     public init() {}
-    
+
     public var body: some View {
         CashlyList {
             CategoryBalanceView()
@@ -44,7 +44,7 @@ public struct CategoryScreen: CashlyView {
         .refreshable { action(.main(.fetch)) }
         .navigationTitle(CashlyL10n.string("Categories"))
     }
-    
+
     @ViewBuilder
     var categoriesSection: some View {
         let categories = state.categoriesWithBudgets
@@ -66,7 +66,7 @@ public struct CategoryScreen: CashlyView {
             }
         }
     }
-    
+
     @ViewBuilder
     var categoriesWithoutBudgetsSection: some View {
         let categories = state.categoriesWithoutBudgets
@@ -84,7 +84,7 @@ public struct CategoryScreen: CashlyView {
             }
         }
     }
-    
+
     func categoriesWithoutBudgetsView(categories: [CashlyDomain.Category]) -> some View {
         CashlyHorizontalList { _ in
             CashlyHStack(alignment: .center) {
@@ -101,37 +101,37 @@ public struct CategoryScreen: CashlyView {
         }
         .padding(.horizontal, -20)
     }
-    
+
     func categoryItemView(category: CashlyDomain.Category) -> some View {
         CashlyHStack(spacing: .medium) {
             categoryIcon(category: category)
-            
+
             CashlyVStack(alignment: .leading, spacing: .extraSmall) {
                 CashlyHStack {
                     CashlyText(category.name)
                     CashlySpacer()
                 }
                 .cashly(font: .callout, weight: .semibold)
-                
+
                 CashlyText(state.budget(for: category)?.summary)
                     .cashly(color: .textSecondary)
             }
-            
+
             CashlySpacer()
-            
+
             CashlyVStack(alignment: .trailing, spacing: .extraSmall) {
                 let budgetAmount = state.budgetsAmount(for: category)
                 let transactionsAmount = state.transactionsAmount(for: category)
-                
+
                 CategoryVariationView(category: category)
                     .scaleEffect(0.7)
                     .padding(.trailing, -6)
-            
+
                 if budgetAmount > .zero {
                     CashlyText(budgetAmount.currency())
                         .cashly(font: .callout, weight: .semibold)
                 }
-                
+
                 if transactionsAmount > .zero {
                     CashlyText(transactionsAmount.currency())
                         .cashly(font: .callout, weight: .semibold)
@@ -139,13 +139,13 @@ public struct CategoryScreen: CashlyView {
                 }
             }
             .cashly(alignment: .trailing)
-            
+
             CashlySymbol("chevron.forward")
                 .cashly(color: .disabled)
         }
         .cashlyEdit { router.route(to: .addCategory(state: .edit(id: category.id))) }
     }
-    
+
     func categoryIcon(category: CashlyDomain.Category, isAnimated: Bool = false) -> some View {
         CashlySymbol(category.icon)
             .cashly(font: .system(size: 18))
@@ -164,7 +164,7 @@ public struct CategoryScreen: CashlyView {
                 $0.cashly(symbol: .bounce.byLayer, options: .repeat(.continuous).speed(0.1))
             }
     }
-    
+
     @ViewBuilder
     var addButton: some View {
         if !state.users.isEmpty {
@@ -177,7 +177,7 @@ public struct CategoryScreen: CashlyView {
             .disabled(state.isLoading)
         }
     }
-    
+
     public static var mock: some View {
         CategoryScreen()
     }

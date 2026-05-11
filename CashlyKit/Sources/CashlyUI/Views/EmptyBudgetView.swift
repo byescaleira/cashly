@@ -13,9 +13,9 @@ struct EmptyBudgetView: CashlyView {
     @Environment(\.isLoading) var isLoading
     @Environment(\.mainState) var state
     @Environment(\.router) var router
-    
+
     var budgets: [Budget]
-    
+
     @ViewBuilder
     var body: some View {
         if budgets.isEmpty,
@@ -46,7 +46,7 @@ struct EmptyBudgetView: CashlyView {
             .transition(.scale)
         }
     }
-    
+
     static var mock: some View {
         EmptyBudgetView(budgets: [])
     }

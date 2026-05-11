@@ -10,11 +10,11 @@ import Foundation
 public enum CashlyKey: CashlyEntity {
     case budget(category: String, date: TimeInterval)
     case category(id: String)
-    
+
     public var id: String {
         rawValue
     }
-    
+
     public var rawValue: String {
         switch self {
         case let .budget(category, date):

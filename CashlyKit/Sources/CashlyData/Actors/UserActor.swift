@@ -13,7 +13,7 @@ import SwiftData
 @ModelActor
 public actor UserActor: UserUseCase {
     lazy var adapter: AdapterUseCase = AdapterActor(modelContainer: modelContainer)
-    
+
     public func getUser(id: String) async throws -> User? {
         let predicate: Predicate<UserEntity> = #Predicate {
             $0.id == id
@@ -26,7 +26,7 @@ public actor UserActor: UserUseCase {
             photo: entity.photo
         )
     }
-    
+
     public func getCurrentUser() async throws -> User? {
         guard let data = UserDefaults.standard.data(forKey: "cashly.user"),
               let user = try? data.entity(for: User.self)
@@ -37,12 +37,12 @@ public actor UserActor: UserUseCase {
         }
         return user
     }
-    
+
     public func selectUser(user: User) async throws {
         guard let data = try? user.data() else { return }
         UserDefaults.standard.set(data, forKey: "cashly.user")
     }
-    
+
     public func getUsers() async throws -> [User] {
         let descriptor = FetchDescriptor<UserEntity>(sortBy: [.init(\.name, order: .forward)])
         let entities = try modelContext.fetch(descriptor)
@@ -58,7 +58,7 @@ public actor UserActor: UserUseCase {
         }
         return users
     }
-    
+
     public func removeUser(id: String) async throws {
         let predicate: Predicate<UserEntity> = #Predicate {
             $0.id == id
@@ -68,7 +68,7 @@ public actor UserActor: UserUseCase {
         modelContext.delete(entity)
         try modelContext.save()
     }
-    
+
     public func removeUsers() async throws {
         let descriptor = FetchDescriptor<UserEntity>()
         let entities = try modelContext.fetch(descriptor)
@@ -77,7 +77,7 @@ public actor UserActor: UserUseCase {
         }
         try modelContext.save()
     }
-    
+
     public func addUser(
         id: String,
         name: String,

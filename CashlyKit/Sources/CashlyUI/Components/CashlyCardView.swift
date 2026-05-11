@@ -15,7 +15,7 @@ public struct CashlyCardView: CashlyView {
     let buttonTitle: String
     let size: CGFloat
     let action: () -> Void
-    
+
     public init(
         image: CashlyResourceImage,
         title: String,
@@ -31,30 +31,30 @@ public struct CashlyCardView: CashlyView {
         self.size = size
         self.action = action
     }
-    
+
     public var body: some View {
         CashlyVStack(spacing: .large) {
             image.image
                 .resizable()
                 .scaledToFit()
                 .frame(height: size)
-            
+
             CashlyVStack(spacing: .small) {
                 CashlyText(title)
                     .cashly(font: .headline, weight: .bold)
                     .cashly(color: .text)
-                
+
                 CashlyText(subtitle)
                     .cashly(font: .callout)
                     .cashly(color: .textSecondary)
             }
-            
+
             button
         }
         .frame(maxWidth: .infinity)
         .cashly(alignment: .center)
     }
-    
+
     var button: some View {
         CashlyButton {
             action()
@@ -67,7 +67,7 @@ public struct CashlyCardView: CashlyView {
         .controlSize(.large)
         .cashly(tint: .primary)
     }
-    
+
     public static var mock: some View {
         CashlyCardView(
             image: .illustrationEmpty,
@@ -75,7 +75,7 @@ public struct CashlyCardView: CashlyView {
             subtitle: "Empty Description",
             buttonTitle: "Open Empty"
         ) {
-            
+
         }
     }
 }

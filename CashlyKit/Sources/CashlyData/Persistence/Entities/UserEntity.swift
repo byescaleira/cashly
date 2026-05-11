@@ -12,7 +12,7 @@ public class UserEntity {
     public var id: String = ""
     public var name: String = ""
     public var photo: String = ""
-    
+
     public init(
         id: String,
         name: String,

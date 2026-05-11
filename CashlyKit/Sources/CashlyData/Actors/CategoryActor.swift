@@ -12,7 +12,7 @@ import SwiftData
 @ModelActor
 public actor CategoryActor: CategoryUseCase {
     lazy var adapter: AdapterUseCase = AdapterActor(modelContainer: modelContainer)
-    
+
     public func getCategory(id: String) async throws -> CashlyDomain.Category? {
         let predicate: Predicate<CategoryEntity> = #Predicate {
             $0.id == id
@@ -27,7 +27,7 @@ public actor CategoryActor: CategoryUseCase {
             icon: entity.icon
         )
     }
-    
+
     public func getCategories() async throws -> [CashlyDomain.Category] {
         let descriptor = FetchDescriptor<CategoryEntity>(sortBy: [.init(\.name, order: .forward)])
         let entities = try modelContext.fetch(descriptor)
@@ -45,7 +45,7 @@ public actor CategoryActor: CategoryUseCase {
         }
         return categories
     }
-    
+
     public func getCategories(ids: [String]?, users: [String]?) async throws -> [CashlyDomain.Category] {
         let predicateID: Predicate<String>
         if let ids {
@@ -53,24 +53,24 @@ public actor CategoryActor: CategoryUseCase {
         } else {
             predicateID = #Predicate { _ in true }
         }
-        
+
         let predicateUser: Predicate<String>
         if let users {
             predicateUser = #Predicate { users.contains($0) }
         } else {
             predicateUser = #Predicate { _ in true }
         }
-        
+
         let predicate: Predicate<CategoryEntity> = #Predicate {
             predicateID.evaluate($0.id) &&
             predicateUser.evaluate($0.user)
         }
-        
+
         let descriptor = FetchDescriptor<CategoryEntity>(
             predicate: predicate,
             sortBy: [.init(\.name, order: .forward)]
         )
-        
+
         let entities = try modelContext.fetch(descriptor)
         var categories = [CashlyDomain.Category]()
         for entity in entities {
@@ -86,7 +86,7 @@ public actor CategoryActor: CategoryUseCase {
         }
         return categories
     }
-    
+
     public func removeCategory(id: String) async throws {
         let predicate: Predicate<CategoryEntity> = #Predicate {
             $0.id == id
@@ -96,7 +96,7 @@ public actor CategoryActor: CategoryUseCase {
         modelContext.delete(entity)
         try modelContext.save()
     }
-    
+
     public func removeCategories() async throws {
         let descriptor = FetchDescriptor<CategoryEntity>()
         let entities = try modelContext.fetch(descriptor)
@@ -105,7 +105,7 @@ public actor CategoryActor: CategoryUseCase {
         }
         try modelContext.save()
     }
-    
+
     public func addCategory(
         id: String,
         user: String,

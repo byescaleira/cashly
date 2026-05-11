@@ -14,7 +14,7 @@ import CashlyMock
 actor BudgetActorTests {
     @MainActor
     let suite: CommonTestSuite = .init()
-    
+
     @Test("Get budget by id")
     func testGetBudget() async throws {
         let categoryActual: CashlyDomain.Category = .mock
@@ -25,7 +25,7 @@ actor BudgetActorTests {
             date: Date.now.timeIntervalSince1970.yearMonth,
             summary: "Budget"
         )
-        
+
         try await suite.categoryUseCase.addCategory(
             id: categoryActual.id,
             user: "",
@@ -33,11 +33,11 @@ actor BudgetActorTests {
             color: categoryActual.color,
             icon: categoryActual.icon
         )
-        
+
         let categoryExpected = try await suite.categoryUseCase.getCategory(id: categoryActual.id)
-        
+
         suite.assertEqual(categoryActual, categoryExpected)
-        
+
         try await suite.budgetUseCase.addBudget(
             id: actual.id,
             amount: actual.amount,
@@ -45,9 +45,9 @@ actor BudgetActorTests {
             date: actual.date,
             summary: actual.summary
         )
-        
+
         let expected = try await suite.budgetUseCase.getBudget(id: actual.id)
-        
+
         suite.assertEqual(actual, expected)
     }
 }

@@ -20,7 +20,7 @@ public extension View {
             .fontWeight(weight)
             .fontDesign(design)
     }
-    
+
     func cashly(color: CashlyColor?) -> some View {
         self.foregroundStyle((color ?? .textSecondary).resolved)
     }
@@ -28,7 +28,7 @@ public extension View {
     func cashly(tint: CashlyColor) -> some View {
         self.tint(tint.resolved)
     }
-    
+
     func cashlyPadding(
         _ edges: Edge.Set = .all,
         _ spacing: CashlySpacing = .small,
@@ -39,15 +39,15 @@ public extension View {
     func cashlyPadding(_ spacing: CashlySpacing = .small) -> some View {
         self.padding(spacing.rawValue)
     }
-    
+
     func cashly(glass: Glass, in shape: CashlyShape) -> some View {
         self.glassEffect(glass, in: shape)
     }
-    
+
     func cashly(background color: CashlyColor) -> some View {
         self.background(color.resolved)
     }
-    
+
     func cashly(clip shape: CashlyShape) -> some View {
         self.clipShape(shape)
     }
@@ -55,7 +55,7 @@ public extension View {
     func cashly(alignment: TextAlignment) -> some View {
         self.multilineTextAlignment(alignment)
     }
-    
+
     func cashly(loading: Bool) -> some View {
         self.redacted(reason: loading ? .placeholder : [])
             .environment(\.isLoading, loading)
@@ -64,23 +64,23 @@ public extension View {
     func cashlyBackgroundItem() -> some View {
         self.modifier(CashlyBackgroundRowModifier())
     }
-    
+
     func cashlyRounded() -> some View {
         self.cashly(clip: .rounded(radius: 32))
     }
-    
+
     func cashly<V>(environment: WritableKeyPath<EnvironmentValues, V>, _ value: V) -> some View {
         self.environment(environment, value)
     }
-    
+
     func cashly<T>(object: T) -> some View where T : ObservableObject {
         self.environmentObject(object)
     }
-    
+
     func cashly(colorScheme: ColorScheme?) -> some View {
         self.preferredColorScheme(colorScheme)
     }
-    
+
     @ViewBuilder
     func cashly<Content: View>(if condition: Bool, _ transform: (Self) -> Content) -> some View {
         if condition { transform(self) } else { self }
@@ -102,7 +102,7 @@ public extension View {
     ) -> some View {
         self.symbolEffect(effect, options: options, isActive: isActive)
     }
-    
+
     func cashlyDelete(action: @escaping () -> Void) -> some View {
         self.swipeActions(edge: .trailing, allowsFullSwipe: true) {
             CashlyButton(role: .destructive) {
@@ -113,7 +113,7 @@ public extension View {
             .cashly(tint: .error)
         }
     }
-    
+
     func cashlyEdit(action: @escaping () -> Void) -> some View {
         self.swipeActions(edge: .trailing, allowsFullSwipe: false) {
             CashlyButton {
@@ -124,11 +124,11 @@ public extension View {
             .cashly(tint: .info)
         }
     }
-    
+
     func cashlyDismiss(isSaved: Bool) -> some View {
         self.modifier(CashlyDismissModifier(isSaved: isSaved))
     }
-    
+
     func cashlyIntelligence(
         model: CashlyIntelligence,
         isActive: Bool = true,
@@ -146,5 +146,5 @@ public extension View {
             )
         )
     }
-    
+
 }

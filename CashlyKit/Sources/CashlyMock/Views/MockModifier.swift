@@ -34,27 +34,27 @@ struct MockModifier: ViewModifier {
             .environment(addUserStore)
             .environment(addTagStore)
             .environment(mainStore)
-        
+
             .environment(\.addCategoryState, addCategoryStore.state)
             .environment(\.addBudgetState, addBudgetStore.state)
             .environment(\.addTransactionState, addTransactionStore.state)
             .environment(\.addUserState, addUserStore.state)
             .environment(\.addTagState, addTagStore.state)
             .environment(\.mainState, mainStore.state)
-        
+
             .environment(\.action, handler(action:))
-    
+
             .environment(\.isLoading, mainStore.state.isLoading)
             .environment(\.user, mainStore.state.user)
-        
+
             .onChange(of: mainStore.state.filter) { handler(action: .main(.fetch)) }
             .onChange(of: mainStore.state.user) { selectUser() }
-        
+
             .task { handler(action: .main(.fetch)) }
 
             .tint(Color.accentColor)
     }
-    
+
     @MainActor
     func handler(action: ApplicationAction) {
         let stores = (addCategoryStore, addBudgetStore, addTransactionStore, addUserStore, addTagStore, mainStore)
@@ -69,7 +69,7 @@ struct MockModifier: ViewModifier {
             }
         }
     }
-    
+
     func selectUser() {
         handler(action: .main(.selectUser))
     }

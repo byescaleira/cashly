@@ -15,7 +15,7 @@ public protocol AdapterUseCase: Sendable {
         date: Int,
         summary: String
     ) async throws -> Budget?
-    
+
     func categoryAdapted(
         id: String,
         user: String,
@@ -23,13 +23,13 @@ public protocol AdapterUseCase: Sendable {
         color: String,
         icon: String
     ) async throws -> CashlyDomain.Category?
-    
+
     func userAdapted(
         id: String,
         name: String,
         photo: String
     ) async throws -> User
-    
+
     func transactionAdapted(
         id: String,
         participants: [String],
@@ -42,7 +42,7 @@ public protocol AdapterUseCase: Sendable {
         splitValue: Double?,
         paymentsPlan: Int?
     ) async throws -> Transaction?
-    
+
     func tagAdapted(
         id: String,
         user: String,
@@ -50,7 +50,7 @@ public protocol AdapterUseCase: Sendable {
         color: String,
         icon: String
     ) async throws -> Tag?
-    
+
     func participantAdapted(
         id: String,
         user: String,

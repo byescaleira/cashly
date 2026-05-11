@@ -13,7 +13,7 @@ actor MockAdapterActor: AdapterUseCase {
     let users = User.mocks
     let categories = CashlyDomain.Category.mocks
     let participants = Participant.mocks
-    
+
     func budgetAdapted(
         id: String,
         amount: Double,
@@ -30,7 +30,7 @@ actor MockAdapterActor: AdapterUseCase {
             summary: summary
         )
     }
-    
+
     func categoryAdapted(
         id: String,
         user: String,
@@ -47,7 +47,7 @@ actor MockAdapterActor: AdapterUseCase {
             icon: icon
         )
     }
-    
+
     func userAdapted(
         id: String,
         name: String,
@@ -59,7 +59,7 @@ actor MockAdapterActor: AdapterUseCase {
             photo: photo
         )
     }
-    
+
     func tagAdapted(
         id: String,
         user: String,
@@ -76,7 +76,7 @@ actor MockAdapterActor: AdapterUseCase {
             icon: icon
         )
     }
-    
+
     func transactionAdapted(
         id: String,
         participants: [String],
@@ -93,7 +93,7 @@ actor MockAdapterActor: AdapterUseCase {
               let status = TransactionStatus(rawValue: status)
         else { return nil }
         let participants = self.participants.filter { participants.contains($0.id) }
-         
+
         return CashlyDomain.Transaction(
             id: id,
             participants: participants,
@@ -107,7 +107,7 @@ actor MockAdapterActor: AdapterUseCase {
             paymentsPlan: paymentsPlan
         )
     }
-    
+
     func participantAdapted(
         id: String,
         user: String,

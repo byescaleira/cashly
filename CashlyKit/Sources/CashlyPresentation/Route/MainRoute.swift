@@ -42,11 +42,11 @@ public enum MainRoute: CashlyRoutable {
     case transaction
     case home
     case intelligence
-    
+
     public var navigationStyle: CashlyNavigationStyle {
         .push
     }
-    
+
     @ViewBuilder
     public func makeView(content: @escaping (MainRoute) -> any View) -> some View {
         AnyView(content(self))

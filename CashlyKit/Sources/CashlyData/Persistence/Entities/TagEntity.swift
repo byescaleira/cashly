@@ -14,7 +14,7 @@ public class TagEntity {
     public var user: String = ""
     public var color: String = ""
     public var icon: String = ""
-    
+
     public init(
         id: String,
         user: String,

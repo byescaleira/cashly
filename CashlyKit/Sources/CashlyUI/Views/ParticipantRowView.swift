@@ -15,12 +15,12 @@ import CashlyPresentation
 
 struct ParticipantRowView: CashlyView {
     @Environment(CashlyStore<AddTransactionState, AddTransactionAction>.self) var store
-    
+
     @Binding var participant: Participant
     var splitMode: TransactionSplitMode?
     var amount: Double
     var count: Int
-    
+
     var body: some View {
         CashlyHStack(spacing: .medium) {
             iconView
@@ -33,7 +33,7 @@ struct ParticipantRowView: CashlyView {
         .onChange(of: splitMode) { updateParticipantSplitMode() }
         .onChange(of: count) { updateParticipantSplitMode() }
     }
-    
+
     func updateParticipantSplitMode() {
         guard !store.state.participants.isEmpty else { return }
         let participantMode = participant.splitMode
@@ -47,7 +47,7 @@ struct ParticipantRowView: CashlyView {
         }
         participant.splitValue = participantMode != participant.splitMode ? splitValue : participant.splitValue
     }
-    
+
     var iconView: some View {
         CashlyResourceImage.avatar(id: participant.user.photo)
             .resizable()
@@ -55,13 +55,13 @@ struct ParticipantRowView: CashlyView {
             .frame(width: 50, height: 50)
             .overlay(alignment: .topTrailing) { transactionStatusView }
     }
-    
+
     var contentView: some View {
         CashlyVStack(alignment: .leading, spacing: .extraSmall) {
             CashlyText(participant.user.name.capitalized)
                 .cashly(font: .body, weight: .semibold)
                 .cashly(color: .text)
-            
+
             CashlyText(participant.status.summary)
                 .cashly(font: .body)
                 .cashly(color: .textSecondary)
@@ -69,7 +69,7 @@ struct ParticipantRowView: CashlyView {
         .lineLimit(1)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
-    
+
     var transactionStatusView: some View {
         Menu {
             Picker(selection: $participant.status) {
@@ -90,7 +90,7 @@ struct ParticipantRowView: CashlyView {
                 .cashlyPadding(.negative(.extraSmall))
         }
     }
-    
+
     @ViewBuilder
     var splitValueView: some View {
         switch participant.splitMode {
@@ -100,7 +100,7 @@ struct ParticipantRowView: CashlyView {
         case .payerBased: payerBasedValueView
         }
     }
-    
+
     var amountValueView: some View {
         CashlyText(
             participant.splitMode.value(
@@ -111,14 +111,14 @@ struct ParticipantRowView: CashlyView {
         .cashly(font: .body, weight: .semibold)
         .cashly(color: .textSecondary)
     }
-    
+
     var fixedAmountValueView: some View {
         CashlyCurrencyTextField(amount: $participant.splitValue)
             .cashly(font: .body, weight: .semibold)
             .cashly(color: .text)
             .cashly(alignment: .trailing)
     }
-    
+
     var percentageValueView: some View {
         Menu {
             Picker(selection: $participant.splitValue) {
@@ -143,13 +143,13 @@ struct ParticipantRowView: CashlyView {
             }
         }
     }
-    
+
     var payerBasedValueView: some View {
         CashlySymbol("checkmark.seal.text.page.fill")
             .cashly(font: .system(size: 30), weight: .semibold)
             .cashly(color: .color(.accentColor.opacity(0.75)))
     }
-    
+
     #if DEBUG
     @ViewBuilder
     static var mock: some View {

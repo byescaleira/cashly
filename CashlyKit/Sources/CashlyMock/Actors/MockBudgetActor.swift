@@ -11,17 +11,17 @@ import SwiftData
 
 actor MockBudgetActor: BudgetUseCase {
     var budgets = Budget.mocks
-    
+
     init() {}
-    
+
     func getBudget(id: String) async throws -> Budget? {
         budgets.first(where: { $0.id == id })
     }
-    
+
     func getBudgets() async throws -> [Budget] {
         budgets
     }
-    
+
     func getBudgets(
         categories: [String]?,
         date: Date?
@@ -32,18 +32,18 @@ actor MockBudgetActor: BudgetUseCase {
             (date == nil ? true : budget.date == date?.timeIntervalSince1970.yearMonth)
         }
     }
-    
+
     func removeBudget(id: String) async throws {
         guard let budget = try await getBudget(id: id),
               let index = budgets.firstIndex(of: budget)
         else { return }
         let _ = budgets.remove(at: index)
     }
-    
+
     func removeBudgets() async throws {
         budgets = []
     }
-    
+
     func addBudget(
         id: String,
         amount: Double,

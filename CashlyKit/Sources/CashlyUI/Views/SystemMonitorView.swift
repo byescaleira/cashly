@@ -10,7 +10,7 @@ import CashlyResource
 
 struct CashlySystemMonitorView: CashlyView {
     @State var systemMonitor = CashlySystemMonitor()
-    
+
     var body: some View {
         Section {
             CashlyVStack(spacing: .medium) {
@@ -29,7 +29,7 @@ struct CashlySystemMonitorView: CashlyView {
         }
         .cashly(systemMonitor: $systemMonitor)
     }
-    
+
     var gaugeView: some View {
         CashlyZStack {
             Circle()
@@ -37,7 +37,7 @@ struct CashlySystemMonitorView: CashlyView {
                 .stroke(.quaternary, style: StrokeStyle(lineWidth: 12, lineCap: .round))
                 .frame(width: 140, height: 140)
                 .rotationEffect(.degrees(180))
-            
+
             let total = systemMonitor.cpuCores.double <= .zero ? 1 : systemMonitor.cpuCores.double
             let to = (systemMonitor.cpuPercentageUsage * 0.5) / total
             Circle()
@@ -49,17 +49,17 @@ struct CashlySystemMonitorView: CashlyView {
                 .frame(width: 140, height: 140)
                 .rotationEffect(.degrees(180))
                 .animation(.spring(response: 0.8, dampingFraction: 0.8), value: systemMonitor.cpuPercentageUsage)
-            
+
             CashlyVStack(spacing: .zero) {
                 CashlyText(CashlyL10n.string("CPU"))
                     .cashly(font: .footnote, weight: .semibold)
                     .cashly(color: .textSecondary)
-                
+
                 CashlyText(systemMonitor.cpuPercentageUsage.percentage)
                     .cashly(font: .title, weight: .bold)
                     .cashly(color: .text)
                     .contentTransition(.numericText())
-                
+
                 CashlyText(cpuStatus.uppercased())
                     .cashly(font: .footnote, weight: .bold)
                     .cashly(color: .color(cpuColor))
@@ -74,7 +74,7 @@ struct CashlySystemMonitorView: CashlyView {
                     .cashly(color: .textSecondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, -10)
-                
+
                 CashlyText(systemMonitor.cpuTotalPercentage.percentage)
                     .cashly(font: .footnote)
                     .cashly(color: .textSecondary)
@@ -86,7 +86,7 @@ struct CashlySystemMonitorView: CashlyView {
         .frame(maxWidth: .infinity, alignment: .center)
         .padding(.bottom, -40)
     }
-    
+
     var infoView: some View {
         CashlyHStack {
             CashlyVStack {
@@ -98,7 +98,7 @@ struct CashlySystemMonitorView: CashlyView {
                         .cashly(font: .headline, weight: .bold)
                         .cashly(color: .text)
                         .contentTransition(.numericText())
-                    
+
                     CashlyText("/  " + systemMonitor.memoryTotal)
                         .cashly(font: .headline, weight: .bold)
                         .cashly(color: .textSecondary)
@@ -106,10 +106,10 @@ struct CashlySystemMonitorView: CashlyView {
             }
         }
     }
-    
+
     var cpuStatus: String {
         let total = systemMonitor.cpuTotalPercentage <= .zero ? 1 : systemMonitor.cpuTotalPercentage
-        
+
         switch systemMonitor.cpuPercentageUsage / total {
         case 0 ..< 0.25: return "Low"
         case 0.25 ..< 0.50: return "Normal"
@@ -117,7 +117,7 @@ struct CashlySystemMonitorView: CashlyView {
         default: return "Critical"
         }
     }
-    
+
     var cpuColor: Color {
         let total = systemMonitor.cpuTotalPercentage <= .zero ? 1 : systemMonitor.cpuTotalPercentage
 
@@ -128,7 +128,7 @@ struct CashlySystemMonitorView: CashlyView {
         default: return .red
         }
     }
-    
+
     static var mock: some View {
         CashlySystemMonitorView()
     }

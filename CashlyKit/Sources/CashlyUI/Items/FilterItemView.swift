@@ -15,21 +15,21 @@ import CashlyMock
 
 struct FilterItemView: CashlyView {
     @Environment(CashlyStore<MainState, MainAction>.self) var store
-    
+
     @Environment(\.mainState) var state
     @Environment(\.action) var action
     @Environment(\.router) var router
-    
+
     var selectedMenus: Set<FilterItem>
-    
+
     init(menus: [FilterItem] = FilterItem.allCases) {
         selectedMenus = Set(menus)
     }
-    
+
     func contains(_ menu: FilterItem) -> Bool {
         selectedMenus.contains(menu)
     }
-    
+
     @ViewBuilder
     var body: some View {
         if state.user != nil,
@@ -39,23 +39,23 @@ struct FilterItemView: CashlyView {
                     toggleDateMenu
                     Divider()
                 }
-                
+
                 if contains(.categories), !state.filter.allCategories.isEmpty {
                     categoriesMenu
                 }
-                
+
                 if contains(.tags), !state.filter.allTags.isEmpty {
                     tagsMenu
                 }
-                
+
                 if contains(.statuses), !state.filter.allTransactions.isEmpty {
                     statusesMenu
                 }
-                
+
                 if contains(.participants), !state.users.isEmpty, !state.filter.allTransactions.isEmpty {
                     participantsMenu
                 }
-                
+
                 cleanMenu
             } label: {
                 CashlySymbol("line.3.horizontal.decrease")
@@ -67,24 +67,24 @@ struct FilterItemView: CashlyView {
             .buttonStyle(.plain)
         }
     }
-    
+
     @State var month: String = ""
     @State var year: Int = .zero
-    
+
     @ViewBuilder
     var toggleDateMenu: some View {
         return Menu {
             Toggle(isOn: store.cashlyBinding(\.filter).isFilteringByDate) {
                 CashlyText(CashlyL10n.string("Filter by Date"))
             }
-            
+
             if state.filter.isFilteringByDate {
                 let months = Calendar.current.monthSymbols
                 let currentYear = Date.now.string(with: .cashly(.year))?.int ?? .zero
                 let years = ((currentYear - 5) ... (currentYear + 5))
-                
+
                 Divider()
-                
+
                 Menu {
                     Picker(selection: $month) {
                         ForEach(months, id: \.self) { month in
@@ -102,7 +102,7 @@ struct FilterItemView: CashlyView {
                     year = year == .zero ? state.filter.startDate.string(with: .cashly(.year))?.int ?? .zero : year
                 }
                 .onChange(of: month) { updateDate() }
-                
+
                 Menu {
                     Picker(selection: $year) {
                         ForEach(years, id: \.self) { year in
@@ -116,10 +116,10 @@ struct FilterItemView: CashlyView {
                     CashlyText(state.filter.startDate.string(with: .cashly(.year))?.capitalized)
                 }
                 .onChange(of: year) { updateDate() }
-                
+
                 if state.filter.startDate.timeIntervalSince1970.yearMonth != Date.now.timeIntervalSince1970.yearMonth {
                     Divider()
-                    
+
                     CashlyButton {
                         store.cashlyMutate(\.filter.startDate, .now)
                     } label: {
@@ -132,13 +132,13 @@ struct FilterItemView: CashlyView {
         }
         .cashly(tint: .text)
     }
-    
+
     func updateDate() {
         let month = month.date(with: .cashly(.month))?.string(with: .cashly(.numberMonth))?.int ?? 0
         let date = ((year * 100) + month).string.date(with: .cashly(.yearMonth)) ?? .now
         store.cashlyMutate(\.filter.startDate, date)
     }
-    
+
     @ViewBuilder
     var categoriesMenu: some View {
         CashlyMenuSelectionView(
@@ -154,7 +154,7 @@ struct FilterItemView: CashlyView {
         }
         .cashly(tint: .text)
     }
-    
+
     @ViewBuilder
     var tagsMenu: some View {
         CashlyMenuSelectionView(
@@ -170,7 +170,7 @@ struct FilterItemView: CashlyView {
         }
         .cashly(tint: .text)
     }
-    
+
     @ViewBuilder
     var statusesMenu: some View {
         CashlyMenuSelectionView(
@@ -186,7 +186,7 @@ struct FilterItemView: CashlyView {
         }
         .cashly(tint: .text)
     }
-    
+
     @ViewBuilder
     var participantsMenu: some View {
         CashlyMenuSelectionView(
@@ -202,7 +202,7 @@ struct FilterItemView: CashlyView {
         }
         .cashly(tint: .text)
     }
-    
+
     @ViewBuilder
     var cleanMenu: some View {
         if !state.filter.isFilteringByDate ||
@@ -227,7 +227,7 @@ struct FilterItemView: CashlyView {
             .cashly(tint: .text)
         }
     }
-    
+
     static var mock: some View {
         FilterItemView()
     }
@@ -239,7 +239,7 @@ public enum FilterItem: Int, Identifiable, CaseIterable {
     case tags
     case statuses
     case participants
-    
+
     public var id: Int {
         rawValue
     }

@@ -19,12 +19,12 @@ enum CashlyChartType {
 }
 
 struct CashlyCompareChart: CashlyView {
-    
-    
+
+
     let type: CashlyChartType
     let data: [(String, Double, Double)]
     let startItemsAmount: Double
-    
+
     init(
         type: CashlyChartType = .line,
         startItemsAmount: Double = 4.5,
@@ -34,7 +34,7 @@ struct CashlyCompareChart: CashlyView {
         self.data = data
         self.startItemsAmount = startItemsAmount
     }
-    
+
     @ViewBuilder
     var body: some View {
         switch type {
@@ -42,7 +42,7 @@ struct CashlyCompareChart: CashlyView {
         case .bar: barChart
         }
     }
-    
+
     var barChart: some View {
         Chart {
             ForEach(data.indices, id: \.self) { index in
@@ -67,7 +67,7 @@ struct CashlyCompareChart: CashlyView {
         .cashlyPadding(.bottom, .medium)
         .accessibilityLabel(chartAccessibilityLabel)
     }
-    
+
     var lineChart: some View {
         Chart {
             ForEach(data.indices, id: \.self) { index in
@@ -92,7 +92,7 @@ struct CashlyCompareChart: CashlyView {
         .cashlyPadding(.bottom, .medium)
         .accessibilityLabel(chartAccessibilityLabel)
     }
-    
+
     private var chartAccessibilityLabel: String {
         guard !data.isEmpty else { return CashlyL10n.string("Empty chart") }
         let budget = CashlyL10n.string("Budget")
@@ -112,7 +112,7 @@ struct CashlyCompareChart: CashlyView {
         .foregroundStyle(by: .value("x-style", id))
         .position(by: .value("x-position", id))
     }
-    
+
     func buildLineMark(x: String, y: Double, id: String) -> some ChartContent {
         LineMark(
             x: .value("x", x),
@@ -122,22 +122,22 @@ struct CashlyCompareChart: CashlyView {
         .foregroundStyle(by: .value("x-style", id))
         .symbol(.circle)
     }
-    
+
     func getDomain() -> ClosedRange<Double> {
         var min: Double = .infinity
         var max: Double = .zero
-        
+
         for item in data {
             let minItem = item.1 < item.2 ? item.1 : item.2
             let maxItem = item.1 > item.2 ? item.1 : item.2
-            
+
             if minItem < min { min = minItem }
             if maxItem > max { max = maxItem }
         }
-        
+
         return .zero ... (max + 10)
     }
-    
+
     #if DEBUG
     @ViewBuilder
     static var mock: some View {

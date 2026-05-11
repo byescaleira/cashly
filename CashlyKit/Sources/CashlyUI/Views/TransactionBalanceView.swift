@@ -13,17 +13,17 @@ import CashlyMock
 #endif
 
 struct TransactionBalanceView: CashlyView {
-    
+
     @Environment(\.mainState) var state
-    
+
     @State var isAnimated: Bool = false
-    
+
     @ViewBuilder
     var body: some View {
         if !state.categories.isEmpty,
            !state.budgets.isEmpty {
             Section {
-                
+
             } header: {
                 CashlyVStack(spacing: .medium) {
                     statusView
@@ -44,7 +44,7 @@ struct TransactionBalanceView: CashlyView {
             }
         }
     }
-    
+
     @ViewBuilder
     var statusView: some View {
         let status = state.filter.isFilteringByDate ? state.filter.startDate.string(with: .cashly(.status)) ?? "" : "All Data"
@@ -55,7 +55,7 @@ struct TransactionBalanceView: CashlyView {
             .cashlyPadding(.horizontal, .extraSmall)
             .cashly(glass: .clear.tint(Color.accentColor.opacity(0.2)).interactive(), in: .capsule)
     }
-    
+
     var amountView: some View {
         CashlyVStack(spacing: .zero) {
             CashlyText(state.transactionsAmount.currency())
@@ -64,7 +64,7 @@ struct TransactionBalanceView: CashlyView {
                 .contentTransition(.numericText(value: state.transactionsAmount))
         }
     }
-    
+
     @ViewBuilder
     func biggestTagsView(tags: [Tag]) -> some View {
         if !tags.isEmpty {
@@ -96,7 +96,7 @@ struct TransactionBalanceView: CashlyView {
             .cashly(alignment: .center)
         }
     }
-    
+
     static var mock: some View {
         TransactionBalanceView()
     }

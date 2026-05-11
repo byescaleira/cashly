@@ -14,12 +14,12 @@ import CashlyMock
 #endif
 
 struct CashlyChart: CashlyView {
-    
-    
+
+
     let type: CashlyChartType
     let data: [(String, Double)]
     let startItemsAmount: Double
-    
+
     init(
         type: CashlyChartType = .bar,
         startItemsAmount: Double = 7.5,
@@ -29,7 +29,7 @@ struct CashlyChart: CashlyView {
         self.startItemsAmount = startItemsAmount
         self.data = data
     }
-    
+
     @ViewBuilder
     var body: some View {
         switch type {
@@ -37,7 +37,7 @@ struct CashlyChart: CashlyView {
         case .bar: barChart
         }
     }
-    
+
     var barChart: some View {
         Chart {
             ForEach(data.indices, id: \.self) { index in
@@ -80,7 +80,7 @@ struct CashlyChart: CashlyView {
             .joined(separator: ", ")
         return formatted
     }
-    
+
     func buildBarMark(x: String, y: Double) -> some ChartContent {
         BarMark(
             x: .value("x", x),
@@ -89,7 +89,7 @@ struct CashlyChart: CashlyView {
             stacking: .standard
         )
     }
-    
+
     func buildLineMark(x: String, y: Double) -> some ChartContent {
         LineMark(
             x: .value("x", x),
@@ -98,19 +98,19 @@ struct CashlyChart: CashlyView {
         .interpolationMethod(.cardinal)
         .symbol(.circle)
     }
-    
+
     func getDomain() -> ClosedRange<Double> {
         var min: Double = .infinity
         var max: Double = .zero
-        
+
         for item in data {
             if item.1 < min { min = item.1 }
             if item.1 > max { max = item.1 }
         }
-        
+
         return .zero ... (max + 10)
     }
-    
+
     #if DEBUG
     @ViewBuilder
     static var mock: some View {

@@ -15,19 +15,19 @@ import CashlyPresentation
 
 public struct AddUserScreen: CashlyView {
     @Environment(CashlyStore<AddUserState, AddUserAction>.self) var store
-    
+
     @Environment(\.addUserState) var state
     @Environment(\.action) var action
     @Environment(\.router) var router
-    
+
     @State var gender: Int = .zero
-    
+
     var initialState: AddUserState?
-    
+
     public init(initialState: AddUserState? = nil) {
         self.initialState = initialState
     }
-    
+
     public var body: some View {
         CashlyList {
             photoSection
@@ -45,7 +45,7 @@ public struct AddUserScreen: CashlyView {
         .cashlyDismiss(isSaved: state.isSaved)
         .task { await handlerInitialState() }
     }
-    
+
     func handlerInitialState() async {
         if let initialState {
             store.cashlyReplace(initialState)
@@ -53,11 +53,11 @@ public struct AddUserScreen: CashlyView {
         try? await Task.sleep(for: .seconds(0.5))
         action(.addUser(.fetch))
     }
-    
+
     func updatePhoto() {
         store.cashlyMutate(\.photo, state.photo ?? state.photos(for: gender).randomElement())
     }
-    
+
     var photoSection: some View {
         Section {} header: {
             CashlyResourceImage.avatar(id: state.photo)
@@ -70,7 +70,7 @@ public struct AddUserScreen: CashlyView {
                 .frame(maxWidth: .infinity)
         }
     }
-    
+
     var repeatButton: some View {
         CashlyButton {
             store.cashlyMutate(\.photo, state.photos(for: gender).randomElement())
@@ -80,7 +80,7 @@ public struct AddUserScreen: CashlyView {
         }
         .buttonStyle(.glassProminent)
     }
-    
+
     var nameSection: some View {
         return Section {
             TextField(
@@ -93,10 +93,10 @@ public struct AddUserScreen: CashlyView {
                 .cashly(color: .text)
         }
     }
-    
+
     var photosSection: some View {
         Section {
-            
+
         } header: {
             CashlyText(CashlyL10n.string("Photo"))
                 .cashly(font: .title3, weight: .semibold)
@@ -109,7 +109,7 @@ public struct AddUserScreen: CashlyView {
             .cashlyPadding(.horizontal, .negative(.medium))
         }
     }
-    
+
     var segmentedGenderView: some View {
         Picker(selection: $gender) {
             CashlyText(CashlyL10n.string("Male"))
@@ -122,7 +122,7 @@ public struct AddUserScreen: CashlyView {
         .pickerStyle(.segmented)
         .controlSize(.large)
     }
-    
+
     var photosGridView: some View {
         LazyVGrid(columns: [.init(.adaptive(minimum: 70), spacing: 14)], spacing: 14) {
             ForEach(state.photos(for: gender), id: \.self) { photo in
@@ -145,7 +145,7 @@ public struct AddUserScreen: CashlyView {
             }
         }
     }
-    
+
     var saveButton: some View {
         CashlyButton {
             action(.addUser(.save))
@@ -170,7 +170,7 @@ public struct AddUserScreen: CashlyView {
             .accessibilityLabel(CashlyL10n.string("Delete"))
         }
     }
-    
+
     public static var mock: some View {
         AddUserScreen()
     }

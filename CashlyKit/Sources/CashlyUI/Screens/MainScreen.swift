@@ -14,18 +14,18 @@ import CashlyResource
 
 public struct MainScreen: CashlyView {
     @Environment(CashlyStore<MainState, MainAction>.self) var store
-    
+
     @Environment(\.mainState) var state
     @Environment(\.action) var action
-    
+
     @State var tabItem: MainTabItem = .home
-    
+
     public init() {}
-    
+
     public var body: some View {
         tabView
     }
-    
+
     var tabView: some View {
         TabView(selection: $tabItem) {
             Tab(CashlyL10n.string("Intelligence"), systemImage: "cpu", value: .intelligence) {
@@ -47,7 +47,7 @@ public struct MainScreen: CashlyView {
         .tabBarMinimizeBehavior(.onScrollDown)
         .tabViewStyle(.sidebarAdaptable)
     }
-    
+
     var intelligenceScreen: some View {
         return CashlyNavigationView(
             router: store.cashlyBinding(\.intelligenceRouter),
@@ -87,7 +87,7 @@ public struct MainScreen: CashlyView {
         }
         .environment(\.router, store.state.transactionRouter)
     }
-    
+
     @ViewBuilder
     func destination(_ route: MainRoute) -> any View {
         switch route {
@@ -103,7 +103,7 @@ public struct MainScreen: CashlyView {
         case .intelligence: IntelligenceScreen()
         }
     }
-    
+
     public static var mock: some View {
         MainScreen()
     }
@@ -114,7 +114,7 @@ enum MainTabItem: Int, Hashable, Identifiable, CaseIterable {
     case category
     case home
     case transaction
-    
+
     var id: Int { rawValue }
 }
 

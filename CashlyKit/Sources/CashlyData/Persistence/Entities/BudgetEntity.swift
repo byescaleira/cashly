@@ -14,7 +14,7 @@ public class BudgetEntity {
     public var category: String = ""
     public var date: Int = 0
     public var summary: String = ""
-    
+
     public init(
         id: String,
         amount: Double,

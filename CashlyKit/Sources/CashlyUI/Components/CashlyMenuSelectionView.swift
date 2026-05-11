@@ -13,7 +13,7 @@ struct CashlyMenuSelectionView<T: Identifiable & Hashable>: View {
     @Binding var selectedItems: Set<T>
     let content: (T) -> any View
     let label: any View
-    
+
     init(
         items: [T],
         selectedItems: Binding<Set<T>>,
@@ -25,11 +25,11 @@ struct CashlyMenuSelectionView<T: Identifiable & Hashable>: View {
         self.content = content
         self.label = label()
     }
-    
+
     var body: some View {
         Menu {
             contentView
-            
+
             if !selectedItems.isEmpty {
                 Divider()
                 CashlyButton {
@@ -42,7 +42,7 @@ struct CashlyMenuSelectionView<T: Identifiable & Hashable>: View {
             AnyView(label)
         }
     }
-    
+
     var contentView: some View {
         ForEach(items) { item in
             let contains = selectedItems.contains(item)

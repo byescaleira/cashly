@@ -11,32 +11,32 @@ import SwiftData
 actor MockParticipantActor: ParticipantUseCase {
     var participants = Participant.mocks
     let users = User.mocks
-    
+
     init() {}
-    
+
     func getParticipant(id: String) async throws -> Participant? {
         participants.first(where: { $0.id == id })
     }
-    
+
     func getParticipants() async throws -> [Participant] {
         participants
     }
-    
+
     func getParticipants(transaction: String) async throws -> [Participant] {
         participants.filter { $0.transaction == transaction }
     }
-    
+
     func removeParticipant(id: String) async throws {
         guard let tag = try await getParticipant(id: id),
               let index = participants.firstIndex(of: tag)
         else { return }
         let _ = participants.remove(at: index)
     }
-    
+
     func removeParticipants() async throws {
         participants = []
     }
-    
+
     func addParticipant(
         id: String,
         user: User,

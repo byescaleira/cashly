@@ -15,19 +15,19 @@ import CashlyPresentation
 
 public struct AddTagScreen: CashlyView {
     @Environment(CashlyStore<AddTagState, AddTagAction>.self) var store
-    
+
     @Environment(\.addTagState) var state
     @Environment(\.action) var action
     @Environment(\.router) var router
-    
+
     @State var category: CashlySymbolCategory = .random
-    
+
     var initialState: AddTagState?
-    
+
     public init(initialState: AddTagState? = nil) {
         self.initialState = initialState
     }
-    
+
     public var body: some View {
         Form {
             infoSection
@@ -47,7 +47,7 @@ public struct AddTagScreen: CashlyView {
         .cashlyDismiss(isSaved: state.isSaved)
         .environment(\.isLoading, state.isLoading)
     }
-    
+
     func handlerInitialState() async {
         if let initialState {
             store.cashlyReplace(initialState)
@@ -55,13 +55,13 @@ public struct AddTagScreen: CashlyView {
         try? await Task.sleep(for: .seconds(0.5))
         action(.addTag(.fetch))
     }
-    
+
     var infoSection: some View {
         Section {} header: {
             iconHeaderView
         }
     }
-    
+
     var nameSection: some View {
         return Section {
             TextField(
@@ -74,14 +74,14 @@ public struct AddTagScreen: CashlyView {
                 .cashly(color: .text)
         }
     }
-    
+
     var iconTagSection: some View {
         Section {
             CashlyHStack {
                 CashlyText(CashlyL10n.string("Category"))
-                
+
                 CashlySpacer()
-                
+
                 Menu {
                     Picker(selection: $category) {
                         ForEach(CashlySymbolCategory.allCases, id: \.self) {
@@ -126,7 +126,7 @@ public struct AddTagScreen: CashlyView {
             .padding(.horizontal, -40)
         }
     }
-    
+
     func iconItemView(item: String) -> some View {
         CashlyButton {
             store.cashlyMutate(\.icon, item)
@@ -153,7 +153,7 @@ public struct AddTagScreen: CashlyView {
         }
         .buttonStyle(.plain)
     }
-    
+
     var iconHeaderView: some View {
         return CashlySymbol(state.icon, mode: .hierarchical)
             .cashly(font: .system(size: 50))
@@ -179,7 +179,7 @@ public struct AddTagScreen: CashlyView {
             .contentTransition(.symbolEffect(.replace))
             .cashlyPadding(.top, .medium)
     }
-    
+
     var saveButton: some View {
         CashlyButton {
             action(.addTag(.save))
@@ -204,12 +204,12 @@ public struct AddTagScreen: CashlyView {
             .accessibilityLabel(CashlyL10n.string("Delete"))
         }
     }
-    
+
     func setIcon() {
         guard !state.isLoading && state.isNew && state.icon.isEmpty else { return }
         store.cashlyMutate(\.icon, category.symbols.first ?? "")
     }
-    
+
     public static var mock: some View {
         AddTagScreen()
     }

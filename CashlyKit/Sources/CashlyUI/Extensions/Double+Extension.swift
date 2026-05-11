@@ -13,11 +13,11 @@ extension Double {
         (self > reference ? .success : self < reference ? .error : .textSecondary) :
         (self > reference ? .error : self < reference ? .success : .warning)
     }
-    
+
     var percentage: String {
         (self * 100).formatted(.number.precision(.fractionLength(0))) + "%"
     }
-    
+
     var variationMessage: String {
         switch self {
         case ..<0.1: return "Just started"
@@ -27,7 +27,7 @@ extension Double {
         default: return "Over budget"
         }
     }
-    
+
     var variationColor: Color {
         switch self {
         case ..<0.5: return .green

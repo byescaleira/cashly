@@ -15,11 +15,11 @@ import CashlyMock
 
 struct UserItemView: CashlyView {
     @Environment(CashlyStore<MainState, MainAction>.self) var store
-    
+
     @Environment(\.mainState) var state
     @Environment(\.action) var action
     @Environment(\.router) var router
-    
+
     @ViewBuilder
     var body: some View {
         if !state.users.isEmpty {
@@ -31,7 +31,7 @@ struct UserItemView: CashlyView {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 36, height: 36)
-                            
+
                             CashlyText(user.name.capitalized)
                         }
                         .tag(user)
@@ -39,9 +39,9 @@ struct UserItemView: CashlyView {
                 } label: {
                     EmptyView()
                 }
-                
+
                 Divider()
-                
+
                 if let user = state.user {
                     CashlyButton {
                         router.route(to: .addUser(state: .edit(id: user.id)))
@@ -50,7 +50,7 @@ struct UserItemView: CashlyView {
                             .cashly(color: .text)
                     }
                 }
-                
+
                 CashlyButton {
                     router.route(to: .addUser(state: .new()))
                 } label: {
@@ -67,7 +67,7 @@ struct UserItemView: CashlyView {
             .buttonStyle(.plain)
         }
     }
-    
+
     static var mock: some View {
         UserItemView()
     }

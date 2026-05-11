@@ -12,7 +12,7 @@ import SwiftData
 @ModelActor
 public actor TransactionActor: TransactionUseCase {
     lazy var adapter: AdapterUseCase = AdapterActor(modelContainer: modelContainer)
-    
+
     public func getTransaction(id: String) async throws -> CashlyDomain.Transaction? {
         let predicate: Predicate<TransactionEntity> = #Predicate {
             $0.id == id
@@ -32,7 +32,7 @@ public actor TransactionActor: TransactionUseCase {
             paymentsPlan: entity.paymentsPlan
         )
     }
-    
+
     public func getTransactions() async throws -> [CashlyDomain.Transaction] {
         let descriptor = FetchDescriptor<TransactionEntity>(sortBy: [.init(\.date, order: .reverse)])
         let entities = try modelContext.fetch(descriptor)
@@ -55,7 +55,7 @@ public actor TransactionActor: TransactionUseCase {
         }
         return transactions
     }
-    
+
     public func getTransactions(
         budgets: [String]?,
         tags: [String]?,
@@ -69,24 +69,24 @@ public actor TransactionActor: TransactionUseCase {
         } else {
             predicateBudget = #Predicate { _ in true }
         }
-        
+
         let predicateStatus: Predicate<Int>
         if let statuses {
             predicateStatus = #Predicate { statuses.contains($0) }
         } else {
             predicateStatus = #Predicate { _ in true }
         }
-        
+
         let predicate: Predicate<TransactionEntity> = #Predicate {
             predicateBudget.evaluate($0.budget) &&
             predicateStatus.evaluate($0.status)
         }
-        
+
         let descriptor = FetchDescriptor<TransactionEntity>(
             predicate: predicate,
             sortBy: [.init(\.date, order: .reverse)]
         )
-        
+
         var entities = try modelContext.fetch(descriptor)
         if let date {
             let yearMonth = date.timeIntervalSince1970.yearMonth
@@ -96,7 +96,7 @@ public actor TransactionActor: TransactionUseCase {
                 ($0.endDate?.contains(yearMonth) ?? false)
             }
         }
-        
+
         if let tags {
             entities = entities.filter {
                 let summary = $0.summary.lowercased()
@@ -108,7 +108,7 @@ public actor TransactionActor: TransactionUseCase {
                 return false
             }
         }
-        
+
         var transactions = [CashlyDomain.Transaction]()
         for entity in entities {
             if let transaction = try await adapter.transactionAdapted(
@@ -132,10 +132,10 @@ public actor TransactionActor: TransactionUseCase {
                 }
             }
         }
-        
+
         return transactions
     }
-    
+
     public func removeTransaction(id: String) async throws {
         let predicate: Predicate<TransactionEntity> = #Predicate {
             $0.id == id
@@ -145,7 +145,7 @@ public actor TransactionActor: TransactionUseCase {
         modelContext.delete(entity)
         try modelContext.save()
     }
-    
+
     public func removeTransactions(ids: Set<String>) async throws {
         let predicate: Predicate<TransactionEntity> = #Predicate {
             ids.contains($0.id)
@@ -157,7 +157,7 @@ public actor TransactionActor: TransactionUseCase {
         }
         try modelContext.save()
     }
-    
+
     public func removeTransactions() async throws {
         let descriptor = FetchDescriptor<TransactionEntity>()
         let entities = try modelContext.fetch(descriptor)
@@ -166,7 +166,7 @@ public actor TransactionActor: TransactionUseCase {
         }
         try modelContext.save()
     }
-    
+
     public func addTransaction(
         id: String,
         participants: [Participant],

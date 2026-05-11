@@ -13,7 +13,7 @@ extension Budget: PrismMock {
     public static var mock: Budget {
         mocks.randomElement()!
     }
-    
+
     public static var mocks: [Budget] {
         let budgets: [Budget] = (try? CashlyResourceFile.budgets.decoded()) ?? []
         return budgets.sorted { $0.date > $1.date }

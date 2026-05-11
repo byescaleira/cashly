@@ -39,31 +39,31 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
 
         return CashlyDataFactory(modelContainer: container)
     }
-    
+
     public func makeAdapter() -> AdapterUseCase {
         AdapterActor(modelContainer: modelContainer)
     }
-    
+
     public func makeBudgetUseCase() -> BudgetUseCase {
         BudgetActor(modelContainer: modelContainer)
     }
-    
+
     public func makeCategoryUseCase() -> CategoryUseCase {
         CategoryActor(modelContainer: modelContainer)
     }
-    
+
     public func makeUserUseCase() -> UserUseCase {
         UserActor(modelContainer: modelContainer)
     }
-    
+
     public func makeTransactionUseCase() -> TransactionUseCase {
         TransactionActor(modelContainer: modelContainer)
     }
-    
+
     public func makeTagUseCase() -> TagUseCase {
         TagActor(modelContainer: modelContainer)
     }
-    
+
     public func makeParticipantUseCase() -> any ParticipantUseCase {
         ParticipantActor(modelContainer: modelContainer)
     }

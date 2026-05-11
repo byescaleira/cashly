@@ -17,7 +17,7 @@ public class ParticipantEntity {
     public var splitValue: Double = 0
     public var status: Int = 0
     public var transaction: String = ""
-    
+
     public init(
         id: String,
         user: String,

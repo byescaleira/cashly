@@ -13,7 +13,7 @@ public struct Participant: CashlyEntity, Sendable {
     public var splitValue: Double
     public var status: TransactionStatus
     public var transaction: String
-    
+
     public init(
         id: String,
         user: User,
@@ -29,7 +29,7 @@ public struct Participant: CashlyEntity, Sendable {
         self.status = status
         self.transaction = transaction
     }
-    
+
     public static var empty: Participant {
         Participant(
             id: "",

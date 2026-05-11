@@ -12,7 +12,7 @@ import SwiftData
 @ModelActor
 public actor BudgetActor: BudgetUseCase {
     lazy var adapter: AdapterUseCase = AdapterActor(modelContainer: modelContainer)
-    
+
     public func getBudget(id: String) async throws -> Budget? {
         let predicate: Predicate<BudgetEntity> = #Predicate {
             $0.id == id
@@ -27,7 +27,7 @@ public actor BudgetActor: BudgetUseCase {
             summary: entity.summary
         )
     }
-    
+
     public func getBudgets() async throws -> [Budget] {
         let descriptor = FetchDescriptor<BudgetEntity>(sortBy: [.init(\.date, order: .reverse)])
         let entities = try modelContext.fetch(descriptor)
@@ -45,7 +45,7 @@ public actor BudgetActor: BudgetUseCase {
         }
         return budgets
     }
-    
+
     public func getBudgets(
         categories: [String]?,
         date: Date?
@@ -56,7 +56,7 @@ public actor BudgetActor: BudgetUseCase {
         } else {
             predicateCategory = #Predicate { _ in true }
         }
-        
+
         let predicateDate: Predicate<Int>
         if let date {
             let yearMonth = date.timeIntervalSince1970.yearMonth
@@ -64,17 +64,17 @@ public actor BudgetActor: BudgetUseCase {
         } else {
             predicateDate = #Predicate { _ in true }
         }
-        
+
         let predicate: Predicate<BudgetEntity> = #Predicate {
             predicateCategory.evaluate($0.category) &&
             predicateDate.evaluate($0.date)
         }
-        
+
         let descriptor = FetchDescriptor<BudgetEntity>(
             predicate: predicate,
             sortBy: [.init(\.date, order: .reverse)]
         )
-        
+
         let entities = try modelContext.fetch(descriptor)
         var budgets = [Budget]()
         for entity in entities {
@@ -90,7 +90,7 @@ public actor BudgetActor: BudgetUseCase {
         }
         return budgets
     }
-    
+
     public func removeBudget(id: String) async throws {
         let predicate: Predicate<BudgetEntity> = #Predicate {
             $0.id == id
@@ -100,7 +100,7 @@ public actor BudgetActor: BudgetUseCase {
         modelContext.delete(entity)
         try modelContext.save()
     }
-    
+
     public func removeBudgets() async throws {
         let descriptor = FetchDescriptor<BudgetEntity>()
         let entities = try modelContext.fetch(descriptor)
@@ -109,7 +109,7 @@ public actor BudgetActor: BudgetUseCase {
         }
         try modelContext.save()
     }
-    
+
     public func addBudget(
         id: String,
         amount: Double,

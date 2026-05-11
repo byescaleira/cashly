@@ -15,15 +15,15 @@ import CashlyMock
 struct CategoryVariationView: CashlyView {
     @Environment(\.mainState) var state
     @State var variation: Double = .zero
-    
+
     var category: CashlyDomain.Category?
     var amount: Double
-    
+
     init(category: CashlyDomain.Category? = nil, amount: Double = .zero) {
         self.category = category
         self.amount = amount
     }
-    
+
     @ViewBuilder
     var body: some View {
         if let category {
@@ -36,7 +36,7 @@ struct CategoryVariationView: CashlyView {
                 .task { restartAnimation(value: variation, needRestart: false) }
         }
     }
-    
+
     func restartAnimation(value: Double, needRestart: Bool = true) {
         if needRestart {
             variation = .zero
@@ -46,7 +46,7 @@ struct CategoryVariationView: CashlyView {
             variation = value
         }
     }
-    
+
     var variationView: some View {
         CashlyZStack {
             if variation != .zero {
@@ -64,7 +64,7 @@ struct CategoryVariationView: CashlyView {
         }
         .animation(.bouncy.speed(1.5), value: variation)
     }
-    
+
     func getColor(index: Int, variation: Double) -> Color {
         let variationColor = variation.variationColor
         switch (index, variationColor) {
@@ -75,7 +75,7 @@ struct CategoryVariationView: CashlyView {
         default: return .secondary.opacity(0.2)
         }
     }
-    
+
     #if DEBUG
     static var mock: some View {
         CategoryVariationView(category: .mock)

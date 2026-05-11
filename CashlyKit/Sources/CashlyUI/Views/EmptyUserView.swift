@@ -13,7 +13,7 @@ struct EmptyUserView: CashlyView {
     @Environment(\.isLoading) var isLoading
     @Environment(\.mainState) var state
     @Environment(\.router) var router
-    
+
     @ViewBuilder
     var body: some View {
         if state.users.isEmpty,
@@ -41,7 +41,7 @@ struct EmptyUserView: CashlyView {
             .transition(.scale)
         }
     }
-    
+
     static var mock: some View {
         EmptyUserView()
     }

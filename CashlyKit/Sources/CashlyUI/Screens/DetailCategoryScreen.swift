@@ -15,17 +15,17 @@ import CashlyPresentation
 
 public struct DetailCategoryScreen: CashlyView {
     @Environment(CashlyStore<MainState, MainAction>.self) var store
-    
+
     @Environment(\.mainState) var state
     @Environment(\.action) var action
     @Environment(\.router) var router
-    
+
     let category: CashlyDomain.Category
-    
+
     public init(category: CashlyDomain.Category) {
         self.category = category
     }
-    
+
     public var body: some View {
         CashlyList {
             headerSection
@@ -37,7 +37,7 @@ public struct DetailCategoryScreen: CashlyView {
         .onAppear { action(.main(.fetch)) }
         .refreshable { action(.main(.fetch)) }
     }
-    
+
     var headerSection: some View {
         Section {
             CashlyText(state.budget(for: category)?.summary)
@@ -56,13 +56,13 @@ public struct DetailCategoryScreen: CashlyView {
             .cashlyPadding(.vertical, .medium)
         }
     }
-    
+
     var descriptionSection: some View {
         Section {
-            
+
         }
     }
-    
+
     var iconView: some View {
         CashlySymbol(category.icon)
             .cashly(font: .system(size: 30))
@@ -77,19 +77,19 @@ public struct DetailCategoryScreen: CashlyView {
             }
             .cashly(symbol: .bounce.byLayer, options: .repeat(.continuous).speed(0.1))
     }
-    
+
     var amountView: some View {
         CashlyVStack(spacing: .zero) {
             CashlyText(state.budgetsAmount(for: category).currency())
                 .cashly(font: .largeTitle, weight: .black)
                 .cashly(color: .text)
-            
+
             CashlyText(state.transactionsAmount(for: category).currency())
                 .cashly(font: .title2, weight: .bold)
                 .cashly(color: .textSecondary)
         }
     }
-    
+
     @ViewBuilder
     var budgetsSection: some View {
         let budgets = state.budgets(for: category)
@@ -110,7 +110,7 @@ public struct DetailCategoryScreen: CashlyView {
             }
         }
     }
-    
+
     func budgetItemView(budget: Budget) -> some View {
         CashlyHStack(spacing: .medium) {
             let transactionAmount = state.transactionsAmount(for: budget)
@@ -121,21 +121,21 @@ public struct DetailCategoryScreen: CashlyView {
                     .cashly(font: .callout, weight: .semibold)
                 CashlyText(variation.percentage)
             }
-            
+
             CashlySpacer()
-            
+
             CashlyVStack(alignment: .trailing, spacing: .extraSmall) {
                 CashlyText(budgetAmount.currency())
                     .cashly(font: .callout, weight: .semibold)
                 CashlyText(transactionAmount.currency())
             }
-            
+
             CashlySymbol("chevron.forward")
                 .cashly(color: .disabled)
         }
         .cashly(font: .callout)
     }
-    
+
     #if DEBUG
     public static var mock: some View {
         DetailCategoryScreen(category: .mock)
