@@ -1,3 +1,20 @@
+## 2026-05-11 — Wave 5e (G017 test coverage boost)
+
+**Tipo**: test
+**Módulos**: CashlyTests/Reducers/*, CashlyTests/States/MainStateComputedTests, CashlyTests/DesignSystem/{ColorHexTests, CashlySpacingTests}
+**Resumo**: G017 (parcial test coverage) substancialmente avançado. +9 arquivos de teste (de 6 p/ 15), +70 @Test declarations (de 15 p/ 85). Cobertura:
+- 6 reducers x 6-10 cases cada (42 testes): fetch/stopLoading/update/saved/error/replace + ações no-op verificadas.
+- MainState computed (8 testes): budgetsAmount/remainingAmount/variation/score/budget(for:)/partition/biggestTransactions.
+- Color(hex:) (7 testes): nil/empty/malformed/6digit/8digit/whitespace.
+- CashlySpacing (12 testes): todos tokens nominal + negative + custom.
+TEST BUILD SUCCEEDED no iPhone 17 simulator. Execução CLI falha por SPM xctest bundle config — Xcode-only runtime.
+**Impacto**: G017 de "parcial (smoke + snapshots)" para "parcial substancial". Próximo seria middleware integration tests com mock UseCases — fora de escopo agora.
+**ADR**: nenhum
+**PRs**: 2 commits direto em main
+**Aprendizados**: PrismReducer pure-function shape (`reduce(into:action:) -> PrismEffect`) facilita test — basta criar State, dispatch action, verificar state mutated. Effects descartados nestes tests; mid-test middleware integration é wave futura.
+
+---
+
 ## 2026-05-11 — Wave 5d (G016 README + G019 MainState split)
 
 **Tipo**: docs + refactor
