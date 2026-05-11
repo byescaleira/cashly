@@ -35,14 +35,11 @@ public extension View {
         _ edges: Edge.Set = .all,
         _ spacing: CashlySpacing = .small,
     ) -> some View {
-        self.ryzePadding(
-            edges,
-            spacing
-        )
+        self.padding(edges, spacing.rawValue)
     }
-    
+
     func cashlyPadding(_ spacing: CashlySpacing = .small) -> some View {
-        self.ryzePadding(spacing)
+        self.padding(spacing.rawValue)
     }
     
     func cashly(glass: Glass, in shape: CashlyShape) -> some View {

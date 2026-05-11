@@ -13,15 +13,13 @@ import RyzeArchitecture
 
 public typealias CashlyColor = RyzeColor
 public typealias CashlySize = RyzeSize
-public typealias CashlySpacing = RyzeSpacing
+// CashlySpacing: Cashly-owned enum (see CashlySpacing.swift).
 public typealias CashlyShape = RyzeShape
 public typealias CashlyView = RyzeView
 // CashlySpacer: Cashly-owned struct (see CashlySpacer.swift).
 public typealias CashlyButton = RyzeButton
 public typealias CashlySection = RyzeSection
-public typealias CashlyHStack = RyzeHStack
-public typealias CashlyVStack = RyzeVStack
-public typealias CashlyZStack = RyzeZStack
+// CashlyHStack/VStack/ZStack: Cashly-owned (see CashlyStacks.swift).
 // CashlySymbol: Cashly-owned struct (see CashlySymbol.swift).
 // CashlyText: Cashly-owned struct (see CashlyText.swift). No longer a Ryze typealias.
 public typealias CashlyTextField = RyzeTextField
