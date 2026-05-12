@@ -38,6 +38,7 @@ public struct HomeScreen: CashlyView {
         }
         .toolbar {
             ToolbarItem(placement: .navigation) { UserItemView() }
+            ToolbarItem { ProBadgeView(isPro: state.isPro) }
             ToolbarItem { FilterItemView() }
         }
         .onAppear { action(.main(.fetch)) }

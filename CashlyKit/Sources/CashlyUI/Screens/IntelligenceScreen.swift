@@ -30,17 +30,50 @@ public struct IntelligenceScreen: CashlyView {
                 modelsSection
                 trainButton
             }
-            .opacity(state.filter.allTransactions.count < 50 ? 0.5 : 1)
-            .disabled(state.filter.allTransactions.count < 50)
+            .opacity(state.isPro && state.filter.allTransactions.count >= 50 ? 1 : 0.5)
+            .disabled(!state.isPro || state.filter.allTransactions.count < 50)
+
+            if !state.isPro {
+                proLockSection
+            }
         }
         .navigationTitle(CashlyL10n.string("Intelligence"))
         .toolbar {
             ToolbarItem(placement: .navigation) { UserItemView() }
+            ToolbarItem { ProBadgeView(isPro: state.isPro, trigger: .intelligenceTab) }
         }
         .onAppear { action(.main(.fetch)) }
         .onChange(of: isTraining) {
             guard isTraining.allSatisfy({ !$0.value }) else { return }
             action(.main(.fetchPredictions))
+        }
+    }
+
+    /// CTA shown above the disabled models/train sections when the
+    /// user is on Free. Tap routes to the paywall via the active
+    /// router.
+    @ViewBuilder
+    var proLockSection: some View {
+        Section {} footer: {
+            CashlyButton {
+                router.route(to: .paywall(trigger: .intelligenceTab))
+            } label: {
+                CashlyVStack(alignment: .center, spacing: .small) {
+                    CashlySymbol("lock.fill")
+                        .cashly(font: .system(size: 32))
+                        .cashly(color: .color(.yellow))
+                    CashlyText(CashlyL10n.string("AI features require Pro."))
+                        .cashly(font: .headline, weight: .semibold)
+                        .cashly(alignment: .center)
+                    CashlyText(CashlyL10n.string("Unlock unlimited training + predictions."))
+                        .cashly(font: .subheadline)
+                        .cashly(color: .textSecondary)
+                        .cashly(alignment: .center)
+                }
+                .frame(maxWidth: .infinity)
+                .cashlyPadding(.vertical, .large)
+            }
+            .buttonStyle(.plain)
         }
     }
 

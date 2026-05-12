@@ -17,6 +17,7 @@ public struct AddUserScreen: CashlyView {
     @Environment(CashlyStore<AddUserState, AddUserAction>.self) var store
 
     @Environment(\.addUserState) var state
+    @Environment(\.mainState) var mainState
     @Environment(\.action) var action
     @Environment(\.router) var router
 
@@ -36,6 +37,7 @@ public struct AddUserScreen: CashlyView {
         }
         .toolbar {
             ToolbarItemGroup {
+                usageItem
                 removeButton
                 saveButton
             }
@@ -152,12 +154,31 @@ public struct AddUserScreen: CashlyView {
         CashlyButton {
             action(.addUser(.save))
         } label: {
-            CashlySymbol("checkmark")
+            CashlyHStack(spacing: .extraSmall) {
+                if state.isNew, !mainState.canAdd(.addUser) {
+                    CashlySymbol("lock.fill")
+                        .cashly(font: .caption)
+                }
+                CashlySymbol("checkmark")
+            }
         }
         .buttonStyle(.glassProminent)
         .disabled(!state.canSave)
         .cashly(tint: .primary)
         .accessibilityLabel(CashlyL10n.string("Save"))
+    }
+
+    @ViewBuilder
+    var usageItem: some View {
+        if state.isNew, !mainState.isPro {
+            CashlyText(mainState.usageLabel(for: .addUser))
+                .cashly(font: .caption2, weight: .semibold)
+                .cashly(color: mainState.canAdd(.addUser) ? .textSecondary : .color(.yellow))
+                .cashlyPadding(.horizontal, .small)
+                .cashlyPadding(.vertical, .extraSmall)
+                .cashly(background: .color(.secondary.opacity(0.2)))
+                .cashly(clip: .capsule)
+        }
     }
 
     @ViewBuilder

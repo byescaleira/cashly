@@ -11,6 +11,48 @@ import CashlyDomain
 import CashlyResource
 
 public extension MainState {
+    // MARK: - Subscription / gating helpers
+
+    var isPro: Bool {
+        subscriptionStatus.tier == .pro
+    }
+
+    /// Free-tier ceilings mirrored from `FeatureGateLimits.freeDefault`.
+    /// Surfaces them here so SwiftUI views can drive "X of Y used"
+    /// affordances without importing CashlyData. Production gating
+    /// still runs through the use case at save time.
+    static var freeLimits: (users: Int, categories: Int, budgets: Int) {
+        (users: 1, categories: 3, budgets: 5)
+    }
+
+    /// True when the active tier allows adding another entity of the
+    /// given kind. Used to disable + label save buttons before a
+    /// .featureGated error round-trips through the middleware.
+    func canAdd(_ feature: FeatureGate) -> Bool {
+        if isPro { return true }
+        switch feature {
+        case .addUser: return users.count < Self.freeLimits.users
+        case .addCategory: return categories.count < Self.freeLimits.categories
+        case .addBudget: return budgets.count < Self.freeLimits.budgets
+        case .intelligence, .multiUser: return false
+        }
+    }
+
+    /// Human-readable "n / N" or "Pro" label for the given gate.
+    func usageLabel(for feature: FeatureGate) -> String {
+        if isPro { return "Pro" }
+        switch feature {
+        case .addUser:
+            return "\(users.count)/\(Self.freeLimits.users)"
+        case .addCategory:
+            return "\(categories.count)/\(Self.freeLimits.categories)"
+        case .addBudget:
+            return "\(budgets.count)/\(Self.freeLimits.budgets)"
+        case .intelligence, .multiUser:
+            return "Pro"
+        }
+    }
+
     func participantsUser(
         transaction: String,
         splitMode: TransactionSplitMode?,

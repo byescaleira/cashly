@@ -104,6 +104,46 @@ struct MainStateComputedTests {
         #expect(biggest.first?.amount == 80)
         #expect(biggest.last?.amount == 40)
     }
+
+    // MARK: - D1 gating helpers
+
+    @Test("isPro mirrors subscriptionStatus.tier")
+    func isProMirrors() {
+        var state = MainState()
+        #expect(state.isPro == false)
+        state.subscriptionStatus = SubscriptionStatus(tier: .pro)
+        #expect(state.isPro)
+    }
+
+    @Test("canAdd(.addCategory) honours the free ceiling")
+    func canAddCategoryFree() {
+        let user = User(id: "u", name: "U", photo: "p")
+        let categories = (0..<3).map { i in
+            CashlyDomain.Category(id: "c\(i)", user: user, name: "n\(i)", color: "#000", icon: "x")
+        }
+        var state = MainState(categories: categories)
+        #expect(state.canAdd(.addCategory) == false)
+        state.subscriptionStatus = SubscriptionStatus(tier: .pro)
+        #expect(state.canAdd(.addCategory))
+    }
+
+    @Test("intelligence + multiUser gated on Free")
+    func freeBlocksProOnlyGates() {
+        let state = MainState()
+        #expect(state.canAdd(.intelligence) == false)
+        #expect(state.canAdd(.multiUser) == false)
+    }
+
+    @Test("usageLabel returns n/N on Free and Pro on Pro")
+    func usageLabelShape() {
+        let user = User(id: "u", name: "U", photo: "p")
+        var state = MainState(categories: [
+            CashlyDomain.Category(id: "c1", user: user, name: "n", color: "#000", icon: "x")
+        ])
+        #expect(state.usageLabel(for: .addCategory) == "1/3")
+        state.subscriptionStatus = SubscriptionStatus(tier: .pro)
+        #expect(state.usageLabel(for: .addCategory) == "Pro")
+    }
 }
 
 // MARK: - Test fixtures

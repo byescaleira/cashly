@@ -19,6 +19,7 @@ public struct AddBudgetScreen: CashlyView {
     @Environment(CashlyStore<AddBudgetState, AddBudgetAction>.self) var store
 
     @Environment(\.addBudgetState) var state
+    @Environment(\.mainState) var mainState
     @Environment(\.action) var action
     @Environment(\.router) var router
     @Environment(\.user) var user
@@ -41,6 +42,7 @@ public struct AddBudgetScreen: CashlyView {
         }
         .toolbar {
             ToolbarItemGroup {
+                usageItem
                 quickFillItem
                 removeButton
             }

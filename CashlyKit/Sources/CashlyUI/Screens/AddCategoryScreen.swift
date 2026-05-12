@@ -19,6 +19,7 @@ public struct AddCategoryScreen: CashlyView {
     @Environment(CashlyStore<AddCategoryState, AddCategoryAction>.self) var store
 
     @Environment(\.addCategoryState) var state
+    @Environment(\.mainState) var mainState
     @Environment(\.action) var action
     @Environment(\.router) var router
 
@@ -39,6 +40,7 @@ public struct AddCategoryScreen: CashlyView {
         .toolbar {
             ToolbarItemGroup {
                 UserItemView()
+                usageItem
                 removeButton
                 saveButton
             }
