@@ -11,17 +11,20 @@ public struct AddCategoryMiddleware: PrismMiddleware {
     let categoryUseCase: CategoryUseCase
     let transactionUseCase: TransactionUseCase
     let userUseCase: UserUseCase
+    let featureGate: FeatureGateUseCase
 
     public init(
         budgetUseCase: BudgetUseCase,
         categoryUseCase: CategoryUseCase,
         transactionUseCase: TransactionUseCase,
-        userUseCase: UserUseCase
+        userUseCase: UserUseCase,
+        featureGate: FeatureGateUseCase
     ) {
         self.budgetUseCase = budgetUseCase
         self.categoryUseCase = categoryUseCase
         self.transactionUseCase = transactionUseCase
         self.userUseCase = userUseCase
+        self.featureGate = featureGate
     }
 
     public func run(state: AddCategoryState, action: AddCategoryAction) -> PrismEffect<AddCategoryAction> {
@@ -68,6 +71,16 @@ public struct AddCategoryMiddleware: PrismMiddleware {
                 guard let user = state.user else {
                     send(.error(.domain(.invalidInput(field: "user", reason: "User is required."))))
                     return
+                }
+                // Only enforce the gate when creating; editing an
+                // existing category should always be allowed even
+                // above the free-tier ceiling.
+                if state.isNew {
+                    let decision = await featureGate.decide(.addCategory)
+                    if case .blocked = decision {
+                        send(.error(.domain(.featureGated(feature: "Categories", requiredTier: "Pro"))))
+                        return
+                    }
                 }
                 try await categoryUseCase.addCategory(
                     id: state.id, user: user.id, name: state.name,

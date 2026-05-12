@@ -33,7 +33,8 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
                 budgetUseCase: dataFactory.makeBudgetUseCase(),
                 categoryUseCase: dataFactory.makeCategoryUseCase(),
                 transactionUseCase: dataFactory.makeTransactionUseCase(),
-                userUseCase: dataFactory.makeUserUseCase()
+                userUseCase: dataFactory.makeUserUseCase(),
+                featureGate: dataFactory.makeFeatureGate()
             )
         )
     }
@@ -46,7 +47,8 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
                 budgetUseCase: dataFactory.makeBudgetUseCase(),
                 categoryUseCase: dataFactory.makeCategoryUseCase(),
                 transactionUseCase: dataFactory.makeTransactionUseCase(),
-                userUseCase: dataFactory.makeUserUseCase()
+                userUseCase: dataFactory.makeUserUseCase(),
+                featureGate: dataFactory.makeFeatureGate()
             )
         )
     }
@@ -74,7 +76,8 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
                 budgetUseCase: dataFactory.makeBudgetUseCase(),
                 categoryUseCase: dataFactory.makeCategoryUseCase(),
                 transactionUseCase: dataFactory.makeTransactionUseCase(),
-                userUseCase: dataFactory.makeUserUseCase()
+                userUseCase: dataFactory.makeUserUseCase(),
+                featureGate: dataFactory.makeFeatureGate()
             )
         )
     }

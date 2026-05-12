@@ -72,6 +72,15 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         subscription
     }
 
+    public func makeFeatureGate() -> FeatureGateUseCase {
+        DefaultFeatureGate(
+            subscription: subscription,
+            userUseCase: makeUserUseCase(),
+            categoryUseCase: makeCategoryUseCase(),
+            budgetUseCase: makeBudgetUseCase()
+        )
+    }
+
     public func makeTransactionUseCase() -> TransactionUseCase {
         TransactionActor(modelContainer: modelContainer)
     }

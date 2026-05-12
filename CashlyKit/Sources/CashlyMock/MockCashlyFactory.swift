@@ -39,6 +39,7 @@ public struct MockCashlyFactory: CashlyDataFactoryProtocol, CashlyPresentationFa
     public func makeUserUseCase() -> UserUseCase { MockUserActor() }
     public func makeUserPreferences() -> UserPreferencesUseCase { InMemoryUserPreferences() }
     public func makeSubscriptionUseCase() -> SubscriptionUseCase { InMemorySubscriptionService() }
+    public func makeFeatureGate() -> FeatureGateUseCase { AlwaysAllowedFeatureGate() }
     public func makeTransactionUseCase() -> TransactionUseCase { MockTransactionActor() }
     public func makeTagUseCase() -> any TagUseCase { MockTagActor() }
     public func makeParticipantUseCase() -> any ParticipantUseCase { MockParticipantActor() }
@@ -51,7 +52,8 @@ public struct MockCashlyFactory: CashlyDataFactoryProtocol, CashlyPresentationFa
                 budgetUseCase: makeBudgetUseCase(),
                 categoryUseCase: makeCategoryUseCase(),
                 transactionUseCase: makeTransactionUseCase(),
-                userUseCase: makeUserUseCase()
+                userUseCase: makeUserUseCase(),
+                featureGate: makeFeatureGate()
             )
         )
     }
@@ -64,7 +66,8 @@ public struct MockCashlyFactory: CashlyDataFactoryProtocol, CashlyPresentationFa
                 budgetUseCase: makeBudgetUseCase(),
                 categoryUseCase: makeCategoryUseCase(),
                 transactionUseCase: makeTransactionUseCase(),
-                userUseCase: makeUserUseCase()
+                userUseCase: makeUserUseCase(),
+                featureGate: makeFeatureGate()
             )
         )
     }
@@ -92,7 +95,8 @@ public struct MockCashlyFactory: CashlyDataFactoryProtocol, CashlyPresentationFa
                 budgetUseCase: makeBudgetUseCase(),
                 categoryUseCase: makeCategoryUseCase(),
                 transactionUseCase: makeTransactionUseCase(),
-                userUseCase: makeUserUseCase()
+                userUseCase: makeUserUseCase(),
+                featureGate: makeFeatureGate()
             )
         )
     }

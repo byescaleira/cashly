@@ -12,17 +12,20 @@ public struct AddUserMiddleware: PrismMiddleware {
     let categoryUseCase: CategoryUseCase
     let transactionUseCase: TransactionUseCase
     let userUseCase: UserUseCase
+    let featureGate: FeatureGateUseCase
 
     public init(
         budgetUseCase: BudgetUseCase,
         categoryUseCase: CategoryUseCase,
         transactionUseCase: TransactionUseCase,
-        userUseCase: UserUseCase
+        userUseCase: UserUseCase,
+        featureGate: FeatureGateUseCase
     ) {
         self.budgetUseCase = budgetUseCase
         self.categoryUseCase = categoryUseCase
         self.transactionUseCase = transactionUseCase
         self.userUseCase = userUseCase
+        self.featureGate = featureGate
     }
 
     public func run(state: AddUserState, action: AddUserAction) -> PrismEffect<AddUserAction> {
@@ -62,6 +65,13 @@ public struct AddUserMiddleware: PrismMiddleware {
                     send(.error(.domain(.invalidInput(field: "photo", reason: "Photo must be a valid URL."))))
                     return
                 }
+                if state.isNew {
+                    let decision = await featureGate.decide(.addUser)
+                    if case .blocked = decision {
+                        send(.error(.domain(.featureGated(feature: "Multiple users", requiredTier: "Pro"))))
+                        return
+                    }
+                }
                 try await userUseCase.addUser(id: state.id, name: state.name, photo: photo)
                 guard let user = try await userUseCase.getUser(id: state.id) else {
                     send(.error(.persistence(.notFound(entity: "User", id: state.id))))
@@ -79,7 +89,7 @@ public struct AddUserMiddleware: PrismMiddleware {
         .run { send in
             do {
                 let categories = try await categoryUseCase.getCategories(ids: nil, users: [state.id])
-                let budgets = try await budgetUseCase.getBudgets(categories: categories.map(\.name), date: nil)
+                let budgets = try await budgetUseCase.getBudgets(categories: categories.map(\.id), date: nil)
                 let transaction = try await transactionUseCase.getTransactions(
                     budgets: budgets.map(\.id), tags: nil, statuses: nil, participants: nil, date: nil
                 )

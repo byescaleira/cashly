@@ -11,6 +11,7 @@
 import Foundation
 import Testing
 import CashlyDomain
+import CashlyMock
 @testable import CashlyPresentation
 
 @MainActor
@@ -83,7 +84,8 @@ struct ReducerCompositionTests {
                 budgetUseCase: factory.budget,
                 categoryUseCase: factory.category,
                 transactionUseCase: factory.transaction,
-                userUseCase: factory.user
+                userUseCase: factory.user,
+                featureGate: AlwaysAllowedFeatureGate()
             )
         )
     }
@@ -97,7 +99,8 @@ struct ReducerCompositionTests {
                 budgetUseCase: factory.budget,
                 categoryUseCase: factory.category,
                 transactionUseCase: factory.transaction,
-                userUseCase: factory.user
+                userUseCase: factory.user,
+                featureGate: AlwaysAllowedFeatureGate()
             )
         )
     }

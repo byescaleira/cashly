@@ -6,6 +6,7 @@
 import Foundation
 import Testing
 import CashlyDomain
+import CashlyMock
 @testable import CashlyPresentation
 
 @Suite("AddCategoryMiddleware", .tags(.unit, .presentation, .local))
@@ -20,7 +21,8 @@ struct AddCategoryMiddlewareTests {
             budgetUseCase: budgetUseCase,
             categoryUseCase: categoryUseCase,
             transactionUseCase: transactionUseCase,
-            userUseCase: userUseCase
+            userUseCase: userUseCase,
+            featureGate: AlwaysAllowedFeatureGate()
         )
     }
 

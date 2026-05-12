@@ -91,11 +91,17 @@ public enum PersistenceError: PrismError {
 public enum DomainError: PrismError {
     case invalidInput(field: String, reason: String)
     case businessRuleViolated(rule: String)
+    /// The operation is blocked by the user's current subscription
+    /// tier (e.g. trying to add a 4th category on Free). Carries the
+    /// gate that fired and the tier that would unlock it.
+    case featureGated(feature: String, requiredTier: String)
 
     public var errorDescription: String? {
         switch self {
         case let .invalidInput(field, _): return "Invalid value for \(field)."
         case let .businessRuleViolated(rule): return "Business rule violated: \(rule)."
+        case let .featureGated(feature, tier):
+            return "\(feature) requires \(tier)."
         }
     }
 
@@ -103,6 +109,7 @@ public enum DomainError: PrismError {
         switch self {
         case let .invalidInput(_, reason): return reason
         case .businessRuleViolated: return nil
+        case .featureGated: return "Available on the paid tier."
         }
     }
 
@@ -110,6 +117,7 @@ public enum DomainError: PrismError {
         switch self {
         case .invalidInput: return "Review the highlighted field and try again."
         case .businessRuleViolated: return nil
+        case .featureGated: return "Upgrade to unlock."
         }
     }
 

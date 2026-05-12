@@ -12,17 +12,20 @@ public struct AddBudgetMiddleware: PrismMiddleware {
     let categoryUseCase: CategoryUseCase
     let transactionUseCase: TransactionUseCase
     let userUseCase: UserUseCase
+    let featureGate: FeatureGateUseCase
 
     public init(
         budgetUseCase: BudgetUseCase,
         categoryUseCase: CategoryUseCase,
         transactionUseCase: TransactionUseCase,
-        userUseCase: UserUseCase
+        userUseCase: UserUseCase,
+        featureGate: FeatureGateUseCase
     ) {
         self.budgetUseCase = budgetUseCase
         self.categoryUseCase = categoryUseCase
         self.transactionUseCase = transactionUseCase
         self.userUseCase = userUseCase
+        self.featureGate = featureGate
     }
 
     public func run(state: AddBudgetState, action: AddBudgetAction) -> PrismEffect<AddBudgetAction> {
@@ -78,6 +81,13 @@ public struct AddBudgetMiddleware: PrismMiddleware {
                 guard state.summary.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3 else {
                     send(.error(.domain(.invalidInput(field: "summary", reason: "Summary must be at least 3 characters."))))
                     return
+                }
+                if state.isNew {
+                    let decision = await featureGate.decide(.addBudget)
+                    if case .blocked = decision {
+                        send(.error(.domain(.featureGated(feature: "Budgets", requiredTier: "Pro"))))
+                        return
+                    }
                 }
                 try await budgetUseCase.addBudget(
                     id: state.id,
