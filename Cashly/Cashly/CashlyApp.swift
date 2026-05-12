@@ -33,6 +33,11 @@ struct CashlyApp: App {
 
     @AppStorage("cashly.onboarding.completed") var onboardingCompleted: Bool = false
 
+    /// Latest deeplink resolved by `onOpenURL`. MainScreen reads it via
+    /// the `pendingDeeplink` environment, forwards into its active tab
+    /// router, and clears the slot back to nil.
+    @State var pendingDeeplink: MainRoute?
+
     init() {
         let factory: CashlyPresentationFactory
         do {
@@ -95,6 +100,10 @@ struct CashlyApp: App {
                     }
                 }
 
+                .environment(\.pendingDeeplink, pendingDeeplink)
+                .onOpenURL { url in
+                    pendingDeeplink = MainDeeplink.resolve(url)
+                }
                 .tint(Color.accentColor)
                 .fullScreenCover(isPresented: Binding(
                     get: { !onboardingCompleted },

@@ -17,6 +17,7 @@ public struct MainScreen: CashlyView {
 
     @Environment(\.mainState) var state
     @Environment(\.action) var action
+    @Environment(\.pendingDeeplink) var pendingDeeplink
 
     @State var tabItem: MainTabItem = .home
 
@@ -29,6 +30,14 @@ public struct MainScreen: CashlyView {
 
     public var body: some View {
         tabView
+            .onChange(of: pendingDeeplink) { _, route in
+                guard let route else { return }
+                // Switch to the home tab so the route renders on a
+                // predictable router. Specialised routing per tab can
+                // ship later — for now every push lands on home.
+                tabItem = .home
+                homeRouter.route(to: route)
+            }
     }
 
     var tabView: some View {

@@ -19,6 +19,10 @@ public extension EnvironmentValues {
 
     @Entry var router: CashlyRouter<MainRoute> = .init()
     @Entry var action: (ApplicationAction) -> Void = { _ in }
+    /// Deeplink hand-off slot. CashlyApp writes here from
+    /// `onOpenURL`; MainScreen observes and forwards into the active
+    /// tab router. Nil otherwise.
+    @Entry var pendingDeeplink: MainRoute? = nil
 
     @Entry var user: User?
 }
