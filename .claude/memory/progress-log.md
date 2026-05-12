@@ -1,3 +1,81 @@
+## 2026-05-12 — Ondas D6/D7 (deferred — Widget + AppIntents)
+
+**Tipo**: planning
+**Resumo**: Widget extension + AppIntents extension exigem novos targets no Cashly.xcodeproj (pbxproj edit + bundle id + entitlements). Risco alto sem ferramenta de edit confiável (xcodeproj manipulation programática). Defer para sessão com Xcode aberto.
+**Decisão**: skip.
+
+---
+
+## 2026-05-12 — Onda D9 (CI/CD hooks)
+
+**Tipo**: chore
+**Módulos**: .github/workflows (ci.yml + snapshots.yml), .githooks/pre-push, scripts/install-hooks.sh
+**Resumo**: Pre-push hook (swift build + swift test --parallel local). install-hooks.sh wires .githooks/ via core.hooksPath. Snapshot regen workflow (workflow_dispatch) flips isRecording, roda suite, flip back, commit baseline PNGs. CI emite TestResults.xcresult + coverage summary + upload artifact 7d.
+**Impacto**: Bad pushes pegos antes de bater CI. Snapshot regen sem manual local. Coverage visible no Actions tab.
+
+---
+
+## 2026-05-12 — Onda D5 (deeplinks cashly://)
+
+**Tipo**: feat
+**Módulos**: CashlyPresentation/Route/MainDeeplink, CashlyTests/Presentation/MainDeeplinkTests, EnvironmentValues+Extension (pendingDeeplink), Cashly/Cashly/CashlyApp (.onOpenURL), CashlyUI/Screens/MainScreen (.onChange consume)
+**Resumo**: MainDeeplink.resolve(URL) → MainRoute? para paywall/settings/home/intelligence/transactions/categories + trigger query param. CashlyApp pega .onOpenURL, MainScreen observa env e dispara homeRouter.route(to:) trocando tab para .home. 9 tests cobrindo scheme rejection, hosts, query params, unknown host.
+**Impacto**: URLs externas roteiam para destinos. Foundation para Universal Links + push notifications.
+
+---
+
+## 2026-05-12 — Onda D10 (deferred — AdapterActor N+1)
+
+**Tipo**: planning
+**Resumo**: Perf issue 1 (AdapterActor faz N+1 fetches por Transaction resolve) requer Instruments trace + arquitetura nova (bulk fetch + actor-local cache). Custo alto sem repro mensurada. Defer para sessão com Instruments + dataset realista.
+
+---
+
+## 2026-05-12 — Onda D4 (onboarding flow)
+
+**Tipo**: feat
+**Módulos**: CashlyUI/Screens/OnboardingScreen, Cashly/Cashly/CashlyApp (fullScreenCover), CashlyResource/Localizable.xcstrings (6 strings)
+**Resumo**: 3-step paged TabView (Welcome / Free / Pro). Last page split CTA: Upgrade to Pro routes paywall, Continue with Free dismisses. @AppStorage "cashly.onboarding.completed" persiste. CashlyApp .fullScreenCover bound to !completed.
+**Impacto**: First-launch UX cobre proposition Free vs Pro antes user pisar no app.
+
+---
+
+## 2026-05-12 — Onda D3 (analytics events)
+
+**Tipo**: feat
+**Módulos**: CashlyPresentation/Middlewares/PaywallMiddleware
+**Resumo**: 9 events: paywall_viewed, purchase_started/succeeded/cancelled/pending/failed, restore_started/succeeded/no_entitlement. Properties carry plan_id, trigger, reason. AnalyticsTracker injected via init com NoopAnalyticsTracker default — composition root pluga concreto quando wiring real.
+**Impacto**: Funnel measurable para Pro conversion.
+
+---
+
+## 2026-05-12 — Onda D8 (i18n audit)
+
+**Tipo**: i18n
+**Módulos**: CashlyResource/Localizable.xcstrings (+24 keys en + pt-BR)
+**Resumo**: grep CashlyL10n.string em Sources vs catálogo identificou 24 strings novas das Waves B3/D1/D2 sem entries. Adicionados ambos locales.
+**Impacto**: pt-BR completo para superfícies Pro/Paywall/Settings.
+
+---
+
+## 2026-05-12 — Onda D2 (SettingsScreen)
+
+**Tipo**: feat
+**Módulos**: CashlyUI/Screens/SettingsScreen, MainRoute.settings, MainScreen destination, HomeScreen toolbar gear
+**Resumo**: Settings com sections Subscription (tier badge, plan, renew/expire), Actions (Manage Subscription via manageSubscriptionsSheet iOS/visionOS, Upgrade/Restore), App (version/build).
+**Impacto**: Native iOS subscription management via Apple. Ponto de entrada Free → Pro.
+
+---
+
+## 2026-05-12 — Onda D1 (locked UI affordances)
+
+**Tipo**: feat
+**Módulos**: MainState+Computed (isPro/canAdd/usageLabel), CashlyUI/Views/ProBadgeView, HomeScreen/IntelligenceScreen toolbar, AddCategory/AddBudget/AddUser usageItem chips
+**Resumo**: Pro badge (crown gold) ou Upgrade (lock accent) toolbar item. IntelligenceScreen lock CTA Free. Save buttons lock icon + usage chip "1/3" quando Free no limite. 4 tests cobrindo isPro/canAdd/usageLabel/intelligence gate.
+**Impacto**: User vê estado da limitação antes de tentar saving.
+
+---
+
 ## 2026-05-12 — Onda C7 (DocC + README)
 
 **Tipo**: docs
