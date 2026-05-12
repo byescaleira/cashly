@@ -24,6 +24,7 @@ struct CashlyApp: App {
     @State var addUserStore: CashlyStore<AddUserState, AddUserAction>
     @State var addTagStore: CashlyStore<AddTagState, AddTagAction>
     @State var mainStore: CashlyStore<MainState, MainAction>
+    @State var paywallStore: CashlyStore<PaywallState, PaywallAction>
 
     /// Held so the StoreKit `Transaction.updates` listener stays alive
     /// for the app lifetime. Must be retained somewhere — the listener
@@ -43,6 +44,7 @@ struct CashlyApp: App {
         _addUserStore = State(initialValue: factory.makeAddUserStore())
         _addTagStore = State(initialValue: factory.makeAddTagStore())
         _mainStore = State(initialValue: factory.makeMainStore())
+        _paywallStore = State(initialValue: factory.makePaywallStore(trigger: .upgradeButton))
         subscriptionService = factory.makeSubscriptionUseCase()
     }
 
@@ -58,6 +60,7 @@ struct CashlyApp: App {
                 .environment(addUserStore)
                 .environment(addTagStore)
                 .environment(mainStore)
+                .environment(paywallStore)
 
                 .environment(\.addCategoryState, addCategoryStore.state)
                 .environment(\.addBudgetState, addBudgetStore.state)
@@ -65,6 +68,7 @@ struct CashlyApp: App {
                 .environment(\.addUserState, addUserStore.state)
                 .environment(\.addTagState, addTagStore.state)
                 .environment(\.mainState, mainStore.state)
+                .environment(\.paywallState, paywallStore.state)
 
                 .environment(\.action, handler(action:))
 
@@ -95,6 +99,7 @@ struct CashlyApp: App {
             case let .addUser(action): await addUserStore.dispatch(action: action)
             case let .addTag(action): await addTagStore.dispatch(action: action)
             case let .main(action): await mainStore.dispatch(action: action)
+            case let .paywall(action): await paywallStore.dispatch(action: action)
             }
         }
     }

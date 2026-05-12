@@ -13,4 +13,5 @@ public protocol CashlyPresentationFactoryProtocol {
     func makeAddUserStore() -> CashlyStore<AddUserState, AddUserAction>
     func makeAddTagStore() -> CashlyStore<AddTagState, AddTagAction>
     func makeMainStore() -> CashlyStore<MainState, MainAction>
+    func makePaywallStore(trigger: PaywallTrigger) -> CashlyStore<PaywallState, PaywallAction>
 }

@@ -14,4 +14,5 @@ public enum ApplicationAction: CashlyAction {
     case addUser(AddUserAction)
     case addTag(AddTagAction)
     case main(MainAction)
+    case paywall(PaywallAction)
 }

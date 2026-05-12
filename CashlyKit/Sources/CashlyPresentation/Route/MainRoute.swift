@@ -46,7 +46,16 @@ public enum MainRoute: CashlyRoutable {
             return (8, "")
         case .intelligence:
             return (9, "")
+        case let .paywall(trigger):
+            return (10, trigger.rawValue)
         }
+    }
+
+    public var navigationStyle: CashlyNavigationStyle {
+        if case .paywall = self {
+            return .present
+        }
+        return .push
     }
 
     case addUser(state: AddUserState)
@@ -59,10 +68,7 @@ public enum MainRoute: CashlyRoutable {
     case transaction
     case home
     case intelligence
-
-    public var navigationStyle: CashlyNavigationStyle {
-        .push
-    }
+    case paywall(trigger: PaywallTrigger)
 
     @ViewBuilder
     public func makeView(content: @escaping (MainRoute) -> any View) -> some View {

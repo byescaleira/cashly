@@ -15,6 +15,7 @@ public extension EnvironmentValues {
     @Entry var addUserState = AddUserState.new()
     @Entry var addTagState = AddTagState.new()
     @Entry var mainState = MainState()
+    @Entry var paywallState = PaywallState()
 
     @Entry var router: CashlyRouter<MainRoute> = .init()
     @Entry var action: (ApplicationAction) -> Void = { _ in }

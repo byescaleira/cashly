@@ -15,6 +15,7 @@ struct MockModifier: ViewModifier {
     @State var addUserStore: CashlyStore<AddUserState, AddUserAction>
     @State var addTagStore: CashlyStore<AddTagState, AddTagAction>
     @State var mainStore: CashlyStore<MainState, MainAction>
+    @State var paywallStore: CashlyStore<PaywallState, PaywallAction>
 
     init() {
         let factory = MockCashlyFactory()
@@ -24,6 +25,7 @@ struct MockModifier: ViewModifier {
         _addUserStore = State(initialValue: factory.makeAddUserStore())
         _addTagStore = State(initialValue: factory.makeAddTagStore())
         _mainStore = State(initialValue: factory.makeMainStore())
+        _paywallStore = State(initialValue: factory.makePaywallStore(trigger: .upgradeButton))
     }
 
     func body(content: Content) -> some View {
@@ -34,6 +36,7 @@ struct MockModifier: ViewModifier {
             .environment(addUserStore)
             .environment(addTagStore)
             .environment(mainStore)
+            .environment(paywallStore)
 
             .environment(\.addCategoryState, addCategoryStore.state)
             .environment(\.addBudgetState, addBudgetStore.state)
@@ -41,6 +44,7 @@ struct MockModifier: ViewModifier {
             .environment(\.addUserState, addUserStore.state)
             .environment(\.addTagState, addTagStore.state)
             .environment(\.mainState, mainStore.state)
+            .environment(\.paywallState, paywallStore.state)
 
             .environment(\.action, handler(action:))
 
@@ -57,15 +61,22 @@ struct MockModifier: ViewModifier {
 
     @MainActor
     func handler(action: ApplicationAction) {
-        let stores = (addCategoryStore, addBudgetStore, addTransactionStore, addUserStore, addTagStore, mainStore)
+        let addCategory = addCategoryStore
+        let addBudget = addBudgetStore
+        let addTransaction = addTransactionStore
+        let addUser = addUserStore
+        let addTag = addTagStore
+        let main = mainStore
+        let paywall = paywallStore
         Task(priority: .high) { @MainActor in
             switch action {
-            case let .addCategory(action): await stores.0.dispatch(action: action)
-            case let .addBudget(action): await stores.1.dispatch(action: action)
-            case let .addTransaction(action): await stores.2.dispatch(action: action)
-            case let .addUser(action): await stores.3.dispatch(action: action)
-            case let .addTag(action): await stores.4.dispatch(action: action)
-            case let .main(action): await stores.5.dispatch(action: action)
+            case let .addCategory(action): await addCategory.dispatch(action: action)
+            case let .addBudget(action): await addBudget.dispatch(action: action)
+            case let .addTransaction(action): await addTransaction.dispatch(action: action)
+            case let .addUser(action): await addUser.dispatch(action: action)
+            case let .addTag(action): await addTag.dispatch(action: action)
+            case let .main(action): await main.dispatch(action: action)
+            case let .paywall(action): await paywall.dispatch(action: action)
             }
         }
     }

@@ -93,6 +93,16 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
         )
     }
 
+    public func makePaywallStore(trigger: PaywallTrigger) -> CashlyStore<PaywallState, PaywallAction> {
+        CashlyStore(
+            initialState: .opened(from: trigger),
+            reducer: PaywallReducer(),
+            middleware: PaywallMiddleware(
+                subscription: dataFactory.makeSubscriptionUseCase()
+            )
+        )
+    }
+
     public func makeMainStore() -> CashlyStore<MainState, MainAction> {
         CashlyStore(
             initialState: MainState(),

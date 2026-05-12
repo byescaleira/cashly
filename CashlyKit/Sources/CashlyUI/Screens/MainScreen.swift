@@ -108,6 +108,9 @@ public struct MainScreen: CashlyView {
         case .transaction: TransactionScreen()
         case .home: HomeScreen()
         case .intelligence: IntelligenceScreen()
+        case let .paywall(trigger):
+            PaywallScreen()
+                .onAppear { action(.paywall(.replace(.opened(from: trigger)))) }
         }
     }
 

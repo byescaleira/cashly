@@ -22,7 +22,8 @@ struct ApplicationActionTests {
             .addTransaction(.fetch),
             .addUser(.fetch),
             .addTag(.fetch),
-            .main(.fetch)
+            .main(.fetch),
+            .paywall(.fetch)
         ]
 
         for action in cases {
@@ -34,6 +35,8 @@ struct ApplicationActionTests {
             case .addTag(let inner): #expect(isFetch(inner))
             case .main(let inner):
                 if case .fetch = inner {} else { Issue.record("expected MainAction.fetch") }
+            case .paywall(let inner):
+                if case .fetch = inner {} else { Issue.record("expected PaywallAction.fetch") }
             }
         }
     }
