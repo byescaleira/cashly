@@ -28,41 +28,19 @@ public extension MainState {
     }
 
     func transactionsAmount(for category: CashlyDomain.Category) -> Double {
-        transactions.reduce(.zero) { partialResult, transaction in
-            guard transaction.budget.category.id == category.id else { return partialResult }
-            let amount = !transaction.participants.isEmpty ?
-            transaction.splitValue ?? .zero : transaction.paymentsPlan != nil ?
-            transaction.amount / (transaction.paymentsPlan ?? 1).double : transaction.amount
-            return partialResult + amount
-        }
+        transactionsAmountByCategory[category.id] ?? .zero
     }
 
     func budgetsAmount(for category: CashlyDomain.Category) -> Double {
-        budgets.reduce(.zero) { partialResult, budget in
-            guard budget.category.id == category.id else { return partialResult }
-            return partialResult + budget.amount
-        }
+        budgetsAmountByCategory[category.id] ?? .zero
     }
 
     func transactionsAmount(for budget: Budget) -> Double {
-        transactions.reduce(.zero) { partialResult, transaction in
-            guard transaction.budget.id == budget.id else { return partialResult }
-            let amount = !transaction.participants.isEmpty ?
-            transaction.splitValue ?? .zero : transaction.paymentsPlan != nil ?
-            transaction.amount / (transaction.paymentsPlan ?? 1).double : transaction.amount
-            return partialResult + amount
-        }
+        transactionsAmountByBudget[budget.id] ?? .zero
     }
 
     func transactionsAmount(for tag: Tag) -> Double {
-        let tag = tag.name.lowercased()
-        return transactions.reduce(.zero) { partialResult, transaction in
-            guard transaction.summary.lowercased().contains(tag) else { return partialResult }
-            let amount = !transaction.participants.isEmpty ?
-            transaction.splitValue ?? .zero : transaction.paymentsPlan != nil ?
-            transaction.amount / (transaction.paymentsPlan ?? 1).double : transaction.amount
-            return partialResult + amount
-        }
+        transactionsAmountByTag[tag.id] ?? .zero
     }
 
     func budgets(for category: CashlyDomain.Category) -> [Budget] {
@@ -114,15 +92,24 @@ public extension MainState {
         return transactionsAmount / (budgetsAmount == .zero ? 1 : budgetsAmount)
     }
 
-    var warningCategories: [CashlyDomain.Category] {
-        var categories = [(CashlyDomain.Category, Double)]()
+    /// Categories whose spending is at 80%+ of their budgeted amount,
+    /// top 5 by variation. Pre-paired with the variation itself so
+    /// call sites that also need the value (e.g. BalanceView) don't
+    /// recompute. Use ``warningCategories`` if you only need the
+    /// `[Category]`.
+    var warningCategoriesWithVariation: [(CashlyDomain.Category, Double)] {
+        var matches = [(CashlyDomain.Category, Double)]()
         for category in self.categories {
             let variation = categoryVariation(category: category)
             if variation >= 0.8 {
-                categories.append((category, variation))
+                matches.append((category, variation))
             }
         }
-        return categories.sorted { $0.1 > $1.1 }.prefix(5).map(\.0)
+        return Array(matches.sorted { $0.1 > $1.1 }.prefix(5))
+    }
+
+    var warningCategories: [CashlyDomain.Category] {
+        warningCategoriesWithVariation.map(\.0)
     }
 
     func categoryVariation(category: CashlyDomain.Category, amount: Double = .zero) -> Double {
@@ -136,16 +123,7 @@ public extension MainState {
     }
 
     var transactionSections: [[CashlyDomain.Transaction]] {
-        CashlySignpost.withInterval("MainState.transactionSections") {
-            let dict = Dictionary(grouping: transactions) { transaction in
-                transaction.date.date.cashly(with: .sortPattern)
-            }.sorted { $0.key > $1.key }
-            var sections: [[CashlyDomain.Transaction]] = []
-            for (_, transactions) in dict {
-                sections.append(transactions)
-            }
-            return sections
-        }
+        transactionSectionsCache
     }
 
     var transactionUsers: [User] {
@@ -186,24 +164,7 @@ public extension MainState {
     }
 
     var biggestTags: [Tag] {
-        CashlySignpost.withInterval("MainState.biggestTags") {
-            var tagsAmount: [Tag: Double] = [:]
-            for transaction in transactions {
-                let summary = transaction.summary.lowercased()
-                for tag in tags {
-                    if summary.contains(tag.name.lowercased()) {
-                        let amount = !transaction.participants.isEmpty ?
-                        transaction.splitValue ?? .zero : transaction.paymentsPlan != nil ?
-                        transaction.amount / (transaction.paymentsPlan ?? 1).double : transaction.amount
-                        tagsAmount[tag, default: .zero] += amount
-                    }
-                }
-            }
-            return tagsAmount
-                .sorted { $0.value > $1.value }
-                .prefix(5)
-                .map(\.key)
-        }
+        biggestTagsCache
     }
 
     var biggestTransactions: [CashlyDomain.Transaction] {

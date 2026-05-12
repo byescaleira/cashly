@@ -23,15 +23,21 @@ public struct MainReducer: PrismReducer {
             state.users = users
             state.user = user
             state.predictedTransactionsAmount = predictedTransactionsAmount
+            state.recomputeDerived()
         case let .removeTag(tag):
             state.tags = state.tags.filter { $0.id != tag.id }
             state.filter.tags = Set(state.tags.filter { $0.id != tag.id })
+            state.recomputeDerived()
         case let .removeTransaction(transaction):
             state.transactions = state.transactions.filter { $0.id != transaction.id }
+            state.recomputeDerived()
         case let .removeTransactions(transactions):
             state.transactions = state.transactions.filter { !transactions.contains($0) }
+            state.recomputeDerived()
         case let .error(error): state.error = error
-        case let .replace(newState): state = newState
+        case let .replace(newState):
+            state = newState
+            state.recomputeDerived()
         case .selectUser, .fetchPredictions: break
         }
         return .none

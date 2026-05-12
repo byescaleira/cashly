@@ -84,13 +84,15 @@ public struct MainMiddleware: PrismMiddleware {
 
                 let allCategories = try await categoryUseCase.getCategories(ids: nil, users: userFilter)
                 let allBudgets = try await budgetUseCase.getBudgets(categories: allCategories.map(\.id), date: nil)
-                async let allTags = tagUseCase.getTags(users: userFilter)
+                // `tags` was previously fetched twice (allTags + tags) — same
+                // query, same args. Fetch once, reuse for both filter chrome
+                // and the .update payload.
+                async let allTagsTask = tagUseCase.getTags(users: userFilter)
                 async let allTransactions = transactionUseCase.getTransactions(
                     budgets: allBudgets.map(\.id), tags: nil, statuses: nil, participants: nil, date: nil
                 )
 
                 let date: Date? = !state.filter.isFilteringByDate ? nil : state.filter.startDate
-                async let tags = tagUseCase.getTags(users: userFilter)
                 async let users = userUseCase.getUsers()
 
                 let categories = try await categoryUseCase.getCategories(
@@ -108,30 +110,39 @@ public struct MainMiddleware: PrismMiddleware {
                     date: date
                 )
 
+                let resolvedTags = try await allTagsTask
                 var filter = state.filter
                 filter.allCategories = allCategories
-                filter.allTags = try await allTags
+                filter.allTags = resolvedTags
                 filter.allStatuses = TransactionStatus.allCases
                 filter.allTransactions = try await allTransactions
 
+                // Predictions are concurrent: each input is independent
+                // and the PredictionCache actor serialises internally, so
+                // a `withTaskGroup` reduces wall time on cold caches.
                 var predictedTransactionsAmount: Double = .zero
                 if await cache.isReady(user: user) {
-                    for budget in budgets {
-                        let input = CashlyPredictionInput.tabularData(
-                            .budgetValue(
-                                date: state.filter.startDate.timeIntervalSince1970.yearMonth,
-                                category: budget.category.name
+                    let monthForPrediction = state.filter.startDate.timeIntervalSince1970.yearMonth
+                    predictedTransactionsAmount = await withTaskGroup(of: Double.self) { group in
+                        for budget in budgets {
+                            let input = CashlyPredictionInput.tabularData(
+                                .budgetValue(
+                                    date: monthForPrediction,
+                                    category: budget.category.name
+                                )
                             )
-                        )
-                        let result = await cache.prediction(input: input, model: .budgetValue)
-                        switch result {
-                        case .tabularRegression(let value): predictedTransactionsAmount += value
-                        default: continue
+                            group.addTask { [cache] in
+                                let result = await cache.prediction(input: input, model: .budgetValue)
+                                if case let .tabularRegression(value) = result { return value }
+                                return .zero
+                            }
                         }
+                        var total: Double = .zero
+                        for await value in group { total += value }
+                        return total
                     }
                 }
 
-                let resolvedTags = try await tags
                 let resolvedUsers = try await users
                 let resolvedTransactions = try await transactions
                 send(.update(

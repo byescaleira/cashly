@@ -67,12 +67,18 @@ struct CashlyIntelligenceModifier: ViewModifier {
     func predict() {
         guard let prediction, isActive else { return }
         let input = input
-        Task { @MainActor in
+        let model = model
+        // Inference runs off the main actor — CoreML prediction can
+        // take tens of milliseconds and blocks the render loop if kept
+        // here. Hop back to MainActor only to publish the result.
+        Task {
+            let value: CashlyPredictionResult
             switch model {
-            case .budgetValue: result = await prediction.regressionPrediction(from: input)
-            case .categoryName: result = await prediction.textPrediction(from: input)
-            case .tagValue: result = await prediction.regressionPrediction(from: input)
+            case .budgetValue: value = await prediction.regressionPrediction(from: input)
+            case .categoryName: value = await prediction.textPrediction(from: input)
+            case .tagValue: value = await prediction.regressionPrediction(from: input)
             }
+            await MainActor.run { result = value }
         }
         self.input = .empty
     }

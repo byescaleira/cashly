@@ -116,8 +116,14 @@ public struct IntelligenceScreen: CashlyView {
                 CashlyButton {
                     guard let user = state.user else { return }
                     CashlyIntelligence.clean()
-                    for model in CashlyIntelligence.allCases {
-                        train(model: model, user: user)
+                    // Train models sequentially in a single Task. CoreML
+                    // training is CPU-heavy and three regressors in
+                    // parallel saturate the cooperative pool, starving
+                    // touch handlers.
+                    Task {
+                        for model in CashlyIntelligence.allCases {
+                            await trainSequential(model: model, user: user)
+                        }
                     }
                 } label: {
                     CashlyText(CashlyL10n.string("Train Models"))
@@ -141,18 +147,16 @@ public struct IntelligenceScreen: CashlyView {
         }
     }
 
-    func train(model: CashlyIntelligence, user: User) {
+    func trainSequential(model: CashlyIntelligence, user: User) async {
         guard !isTraining[model, default: false] else { return }
-        Task {
-            _ = await CashlyIntelligenceService().train(
-                model: model,
-                user: user,
-                transactions: state.filter.allTransactions,
-                tags: state.filter.allTags
-            )
-            isTraining[model, default: false] = false
-        }
-        isTraining[model, default: false].toggle()
+        await MainActor.run { isTraining[model] = true }
+        _ = await CashlyIntelligenceService().train(
+            model: model,
+            user: user,
+            transactions: state.filter.allTransactions,
+            tags: state.filter.allTags
+        )
+        await MainActor.run { isTraining[model] = false }
     }
 
     func accuracyColor(_ accuracy: Double?) -> Color {

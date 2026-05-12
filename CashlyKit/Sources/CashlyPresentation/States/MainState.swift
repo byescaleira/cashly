@@ -19,6 +19,18 @@ public struct MainState: CashlyState {
 
     public var error: CashlyError?
 
+    /// Cache populated by `MainReducer` whenever `transactions`,
+    /// `budgets` or `tags` change. Computed views (HomeScreen,
+    /// TransactionScreen, BalanceView) read from here so body
+    /// evaluation never re-iterates the whole transaction list.
+    /// See `recomputeDerived()` in MainState+Derived.
+    public var transactionsAmountByCategory: [String: Double] = [:]
+    public var transactionsAmountByBudget: [String: Double] = [:]
+    public var transactionsAmountByTag: [String: Double] = [:]
+    public var budgetsAmountByCategory: [String: Double] = [:]
+    public var transactionSectionsCache: [[CashlyDomain.Transaction]] = []
+    public var biggestTagsCache: [Tag] = []
+
     public init(
         isLoading: Bool = true,
         filter: FilterState = .init(),
