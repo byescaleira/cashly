@@ -2,7 +2,8 @@
 
 iOS / macOS / visionOS personal-finance app. Budgets, transactions,
 tags, categories, multi-user splits, on-device CreateML category +
-budget prediction.
+budget prediction, and a StoreKit 2 Pro subscription that unlocks
+unlimited entities and AI features.
 
 ## Requirements
 
@@ -39,8 +40,9 @@ xcodebuild test \
   -destination 'platform=iOS Simulator,name=iPhone 17,OS=latest'
 ```
 
-336 tests across 54 suites — reducers, middlewares, state computed
-properties, DesignSystem tokens, snapshots, and composition factories.
+360 tests across 57 suites — reducers, middlewares, state computed
+properties, DesignSystem tokens, snapshots, composition factories,
+subscription/feature-gate contract, paywall reducer.
 Snapshot baselines live in
 `CashlyKit/Tests/CashlyTests/Snapshots/__Snapshots__/`.
 
@@ -79,8 +81,25 @@ CashlyUI            SwiftUI Screens, Items, Views, Components.
 ```
 
 Composition root: `Cashly/Cashly/CashlyApp.swift`. Builds
-`CashlyPresentationFactory` at launch, injects 6 stores into
-`MainScreen` via `@Environment`. No singletons.
+`CashlyPresentationFactory` at launch, injects 7 stores (5 Add*
++ Main + Paywall) into `MainScreen` via `@Environment`. The
+StoreKit `Transaction.updates` listener and a status-stream
+observer are launched as long-lived `.task`s on the root scene.
+No singletons.
+
+### Subscription & feature gating
+
+`SubscriptionUseCase` (Domain) is the only contract UI sees; the
+concrete `StoreKitSubscriptionService` (Data) drives Product
+loading, verified purchases, restore, refund handling and the
+ongoing `Transaction.updates` listener. `FeatureGateUseCase`
+combines the active tier with live entity counts to answer
+"can the user do X right now?" — Free is capped at 1 user / 3
+categories / 5 budgets and excludes AI; Pro short-circuits to
+allowed. Add-flow middlewares emit
+`.error(.domain(.featureGated(...)))` on block; the
+`cashlyErrorAlert` modifier routes that case to the
+`PaywallScreen` via the active router instead of an alert.
 
 ### State management
 

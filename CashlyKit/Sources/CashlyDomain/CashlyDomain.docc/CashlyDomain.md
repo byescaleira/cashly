@@ -18,8 +18,14 @@ business rules. No SwiftUI, no SwiftData, no UI concerns.
   framework.
 - **Errors**: ``CashlyError`` is the umbrella type returned by domain
   APIs; it wraps ``PersistenceError`` and ``DomainError`` for typed
-  recovery + leaves the legacy `.onFetch / .onSave / .onRemove` cases
-  in place for compatibility.
+  recovery. The legacy `.onFetch / .onSave / .onRemove` cases were
+  retired in Wave A3 — every callsite now emits the typed variants.
+- **Preferences & Subscription**:
+  ``UserPreferencesUseCase`` abstracts the "current user" pointer
+  away from `UserDefaults`. ``SubscriptionUseCase`` and
+  ``FeatureGateUseCase`` model the StoreKit 2-backed Pro tier and
+  the Free/Pro decision matrix that drives both the paywall and
+  middleware gating.
 
 Every entity refines ``CashlyEntity`` — a `PrismEntity & Identifiable
 & Sendable` protocol — so models can flow through SwiftConcurrency
@@ -53,10 +59,13 @@ isolation crosses.
 - ``BudgetUseCase``
 - ``CategoryUseCase``
 - ``UserUseCase``
+- ``UserPreferencesUseCase``
 - ``TransactionUseCase``
 - ``TagUseCase``
 - ``ParticipantUseCase``
 - ``AdapterUseCase``
+- ``SubscriptionUseCase``
+- ``FeatureGateUseCase``
 
 ### Errors
 
@@ -72,6 +81,16 @@ isolation crosses.
 - ``CashlyPredictionResult``
 - ``CashlyPredictionInput``
 - ``CashlyTabularData``
+
+### Subscription
+
+- ``SubscriptionTier``
+- ``SubscriptionPlan``
+- ``SubscriptionStatus``
+- ``PurchaseOutcome``
+- ``FeatureGate``
+- ``FeatureGateDecision``
+- ``FeatureGateLimits``
 
 ### Factories
 
