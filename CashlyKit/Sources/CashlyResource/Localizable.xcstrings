@@ -701,6 +701,41 @@
         "en" : { "stringUnit" : { "state" : "translated", "value" : "You've hit the free limit." } },
         "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Você atingiu o limite gratuito." } }
       }
+    },
+    "Welcome to Cashly" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Welcome to Cashly" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Bem-vindo ao Cashly" } }
+      }
+    },
+    "Track budgets, transactions and split with friends." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Track budgets, transactions and split with friends." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Acompanhe orçamentos, transações e divida contas com amigos." } }
+      }
+    },
+    "Start free." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Start free." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Comece grátis." } }
+      }
+    },
+    "1 user, 3 categories, 5 budgets — enough to see if Cashly fits." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "1 user, 3 categories, 5 budgets — enough to see if Cashly fits." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "1 usuário, 3 categorias, 5 orçamentos — o bastante para ver se Cashly serve." } }
+      }
+    },
+    "Continue with Free" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Continue with Free" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Continuar com grátis" } }
+      }
     }
   }
 }

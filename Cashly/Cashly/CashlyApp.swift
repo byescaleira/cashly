@@ -31,6 +31,8 @@ struct CashlyApp: App {
     /// task is owned by the actor.
     let subscriptionService: SubscriptionUseCase
 
+    @AppStorage("cashly.onboarding.completed") var onboardingCompleted: Bool = false
+
     init() {
         let factory: CashlyPresentationFactory
         do {
@@ -94,6 +96,12 @@ struct CashlyApp: App {
                 }
 
                 .tint(Color.accentColor)
+                .fullScreenCover(isPresented: Binding(
+                    get: { !onboardingCompleted },
+                    set: { onboardingCompleted = !$0 }
+                )) {
+                    OnboardingScreen()
+                }
                 #endif
         }
     }
