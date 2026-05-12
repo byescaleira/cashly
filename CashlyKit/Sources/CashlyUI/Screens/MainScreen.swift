@@ -49,7 +49,9 @@ public struct MainScreen: CashlyView {
                 transactionScreen
             }
         }
+        #if os(iOS)
         .tabBarMinimizeBehavior(.onScrollDown)
+        #endif
         .tabViewStyle(.sidebarAdaptable)
     }
 

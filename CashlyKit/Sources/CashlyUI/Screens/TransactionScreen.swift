@@ -21,7 +21,7 @@ public struct TransactionScreen: CashlyView {
     @Environment(\.action) var action
     @Environment(\.router) var router
 
-    @State var editMode = EditMode.inactive
+    @State var editMode: CashlyEditMode = .inactive
     @State var selection: Set<CashlyDomain.Transaction> = []
     @State var showDeleteAlert = false
 
@@ -35,7 +35,7 @@ public struct TransactionScreen: CashlyView {
             EmptyUserView()
             transactionsSection
         }
-        .environment(\.editMode, $editMode)
+        .cashlyEditMode($editMode)
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 if editMode != .active {
