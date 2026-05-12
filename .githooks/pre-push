@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+#
+# .githooks/pre-push
+#
+# Fast guardrails before push: macOS `swift build` + `swift test` on
+# CashlyKit. Skips if a `.git/SKIP_PRE_PUSH` sentinel exists so urgent
+# pushes can bypass without disabling the hook permanently.
+#
+
+set -euo pipefail
+
+if [ -f "$(git rev-parse --git-dir)/SKIP_PRE_PUSH" ]; then
+  echo "pre-push: SKIP_PRE_PUSH found, skipping checks."
+  exit 0
+fi
+
+repo_root=$(git rev-parse --show-toplevel)
+
+echo "pre-push: swift build"
+( cd "$repo_root/CashlyKit" && swift build > /dev/null )
+
+echo "pre-push: swift test"
+( cd "$repo_root/CashlyKit" && swift test --parallel > /dev/null )
+
+echo "pre-push: ok"

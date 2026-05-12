@@ -1,0 +1,78 @@
+name: Snapshot regeneration
+
+# Manually triggered. Flips the snapshot suite to recording mode,
+# runs it on the iOS sim, commits the regenerated PNGs and pushes
+# the result. Use after a deliberate UI change so the next CI run
+# asserts against the new baseline.
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to record on (defaults to current ref)."
+        required: false
+        default: ""
+
+jobs:
+  regenerate:
+    name: Regenerate snapshot baselines
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout cashly
+        uses: actions/checkout@v4
+        with:
+          path: cashly
+          ref: ${{ inputs.branch || github.ref }}
+
+      - name: Checkout prism (sibling for SPM local path)
+        uses: actions/checkout@v4
+        with:
+          repository: rafaelesantos/prism
+          path: prism
+
+      - name: Select latest Xcode
+        run: |
+          XCODE=$(ls /Applications | grep -E '^Xcode[_-]?[12][0-9]|^Xcode\.app' | sort -V | tail -1)
+          sudo xcode-select -s "/Applications/$XCODE/Contents/Developer"
+
+      - name: Install xcbeautify
+        run: brew install xcbeautify
+
+      - name: Enable recording
+        working-directory: cashly/CashlyKit/Tests/CashlyTests/Snapshots
+        run: |
+          sed -i '' 's/static let isRecording = false/static let isRecording = true/' \
+            ScreenSnapshotTests.swift
+
+      - name: Run snapshot suite
+        working-directory: cashly/CashlyKit
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -scheme CashlyKit-Package \
+            -destination 'platform=iOS Simulator,name=iPhone 17,OS=latest' \
+            -only-testing:CashlyTests/ScreenSnapshotTests \
+            -skipMacroValidation \
+            CODE_SIGNING_ALLOWED=NO \
+            | xcbeautify --renderer github-actions || true
+
+      - name: Disable recording
+        working-directory: cashly/CashlyKit/Tests/CashlyTests/Snapshots
+        run: |
+          sed -i '' 's/static let isRecording = true/static let isRecording = false/' \
+            ScreenSnapshotTests.swift
+
+      - name: Commit regenerated baselines
+        working-directory: cashly
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add CashlyKit/Tests/CashlyTests/Snapshots/__Snapshots__ \
+                  CashlyKit/Tests/CashlyTests/Snapshots/ScreenSnapshotTests.swift
+          if git diff --cached --quiet; then
+            echo "No snapshot changes."
+            exit 0
+          fi
+          git commit -m "chore(snapshots): regenerate baselines via workflow_dispatch"
+          git push
