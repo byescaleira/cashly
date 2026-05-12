@@ -12,6 +12,7 @@ public protocol CashlyDataFactoryProtocol {
     func makeCategoryUseCase() -> CategoryUseCase
     func makeUserUseCase() -> UserUseCase
     func makeUserPreferences() -> UserPreferencesUseCase
+    func makeSubscriptionUseCase() -> SubscriptionUseCase
     func makeTransactionUseCase() -> TransactionUseCase
     func makeTagUseCase() -> TagUseCase
     func makeParticipantUseCase() -> ParticipantUseCase

@@ -12,13 +12,16 @@ import CashlyDomain
 public struct CashlyDataFactory: CashlyDataFactoryProtocol {
     let modelContainer: ModelContainer
     let userPreferences: UserPreferencesUseCase
+    let subscription: SubscriptionUseCase
 
     public init(
         modelContainer: ModelContainer,
-        userPreferences: UserPreferencesUseCase = UserDefaultsUserPreferences()
+        userPreferences: UserPreferencesUseCase = UserDefaultsUserPreferences(),
+        subscription: SubscriptionUseCase = StoreKitSubscriptionService()
     ) {
         self.modelContainer = modelContainer
         self.userPreferences = userPreferences
+        self.subscription = subscription
     }
 
     public static func make() throws -> CashlyDataFactory {
@@ -63,6 +66,10 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
 
     public func makeUserPreferences() -> UserPreferencesUseCase {
         userPreferences
+    }
+
+    public func makeSubscriptionUseCase() -> SubscriptionUseCase {
+        subscription
     }
 
     public func makeTransactionUseCase() -> TransactionUseCase {

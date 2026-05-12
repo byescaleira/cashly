@@ -19,6 +19,12 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
         self.dataFactory = try CashlyDataFactory.make()
     }
 
+    /// Subscription service for the app delegate to wire up the
+    /// `Transaction.updates` listener at launch.
+    public func makeSubscriptionUseCase() -> SubscriptionUseCase {
+        dataFactory.makeSubscriptionUseCase()
+    }
+
     public func makeAddCategoryStore() -> CashlyStore<AddCategoryState, AddCategoryAction> {
         CashlyStore(
             initialState: .new(),

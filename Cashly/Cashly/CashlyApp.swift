@@ -25,6 +25,11 @@ struct CashlyApp: App {
     @State var addTagStore: CashlyStore<AddTagState, AddTagAction>
     @State var mainStore: CashlyStore<MainState, MainAction>
 
+    /// Held so the StoreKit `Transaction.updates` listener stays alive
+    /// for the app lifetime. Must be retained somewhere — the listener
+    /// task is owned by the actor.
+    let subscriptionService: SubscriptionUseCase
+
     init() {
         let factory: CashlyPresentationFactory
         do {
@@ -38,6 +43,7 @@ struct CashlyApp: App {
         _addUserStore = State(initialValue: factory.makeAddUserStore())
         _addTagStore = State(initialValue: factory.makeAddTagStore())
         _mainStore = State(initialValue: factory.makeMainStore())
+        subscriptionService = factory.makeSubscriptionUseCase()
     }
 
     var body: some Scene {
@@ -69,6 +75,11 @@ struct CashlyApp: App {
                 .onChange(of: mainStore.state.user) { handler(action: .main(.selectUser)) }
 
                 .task { handler(action: .main(.fetch)) }
+                .task {
+                    if let storeKit = subscriptionService as? StoreKitSubscriptionService {
+                        await storeKit.start()
+                    }
+                }
 
                 .tint(Color.accentColor)
                 #endif
