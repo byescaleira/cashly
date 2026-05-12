@@ -37,6 +37,8 @@ public struct MainReducer: PrismReducer {
         case let .removeTransactions(transactions):
             state.transactions = state.transactions.filter { !transactions.contains($0) }
             state.recomputeDerived()
+        case let .subscriptionUpdated(status):
+            state.subscriptionStatus = status
         case let .error(error): state.error = error
         case let .replace(newState):
             state = newState

@@ -84,6 +84,14 @@ struct CashlyApp: App {
                         await storeKit.start()
                     }
                 }
+                .task {
+                    // Forward every subscription status emission into
+                    // MainState so UI reacts to tier changes without
+                    // having to poll the use case.
+                    for await status in subscriptionService.statusUpdates() {
+                        handler(action: .main(.subscriptionUpdated(status)))
+                    }
+                }
 
                 .tint(Color.accentColor)
                 #endif

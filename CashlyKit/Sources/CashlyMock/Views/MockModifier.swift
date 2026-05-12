@@ -55,6 +55,12 @@ struct MockModifier: ViewModifier {
             .onChange(of: mainStore.state.user) { selectUser() }
 
             .task { handler(action: .main(.fetch)) }
+            .task {
+                let subscription = MockCashlyFactory().makeSubscriptionUseCase()
+                for await status in subscription.statusUpdates() {
+                    handler(action: .main(.subscriptionUpdated(status)))
+                }
+            }
 
             .tint(Color.accentColor)
     }

@@ -90,7 +90,7 @@ public struct MainMiddleware: PrismMiddleware {
         case let .removeTransactions(transactions): return removeTransactions(transactions: transactions)
         case .selectUser: return selectUser(state: state)
         case .fetchPredictions: return fetchPredictions(state: state)
-        case .error, .stopLoading, .replace: return .none
+        case .subscriptionUpdated, .error, .stopLoading, .replace: return .none
         }
     }
 

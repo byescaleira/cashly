@@ -17,6 +17,12 @@ public struct MainState: CashlyState {
 
     public var predictedTransactionsAmount: Double
 
+    /// Cached subscription snapshot. Updated by MainMiddleware as
+    /// `subscription.statusUpdates()` emits. Drives Pro badges,
+    /// locked-feature affordances, and gate-aware UI without each
+    /// screen having to query the use case directly.
+    public var subscriptionStatus: SubscriptionStatus = .free
+
     public var error: CashlyError?
 
     /// Cache populated by `MainReducer` whenever `transactions`,

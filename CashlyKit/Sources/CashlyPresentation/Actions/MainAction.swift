@@ -27,6 +27,7 @@ public enum MainAction: CashlyAction, CashlyReplaceableAction {
     case removeTransactions(Set<CashlyDomain.Transaction>)
     case selectUser
     case fetchPredictions
+    case subscriptionUpdated(SubscriptionStatus)
     case error(CashlyError)
     case replace(MainState)
 }

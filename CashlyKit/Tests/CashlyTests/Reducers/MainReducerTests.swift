@@ -3,6 +3,7 @@
 //  CashlyKit
 //
 
+import Foundation
 import Testing
 import CashlyDomain
 import CashlyMock
@@ -122,5 +123,19 @@ struct MainReducerTests {
         _ = reducer.reduce(into: &state, action: .fetchPredictions)
         #expect(state.isLoading == before.isLoading)
         #expect(state.predictedTransactionsAmount == before.predictedTransactionsAmount)
+    }
+
+    @Test("subscriptionUpdated stores the snapshot in state")
+    func subscriptionUpdated() {
+        var state = MainState()
+        let status = SubscriptionStatus(
+            tier: .pro,
+            activePlanId: "com.cashly.pro.monthly",
+            expiresAt: Date(timeIntervalSince1970: 1_900_000_000),
+            willAutoRenew: true
+        )
+        _ = reducer.reduce(into: &state, action: .subscriptionUpdated(status))
+        #expect(state.subscriptionStatus.tier == .pro)
+        #expect(state.subscriptionStatus.activePlanId == "com.cashly.pro.monthly")
     }
 }
