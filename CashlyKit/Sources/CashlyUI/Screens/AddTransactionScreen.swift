@@ -74,6 +74,7 @@ public struct AddTransactionScreen: CashlyView {
             result: $predictionResult
         )
         .cashlyDismiss(isSaved: state.isSaved)
+        .cashlyErrorAlert(error: state.error) { store.cashlyMutate(\.error, nil) }
         .environment(\.isLoading, state.isLoading)
     }
 

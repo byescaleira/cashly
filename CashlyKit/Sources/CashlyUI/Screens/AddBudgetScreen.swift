@@ -58,6 +58,7 @@ public struct AddBudgetScreen: CashlyView {
             result: $predictionResult
         )
         .cashlyDismiss(isSaved: state.isSaved)
+        .cashlyErrorAlert(error: state.error) { store.cashlyMutate(\.error, nil) }
         .onDisappear { store.cancelEffects() }
         .environment(\.isLoading, state.isLoading)
     }

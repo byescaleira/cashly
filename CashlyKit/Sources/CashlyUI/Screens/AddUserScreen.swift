@@ -43,6 +43,7 @@ public struct AddUserScreen: CashlyView {
         .onChange(of: state.isLoading) { updatePhoto() }
         .scrollDismissesKeyboard(.immediately)
         .cashlyDismiss(isSaved: state.isSaved)
+        .cashlyErrorAlert(error: state.error) { store.cashlyMutate(\.error, nil) }
         .task { await handlerInitialState() }
         .onDisappear { store.cancelEffects() }
     }

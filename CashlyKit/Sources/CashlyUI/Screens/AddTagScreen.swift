@@ -47,6 +47,7 @@ public struct AddTagScreen: CashlyView {
         .task { await handlerInitialState() }
         .scrollDismissesKeyboard(.immediately)
         .cashlyDismiss(isSaved: state.isSaved)
+        .cashlyErrorAlert(error: state.error) { store.cashlyMutate(\.error, nil) }
         .onDisappear { store.cancelEffects() }
         .environment(\.isLoading, state.isLoading)
     }
