@@ -1,3 +1,72 @@
+## 2026-05-12 — Onda C7 (DocC + README)
+
+**Tipo**: docs
+**Módulos**: CashlyDomain.docc, README.md
+**Resumo**: DocC mention UserPreferences/Subscription/FeatureGate use cases + Subscription section com value types. Drop nota stale sobre legacy CashlyError. README headline mention Pro tier, 7 stores, StoreKit listener task. Test count 336→360.
+**Impacto**: Onboarding e contributor docs sync com B1-B4 + C1-C5.
+**ADR**: nenhum
+
+---
+
+## 2026-05-12 — Onda C6 (strict concurrency check)
+
+**Tipo**: chore
+**Módulos**: nenhum
+**Resumo**: Verificação `swift build -Xswiftc -strict-concurrency=complete` clean. Package.swift swift-tools 6.2 já implica strict-by-default. Nada para corrigir. Skip wave (no-op).
+**Aprendizados**: Swift 6.2 tooling padrão já strict — não precisa flag explícita.
+
+---
+
+## 2026-05-12 — Onda C5 (snapshot regression — PaywallScreen)
+
+**Tipo**: test
+**Módulos**: CashlyTests/Snapshots/ScreenSnapshotTests (PaywallScreen case)
+**Resumo**: Adicionado PaywallScreen snapshot. Suite `#if canImport(UIKit)` — pula macOS, grava na primeira execução iOS sim. HomeScreen Free vs Pro variants deferred (precisa helper seeded MainState).
+**ADR**: nenhum
+
+---
+
+## 2026-05-12 — Onda C4 (subscription status observer → MainState)
+
+**Tipo**: feat
+**Módulos**: CashlyPresentation/States/MainState (subscriptionStatus), Actions/MainAction (.subscriptionUpdated), Reducers/MainReducer, Cashly/Cashly/CashlyApp (statusUpdates .task forward), CashlyMock/Views/MockModifier
+**Resumo**: SubscriptionStatus stream → MainState. New MainAction.subscriptionUpdated(_:), reducer writer, middleware no-op. CashlyApp adds 2º `.task` consuming statusUpdates() para app lifetime, redispatch como action. MockModifier mirror para previews.
+**Impacto**: UI reage a tier sem queries diretas. Foundation para Pro badges, locked-feature affordances.
+**ADR**: nenhum
+**Aprendizados**: Stream observer no app delegate é padrão limpo — single source para state mutation via reducer.
+
+---
+
+## 2026-05-12 — Onda C3 (medium bugs — isSaved/legacy cleanup/cashlyMutate batch/sleep hacks)
+
+**Tipo**: fix
+**Módulos**: 5 Add*Reducer (reset isSaved+error on .fetch), UserDefaultsUserPreferences (drop legacy blob after migration), Store+Binding (closure-form cashlyMutate), 5 Add*Screen+Handlers (Task.yield em vez de sleep)
+**Resumo**: BUG-009 isSaved reset on fetch + error reset. BUG-012 migration one-shot (drop legacy `cashly.user` blob após copiar id). BUG-013 cashlyMutate closure form para batching atomic — AddTransaction.onChangeSelectedUsers refactored. BUG-015 substituir Task.sleep(0.5s) por Task.yield() em handlerInitialState (5 screens).
+**Impacto**: UX mais previsível em re-uso de store. Migration leve em re-installs. Lost-update race fechada. Nav rápida não corre Task cancellation.
+**ADR**: nenhum
+**Aprendizados**: Reducer deve normalizar campos de UX (isSaved, error) on entry-point actions (.fetch), não só na resposta (.saved/.error). Task.yield ≠ Task.sleep — yield só cede 1 ciclo, ideal para "wait next runloop".
+
+---
+
+## 2026-05-12 — Onda C2 (multi-context — deferred)
+
+**Tipo**: planning
+**Resumo**: BUG-004 (cada *Actor cria seu próprio ModelContext + AdapterActor adicional) recomendaria centralizar em CashlyDataActor ou compartilhar ModelContext. Trade-off muito alto sem repro real do bug. Save() já é explicit em todos os mutadores; SwiftData SQLite + CloudKit já propagam. Sem repro confirmada, defer C2. Documentar e watch.
+**Decisão**: skip wave.
+**Aprendizados**: Bug-hunter levantou suspeita arquitetural; sem repro real custo de refactor 6 actors > ROI. Watch flag para Wave futura caso aparecer flaky test/issue real.
+
+---
+
+## 2026-05-12 — Onda C1 (UX errors visíveis + paywall auto-trigger)
+
+**Tipo**: feat
+**Módulos**: CashlyUI/Modifier/CashlyErrorAlertModifier, 6 screens (HomeScreen + 5 Add*)
+**Resumo**: BUG-007 surface state.error. Modifier `.cashlyErrorAlert(error:reset:)` exibe SwiftUI alert com errorDescription/failureReason/recoverySuggestion. `.featureGated` curto-circuita: router.route(to: .paywall(trigger: .limitReached)) — paywall replaces alert para monetisation gates. OK button → reset closure clears state.error via cashlyMutate(\.error, nil).
+**Impacto**: Falhas de save não silenciosas mais. Hit Free-tier ceiling abre paywall automático. Loop feedback completo Domain → UI.
+**ADR**: nenhum
+
+---
+
 ## 2026-05-12 — Wave B4 (receipt verification + refund/revocation)
 
 **Tipo**: feat
