@@ -1,3 +1,87 @@
+## 2026-05-12 — Wave B4 (receipt verification + refund/revocation)
+
+**Tipo**: feat
+**Módulos**: CashlyData/Services/StoreKitSubscriptionService, CashlyMock/Services/InMemorySubscriptionService, CashlyTests/Data/InMemorySubscriptionServiceTests
+**Resumo**: Hardening do listener StoreKit. handleVerification agora distingue .verified vs .unverified (unverified dropped, log em DEBUG); apply(verified:) ordena revocationDate → expirationDate → productID membership antes de promover tier. Unknown product IDs em transações verified são ignorados (não derrubam Pro de sibling app). Mock service ganhou simulateRevocation() + simulateExpiry() para testar Pro → Free transitions sem StoreKit. 3 testes novos: revocation drop, expiry drop, statusUpdates AsyncStream emite initial + changes.
+**Impacto**: Refund/chargeback automaticamente re-locka Pro features. Status stream pronto para observer no app delegate (Wave futura) propagar tier para state.
+**ADR**: nenhum (segue B1)
+**PRs**: pending commit
+**Aprendizados**: StoreKit 2 `.unverified` deve nunca grantear acesso; sibling app product IDs colidem no Apple ID compartilhado (ignorar é correto).
+
+---
+
+## 2026-05-12 — Wave B3 (paywall sheet + 3 trigger contexts)
+
+**Tipo**: feat
+**Módulos**: CashlyPresentation (PaywallState/Action/Reducer/Middleware), CashlyUI/Screens/PaywallScreen, CashlyPresentation/Route/MainRoute (.paywall case), Cashly/Cashly/CashlyApp (paywallStore), CashlyMock/Views/MockModifier, CashlyPresentation/Actions/ApplicationAction (.paywall case), Factories
+**Resumo**: Sheet de upgrade. PaywallTrigger (.limitReached / .intelligenceTab / .upgradeButton) muda headline + analytics, plans defaultam para yearly. Reducer trata estados (fetch/update/select/purchase/purchaseSucceeded/cancelled/restore/error/replace). Middleware bridge para SubscriptionUseCase mapeia outcomes (.success/.userCancelled/.pending/.failed). PaywallScreen com Form (header + plans + continue + restore), auto-dismiss em didPurchase. MainRoute.paywall com .present navigation style. CashlyApp + MockModifier ganharam paywallStore. 10 PaywallReducer tests + ApplicationActionTests extended.
+**Impacto**: UI completa pronta. Qualquer screen pode `router.push(.paywall(trigger: ...))` ou trigger via dispatch. Falta: hook em screens Add* para auto-trigger ao receber state.error.featureGated (próxima wave/melhoria).
+**ADR**: nenhum (segue B1/B2)
+**PRs**: pending commit
+**Aprendizados**: Single paywall store em app-wide level + state replace per trigger é mais simples que store per push.
+
+---
+
+## 2026-05-12 — Wave B2 (feature gating matrix)
+
+**Tipo**: feat
+**Módulos**: CashlyDomain (FeatureGateUseCase + DomainError.featureGated), CashlyData/Services/DefaultFeatureGate, CashlyMock/Services/AlwaysAllowedFeatureGate + StubFeatureGate, AddUser/AddCategory/AddBudget middlewares, factories
+**Resumo**: Free vs Pro matrix. FeatureGate enum (.addUser/.addCategory/.addBudget/.intelligence/.multiUser) + Decision (.allowed/.blocked(feature, requiredTier)). Limits struct (1 user / 3 categories / 5 budgets free default). DefaultFeatureGate combina SubscriptionUseCase.tier + counts from User/Category/Budget cases — Pro short-circuit. Middlewares chamam decide() no path de create (não em edit) e emitem `.error(.domain(.featureGated))` no block. 6 tests DefaultFeatureGate + middleware tests atualizados com AlwaysAllowedFeatureGate.
+**Impacto**: Gating ativo. UI ainda não cataloga `.featureGated` em alert (depende Wave B3+gancho). Foundation pronta para paywall trigger.
+**ADR**: nenhum
+**PRs**: pending commit
+**Aprendizados**: `state.isNew` distingue create vs edit — gate apenas no create. Pattern actor para count snapshot é OK porque gate é consulta one-shot.
+
+---
+
+## 2026-05-12 — Wave B1 (StoreKit 2 infrastructure)
+
+**Tipo**: feat
+**Módulos**: CashlyDomain/Use Cases/SubscriptionUseCase, CashlyData/Services/StoreKitSubscriptionService, CashlyMock/Services/InMemorySubscriptionService, Factories, Cashly/Cashly/CashlyApp (subscriptionService.start() at launch)
+**Resumo**: Foundation Pro tier. SubscriptionUseCase protocol Domain-side (Tier free/pro, SubscriptionPlan, SubscriptionStatus, PurchaseOutcome, statusUpdates AsyncStream). StoreKitSubscriptionService actor StoreKit 2 (Product.products(for:), Transaction.updates listener, currentEntitlements, purchase com VerificationResult). Product IDs centralizados: com.cashly.pro.{monthly,yearly}. InMemorySubscriptionService mirror para tests/previews com nextPurchaseOutcome override + setTier seam. Factories wire makeSubscriptionUseCase. CashlyApp segura subscriptionService + .task { .start() } no launch.
+**Impacto**: Pronto para B2-B4. StoreKit nunca leak para Presentation/UI — protocolo é a única superfície.
+**ADR**: nenhum (segue padrão Prism)
+**PRs**: pending commit
+**Aprendizados**: StoreKit.Transaction colide com CashlyDomain.Transaction; qualificar com namespace evita ambiguity. Listener Task.detached precisa ser retido pelo app delegate (instância no App struct).
+
+---
+
+## 2026-05-12 — Bug-hunt critical pass (7 fixes)
+
+**Tipo**: fix
+**Módulos**: TransactionActor (filter participants), TransactionEntity (endDate rollover >1yr), CashlyIntelligence (model nil returns), MainMiddleware (PredictionCache user invalidation), MainReducer (removeTag filter), MainRoute (Hashable com payload id), HomeScreen/IntelligenceScreen (rollback cancelEffects regressão A2)
+**Resumo**: Triagem de 4 critical + 3 high do bug-hunt agent. Highlights: PredictionCache não invalidava em troca de user (modelos de A em data de B); CashlyIntelligence.model(for:) sempre retornava placeholder não-nil (guards inúteis); MainRoute hash ignorava payload (NavigationStack quebrava com dois pushes); MainReducer.removeTag sobrescrevia filter.tags com tudo (ativava filter unwanted); TransactionEntity.endDate quebrava em parcelamentos >24m (overflow de month); TransactionActor filter participants usava Array.contains em vez de .contains(where:). A2 regressão: HomeScreen/IntelligenceScreen compartilham mainStore — cancelEffects on disappear derrubava fetch da tab adjacente; removido apenas dessas duas screens, Add* mantidas.
+**Impacto**: 345 tests passing pós-fix. Test MainRouteTests atualizado para asserir contract correto.
+**ADR**: nenhum
+**PRs**: pending commit
+**Aprendizados**: cancelEffects() em onDisappear só faz sentido para screens com store próprio, não para tabs compartilhando store global. PredictionCache deve guardar identity do owner do cache.
+
+---
+
+## 2026-05-12 — Performance pass (top hot paths)
+
+**Tipo**: perf
+**Módulos**: MainState (caches stored), MainState+Derived (recomputeDerived), MainState+Computed (delegates to cache), MainReducer (recompute on update/remove), MainMiddleware (dedup tags fetch + withTaskGroup predictions), CashlyIntelligenceModifier (offload inference from MainActor), IntelligenceScreen (serialized training)
+**Resumo**: Top 7 issues do swift-performance-analyst. (1-4) Per-id totals e sections agora stored caches no MainState, populados pelo recomputeDerived() no Reducer — view bodies O(1) em vez de O(N×M) per render. (5) Tag fetch duplicado em MainMiddleware.fetch eliminado. (6) Per-budget predictions paralelizados via withTaskGroup. (7) CashlyIntelligenceModifier.predict não pin mais MainActor — inferência off main, only assignment on main. (8) IntelligenceScreen.train sequencial (single Task) em vez de 3 paralelos saturando pool.
+**Impacto**: HomeScreen/TransactionScreen body O(1) em transactionsAmount/sections. ML training não satura cooperative pool. 331 tests still pass.
+**ADR**: nenhum
+**PRs**: pending commit
+**Aprendizados**: SwiftUI body re-eval frequente — qualquer cálculo O(N) em body acumula em scroll. Stored caches no state com invalidação explícita pelo reducer é o pattern correto.
+
+---
+
+## 2026-05-12 — Fix tests macOS (CashlyEditMode + Sendable)
+
+**Tipo**: fix
+**Módulos**: CashlyDesignSystem/CashlyEditMode (cross-platform), CashlyUI/Screens/TransactionScreen + MainScreen (#if os(iOS)), CashlyTests/Data/UserDefaultsUserPreferencesTests (Sendable race)
+**Resumo**: `swift test` macOS bloqueado por EditMode + tabBarMinimizeBehavior(.onScrollDown) (ambos iOS-only). Solução: CashlyEditMode enum + .cashlyEditMode(_:) modifier (no-op em macOS); .tabBarMinimizeBehavior wrap em #if os(iOS). UserDefaultsUserPreferencesTests fix Swift 6 `sending` race scopeando UserDefaults dentro de makePreferences(seed:). 331 tests passam macOS pela primeira vez.
+**Impacto**: CI macOS funcional. swift test end-to-end clean.
+**ADR**: nenhum
+**PRs**: pending commit
+**Aprendizados**: Cross-platform UI types precisam abstração própria — EditMode SwiftUI não cobre macOS, precisa wrapper.
+
+---
+
 ## 2026-05-11 — Wave A6 (strict-Sendable State: extract routers from MainState)
 
 **Tipo**: refactor
