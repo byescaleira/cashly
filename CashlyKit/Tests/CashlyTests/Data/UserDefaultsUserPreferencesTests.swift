@@ -67,6 +67,26 @@ struct UserDefaultsUserPreferencesTests {
         #expect(again == "legacy-42")
     }
 
+    @Test("migration drops the legacy blob after a successful read")
+    func migrationIsOneShot() async throws {
+        let user = User(id: "legacy-77", name: "Old", photo: "p")
+        let legacy = try JSONEncoder().encode(user)
+        // Pre-seed via UserDefaults directly so the suite stays
+        // local to this scope (no `sending` race with the actor).
+        let suiteName = "cashly.tests.\(UUID().uuidString)"
+        do {
+            let seed = UserDefaults(suiteName: suiteName)!
+            seed.removePersistentDomain(forName: suiteName)
+            seed.set(legacy, forKey: "cashly.user")
+        }
+        let prefs = UserDefaultsUserPreferences(suite: UserDefaults(suiteName: suiteName)!)
+        let id = await prefs.currentUserId()
+        #expect(id == "legacy-77")
+        let check = UserDefaults(suiteName: suiteName)!
+        #expect(check.data(forKey: "cashly.user") == nil)
+        #expect(check.string(forKey: "cashly.user.id") == "legacy-77")
+    }
+
     @Test("new id key wins when both new and legacy keys are present")
     func newKeyWinsOverLegacy() async throws {
         let user = User(id: "legacy-99", name: "Old", photo: "p")

@@ -12,7 +12,10 @@ public struct AddBudgetReducer: PrismReducer {
 
     public func reduce(into state: inout AddBudgetState, action: AddBudgetAction) -> PrismEffect<AddBudgetAction> {
         switch action {
-        case .fetch: state.isLoading = true
+        case .fetch:
+            state.isLoading = true
+            state.isSaved = false
+            state.error = nil
         case .stopLoading: state.isLoading = false
         case let .update(categories, id, amount, category, date, summary, isNew):
             state.categories = categories

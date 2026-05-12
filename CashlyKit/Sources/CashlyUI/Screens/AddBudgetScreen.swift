@@ -76,7 +76,7 @@ public struct AddBudgetScreen: CashlyView {
         if let initialState {
             store.cashlyReplace(initialState)
         }
-        try? await Task.sleep(for: .seconds(0.5))
+        await Task.yield()
         action(.addBudget(.fetch))
     }
 

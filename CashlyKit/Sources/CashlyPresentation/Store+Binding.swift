@@ -35,6 +35,18 @@ public extension PrismStore where Action: CashlyReplaceableAction, Action.State 
         send(.replace(current))
     }
 
+    /// Batch mutation seam — applies several writes against one
+    /// state snapshot and dispatches a single `.replace`. Use when
+    /// two `cashlyMutate` calls would otherwise compose against
+    /// independently-re-read states and silently drop the earlier
+    /// write (lost-update race).
+    @MainActor
+    func cashlyMutate(_ transform: (inout State) -> Void) {
+        var current = state
+        transform(&current)
+        send(.replace(current))
+    }
+
     /// Whole-state replacement seam (initial-state hydration).
     @MainActor
     func cashlyReplace(_ newState: State) {

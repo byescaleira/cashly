@@ -12,7 +12,10 @@ public struct AddUserReducer: PrismReducer {
 
     public func reduce(into state: inout AddUserState, action: AddUserAction) -> PrismEffect<AddUserAction> {
         switch action {
-        case .fetch: state.isLoading = true
+        case .fetch:
+            state.isLoading = true
+            state.isSaved = false
+            state.error = nil
         case .stopLoading: state.isLoading = false
         case let .update(id, name, photo, isNew):
             state.id = id

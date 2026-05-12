@@ -56,7 +56,7 @@ public struct AddTagScreen: CashlyView {
         if let initialState {
             store.cashlyReplace(initialState)
         }
-        try? await Task.sleep(for: .seconds(0.5))
+        await Task.yield()
         action(.addTag(.fetch))
     }
 

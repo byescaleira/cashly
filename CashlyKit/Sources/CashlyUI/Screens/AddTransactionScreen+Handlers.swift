@@ -27,31 +27,38 @@ extension AddTransactionScreen {
         if let initialState {
             store.cashlyReplace(initialState)
         }
-        try? await Task.sleep(for: .seconds(0.5))
+        await Task.yield()
         action(.addTransaction(.fetch))
     }
 
     func onChangeSelectedUsers() {
         guard selectedUsers.count != store.state.participants.count else { return }
-        store.cashlyMutate(\.splitMode, selectedUsers.isEmpty ? nil : store.state.splitMode ?? .equal)
-        let newParticipants = selectedUsers.map { user -> Participant in
-            let splitValue: Double
-            switch store.state.splitMode ?? .equal {
-            case .equal: splitValue = (selectedUsers.count.double + 1)
-            case .fixedAmount: splitValue = .zero
-            case .percentage: splitValue = 1 / (selectedUsers.count.double + 1)
-            case .payerBased: splitValue = .zero
-            }
-            return Participant(
-                id: UUID().uuidString,
-                user: user,
-                splitMode: store.state.splitMode ?? .equal,
-                splitValue: splitValue,
-                status: .settled,
-                transaction: state.id
-            )
-        }.sorted { $0.user.name < $1.user.name }
-        store.cashlyMutate(\.participants, newParticipants)
+        // Single atomic mutation — two cashlyMutate calls in a row
+        // would each snapshot `state` independently and the second
+        // replace could overwrite the first (lost-update race).
+        let users = selectedUsers
+        let stateId = state.id
+        store.cashlyMutate { state in
+            let resolvedSplitMode = users.isEmpty ? nil : state.splitMode ?? .equal
+            state.splitMode = resolvedSplitMode
+            state.participants = users.map { user -> Participant in
+                let splitValue: Double
+                switch resolvedSplitMode ?? .equal {
+                case .equal: splitValue = (users.count.double + 1)
+                case .fixedAmount: splitValue = .zero
+                case .percentage: splitValue = 1 / (users.count.double + 1)
+                case .payerBased: splitValue = .zero
+                }
+                return Participant(
+                    id: UUID().uuidString,
+                    user: user,
+                    splitMode: resolvedSplitMode ?? .equal,
+                    splitValue: splitValue,
+                    status: .settled,
+                    transaction: stateId
+                )
+            }.sorted { $0.user.name < $1.user.name }
+        }
     }
 
     func updateSplitValue() {

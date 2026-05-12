@@ -26,10 +26,13 @@ public actor UserDefaultsUserPreferences: UserPreferencesUseCase {
         }
         // Migration path: legacy key stored the full encoded User. If we
         // find it, decode, persist just the id under the new key, and
-        // leave the legacy blob in place (will be wiped on next clear).
+        // immediately drop the legacy blob so the migration is
+        // one-shot — without this, every cold start of an install
+        // missing the new key would re-run the decode.
         if let legacyData = suite.data(forKey: Self.legacyUserKey),
            let user = try? legacyData.entity(for: User.self) {
             suite.set(user.id, forKey: Self.currentUserIdKey)
+            suite.removeObject(forKey: Self.legacyUserKey)
             return user.id
         }
         return nil
