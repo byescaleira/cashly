@@ -39,11 +39,22 @@ public struct HomeScreen: CashlyView {
         .toolbar {
             ToolbarItem(placement: .navigation) { UserItemView() }
             ToolbarItem { ProBadgeView(isPro: state.isPro) }
+            ToolbarItem { settingsButton }
             ToolbarItem { FilterItemView() }
         }
         .onAppear { action(.main(.fetch)) }
         .cashlyErrorAlert(error: state.error) { store.cashlyMutate(\.error, nil) }
         .navigationTitle((state.user?.selfFirstName ?? "") + CashlyL10n.string("Home"))
+    }
+
+    var settingsButton: some View {
+        CashlyButton {
+            router.route(to: .settings)
+        } label: {
+            CashlySymbol("gearshape")
+        }
+        .cashly(tint: .text)
+        .accessibilityLabel(CashlyL10n.string("Settings"))
     }
 
     public static var mock: some View {

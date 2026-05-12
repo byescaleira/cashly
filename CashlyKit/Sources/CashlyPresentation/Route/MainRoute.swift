@@ -48,6 +48,8 @@ public enum MainRoute: CashlyRoutable {
             return (9, "")
         case let .paywall(trigger):
             return (10, trigger.rawValue)
+        case .settings:
+            return (11, "")
         }
     }
 
@@ -69,6 +71,7 @@ public enum MainRoute: CashlyRoutable {
     case home
     case intelligence
     case paywall(trigger: PaywallTrigger)
+    case settings
 
     @ViewBuilder
     public func makeView(content: @escaping (MainRoute) -> any View) -> some View {
