@@ -519,6 +519,188 @@
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Empty chart" } },
         "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Gráfico vazio" } }
       }
+    },
+    "AI features require Pro." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "AI features require Pro." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Recursos de IA exigem Pro." } }
+      }
+    },
+    "App" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "App" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "App" } }
+      }
+    },
+    "Are you sure you want to delete \\(count) selected transactions? This action cannot be undone." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Are you sure you want to delete \\(count) selected transactions? This action cannot be undone." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Deseja mesmo apagar \\(count) transações selecionadas? Essa ação não pode ser desfeita." } }
+      }
+    },
+    "Build" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Build" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Build" } }
+      }
+    },
+    "Cashly Pro active" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cashly Pro active" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Cashly Pro ativo" } }
+      }
+    },
+    "Choose your plan" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose your plan" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Escolha seu plano" } }
+      }
+    },
+    "Continue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Continue" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Continuar" } }
+      }
+    },
+    "Expires" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Expires" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Expira" } }
+      }
+    },
+    "Manage Subscription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Manage Subscription" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Gerenciar Assinatura" } }
+      }
+    },
+    "OK" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "OK" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "OK" } }
+      }
+    },
+    "Plan" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Plan" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Plano" } }
+      }
+    },
+    "Plans unavailable — try again." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Plans unavailable — try again." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Planos indisponíveis — tente de novo." } }
+      }
+    },
+    "Pro" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pro" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Pro" } }
+      }
+    },
+    "Renews" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Renews" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Renova" } }
+      }
+    },
+    "Restore Purchases" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Restore Purchases" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Restaurar Compras" } }
+      }
+    },
+    "Settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Settings" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Ajustes" } }
+      }
+    },
+    "Something went wrong." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Something went wrong." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Algo deu errado." } }
+      }
+    },
+    "Subscription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Subscription" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Assinatura" } }
+      }
+    },
+    "Tier" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Tier" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Plano" } }
+      }
+    },
+    "Unlimited users, categories, budgets and AI predictions." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlimited users, categories, budgets and AI predictions." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Usuários, categorias, orçamentos e previsões de IA ilimitados." } }
+      }
+    },
+    "Unlock Cashly Pro." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock Cashly Pro." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Libere o Cashly Pro." } }
+      }
+    },
+    "Unlock unlimited training + predictions." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock unlimited training + predictions." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Libere treino e previsões sem limite." } }
+      }
+    },
+    "Upgrade" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Upgrade" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Upgrade" } }
+      }
+    },
+    "Upgrade to Pro" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Upgrade to Pro" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Fazer upgrade para Pro" } }
+      }
+    },
+    "Version" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Version" } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Versão" } }
+      }
+    },
+    "You've hit the free limit." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "You've hit the free limit." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Você atingiu o limite gratuito." } }
+      }
     }
   }
 }
