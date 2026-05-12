@@ -11,14 +11,24 @@ private actor PredictionCache {
     var budgetValue: CashlyPrediction?
     var categoryName: CashlyPrediction?
     var tagValue: CashlyPrediction?
+    /// Id of the user the current predictions were built for. The
+    /// cache must invalidate on user switch — otherwise the next
+    /// fetch runs predictions from User A against User B's data.
+    var cachedUserId: String?
 
     func isReady(user: User?) async -> Bool {
+        if cachedUserId != user?.id {
+            invalidate()
+        }
         guard budgetValue != nil, categoryName != nil, tagValue != nil
         else { return await setup(user: user) }
         return true
     }
 
     func setup(user: User?) async -> Bool {
+        if cachedUserId != user?.id {
+            invalidate()
+        }
         guard let user,
               let budgetValueModel = CashlyIntelligence.budgetValue.model(for: user),
               let categoryNameModel = CashlyIntelligence.categoryName.model(for: user),
@@ -28,7 +38,15 @@ private actor PredictionCache {
         budgetValue = await CashlyPrediction(model: budgetValueModel)
         categoryName = await CashlyPrediction(model: categoryNameModel)
         tagValue = await CashlyPrediction(model: tagValueModel)
+        cachedUserId = user.id
         return true
+    }
+
+    func invalidate() {
+        budgetValue = nil
+        categoryName = nil
+        tagValue = nil
+        cachedUserId = nil
     }
 
     func prediction(input: CashlyPredictionInput, model: CashlyIntelligence) async -> CashlyPredictionResult {

@@ -2,10 +2,12 @@
 //  MainRouteTests.swift
 //  CashlyKit
 //
-//  Validates the discriminator-based equality + hashing on MainRoute,
-//  which is intentional: navigation routes must equate by case
-//  identity, not by the variant payload (different state values for
-//  the same destination should still be considered the same route).
+//  Validates MainRoute identity. Equality combines the case
+//  discriminator AND the payload id (AddXState.id or Category.id) so
+//  two `.addUser(state: A)` and `.addUser(state: B)` pushes resolve to
+//  distinct NavigationStack entries — the previous discriminator-only
+//  form corrupted the back stack when the same case was pushed twice
+//  with different payloads.
 //
 
 import Testing
@@ -22,11 +24,26 @@ struct MainRouteTests {
         #expect(MainRoute.transaction == .transaction)
     }
 
-    @Test(".addUser with different states still equates by case")
-    func equalCasesIgnorePayload() {
+    @Test(".addUser with same state id equates")
+    func equalSameStateId() {
+        let state = AddUserState.edit(id: "same-id")
+        let a = MainRoute.addUser(state: state)
+        let b = MainRoute.addUser(state: state)
+        #expect(a == b)
+    }
+
+    @Test(".addUser with different state ids are NOT equal")
+    func unequalDifferentStateIds() {
         let a = MainRoute.addUser(state: .new())
         let b = MainRoute.addUser(state: .edit(id: "different"))
-        #expect(a == b)
+        #expect(a != b)
+    }
+
+    @Test(".addUser and .addCategory are not equal regardless of payload")
+    func differentCasesNotEqualEvenWithSameId() {
+        let a = MainRoute.addUser(state: .edit(id: "x"))
+        let b = MainRoute.addCategory(state: .edit(id: "x"))
+        #expect(a != b)
     }
 
     @Test("different cases are not equal")

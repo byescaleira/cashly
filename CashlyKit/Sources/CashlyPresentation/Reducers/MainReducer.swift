@@ -26,7 +26,10 @@ public struct MainReducer: PrismReducer {
             state.recomputeDerived()
         case let .removeTag(tag):
             state.tags = state.tags.filter { $0.id != tag.id }
-            state.filter.tags = Set(state.tags.filter { $0.id != tag.id })
+            // Drop the removed tag from the active filter selection;
+            // the previous code replaced the whole selection with every
+            // remaining tag, silently flipping the filter on.
+            state.filter.tags = state.filter.tags.filter { $0.id != tag.id }
             state.recomputeDerived()
         case let .removeTransaction(transaction):
             state.transactions = state.transactions.filter { $0.id != transaction.id }

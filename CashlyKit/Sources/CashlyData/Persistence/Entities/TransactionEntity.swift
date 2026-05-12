@@ -30,15 +30,20 @@ public class TransactionEntity {
         guard let paymentsPlan else { return nil }
         var range: Set<Int> = []
         let yearMonth = self.yearMonth
+        let baseYear = yearMonth / 100
+        let baseMonth = yearMonth % 100
 
+        // Modular roll-over: the previous form only added a single
+        // year, so plans crossing two+ years produced an out-of-range
+        // month (e.g. month=18) and a wrong year. Convert the base
+        // month + payment offset into total months from year zero,
+        // then split back into (year, month).
         for payment in 1 ... paymentsPlan {
             let additionalMonths = payment - 1
-            let year = yearMonth / 100
-            let month = yearMonth % 100
-            let newYear = month + additionalMonths > 12 ? year + 1 : year
-            let newMonth = month + additionalMonths > 12 ? month + additionalMonths - 12 : month + additionalMonths
-            let newYearMonth = newYear * 100 + newMonth
-            range.insert(newYearMonth)
+            let totalMonths = (baseMonth - 1) + additionalMonths
+            let newYear = baseYear + totalMonths / 12
+            let newMonth = (totalMonths % 12) + 1
+            range.insert(newYear * 100 + newMonth)
         }
 
         return range

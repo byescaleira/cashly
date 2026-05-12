@@ -11,14 +11,22 @@ public enum CashlyIntelligence: String, Identifiable, CaseIterable, Sendable {
     case categoryName
     case tagValue
 
+    /// Returns the trained model for this intelligence/user pair, or
+    /// `nil` if no model has been persisted yet. Use
+    /// ``placeholderModel(for:)`` if you need a metadata-only handle
+    /// for upcoming training — the previous behaviour silently
+    /// returned a fresh placeholder here, which made every
+    /// `guard let` succeed and shipped untrained models into the
+    /// prediction cache.
     public func model(for user: User) -> PrismIntelligenceModel? {
         let id = user.id + "_" + rawValue
-        return PrismIntelligenceModel.models.first { model in
-            model.id == id
-        } ?? PrismIntelligenceModel(
-            id: id,
-            name: name
-        )
+        return PrismIntelligenceModel.models.first { $0.id == id }
+    }
+
+    /// A new, untrained model handle. Used by training flows that
+    /// need to seed an entry on disk before the first `fit`.
+    public func placeholderModel(for user: User) -> PrismIntelligenceModel {
+        PrismIntelligenceModel(id: user.id + "_" + rawValue, name: name)
     }
 
     public var id: String { rawValue }

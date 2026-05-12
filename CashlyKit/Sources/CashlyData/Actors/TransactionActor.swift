@@ -124,7 +124,12 @@ public actor TransactionActor: TransactionUseCase {
                 paymentsPlan: entity.paymentsPlan
             ) {
                 if let participants {
-                    if transaction.participants.map(\.user.id).contains(participants) {
+                    // `participants` is the user-id whitelist from the
+                    // filter; keep the transaction if any participant's
+                    // user matches. The old form passed the whole array
+                    // to `Array<String>.contains(_:)` (an Element check)
+                    // which always evaluated to false.
+                    if transaction.participants.contains(where: { participants.contains($0.user.id) }) {
                         transactions.append(transaction)
                     }
                 } else {
