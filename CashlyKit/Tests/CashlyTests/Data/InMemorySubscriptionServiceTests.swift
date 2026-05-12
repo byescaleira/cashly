@@ -71,4 +71,39 @@ struct InMemorySubscriptionServiceTests {
         status = await service.currentStatus()
         #expect(status.tier == .free)
     }
+
+    @Test("simulateRevocation drops Pro to Free")
+    func revocationDropsTier() async {
+        let service = InMemorySubscriptionService()
+        await service.setTier(.pro)
+        await service.simulateRevocation()
+        let status = await service.currentStatus()
+        #expect(status.tier == .free)
+        #expect(status.activePlanId == nil)
+    }
+
+    @Test("simulateExpiry drops Pro to Free")
+    func expiryDropsTier() async {
+        let service = InMemorySubscriptionService()
+        await service.setTier(.pro)
+        await service.simulateExpiry()
+        let status = await service.currentStatus()
+        #expect(status.tier == .free)
+    }
+
+    @Test("statusUpdates stream emits initial value and every change")
+    func statusStreamEmits() async {
+        let service = InMemorySubscriptionService()
+        let stream = service.statusUpdates()
+        var iterator = stream.makeAsyncIterator()
+        // Initial yield = current status.
+        let initial = await iterator.next()
+        #expect(initial?.tier == .free)
+        await service.setTier(.pro)
+        let upgraded = await iterator.next()
+        #expect(upgraded?.tier == .pro)
+        await service.simulateRevocation()
+        let revoked = await iterator.next()
+        #expect(revoked?.tier == .free)
+    }
 }

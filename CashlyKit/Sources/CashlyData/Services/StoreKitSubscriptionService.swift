@@ -139,19 +139,46 @@ public actor StoreKitSubscriptionService: SubscriptionUseCase {
     }
 
     private func handleVerification(_ result: VerificationResult<StoreKit.Transaction>) async {
-        guard case let .verified(transaction) = result else { return }
+        switch result {
+        case let .verified(transaction):
+            await apply(verified: transaction)
+        case .unverified:
+            // Unverified results indicate a signature failure (jailbreak,
+            // tampering, network corruption). We never grant Pro from
+            // these; treat as "stay on whatever the current verified
+            // status is" and rely on the next verified update for
+            // recovery. Logging is intentional so the developer can
+            // catch a steady stream of unverified updates in production.
+            #if DEBUG
+            print("[Subscription] Dropped unverified transaction update.")
+            #endif
+        }
+    }
+
+    private func apply(verified transaction: StoreKit.Transaction) async {
         defer { Task { await transaction.finish() } }
 
+        // Refund: Apple revokes the transaction. StoreKit signals via
+        // revocationDate. Surface as a tier drop so any Pro-gated UI
+        // re-locks immediately.
         if let revocation = transaction.revocationDate, revocation <= Date() {
             updateStatus(.free)
             return
         }
+        // Natural expiry without auto-renew. We still emit a tier
+        // drop because the user no longer has Pro access.
         if let expiry = transaction.expirationDate, expiry <= Date() {
             updateStatus(.free)
             return
         }
+        guard Self.productIDs.contains(transaction.productID) else {
+            // Unknown product id (likely a one-off purchase or a
+            // product from a sibling app on the shared account).
+            // Don't change tier.
+            return
+        }
         updateStatus(CashlyDomain.SubscriptionStatus(
-            tier: Self.productIDs.contains(transaction.productID) ? .pro : .free,
+            tier: .pro,
             activePlanId: transaction.productID,
             expiresAt: transaction.expirationDate,
             willAutoRenew: true

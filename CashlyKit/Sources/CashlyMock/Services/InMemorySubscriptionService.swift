@@ -95,6 +95,21 @@ public actor InMemorySubscriptionService: SubscriptionUseCase {
         updateStatus(next)
     }
 
+    /// Simulate Apple revoking a purchase (refund / family removal /
+    /// chargeback). Drops the tier to `.free` and emits the change to
+    /// every active status subscriber, matching production behaviour
+    /// when `Transaction.updates` delivers a transaction with a non-nil
+    /// `revocationDate`.
+    public func simulateRevocation() {
+        updateStatus(.free)
+    }
+
+    /// Simulate a subscription expiring naturally (auto-renew off,
+    /// term ended). Same outcome as revocation tier-wise.
+    public func simulateExpiry() {
+        updateStatus(.free)
+    }
+
     private func register(
         continuation: AsyncStream<SubscriptionStatus>.Continuation,
         id: UUID
