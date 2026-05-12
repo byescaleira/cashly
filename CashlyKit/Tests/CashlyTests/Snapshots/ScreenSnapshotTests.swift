@@ -74,5 +74,10 @@ struct ScreenSnapshotTests {
     func transaction() {
         snapshot(of: TransactionScreen(), named: "TransactionScreen")
     }
+
+    @Test("PaywallScreen renders")
+    func paywall() {
+        snapshot(of: PaywallScreen(), named: "PaywallScreen")
+    }
 }
 #endif
