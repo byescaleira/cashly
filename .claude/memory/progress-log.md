@@ -1,3 +1,24 @@
+## 2026-05-13 — Eixo E sequence (v0.1.1 → v0.1.7)
+
+**Tipo**: feature-batch
+**Resumo**: 7 releases consecutivas implementando follow-ups:
+- **E4** v0.1.1: PaywallMiddleware analytics tests + RecordingAnalyticsTracker (382→383 tests)
+- **E3** v0.1.2: UsageLabel locale-aware (IntegerFormatStyle + lang switch separator). 386 tests.
+- **E6** v0.1.3: a11y pass — Dynamic Type icons, 44pt hit area, page labels VoiceOver, ProgressView labels, reduce motion, ProBadge static state, key-value combine.
+- **E5** v0.1.4: Toast banner restore-no-entitlement. CashlyToastModifier com generation-token dedupe race fix, reduce motion, VoiceOver combine. 388 tests.
+- **E10** v0.1.5: Snapshot variants dark + Dynamic Type a11y3 (Paywall + Home).
+- **E9** v0.1.6: AppIconUseCase infra (UIKit + InMemory). UI hookup + xcassets deferred designer. 391 tests.
+- **E7** v0.1.7: Settings Danger Zone wipe all data (MainAction.wipeAllData + MainMiddleware). 392 tests.
+
+**Reviewers**: 4 swift-reviewer passes + 1 a11y auditor + 1 second-pass. Todos PASS. 2 review iterations sobre blockers (E1+E2 retroativo, E5 toast race).
+
+**Deferred**:
+- E8 Universal Links (precisa cashly.app server)
+- E11 AdapterActor N+1 (precisa Instruments trace)
+- E12 strict warnings (já clean, skip)
+
+---
+
 ## 2026-05-13 — Release v0.1.0 (Eixos A+B+C+D fechados)
 
 **Tipo**: release
