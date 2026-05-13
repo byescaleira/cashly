@@ -288,10 +288,13 @@ public struct MainMiddleware: PrismMiddleware {
         let threshold = overshootThreshold
         let alerts = budgetAlerts
         let spentByBudget = Dictionary(
-            grouping: transactions,
-            by: \.budget.id
-        ).mapValues { txs in
-            txs.reduce(0.0) { partial, tx in partial + tx.amount }
+            grouping: transactions.compactMap { tx -> (String, Double)? in
+                guard let budgetId = tx.budget?.id else { return nil }
+                return (budgetId, tx.amount)
+            },
+            by: { $0.0 }
+        ).mapValues { entries in
+            entries.reduce(0.0) { partial, entry in partial + entry.1 }
         }
         // Snapshot value-types so the captured closure stays Sendable.
         let snapshots: [(id: String, summary: String, percentage: Int)] = budgets.compactMap { budget in

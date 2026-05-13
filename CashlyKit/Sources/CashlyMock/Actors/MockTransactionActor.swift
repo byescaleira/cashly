@@ -35,7 +35,7 @@ actor MockTransactionActor: TransactionUseCase {
         let statusValues = statuses ?? []
         let participantIDs = participants ?? []
         return transactions.filter { transaction in
-            (budgetIDs.isEmpty || budgetIDs.contains(transaction.budget.id)) &&
+            (budgetIDs.isEmpty || (transaction.budget.map { budgetIDs.contains($0.id) } ?? false)) &&
             (tagValues.isEmpty || tagValues.contains(where: { transaction.summary.contains($0) })) &&
             (statusValues.isEmpty || statusValues.contains(where: { transaction.status.rawValue == $0 })) &&
             (participantIDs.isEmpty || !Set(transaction.participants.map(\.id)).isDisjoint(with: participantIDs)) &&

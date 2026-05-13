@@ -10,7 +10,12 @@ import Foundation
 public struct Transaction: CashlyEntity, Sendable {
     public var id: String
     public var participants: [Participant]
-    public var budget: Budget
+    /// Optional Budget link. Pre-ADR-0009 every transaction had to
+    /// belong to a budget; J2f relaxes that so income / unbudgeted
+    /// spending can persist without a matching Budget row. Budget ↔
+    /// Transaction correlation is otherwise derived from
+    /// (category, yearMonth) — see ``Budget/spent(in:)``.
+    public var budget: Budget?
     public var amount: Double
     public var date: TimeInterval
     public var summary: String
@@ -25,16 +30,15 @@ public struct Transaction: CashlyEntity, Sendable {
     /// and one or more fields could not be inferred. UI surfaces a
     /// badge until the user reviews + flips this back to `false`.
     public var needsReview: Bool
-    /// Direct category reference. Introduced in J2d as the migration
-    /// target away from the Budget FK (ADR-0009). Optional during
-    /// the coexistence window; once J2f drops `budget`, this
-    /// becomes the only category source and turns non-optional.
-    public var category: CashlyDomain.Category?
+    /// Direct category reference. ADR-0009 promotes this to the
+    /// canonical category source; budget is now optional and only
+    /// useful for the legacy summary field.
+    public var category: CashlyDomain.Category
 
     public init(
         id: String,
         participants: [Participant],
-        budget: Budget,
+        budget: Budget?,
         amount: Double,
         date: TimeInterval,
         summary: String,
@@ -58,20 +62,25 @@ public struct Transaction: CashlyEntity, Sendable {
         self.paymentsPlan = paymentsPlan
         self.kind = kind
         self.needsReview = needsReview
-        // Falls back to the budget's category so every existing
-        // callsite gets a non-nil category without code changes.
-        self.category = category ?? budget.category
+        // Falls back to the budget's category for legacy callsites
+        // that don't yet pass a category explicitly. Requires at
+        // least one of the two to be non-nil; mocks / tests must
+        // supply a budget or category to construct a Transaction.
+        if let category {
+            self.category = category
+        } else if let budget {
+            self.category = budget.category
+        } else {
+            preconditionFailure("Transaction requires either a budget or a category")
+        }
     }
 }
 
 public extension Transaction {
-    /// Effective category — uses the direct `category` reference
-    /// when present, otherwise falls back to `budget.category`.
-    /// Pre-J2d callsites should read this; once J2f lands and
-    /// `category` is non-optional, callsites can use it directly.
-    var effectiveCategory: CashlyDomain.Category {
-        category ?? budget.category
-    }
+    /// Alias kept for J2e callsites — now identical to ``category``
+    /// since the field is non-optional. Will be removed once
+    /// callsites finish migrating.
+    var effectiveCategory: CashlyDomain.Category { category }
 }
 
 extension Transaction: Decodable {
@@ -84,7 +93,7 @@ extension Transaction: Decodable {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try c.decode(String.self, forKey: .id)
         self.participants = try c.decode([Participant].self, forKey: .participants)
-        self.budget = try c.decode(Budget.self, forKey: .budget)
+        self.budget = try c.decodeIfPresent(Budget.self, forKey: .budget)
         self.amount = try c.decode(Double.self, forKey: .amount)
         self.date = try c.decode(TimeInterval.self, forKey: .date)
         self.summary = try c.decode(String.self, forKey: .summary)
@@ -95,7 +104,17 @@ extension Transaction: Decodable {
         self.kind = try c.decodeIfPresent(TransactionKind.self, forKey: .kind) ?? .expense
         self.needsReview = try c.decodeIfPresent(Bool.self, forKey: .needsReview) ?? false
         let decodedCategory = try c.decodeIfPresent(CashlyDomain.Category.self, forKey: .category)
-        self.category = decodedCategory ?? self.budget.category
+        if let decodedCategory {
+            self.category = decodedCategory
+        } else if let budget = self.budget {
+            self.category = budget.category
+        } else {
+            throw DecodingError.dataCorruptedError(
+                forKey: .category,
+                in: c,
+                debugDescription: "Transaction requires either budget or category"
+            )
+        }
     }
 }
 

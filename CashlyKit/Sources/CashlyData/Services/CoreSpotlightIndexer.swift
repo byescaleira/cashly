@@ -44,7 +44,7 @@ public actor CoreSpotlightIndexer: SpotlightIndexerUseCase {
         attributes.contentDescription = "\(transaction.effectiveCategory.name) — \(transaction.amount)"
         attributes.keywords = [
             transaction.effectiveCategory.name,
-            transaction.budget.summary
+            transaction.budget?.summary ?? ""
         ]
         return CSSearchableItem(
             uniqueIdentifier: transaction.id,

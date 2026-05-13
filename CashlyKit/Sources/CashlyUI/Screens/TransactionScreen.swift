@@ -37,7 +37,7 @@ public struct TransactionScreen: CashlyView {
             let matches = section.filter { tx in
                 tx.summary.lowercased().contains(needle)
                 || tx.effectiveCategory.name.lowercased().contains(needle)
-                || tx.budget.summary.lowercased().contains(needle)
+                || (tx.budget?.summary.lowercased().contains(needle) ?? false)
             }
             return matches.isEmpty ? nil : matches
         }

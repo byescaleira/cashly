@@ -28,7 +28,7 @@ public enum CashlyCSVExporter {
                 escape(tx.summary),
                 amount(tx.amount),
                 escape(tx.effectiveCategory.name),
-                escape(tx.budget.summary),
+                escape(tx.budget?.summary ?? ""),
                 escape(String(describing: tx.status)),
                 escape(participants)
             ].joined(separator: ",")

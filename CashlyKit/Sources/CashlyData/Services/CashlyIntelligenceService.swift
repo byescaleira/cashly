@@ -49,11 +49,19 @@ public struct CashlyIntelligenceService: Sendable {
 
         switch model {
         case .budgetValue:
-            let dict = Dictionary(grouping: transactions, by: \.budget)
+            // J2f: only transactions bound to an explicit budget
+            // contribute to budgetValue training. Income / unbudgeted
+            // expense transactions are skipped here.
+            let withBudget = transactions.compactMap { tx -> (Budget, Transaction)? in
+                guard let budget = tx.budget else { return nil }
+                return (budget, tx)
+            }
+            let dict = Dictionary(grouping: withBudget, by: { $0.0 })
             for item in dict {
                 let date = item.key.date
                 let category = item.key.category.name
-                let target = item.value.reduce(.zero) { partialResult, transaction in
+                let target = item.value.reduce(.zero) { partialResult, pair in
+                    let transaction = pair.1
                     let amount = !transaction.participants.isEmpty ?
                     transaction.splitValue ?? .zero : transaction.paymentsPlan != nil ?
                     transaction.amount / (transaction.paymentsPlan ?? 1).double : transaction.amount

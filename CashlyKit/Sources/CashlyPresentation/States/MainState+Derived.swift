@@ -38,7 +38,9 @@ extension MainState {
         for transaction in transactions {
             let amount = Self.effectiveAmount(transaction)
             byCategory[transaction.effectiveCategory.id, default: .zero] += amount
-            byBudget[transaction.budget.id, default: .zero] += amount
+            if let budgetId = transaction.budget?.id {
+                byBudget[budgetId, default: .zero] += amount
+            }
 
             let summary = transaction.summary.lowercased()
             for (tagId, lowercasedName) in lowercasedTags {
