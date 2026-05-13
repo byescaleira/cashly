@@ -4,6 +4,10 @@
 <dict>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Cashly uses Face ID to unlock the app and keep your finances private.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Cashly transcribes your spoken transactions on device with Apple Intelligence.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Cashly captures audio so you can dictate transactions without typing.</string>
 	<key>NSUbiquitousContainers</key>
 	<dict>
 		<key>iCloud.$(CFBundleIdentifier)</key>
