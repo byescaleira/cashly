@@ -123,9 +123,16 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
     }
 
     public func makeTransactionDictation() -> TransactionDictationUseCase {
-        // J8 stub. J9 will swap in the Foundation Models impl behind
-        // iOS 18.1 availability + Apple Intelligence checks.
-        KeywordTransactionDictation()
+        // K2a: prefer the on-device Foundation Models parser when
+        // the OS supports it. The impl probes runtime availability
+        // (Apple Intelligence may be disabled) and falls back to the
+        // keyword stub draft when the model can't run.
+        #if canImport(FoundationModels)
+        if #available(iOS 18.1, macOS 15.1, *) {
+            return FoundationModelsTransactionDictation()
+        }
+        #endif
+        return KeywordTransactionDictation()
     }
 
     public func makeTransactionUseCase() -> TransactionUseCase {
