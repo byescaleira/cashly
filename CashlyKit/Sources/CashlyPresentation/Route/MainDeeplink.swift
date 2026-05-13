@@ -8,6 +8,9 @@
 //
 
 import Foundation
+#if canImport(CoreSpotlight)
+import CoreSpotlight
+#endif
 
 public enum MainDeeplink {
     /// Supported scheme — used by Info.plist URL types + universal
@@ -47,6 +50,18 @@ public enum MainDeeplink {
             return nil
         }
     }
+
+    /// Resolve an `NSUserActivity` arriving via `onContinueUserActivity`.
+    /// Today only Spotlight (`CSSearchableItemActionType`) is handled —
+    /// taps on indexed transactions route to the edit screen.
+    #if canImport(CoreSpotlight)
+    public static func resolve(_ activity: NSUserActivity) -> MainRoute? {
+        guard activity.activityType == CSSearchableItemActionType,
+              let identifier = activity.userInfo?[CSSearchableItemActivityIdentifier] as? String
+        else { return nil }
+        return .addTransaction(state: .edit(id: identifier))
+    }
+    #endif
 
     private static func trigger(from url: URL) -> PaywallTrigger {
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)

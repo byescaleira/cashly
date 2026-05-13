@@ -6,6 +6,7 @@
 import SwiftUI
 import SwiftData
 import CoreData
+import CoreSpotlight
 
 import PrismArchitecture
 
@@ -145,6 +146,9 @@ struct CashlyApp: App {
                 .environment(\.pendingDeeplink, pendingDeeplink)
                 .onOpenURL { url in
                     routeExternal(MainDeeplink.resolve(url))
+                }
+                .onContinueUserActivity(CSSearchableItemActionType) { activity in
+                    routeExternal(MainDeeplink.resolve(activity))
                 }
                 .tint(Color.accentColor)
                 .preferredColorScheme(appearance.colorScheme)

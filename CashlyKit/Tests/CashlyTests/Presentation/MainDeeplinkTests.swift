@@ -5,6 +5,9 @@
 
 import Foundation
 import Testing
+#if canImport(CoreSpotlight)
+import CoreSpotlight
+#endif
 @testable import CashlyPresentation
 
 @Suite("MainDeeplink", .tags(.unit, .presentation, .local))
@@ -63,4 +66,22 @@ struct MainDeeplinkTests {
         let url = URL(string: "cashly://wallet")!
         #expect(MainDeeplink.resolve(url) == nil)
     }
+
+    #if canImport(CoreSpotlight)
+    @Test("Spotlight activity resolves to addTransaction edit")
+    func spotlightActivity() {
+        let activity = NSUserActivity(activityType: "com.apple.corespotlightitem")
+        activity.userInfo = ["kCSSearchableItemActivityIdentifier": "tx-42"]
+        guard case let .addTransaction(state) = MainDeeplink.resolve(activity) else {
+            Issue.record("expected .addTransaction"); return
+        }
+        #expect(state.id == "tx-42")
+    }
+
+    @Test("Unknown activity type resolves to nil")
+    func unknownActivity() {
+        let activity = NSUserActivity(activityType: "some.other.activity")
+        #expect(MainDeeplink.resolve(activity) == nil)
+    }
+    #endif
 }
