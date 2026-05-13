@@ -51,6 +51,22 @@ public enum MainDeeplink {
         }
     }
 
+    /// Resolves a `UIApplicationShortcutItem` type identifier — wired
+    /// from the Info.plist `UIApplicationShortcutItems` entries via
+    /// SwiftUI's scenePhase Home-screen quick-action callback.
+    public static func resolve(shortcutType: String) -> MainRoute? {
+        switch shortcutType {
+        case "com.cashly.app.shortcut.add-transaction":
+            return .addTransaction(state: .new())
+        case "com.cashly.app.shortcut.insights":
+            return .insights
+        case "com.cashly.app.shortcut.paywall":
+            return .paywall(trigger: .upgradeButton)
+        default:
+            return nil
+        }
+    }
+
     /// Resolve an `NSUserActivity` arriving via `onContinueUserActivity`.
     /// Today only Spotlight (`CSSearchableItemActionType`) is handled —
     /// taps on indexed transactions route to the edit screen.

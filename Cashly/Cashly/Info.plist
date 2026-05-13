@@ -31,5 +31,32 @@
 			</array>
 		</dict>
 	</array>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.cashly.app.shortcut.add-transaction</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Add Transaction</string>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeAdd</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.cashly.app.shortcut.insights</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Insights</string>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeBookmark</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.cashly.app.shortcut.paywall</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Upgrade to Pro</string>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeFavorite</string>
+		</dict>
+	</array>
 </dict>
 </plist>

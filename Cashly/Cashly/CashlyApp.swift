@@ -20,6 +20,10 @@ import CashlyMock
 
 @main
 struct CashlyApp: App {
+    /// UIKit bridge for quick-action delivery on cold + warm launch.
+    /// SwiftUI on its own cannot capture `launchOptions[.shortcutItem]`.
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @Environment(\.scenePhase) private var scenePhase
     @State var addCategoryStore: CashlyStore<AddCategoryState, AddCategoryAction>
     @State var addBudgetStore: CashlyStore<AddBudgetState, AddBudgetAction>
     @State var addTransactionStore: CashlyStore<AddTransactionState, AddTransactionAction>
@@ -149,6 +153,16 @@ struct CashlyApp: App {
                 }
                 .onContinueUserActivity(CSSearchableItemActionType) { activity in
                     routeExternal(MainDeeplink.resolve(activity))
+                }
+                .onChange(of: scenePhase) { _, phase in
+                    // UIKit hands the quick-action type to AppDelegate;
+                    // we forward it on every scene activation so both
+                    // cold and warm launches reach routeExternal.
+                    guard phase == .active,
+                          let type = AppDelegate.launchShortcutType
+                    else { return }
+                    AppDelegate.launchShortcutType = nil
+                    routeExternal(MainDeeplink.resolve(shortcutType: type))
                 }
                 .tint(Color.accentColor)
                 .preferredColorScheme(appearance.colorScheme)

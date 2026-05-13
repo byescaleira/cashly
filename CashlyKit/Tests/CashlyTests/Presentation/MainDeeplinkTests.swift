@@ -67,6 +67,29 @@ struct MainDeeplinkTests {
         #expect(MainDeeplink.resolve(url) == nil)
     }
 
+    @Test("shortcut add-transaction → .addTransaction(new)")
+    func shortcutAddTransaction() {
+        guard case let .addTransaction(state) = MainDeeplink.resolve(shortcutType: "com.cashly.app.shortcut.add-transaction") else {
+            Issue.record("expected .addTransaction"); return
+        }
+        #expect(state.isNew)
+    }
+
+    @Test("shortcut insights → .insights")
+    func shortcutInsights() {
+        #expect(MainDeeplink.resolve(shortcutType: "com.cashly.app.shortcut.insights") == .insights)
+    }
+
+    @Test("shortcut paywall → .paywall(.upgradeButton)")
+    func shortcutPaywall() {
+        #expect(MainDeeplink.resolve(shortcutType: "com.cashly.app.shortcut.paywall") == .paywall(trigger: .upgradeButton))
+    }
+
+    @Test("unknown shortcut type → nil")
+    func shortcutUnknown() {
+        #expect(MainDeeplink.resolve(shortcutType: "com.cashly.app.shortcut.other") == nil)
+    }
+
     #if canImport(CoreSpotlight)
     @Test("Spotlight activity resolves to addTransaction edit")
     func spotlightActivity() {
