@@ -236,9 +236,31 @@ public struct SettingsScreen: CashlyView {
             ) {
                 CashlyLabel(CashlyL10n.string("Export Budgets (CSV)"), symbol: "square.and.arrow.up")
             }
+            if let backupJSON {
+                ShareLink(
+                    item: backupJSON,
+                    preview: SharePreview(
+                        CashlyL10n.string("Backup"),
+                        image: Image(systemName: "doc.zipper")
+                    )
+                ) {
+                    CashlyLabel(CashlyL10n.string("Export Full Backup (JSON)"), symbol: "square.and.arrow.up")
+                }
+            }
         } header: {
             CashlyText(CashlyL10n.string("Export"))
         }
+    }
+
+    private var backupJSON: String? {
+        let backup = CashlyBackup(
+            users: state.users,
+            categories: state.categories,
+            budgets: state.budgets,
+            tags: state.tags,
+            transactions: state.transactions
+        )
+        return try? CashlyBackupCoder.encode(backup)
     }
 
     private var transactionsCSV: String {
