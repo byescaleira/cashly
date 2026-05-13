@@ -149,18 +149,38 @@ public actor AdapterActor: AdapterUseCase {
               let status = TransactionStatus(rawValue: status)
         else { return nil }
 
+        // Batch-load every participant's user in a single fetch
+        // instead of looping `participantAdapted` (which would
+        // re-fetch UserEntity per participant — N+1).
+        let userIds = participantEntities.map(\.user)
+        let usersPredicate: Predicate<UserEntity> = #Predicate {
+            userIds.contains($0.id)
+        }
+        let usersDescriptor = FetchDescriptor<UserEntity>(predicate: usersPredicate)
+        let userEntities = try modelContext.fetch(usersDescriptor)
+        let usersById: [String: UserEntity] = Dictionary(
+            uniqueKeysWithValues: userEntities.map { ($0.id, $0) }
+        )
+
         var participants = [Participant]()
         for participantEntity in participantEntities {
-            if let participant = try await participantAdapted(
+            guard let userEntity = usersById[participantEntity.user],
+                  let splitMode = TransactionSplitMode(rawValue: participantEntity.splitMode),
+                  let participantStatus = TransactionStatus(rawValue: participantEntity.status)
+            else { continue }
+            let user = try await userAdapted(
+                id: userEntity.id,
+                name: userEntity.name,
+                photo: userEntity.photo
+            )
+            participants.append(Participant(
                 id: participantEntity.id,
-                user: participantEntity.user,
-                splitMode: participantEntity.splitMode,
+                user: user,
+                splitMode: splitMode,
                 splitValue: participantEntity.splitValue,
-                status: participantEntity.status,
+                status: participantStatus,
                 transaction: participantEntity.transaction
-            ) {
-                participants.append(participant)
-            }
+            ))
         }
 
         return CashlyDomain.Transaction(
