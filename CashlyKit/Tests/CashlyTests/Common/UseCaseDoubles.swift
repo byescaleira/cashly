@@ -223,7 +223,9 @@ final class TransactionUseCaseDouble: TransactionUseCase, @unchecked Sendable {
         status: TransactionStatus,
         splitMode: TransactionSplitMode?,
         splitValue: Double?,
-        paymentsPlan: Int?
+        paymentsPlan: Int?,
+        kind: TransactionKind,
+        needsReview: Bool
     ) async throws {
         if throwOnAdd { throw CashlyError.persistence(.saveFailed(entity: "Test", underlying: "save")) }
     }

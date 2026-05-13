@@ -29,7 +29,9 @@ public actor TransactionActor: TransactionUseCase {
             status: entity.status,
             splitMode: entity.splitMode,
             splitValue: entity.splitValue,
-            paymentsPlan: entity.paymentsPlan
+            paymentsPlan: entity.paymentsPlan,
+            kind: entity.kind,
+            needsReview: entity.needsReview
         )
     }
 
@@ -48,7 +50,9 @@ public actor TransactionActor: TransactionUseCase {
                 status: entity.status,
                 splitMode: entity.splitMode,
                 splitValue: entity.splitValue,
-                paymentsPlan: entity.paymentsPlan
+                paymentsPlan: entity.paymentsPlan,
+                kind: entity.kind,
+                needsReview: entity.needsReview
             ) {
                 transactions.append(transaction)
             }
@@ -121,7 +125,9 @@ public actor TransactionActor: TransactionUseCase {
                 status: entity.status,
                 splitMode: entity.splitMode,
                 splitValue: entity.splitValue,
-                paymentsPlan: entity.paymentsPlan
+                paymentsPlan: entity.paymentsPlan,
+                kind: entity.kind,
+                needsReview: entity.needsReview
             ) {
                 if let participants {
                     // `participants` is the user-id whitelist from the
@@ -182,7 +188,9 @@ public actor TransactionActor: TransactionUseCase {
         status: TransactionStatus,
         splitMode: TransactionSplitMode?,
         splitValue: Double?,
-        paymentsPlan: Int?
+        paymentsPlan: Int?,
+        kind: TransactionKind,
+        needsReview: Bool
     ) async throws {
         let predicate: Predicate<TransactionEntity> = #Predicate { $0.id == id }
         let descriptor = FetchDescriptor<TransactionEntity>(predicate: predicate)
@@ -196,7 +204,9 @@ public actor TransactionActor: TransactionUseCase {
             status: status.rawValue,
             splitMode: splitMode?.rawValue,
             splitValue: splitValue,
-            paymentsPlan: paymentsPlan
+            paymentsPlan: paymentsPlan,
+            kind: kind.rawValue,
+            needsReview: needsReview
         )
         entity.id = id
         entity.participants = participants.map(\.id)
@@ -208,6 +218,8 @@ public actor TransactionActor: TransactionUseCase {
         entity.splitMode = splitMode?.rawValue
         entity.splitValue = splitValue
         entity.paymentsPlan = paymentsPlan
+        entity.kind = kind.rawValue
+        entity.needsReview = needsReview
         modelContext.insert(entity)
         try modelContext.save()
     }

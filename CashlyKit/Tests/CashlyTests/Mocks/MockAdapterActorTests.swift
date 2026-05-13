@@ -101,7 +101,9 @@ struct MockAdapterActorTests {
             status: TransactionStatus.settled.rawValue,
             splitMode: nil,
             splitValue: nil,
-            paymentsPlan: nil
+            paymentsPlan: nil,
+            kind: TransactionKind.expense.rawValue,
+            needsReview: false
         )
         #expect(tx == nil)
     }
@@ -120,7 +122,9 @@ struct MockAdapterActorTests {
             status: 999, // not a valid TransactionStatus raw
             splitMode: nil,
             splitValue: nil,
-            paymentsPlan: nil
+            paymentsPlan: nil,
+            kind: TransactionKind.expense.rawValue,
+            needsReview: false
         )
         #expect(tx == nil)
     }

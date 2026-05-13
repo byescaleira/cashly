@@ -30,6 +30,40 @@ public protocol TransactionUseCase: Sendable {
         status: TransactionStatus,
         splitMode: TransactionSplitMode?,
         splitValue: Double?,
-        paymentsPlan: Int?
+        paymentsPlan: Int?,
+        kind: TransactionKind,
+        needsReview: Bool
     ) async throws
+}
+
+public extension TransactionUseCase {
+    /// Back-compat wrapper. Pre-J2 callsites still pass nine
+    /// parameters; defaults match the entity-side defaults.
+    func addTransaction(
+        id: String,
+        participants: [Participant],
+        budget: Budget,
+        amount: Double,
+        date: TimeInterval,
+        summary: String,
+        status: TransactionStatus,
+        splitMode: TransactionSplitMode?,
+        splitValue: Double?,
+        paymentsPlan: Int?
+    ) async throws {
+        try await addTransaction(
+            id: id,
+            participants: participants,
+            budget: budget,
+            amount: amount,
+            date: date,
+            summary: summary,
+            status: status,
+            splitMode: splitMode,
+            splitValue: splitValue,
+            paymentsPlan: paymentsPlan,
+            kind: .expense,
+            needsReview: false
+        )
+    }
 }

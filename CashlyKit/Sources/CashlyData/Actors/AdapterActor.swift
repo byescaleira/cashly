@@ -199,7 +199,9 @@ public actor AdapterActor: AdapterUseCase {
         status: Int,
         splitMode: Int?,
         splitValue: Double?,
-        paymentsPlan: Int?
+        paymentsPlan: Int?,
+        kind: Int,
+        needsReview: Bool
     ) async throws -> Transaction? {
         let participantsPredicate: Predicate<ParticipantEntity> = #Predicate {
             participants.contains($0.id)
@@ -272,7 +274,9 @@ public actor AdapterActor: AdapterUseCase {
             status: status,
             splitMode: TransactionSplitMode(rawValue: splitMode ?? -1),
             splitValue: splitValue,
-            paymentsPlan: paymentsPlan
+            paymentsPlan: paymentsPlan,
+            kind: TransactionKind(rawValue: kind) ?? .expense,
+            needsReview: needsReview
         )
     }
 

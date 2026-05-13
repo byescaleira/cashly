@@ -21,6 +21,12 @@ public class TransactionEntity {
     public var splitMode: Int?
     public var splitValue: Double?
     public var paymentsPlan: Int?
+    /// TransactionKind raw value. Defaults to `0` (.expense) so
+    /// pre-J2 rows materialize as expenses on first read.
+    public var kind: Int = 0
+    /// `true` when the transaction was captured from dictation (J8+)
+    /// and one or more fields could not be inferred.
+    public var needsReview: Bool = false
 
     public var yearMonth: Int {
         date.yearMonth
@@ -59,7 +65,9 @@ public class TransactionEntity {
         status: Int,
         splitMode: Int? = nil,
         splitValue: Double? = nil,
-        paymentsPlan: Int? = nil
+        paymentsPlan: Int? = nil,
+        kind: Int = 0,
+        needsReview: Bool = false
     ) {
         self.id = id
         self.participants = participants
@@ -71,6 +79,8 @@ public class TransactionEntity {
         self.splitMode = splitMode
         self.splitValue = splitValue
         self.paymentsPlan = paymentsPlan
+        self.kind = kind
+        self.needsReview = needsReview
     }
 }
 
