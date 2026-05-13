@@ -52,6 +52,14 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
         dataFactory.makeAppLock()
     }
 
+    public func makeTransactionDictation() -> TransactionDictationUseCase {
+        dataFactory.makeTransactionDictation()
+    }
+
+    public func makeSpeechTranscriber() -> SpeechTranscriberUseCase {
+        dataFactory.makeSpeechTranscriber()
+    }
+
     public func makeAddCategoryStore() -> CashlyStore<AddCategoryState, AddCategoryAction> {
         CashlyStore(
             initialState: .new(),

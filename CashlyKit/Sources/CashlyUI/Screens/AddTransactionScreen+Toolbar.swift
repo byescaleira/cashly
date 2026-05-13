@@ -55,6 +55,18 @@ extension AddTransactionScreen {
     }
 
     @ViewBuilder
+    var dictationItem: some View {
+        CashlyButton {
+            Task { await toggleDictation() }
+        } label: {
+            CashlySymbol(isDictating ? "stop.circle.fill" : "mic.fill")
+        }
+        .cashly(tint: isDictating ? .color(.red) : .text)
+        .accessibilityLabel(CashlyL10n.string(isDictating ? "Stop dictation" : "Dictate transaction"))
+        .accessibilityAddTraits(.isButton)
+    }
+
+    @ViewBuilder
     var intelligenceItem: some View {
         if let user,
            let model = CashlyIntelligence.categoryName.model(for: user),

@@ -25,6 +25,11 @@ public struct AddTransactionScreen: CashlyView {
     @State var selectedUsers: Set<User> = []
     @State var isActivePrediction: Bool = true
     @State var predictionResult: CashlyPredictionResult = .empty
+    @State var isDictating: Bool = false
+    @State var dictationInterim: String = ""
+
+    @Environment(\.transactionDictation) var transactionDictation
+    @Environment(\.speechTranscriber) var speechTranscriber
 
     var predictionInput: Binding<CashlyPredictionInput> {
         Binding {
@@ -50,6 +55,7 @@ public struct AddTransactionScreen: CashlyView {
         }
         .toolbar {
             ToolbarItemGroup {
+                dictationItem
                 intelligenceItem
                 participantsItem
                 removeButton

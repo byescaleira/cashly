@@ -40,6 +40,8 @@ struct CashlyApp: App {
     let syncStatus: SyncStatusUseCase
     let spotlight: SpotlightIndexerUseCase
     let appLock: AppLockUseCase
+    let transactionDictation: TransactionDictationUseCase
+    let speechTranscriber: SpeechTranscriberUseCase
 
     @State private var isLocked: Bool = false
 
@@ -74,6 +76,8 @@ struct CashlyApp: App {
         syncStatus = factory.makeSyncStatus()
         spotlight = factory.makeSpotlightIndexer()
         appLock = factory.makeAppLock()
+        transactionDictation = factory.makeTransactionDictation()
+        speechTranscriber = factory.makeSpeechTranscriber()
     }
 
     var body: some Scene {
@@ -99,6 +103,8 @@ struct CashlyApp: App {
                 .environment(\.paywallState, paywallStore.state)
 
                 .environment(\.action, handler(action:))
+                .environment(\.transactionDictation, transactionDictation)
+                .environment(\.speechTranscriber, speechTranscriber)
 
                 .environment(\.isLoading, mainStore.state.isLoading)
                 .environment(\.user, mainStore.state.user)
