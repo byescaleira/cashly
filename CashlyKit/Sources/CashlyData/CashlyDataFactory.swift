@@ -117,6 +117,13 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         BGTaskBackgroundRefresh()
     }
 
+    public func makeReceiptValidation() -> ReceiptValidationUseCase {
+        // Skeleton — no public backend yet. Returns the stub so
+        // production still treats StoreKit's local check as the
+        // source of truth until the endpoint ships.
+        InMemoryReceiptValidation(stub: .unreachable)
+    }
+
     public func makeTransactionUseCase() -> TransactionUseCase {
         TransactionActor(modelContainer: modelContainer)
     }
