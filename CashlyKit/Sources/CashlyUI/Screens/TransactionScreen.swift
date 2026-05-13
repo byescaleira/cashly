@@ -36,7 +36,7 @@ public struct TransactionScreen: CashlyView {
         return state.transactionSectionsCache.compactMap { section in
             let matches = section.filter { tx in
                 tx.summary.lowercased().contains(needle)
-                || tx.budget.category.name.lowercased().contains(needle)
+                || tx.effectiveCategory.name.lowercased().contains(needle)
                 || tx.budget.summary.lowercased().contains(needle)
             }
             return matches.isEmpty ? nil : matches

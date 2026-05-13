@@ -257,7 +257,7 @@ public extension Set where Element == Transaction {
         messages += transactions.map { transaction in
             let date = dateFormatter.string(from: Date(timeIntervalSince1970: transaction.date))
             let amount = transaction.participantsAmount(filter: participants)
-            let category = transaction.budget.category.name.capitalized
+            let category = transaction.effectiveCategory.name.capitalized
             var message = " 💵 \(amount.currency() ?? "")".breakLine
             message += " 🗓 \(date)".breakLine
             message += " 🏷️ \(category)".space + "-".space + transaction.summary.breakLine

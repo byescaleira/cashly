@@ -102,7 +102,7 @@ public struct CashlyIntelligenceService: Sendable {
             for transaction in transactions {
                 data.append([
                     "text": transaction.summary,
-                    "label": transaction.budget.category.name
+                    "label": transaction.effectiveCategory.name
                 ])
             }
         default:

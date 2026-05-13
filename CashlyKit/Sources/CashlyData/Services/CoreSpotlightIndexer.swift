@@ -41,9 +41,9 @@ public actor CoreSpotlightIndexer: SpotlightIndexerUseCase {
     ) -> CSSearchableItem {
         let attributes = CSSearchableItemAttributeSet(contentType: .item)
         attributes.title = transaction.summary
-        attributes.contentDescription = "\(transaction.budget.category.name) — \(transaction.amount)"
+        attributes.contentDescription = "\(transaction.effectiveCategory.name) — \(transaction.amount)"
         attributes.keywords = [
-            transaction.budget.category.name,
+            transaction.effectiveCategory.name,
             transaction.budget.summary
         ]
         return CSSearchableItem(

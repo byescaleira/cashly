@@ -108,7 +108,7 @@ extension HomeScreen {
                 TabView(selection: $selectedBiggestTransactionIndex) {
                     ForEach(transactions.enumerated(), id: \.offset) { index, transaction in
                         CashlyVStack(spacing: .small) {
-                            let category = transaction.budget.category
+                            let category = transaction.effectiveCategory
                             CashlySpacer()
                             CashlyText(category.name.uppercased())
                                 .cashly(font: .caption2, weight: .bold)

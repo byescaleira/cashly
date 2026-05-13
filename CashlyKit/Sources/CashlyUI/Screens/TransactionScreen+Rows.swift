@@ -40,7 +40,7 @@ extension TransactionScreen {
 
     func transactionView(transaction: CashlyDomain.Transaction) -> some View {
         CashlyHStack(spacing: .medium) {
-            categoryIcon(category: transaction.budget.category)
+            categoryIcon(category: transaction.effectiveCategory)
                 .overlay(alignment: .bottomTrailing) {
                     statusView(
                         participants: transaction.participants,
