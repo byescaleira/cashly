@@ -41,11 +41,11 @@ public extension MainState {
         if isPro { return CashlyL10n.string("Pro") }
         switch feature {
         case .addUser:
-            return "\(users.count)/\(Self.freeLimits.maxUsers)"
+            return UsageLabel.format(current: users.count, max: Self.freeLimits.maxUsers)
         case .addCategory:
-            return "\(categories.count)/\(Self.freeLimits.maxCategories)"
+            return UsageLabel.format(current: categories.count, max: Self.freeLimits.maxCategories)
         case .addBudget:
-            return "\(budgets.count)/\(Self.freeLimits.maxBudgets)"
+            return UsageLabel.format(current: budgets.count, max: Self.freeLimits.maxBudgets)
         case .intelligence, .multiUser:
             return CashlyL10n.string("Pro")
         }

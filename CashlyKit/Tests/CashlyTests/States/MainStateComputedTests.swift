@@ -140,8 +140,12 @@ struct MainStateComputedTests {
         var state = MainState(categories: [
             CashlyDomain.Category(id: "c1", user: user, name: "n", color: "#000", icon: "x")
         ])
+        let label = state.usageLabel(for: .addCategory)
+        // Locale-dependent separator (en: "1/3", pt-BR: "1 de 3");
+        // verify both numbers appear instead of pinning a separator.
         let maxCategories = MainState.freeLimits.maxCategories
-        #expect(state.usageLabel(for: .addCategory) == "1/\(maxCategories)")
+        #expect(label.contains("1"))
+        #expect(label.contains("\(maxCategories)"))
         state.subscriptionStatus = SubscriptionStatus(tier: .pro)
         #expect(state.usageLabel(for: .addCategory).lowercased().contains("pro"))
     }
