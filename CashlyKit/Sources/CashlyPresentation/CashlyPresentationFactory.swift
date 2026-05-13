@@ -3,6 +3,8 @@
 //  CashlyKit
 //
 
+import Foundation
+
 import CashlyDomain
 import CashlyData
 import CashlyResource
@@ -128,8 +130,20 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
                 tagUseCase: dataFactory.makeTagUseCase(),
                 userUseCase: dataFactory.makeUserUseCase(),
                 userPreferences: dataFactory.makeUserPreferences(),
-                budgetAlerts: dataFactory.makeBudgetAlerts()
+                budgetAlerts: dataFactory.makeBudgetAlerts(),
+                // Persisted user-tunable threshold. UI exposes it
+                // as a percent; we store the fraction (0–1).
+                overshootThreshold: Self.persistedOvershootThreshold()
             )
         )
+    }
+
+    private static func persistedOvershootThreshold(
+        suite: UserDefaults = .standard
+    ) -> Double {
+        let raw = suite.double(forKey: "cashly.budgetAlerts.overshoot")
+        // UserDefaults returns 0 when the key is absent — fall back
+        // to the historical 0.8 default in that case.
+        return raw > 0 ? raw : 0.8
     }
 }

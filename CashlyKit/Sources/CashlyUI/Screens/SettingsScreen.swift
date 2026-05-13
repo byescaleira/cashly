@@ -29,6 +29,7 @@ public struct SettingsScreen: CashlyView {
     @State var showManageSheet: Bool = false
     @State var showWipeConfirm: Bool = false
     @AppStorage("cashly.appearance") var appearanceRaw: String = CashlyAppearance.system.rawValue
+    @AppStorage("cashly.budgetAlerts.overshoot") var overshootThreshold: Double = 0.8
 
     public init() {}
 
@@ -37,6 +38,7 @@ public struct SettingsScreen: CashlyView {
             subscriptionSection
             actionsSection
             appearanceSection
+            alertsSection
             exportSection
             appSection
             dangerZoneSection
@@ -162,6 +164,31 @@ public struct SettingsScreen: CashlyView {
             get: { CashlyAppearance(rawValue: appearanceRaw) ?? .system },
             set: { appearanceRaw = $0.rawValue }
         )
+    }
+
+    var alertsSection: some View {
+        Section {
+            CashlyHStack {
+                CashlyText(CashlyL10n.string("Budget alert at"))
+                CashlySpacer()
+                CashlyText("\(Int(overshootThreshold * 100))%")
+                    .cashly(color: .textSecondary)
+                    .cashly(font: .caption)
+            }
+            #if os(iOS) || os(visionOS)
+            Slider(
+                value: $overshootThreshold,
+                in: 0.5...1.0,
+                step: 0.05
+            )
+            #endif
+        } header: {
+            CashlyText(CashlyL10n.string("Alerts"))
+        } footer: {
+            CashlyText(CashlyL10n.string("Sends a local notification when a budget reaches this percentage of its limit."))
+                .cashly(font: .caption)
+                .cashly(color: .textSecondary)
+        }
     }
 
     var exportSection: some View {
