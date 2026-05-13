@@ -155,14 +155,25 @@ struct CashlyApp: App {
                     routeExternal(MainDeeplink.resolve(activity))
                 }
                 .onChange(of: scenePhase) { _, phase in
+                    guard phase == .active else { return }
                     // UIKit hands the quick-action type to AppDelegate;
-                    // we forward it on every scene activation so both
-                    // cold and warm launches reach routeExternal.
-                    guard phase == .active,
-                          let type = AppDelegate.launchShortcutType
-                    else { return }
-                    AppDelegate.launchShortcutType = nil
-                    routeExternal(MainDeeplink.resolve(shortcutType: type))
+                    // forward on every activation so cold + warm
+                    // launches both reach routeExternal.
+                    if let type = AppDelegate.launchShortcutType {
+                        AppDelegate.launchShortcutType = nil
+                        routeExternal(MainDeeplink.resolve(shortcutType: type))
+                    }
+                    // AppIntents stash their target on a singleton when
+                    // they run in-process; same drain channel.
+                    if let route = PendingShortcutAction.shared.route {
+                        PendingShortcutAction.shared.route = nil
+                        switch route {
+                        case .addTransaction:
+                            routeExternal(.addTransaction(state: .new()))
+                        case .insights:
+                            routeExternal(.insights)
+                        }
+                    }
                 }
                 .tint(Color.accentColor)
                 .preferredColorScheme(appearance.colorScheme)
