@@ -1,3 +1,22 @@
+## 2026-05-13 — Release v0.1.0 (Eixos A+B+C+D fechados)
+
+**Tipo**: release
+**Tag**: v0.1.0
+**URL**: https://github.com/byescaleira/cashly/releases/tag/v0.1.0
+**Resumo**: Primeiro release versionado cobrindo A1-A6 (refactor), B1-B4 (StoreKit 2 subscription), C1-C7 (followups), D1-D9 (UX/affordances/onboarding/deeplinks/CI), E1-E2 (review blockers fechados). 373 tests passing, iOS Production build clean.
+**Aprovação**: swift-reviewer 2-pass — 11/11 blockers/majors/minors PASS.
+
+---
+
+## 2026-05-12 — Onda E1+E2 (review blockers + actionable majors)
+
+**Tipo**: fix
+**Módulos**: CashlyPresentationFactory + OSLogAnalyticsTracker (analytics wiring), Info.plist (CFBundleURLTypes), OnboardingScreen + CashlyApp (router callback + routeExternal), MainScreen (pendingDeeplink clear), MainState+Computed (freeLimits alias), SettingsScreen (restore quiet + StoreKit comment), PaywallMiddleware (classify failure), Binding+Inverted, snapshots.yml (drop || true)
+**Resumo**: Reviewer 1 retroativo sobre D1-D9 flagou 4 blockers + 5 majors + 3 minors. E1 fechou os 4 blockers (D3 analytics dead → OSLogAnalyticsTracker injected; D5 deeplinks dead → URL scheme registered; D4 onboarding upgrade dead → router callback; pendingDeeplink dedupe → clear-on-yield). E2 fechou 5/5 majors + 2/3 minors (#10 deferido).
+**Reviewer 2**: APPROVED 11/11.
+
+---
+
 ## 2026-05-12 — Release process formalizado
 
 **Tipo**: chore
