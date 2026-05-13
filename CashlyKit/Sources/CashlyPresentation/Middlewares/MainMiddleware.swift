@@ -202,7 +202,14 @@ public struct MainMiddleware: PrismMiddleware {
                 }
 
                 let resolvedUsers = try await users
-                let resolvedTransactions = try await transactions
+                let rawTransactions = try await transactions
+                // J6: kind filter applies post-fetch since the
+                // persistence query layer doesn't filter on
+                // TransactionKind. Empty set means "show all kinds".
+                let kindFilter = state.filter.kinds
+                let resolvedTransactions = kindFilter.isEmpty
+                    ? rawTransactions
+                    : rawTransactions.filter { kindFilter.contains($0.kind) }
                 send(.update(
                     filter: filter,
                     budgets: budgets,

@@ -56,6 +56,10 @@ struct FilterItemView: CashlyView {
                     statusesMenu
                 }
 
+                if contains(.kinds), !state.filter.allTransactions.isEmpty {
+                    kindsMenu
+                }
+
                 if contains(.participants), !state.users.isEmpty, !state.filter.allTransactions.isEmpty {
                     participantsMenu
                 }
@@ -83,6 +87,7 @@ public enum FilterItem: Int, Identifiable, CaseIterable {
     case tags
     case statuses
     case participants
+    case kinds
 
     public var id: Int {
         rawValue

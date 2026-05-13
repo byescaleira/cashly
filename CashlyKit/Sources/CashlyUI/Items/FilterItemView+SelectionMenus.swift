@@ -7,7 +7,12 @@
 //
 
 import SwiftUI
+import CashlyDomain
 import CashlyResource
+
+extension TransactionKind: Identifiable {
+    public var id: Int { rawValue }
+}
 
 extension FilterItemView {
     @ViewBuilder
@@ -37,6 +42,22 @@ extension FilterItemView {
             CashlyLabel(CashlyL10n.string("Tags"), symbol: "tag")
             if state.filter.tags.count > .zero {
                 CashlyText(state.filter.tags.count.string.space + "selected")
+            }
+        }
+        .cashly(tint: .text)
+    }
+
+    @ViewBuilder
+    var kindsMenu: some View {
+        CashlyMenuSelectionView(
+            items: TransactionKind.allCases,
+            selectedItems: store.cashlyBinding(\.filter).kinds
+        ) { kind in
+            CashlyText(kind.localizedSummary)
+        } label: {
+            CashlyLabel(CashlyL10n.string("Type"), symbol: "arrow.left.arrow.right")
+            if state.filter.kinds.count > .zero {
+                CashlyText(state.filter.kinds.count.string.space + "selected")
             }
         }
         .cashly(tint: .text)
@@ -81,7 +102,8 @@ extension FilterItemView {
             !state.filter.categories.isEmpty ||
             !state.filter.tags.isEmpty ||
             !state.filter.transactionStatuses.isEmpty ||
-            !state.filter.participants.isEmpty {
+            !state.filter.participants.isEmpty ||
+            !state.filter.kinds.isEmpty {
             Divider()
             CashlyButton {
                 var filter = store.state.filter
@@ -91,6 +113,7 @@ extension FilterItemView {
                 filter.tags = []
                 filter.transactionStatuses = []
                 filter.participants = []
+                filter.kinds = []
                 store.cashlyMutate(\.filter, filter)
             } label: {
                 CashlyLabel(CashlyL10n.string("Clear"), symbol: "eraser.line.dashed")
