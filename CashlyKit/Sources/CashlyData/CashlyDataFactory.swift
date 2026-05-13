@@ -25,14 +25,7 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
     }
 
     public static func make() throws -> CashlyDataFactory {
-        let schema = Schema(
-            BudgetEntity.self,
-            CategoryEntity.self,
-            TransactionEntity.self,
-            UserEntity.self,
-            TagEntity.self,
-            ParticipantEntity.self
-        )
+        let schema = Schema(versionedSchema: CashlySchemaV1.self)
 
         let configuration = ModelConfiguration(
             schema: schema,
@@ -42,6 +35,7 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
 
         let container = try ModelContainer(
             for: schema,
+            migrationPlan: CashlyMigrationPlan.self,
             configurations: configuration
         )
 
