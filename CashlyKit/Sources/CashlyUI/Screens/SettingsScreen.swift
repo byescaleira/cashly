@@ -39,6 +39,7 @@ public struct SettingsScreen: CashlyView {
             actionsSection
             appearanceSection
             alertsSection
+            syncSection
             exportSection
             appSection
             dangerZoneSection
@@ -189,6 +190,30 @@ public struct SettingsScreen: CashlyView {
                 .cashly(font: .caption)
                 .cashly(color: .textSecondary)
         }
+    }
+
+    var syncSection: some View {
+        Section {
+            CashlyHStack {
+                CashlyText(CashlyL10n.string("Last sync"))
+                CashlySpacer()
+                CashlyText(syncSummary)
+                    .cashly(color: state.syncStatus.isHealthy ? .textSecondary : .color(.orange))
+                    .cashly(font: .caption)
+            }
+            .accessibilityElement(children: .combine)
+        } header: {
+            CashlyText(CashlyL10n.string("Sync"))
+        }
+    }
+
+    private var syncSummary: String {
+        guard let date = state.syncStatus.lastSyncedAt else {
+            return CashlyL10n.string("Never")
+        }
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .short
+        return formatter.localizedString(for: date, relativeTo: Date())
     }
 
     var exportSection: some View {

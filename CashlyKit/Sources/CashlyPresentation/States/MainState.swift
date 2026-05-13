@@ -28,6 +28,11 @@ public struct MainState: CashlyState {
     /// — UI treats that as online to avoid a banner flash.
     public var reachability: ReachabilityStatus = .unknown
 
+    /// Latest CloudKit sync snapshot. Updated by the app delegate
+    /// when `NSPersistentCloudKitContainer.eventChangedNotification`
+    /// reports a successful export. `.unknown` at cold start.
+    public var syncStatus: SyncStatus = .unknown
+
     public var error: CashlyError?
 
     /// Cache populated by `MainReducer` whenever `transactions`,

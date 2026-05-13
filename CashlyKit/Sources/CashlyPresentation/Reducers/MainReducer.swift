@@ -41,6 +41,8 @@ public struct MainReducer: PrismReducer {
             state.subscriptionStatus = status
         case let .reachabilityUpdated(status):
             state.reachability = status
+        case let .syncStatusUpdated(status):
+            state.syncStatus = status
         case let .error(error): state.error = error
         case let .replace(newState):
             state = newState

@@ -5,6 +5,7 @@
 
 import SwiftUI
 import SwiftData
+import CoreData
 
 import PrismArchitecture
 
@@ -31,6 +32,7 @@ struct CashlyApp: App {
     /// task is owned by the actor.
     let subscriptionService: SubscriptionUseCase
     let reachability: ReachabilityUseCase
+    let syncStatus: SyncStatusUseCase
 
     @AppStorage("cashly.onboarding.completed") var onboardingCompleted: Bool = false
     @AppStorage("cashly.appearance") var appearanceRaw: String = CashlyAppearance.system.rawValue
@@ -60,6 +62,7 @@ struct CashlyApp: App {
         _paywallStore = State(initialValue: factory.makePaywallStore(trigger: .upgradeButton))
         subscriptionService = factory.makeSubscriptionUseCase()
         reachability = factory.makeReachability()
+        syncStatus = factory.makeSyncStatus()
     }
 
     var body: some Scene {
@@ -111,6 +114,23 @@ struct CashlyApp: App {
                     // for the offline banner.
                     for await status in reachability.statusUpdates() {
                         handler(action: .main(.reachabilityUpdated(status)))
+                    }
+                }
+                .task {
+                    // Bootstrap MainState.syncStatus with whatever the
+                    // persistence layer last recorded, then subscribe
+                    // to NSPersistentCloudKitContainer events and
+                    // re-publish on every successful export. macOS +
+                    // visionOS get the same path.
+                    let initial = await syncStatus.currentStatus()
+                    handler(action: .main(.syncStatusUpdated(initial)))
+                    for await _ in NotificationCenter.default.notifications(
+                        named: NSPersistentCloudKitContainer.eventChangedNotification
+                    ) {
+                        let now = Date()
+                        await syncStatus.markSynced(at: now)
+                        let fresh = await syncStatus.currentStatus()
+                        handler(action: .main(.syncStatusUpdated(fresh)))
                     }
                 }
 

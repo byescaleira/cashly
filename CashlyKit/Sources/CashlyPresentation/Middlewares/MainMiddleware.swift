@@ -108,7 +108,8 @@ public struct MainMiddleware: PrismMiddleware {
         case .selectUser: return selectUser(state: state)
         case .fetchPredictions: return fetchPredictions(state: state)
         case .wipeAllData: return wipeAllData()
-        case .subscriptionUpdated, .reachabilityUpdated, .error, .stopLoading, .replace: return .none
+        case .subscriptionUpdated, .reachabilityUpdated, .syncStatusUpdated,
+             .error, .stopLoading, .replace: return .none
         }
     }
 

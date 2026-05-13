@@ -40,6 +40,10 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
         dataFactory.makeReachability()
     }
 
+    public func makeSyncStatus() -> SyncStatusUseCase {
+        dataFactory.makeSyncStatus()
+    }
+
     public func makeAddCategoryStore() -> CashlyStore<AddCategoryState, AddCategoryAction> {
         CashlyStore(
             initialState: .new(),
