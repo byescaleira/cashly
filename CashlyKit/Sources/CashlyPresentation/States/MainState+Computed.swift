@@ -17,13 +17,11 @@ public extension MainState {
         subscriptionStatus.tier == .pro
     }
 
-    /// Free-tier ceilings mirrored from `FeatureGateLimits.freeDefault`.
-    /// Surfaces them here so SwiftUI views can drive "X of Y used"
-    /// affordances without importing CashlyData. Production gating
+    /// Free-tier ceilings — single source of truth lives in
+    /// CashlyDomain so view-side gating chips and save-time
+    /// FeatureGate decisions cannot drift apart. Production gating
     /// still runs through the use case at save time.
-    static var freeLimits: (users: Int, categories: Int, budgets: Int) {
-        (users: 1, categories: 3, budgets: 5)
-    }
+    static var freeLimits: FeatureGateLimits { .freeDefault }
 
     /// True when the active tier allows adding another entity of the
     /// given kind. Used to disable + label save buttons before a
@@ -31,25 +29,25 @@ public extension MainState {
     func canAdd(_ feature: FeatureGate) -> Bool {
         if isPro { return true }
         switch feature {
-        case .addUser: return users.count < Self.freeLimits.users
-        case .addCategory: return categories.count < Self.freeLimits.categories
-        case .addBudget: return budgets.count < Self.freeLimits.budgets
+        case .addUser: return users.count < Self.freeLimits.maxUsers
+        case .addCategory: return categories.count < Self.freeLimits.maxCategories
+        case .addBudget: return budgets.count < Self.freeLimits.maxBudgets
         case .intelligence, .multiUser: return false
         }
     }
 
     /// Human-readable "n / N" or "Pro" label for the given gate.
     func usageLabel(for feature: FeatureGate) -> String {
-        if isPro { return "Pro" }
+        if isPro { return CashlyL10n.string("Pro") }
         switch feature {
         case .addUser:
-            return "\(users.count)/\(Self.freeLimits.users)"
+            return "\(users.count)/\(Self.freeLimits.maxUsers)"
         case .addCategory:
-            return "\(categories.count)/\(Self.freeLimits.categories)"
+            return "\(categories.count)/\(Self.freeLimits.maxCategories)"
         case .addBudget:
-            return "\(budgets.count)/\(Self.freeLimits.budgets)"
+            return "\(budgets.count)/\(Self.freeLimits.maxBudgets)"
         case .intelligence, .multiUser:
-            return "Pro"
+            return CashlyL10n.string("Pro")
         }
     }
 

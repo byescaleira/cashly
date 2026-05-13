@@ -5,18 +5,25 @@
 
 import CashlyDomain
 import CashlyData
+import CashlyResource
 import PrismArchitecture
 
 @MainActor
 public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
     let dataFactory: CashlyDataFactoryProtocol
+    let analytics: AnalyticsTracker
 
-    public init(dataFactory: CashlyDataFactoryProtocol) {
+    public init(
+        dataFactory: CashlyDataFactoryProtocol,
+        analytics: AnalyticsTracker = OSLogAnalyticsTracker()
+    ) {
         self.dataFactory = dataFactory
+        self.analytics = analytics
     }
 
     public init() throws {
         self.dataFactory = try CashlyDataFactory.make()
+        self.analytics = OSLogAnalyticsTracker()
     }
 
     /// Subscription service for the app delegate to wire up the
@@ -98,7 +105,8 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
             initialState: .opened(from: trigger),
             reducer: PaywallReducer(),
             middleware: PaywallMiddleware(
-                subscription: dataFactory.makeSubscriptionUseCase()
+                subscription: dataFactory.makeSubscriptionUseCase(),
+                analytics: analytics
             )
         )
     }

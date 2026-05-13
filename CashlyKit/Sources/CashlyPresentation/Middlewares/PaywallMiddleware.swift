@@ -75,13 +75,28 @@ public struct PaywallMiddleware: PrismMiddleware {
                 ])
                 send(.stopLoading)
             case let .failed(reason):
+                // Bucket the raw StoreKit reason into a low-cardinality
+                // tag so analytics don't explode with PII / per-txn
+                // strings. Full reason still flows into state.error +
+                // logs for support triage.
                 analytics.track(event: "paywall_purchase_failed", properties: [
                     "plan_id": planId,
-                    "reason": reason
+                    "reason_kind": Self.classify(failure: reason)
                 ])
                 send(.error(.unknown(message: reason)))
             }
         }
+    }
+
+    /// Map raw StoreKit failure descriptions onto a small enum-style
+    /// tag set so analytics cardinality stays bounded.
+    private static func classify(failure reason: String) -> String {
+        let lowered = reason.lowercased()
+        if lowered.contains("cancel") { return "user_cancelled" }
+        if lowered.contains("network") || lowered.contains("connection") { return "network" }
+        if lowered.contains("payment") || lowered.contains("billing") { return "payment" }
+        if lowered.contains("not allowed") || lowered.contains("restricted") { return "restricted" }
+        return "unknown"
     }
 
     private func restore() -> PrismEffect<PaywallAction> {

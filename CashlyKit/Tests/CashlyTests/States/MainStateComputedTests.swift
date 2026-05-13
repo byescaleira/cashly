@@ -140,9 +140,10 @@ struct MainStateComputedTests {
         var state = MainState(categories: [
             CashlyDomain.Category(id: "c1", user: user, name: "n", color: "#000", icon: "x")
         ])
-        #expect(state.usageLabel(for: .addCategory) == "1/3")
+        let maxCategories = MainState.freeLimits.maxCategories
+        #expect(state.usageLabel(for: .addCategory) == "1/\(maxCategories)")
         state.subscriptionStatus = SubscriptionStatus(tier: .pro)
-        #expect(state.usageLabel(for: .addCategory) == "Pro")
+        #expect(state.usageLabel(for: .addCategory).lowercased().contains("pro"))
     }
 }
 

@@ -102,16 +102,32 @@ struct CashlyApp: App {
 
                 .environment(\.pendingDeeplink, pendingDeeplink)
                 .onOpenURL { url in
-                    pendingDeeplink = MainDeeplink.resolve(url)
+                    routeExternal(MainDeeplink.resolve(url))
                 }
                 .tint(Color.accentColor)
-                .fullScreenCover(isPresented: Binding(
-                    get: { !onboardingCompleted },
-                    set: { onboardingCompleted = !$0 }
-                )) {
-                    OnboardingScreen()
+                .fullScreenCover(isPresented: $onboardingCompleted.inverted) {
+                    OnboardingScreen(onUpgrade: {
+                        routeExternal(.paywall(trigger: .upgradeButton))
+                    })
                 }
                 #endif
+        }
+    }
+
+    /// Single entry point for everything that wants to push a
+    /// MainRoute from outside the SwiftUI hierarchy (onOpenURL,
+    /// onboarding "Upgrade to Pro" button, future push notifications).
+    /// Funnels through the same pendingDeeplink slot MainScreen
+    /// observes, then clears it so a repeat-fire of the same route
+    /// still re-pushes.
+    func routeExternal(_ route: MainRoute?) {
+        guard let route else { return }
+        pendingDeeplink = route
+        // Clear on the next runloop so onChange in MainScreen fires
+        // again if the same route is dispatched twice.
+        Task { @MainActor in
+            await Task.yield()
+            pendingDeeplink = nil
         }
     }
 

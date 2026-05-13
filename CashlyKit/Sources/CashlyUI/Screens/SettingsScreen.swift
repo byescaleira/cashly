@@ -9,6 +9,9 @@
 //
 
 import SwiftUI
+// `.manageSubscriptionsSheet` is a SwiftUI modifier provided by the
+// StoreKit framework. No StoreKit types cross this boundary — the
+// import buys exactly that one modifier.
 import StoreKit
 import CashlyDomain
 import CashlyResource
@@ -86,7 +89,10 @@ public struct SettingsScreen: CashlyView {
                 .cashly(tint: .color(.yellow))
             }
             CashlyButton {
-                router.route(to: .paywall(trigger: .upgradeButton))
+                // Restore is a quiet operation — it runs on the
+                // existing paywall store, and the global subscription
+                // listener flips MainState.subscriptionStatus when the
+                // tier changes. The paywall sheet is NOT opened here.
                 action(.paywall(.restore))
             } label: {
                 CashlyLabel(CashlyL10n.string("Restore Purchases"), symbol: "arrow.clockwise")

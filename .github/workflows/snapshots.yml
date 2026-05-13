@@ -55,9 +55,10 @@ jobs:
             -only-testing:CashlyTests/ScreenSnapshotTests \
             -skipMacroValidation \
             CODE_SIGNING_ALLOWED=NO \
-            | xcbeautify --renderer github-actions || true
+            | xcbeautify --renderer github-actions
 
       - name: Disable recording
+        if: always()
         working-directory: cashly/CashlyKit/Tests/CashlyTests/Snapshots
         run: |
           sed -i '' 's/static let isRecording = true/static let isRecording = false/' \

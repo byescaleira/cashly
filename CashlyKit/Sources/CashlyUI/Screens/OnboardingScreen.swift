@@ -15,13 +15,21 @@ import CashlyResource
 import CashlyPresentation
 
 public struct OnboardingScreen: View {
-    @Environment(\.router) private var router
     @Environment(\.dismiss) private var dismiss
     @AppStorage("cashly.onboarding.completed") private var completed: Bool = false
 
+    /// Invoked when the user taps "Upgrade to Pro" on the last page.
+    /// Owned by CashlyApp so the route lands on the same handler that
+    /// `onOpenURL` uses (the MainScreen `pendingDeeplink` channel) —
+    /// the screen's own @Environment(\.router) is an orphan because
+    /// the fullScreenCover hosts OnboardingScreen outside MainScreen.
+    private let onUpgrade: () -> Void
+
     @State private var page: Int = 0
 
-    public init() {}
+    public init(onUpgrade: @escaping () -> Void = {}) {
+        self.onUpgrade = onUpgrade
+    }
 
     public var body: some View {
         VStack(spacing: 0) {
@@ -51,11 +59,18 @@ public struct OnboardingScreen: View {
     }
 
     private var freePage: some View {
-        page(
+        let limits = MainState.freeLimits
+        let subtitle = String(
+            format: CashlyL10n.string("%lld user, %lld categories, %lld budgets — enough to see if Cashly fits."),
+            limits.maxUsers,
+            limits.maxCategories,
+            limits.maxBudgets
+        )
+        return page(
             icon: "checkmark.seal.fill",
             tint: .green,
             title: CashlyL10n.string("Start free."),
-            subtitle: CashlyL10n.string("1 user, 3 categories, 5 budgets — enough to see if Cashly fits.")
+            subtitle: subtitle
         )
     }
 
@@ -107,9 +122,8 @@ public struct OnboardingScreen: View {
         } else {
             VStack(spacing: 12) {
                 Button {
+                    onUpgrade()
                     completed = true
-                    dismiss()
-                    router.route(to: .paywall(trigger: .upgradeButton))
                 } label: {
                     Text(CashlyL10n.string("Upgrade to Pro"))
                         .font(.headline.weight(.semibold))
@@ -121,7 +135,6 @@ public struct OnboardingScreen: View {
 
                 Button {
                     completed = true
-                    dismiss()
                 } label: {
                     Text(CashlyL10n.string("Continue with Free"))
                         .font(.subheadline.weight(.semibold))
