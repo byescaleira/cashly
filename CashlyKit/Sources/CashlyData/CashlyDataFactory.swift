@@ -81,6 +81,14 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         )
     }
 
+    public func makeAppIcon() -> AppIconUseCase {
+        #if canImport(UIKit)
+        return UIKitAppIconService()
+        #else
+        return InMemoryAppIconService()
+        #endif
+    }
+
     public func makeTransactionUseCase() -> TransactionUseCase {
         TransactionActor(modelContainer: modelContainer)
     }
