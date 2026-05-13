@@ -57,4 +57,6 @@ public enum PaywallTrigger: String, Sendable, Equatable, Codable {
     case intelligenceTab
     /// User explicitly tapped "Upgrade" from settings / a CTA.
     case upgradeButton
+    /// User tapped a Pro-gated insight (charts, premium reports).
+    case insightsTab
 }

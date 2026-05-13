@@ -1088,6 +1088,22 @@
         }
       }
     },
+    "Insights are a Pro feature.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insights are a Pro feature."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Insights são um recurso Pro."
+          }
+        }
+      }
+    },
     "Installment": {
       "extractionState": "manual",
       "localizations": {
@@ -2206,6 +2222,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Libere treino e previsões sem limite."
+          }
+        }
+      }
+    },
+    "Unlock with Pro": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock with Pro"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desbloqueie com Pro"
           }
         }
       }

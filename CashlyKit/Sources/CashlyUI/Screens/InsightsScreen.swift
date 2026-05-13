@@ -45,6 +45,7 @@ public struct InsightsScreen: CashlyView {
                 // descriptor APIs require non-trivial conformances;
                 // a label covers the bar-chart case well enough.
                 .accessibilityLabel(categoryAccessibilityLabel)
+                .cashlyProGate(isPro: state.isPro, trigger: .insightsTab)
             }
         } header: {
             CashlyText(CashlyL10n.string("Spending by category"))

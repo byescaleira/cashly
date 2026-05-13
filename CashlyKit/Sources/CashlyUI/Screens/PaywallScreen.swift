@@ -164,6 +164,7 @@ public struct PaywallScreen: CashlyView {
         case .limitReached: return CashlyL10n.string("You've hit the free limit.")
         case .intelligenceTab: return CashlyL10n.string("AI features require Pro.")
         case .upgradeButton: return CashlyL10n.string("Unlock Cashly Pro.")
+        case .insightsTab: return CashlyL10n.string("Insights are a Pro feature.")
         }
     }
 
