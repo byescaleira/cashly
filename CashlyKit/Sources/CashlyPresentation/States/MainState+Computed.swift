@@ -76,7 +76,18 @@ public extension MainState {
     }
 
     func transactionsAmount(for budget: Budget) -> Double {
-        transactionsAmountByBudget[budget.id] ?? .zero
+        // ADR-0009 J4: spent is derived from (category, yearMonth) and
+        // the contributesToExpenseTotals rule, not the legacy budget
+        // FK. Income transactions are skipped; loans count only while
+        // pending; installments apply per-month amounts to every
+        // covered month.
+        transactions.reduce(.zero) { partial, tx in
+            guard tx.contributesToExpenseTotals,
+                  tx.category.id == budget.category.id,
+                  tx.touches(yearMonth: budget.date)
+            else { return partial }
+            return partial + tx.installmentAmount
+        }
     }
 
     func transactionsAmount(for tag: Tag) -> Double {
