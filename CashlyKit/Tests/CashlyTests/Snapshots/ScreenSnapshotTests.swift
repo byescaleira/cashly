@@ -32,6 +32,35 @@ struct ScreenSnapshotTests {
         )
     }
 
+    /// Renders the same view in dark mode for a regression baseline
+    /// covering Pro / paywall surfaces (where yellow + black contrast
+    /// matters). Recorded once, asserts thereafter.
+    private func snapshotDark<V: View>(of view: V, named name: String) {
+        let host = view.cashlyPreview()
+            .environment(\.colorScheme, .dark)
+            .frame(width: 393, height: 852)
+        assertSnapshot(
+            of: host,
+            as: .image(layout: .fixed(width: 393, height: 852)),
+            named: "\(name).dark",
+            record: Self.isRecording
+        )
+    }
+
+    /// Renders at the largest non-accessibility Dynamic Type setting
+    /// to catch layout breaks when the user prefers bigger fonts.
+    private func snapshotLargeText<V: View>(of view: V, named name: String) {
+        let host = view.cashlyPreview()
+            .environment(\.dynamicTypeSize, .accessibility3)
+            .frame(width: 393, height: 852)
+        assertSnapshot(
+            of: host,
+            as: .image(layout: .fixed(width: 393, height: 852)),
+            named: "\(name).a11y3",
+            record: Self.isRecording
+        )
+    }
+
     @Test("AddBudgetScreen renders")
     func addBudget() {
         snapshot(of: AddBudgetScreen(), named: "AddBudgetScreen")
@@ -78,6 +107,32 @@ struct ScreenSnapshotTests {
     @Test("PaywallScreen renders")
     func paywall() {
         snapshot(of: PaywallScreen(), named: "PaywallScreen")
+    }
+
+    // MARK: - Variants (dark mode + Dynamic Type)
+    //
+    // Limited to the highest-impact Pro / paywall surfaces — adding
+    // every screen to every variant would 3x the baseline count.
+    // Extend here as new visual regressions surface.
+
+    @Test("PaywallScreen — dark mode")
+    func paywallDark() {
+        snapshotDark(of: PaywallScreen(), named: "PaywallScreen")
+    }
+
+    @Test("PaywallScreen — accessibility3 type")
+    func paywallLargeText() {
+        snapshotLargeText(of: PaywallScreen(), named: "PaywallScreen")
+    }
+
+    @Test("HomeScreen — dark mode")
+    func homeDark() {
+        snapshotDark(of: HomeScreen(), named: "HomeScreen")
+    }
+
+    @Test("HomeScreen — accessibility3 type")
+    func homeLargeText() {
+        snapshotLargeText(of: HomeScreen(), named: "HomeScreen")
     }
 }
 #endif
