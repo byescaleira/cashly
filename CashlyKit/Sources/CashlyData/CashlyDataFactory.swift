@@ -25,7 +25,7 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
     }
 
     public static func make() throws -> CashlyDataFactory {
-        let schema = Schema(versionedSchema: CashlySchemaV1.self)
+        let schema = Schema(versionedSchema: CashlySchemaV2.self)
 
         let configuration = ModelConfiguration(
             schema: schema,

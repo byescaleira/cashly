@@ -13,20 +13,18 @@ import SwiftData
 public enum CashlyMigrationPlan: SchemaMigrationPlan {
     public static var schemas: [any VersionedSchema.Type] {
         [
-            CashlySchemaV1.self
-            // Future: CashlySchemaV2.self appended here.
+            CashlySchemaV1.self,
+            CashlySchemaV2.self
         ]
     }
 
     public static var stages: [MigrationStage] {
         [
-            // J2 adds:
-            // .custom(
-            //     fromVersion: CashlySchemaV1.self,
-            //     toVersion: CashlySchemaV2.self,
-            //     willMigrate: backfillTransactionCategoryAndKind,
-            //     didMigrate: nil
-            // )
+            // V1 → V2 is purely additive: TransactionEntity gains
+            // `kind` + `needsReview`, both with @Model defaults.
+            // SwiftData can apply this with a lightweight migration —
+            // no custom backfill needed.
+            .lightweight(fromVersion: CashlySchemaV1.self, toVersion: CashlySchemaV2.self)
         ]
     }
 }
