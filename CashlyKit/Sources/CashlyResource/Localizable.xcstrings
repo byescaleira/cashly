@@ -2279,6 +2279,40 @@
           }
         }
       }
+    },
+    "Search categories, tags, budgets": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search categories, tags, budgets"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar categorias, tags, orçamentos"
+          }
+        }
+      }
+    },
+    "No matches.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No matches."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sem resultados."
+          }
+        }
+      }
     }
   }
 }

@@ -24,6 +24,7 @@ public struct HomeScreen: CashlyView {
     @State var selectedCompareCategory: CashlyDomain.Category?
     @State var selectedAvailableCategory: CashlyDomain.Category?
     @State var selectedBiggestTransactionIndex: Int = .zero
+    @State var searchText: String = ""
 
     public init() {}
 
@@ -32,12 +33,16 @@ public struct HomeScreen: CashlyView {
             if state.reachability == .offline {
                 offlineBanner
             }
-            BalanceView()
-            availableSection
-            varianceSection
-            biggestTransactionSection
-            tagsSection
-            spendingForecastSection
+            if searchText.isEmpty {
+                BalanceView()
+                availableSection
+                varianceSection
+                biggestTransactionSection
+                tagsSection
+                spendingForecastSection
+            } else {
+                searchResultsSection
+            }
         }
         .toolbar {
             ToolbarItem(placement: .navigation) { UserItemView() }
@@ -48,6 +53,7 @@ public struct HomeScreen: CashlyView {
         }
         .onAppear { action(.main(.fetch)) }
         .cashlyErrorAlert(error: state.error) { store.cashlyMutate(\.error, nil) }
+        .searchable(text: $searchText, prompt: CashlyL10n.string("Search categories, tags, budgets"))
         .navigationTitle((state.user?.selfFirstName ?? "") + CashlyL10n.string("Home"))
     }
 
@@ -68,6 +74,54 @@ public struct HomeScreen: CashlyView {
             .cashly(background: .color(.orange))
             .cashly(clip: .capsule)
             .accessibilityElement(children: .combine)
+        }
+    }
+
+    /// Single section listing every category / tag / budget that
+    /// matches the active search term. Pure local filter — no
+    /// fetch dispatched.
+    @ViewBuilder
+    var searchResultsSection: some View {
+        let needle = searchText.lowercased()
+        let categories = state.categories.filter { $0.name.lowercased().contains(needle) }
+        let tags = state.tags.filter { $0.name.lowercased().contains(needle) }
+        let budgets = state.budgets.filter {
+            $0.summary.lowercased().contains(needle)
+            || $0.category.name.lowercased().contains(needle)
+        }
+        if categories.isEmpty, tags.isEmpty, budgets.isEmpty {
+            Section {
+                CashlyText(CashlyL10n.string("No matches."))
+                    .cashly(color: .textSecondary)
+            }
+        } else {
+            if !categories.isEmpty {
+                Section(CashlyL10n.string("Categories")) {
+                    ForEach(categories) { c in
+                        CashlyLabel(c.name, symbol: c.icon)
+                    }
+                }
+            }
+            if !tags.isEmpty {
+                Section(CashlyL10n.string("Tags")) {
+                    ForEach(tags) { t in
+                        CashlyLabel(t.name, symbol: t.icon)
+                    }
+                }
+            }
+            if !budgets.isEmpty {
+                Section(CashlyL10n.string("Budgets")) {
+                    ForEach(budgets) { b in
+                        CashlyHStack {
+                            CashlyText(b.summary)
+                            CashlySpacer()
+                            CashlyText(b.amount.formatted(.currency(code: "USD")))
+                                .cashly(color: .textSecondary)
+                                .cashly(font: .caption)
+                        }
+                    }
+                }
+            }
         }
     }
 
