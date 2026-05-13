@@ -18,6 +18,13 @@ public struct Transaction: CashlyEntity, Sendable {
     public var splitMode: TransactionSplitMode?
     public var splitValue: Double?
     public var paymentsPlan: Int?
+    /// Direction of the money flow. Defaults to ``TransactionKind/expense``
+    /// so existing callsites keep their pre-J2 behavior.
+    public var kind: TransactionKind
+    /// `true` when the transaction was captured from dictation (J8+)
+    /// and one or more fields could not be inferred. UI surfaces a
+    /// badge until the user reviews + flips this back to `false`.
+    public var needsReview: Bool
 
     public init(
         id: String,
@@ -29,7 +36,9 @@ public struct Transaction: CashlyEntity, Sendable {
         status: TransactionStatus,
         splitMode: TransactionSplitMode?,
         splitValue: Double?,
-        paymentsPlan: Int?
+        paymentsPlan: Int?,
+        kind: TransactionKind = .expense,
+        needsReview: Bool = false
     ) {
         self.id = id
         self.participants = participants
@@ -41,6 +50,49 @@ public struct Transaction: CashlyEntity, Sendable {
         self.splitMode = splitMode
         self.splitValue = splitValue
         self.paymentsPlan = paymentsPlan
+        self.kind = kind
+        self.needsReview = needsReview
+    }
+}
+
+extension Transaction: Decodable {
+    enum CodingKeys: String, CodingKey {
+        case id, participants, budget, amount, date, summary, status
+        case splitMode, splitValue, paymentsPlan, kind, needsReview
+    }
+
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try c.decode(String.self, forKey: .id)
+        self.participants = try c.decode([Participant].self, forKey: .participants)
+        self.budget = try c.decode(Budget.self, forKey: .budget)
+        self.amount = try c.decode(Double.self, forKey: .amount)
+        self.date = try c.decode(TimeInterval.self, forKey: .date)
+        self.summary = try c.decode(String.self, forKey: .summary)
+        self.status = try c.decode(TransactionStatus.self, forKey: .status)
+        self.splitMode = try c.decodeIfPresent(TransactionSplitMode.self, forKey: .splitMode)
+        self.splitValue = try c.decodeIfPresent(Double.self, forKey: .splitValue)
+        self.paymentsPlan = try c.decodeIfPresent(Int.self, forKey: .paymentsPlan)
+        self.kind = try c.decodeIfPresent(TransactionKind.self, forKey: .kind) ?? .expense
+        self.needsReview = try c.decodeIfPresent(Bool.self, forKey: .needsReview) ?? false
+    }
+}
+
+public extension Transaction {
+    /// Whether this transaction currently counts toward expense
+    /// aggregates. Implements the loan lifecycle rule from ADR-0009:
+    /// expense always counts, income never counts, loan counts only
+    /// while it remains pending.
+    var contributesToExpenseTotals: Bool {
+        switch kind {
+        case .expense: return true
+        case .income: return false
+        case .loan:
+            switch status {
+            case .pendingToPay, .pendingToReceive: return true
+            case .settled, .canceled: return false
+            }
+        }
     }
 }
 
