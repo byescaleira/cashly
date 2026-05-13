@@ -1,3 +1,24 @@
+## 2026-05-13 — Eixo G sequence (v0.1.21 → v0.1.27)
+
+**Tipo**: feature-batch
+**Resumo**: 7 releases:
+- **G1** v0.1.21: BudgetAlerts observer em MainMiddleware.update — calcula spent/budget ratio, schedule alerts via UserNotifications quando crosses threshold. wipeAllData → cancelAll alerts. 2 new tests (412).
+- **G11** v0.1.22: Settings Slider para overshootThreshold @AppStorage. CashlyPresentationFactory lê threshold antes de criar middleware.
+- **G2** v0.1.23: SyncStatus em MainState + listener NSPersistentCloudKitContainer.eventChangedNotification em CashlyApp. Settings "Last sync" row com RelativeDateTimeFormatter, orange tint quando unhealthy.
+- **G9** v0.1.24: CashlyHaptic enum (.selection/.success/.warning/.error) em CashlyDesignSystem. CashlyDismissModifier + CashlyErrorAlertModifier hooked.
+- **G8** v0.1.25: SpotlightIndexerUseCase + CoreSpotlightIndexer (CSSearchableItem). InMemorySpotlightIndexer fallback. 3 tests (415).
+- **G12** v0.1.26: HomeScreen `.searchable` + searchResultsSection (categories/tags/budgets case-insensitive filter).
+- **G6** v0.1.27: CashlyBackup Codable + CashlyBackupCoder (sortedKeys + iso8601). SettingsScreen ShareLink JSON export. 3 tests (418).
+
+**Deferred**:
+- **G3** Recurring persistence — precisa SwiftData entity + UI flow completa.
+- **G4** Pro-gate paywall preview blur — redesign de PaywallScreen.
+- **G5** Currency support — touches every amount display.
+- **G7** Import CSV/JSON.
+- **G10** Watch companion app target.
+
+---
+
 ## 2026-05-13 — Eixo F sequence (v0.1.8 → v0.1.20)
 
 **Tipo**: feature-batch
