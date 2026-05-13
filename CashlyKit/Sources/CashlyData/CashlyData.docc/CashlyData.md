@@ -47,3 +47,28 @@ by the adapter.
 ### Intelligence
 
 - ``CashlyIntelligenceService``
+
+### Subscription
+
+- ``StoreKitSubscriptionService``
+- ``DefaultFeatureGate``
+
+### Preferences
+
+- ``UserDefaultsUserPreferences``
+- ``UserDefaultsFeatureFlags``
+- ``InMemoryFeatureFlags``
+
+### Platform services (Eixo H)
+
+- ``CoreSpotlightIndexer``
+- ``InMemorySpotlightIndexer``
+- ``NWPathReachabilityService``
+- ``InMemoryReachabilityService``
+- ``UserDefaultsSyncStatus``
+- ``UserNotificationsBudgetAlerts``
+- ``InMemoryBudgetAlerts``
+- ``UIKitAppIconService``
+- ``InMemoryAppIconService``
+- ``BGTaskBackgroundRefresh``
+- ``InMemoryBackgroundRefresh``

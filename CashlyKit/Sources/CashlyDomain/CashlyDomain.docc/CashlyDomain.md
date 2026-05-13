@@ -34,6 +34,10 @@ isolation crosses.
 
 ## Topics
 
+### Articles
+
+- <doc:Architecture>
+
 ### Entities
 
 - ``Budget``
@@ -66,6 +70,17 @@ isolation crosses.
 - ``AdapterUseCase``
 - ``SubscriptionUseCase``
 - ``FeatureGateUseCase``
+
+### Platform Use Cases (Eixo H)
+
+- ``SpotlightIndexerUseCase``
+- ``ReachabilityUseCase``
+- ``SyncStatusUseCase``
+- ``BudgetAlertsUseCase``
+- ``AppIconUseCase``
+- ``FeatureFlagsUseCase``
+- ``BackgroundRefreshUseCase``
+- ``FeatureFlag``
 
 ### Errors
 
