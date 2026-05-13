@@ -91,3 +91,18 @@ jobs:
           name: test-results
           path: cashly/CashlyKit/TestResults.xcresult
           retention-days: 7
+
+      # Snapshot suite writes failure artifacts (`.failure-N.png` and
+      # diff PNGs) into the test bundle when a screenshot diverges.
+      # Uploading them lets reviewers eyeball regressions without
+      # re-running locally.
+      - name: Upload snapshot failure artifacts
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: snapshot-failures
+          path: |
+            cashly/CashlyKit/Tests/CashlyTests/Snapshots/__Snapshots__/**/*.failure-*.png
+            cashly/CashlyKit/Tests/CashlyTests/Snapshots/__Snapshots__/**/*.png
+          retention-days: 7
+          if-no-files-found: ignore
