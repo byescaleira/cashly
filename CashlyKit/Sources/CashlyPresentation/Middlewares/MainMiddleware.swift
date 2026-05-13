@@ -67,6 +67,7 @@ public struct MainMiddleware: PrismMiddleware {
     let userUseCase: UserUseCase
     let userPreferences: UserPreferencesUseCase
     let budgetAlerts: BudgetAlertsUseCase
+    let spotlight: SpotlightIndexerUseCase
     /// Fraction of a budget's amount at which the overshoot alert
     /// fires. 0.8 = 80%. Wave G11 will hoist this into UserDefaults
     /// so the user can tune the trip-wire.
@@ -81,6 +82,7 @@ public struct MainMiddleware: PrismMiddleware {
         userUseCase: UserUseCase,
         userPreferences: UserPreferencesUseCase,
         budgetAlerts: BudgetAlertsUseCase,
+        spotlight: SpotlightIndexerUseCase,
         overshootThreshold: Double = 0.8
     ) {
         self.budgetUseCase = budgetUseCase
@@ -90,6 +92,7 @@ public struct MainMiddleware: PrismMiddleware {
         self.userUseCase = userUseCase
         self.userPreferences = userPreferences
         self.budgetAlerts = budgetAlerts
+        self.spotlight = spotlight
         self.overshootThreshold = overshootThreshold
     }
 
@@ -308,6 +311,7 @@ public struct MainMiddleware: PrismMiddleware {
                 try await userUseCase.removeUsers()
                 await userPreferences.clearCurrentUserId()
                 await budgetAlerts.cancelAll()
+                await spotlight.clear()
                 send(.fetch)
             } catch {
                 send(.error(.persistence(.removeFailed(entity: "Data", underlying: error.localizedDescription))))

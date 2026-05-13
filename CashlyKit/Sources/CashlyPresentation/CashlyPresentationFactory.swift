@@ -44,6 +44,10 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
         dataFactory.makeSyncStatus()
     }
 
+    public func makeSpotlightIndexer() -> SpotlightIndexerUseCase {
+        dataFactory.makeSpotlightIndexer()
+    }
+
     public func makeAddCategoryStore() -> CashlyStore<AddCategoryState, AddCategoryAction> {
         CashlyStore(
             initialState: .new(),
@@ -135,6 +139,7 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
                 userUseCase: dataFactory.makeUserUseCase(),
                 userPreferences: dataFactory.makeUserPreferences(),
                 budgetAlerts: dataFactory.makeBudgetAlerts(),
+                spotlight: dataFactory.makeSpotlightIndexer(),
                 // Persisted user-tunable threshold. UI exposes it
                 // as a percent; we store the fraction (0–1).
                 overshootThreshold: Self.persistedOvershootThreshold()

@@ -130,7 +130,8 @@ struct ReducerCompositionTests {
                 tagUseCase: factory.tag,
                 userUseCase: factory.user,
                 userPreferences: InMemoryUserPreferences(),
-                budgetAlerts: InMemoryBudgetAlerts()
+                budgetAlerts: InMemoryBudgetAlerts(),
+                spotlight: InMemorySpotlightIndexer()
             )
         )
     }

@@ -33,6 +33,7 @@ struct CashlyApp: App {
     let subscriptionService: SubscriptionUseCase
     let reachability: ReachabilityUseCase
     let syncStatus: SyncStatusUseCase
+    let spotlight: SpotlightIndexerUseCase
 
     @AppStorage("cashly.onboarding.completed") var onboardingCompleted: Bool = false
     @AppStorage("cashly.appearance") var appearanceRaw: String = CashlyAppearance.system.rawValue
@@ -63,6 +64,7 @@ struct CashlyApp: App {
         subscriptionService = factory.makeSubscriptionUseCase()
         reachability = factory.makeReachability()
         syncStatus = factory.makeSyncStatus()
+        spotlight = factory.makeSpotlightIndexer()
     }
 
     var body: some Scene {
@@ -94,6 +96,12 @@ struct CashlyApp: App {
 
                 .onChange(of: mainStore.state.filter) { handler(action: .main(.fetch)) }
                 .onChange(of: mainStore.state.user) { handler(action: .main(.selectUser)) }
+                .onChange(of: mainStore.state.transactions) { _, new in
+                    // Push every fetch result through CoreSpotlight so
+                    // OS-wide search surfaces Cashly transactions.
+                    // Indexer is idempotent — replaces the whole domain.
+                    Task { await spotlight.index(transactions: new) }
+                }
 
                 .task { handler(action: .main(.fetch)) }
                 .task {

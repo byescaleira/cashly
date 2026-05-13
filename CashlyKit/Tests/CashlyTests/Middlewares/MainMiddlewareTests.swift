@@ -26,7 +26,8 @@ struct MainMiddlewareTests {
             tagUseCase: tagUseCase,
             userUseCase: userUseCase,
             userPreferences: InMemoryUserPreferences(),
-            budgetAlerts: InMemoryBudgetAlerts()
+            budgetAlerts: InMemoryBudgetAlerts(),
+            spotlight: InMemorySpotlightIndexer()
         )
     }
 
@@ -124,6 +125,7 @@ struct MainMiddlewareTests {
             userUseCase: UserUseCaseDouble(),
             userPreferences: InMemoryUserPreferences(),
             budgetAlerts: alerts,
+            spotlight: InMemorySpotlightIndexer(),
             overshootThreshold: 0.8
         )
         let user = User(id: "u", name: "U", photo: "p")
@@ -166,6 +168,7 @@ struct MainMiddlewareTests {
             userUseCase: UserUseCaseDouble(),
             userPreferences: InMemoryUserPreferences(),
             budgetAlerts: alerts,
+            spotlight: InMemorySpotlightIndexer(),
             overshootThreshold: 0.8
         )
         let user = User(id: "u", name: "U", photo: "p")
@@ -210,7 +213,8 @@ struct MainMiddlewareTests {
             tagUseCase: TagUseCaseDouble(),
             userUseCase: userUC,
             userPreferences: prefs,
-            budgetAlerts: alerts
+            budgetAlerts: alerts,
+            spotlight: InMemorySpotlightIndexer()
         )
         let actions = await collectActions(from: mw.run(state: MainState(), action: .wipeAllData))
         if case .fetch = actions.first {} else {

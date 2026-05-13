@@ -138,7 +138,8 @@ public struct MockCashlyFactory: CashlyDataFactoryProtocol, CashlyPresentationFa
                 tagUseCase: makeTagUseCase(),
                 userUseCase: makeUserUseCase(),
                 userPreferences: makeUserPreferences(),
-                budgetAlerts: makeBudgetAlerts()
+                budgetAlerts: makeBudgetAlerts(),
+                spotlight: makeSpotlightIndexer()
             )
         )
     }
