@@ -1,0 +1,46 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [
+          "TEAM_ID.com.cashly.app"
+        ],
+        "components": [
+          {
+            "/": "/paywall",
+            "comment": "Paywall sheet — supports ?trigger= query string"
+          },
+          {
+            "/": "/settings",
+            "comment": "Settings screen"
+          },
+          {
+            "/": "/insights",
+            "comment": "Insights screen"
+          },
+          {
+            "/": "/home",
+            "comment": "Home tab"
+          },
+          {
+            "/": "/transactions",
+            "comment": "Transactions tab"
+          },
+          {
+            "/": "/categories",
+            "comment": "Categories tab"
+          },
+          {
+            "/": "/intelligence",
+            "comment": "Intelligence tab"
+          }
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "TEAM_ID.com.cashly.app"
+    ]
+  }
+}
