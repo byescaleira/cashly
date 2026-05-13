@@ -32,6 +32,11 @@ struct CashlyApp: App {
     let subscriptionService: SubscriptionUseCase
 
     @AppStorage("cashly.onboarding.completed") var onboardingCompleted: Bool = false
+    @AppStorage("cashly.appearance") var appearanceRaw: String = CashlyAppearance.system.rawValue
+
+    private var appearance: CashlyAppearance {
+        CashlyAppearance(rawValue: appearanceRaw) ?? .system
+    }
 
     /// Latest deeplink resolved by `onOpenURL`. MainScreen reads it via
     /// the `pendingDeeplink` environment, forwards into its active tab
@@ -105,6 +110,7 @@ struct CashlyApp: App {
                     routeExternal(MainDeeplink.resolve(url))
                 }
                 .tint(Color.accentColor)
+                .preferredColorScheme(appearance.colorScheme)
                 .fullScreenCover(isPresented: $onboardingCompleted.inverted) {
                     OnboardingScreen(onUpgrade: {
                         routeExternal(.paywall(trigger: .upgradeButton))

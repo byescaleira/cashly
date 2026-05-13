@@ -28,6 +28,7 @@ public struct SettingsScreen: CashlyView {
     @Environment(\.router) var router
     @State var showManageSheet: Bool = false
     @State var showWipeConfirm: Bool = false
+    @AppStorage("cashly.appearance") var appearanceRaw: String = CashlyAppearance.system.rawValue
 
     public init() {}
 
@@ -35,6 +36,7 @@ public struct SettingsScreen: CashlyView {
         Form {
             subscriptionSection
             actionsSection
+            appearanceSection
             exportSection
             appSection
             dangerZoneSection
@@ -136,6 +138,30 @@ public struct SettingsScreen: CashlyView {
         } header: {
             CashlyText(CashlyL10n.string("App"))
         }
+    }
+
+    var appearanceSection: some View {
+        Section {
+            Picker(selection: appearanceBinding) {
+                Text(CashlyL10n.string("System")).tag(CashlyAppearance.system)
+                Text(CashlyL10n.string("Light")).tag(CashlyAppearance.light)
+                Text(CashlyL10n.string("Dark")).tag(CashlyAppearance.dark)
+            } label: {
+                CashlyLabel(CashlyL10n.string("Appearance"), symbol: "paintpalette")
+            }
+            #if os(iOS)
+            .pickerStyle(.menu)
+            #endif
+        } header: {
+            CashlyText(CashlyL10n.string("Appearance"))
+        }
+    }
+
+    private var appearanceBinding: Binding<CashlyAppearance> {
+        Binding(
+            get: { CashlyAppearance(rawValue: appearanceRaw) ?? .system },
+            set: { appearanceRaw = $0.rawValue }
+        )
     }
 
     var exportSection: some View {
