@@ -21,10 +21,74 @@ public struct InsightsScreen: CashlyView {
 
     public var body: some View {
         Form {
+            summarySection
             categoriesSection
             tagsSection
         }
         .navigationTitle(CashlyL10n.string("Insights"))
+    }
+
+    var summarySection: some View {
+        Section {
+            CashlyHStack {
+                summaryTile(
+                    title: CashlyL10n.string("Income"),
+                    value: state.incomeAmount,
+                    color: .green,
+                    icon: "arrow.down.left"
+                )
+                summaryTile(
+                    title: CashlyL10n.string("Expenses"),
+                    value: state.transactionsAmount,
+                    color: .red,
+                    icon: "arrow.up.right"
+                )
+            }
+            CashlyHStack {
+                summaryTile(
+                    title: CashlyL10n.string("Net"),
+                    value: state.netAmount,
+                    color: state.netAmount >= 0 ? .green : .red,
+                    icon: "equal"
+                )
+                summaryTile(
+                    title: CashlyL10n.string("Pending loans"),
+                    value: state.pendingLoansAmount,
+                    color: .orange,
+                    icon: "arrow.left.arrow.right"
+                )
+            }
+        } header: {
+            CashlyText(CashlyL10n.string("Summary"))
+        }
+    }
+
+    @ViewBuilder
+    private func summaryTile(
+        title: String,
+        value: Double,
+        color: Color,
+        icon: String
+    ) -> some View {
+        CashlyVStack(alignment: .leading, spacing: .extraSmall) {
+            CashlyHStack(spacing: .extraSmall) {
+                CashlySymbol(icon)
+                    .cashly(color: .color(color))
+                    .cashly(font: .caption, weight: .bold)
+                CashlyText(title)
+                    .cashly(color: .textSecondary)
+                    .cashly(font: .caption)
+            }
+            CashlyText(CashlyCurrency.format(value))
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .color(color))
+                .contentTransition(.numericText())
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .cashlyPadding(.all, .small)
+        .background(color.opacity(0.1), in: CashlyShape.rounded(radius: 12))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(title): \(CashlyCurrency.format(value))")
     }
 
     var categoriesSection: some View {

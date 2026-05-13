@@ -114,6 +114,36 @@ public extension MainState {
         budgets.reduce(.zero) { $0 + $1.amount }
     }
 
+    /// Total income across the loaded transactions (post-filter).
+    /// Sums every transaction whose kind is `.income`, expanding
+    /// installments per month so a 3x income plan registers 3x the
+    /// per-installment value over its covered months.
+    var incomeAmount: Double {
+        transactions.reduce(Double.zero) { partial, tx in
+            guard tx.kind == .income else { return partial }
+            return partial + tx.amount
+        }
+    }
+
+    /// Pending loans (kind = .loan AND status still pending).
+    /// Useful for K5 + budget alerts.
+    var pendingLoansAmount: Double {
+        transactions.reduce(Double.zero) { partial, tx in
+            guard tx.kind == .loan, tx.contributesToExpenseTotals else { return partial }
+            return partial + tx.amount
+        }
+    }
+
+    /// Net = income − contributesToExpenseTotals. The headline KPI
+    /// for the new Insights summary.
+    var netAmount: Double {
+        let expenses = transactions.reduce(Double.zero) { partial, tx in
+            guard tx.contributesToExpenseTotals else { return partial }
+            return partial + tx.amount
+        }
+        return incomeAmount - expenses
+    }
+
     var transactionsAmount: Double {
         transactions.reduce(.zero) { partialResult, transaction in
             let amount = !transaction.participants.isEmpty ?

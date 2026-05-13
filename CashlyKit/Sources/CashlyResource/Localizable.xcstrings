@@ -932,6 +932,22 @@
         }
       }
     },
+    "Expenses": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expenses"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saídas"
+          }
+        }
+      }
+    },
     "Expires": {
       "extractionState": "manual",
       "localizations": {
@@ -1387,6 +1403,22 @@
         }
       }
     },
+    "Net": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Net"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saldo"
+          }
+        }
+      }
+    },
     "Never": {
       "extractionState": "manual",
       "localizations": {
@@ -1553,6 +1585,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Participantes"
+          }
+        }
+      }
+    },
+    "Pending loans": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pending loans"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empréstimos pendentes"
           }
         }
       }
