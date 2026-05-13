@@ -31,7 +31,10 @@ public struct CashlyErrorAlertModifier: ViewModifier {
 
     public func body(content: Content) -> some View {
         content
-            .onChange(of: alertId) { _, _ in handlePaywallIfNeeded() }
+            .onChange(of: alertId) { _, _ in
+                handlePaywallIfNeeded()
+                if alertableError != nil { CashlyHaptic.error.play() }
+            }
             .alert(
                 title,
                 isPresented: presentationBinding,

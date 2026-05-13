@@ -19,6 +19,7 @@ struct CashlyDismissModifier: ViewModifier {
 
     func onChangeSaved() {
         guard isSaved else { return }
+        CashlyHaptic.success.play()
         router.dismiss()
     }
 }
