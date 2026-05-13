@@ -113,6 +113,10 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         UserDefaultsFeatureFlags()
     }
 
+    public func makeBackgroundRefresh() -> BackgroundRefreshUseCase {
+        BGTaskBackgroundRefresh()
+    }
+
     public func makeTransactionUseCase() -> TransactionUseCase {
         TransactionActor(modelContainer: modelContainer)
     }
