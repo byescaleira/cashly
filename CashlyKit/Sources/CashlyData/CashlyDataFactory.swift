@@ -97,6 +97,10 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         UserNotificationsBudgetAlerts()
     }
 
+    public func makeSyncStatus() -> SyncStatusUseCase {
+        UserDefaultsSyncStatus()
+    }
+
     public func makeTransactionUseCase() -> TransactionUseCase {
         TransactionActor(modelContainer: modelContainer)
     }
