@@ -81,6 +81,38 @@ public extension Transaction {
     /// since the field is non-optional. Will be removed once
     /// callsites finish migrating.
     var effectiveCategory: CashlyDomain.Category { category }
+
+    /// Per-installment amount. When ``paymentsPlan`` is nil the
+    /// transaction is a single charge and the full amount applies.
+    /// Otherwise the amount is split equally across the plan.
+    var installmentAmount: Double {
+        guard let plan = paymentsPlan, plan > 0 else { return amount }
+        return amount / Double(plan)
+    }
+
+    /// Sequence of `yearMonth` integers covered by this transaction.
+    /// Single-charge transactions return `[date.yearMonth]`; an N-
+    /// installment plan returns N consecutive months starting from
+    /// the transaction's own month, rolling years properly.
+    func installmentMonths() -> [Int] {
+        let baseYearMonth = date.yearMonth
+        let baseYear = baseYearMonth / 100
+        let baseMonth = baseYearMonth % 100
+        let count = paymentsPlan.map { max($0, 1) } ?? 1
+        return (0 ..< count).map { offset in
+            let totalMonths = (baseMonth - 1) + offset
+            let year = baseYear + totalMonths / 12
+            let month = (totalMonths % 12) + 1
+            return year * 100 + month
+        }
+    }
+
+    /// `true` when this transaction touches the supplied `yearMonth`
+    /// — either directly or via one of its installment months. Used
+    /// by Budget.spent / charts that aggregate by month.
+    func touches(yearMonth: Int) -> Bool {
+        installmentMonths().contains(yearMonth)
+    }
 }
 
 extension Transaction: Decodable {
