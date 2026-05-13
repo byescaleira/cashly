@@ -1,3 +1,25 @@
+## 2026-05-13 — Eixo F sequence (v0.1.8 → v0.1.20)
+
+**Tipo**: feature-batch
+**Resumo**: 13 releases consecutivas:
+- **F2** v0.1.8: CSV exporter RFC 4180 + ShareLink em Settings. 400 tests.
+- **F3** v0.1.9: Search bar TransactionScreen (filteredSections case-insensitive).
+- **F8** v0.1.10: CashlyAppearance picker (system/light/dark) + @AppStorage + preferredColorScheme root.
+- **F6** v0.1.11: ReachabilityUseCase + NWPathReachabilityService + HomeScreen offline banner.
+- **F7** v0.1.12: Per-tab routers no deeplink (insights/category snap tabs, sheets via activeRouter).
+- **F11** v0.1.13: CI upload snapshot failure artifacts.
+- **F12** v0.1.14: swift-format lint step continue-on-error (warnings only).
+- **F4** v0.1.15: InsightsScreen Swift Charts (BarMark categories + tags list).
+- **F9** v0.1.16: RecurringTransactionTemplate value type + 6 tests.
+- **F10** v0.1.17: BudgetAlertsUseCase + UserNotifications impl. 410 tests.
+- **F5** v0.1.18: SyncStatusUseCase + UserDefaults impl.
+- **F13** v0.1.19: AASA template + deploy README.
+- **F1** v0.1.20: AdapterActor batch-fetch users (N+1 fix em transactionAdapted).
+
+**Deferred**: AdapterActor outras paths (budgetAdapted/categoryAdapted/tagAdapted) — precisa bulk APIs per actor.
+
+---
+
 ## 2026-05-13 — Eixo E sequence (v0.1.1 → v0.1.7)
 
 **Tipo**: feature-batch
