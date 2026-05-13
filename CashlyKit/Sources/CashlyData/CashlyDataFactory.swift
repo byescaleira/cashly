@@ -122,6 +122,12 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         LocalAuthenticationAppLock()
     }
 
+    public func makeTransactionDictation() -> TransactionDictationUseCase {
+        // J8 stub. J9 will swap in the Foundation Models impl behind
+        // iOS 18.1 availability + Apple Intelligence checks.
+        KeywordTransactionDictation()
+    }
+
     public func makeTransactionUseCase() -> TransactionUseCase {
         TransactionActor(modelContainer: modelContainer)
     }

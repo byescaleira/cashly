@@ -49,6 +49,7 @@ public struct MockCashlyFactory: CashlyDataFactoryProtocol, CashlyPresentationFa
     public func makeBackgroundRefresh() -> BackgroundRefreshUseCase { InMemoryBackgroundRefresh() }
     public func makeReceiptValidation() -> ReceiptValidationUseCase { InMemoryReceiptValidation() }
     public func makeAppLock() -> AppLockUseCase { InMemoryAppLock() }
+    public func makeTransactionDictation() -> TransactionDictationUseCase { InMemoryTransactionDictation() }
     public func makeTransactionUseCase() -> TransactionUseCase { MockTransactionActor() }
     public func makeTagUseCase() -> any TagUseCase { MockTagActor() }
     public func makeParticipantUseCase() -> any ParticipantUseCase { MockParticipantActor() }
