@@ -37,6 +37,20 @@ jobs:
       - name: Install xcbeautify
         run: brew install xcbeautify
 
+      - name: swift-format lint
+        working-directory: cashly
+        # Warnings only — does not block CI. Use `--strict` locally
+        # when triaging style debt. Repo-wide cleanup is a separate
+        # wave; CI surfaces the count via job log.
+        continue-on-error: true
+        run: |
+          xcrun swift-format lint \
+            --configuration .swift-format \
+            --recursive \
+            CashlyKit/Sources Cashly/Cashly 2>&1 | tee swift-format.log | tail -50
+          echo "---"
+          echo "Total swift-format findings: $(wc -l < swift-format.log)"
+
       - name: Cache SPM artifacts
         uses: actions/cache@v4
         with:

@@ -40,7 +40,6 @@
     "NoParensAroundConditions": true,
     "NoPlaygroundLiterals": true,
     "NoVoidReturnOnFunctionSignature": true,
-    "NoZeroInitializers": true,
     "OneCasePerLine": false,
     "OneVariableDeclarationPerLine": true,
     "OnlyOneTrailingClosureArgument": true,
