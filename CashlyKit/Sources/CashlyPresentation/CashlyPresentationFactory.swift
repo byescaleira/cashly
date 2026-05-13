@@ -120,7 +120,8 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
                 categoryUseCase: dataFactory.makeCategoryUseCase(),
                 transactionUseCase: dataFactory.makeTransactionUseCase(),
                 tagUseCase: dataFactory.makeTagUseCase(),
-                userUseCase: dataFactory.makeUserUseCase()
+                userUseCase: dataFactory.makeUserUseCase(),
+                userPreferences: dataFactory.makeUserPreferences()
             )
         )
     }

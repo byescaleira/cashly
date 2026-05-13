@@ -43,7 +43,7 @@ public struct MainReducer: PrismReducer {
         case let .replace(newState):
             state = newState
             state.recomputeDerived()
-        case .selectUser, .fetchPredictions: break
+        case .selectUser, .fetchPredictions, .wipeAllData: break
         }
         return .none
     }

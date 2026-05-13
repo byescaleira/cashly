@@ -6,6 +6,7 @@
 import Foundation
 import Testing
 import CashlyDomain
+import CashlyMock
 @testable import CashlyPresentation
 
 @Suite("MainMiddleware", .tags(.unit, .presentation, .local))
@@ -22,7 +23,8 @@ struct MainMiddlewareTests {
             categoryUseCase: categoryUseCase,
             transactionUseCase: transactionUseCase,
             tagUseCase: tagUseCase,
-            userUseCase: userUseCase
+            userUseCase: userUseCase,
+            userPreferences: InMemoryUserPreferences()
         )
     }
 
@@ -107,6 +109,28 @@ struct MainMiddlewareTests {
         let mw = makeMiddleware()
         let actions = await collectActions(from: mw.run(state: MainState(), action: .selectUser))
         if case .error(.domain(.invalidInput)) = actions.first {} else { Issue.record("expected .error(.domain(.invalidInput))") }
+    }
+
+    @Test("wipeAllData removes every entity + clears current user pointer, then emits .fetch")
+    func wipeAllDataHappy() async {
+        let userUC = UserUseCaseDouble()
+        userUC.users = [User(id: "u", name: "Alice", photo: "p")]
+        let categoryUC = CategoryUseCaseDouble()
+        let prefs = InMemoryUserPreferences(initial: "u")
+        let mw = MainMiddleware(
+            budgetUseCase: BudgetUseCaseDouble(),
+            categoryUseCase: categoryUC,
+            transactionUseCase: TransactionUseCaseDouble(),
+            tagUseCase: TagUseCaseDouble(),
+            userUseCase: userUC,
+            userPreferences: prefs
+        )
+        let actions = await collectActions(from: mw.run(state: MainState(), action: .wipeAllData))
+        if case .fetch = actions.first {} else {
+            Issue.record("expected .fetch — got \(String(describing: actions))")
+        }
+        #expect(await prefs.currentUserId() == nil)
+        #expect(userUC.users.isEmpty)
     }
 
     @Test("selectUser with user emits .fetch")

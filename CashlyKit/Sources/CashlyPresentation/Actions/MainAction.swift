@@ -28,6 +28,10 @@ public enum MainAction: CashlyAction, CashlyReplaceableAction {
     case selectUser
     case fetchPredictions
     case subscriptionUpdated(SubscriptionStatus)
+    /// Wipe local data (current user pointer + every entity row).
+    /// Behaves like a sign-out / factory-reset for offline storage —
+    /// remote CloudKit copies follow on next sync.
+    case wipeAllData
     case error(CashlyError)
     case replace(MainState)
 }

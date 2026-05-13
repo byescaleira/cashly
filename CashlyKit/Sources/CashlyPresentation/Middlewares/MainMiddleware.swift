@@ -65,6 +65,7 @@ public struct MainMiddleware: PrismMiddleware {
     let transactionUseCase: TransactionUseCase
     let tagUseCase: TagUseCase
     let userUseCase: UserUseCase
+    let userPreferences: UserPreferencesUseCase
     private let cache = PredictionCache()
 
     public init(
@@ -72,13 +73,15 @@ public struct MainMiddleware: PrismMiddleware {
         categoryUseCase: CategoryUseCase,
         transactionUseCase: TransactionUseCase,
         tagUseCase: TagUseCase,
-        userUseCase: UserUseCase
+        userUseCase: UserUseCase,
+        userPreferences: UserPreferencesUseCase
     ) {
         self.budgetUseCase = budgetUseCase
         self.categoryUseCase = categoryUseCase
         self.transactionUseCase = transactionUseCase
         self.tagUseCase = tagUseCase
         self.userUseCase = userUseCase
+        self.userPreferences = userPreferences
     }
 
     public func run(state: MainState, action: MainAction) -> PrismEffect<MainAction> {
@@ -90,6 +93,7 @@ public struct MainMiddleware: PrismMiddleware {
         case let .removeTransactions(transactions): return removeTransactions(transactions: transactions)
         case .selectUser: return selectUser(state: state)
         case .fetchPredictions: return fetchPredictions(state: state)
+        case .wipeAllData: return wipeAllData()
         case .subscriptionUpdated, .error, .stopLoading, .replace: return .none
         }
     }
@@ -233,6 +237,24 @@ public struct MainMiddleware: PrismMiddleware {
                 send(.fetch)
             } catch {
                 send(.error(.persistence(.saveFailed(entity: "User", underlying: error.localizedDescription))))
+            }
+        }
+    }
+
+    /// Wipe order matters — child entities first so the model
+    /// container does not reject deletions on relationship refs.
+    private func wipeAllData() -> PrismEffect<MainAction> {
+        .run { send in
+            do {
+                try await transactionUseCase.removeTransactions()
+                try await tagUseCase.removeTags()
+                try await budgetUseCase.removeBudgets()
+                try await categoryUseCase.removeCategories()
+                try await userUseCase.removeUsers()
+                await userPreferences.clearCurrentUserId()
+                send(.fetch)
+            } catch {
+                send(.error(.persistence(.removeFailed(entity: "Data", underlying: error.localizedDescription))))
             }
         }
     }

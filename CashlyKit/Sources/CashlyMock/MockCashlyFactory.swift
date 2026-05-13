@@ -132,7 +132,8 @@ public struct MockCashlyFactory: CashlyDataFactoryProtocol, CashlyPresentationFa
                 categoryUseCase: makeCategoryUseCase(),
                 transactionUseCase: makeTransactionUseCase(),
                 tagUseCase: makeTagUseCase(),
-                userUseCase: makeUserUseCase()
+                userUseCase: makeUserUseCase(),
+                userPreferences: makeUserPreferences()
             )
         )
     }

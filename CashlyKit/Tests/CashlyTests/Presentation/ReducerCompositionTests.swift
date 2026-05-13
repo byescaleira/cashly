@@ -127,7 +127,8 @@ struct ReducerCompositionTests {
                 categoryUseCase: factory.category,
                 transactionUseCase: factory.transaction,
                 tagUseCase: factory.tag,
-                userUseCase: factory.user
+                userUseCase: factory.user,
+                userPreferences: InMemoryUserPreferences()
             )
         )
     }

@@ -27,6 +27,7 @@ public struct SettingsScreen: CashlyView {
     @Environment(\.action) var action
     @Environment(\.router) var router
     @State var showManageSheet: Bool = false
+    @State var showWipeConfirm: Bool = false
 
     public init() {}
 
@@ -35,6 +36,7 @@ public struct SettingsScreen: CashlyView {
             subscriptionSection
             actionsSection
             appSection
+            dangerZoneSection
         }
         .navigationTitle(CashlyL10n.string("Settings"))
         #if os(iOS) || os(visionOS)
@@ -132,6 +134,34 @@ public struct SettingsScreen: CashlyView {
             .accessibilityElement(children: .combine)
         } header: {
             CashlyText(CashlyL10n.string("App"))
+        }
+    }
+
+    var dangerZoneSection: some View {
+        Section {
+            CashlyButton {
+                showWipeConfirm = true
+            } label: {
+                CashlyLabel(CashlyL10n.string("Delete All Data"), symbol: "trash")
+            }
+            .cashly(tint: .color(.red))
+        } header: {
+            CashlyText(CashlyL10n.string("Danger Zone"))
+        } footer: {
+            CashlyText(CashlyL10n.string("Wipes every local user, category, budget, tag and transaction. CloudKit copies follow on next sync."))
+                .cashly(font: .caption)
+                .cashly(color: .textSecondary)
+        }
+        .alert(
+            CashlyL10n.string("Confirm wipe prompt"),
+            isPresented: $showWipeConfirm
+        ) {
+            Button(CashlyL10n.string("Cancel"), role: .cancel) {}
+            Button(CashlyL10n.string("Delete"), role: .destructive) {
+                action(.main(.wipeAllData))
+            }
+        } message: {
+            Text(CashlyL10n.string("This action cannot be undone."))
         }
     }
 

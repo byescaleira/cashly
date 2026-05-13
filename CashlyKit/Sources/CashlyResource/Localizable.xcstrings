@@ -1,768 +1,1943 @@
 {
-  "sourceLanguage" : "en",
-  "version" : "1.0",
-  "strings" : {
-    "Add Budget" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add Budget" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Adicionar Orçamento" } }
-      }
-    },
-    "Add Category" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add Category" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Adicionar Categoria" } }
-      }
-    },
-    "Add Tag" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add Tag" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Adicionar Tag" } }
-      }
-    },
-    "Add User" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add User" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Adicionar Usuário" } }
-      }
-    },
-    "Add new tag" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add new tag" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Adicionar nova tag" } }
-      }
-    },
-    "Available" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Available" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Disponível" } }
-      }
-    },
-    "Budget" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Budget" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Orçamento" } }
-      }
-    },
-    "Budgets" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Budgets" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Orçamentos" } }
-      }
-    },
-    "Cancel" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Cancelar" } }
-      }
-    },
-    "Categories" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Categories" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Categorias" } }
-      }
-    },
-    "Category" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Category" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Categoria" } }
-      }
-    },
-    "Clear" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Clear" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Limpar" } }
-      }
-    },
-    "Clear Selection" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Clear Selection" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Limpar Seleção" } }
-      }
-    },
-    "Date" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Date" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Data" } }
-      }
-    },
-    "Delete" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Excluir" } }
-      }
-    },
-    "Delete Transactions" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete Transactions" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Excluir Transações" } }
-      }
-    },
-    "Edit" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Edit" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Editar" } }
-      }
-    },
-    "Edit User" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Edit User" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Editar Usuário" } }
-      }
-    },
-    "Enable installments" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enable installments" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Ativar parcelamento" } }
-      }
-    },
-    "Enter the category name" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter the category name" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Digite o nome da categoria" } }
-      }
-    },
-    "Enter the tag name" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter the tag name" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Digite o nome da tag" } }
-      }
-    },
-    "Enter the user name" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter the user name" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Digite o nome do usuário" } }
-      }
-    },
-    "Expense" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Expense" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Despesa" } }
-      }
-    },
-    "Female" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Female" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Feminino" } }
-      }
-    },
-    "Filter by Date" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Filter by Date" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Filtrar por Data" } }
-      }
-    },
-    "First & Last Name" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "First & Last Name" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Nome e Sobrenome" } }
-      }
-    },
-    "Home" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Home" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Início" } }
-      }
-    },
-    "Icon" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Icon" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Ícone" } }
-      }
-    },
-    "Installment" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Installment" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Parcelamento" } }
-      }
-    },
-    "Intelligence" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Intelligence" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Inteligência" } }
-      }
-    },
-    "Male" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Male" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Masculino" } }
-      }
-    },
-    "Name" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Name" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Nome" } }
-      }
-    },
-    "Number of installments" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Number of installments" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Número de parcelas" } }
-      }
-    },
-    "Participants" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Participants" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Participantes" } }
-      }
-    },
-    "Photo" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Photo" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Foto" } }
-      }
-    },
-    "Provide a summary of your budget" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Provide a summary of your budget" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Descreva seu orçamento" } }
-      }
-    },
-    "Provide a summary of your transaction" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Provide a summary of your transaction" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Descreva sua transação" } }
-      }
-    },
-    "Score" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Score" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Pontuação" } }
-      }
-    },
-    "Select All" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Select All" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Selecionar Tudo" } }
-      }
-    },
-    "Select Split Mode" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Select Split Mode" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Selecionar Modo de Divisão" } }
-      }
-    },
-    "Selected category" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Selected category" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Categoria selecionada" } }
-      }
-    },
-    "Spending Forecast" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Spending Forecast" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Previsão de Gastos" } }
-      }
-    },
-    "Statuses" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Statuses" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Status" } }
-      }
-    },
-    "Summary" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Summary" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Descrição" } }
-      }
-    },
-    "Tags" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Tags" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Tags" } }
-      }
-    },
-    "Top Spending" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Top Spending" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Maiores Gastos" } }
-      }
-    },
-    "Transactions" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Transactions" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Transações" } }
-      }
-    },
-    "Users" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Users" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Usuários" } }
-      }
-    },
-    "Variance" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Variance" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Variação" } }
-      }
-    },
-    "CPU" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "CPU" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "CPU" } }
-      }
-    },
-    "Clean" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Clean" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Limpar" } }
-      }
-    },
-    "Clean Models" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Clean Models" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Limpar Modelos" } }
-      }
-    },
-    "Memory" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Memory" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Memória" } }
-      }
-    },
-    "Models" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Models" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Modelos" } }
-      }
-    },
-    "Monitor CPU and memory usage to track performance during model training below and ensure optimal system conditions." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Monitor CPU and memory usage to track performance during model training below and ensure optimal system conditions." } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Monitore CPU e memória para acompanhar performance durante o treinamento de modelos e garantir condições ótimas." } }
-      }
-    },
-    "Smart estimates of your monthly expenses, generated by AI based on your financial history and spending patterns." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Smart estimates of your monthly expenses, generated by AI based on your financial history and spending patterns." } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Estimativas inteligentes dos seus gastos mensais, geradas por IA com base no seu histórico financeiro e padrões de consumo." } }
-      }
-    },
-    "System Monitor" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "System Monitor" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Monitor do Sistema" } }
-      }
-    },
-    "This category doesn’t have a budget yet. Add one below to help track your spending." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "This category doesn’t have a budget yet. Add one below to help track your spending." } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Esta categoria ainda não tem um orçamento. Adicione um abaixo para acompanhar seus gastos." } }
-      }
-    },
-    "Today" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Today" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Hoje" } }
-      }
-    },
-    "Train Models" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Train Models" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Treinar Modelos" } }
-      }
-    },
-    "Want more control?" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Want more control?" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Quer mais controle?" } }
-      }
-    },
-    "Are you sure you want to delete %lld selected transactions? This action cannot be undone." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Are you sure you want to delete %lld selected transactions? This action cannot be undone." } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Tem certeza que deseja excluir %lld transações selecionadas? Esta ação não pode ser desfeita." } }
-      }
-    },
-    "Save transaction" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save transaction" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Salvar transação" } }
-      }
-    },
-    "Save" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Salvar" } }
-      }
-    },
-    "Add participants" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add participants" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Adicionar participantes" } }
-      }
-    },
-    "Enable AI prediction" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enable AI prediction" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Ativar previsão por IA" } }
-      }
-    },
-    "Add new" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add new" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Adicionar novo" } }
-      }
-    },
-    "Enter edit mode" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter edit mode" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Entrar no modo de edição" } }
-      }
-    },
-    "Exit edit mode" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Exit edit mode" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Sair do modo de edição" } }
-      }
-    },
-    "Share selection" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Share selection" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Compartilhar seleção" } }
-      }
-    },
-    "Delete selection" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete selection" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Excluir seleção" } }
-      }
-    },
-    "Filter" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Filter" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Filtrar" } }
-      }
-    },
-    "Selected user" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Selected user" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Usuário selecionado" } }
-      }
-    },
-    "Empty chart" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Empty chart" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Gráfico vazio" } }
-      }
-    },
-    "AI features require Pro." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "AI features require Pro." } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Recursos de IA exigem Pro." } }
-      }
-    },
-    "App" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "App" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "App" } }
-      }
-    },
-    "Are you sure you want to delete \\(count) selected transactions? This action cannot be undone." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Are you sure you want to delete \\(count) selected transactions? This action cannot be undone." } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Deseja mesmo apagar \\(count) transações selecionadas? Essa ação não pode ser desfeita." } }
-      }
-    },
-    "Build" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Build" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Build" } }
-      }
-    },
-    "Cashly Pro active" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cashly Pro active" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Cashly Pro ativo" } }
-      }
-    },
-    "Choose your plan" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose your plan" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Escolha seu plano" } }
-      }
-    },
-    "Continue" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Continue" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Continuar" } }
-      }
-    },
-    "Expires" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Expires" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Expira" } }
-      }
-    },
-    "Manage Subscription" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Manage Subscription" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Gerenciar Assinatura" } }
-      }
-    },
-    "OK" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "OK" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "OK" } }
-      }
-    },
-    "Plan" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Plan" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Plano" } }
-      }
-    },
-    "Plans unavailable — try again." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Plans unavailable — try again." } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Planos indisponíveis — tente de novo." } }
-      }
-    },
-    "Pro" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pro" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Pro" } }
-      }
-    },
-    "Renews" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Renews" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Renova" } }
-      }
-    },
-    "Restore Purchases" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Restore Purchases" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Restaurar Compras" } }
-      }
-    },
-    "Settings" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Settings" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Ajustes" } }
-      }
-    },
-    "Something went wrong." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Something went wrong." } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Algo deu errado." } }
-      }
-    },
-    "Subscription" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Subscription" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Assinatura" } }
-      }
-    },
-    "Tier" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Tier" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Plano" } }
-      }
-    },
-    "Unlimited users, categories, budgets and AI predictions." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlimited users, categories, budgets and AI predictions." } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Usuários, categorias, orçamentos e previsões de IA ilimitados." } }
-      }
-    },
-    "Unlock Cashly Pro." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock Cashly Pro." } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Libere o Cashly Pro." } }
-      }
-    },
-    "Unlock unlimited training + predictions." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock unlimited training + predictions." } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Libere treino e previsões sem limite." } }
-      }
-    },
-    "Upgrade" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Upgrade" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Upgrade" } }
-      }
-    },
-    "Upgrade to Pro" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Upgrade to Pro" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Fazer upgrade para Pro" } }
-      }
-    },
-    "Version" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Version" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Versão" } }
-      }
-    },
-    "You've hit the free limit." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "You've hit the free limit." } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Você atingiu o limite gratuito." } }
-      }
-    },
-    "Nothing to restore." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Nothing to restore." } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Nada para restaurar." } }
-      }
-    },
-    "Loading plans" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Loading plans" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Carregando planos" } }
-      }
-    },
-    "Page %lld of %lld, %@" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Page %1$lld of %2$lld, %3$@" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Página %1$lld de %2$lld, %3$@" } }
-      }
-    },
-    "Purchasing" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Purchasing" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Comprando" } }
-      }
-    },
-    "Welcome to Cashly" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Welcome to Cashly" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Bem-vindo ao Cashly" } }
-      }
-    },
-    "Track budgets, transactions and split with friends." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Track budgets, transactions and split with friends." } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Acompanhe orçamentos, transações e divida contas com amigos." } }
-      }
-    },
-    "Start free." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Start free." } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Comece grátis." } }
-      }
-    },
-    "%lld user, %lld categories, %lld budgets — enough to see if Cashly fits." : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "%lld user, %lld categories, %lld budgets — enough to see if Cashly fits." } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "%lld usuário, %lld categorias, %lld orçamentos — o bastante para ver se Cashly serve." } }
-      }
-    },
-    "Continue with Free" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Continue with Free" } },
-        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Continuar com grátis" } }
+  "sourceLanguage": "en",
+  "version": "1.0",
+  "strings": {
+    "Add Budget": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Budget"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicionar Orçamento"
+          }
+        }
+      }
+    },
+    "Add Category": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Category"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicionar Categoria"
+          }
+        }
+      }
+    },
+    "Add Tag": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Tag"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicionar Tag"
+          }
+        }
+      }
+    },
+    "Add User": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add User"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicionar Usuário"
+          }
+        }
+      }
+    },
+    "Add new tag": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add new tag"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicionar nova tag"
+          }
+        }
+      }
+    },
+    "Available": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Available"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disponível"
+          }
+        }
+      }
+    },
+    "Budget": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Budget"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orçamento"
+          }
+        }
+      }
+    },
+    "Budgets": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Budgets"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orçamentos"
+          }
+        }
+      }
+    },
+    "Cancel": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelar"
+          }
+        }
+      }
+    },
+    "Categories": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Categories"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Categorias"
+          }
+        }
+      }
+    },
+    "Category": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Category"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Categoria"
+          }
+        }
+      }
+    },
+    "Clear": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limpar"
+          }
+        }
+      }
+    },
+    "Clear Selection": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear Selection"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limpar Seleção"
+          }
+        }
+      }
+    },
+    "Date": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Date"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Data"
+          }
+        }
+      }
+    },
+    "Delete": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apagar"
+          }
+        }
+      }
+    },
+    "Delete Transactions": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete Transactions"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Excluir Transações"
+          }
+        }
+      }
+    },
+    "Edit": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editar"
+          }
+        }
+      }
+    },
+    "Edit User": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit User"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editar Usuário"
+          }
+        }
+      }
+    },
+    "Enable installments": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable installments"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ativar parcelamento"
+          }
+        }
+      }
+    },
+    "Enter the category name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter the category name"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Digite o nome da categoria"
+          }
+        }
+      }
+    },
+    "Enter the tag name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter the tag name"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Digite o nome da tag"
+          }
+        }
+      }
+    },
+    "Enter the user name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter the user name"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Digite o nome do usuário"
+          }
+        }
+      }
+    },
+    "Expense": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expense"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Despesa"
+          }
+        }
+      }
+    },
+    "Female": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Female"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Feminino"
+          }
+        }
+      }
+    },
+    "Filter by Date": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filter by Date"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filtrar por Data"
+          }
+        }
+      }
+    },
+    "First & Last Name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "First & Last Name"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nome e Sobrenome"
+          }
+        }
+      }
+    },
+    "Home": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Home"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Início"
+          }
+        }
+      }
+    },
+    "Icon": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Icon"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ícone"
+          }
+        }
+      }
+    },
+    "Installment": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Installment"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parcelamento"
+          }
+        }
+      }
+    },
+    "Intelligence": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Intelligence"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inteligência"
+          }
+        }
+      }
+    },
+    "Male": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Male"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Masculino"
+          }
+        }
+      }
+    },
+    "Name": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nome"
+          }
+        }
+      }
+    },
+    "Number of installments": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Number of installments"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Número de parcelas"
+          }
+        }
+      }
+    },
+    "Participants": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Participants"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Participantes"
+          }
+        }
+      }
+    },
+    "Photo": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Photo"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Foto"
+          }
+        }
+      }
+    },
+    "Provide a summary of your budget": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Provide a summary of your budget"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descreva seu orçamento"
+          }
+        }
+      }
+    },
+    "Provide a summary of your transaction": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Provide a summary of your transaction"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descreva sua transação"
+          }
+        }
+      }
+    },
+    "Score": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pontuação"
+          }
+        }
+      }
+    },
+    "Select All": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select All"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selecionar Tudo"
+          }
+        }
+      }
+    },
+    "Select Split Mode": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select Split Mode"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selecionar Modo de Divisão"
+          }
+        }
+      }
+    },
+    "Selected category": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selected category"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Categoria selecionada"
+          }
+        }
+      }
+    },
+    "Spending Forecast": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Spending Forecast"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previsão de Gastos"
+          }
+        }
+      }
+    },
+    "Statuses": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Statuses"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Status"
+          }
+        }
+      }
+    },
+    "Summary": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Summary"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Descrição"
+          }
+        }
+      }
+    },
+    "Tags": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tags"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tags"
+          }
+        }
+      }
+    },
+    "Top Spending": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Top Spending"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Maiores Gastos"
+          }
+        }
+      }
+    },
+    "Transactions": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transactions"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transações"
+          }
+        }
+      }
+    },
+    "Users": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Users"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usuários"
+          }
+        }
+      }
+    },
+    "Variance": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variance"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variação"
+          }
+        }
+      }
+    },
+    "CPU": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU"
+          }
+        }
+      }
+    },
+    "Clean": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clean"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limpar"
+          }
+        }
+      }
+    },
+    "Clean Models": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clean Models"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limpar Modelos"
+          }
+        }
+      }
+    },
+    "Memory": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memory"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Memória"
+          }
+        }
+      }
+    },
+    "Models": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Models"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modelos"
+          }
+        }
+      }
+    },
+    "Monitor CPU and memory usage to track performance during model training below and ensure optimal system conditions.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monitor CPU and memory usage to track performance during model training below and ensure optimal system conditions."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monitore CPU e memória para acompanhar performance durante o treinamento de modelos e garantir condições ótimas."
+          }
+        }
+      }
+    },
+    "Smart estimates of your monthly expenses, generated by AI based on your financial history and spending patterns.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Smart estimates of your monthly expenses, generated by AI based on your financial history and spending patterns."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estimativas inteligentes dos seus gastos mensais, geradas por IA com base no seu histórico financeiro e padrões de consumo."
+          }
+        }
+      }
+    },
+    "System Monitor": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System Monitor"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monitor do Sistema"
+          }
+        }
+      }
+    },
+    "This category doesn’t have a budget yet. Add one below to help track your spending.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This category doesn’t have a budget yet. Add one below to help track your spending."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta categoria ainda não tem um orçamento. Adicione um abaixo para acompanhar seus gastos."
+          }
+        }
+      }
+    },
+    "Today": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Today"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hoje"
+          }
+        }
+      }
+    },
+    "Train Models": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Train Models"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Treinar Modelos"
+          }
+        }
+      }
+    },
+    "Want more control?": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Want more control?"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quer mais controle?"
+          }
+        }
+      }
+    },
+    "Are you sure you want to delete %lld selected transactions? This action cannot be undone.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Are you sure you want to delete %lld selected transactions? This action cannot be undone."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tem certeza que deseja excluir %lld transações selecionadas? Esta ação não pode ser desfeita."
+          }
+        }
+      }
+    },
+    "Save transaction": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save transaction"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salvar transação"
+          }
+        }
+      }
+    },
+    "Save": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salvar"
+          }
+        }
+      }
+    },
+    "Add participants": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add participants"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicionar participantes"
+          }
+        }
+      }
+    },
+    "Enable AI prediction": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable AI prediction"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ativar previsão por IA"
+          }
+        }
+      }
+    },
+    "Add new": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add new"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicionar novo"
+          }
+        }
+      }
+    },
+    "Enter edit mode": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter edit mode"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entrar no modo de edição"
+          }
+        }
+      }
+    },
+    "Exit edit mode": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exit edit mode"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sair do modo de edição"
+          }
+        }
+      }
+    },
+    "Share selection": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share selection"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compartilhar seleção"
+          }
+        }
+      }
+    },
+    "Delete selection": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete selection"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Excluir seleção"
+          }
+        }
+      }
+    },
+    "Filter": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filter"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Filtrar"
+          }
+        }
+      }
+    },
+    "Selected user": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selected user"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usuário selecionado"
+          }
+        }
+      }
+    },
+    "Empty chart": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empty chart"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gráfico vazio"
+          }
+        }
+      }
+    },
+    "AI features require Pro.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AI features require Pro."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recursos de IA exigem Pro."
+          }
+        }
+      }
+    },
+    "App": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App"
+          }
+        }
+      }
+    },
+    "Are you sure you want to delete \\(count) selected transactions? This action cannot be undone.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Are you sure you want to delete \\(count) selected transactions? This action cannot be undone."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deseja mesmo apagar \\(count) transações selecionadas? Essa ação não pode ser desfeita."
+          }
+        }
+      }
+    },
+    "Build": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Build"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Build"
+          }
+        }
+      }
+    },
+    "Cashly Pro active": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cashly Pro active"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cashly Pro ativo"
+          }
+        }
+      }
+    },
+    "Choose your plan": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose your plan"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escolha seu plano"
+          }
+        }
+      }
+    },
+    "Continue": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar"
+          }
+        }
+      }
+    },
+    "Expires": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expires"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expira"
+          }
+        }
+      }
+    },
+    "Manage Subscription": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manage Subscription"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gerenciar Assinatura"
+          }
+        }
+      }
+    },
+    "OK": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        }
+      }
+    },
+    "Plan": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plan"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plano"
+          }
+        }
+      }
+    },
+    "Plans unavailable — try again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plans unavailable — try again."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Planos indisponíveis — tente de novo."
+          }
+        }
+      }
+    },
+    "Pro": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pro"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pro"
+          }
+        }
+      }
+    },
+    "Renews": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renews"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renova"
+          }
+        }
+      }
+    },
+    "Restore Purchases": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restore Purchases"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restaurar Compras"
+          }
+        }
+      }
+    },
+    "Settings": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes"
+          }
+        }
+      }
+    },
+    "Something went wrong.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Something went wrong."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Algo deu errado."
+          }
+        }
+      }
+    },
+    "Subscription": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Subscription"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Assinatura"
+          }
+        }
+      }
+    },
+    "Tier": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tier"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plano"
+          }
+        }
+      }
+    },
+    "Unlimited users, categories, budgets and AI predictions.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlimited users, categories, budgets and AI predictions."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usuários, categorias, orçamentos e previsões de IA ilimitados."
+          }
+        }
+      }
+    },
+    "Unlock Cashly Pro.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock Cashly Pro."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Libere o Cashly Pro."
+          }
+        }
+      }
+    },
+    "Unlock unlimited training + predictions.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock unlimited training + predictions."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Libere treino e previsões sem limite."
+          }
+        }
+      }
+    },
+    "Upgrade": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upgrade"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upgrade"
+          }
+        }
+      }
+    },
+    "Upgrade to Pro": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Upgrade to Pro"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fazer upgrade para Pro"
+          }
+        }
+      }
+    },
+    "Version": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versão"
+          }
+        }
+      }
+    },
+    "You've hit the free limit.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You've hit the free limit."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Você atingiu o limite gratuito."
+          }
+        }
+      }
+    },
+    "Danger Zone": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Danger Zone"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Zona de Perigo"
+          }
+        }
+      }
+    },
+    "Delete All Data": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete All Data"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apagar Todos os Dados"
+          }
+        }
+      }
+    },
+    "Confirm wipe prompt": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete all data?"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apagar todos os dados?"
+          }
+        }
+      }
+    },
+    "This action cannot be undone.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This action cannot be undone."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Essa ação não pode ser desfeita."
+          }
+        }
+      }
+    },
+    "Wipes every local user, category, budget, tag and transaction. CloudKit copies follow on next sync.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wipes every local user, category, budget, tag and transaction. CloudKit copies follow on next sync."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Limpa todos os usuários, categorias, orçamentos, tags e transações locais. Cópias do CloudKit seguem no próximo sync."
+          }
+        }
+      }
+    },
+    "Nothing to restore.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nothing to restore."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nada para restaurar."
+          }
+        }
+      }
+    },
+    "Loading plans": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading plans"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carregando planos"
+          }
+        }
+      }
+    },
+    "Page %lld of %lld, %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Page %1$lld of %2$lld, %3$@"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Página %1$lld de %2$lld, %3$@"
+          }
+        }
+      }
+    },
+    "Purchasing": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purchasing"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comprando"
+          }
+        }
+      }
+    },
+    "Welcome to Cashly": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Welcome to Cashly"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bem-vindo ao Cashly"
+          }
+        }
+      }
+    },
+    "Track budgets, transactions and split with friends.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Track budgets, transactions and split with friends."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acompanhe orçamentos, transações e divida contas com amigos."
+          }
+        }
+      }
+    },
+    "Start free.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start free."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comece grátis."
+          }
+        }
+      }
+    },
+    "%lld user, %lld categories, %lld budgets — enough to see if Cashly fits.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld user, %lld categories, %lld budgets — enough to see if Cashly fits."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld usuário, %lld categorias, %lld orçamentos — o bastante para ver se Cashly serve."
+          }
+        }
+      }
+    },
+    "Continue with Free": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue with Free"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuar com grátis"
+          }
+        }
       }
     }
   }
