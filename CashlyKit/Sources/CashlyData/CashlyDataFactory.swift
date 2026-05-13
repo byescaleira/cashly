@@ -109,6 +109,10 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         #endif
     }
 
+    public func makeFeatureFlags() -> FeatureFlagsUseCase {
+        UserDefaultsFeatureFlags()
+    }
+
     public func makeTransactionUseCase() -> TransactionUseCase {
         TransactionActor(modelContainer: modelContainer)
     }
