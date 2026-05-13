@@ -4,6 +4,7 @@
 //
 
 import CashlyDomain
+import CashlyResource
 import PrismArchitecture
 import Foundation
 
@@ -118,6 +119,23 @@ public struct MainMiddleware: PrismMiddleware {
 
     private func fetch(state: MainState) -> PrismEffect<MainAction> {
         .run { send in
+            await CashlySignpost.withInterval("MainMiddleware.fetch") {
+                await Self.fetchBody(state: state, send: send, deps: self)
+            }
+        }
+    }
+
+    private static func fetchBody(
+        state: MainState,
+        send: @Sendable (MainAction) -> Void,
+        deps: MainMiddleware
+    ) async {
+        let userUseCase = deps.userUseCase
+        let categoryUseCase = deps.categoryUseCase
+        let budgetUseCase = deps.budgetUseCase
+        let tagUseCase = deps.tagUseCase
+        let transactionUseCase = deps.transactionUseCase
+        let cache = deps.cache
             do {
                 let user = try await userUseCase.getCurrentUser()
                 let userFilter = user == nil ? nil : [user?.id ?? ""]
@@ -198,7 +216,6 @@ public struct MainMiddleware: PrismMiddleware {
             } catch {
                 send(.error(.persistence(.fetchFailed(entity: "Main", underlying: error.localizedDescription))))
             }
-        }
     }
 
     private func fetchPredictions(state: MainState) -> PrismEffect<MainAction> {
