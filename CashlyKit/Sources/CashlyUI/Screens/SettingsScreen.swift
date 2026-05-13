@@ -109,6 +109,7 @@ public struct SettingsScreen: CashlyView {
                     .cashly(color: .textSecondary)
                     .cashly(font: .caption)
             }
+            .accessibilityElement(children: .combine)
             CashlyHStack {
                 CashlyText(CashlyL10n.string("Build"))
                 CashlySpacer()
@@ -116,6 +117,7 @@ public struct SettingsScreen: CashlyView {
                     .cashly(color: .textSecondary)
                     .cashly(font: .caption)
             }
+            .accessibilityElement(children: .combine)
         } header: {
             CashlyText(CashlyL10n.string("App"))
         }

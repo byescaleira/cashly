@@ -43,8 +43,9 @@ public struct PaywallScreen: CashlyView {
         Section {} header: {
             CashlyVStack(alignment: .center, spacing: .medium) {
                 CashlySymbol("crown.fill")
-                    .cashly(font: .system(size: 48))
+                    .cashly(font: .largeTitle, weight: .bold)
                     .cashly(color: .color(.yellow))
+                    .accessibilityHidden(true)
 
                 CashlyText(headline)
                     .cashly(font: .title2, weight: .bold)
@@ -66,6 +67,7 @@ public struct PaywallScreen: CashlyView {
                 ProgressView()
                     .frame(maxWidth: .infinity)
                     .cashlyPadding()
+                    .accessibilityLabel(CashlyL10n.string("Loading plans"))
             } else if state.plans.isEmpty {
                 CashlyText(CashlyL10n.string("Plans unavailable — try again."))
                     .cashly(color: .textSecondary)
@@ -101,9 +103,12 @@ public struct PaywallScreen: CashlyView {
                     .cashly(font: .body, weight: .bold)
                 CashlySymbol(isSelected ? "checkmark.circle.fill" : "circle")
                     .cashly(color: isSelected ? .primary : .textSecondary)
+                    .accessibilityHidden(true)
             }
         }
         .buttonStyle(.plain)
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
     }
 
     var purchaseSection: some View {
@@ -114,6 +119,7 @@ public struct PaywallScreen: CashlyView {
                 CashlyHStack {
                     if state.isPurchasing {
                         ProgressView()
+                            .accessibilityLabel(CashlyL10n.string("Purchasing"))
                     }
                     CashlyText(CashlyL10n.string("Continue"))
                         .cashly(font: .headline, weight: .semibold)

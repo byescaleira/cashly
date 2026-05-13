@@ -16,6 +16,7 @@ import CashlyPresentation
 
 public struct OnboardingScreen: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @AppStorage("cashly.onboarding.completed") private var completed: Bool = false
 
     /// Invoked when the user taps "Upgrade to Pro" on the last page.
@@ -34,9 +35,18 @@ public struct OnboardingScreen: View {
     public var body: some View {
         VStack(spacing: 0) {
             TabView(selection: $page) {
-                welcomePage.tag(0)
-                freePage.tag(1)
-                proPage.tag(2)
+                welcomePage
+                    .tag(0)
+                    .accessibilityElement(children: .contain)
+                    .accessibilityLabel(pageLabel(index: 0))
+                freePage
+                    .tag(1)
+                    .accessibilityElement(children: .contain)
+                    .accessibilityLabel(pageLabel(index: 1))
+                proPage
+                    .tag(2)
+                    .accessibilityElement(children: .contain)
+                    .accessibilityLabel(pageLabel(index: 2))
             }
             #if os(iOS) || os(visionOS)
             .tabViewStyle(.page)
@@ -47,6 +57,22 @@ public struct OnboardingScreen: View {
                 .cashlyPadding(.horizontal, .large)
                 .cashlyPadding(.bottom, .large)
         }
+    }
+
+    /// Announces "Page N of 3, <title>" to VoiceOver users so they
+    /// know how many pages exist and where they are in the flow.
+    private func pageLabel(index: Int) -> String {
+        let titles = [
+            CashlyL10n.string("Welcome to Cashly"),
+            CashlyL10n.string("Start free."),
+            CashlyL10n.string("Unlock Cashly Pro.")
+        ]
+        return String(
+            format: CashlyL10n.string("Page %lld of %lld, %@"),
+            index + 1,
+            titles.count,
+            titles[index]
+        )
     }
 
     private var welcomePage: some View {
@@ -92,8 +118,13 @@ public struct OnboardingScreen: View {
     ) -> some View {
         VStack(spacing: 24) {
             Image(systemName: icon)
-                .font(.system(size: 84))
+                // System text style so the icon scales with Dynamic
+                // Type alongside the title underneath instead of
+                // staying at a fixed point size.
+                .font(.system(.largeTitle).weight(.bold))
+                .imageScale(.large)
                 .foregroundStyle(tint)
+                .accessibilityHidden(true)
             Text(title)
                 .font(.title.weight(.bold))
                 .multilineTextAlignment(.center)
@@ -111,7 +142,7 @@ public struct OnboardingScreen: View {
     private var footerBar: some View {
         if page < 2 {
             Button {
-                withAnimation { page += 1 }
+                advancePage()
             } label: {
                 Text(CashlyL10n.string("Continue"))
                     .font(.headline.weight(.semibold))
@@ -139,8 +170,20 @@ public struct OnboardingScreen: View {
                     Text(CashlyL10n.string("Continue with Free"))
                         .font(.subheadline.weight(.semibold))
                         .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                        .contentShape(.rect)
                 }
             }
+        }
+    }
+
+    /// Advances the carousel, honouring the user's
+    /// `accessibilityReduceMotion` preference (no animation when on).
+    private func advancePage() {
+        if reduceMotion {
+            page += 1
+        } else {
+            withAnimation { page += 1 }
         }
     }
 }
