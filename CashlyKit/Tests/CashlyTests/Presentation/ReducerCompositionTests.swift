@@ -10,6 +10,7 @@
 
 import Foundation
 import Testing
+import CashlyData
 import CashlyDomain
 import CashlyMock
 @testable import CashlyPresentation
@@ -128,7 +129,8 @@ struct ReducerCompositionTests {
                 transactionUseCase: factory.transaction,
                 tagUseCase: factory.tag,
                 userUseCase: factory.user,
-                userPreferences: InMemoryUserPreferences()
+                userPreferences: InMemoryUserPreferences(),
+                budgetAlerts: InMemoryBudgetAlerts()
             )
         )
     }

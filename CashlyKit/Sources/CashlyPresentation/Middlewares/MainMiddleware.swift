@@ -66,6 +66,11 @@ public struct MainMiddleware: PrismMiddleware {
     let tagUseCase: TagUseCase
     let userUseCase: UserUseCase
     let userPreferences: UserPreferencesUseCase
+    let budgetAlerts: BudgetAlertsUseCase
+    /// Fraction of a budget's amount at which the overshoot alert
+    /// fires. 0.8 = 80%. Wave G11 will hoist this into UserDefaults
+    /// so the user can tune the trip-wire.
+    let overshootThreshold: Double
     private let cache = PredictionCache()
 
     public init(
@@ -74,7 +79,9 @@ public struct MainMiddleware: PrismMiddleware {
         transactionUseCase: TransactionUseCase,
         tagUseCase: TagUseCase,
         userUseCase: UserUseCase,
-        userPreferences: UserPreferencesUseCase
+        userPreferences: UserPreferencesUseCase,
+        budgetAlerts: BudgetAlertsUseCase,
+        overshootThreshold: Double = 0.8
     ) {
         self.budgetUseCase = budgetUseCase
         self.categoryUseCase = categoryUseCase
@@ -82,12 +89,19 @@ public struct MainMiddleware: PrismMiddleware {
         self.tagUseCase = tagUseCase
         self.userUseCase = userUseCase
         self.userPreferences = userPreferences
+        self.budgetAlerts = budgetAlerts
+        self.overshootThreshold = overshootThreshold
     }
 
     public func run(state: MainState, action: MainAction) -> PrismEffect<MainAction> {
         switch action {
         case .fetch: return fetch(state: state)
-        case .update: return .send(.stopLoading)
+        case let .update(_, budgets, _, transactions, _, _, _, _):
+            // Scan freshly-loaded budgets vs their transactions and
+            // schedule overshoot alerts. The use case is idempotent
+            // per budget id, so re-running on every fetch is safe —
+            // no duplicate notifications land.
+            return scheduleOvershootAlerts(budgets: budgets, transactions: transactions)
         case let .removeTag(tag): return removeTag(tag: tag)
         case let .removeTransaction(transaction): return removeTransaction(transaction: transaction)
         case let .removeTransactions(transactions): return removeTransactions(transactions: transactions)
@@ -241,6 +255,46 @@ public struct MainMiddleware: PrismMiddleware {
         }
     }
 
+    /// Computes spent ÷ budgeted per budget and fires a local
+    /// notification when the ratio crosses `overshootThreshold`.
+    /// Emits `.send(.stopLoading)` as the follow-up — the alert
+    /// itself is scheduled on the platform side; `.update` doesn't
+    /// need to wait for it.
+    private func scheduleOvershootAlerts(
+        budgets: [Budget],
+        transactions: [CashlyDomain.Transaction]
+    ) -> PrismEffect<MainAction> {
+        let threshold = overshootThreshold
+        let alerts = budgetAlerts
+        let spentByBudget = Dictionary(
+            grouping: transactions,
+            by: \.budget.id
+        ).mapValues { txs in
+            txs.reduce(0.0) { partial, tx in partial + tx.amount }
+        }
+        // Snapshot value-types so the captured closure stays Sendable.
+        let snapshots: [(id: String, summary: String, percentage: Int)] = budgets.compactMap { budget in
+            guard budget.amount > 0,
+                  let spent = spentByBudget[budget.id]
+            else { return nil }
+            let ratio = spent / budget.amount
+            guard ratio >= threshold else { return nil }
+            return (budget.id, budget.summary, Int((ratio * 100).rounded()))
+        }
+        return .merge(
+            .run { [alerts] _ in
+                for snap in snapshots {
+                    await alerts.scheduleOvershootAlert(
+                        budgetId: snap.id,
+                        budgetSummary: snap.summary,
+                        percentage: snap.percentage
+                    )
+                }
+            },
+            .send(.stopLoading)
+        )
+    }
+
     /// Wipe order matters — child entities first so the model
     /// container does not reject deletions on relationship refs.
     private func wipeAllData() -> PrismEffect<MainAction> {
@@ -252,6 +306,7 @@ public struct MainMiddleware: PrismMiddleware {
                 try await categoryUseCase.removeCategories()
                 try await userUseCase.removeUsers()
                 await userPreferences.clearCurrentUserId()
+                await budgetAlerts.cancelAll()
                 send(.fetch)
             } catch {
                 send(.error(.persistence(.removeFailed(entity: "Data", underlying: error.localizedDescription))))

@@ -5,6 +5,7 @@
 
 import Foundation
 import Testing
+import CashlyData
 import CashlyDomain
 import CashlyMock
 @testable import CashlyPresentation
@@ -24,7 +25,8 @@ struct MainMiddlewareTests {
             transactionUseCase: transactionUseCase,
             tagUseCase: tagUseCase,
             userUseCase: userUseCase,
-            userPreferences: InMemoryUserPreferences()
+            userPreferences: InMemoryUserPreferences(),
+            budgetAlerts: InMemoryBudgetAlerts()
         )
     }
 
@@ -111,19 +113,104 @@ struct MainMiddlewareTests {
         if case .error(.domain(.invalidInput)) = actions.first {} else { Issue.record("expected .error(.domain(.invalidInput))") }
     }
 
+    @Test(".update schedules overshoot alert when spend crosses the threshold")
+    func updateSchedulesOvershootAlert() async {
+        let alerts = InMemoryBudgetAlerts()
+        let mw = MainMiddleware(
+            budgetUseCase: BudgetUseCaseDouble(),
+            categoryUseCase: CategoryUseCaseDouble(),
+            transactionUseCase: TransactionUseCaseDouble(),
+            tagUseCase: TagUseCaseDouble(),
+            userUseCase: UserUseCaseDouble(),
+            userPreferences: InMemoryUserPreferences(),
+            budgetAlerts: alerts,
+            overshootThreshold: 0.8
+        )
+        let user = User(id: "u", name: "U", photo: "p")
+        let category = CashlyDomain.Category(id: "c", user: user, name: "Food", color: "#000", icon: "x")
+        let budget = Budget(id: "b1", amount: 100, category: category, date: 202604, summary: "Groceries")
+        let tx = CashlyDomain.Transaction(
+            id: "t", participants: [], budget: budget, amount: 90,
+            date: 0, summary: "Lunch", status: .settled,
+            splitMode: nil, splitValue: nil, paymentsPlan: nil
+        )
+        _ = await collectActions(from: mw.run(
+            state: MainState(),
+            action: .update(
+                filter: FilterState(),
+                budgets: [budget],
+                categories: [category],
+                transactions: [tx],
+                tags: [],
+                users: [user],
+                user: user,
+                predictedTransactionsAmount: 0
+            )
+        ))
+        // Allow the async schedule task to land.
+        try? await Task.sleep(for: .milliseconds(50))
+        let pending = await alerts.scheduled
+        let match = pending.first { $0.budgetId == "b1" }
+        #expect(match != nil)
+        #expect(match?.percentage == 90)
+    }
+
+    @Test(".update does NOT schedule when spend is under the threshold")
+    func updateBelowThresholdSkips() async {
+        let alerts = InMemoryBudgetAlerts()
+        let mw = MainMiddleware(
+            budgetUseCase: BudgetUseCaseDouble(),
+            categoryUseCase: CategoryUseCaseDouble(),
+            transactionUseCase: TransactionUseCaseDouble(),
+            tagUseCase: TagUseCaseDouble(),
+            userUseCase: UserUseCaseDouble(),
+            userPreferences: InMemoryUserPreferences(),
+            budgetAlerts: alerts,
+            overshootThreshold: 0.8
+        )
+        let user = User(id: "u", name: "U", photo: "p")
+        let category = CashlyDomain.Category(id: "c", user: user, name: "Food", color: "#000", icon: "x")
+        let budget = Budget(id: "b2", amount: 100, category: category, date: 202604, summary: "Groceries")
+        let tx = CashlyDomain.Transaction(
+            id: "t", participants: [], budget: budget, amount: 50,
+            date: 0, summary: "Lunch", status: .settled,
+            splitMode: nil, splitValue: nil, paymentsPlan: nil
+        )
+        _ = await collectActions(from: mw.run(
+            state: MainState(),
+            action: .update(
+                filter: FilterState(),
+                budgets: [budget],
+                categories: [category],
+                transactions: [tx],
+                tags: [],
+                users: [user],
+                user: user,
+                predictedTransactionsAmount: 0
+            )
+        ))
+        try? await Task.sleep(for: .milliseconds(50))
+        let pending = await alerts.scheduled
+        #expect(pending.isEmpty)
+    }
+
     @Test("wipeAllData removes every entity + clears current user pointer, then emits .fetch")
     func wipeAllDataHappy() async {
         let userUC = UserUseCaseDouble()
         userUC.users = [User(id: "u", name: "Alice", photo: "p")]
         let categoryUC = CategoryUseCaseDouble()
         let prefs = InMemoryUserPreferences(initial: "u")
+        let alerts = InMemoryBudgetAlerts()
+        // Seed a pending alert so we can prove wipe cancels them.
+        await alerts.scheduleOvershootAlert(budgetId: "b", budgetSummary: "x", percentage: 90)
         let mw = MainMiddleware(
             budgetUseCase: BudgetUseCaseDouble(),
             categoryUseCase: categoryUC,
             transactionUseCase: TransactionUseCaseDouble(),
             tagUseCase: TagUseCaseDouble(),
             userUseCase: userUC,
-            userPreferences: prefs
+            userPreferences: prefs,
+            budgetAlerts: alerts
         )
         let actions = await collectActions(from: mw.run(state: MainState(), action: .wipeAllData))
         if case .fetch = actions.first {} else {
@@ -131,6 +218,8 @@ struct MainMiddlewareTests {
         }
         #expect(await prefs.currentUserId() == nil)
         #expect(userUC.users.isEmpty)
+        let pendingAfterWipe = await alerts.scheduled
+        #expect(pendingAfterWipe.isEmpty)
     }
 
     @Test("selectUser with user emits .fetch")
