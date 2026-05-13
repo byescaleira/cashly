@@ -52,7 +52,7 @@ public struct MainScreen: CashlyView {
             tabItem = .transaction
         case .intelligence:
             tabItem = .intelligence
-        case .paywall, .settings, .addUser, .addCategory,
+        case .paywall, .settings, .insights, .addUser, .addCategory,
              .addBudget, .addTransaction, .addTag:
             // Use the currently active tab's router so the user
             // stays where they were when the link landed.
@@ -151,6 +151,8 @@ public struct MainScreen: CashlyView {
                 .onAppear { action(.paywall(.replace(.opened(from: trigger)))) }
         case .settings:
             SettingsScreen()
+        case .insights:
+            InsightsScreen()
         }
     }
 

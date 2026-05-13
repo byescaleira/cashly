@@ -42,6 +42,7 @@ public struct HomeScreen: CashlyView {
         .toolbar {
             ToolbarItem(placement: .navigation) { UserItemView() }
             ToolbarItem { ProBadgeView(isPro: state.isPro) }
+            ToolbarItem { insightsButton }
             ToolbarItem { settingsButton }
             ToolbarItem { FilterItemView() }
         }
@@ -68,6 +69,16 @@ public struct HomeScreen: CashlyView {
             .cashly(clip: .capsule)
             .accessibilityElement(children: .combine)
         }
+    }
+
+    var insightsButton: some View {
+        CashlyButton {
+            router.route(to: .insights)
+        } label: {
+            CashlySymbol("chart.bar.xaxis")
+        }
+        .cashly(tint: .text)
+        .accessibilityLabel(CashlyL10n.string("Insights"))
     }
 
     var settingsButton: some View {
