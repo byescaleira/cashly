@@ -27,6 +27,11 @@ public class TransactionEntity {
     /// `true` when the transaction was captured from dictation (J8+)
     /// and one or more fields could not be inferred.
     public var needsReview: Bool = false
+    /// Direct category FK introduced in J2d. Optional during the
+    /// coexistence window — older rows fall back to deriving the
+    /// category from the budget FK. Once J2f drops `budget`, this
+    /// becomes the source of truth.
+    public var category: String?
 
     public var yearMonth: Int {
         date.yearMonth
@@ -67,7 +72,8 @@ public class TransactionEntity {
         splitValue: Double? = nil,
         paymentsPlan: Int? = nil,
         kind: Int = 0,
-        needsReview: Bool = false
+        needsReview: Bool = false,
+        category: String? = nil
     ) {
         self.id = id
         self.participants = participants
@@ -81,6 +87,7 @@ public class TransactionEntity {
         self.paymentsPlan = paymentsPlan
         self.kind = kind
         self.needsReview = needsReview
+        self.category = category
     }
 }
 

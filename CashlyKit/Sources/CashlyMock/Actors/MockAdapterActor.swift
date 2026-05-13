@@ -89,12 +89,16 @@ actor MockAdapterActor: AdapterUseCase {
         splitValue: Double?,
         paymentsPlan: Int?,
         kind: Int,
-        needsReview: Bool
+        needsReview: Bool,
+        category: String?
     ) async throws -> Transaction? {
         guard let budget = budgets.first(where: { $0.id == budget }),
               let status = TransactionStatus(rawValue: status)
         else { return nil }
         let participants = self.participants.filter { participants.contains($0.id) }
+        let resolvedCategory = category.flatMap { id in
+            categories.first(where: { $0.id == id })
+        }
 
         return CashlyDomain.Transaction(
             id: id,
@@ -108,7 +112,8 @@ actor MockAdapterActor: AdapterUseCase {
             splitValue: splitValue,
             paymentsPlan: paymentsPlan,
             kind: TransactionKind(rawValue: kind) ?? .expense,
-            needsReview: needsReview
+            needsReview: needsReview,
+            category: resolvedCategory
         )
     }
 

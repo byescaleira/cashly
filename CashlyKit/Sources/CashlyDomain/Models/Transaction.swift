@@ -25,6 +25,11 @@ public struct Transaction: CashlyEntity, Sendable {
     /// and one or more fields could not be inferred. UI surfaces a
     /// badge until the user reviews + flips this back to `false`.
     public var needsReview: Bool
+    /// Direct category reference. Introduced in J2d as the migration
+    /// target away from the Budget FK (ADR-0009). Optional during
+    /// the coexistence window; once J2f drops `budget`, this
+    /// becomes the only category source and turns non-optional.
+    public var category: CashlyDomain.Category?
 
     public init(
         id: String,
@@ -38,7 +43,8 @@ public struct Transaction: CashlyEntity, Sendable {
         splitValue: Double?,
         paymentsPlan: Int?,
         kind: TransactionKind = .expense,
-        needsReview: Bool = false
+        needsReview: Bool = false,
+        category: CashlyDomain.Category? = nil
     ) {
         self.id = id
         self.participants = participants
@@ -52,13 +58,26 @@ public struct Transaction: CashlyEntity, Sendable {
         self.paymentsPlan = paymentsPlan
         self.kind = kind
         self.needsReview = needsReview
+        // Falls back to the budget's category so every existing
+        // callsite gets a non-nil category without code changes.
+        self.category = category ?? budget.category
+    }
+}
+
+public extension Transaction {
+    /// Effective category — uses the direct `category` reference
+    /// when present, otherwise falls back to `budget.category`.
+    /// Pre-J2d callsites should read this; once J2f lands and
+    /// `category` is non-optional, callsites can use it directly.
+    var effectiveCategory: CashlyDomain.Category {
+        category ?? budget.category
     }
 }
 
 extension Transaction: Decodable {
     enum CodingKeys: String, CodingKey {
         case id, participants, budget, amount, date, summary, status
-        case splitMode, splitValue, paymentsPlan, kind, needsReview
+        case splitMode, splitValue, paymentsPlan, kind, needsReview, category
     }
 
     public init(from decoder: Decoder) throws {
@@ -75,6 +94,8 @@ extension Transaction: Decodable {
         self.paymentsPlan = try c.decodeIfPresent(Int.self, forKey: .paymentsPlan)
         self.kind = try c.decodeIfPresent(TransactionKind.self, forKey: .kind) ?? .expense
         self.needsReview = try c.decodeIfPresent(Bool.self, forKey: .needsReview) ?? false
+        let decodedCategory = try c.decodeIfPresent(CashlyDomain.Category.self, forKey: .category)
+        self.category = decodedCategory ?? self.budget.category
     }
 }
 

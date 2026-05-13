@@ -42,7 +42,8 @@ public protocol AdapterUseCase: Sendable {
         splitValue: Double?,
         paymentsPlan: Int?,
         kind: Int,
-        needsReview: Bool
+        needsReview: Bool,
+        category: String?
     ) async throws -> Transaction?
 
     func tagAdapted(
@@ -61,4 +62,39 @@ public protocol AdapterUseCase: Sendable {
         status: Int,
         transaction: String
     ) async throws -> Participant?
+}
+
+public extension AdapterUseCase {
+    /// Back-compat shim for callsites that don't yet pass `category`.
+    /// New code should always pass the FK explicitly.
+    func transactionAdapted(
+        id: String,
+        participants: [String],
+        budget: String,
+        amount: Double,
+        date: TimeInterval,
+        summary: String,
+        status: Int,
+        splitMode: Int?,
+        splitValue: Double?,
+        paymentsPlan: Int?,
+        kind: Int,
+        needsReview: Bool
+    ) async throws -> Transaction? {
+        try await transactionAdapted(
+            id: id,
+            participants: participants,
+            budget: budget,
+            amount: amount,
+            date: date,
+            summary: summary,
+            status: status,
+            splitMode: splitMode,
+            splitValue: splitValue,
+            paymentsPlan: paymentsPlan,
+            kind: kind,
+            needsReview: needsReview,
+            category: nil
+        )
+    }
 }

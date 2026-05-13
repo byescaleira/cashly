@@ -201,7 +201,8 @@ public actor AdapterActor: AdapterUseCase {
         splitValue: Double?,
         paymentsPlan: Int?,
         kind: Int,
-        needsReview: Bool
+        needsReview: Bool,
+        category: String? = nil
     ) async throws -> Transaction? {
         let participantsPredicate: Predicate<ParticipantEntity> = #Predicate {
             participants.contains($0.id)
@@ -264,6 +265,20 @@ public actor AdapterActor: AdapterUseCase {
             ))
         }
 
+        // J2d: resolve the direct category FK when present. Falls
+        // back to budget.category for pre-J2d rows that haven't been
+        // touched by an addTransaction call yet.
+        let resolvedCategory: CashlyDomain.Category?
+        if let category {
+            let predicate: Predicate<CategoryEntity> = #Predicate { $0.id == category }
+            let entities = try modelContext.fetch(FetchDescriptor<CategoryEntity>(predicate: predicate))
+            resolvedCategory = try categoriesAdapted(entities.map { (
+                id: $0.id, user: $0.user, name: $0.name, color: $0.color, icon: $0.icon
+            ) }).first
+        } else {
+            resolvedCategory = nil
+        }
+
         return CashlyDomain.Transaction(
             id: id,
             participants: participants,
@@ -276,7 +291,8 @@ public actor AdapterActor: AdapterUseCase {
             splitValue: splitValue,
             paymentsPlan: paymentsPlan,
             kind: TransactionKind(rawValue: kind) ?? .expense,
-            needsReview: needsReview
+            needsReview: needsReview,
+            category: resolvedCategory
         )
     }
 

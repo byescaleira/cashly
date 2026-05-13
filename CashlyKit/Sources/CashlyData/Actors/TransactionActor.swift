@@ -31,7 +31,8 @@ public actor TransactionActor: TransactionUseCase {
             splitValue: entity.splitValue,
             paymentsPlan: entity.paymentsPlan,
             kind: entity.kind,
-            needsReview: entity.needsReview
+            needsReview: entity.needsReview,
+            category: entity.category
         )
     }
 
@@ -52,7 +53,8 @@ public actor TransactionActor: TransactionUseCase {
                 splitValue: entity.splitValue,
                 paymentsPlan: entity.paymentsPlan,
                 kind: entity.kind,
-                needsReview: entity.needsReview
+                needsReview: entity.needsReview,
+                category: entity.category
             ) {
                 transactions.append(transaction)
             }
@@ -127,7 +129,8 @@ public actor TransactionActor: TransactionUseCase {
                 splitValue: entity.splitValue,
                 paymentsPlan: entity.paymentsPlan,
                 kind: entity.kind,
-                needsReview: entity.needsReview
+                needsReview: entity.needsReview,
+                category: entity.category
             ) {
                 if let participants {
                     // `participants` is the user-id whitelist from the
@@ -206,7 +209,8 @@ public actor TransactionActor: TransactionUseCase {
             splitValue: splitValue,
             paymentsPlan: paymentsPlan,
             kind: kind.rawValue,
-            needsReview: needsReview
+            needsReview: needsReview,
+            category: budget.category.id
         )
         entity.id = id
         entity.participants = participants.map(\.id)
@@ -220,6 +224,10 @@ public actor TransactionActor: TransactionUseCase {
         entity.paymentsPlan = paymentsPlan
         entity.kind = kind.rawValue
         entity.needsReview = needsReview
+        // J2d: always write the direct category FK so once J2f drops
+        // `budget`, every persisted row already has the new column
+        // populated.
+        entity.category = budget.category.id
         modelContext.insert(entity)
         try modelContext.save()
     }
