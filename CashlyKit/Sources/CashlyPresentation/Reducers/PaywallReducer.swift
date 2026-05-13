@@ -36,6 +36,10 @@ public struct PaywallReducer: PrismReducer {
             state.isPurchasing = false
         case .restore:
             state.isLoading = true
+            state.restoreFinishedNoEntitlement = false
+        case .restoreFinishedNoEntitlement:
+            state.isLoading = false
+            state.restoreFinishedNoEntitlement = true
         case .stopLoading:
             state.isLoading = false
             state.isPurchasing = false

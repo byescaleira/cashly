@@ -37,6 +37,18 @@ public struct PaywallScreen: CashlyView {
         .onChange(of: state.didPurchase) { _, newValue in
             if newValue { dismiss() }
         }
+        .cashlyToast(
+            isPresented: Binding(
+                get: { state.restoreFinishedNoEntitlement },
+                set: { newValue in
+                    guard newValue == false else { return }
+                    // Toast auto-dismiss path — clear the state flag so
+                    // a later restore attempt can re-fire the banner.
+                    store.cashlyMutate(\.restoreFinishedNoEntitlement, false)
+                }
+            ),
+            message: CashlyL10n.string("Nothing to restore.")
+        )
     }
 
     var headerSection: some View {

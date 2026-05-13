@@ -139,13 +139,16 @@ struct PaywallMiddlewareTests {
         #expect(names.contains("paywall_restore_succeeded"))
     }
 
-    @Test("restore on Free tier emits no_entitlement")
+    @Test("restore on Free tier emits no_entitlement action + analytics")
     func restoreOnFreeEmitsNoEntitlement() async {
         let (mw, _, analytics) = makeMiddleware()
-        _ = await collectActions(from: mw.run(
+        let actions = await collectActions(from: mw.run(
             state: .opened(from: .upgradeButton),
             action: .restore
         ))
+        if case .restoreFinishedNoEntitlement = actions.first {} else {
+            Issue.record("expected .restoreFinishedNoEntitlement — got \(String(describing: actions))")
+        }
         let names = analytics.events.map(\.event)
         #expect(names.contains("paywall_restore_no_entitlement"))
     }
@@ -158,6 +161,7 @@ struct PaywallMiddlewareTests {
             .select(planId: "x"),
             .purchaseSucceeded,
             .purchaseCancelled,
+            .restoreFinishedNoEntitlement,
             .stopLoading,
             .error(.unknown(message: "x")),
             .replace(.opened(from: .upgradeButton))

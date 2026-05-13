@@ -702,6 +702,13 @@
         "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Você atingiu o limite gratuito." } }
       }
     },
+    "Nothing to restore." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Nothing to restore." } },
+        "pt-BR" : { "stringUnit" : { "state" : "translated", "value" : "Nada para restaurar." } }
+      }
+    },
     "Loading plans" : {
       "extractionState" : "manual",
       "localizations" : {

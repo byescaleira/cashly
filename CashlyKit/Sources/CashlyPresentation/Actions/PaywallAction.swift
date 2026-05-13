@@ -15,6 +15,9 @@ public enum PaywallAction: CashlyReplaceableAction {
     case purchaseSucceeded
     case purchaseCancelled
     case restore
+    /// Emitted when `restore` completes but no Pro entitlement is
+    /// found — UI can show a "Nothing to restore" toast/banner.
+    case restoreFinishedNoEntitlement
     case stopLoading
     case error(CashlyError)
     case replace(PaywallState)

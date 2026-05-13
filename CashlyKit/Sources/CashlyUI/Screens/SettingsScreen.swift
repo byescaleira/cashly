@@ -21,7 +21,9 @@ import CashlyMock
 #endif
 
 public struct SettingsScreen: CashlyView {
+    @Environment(CashlyStore<PaywallState, PaywallAction>.self) var paywallStore
     @Environment(\.mainState) var state
+    @Environment(\.paywallState) var paywallState
     @Environment(\.action) var action
     @Environment(\.router) var router
     @State var showManageSheet: Bool = false
@@ -38,6 +40,16 @@ public struct SettingsScreen: CashlyView {
         #if os(iOS) || os(visionOS)
         .manageSubscriptionsSheet(isPresented: $showManageSheet)
         #endif
+        .cashlyToast(
+            isPresented: Binding(
+                get: { paywallState.restoreFinishedNoEntitlement },
+                set: { newValue in
+                    guard newValue == false else { return }
+                    paywallStore.cashlyMutate(\.restoreFinishedNoEntitlement, false)
+                }
+            ),
+            message: CashlyL10n.string("Nothing to restore.")
+        )
     }
 
     var subscriptionSection: some View {

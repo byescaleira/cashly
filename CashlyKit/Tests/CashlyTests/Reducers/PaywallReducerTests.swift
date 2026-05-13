@@ -99,6 +99,23 @@ struct PaywallReducerTests {
         }
     }
 
+    @Test("restoreFinishedNoEntitlement flips banner flag + clears loading")
+    func restoreFinishedNoEntitlement() {
+        var state = PaywallState(isLoading: true)
+        _ = reducer.reduce(into: &state, action: .restoreFinishedNoEntitlement)
+        #expect(state.isLoading == false)
+        #expect(state.restoreFinishedNoEntitlement)
+    }
+
+    @Test("restore clears the no-entitlement banner so a new attempt can re-fire")
+    func restoreClearsBanner() {
+        var state = PaywallState()
+        state.restoreFinishedNoEntitlement = true
+        _ = reducer.reduce(into: &state, action: .restore)
+        #expect(state.restoreFinishedNoEntitlement == false)
+        #expect(state.isLoading)
+    }
+
     @Test("replace swaps the whole state")
     func replaceSwaps() {
         var state = PaywallState()

@@ -29,7 +29,7 @@ public struct PaywallMiddleware: PrismMiddleware {
         case .purchase: return purchase(state: state)
         case .restore: return restore()
         case .update, .select, .purchaseSucceeded, .purchaseCancelled,
-             .stopLoading, .error, .replace:
+             .restoreFinishedNoEntitlement, .stopLoading, .error, .replace:
             return .none
         }
     }
@@ -109,7 +109,7 @@ public struct PaywallMiddleware: PrismMiddleware {
                 send(.purchaseSucceeded)
             } else {
                 analytics.track(event: "paywall_restore_no_entitlement")
-                send(.stopLoading)
+                send(.restoreFinishedNoEntitlement)
             }
         }
     }

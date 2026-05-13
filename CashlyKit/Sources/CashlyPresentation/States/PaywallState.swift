@@ -20,6 +20,10 @@ public struct PaywallState: CashlyState {
     public var selectedPlanId: String?
     public var isPurchasing: Bool
     public var didPurchase: Bool
+    /// True when a restore attempt completed without finding any
+    /// Pro entitlement. UI surfaces a brief banner / toast and
+    /// flips this back to false on dismiss.
+    public var restoreFinishedNoEntitlement: Bool = false
     public var error: CashlyError?
 
     public init(
