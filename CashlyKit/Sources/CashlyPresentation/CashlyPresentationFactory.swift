@@ -32,6 +32,12 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
         dataFactory.makeSubscriptionUseCase()
     }
 
+    /// Reachability monitor for the app delegate to forward into
+    /// MainState via `.main(.reachabilityUpdated(_:))`.
+    public func makeReachability() -> ReachabilityUseCase {
+        dataFactory.makeReachability()
+    }
+
     public func makeAddCategoryStore() -> CashlyStore<AddCategoryState, AddCategoryAction> {
         CashlyStore(
             initialState: .new(),

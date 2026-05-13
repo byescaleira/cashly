@@ -30,6 +30,7 @@ struct CashlyApp: App {
     /// for the app lifetime. Must be retained somewhere — the listener
     /// task is owned by the actor.
     let subscriptionService: SubscriptionUseCase
+    let reachability: ReachabilityUseCase
 
     @AppStorage("cashly.onboarding.completed") var onboardingCompleted: Bool = false
     @AppStorage("cashly.appearance") var appearanceRaw: String = CashlyAppearance.system.rawValue
@@ -58,6 +59,7 @@ struct CashlyApp: App {
         _mainStore = State(initialValue: factory.makeMainStore())
         _paywallStore = State(initialValue: factory.makePaywallStore(trigger: .upgradeButton))
         subscriptionService = factory.makeSubscriptionUseCase()
+        reachability = factory.makeReachability()
     }
 
     var body: some Scene {
@@ -102,6 +104,13 @@ struct CashlyApp: App {
                     // having to poll the use case.
                     for await status in subscriptionService.statusUpdates() {
                         handler(action: .main(.subscriptionUpdated(status)))
+                    }
+                }
+                .task {
+                    // Forward NWPathMonitor emissions into MainState
+                    // for the offline banner.
+                    for await status in reachability.statusUpdates() {
+                        handler(action: .main(.reachabilityUpdated(status)))
                     }
                 }
 

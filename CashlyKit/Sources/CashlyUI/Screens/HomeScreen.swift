@@ -29,6 +29,9 @@ public struct HomeScreen: CashlyView {
 
     public var body: some View {
         CashlyList {
+            if state.reachability == .offline {
+                offlineBanner
+            }
             BalanceView()
             availableSection
             varianceSection
@@ -45,6 +48,26 @@ public struct HomeScreen: CashlyView {
         .onAppear { action(.main(.fetch)) }
         .cashlyErrorAlert(error: state.error) { store.cashlyMutate(\.error, nil) }
         .navigationTitle((state.user?.selfFirstName ?? "") + CashlyL10n.string("Home"))
+    }
+
+    /// Cached-data warning. CloudKit + SwiftData keep working offline,
+    /// so the banner is informational — no blocking modal.
+    var offlineBanner: some View {
+        Section {} header: {
+            CashlyHStack(spacing: .small) {
+                CashlySymbol("wifi.slash")
+                    .accessibilityHidden(true)
+                CashlyText(CashlyL10n.string("Offline — showing cached data."))
+                    .cashly(font: .caption, weight: .semibold)
+            }
+            .cashly(color: .color(.white))
+            .cashlyPadding(.horizontal, .medium)
+            .cashlyPadding(.vertical, .small)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .cashly(background: .color(.orange))
+            .cashly(clip: .capsule)
+            .accessibilityElement(children: .combine)
+        }
     }
 
     var settingsButton: some View {

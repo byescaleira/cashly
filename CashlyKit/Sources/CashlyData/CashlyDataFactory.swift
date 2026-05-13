@@ -89,6 +89,10 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         #endif
     }
 
+    public func makeReachability() -> ReachabilityUseCase {
+        NWPathReachabilityService()
+    }
+
     public func makeTransactionUseCase() -> TransactionUseCase {
         TransactionActor(modelContainer: modelContainer)
     }

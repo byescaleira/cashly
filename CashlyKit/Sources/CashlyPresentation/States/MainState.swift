@@ -23,6 +23,11 @@ public struct MainState: CashlyState {
     /// screen having to query the use case directly.
     public var subscriptionStatus: SubscriptionStatus = .free
 
+    /// Latest network reachability snapshot. Updated by the app
+    /// delegate's reachability listener. `.unknown` at cold start
+    /// — UI treats that as online to avoid a banner flash.
+    public var reachability: ReachabilityStatus = .unknown
+
     public var error: CashlyError?
 
     /// Cache populated by `MainReducer` whenever `transactions`,

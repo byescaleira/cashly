@@ -2075,6 +2075,23 @@
           }
         }
       }
+    },
+    "Offline — showing cached data.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offline — showing cached data."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Offline — mostrando dados em cache."
+          }
+        }
+      }
     }
   }
 }
