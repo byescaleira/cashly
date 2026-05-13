@@ -101,6 +101,14 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         UserDefaultsSyncStatus()
     }
 
+    public func makeSpotlightIndexer() -> SpotlightIndexerUseCase {
+        #if canImport(CoreSpotlight)
+        return CoreSpotlightIndexer()
+        #else
+        return InMemorySpotlightIndexer()
+        #endif
+    }
+
     public func makeTransactionUseCase() -> TransactionUseCase {
         TransactionActor(modelContainer: modelContainer)
     }

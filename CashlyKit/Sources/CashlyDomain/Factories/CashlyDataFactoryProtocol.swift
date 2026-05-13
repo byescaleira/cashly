@@ -18,6 +18,7 @@ public protocol CashlyDataFactoryProtocol {
     func makeReachability() -> ReachabilityUseCase
     func makeBudgetAlerts() -> BudgetAlertsUseCase
     func makeSyncStatus() -> SyncStatusUseCase
+    func makeSpotlightIndexer() -> SpotlightIndexerUseCase
     func makeTransactionUseCase() -> TransactionUseCase
     func makeTagUseCase() -> TagUseCase
     func makeParticipantUseCase() -> ParticipantUseCase

@@ -44,6 +44,7 @@ public struct MockCashlyFactory: CashlyDataFactoryProtocol, CashlyPresentationFa
     public func makeReachability() -> ReachabilityUseCase { InMemoryReachabilityService() }
     public func makeBudgetAlerts() -> BudgetAlertsUseCase { InMemoryBudgetAlerts() }
     public func makeSyncStatus() -> SyncStatusUseCase { InMemorySyncStatus() }
+    public func makeSpotlightIndexer() -> SpotlightIndexerUseCase { InMemorySpotlightIndexer() }
     public func makeTransactionUseCase() -> TransactionUseCase { MockTransactionActor() }
     public func makeTagUseCase() -> any TagUseCase { MockTagActor() }
     public func makeParticipantUseCase() -> any ParticipantUseCase { MockParticipantActor() }
