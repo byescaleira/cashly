@@ -41,9 +41,11 @@ shared bits that don't fit anywhere else:
 - ``AnalyticsTracker``
 - ``NoopAnalyticsTracker``
 
-### Crash reporting (H11)
+### Crash reporting (H11 / H15)
 
 - ``CrashReporter``
 - ``CrashReporterLevel``
 - ``OSLogCrashReporter``
 - ``NoopCrashReporter``
+- ``CompositeCrashReporter``
+- ``SpyCrashReporter``
