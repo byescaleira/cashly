@@ -32,12 +32,41 @@ public struct MainScreen: CashlyView {
         tabView
             .onChange(of: pendingDeeplink) { _, route in
                 guard let route else { return }
-                // Switch to the home tab so the route renders on a
-                // predictable router. Specialised routing per tab can
-                // ship later — for now every push lands on home.
-                tabItem = .home
-                homeRouter.route(to: route)
+                handleDeeplink(route)
             }
+    }
+
+    /// Routes the deeplink to the most appropriate tab + router pair.
+    /// Tab routes (.home / .category / .transaction / .intelligence)
+    /// snap the tab selection; sheet/push routes (paywall, settings,
+    /// add*, detailCategory) push on the router of the currently
+    /// active tab so the user stays in context.
+    private func handleDeeplink(_ route: MainRoute) {
+        switch route {
+        case .home:
+            tabItem = .home
+        case .category, .detailCategory:
+            tabItem = .category
+            categoryRouter.route(to: route)
+        case .transaction:
+            tabItem = .transaction
+        case .intelligence:
+            tabItem = .intelligence
+        case .paywall, .settings, .addUser, .addCategory,
+             .addBudget, .addTransaction, .addTag:
+            // Use the currently active tab's router so the user
+            // stays where they were when the link landed.
+            activeRouter.route(to: route)
+        }
+    }
+
+    private var activeRouter: CashlyRouter<MainRoute> {
+        switch tabItem {
+        case .intelligence: return intelligenceRouter
+        case .category: return categoryRouter
+        case .home: return homeRouter
+        case .transaction: return transactionRouter
+        }
     }
 
     var tabView: some View {
