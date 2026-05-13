@@ -124,6 +124,10 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         InMemoryReceiptValidation(stub: .unreachable)
     }
 
+    public func makeAppLock() -> AppLockUseCase {
+        LocalAuthenticationAppLock()
+    }
+
     public func makeTransactionUseCase() -> TransactionUseCase {
         TransactionActor(modelContainer: modelContainer)
     }

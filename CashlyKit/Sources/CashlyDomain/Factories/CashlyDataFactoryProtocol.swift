@@ -22,6 +22,7 @@ public protocol CashlyDataFactoryProtocol {
     func makeFeatureFlags() -> FeatureFlagsUseCase
     func makeBackgroundRefresh() -> BackgroundRefreshUseCase
     func makeReceiptValidation() -> ReceiptValidationUseCase
+    func makeAppLock() -> AppLockUseCase
     func makeTransactionUseCase() -> TransactionUseCase
     func makeTagUseCase() -> TagUseCase
     func makeParticipantUseCase() -> ParticipantUseCase

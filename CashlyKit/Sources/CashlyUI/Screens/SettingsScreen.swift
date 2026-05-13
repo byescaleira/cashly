@@ -31,6 +31,7 @@ public struct SettingsScreen: CashlyView {
     @AppStorage("cashly.appearance") var appearanceRaw: String = CashlyAppearance.system.rawValue
     @AppStorage("cashly.budgetAlerts.overshoot") var overshootThreshold: Double = 0.8
     @AppStorage(CashlyCurrency.userDefaultsKey) var currencyCode: String = CashlyCurrency.default
+    @AppStorage("cashly.appLock.enabled") var appLockEnabled: Bool = false
 
     public init() {}
 
@@ -40,6 +41,7 @@ public struct SettingsScreen: CashlyView {
             actionsSection
             appearanceSection
             currencySection
+            securitySection
             alertsSection
             syncSection
             exportSection
@@ -159,6 +161,20 @@ public struct SettingsScreen: CashlyView {
             #endif
         } header: {
             CashlyText(CashlyL10n.string("Appearance"))
+        }
+    }
+
+    var securitySection: some View {
+        Section {
+            Toggle(isOn: $appLockEnabled) {
+                CashlyLabel(CashlyL10n.string("App Lock"), symbol: "faceid")
+            }
+        } header: {
+            CashlyText(CashlyL10n.string("Security"))
+        } footer: {
+            CashlyText(CashlyL10n.string("Require Face ID, Touch ID, or passcode to open Cashly."))
+                .cashly(font: .caption)
+                .cashly(color: .textSecondary)
         }
     }
 

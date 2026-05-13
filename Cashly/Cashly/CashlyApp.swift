@@ -39,6 +39,9 @@ struct CashlyApp: App {
     let reachability: ReachabilityUseCase
     let syncStatus: SyncStatusUseCase
     let spotlight: SpotlightIndexerUseCase
+    let appLock: AppLockUseCase
+
+    @State private var isLocked: Bool = false
 
     @AppStorage("cashly.onboarding.completed") var onboardingCompleted: Bool = false
     @AppStorage("cashly.appearance") var appearanceRaw: String = CashlyAppearance.system.rawValue
@@ -70,6 +73,7 @@ struct CashlyApp: App {
         reachability = factory.makeReachability()
         syncStatus = factory.makeSyncStatus()
         spotlight = factory.makeSpotlightIndexer()
+        appLock = factory.makeAppLock()
     }
 
     var body: some Scene {
@@ -155,7 +159,12 @@ struct CashlyApp: App {
                     routeExternal(MainDeeplink.resolve(activity))
                 }
                 .onChange(of: scenePhase) { _, phase in
-                    guard phase == .active else { return }
+                    guard phase == .active else {
+                        if phase == .background, isLocked == false {
+                            Task { if await appLock.isEnabled() { isLocked = true } }
+                        }
+                        return
+                    }
                     // UIKit hands the quick-action type to AppDelegate;
                     // forward on every activation so cold + warm
                     // launches both reach routeExternal.
@@ -173,6 +182,13 @@ struct CashlyApp: App {
                         case .insights:
                             routeExternal(.insights)
                         }
+                    }
+                    Task { await promptUnlockIfNeeded() }
+                }
+                .task { await promptUnlockIfNeeded() }
+                .overlay {
+                    if isLocked {
+                        AppLockOverlay { Task { await promptUnlockIfNeeded() } }
                     }
                 }
                 .tint(Color.accentColor)
@@ -200,6 +216,16 @@ struct CashlyApp: App {
         Task { @MainActor in
             await Task.yield()
             pendingDeeplink = nil
+        }
+    }
+
+    @MainActor
+    func promptUnlockIfNeeded() async {
+        guard await appLock.isEnabled() else { isLocked = false; return }
+        let outcome = await appLock.authenticate(reason: "Unlock Cashly")
+        switch outcome {
+        case .unlocked, .unavailable: isLocked = false
+        case .failed: isLocked = true
         }
     }
 

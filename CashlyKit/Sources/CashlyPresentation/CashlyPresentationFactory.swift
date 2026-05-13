@@ -48,6 +48,10 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
         dataFactory.makeSpotlightIndexer()
     }
 
+    public func makeAppLock() -> AppLockUseCase {
+        dataFactory.makeAppLock()
+    }
+
     public func makeAddCategoryStore() -> CashlyStore<AddCategoryState, AddCategoryAction> {
         CashlyStore(
             initialState: .new(),

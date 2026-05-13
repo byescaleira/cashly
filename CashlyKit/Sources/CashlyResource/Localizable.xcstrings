@@ -188,6 +188,22 @@
         }
       }
     },
+    "App Lock": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App Lock"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bloqueio do app"
+          }
+        }
+      }
+    },
     "Appearance": {
       "extractionState": "manual",
       "localizations": {
@@ -388,6 +404,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Cashly Pro ativo"
+          }
+        }
+      }
+    },
+    "Cashly is locked": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cashly is locked"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cashly está bloqueado"
           }
         }
       }
@@ -1597,6 +1629,22 @@
         }
       }
     },
+    "Require Face ID, Touch ID, or passcode to open Cashly.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Require Face ID, Touch ID, or passcode to open Cashly."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exigir Face ID, Touch ID ou código para abrir o Cashly."
+          }
+        }
+      }
+    },
     "Restore Purchases": {
       "extractionState": "manual",
       "localizations": {
@@ -1695,6 +1743,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Buscar transações"
+          }
+        }
+      }
+    },
+    "Security": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Security"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Segurança"
           }
         }
       }
@@ -2188,6 +2252,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Usuários, categorias, orçamentos e previsões de IA ilimitados."
+          }
+        }
+      }
+    },
+    "Unlock": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desbloquear"
           }
         }
       }
