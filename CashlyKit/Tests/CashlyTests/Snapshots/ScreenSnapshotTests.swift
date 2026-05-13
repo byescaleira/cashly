@@ -134,5 +134,20 @@ struct ScreenSnapshotTests {
     func homeLargeText() {
         snapshotLargeText(of: HomeScreen(), named: "HomeScreen")
     }
+
+    @Test("SettingsScreen renders")
+    func settings() {
+        snapshot(of: SettingsScreen(), named: "SettingsScreen")
+    }
+
+    @Test("InsightsScreen renders")
+    func insights() {
+        snapshot(of: InsightsScreen(), named: "InsightsScreen")
+    }
+
+    @Test("OnboardingScreen renders")
+    func onboarding() {
+        snapshot(of: OnboardingScreen(), named: "OnboardingScreen")
+    }
 }
 #endif
