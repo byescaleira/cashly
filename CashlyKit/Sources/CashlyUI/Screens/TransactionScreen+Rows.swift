@@ -11,7 +11,7 @@ import CashlyDomain
 extension TransactionScreen {
     @ViewBuilder
     var transactionsSection: some View {
-        let sections = state.transactionSections
+        let sections = filteredSections
         ForEach(sections.indices, id: \.self) {
             let transactions = sections[$0]
             Section {

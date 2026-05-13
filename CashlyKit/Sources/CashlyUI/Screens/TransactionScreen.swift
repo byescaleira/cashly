@@ -24,6 +24,24 @@ public struct TransactionScreen: CashlyView {
     @State var editMode: CashlyEditMode = .inactive
     @State var selection: Set<CashlyDomain.Transaction> = []
     @State var showDeleteAlert = false
+    @State var searchText: String = ""
+
+    /// Sections filtered by the active search term. Empty search
+    /// returns the cached sections from MainState as-is; otherwise
+    /// match the summary OR category name OR budget summary
+    /// (case-insensitive).
+    var filteredSections: [[CashlyDomain.Transaction]] {
+        guard !searchText.isEmpty else { return state.transactionSectionsCache }
+        let needle = searchText.lowercased()
+        return state.transactionSectionsCache.compactMap { section in
+            let matches = section.filter { tx in
+                tx.summary.lowercased().contains(needle)
+                || tx.budget.category.name.lowercased().contains(needle)
+                || tx.budget.summary.lowercased().contains(needle)
+            }
+            return matches.isEmpty ? nil : matches
+        }
+    }
 
     public init() {}
 
@@ -60,6 +78,7 @@ public struct TransactionScreen: CashlyView {
         }
         .environment(\.isLoading, state.isLoading)
         .onAppear { action(.main(.fetch)) }
+        .searchable(text: $searchText, prompt: CashlyL10n.string("Search transactions"))
         .navigationTitle(CashlyL10n.string("Transactions"))
     }
 

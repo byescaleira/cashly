@@ -1990,6 +1990,23 @@
           }
         }
       }
+    },
+    "Search transactions": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Search transactions"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscar transações"
+          }
+        }
+      }
     }
   }
 }
