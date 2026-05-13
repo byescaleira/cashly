@@ -31,19 +31,7 @@ public actor CategoryActor: CategoryUseCase {
     public func getCategories() async throws -> [CashlyDomain.Category] {
         let descriptor = FetchDescriptor<CategoryEntity>(sortBy: [.init(\.name, order: .forward)])
         let entities = try modelContext.fetch(descriptor)
-        var categories = [CashlyDomain.Category]()
-        for entity in entities {
-            if let category = try await adapter.categoryAdapted(
-                id: entity.id,
-                user: entity.user,
-                name: entity.name,
-                color: entity.color,
-                icon: entity.icon
-            ) {
-                categories.append(category)
-            }
-        }
-        return categories
+        return try await batchAdapt(entities)
     }
 
     public func getCategories(ids: [String]?, users: [String]?) async throws -> [CashlyDomain.Category] {
@@ -72,14 +60,28 @@ public actor CategoryActor: CategoryUseCase {
         )
 
         let entities = try modelContext.fetch(descriptor)
+        return try await batchAdapt(entities)
+    }
+
+    private func batchAdapt(_ entities: [CategoryEntity]) async throws -> [CashlyDomain.Category] {
+        let rows = entities.map { (
+            id: $0.id, user: $0.user, name: $0.name, color: $0.color, icon: $0.icon
+        ) }
+        // Fast path when the adapter is the production `AdapterActor`
+        // — it exposes a batch method that issues one UserEntity
+        // fetch for the whole list. Falls back to the per-entity
+        // protocol method for mocks that don't implement the batch.
+        if let adapter = adapter as? AdapterActor {
+            return try await adapter.categoriesAdapted(rows)
+        }
         var categories = [CashlyDomain.Category]()
-        for entity in entities {
+        for row in rows {
             if let category = try await adapter.categoryAdapted(
-                id: entity.id,
-                user: entity.user,
-                name: entity.name,
-                color: entity.color,
-                icon: entity.icon
+                id: row.id,
+                user: row.user,
+                name: row.name,
+                color: row.color,
+                icon: row.icon
             ) {
                 categories.append(category)
             }

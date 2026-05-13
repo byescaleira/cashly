@@ -31,19 +31,7 @@ public actor TagActor: TagUseCase {
     public func getTags() async throws -> [Tag] {
         let descriptor = FetchDescriptor<TagEntity>(sortBy: [.init(\.name, order: .forward)])
         let entities = try modelContext.fetch(descriptor)
-        var tags = [Tag]()
-        for entity in entities {
-            if let tag = try await adapter.tagAdapted(
-                id: entity.id,
-                user: entity.user,
-                name: entity.name,
-                color: entity.color,
-                icon: entity.icon
-            ) {
-                tags.append(tag)
-            }
-        }
-        return tags
+        return try await batchAdapt(entities)
     }
 
     public func getTags(users: [String]?) async throws -> [Tag] {
@@ -57,14 +45,24 @@ public actor TagActor: TagUseCase {
             sortBy: [.init(\.name, order: .forward)]
         )
         let entities = try modelContext.fetch(descriptor)
+        return try await batchAdapt(entities)
+    }
+
+    private func batchAdapt(_ entities: [TagEntity]) async throws -> [Tag] {
+        let rows = entities.map { (
+            id: $0.id, user: $0.user, name: $0.name, color: $0.color, icon: $0.icon
+        ) }
+        if let adapter = adapter as? AdapterActor {
+            return try await adapter.tagsAdapted(rows)
+        }
         var tags = [Tag]()
-        for entity in entities {
+        for row in rows {
             if let tag = try await adapter.tagAdapted(
-                id: entity.id,
-                user: entity.user,
-                name: entity.name,
-                color: entity.color,
-                icon: entity.icon
+                id: row.id,
+                user: row.user,
+                name: row.name,
+                color: row.color,
+                icon: row.icon
             ) {
                 tags.append(tag)
             }

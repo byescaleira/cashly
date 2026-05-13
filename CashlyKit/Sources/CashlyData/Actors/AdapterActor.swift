@@ -70,6 +70,85 @@ public actor AdapterActor: AdapterUseCase {
         )
     }
 
+    /// Batch variant: resolves N category rows with a single
+    /// UserEntity fetch. Caller passes plain value tuples instead of
+    /// `CategoryEntity` so the snapshot crosses actor boundaries
+    /// safely.
+    public func categoriesAdapted(
+        _ rows: [(id: String, user: String, name: String, color: String, icon: String)]
+    ) throws -> [CashlyDomain.Category] {
+        guard !rows.isEmpty else { return [] }
+        let usersById = try fetchUsersById(ids: rows.map(\.user))
+        return rows.compactMap { row in
+            guard let u = usersById[row.user] else { return nil }
+            return Category(
+                id: row.id,
+                user: u,
+                name: row.name.capitalized,
+                color: row.color,
+                icon: row.icon
+            )
+        }
+    }
+
+    /// Batch variant: resolves N tag rows sharing one UserEntity
+    /// fetch.
+    public func tagsAdapted(
+        _ rows: [(id: String, user: String, name: String, color: String, icon: String)]
+    ) throws -> [Tag] {
+        guard !rows.isEmpty else { return [] }
+        let usersById = try fetchUsersById(ids: rows.map(\.user))
+        return rows.compactMap { row in
+            guard let u = usersById[row.user] else { return nil }
+            return Tag(
+                id: row.id,
+                user: u,
+                name: row.name,
+                color: row.color,
+                icon: row.icon
+            )
+        }
+    }
+
+    /// Batch variant for budgets: one CategoryEntity fetch + one
+    /// UserEntity fetch instead of 2N round trips.
+    public func budgetsAdapted(
+        _ rows: [(id: String, amount: Double, category: String, date: Int, summary: String)]
+    ) throws -> [Budget] {
+        guard !rows.isEmpty else { return [] }
+        let categoryIds = rows.map(\.category)
+        let categoryPredicate: Predicate<CategoryEntity> = #Predicate {
+            categoryIds.contains($0.id)
+        }
+        let categoryEntities = try modelContext.fetch(FetchDescriptor<CategoryEntity>(predicate: categoryPredicate))
+        let categoryRows = categoryEntities.map { (
+            id: $0.id, user: $0.user, name: $0.name, color: $0.color, icon: $0.icon
+        ) }
+        let categoriesById = Dictionary(
+            uniqueKeysWithValues: try categoriesAdapted(categoryRows).map { ($0.id, $0) }
+        )
+        return rows.compactMap { row in
+            guard let category = categoriesById[row.category] else { return nil }
+            return Budget(
+                id: row.id,
+                amount: row.amount,
+                category: category,
+                date: row.date,
+                summary: row.summary
+            )
+        }
+    }
+
+    private func fetchUsersById(ids: [String]) throws -> [String: User] {
+        let predicate: Predicate<UserEntity> = #Predicate {
+            ids.contains($0.id)
+        }
+        let entities = try modelContext.fetch(FetchDescriptor<UserEntity>(predicate: predicate))
+        return Dictionary(uniqueKeysWithValues: entities.map {
+            ($0.id, User(id: $0.id, name: $0.name, photo: $0.photo))
+        })
+    }
+
     public func userAdapted(
         id: String,
         name: String,

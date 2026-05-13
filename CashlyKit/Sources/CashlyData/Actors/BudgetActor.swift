@@ -31,19 +31,7 @@ public actor BudgetActor: BudgetUseCase {
     public func getBudgets() async throws -> [Budget] {
         let descriptor = FetchDescriptor<BudgetEntity>(sortBy: [.init(\.date, order: .reverse)])
         let entities = try modelContext.fetch(descriptor)
-        var budgets = [Budget]()
-        for entity in entities {
-            if let budget = try await adapter.budgetAdapted(
-                id: entity.id,
-                amount: entity.amount,
-                category: entity.category,
-                date: entity.date,
-                summary: entity.summary
-            ) {
-                budgets.append(budget)
-            }
-        }
-        return budgets
+        return try await batchAdapt(entities)
     }
 
     public func getBudgets(
@@ -76,14 +64,24 @@ public actor BudgetActor: BudgetUseCase {
         )
 
         let entities = try modelContext.fetch(descriptor)
+        return try await batchAdapt(entities)
+    }
+
+    private func batchAdapt(_ entities: [BudgetEntity]) async throws -> [Budget] {
+        let rows = entities.map { (
+            id: $0.id, amount: $0.amount, category: $0.category, date: $0.date, summary: $0.summary
+        ) }
+        if let adapter = adapter as? AdapterActor {
+            return try await adapter.budgetsAdapted(rows)
+        }
         var budgets = [Budget]()
-        for entity in entities {
+        for row in rows {
             if let budget = try await adapter.budgetAdapted(
-                id: entity.id,
-                amount: entity.amount,
-                category: entity.category,
-                date: entity.date,
-                summary: entity.summary
+                id: row.id,
+                amount: row.amount,
+                category: row.category,
+                date: row.date,
+                summary: row.summary
             ) {
                 budgets.append(budget)
             }
