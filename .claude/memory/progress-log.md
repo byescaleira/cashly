@@ -1,3 +1,13 @@
+## 2026-05-12 — Release process formalizado
+
+**Tipo**: chore
+**Módulos**: scripts/release.sh, .claude/memory/release-process.md
+**Resumo**: Per-wave workflow agora codificado: build/test green → swift-reviewer agent (gate) → conventional commit → release.sh (semver bump, changelog auto via git log, gh release create) → progress-log entry. release.sh suporta `major|minor|patch|x.y.z` + `--dry-run`. Pre-1.0 convention: minor=feature, patch=tudo mais.
+**Impacto**: Ondas anteriores (A1-A6, B1-B4, C1-C7, D1-D9) ficaram sem review formal; review retroativo rodando para gerar follow-up issues. Daqui em diante, cada onda passa pelo gate.
+**Aprendizados**: Process > tooling — checklist explícito > ferramenta sofisticada.
+
+---
+
 ## 2026-05-12 — Ondas D6/D7 (deferred — Widget + AppIntents)
 
 **Tipo**: planning
