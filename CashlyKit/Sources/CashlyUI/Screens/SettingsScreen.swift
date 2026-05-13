@@ -35,6 +35,7 @@ public struct SettingsScreen: CashlyView {
         Form {
             subscriptionSection
             actionsSection
+            exportSection
             appSection
             dangerZoneSection
         }
@@ -135,6 +136,39 @@ public struct SettingsScreen: CashlyView {
         } header: {
             CashlyText(CashlyL10n.string("App"))
         }
+    }
+
+    var exportSection: some View {
+        Section {
+            ShareLink(
+                item: transactionsCSV,
+                preview: SharePreview(
+                    CashlyL10n.string("Transactions"),
+                    image: Image(systemName: "tablecells")
+                )
+            ) {
+                CashlyLabel(CashlyL10n.string("Export Transactions (CSV)"), symbol: "square.and.arrow.up")
+            }
+            ShareLink(
+                item: budgetsCSV,
+                preview: SharePreview(
+                    CashlyL10n.string("Budgets"),
+                    image: Image(systemName: "tablecells")
+                )
+            ) {
+                CashlyLabel(CashlyL10n.string("Export Budgets (CSV)"), symbol: "square.and.arrow.up")
+            }
+        } header: {
+            CashlyText(CashlyL10n.string("Export"))
+        }
+    }
+
+    private var transactionsCSV: String {
+        CashlyCSVExporter.transactions(state.transactions)
+    }
+
+    private var budgetsCSV: String {
+        CashlyCSVExporter.budgets(state.budgets)
     }
 
     var dangerZoneSection: some View {
