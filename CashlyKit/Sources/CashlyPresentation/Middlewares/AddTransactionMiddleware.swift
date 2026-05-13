@@ -124,7 +124,9 @@ public struct AddTransactionMiddleware: PrismMiddleware {
                     status: status,
                     splitMode: state.splitMode,
                     splitValue: state.splitValue,
-                    paymentsPlan: state.installmentIsOn ? state.installmentPlan : nil
+                    paymentsPlan: state.installmentIsOn ? state.installmentPlan : nil,
+                    kind: state.kind,
+                    needsReview: state.needsReview
                 )
                 send(.saved)
             } catch {

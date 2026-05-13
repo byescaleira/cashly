@@ -26,11 +26,19 @@ public struct AddTransactionState: CashlyState {
     public var installmentIsOn: Bool
     public var installmentPlan: Int
     public var error: CashlyError?
+    /// Direction of the money flow being captured. ADR-0009 J5.
+    public var kind: TransactionKind = .expense
+    /// `true` when a field was inferred by dictation (J8+) and the
+    /// user should review before saving. UI uses this to render the
+    /// review badge.
+    public var needsReview: Bool = false
 
     public var canSave: Bool {
+        // ADR-0009 J5: income / loan transactions can be saved
+        // without a budget — they correlate by date+category only.
         user != nil &&
         category != nil &&
-        budget != nil &&
+        (kind == .expense ? budget != nil : true) &&
         amount > .zero &&
         summary.trimmingCharacters(in: .whitespacesAndNewlines).count > 3 &&
         (participants.isEmpty ? true : isValidParticipants)

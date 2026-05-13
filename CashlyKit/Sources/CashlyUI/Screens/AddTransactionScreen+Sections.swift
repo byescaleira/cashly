@@ -10,6 +10,30 @@ import CashlyResource
 import CashlyDomain
 
 extension AddTransactionScreen {
+    var kindSection: some View {
+        Section {
+            Picker(selection: store.cashlyBinding(\.kind)) {
+                ForEach(TransactionKind.allCases, id: \.self) { kind in
+                    Text(verbatim: kind.localizedSummary).tag(kind)
+                }
+            } label: {
+                CashlyLabel(CashlyL10n.string("Type"), symbol: "arrow.left.arrow.right")
+            }
+            #if os(iOS)
+            .pickerStyle(.segmented)
+            #endif
+            if state.needsReview {
+                CashlyHStack(spacing: .extraSmall) {
+                    CashlySymbol("exclamationmark.triangle.fill")
+                        .cashly(color: .color(.orange))
+                    CashlyText(CashlyL10n.string("Needs review"))
+                        .cashly(color: .color(.orange))
+                        .cashly(font: .caption, weight: .semibold)
+                }
+            }
+        }
+    }
+
     var amountSection: some View {
         return Section {} header: {
             CashlyVStack(spacing: .small) {

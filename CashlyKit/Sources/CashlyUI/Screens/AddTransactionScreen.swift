@@ -40,6 +40,7 @@ public struct AddTransactionScreen: CashlyView {
 
     public var body: some View {
         Form {
+            kindSection
             amountSection
             summarySection
             categoriesSection

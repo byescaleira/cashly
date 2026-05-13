@@ -184,7 +184,7 @@ public actor TransactionActor: TransactionUseCase {
     public func addTransaction(
         id: String,
         participants: [Participant],
-        budget: Budget,
+        budget: Budget?,
         amount: Double,
         date: TimeInterval,
         summary: String,
@@ -193,14 +193,15 @@ public actor TransactionActor: TransactionUseCase {
         splitValue: Double?,
         paymentsPlan: Int?,
         kind: TransactionKind,
-        needsReview: Bool
+        needsReview: Bool,
+        category: CashlyDomain.Category
     ) async throws {
         let predicate: Predicate<TransactionEntity> = #Predicate { $0.id == id }
         let descriptor = FetchDescriptor<TransactionEntity>(predicate: predicate)
         let entity = try modelContext.fetch(descriptor).first ?? TransactionEntity(
             id: id,
             participants: participants.map(\.id),
-            budget: budget.id,
+            budget: budget?.id ?? "",
             amount: amount,
             date: date,
             summary: summary,
@@ -210,11 +211,11 @@ public actor TransactionActor: TransactionUseCase {
             paymentsPlan: paymentsPlan,
             kind: kind.rawValue,
             needsReview: needsReview,
-            category: budget.category.id
+            category: category.id
         )
         entity.id = id
         entity.participants = participants.map(\.id)
-        entity.budget = budget.id
+        entity.budget = budget?.id ?? ""
         entity.amount = amount
         entity.date = date
         entity.summary = summary
@@ -224,10 +225,7 @@ public actor TransactionActor: TransactionUseCase {
         entity.paymentsPlan = paymentsPlan
         entity.kind = kind.rawValue
         entity.needsReview = needsReview
-        // J2d: always write the direct category FK so once J2f drops
-        // `budget`, every persisted row already has the new column
-        // populated.
-        entity.category = budget.category.id
+        entity.category = category.id
         modelContext.insert(entity)
         try modelContext.save()
     }

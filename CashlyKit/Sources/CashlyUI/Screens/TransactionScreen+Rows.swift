@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CashlyDomain
+import CashlyResource
 
 extension TransactionScreen {
     @ViewBuilder
@@ -49,7 +50,21 @@ extension TransactionScreen {
                 }
 
             CashlyVStack(alignment: .leading, spacing: .extraSmall) {
-                CashlyText(transaction.summary)
+                CashlyHStack(spacing: .extraSmall) {
+                    CashlyText(transaction.summary)
+                    if transaction.needsReview {
+                        CashlySymbol("exclamationmark.triangle.fill")
+                            .cashly(color: .color(.orange))
+                            .cashly(font: .caption)
+                            .accessibilityLabel(CashlyL10n.string("Needs review"))
+                    }
+                    if transaction.kind != .expense {
+                        CashlySymbol(transaction.kind.icon)
+                            .cashly(font: .caption)
+                            .cashly(color: .textSecondary)
+                            .accessibilityLabel(Text(verbatim: transaction.kind.localizedSummary))
+                    }
+                }
 
                 CashlyHStack {
                     CashlyText(transaction.date.date.cashly(with: .time))

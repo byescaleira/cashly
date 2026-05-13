@@ -1103,6 +1103,22 @@
         }
       }
     },
+    "Income": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Income"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Entrada"
+          }
+        }
+      }
+    },
     "Insights": {
       "extractionState": "manual",
       "localizations": {
@@ -1221,6 +1237,22 @@
         }
       }
     },
+    "Loan": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loan"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empréstimo"
+          }
+        }
+      }
+    },
     "Male": {
       "extractionState": "manual",
       "localizations": {
@@ -1319,6 +1351,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nome"
+          }
+        }
+      }
+    },
+    "Needs review": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Needs review"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Precisa revisar"
           }
         }
       }
@@ -2235,6 +2283,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Transações"
+          }
+        }
+      }
+    },
+    "Type": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Type"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tipo"
           }
         }
       }

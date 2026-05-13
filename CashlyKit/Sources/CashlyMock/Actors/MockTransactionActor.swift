@@ -63,7 +63,7 @@ actor MockTransactionActor: TransactionUseCase {
     func addTransaction(
         id: String,
         participants: [Participant],
-        budget: Budget,
+        budget: Budget?,
         amount: Double,
         date: TimeInterval,
         summary: String,
@@ -72,7 +72,8 @@ actor MockTransactionActor: TransactionUseCase {
         splitValue: Double?,
         paymentsPlan: Int?,
         kind: TransactionKind,
-        needsReview: Bool
+        needsReview: Bool,
+        category: CashlyDomain.Category
     ) async throws {
         let transaction = CashlyDomain.Transaction(
             id: id,
@@ -86,7 +87,8 @@ actor MockTransactionActor: TransactionUseCase {
             splitValue: splitValue,
             paymentsPlan: paymentsPlan,
             kind: kind,
-            needsReview: needsReview
+            needsReview: needsReview,
+            category: category
         )
         transactions.append(transaction)
     }

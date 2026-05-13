@@ -216,7 +216,7 @@ final class TransactionUseCaseDouble: TransactionUseCase, @unchecked Sendable {
     func addTransaction(
         id: String,
         participants: [Participant],
-        budget: Budget,
+        budget: Budget?,
         amount: Double,
         date: TimeInterval,
         summary: String,
@@ -225,7 +225,8 @@ final class TransactionUseCaseDouble: TransactionUseCase, @unchecked Sendable {
         splitValue: Double?,
         paymentsPlan: Int?,
         kind: TransactionKind,
-        needsReview: Bool
+        needsReview: Bool,
+        category: CashlyDomain.Category
     ) async throws {
         if throwOnAdd { throw CashlyError.persistence(.saveFailed(entity: "Test", underlying: "save")) }
     }
