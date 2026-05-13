@@ -115,7 +115,7 @@ public struct HomeScreen: CashlyView {
                         CashlyHStack {
                             CashlyText(b.summary)
                             CashlySpacer()
-                            CashlyText(b.amount.formatted(.currency(code: "USD")))
+                            CashlyText(CashlyCurrency.format(b.amount))
                                 .cashly(color: .textSecondary)
                                 .cashly(font: .caption)
                         }

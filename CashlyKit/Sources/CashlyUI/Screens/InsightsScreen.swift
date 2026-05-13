@@ -64,7 +64,7 @@ public struct InsightsScreen: CashlyView {
                             .accessibilityHidden(true)
                         CashlyText(tag.name)
                         CashlySpacer()
-                        CashlyText(state.transactionsAmount(for: tag).formatted(.currency(code: "USD")))
+                        CashlyText(CashlyCurrency.format(state.transactionsAmount(for: tag)))
                             .cashly(font: .caption, weight: .semibold)
                             .cashly(color: .textSecondary)
                     }
@@ -100,7 +100,7 @@ public struct InsightsScreen: CashlyView {
     }
 
     private var categoryAccessibilityLabel: String {
-        let parts = categoryData.map { "\($0.name) \($0.amount.formatted(.currency(code: "USD")))" }
+        let parts = categoryData.map { "\($0.name) \(CashlyCurrency.format($0.amount))" }
         return CashlyL10n.string("Spending by category") + ": " + parts.joined(separator: ", ")
     }
 

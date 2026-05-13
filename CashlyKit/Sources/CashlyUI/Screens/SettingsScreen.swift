@@ -30,6 +30,7 @@ public struct SettingsScreen: CashlyView {
     @State var showWipeConfirm: Bool = false
     @AppStorage("cashly.appearance") var appearanceRaw: String = CashlyAppearance.system.rawValue
     @AppStorage("cashly.budgetAlerts.overshoot") var overshootThreshold: Double = 0.8
+    @AppStorage(CashlyCurrency.userDefaultsKey) var currencyCode: String = CashlyCurrency.default
 
     public init() {}
 
@@ -38,6 +39,7 @@ public struct SettingsScreen: CashlyView {
             subscriptionSection
             actionsSection
             appearanceSection
+            currencySection
             alertsSection
             syncSection
             exportSection
@@ -157,6 +159,23 @@ public struct SettingsScreen: CashlyView {
             #endif
         } header: {
             CashlyText(CashlyL10n.string("Appearance"))
+        }
+    }
+
+    var currencySection: some View {
+        Section {
+            Picker(selection: $currencyCode) {
+                ForEach(CashlyCurrency.common, id: \.self) { code in
+                    Text(code).tag(code)
+                }
+            } label: {
+                CashlyLabel(CashlyL10n.string("Currency"), symbol: "dollarsign.circle")
+            }
+            #if os(iOS)
+            .pickerStyle(.menu)
+            #endif
+        } header: {
+            CashlyText(CashlyL10n.string("Currency"))
         }
     }
 
