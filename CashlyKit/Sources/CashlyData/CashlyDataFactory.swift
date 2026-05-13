@@ -93,6 +93,10 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         NWPathReachabilityService()
     }
 
+    public func makeBudgetAlerts() -> BudgetAlertsUseCase {
+        UserNotificationsBudgetAlerts()
+    }
+
     public func makeTransactionUseCase() -> TransactionUseCase {
         TransactionActor(modelContainer: modelContainer)
     }

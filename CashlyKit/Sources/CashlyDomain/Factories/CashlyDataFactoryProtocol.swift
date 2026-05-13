@@ -16,6 +16,7 @@ public protocol CashlyDataFactoryProtocol {
     func makeFeatureGate() -> FeatureGateUseCase
     func makeAppIcon() -> AppIconUseCase
     func makeReachability() -> ReachabilityUseCase
+    func makeBudgetAlerts() -> BudgetAlertsUseCase
     func makeTransactionUseCase() -> TransactionUseCase
     func makeTagUseCase() -> TagUseCase
     func makeParticipantUseCase() -> ParticipantUseCase
