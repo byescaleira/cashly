@@ -46,8 +46,14 @@ extension AddTransactionScreen {
             isDictating = false
             guard !finalUtterance.isEmpty else { return }
             await applyDraft(from: finalUtterance)
+            // Clear the interim banner shortly after the form
+            // updates so the user sees the "Done" state briefly,
+            // then it slides away on its own.
+            try? await Task.sleep(nanoseconds: 1_500_000_000)
+            dictationInterim = ""
         } catch {
             isDictating = false
+            dictationInterim = ""
         }
     }
 

@@ -53,6 +53,16 @@ public struct AddTransactionScreen: CashlyView {
             installmentSection
             selectedParticipantsSection
         }
+        .safeAreaInset(edge: .top) {
+            if isDictating || !dictationInterim.isEmpty {
+                DictationOverlayView(
+                    text: dictationInterim,
+                    isListening: isDictating
+                )
+                .transition(.move(edge: .top).combined(with: .opacity))
+            }
+        }
+        .animation(.bouncy, value: isDictating)
         .toolbar {
             ToolbarItemGroup {
                 dictationItem
