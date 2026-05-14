@@ -78,6 +78,10 @@ public struct TransactionScreen: CashlyView {
         }
         .environment(\.isLoading, state.isLoading)
         .onAppear { action(.main(.fetch)) }
+        .refreshable {
+            action(.main(.fetch))
+            try? await Task.sleep(nanoseconds: 400_000_000)
+        }
         .searchable(text: $searchText, prompt: CashlyL10n.string("Search transactions"))
         .navigationTitle(CashlyL10n.string("Transactions"))
     }

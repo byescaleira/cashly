@@ -19,11 +19,17 @@ public struct InsightsScreen: CashlyView {
 
     public init() {}
 
+    @Environment(\.action) var action
+
     public var body: some View {
         Form {
             summarySection
             categoriesSection
             tagsSection
+        }
+        .refreshable {
+            action(.main(.fetch))
+            try? await Task.sleep(nanoseconds: 400_000_000)
         }
         .navigationTitle(CashlyL10n.string("Insights"))
     }

@@ -53,6 +53,13 @@ public struct HomeScreen: CashlyView {
             ToolbarItem { FilterItemView() }
         }
         .onAppear { action(.main(.fetch)) }
+        .refreshable {
+            action(.main(.fetch))
+            // Small yield so the pull-to-refresh spinner stays on
+            // screen long enough to feel responsive instead of
+            // disappearing instantly when the cache is already warm.
+            try? await Task.sleep(nanoseconds: 400_000_000)
+        }
         .cashlyErrorAlert(error: state.error) { store.cashlyMutate(\.error, nil) }
         .searchable(text: $searchText, prompt: CashlyL10n.string("Search categories, tags, budgets"))
         .navigationTitle((state.user?.selfFirstName ?? "") + CashlyL10n.string("Home"))
