@@ -49,14 +49,16 @@ actor MockBudgetActor: BudgetUseCase {
         amount: Double,
         category: CashlyDomain.Category,
         date: Int,
-        summary: String
+        summary: String,
+        rollsOver: Bool
     ) async throws {
         let budget = Budget(
             id: id,
             amount: amount,
             category: category,
             date: date,
-            summary: summary
+            summary: summary,
+            rollsOver: rollsOver
         )
         budgets.append(budget)
     }

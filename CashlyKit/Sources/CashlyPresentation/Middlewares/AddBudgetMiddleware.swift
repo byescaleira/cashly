@@ -94,7 +94,8 @@ public struct AddBudgetMiddleware: PrismMiddleware {
                     amount: state.amount,
                     category: category,
                     date: state.date.timeIntervalSince1970.yearMonth,
-                    summary: state.summary
+                    summary: state.summary,
+                    rollsOver: state.rollsOver
                 )
                 send(.saved)
             } catch {

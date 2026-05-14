@@ -1838,6 +1838,22 @@
         }
       }
     },
+    "Roll over leftover": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Roll over leftover"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acumular sobra"
+          }
+        }
+      }
+    },
     "Save": {
       "extractionState": "manual",
       "localizations": {
@@ -2542,6 +2558,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Desbloqueie com Pro"
+          }
+        }
+      }
+    },
+    "Unspent amount from last month adds to this budget's allowance.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unspent amount from last month adds to this budget's allowance."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valor não gasto do mês passado entra no limite deste orçamento."
           }
         }
       }

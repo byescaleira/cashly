@@ -14,19 +14,25 @@ public class BudgetEntity {
     public var category: String = ""
     public var date: Int = 0
     public var summary: String = ""
+    /// K9: when true, leftover from previous month carries into
+    /// this budget's effective allowance. Defaults to false so
+    /// pre-K9 rows preserve their behavior.
+    public var rollsOver: Bool = false
 
     public init(
         id: String,
         amount: Double,
         category: String,
         date: Int,
-        summary: String
+        summary: String,
+        rollsOver: Bool = false
     ) {
         self.id = id
         self.amount = amount
         self.category = category
         self.date = date
         self.summary = summary
+        self.rollsOver = rollsOver
     }
 }
 

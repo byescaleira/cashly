@@ -16,7 +16,8 @@ public actor AdapterActor: AdapterUseCase {
         amount: Double,
         category: String,
         date: Int,
-        summary: String
+        summary: String,
+        rollsOver: Bool
     ) async throws -> Budget? {
         let categoryPredicate: Predicate<CategoryEntity> = #Predicate {
             $0.id == category
@@ -38,7 +39,8 @@ public actor AdapterActor: AdapterUseCase {
             amount: amount,
             category: category,
             date: date,
-            summary: summary
+            summary: summary,
+            rollsOver: rollsOver
         )
     }
 
@@ -113,7 +115,7 @@ public actor AdapterActor: AdapterUseCase {
     /// Batch variant for budgets: one CategoryEntity fetch + one
     /// UserEntity fetch instead of 2N round trips.
     public func budgetsAdapted(
-        _ rows: [(id: String, amount: Double, category: String, date: Int, summary: String)]
+        _ rows: [(id: String, amount: Double, category: String, date: Int, summary: String, rollsOver: Bool)]
     ) throws -> [Budget] {
         guard !rows.isEmpty else { return [] }
         let categoryIds = rows.map(\.category)
@@ -134,7 +136,8 @@ public actor AdapterActor: AdapterUseCase {
                 amount: row.amount,
                 category: category,
                 date: row.date,
-                summary: row.summary
+                summary: row.summary,
+                rollsOver: row.rollsOver
             )
         }
     }
@@ -226,7 +229,8 @@ public actor AdapterActor: AdapterUseCase {
                   amount: budgetEntity.amount,
                   category: budgetEntity.category,
                   date: budgetEntity.date,
-                  summary: budgetEntity.summary
+                  summary: budgetEntity.summary,
+                  rollsOver: budgetEntity.rollsOver
               ),
               let status = TransactionStatus(rawValue: status)
         else { return nil }

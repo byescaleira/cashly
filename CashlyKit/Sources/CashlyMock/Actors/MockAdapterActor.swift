@@ -19,7 +19,8 @@ actor MockAdapterActor: AdapterUseCase {
         amount: Double,
         category: String,
         date: Int,
-        summary: String
+        summary: String,
+        rollsOver: Bool
     ) async throws -> Budget? {
         guard let category = categories.first(where: { $0.id == category }) else { return nil }
         return Budget(
@@ -27,7 +28,8 @@ actor MockAdapterActor: AdapterUseCase {
             amount: amount,
             category: category,
             date: date,
-            summary: summary
+            summary: summary,
+            rollsOver: rollsOver
         )
     }
 

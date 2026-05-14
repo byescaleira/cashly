@@ -120,9 +120,9 @@ final class BudgetUseCaseDouble: BudgetUseCase, @unchecked Sendable {
         budgets.removeAll()
     }
 
-    func addBudget(id: String, amount: Double, category: CashlyDomain.Category, date: Int, summary: String) async throws {
+    func addBudget(id: String, amount: Double, category: CashlyDomain.Category, date: Int, summary: String, rollsOver: Bool) async throws {
         if throwOnAdd { throw CashlyError.persistence(.saveFailed(entity: "Test", underlying: "save")) }
-        budgets.append(Budget(id: id, amount: amount, category: category, date: date, summary: summary))
+        budgets.append(Budget(id: id, amount: amount, category: category, date: date, summary: summary, rollsOver: rollsOver))
     }
 }
 

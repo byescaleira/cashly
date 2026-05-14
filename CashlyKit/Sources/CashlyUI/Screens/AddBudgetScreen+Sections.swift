@@ -75,4 +75,16 @@ extension AddBudgetScreen {
                 .cashly(color: .text)
         }
     }
+
+    var rolloverSection: some View {
+        Section {
+            Toggle(isOn: store.cashlyBinding(\.rollsOver)) {
+                CashlyLabel(CashlyL10n.string("Roll over leftover"), symbol: "arrow.uturn.forward")
+            }
+        } footer: {
+            CashlyText(CashlyL10n.string("Unspent amount from last month adds to this budget's allowance."))
+                .cashly(font: .caption)
+                .cashly(color: .textSecondary)
+        }
+    }
 }

@@ -69,7 +69,8 @@ public actor BudgetActor: BudgetUseCase {
 
     private func batchAdapt(_ entities: [BudgetEntity]) async throws -> [Budget] {
         let rows = entities.map { (
-            id: $0.id, amount: $0.amount, category: $0.category, date: $0.date, summary: $0.summary
+            id: $0.id, amount: $0.amount, category: $0.category,
+            date: $0.date, summary: $0.summary, rollsOver: $0.rollsOver
         ) }
         if let adapter = adapter as? AdapterActor {
             return try await adapter.budgetsAdapted(rows)
@@ -81,7 +82,8 @@ public actor BudgetActor: BudgetUseCase {
                 amount: row.amount,
                 category: row.category,
                 date: row.date,
-                summary: row.summary
+                summary: row.summary,
+                rollsOver: row.rollsOver
             ) {
                 budgets.append(budget)
             }
@@ -113,7 +115,8 @@ public actor BudgetActor: BudgetUseCase {
         amount: Double,
         category: CashlyDomain.Category,
         date: Int,
-        summary: String
+        summary: String,
+        rollsOver: Bool
     ) async throws {
         let predicate: Predicate<BudgetEntity> = #Predicate { $0.id == id }
         let descriptor = FetchDescriptor<BudgetEntity>(predicate: predicate)
@@ -122,13 +125,15 @@ public actor BudgetActor: BudgetUseCase {
             amount: amount,
             category: category.id,
             date: date,
-            summary: summary
+            summary: summary,
+            rollsOver: rollsOver
         )
         entity.id = id
         entity.amount = amount
         entity.category = category.id
         entity.date = date
         entity.summary = summary
+        entity.rollsOver = rollsOver
         modelContext.insert(entity)
         try modelContext.save()
     }

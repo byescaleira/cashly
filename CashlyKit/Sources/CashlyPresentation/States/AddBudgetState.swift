@@ -19,6 +19,9 @@ public struct AddBudgetState: CashlyState {
     public var isNew: Bool
     public var isSaved: Bool = false
     public var error: CashlyError?
+    /// K9b: toggle that controls whether leftover from the previous
+    /// month rolls into this budget's effective allowance.
+    public var rollsOver: Bool = false
 
     public var user: User? {
         category?.user

@@ -39,6 +39,7 @@ public struct AddBudgetScreen: CashlyView {
             summarySection
             categoriesSection
             dateSection
+            rolloverSection
         }
         .toolbar {
             ToolbarItemGroup {

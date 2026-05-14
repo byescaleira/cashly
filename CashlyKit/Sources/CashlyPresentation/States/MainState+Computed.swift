@@ -81,13 +81,49 @@ public extension MainState {
         // FK. Income transactions are skipped; loans count only while
         // pending; installments apply per-month amounts to every
         // covered month.
+        spent(forCategoryId: budget.category.id, in: budget.date)
+    }
+
+    /// Spent total for a (category, yearMonth) pair. Pulled into its
+    /// own helper so the budget rollover computation (K9) can reuse
+    /// it for the previous month.
+    func spent(forCategoryId categoryId: String, in yearMonth: Int) -> Double {
         transactions.reduce(.zero) { partial, tx in
             guard tx.contributesToExpenseTotals,
-                  tx.category.id == budget.category.id,
-                  tx.touches(yearMonth: budget.date)
+                  tx.category.id == categoryId,
+                  tx.touches(yearMonth: yearMonth)
             else { return partial }
             return partial + tx.installmentAmount
         }
+    }
+
+    /// Effective allowance for a budget. When `rollsOver` is true,
+    /// adds the leftover (amount − spent) from the previous month —
+    /// recursing back month-by-month while the chain stays positive
+    /// and still finds a same-category budget that also opts into
+    /// rollover.
+    func effectiveAmount(for budget: Budget) -> Double {
+        guard budget.rollsOver else { return budget.amount }
+        return budget.amount + leftover(forCategoryId: budget.category.id, before: budget.date)
+    }
+
+    /// Recursive helper: leftover from the previous month for a
+    /// given category. Stops as soon as it finds a non-rollover
+    /// budget, no budget at all, or a negative remainder (the user
+    /// overspent — don't carry debt forward).
+    func leftover(forCategoryId categoryId: String, before yearMonth: Int) -> Double {
+        let prevYearMonth: Int = {
+            let year = yearMonth / 100
+            let month = yearMonth % 100
+            if month == 1 { return (year - 1) * 100 + 12 }
+            return year * 100 + (month - 1)
+        }()
+        guard let prevBudget = budgets.first(where: {
+            $0.category.id == categoryId && $0.date == prevYearMonth
+        }) else { return 0 }
+        let spent = spent(forCategoryId: categoryId, in: prevYearMonth)
+        let remaining = prevBudget.amount + (prevBudget.rollsOver ? leftover(forCategoryId: categoryId, before: prevYearMonth) : 0) - spent
+        return max(remaining, 0)
     }
 
     func transactionsAmount(for tag: Tag) -> Double {

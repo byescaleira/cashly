@@ -21,6 +21,27 @@ public protocol BudgetUseCase: Sendable {
         amount: Double,
         category: Category,
         date: Int,
-        summary: String
+        summary: String,
+        rollsOver: Bool
     ) async throws
+}
+
+public extension BudgetUseCase {
+    /// K9 back-compat: pre-K9 callsites don't pass rollsOver.
+    func addBudget(
+        id: String,
+        amount: Double,
+        category: Category,
+        date: Int,
+        summary: String
+    ) async throws {
+        try await addBudget(
+            id: id,
+            amount: amount,
+            category: category,
+            date: date,
+            summary: summary,
+            rollsOver: false
+        )
+    }
 }

@@ -13,7 +13,8 @@ public protocol AdapterUseCase: Sendable {
         amount: Double,
         category: String,
         date: Int,
-        summary: String
+        summary: String,
+        rollsOver: Bool
     ) async throws -> Budget?
 
     func categoryAdapted(
@@ -65,6 +66,24 @@ public protocol AdapterUseCase: Sendable {
 }
 
 public extension AdapterUseCase {
+    /// K9 back-compat shim: pre-K9 callsites don't pass rollsOver.
+    func budgetAdapted(
+        id: String,
+        amount: Double,
+        category: String,
+        date: Int,
+        summary: String
+    ) async throws -> Budget? {
+        try await budgetAdapted(
+            id: id,
+            amount: amount,
+            category: category,
+            date: date,
+            summary: summary,
+            rollsOver: false
+        )
+    }
+
     /// Back-compat shim for callsites that don't yet pass `category`.
     /// New code should always pass the FK explicitly.
     func transactionAdapted(

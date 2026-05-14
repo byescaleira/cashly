@@ -172,5 +172,5 @@ private actor SeededBudgetUseCase: BudgetUseCase {
     func getBudgets(categories: [String]?, date: Date?) async throws -> [Budget] { budgets }
     func removeBudget(id: String) async throws {}
     func removeBudgets() async throws {}
-    func addBudget(id: String, amount: Double, category: CashlyDomain.Category, date: Int, summary: String) async throws {}
+    func addBudget(id: String, amount: Double, category: CashlyDomain.Category, date: Int, summary: String, rollsOver: Bool) async throws {}
 }
