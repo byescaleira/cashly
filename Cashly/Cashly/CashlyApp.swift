@@ -48,6 +48,11 @@ struct CashlyApp: App {
 
     @AppStorage("cashly.onboarding.completed") var onboardingCompleted: Bool = false
     @AppStorage("cashly.appearance") var appearanceRaw: String = CashlyAppearance.system.rawValue
+    /// K11: tracks whether the post-onboarding paywall has already
+    /// been presented. Set to true the first time the flow runs so
+    /// the user doesn't see it twice if onboarding is reopened
+    /// programmatically.
+    @AppStorage("cashly.paywall.postOnboardingSeen") var postOnboardingPaywallSeen: Bool = false
 
     private var appearance: CashlyAppearance {
         CashlyAppearance(rawValue: appearanceRaw) ?? .system
@@ -206,6 +211,21 @@ struct CashlyApp: App {
                     OnboardingScreen(onUpgrade: {
                         routeExternal(.paywall(trigger: .upgradeButton))
                     })
+                }
+                .onChange(of: onboardingCompleted) { _, isCompleted in
+                    // K11: when onboarding finishes for the first
+                    // time on a Free tier user, give the UI a beat
+                    // to settle then show the paywall. Pro users
+                    // and repeat onboardings are skipped.
+                    guard isCompleted,
+                          !postOnboardingPaywallSeen,
+                          !mainStore.state.isPro
+                    else { return }
+                    postOnboardingPaywallSeen = true
+                    Task { @MainActor in
+                        try? await Task.sleep(nanoseconds: 600_000_000)
+                        routeExternal(.paywall(trigger: .upgradeButton))
+                    }
                 }
                 #endif
         }
