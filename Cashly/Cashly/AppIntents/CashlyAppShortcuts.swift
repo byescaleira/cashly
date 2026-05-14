@@ -44,19 +44,37 @@ struct OpenInsightsIntent: AppIntent {
 struct CashlyAppShortcutsProvider: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
+            intent: CreateTransactionIntent(),
+            phrases: [
+                "Log \(\.$utterance) in \(.applicationName)",
+                "I spent \(\.$utterance) in \(.applicationName)",
+                "Register in \(.applicationName) \(\.$utterance)",
+                "New \(.applicationName) transaction \(\.$utterance)",
+                "Registrar \(\.$utterance) no \(.applicationName)",
+                "Gastei \(\.$utterance) no \(.applicationName)",
+                "Nova transação \(\.$utterance) no \(.applicationName)"
+            ],
+            shortTitle: "Log Transaction",
+            systemImageName: "plus.circle.fill"
+        )
+        AppShortcut(
             intent: AddTransactionIntent(),
             phrases: [
                 "Add a transaction in \(.applicationName)",
-                "New \(.applicationName) transaction"
+                "New \(.applicationName) transaction",
+                "Adicionar transação no \(.applicationName)",
+                "Nova transação no \(.applicationName)"
             ],
             shortTitle: "Add Transaction",
-            systemImageName: "plus.circle.fill"
+            systemImageName: "square.and.pencil"
         )
         AppShortcut(
             intent: OpenInsightsIntent(),
             phrases: [
                 "Show \(.applicationName) insights",
-                "Open my \(.applicationName) spending"
+                "Open my \(.applicationName) spending",
+                "Mostrar insights do \(.applicationName)",
+                "Abrir gastos do \(.applicationName)"
             ],
             shortTitle: "Insights",
             systemImageName: "chart.bar.xaxis"

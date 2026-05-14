@@ -93,6 +93,13 @@ struct CashlyApp: App {
         transactionUseCase = factory.makeTransactionUseCase()
         budgetUseCase = factory.makeBudgetUseCase()
         categoryUseCase = factory.makeCategoryUseCase()
+
+        SiriTransactionDependencies.shared = SiriTransactionDependencies(
+            transactionDictation: transactionDictation,
+            transactionUseCase: transactionUseCase,
+            categoryUseCase: categoryUseCase,
+            budgetUseCase: budgetUseCase
+        )
     }
 
     var body: some Scene {
