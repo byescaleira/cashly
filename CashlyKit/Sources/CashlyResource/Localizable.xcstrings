@@ -1151,6 +1151,22 @@
         }
       }
     },
+    "Import Transactions (CSV)": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Import Transactions (CSV)"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Importar Transações (CSV)"
+          }
+        }
+      }
+    },
     "Income": {
       "localizations": {
         "en": {

@@ -9,6 +9,7 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
 // `.manageSubscriptionsSheet` is a SwiftUI modifier provided by the
 // StoreKit framework. No StoreKit types cross this boundary — the
 // import buys exactly that one modifier.
@@ -32,6 +33,8 @@ public struct SettingsScreen: CashlyView {
     @AppStorage("cashly.budgetAlerts.overshoot") var overshootThreshold: Double = 0.8
     @AppStorage(CashlyCurrency.userDefaultsKey) var currencyCode: String = CashlyCurrency.default
     @AppStorage("cashly.appLock.enabled") var appLockEnabled: Bool = false
+    @State var showImporter: Bool = false
+    @State var importToast: String?
 
     public init() {}
 
@@ -282,9 +285,35 @@ public struct SettingsScreen: CashlyView {
                     CashlyLabel(CashlyL10n.string("Export Full Backup (JSON)"), symbol: "square.and.arrow.up")
                 }
             }
+            CashlyButton {
+                showImporter = true
+            } label: {
+                CashlyLabel(CashlyL10n.string("Import Transactions (CSV)"), symbol: "square.and.arrow.down")
+            }
+            .cashly(tint: .text)
         } header: {
             CashlyText(CashlyL10n.string("Export"))
         }
+        .fileImporter(
+            isPresented: $showImporter,
+            allowedContentTypes: [.commaSeparatedText, .plainText],
+            allowsMultipleSelection: false
+        ) { result in
+            switch result {
+            case let .success(urls):
+                guard let url = urls.first else { return }
+                action(.main(.importCSV(url)))
+            case let .failure(error):
+                importToast = error.localizedDescription
+            }
+        }
+        .cashlyToast(
+            isPresented: Binding(
+                get: { importToast != nil },
+                set: { if !$0 { importToast = nil } }
+            ),
+            message: importToast ?? ""
+        )
     }
 
     private var backupJSON: String? {

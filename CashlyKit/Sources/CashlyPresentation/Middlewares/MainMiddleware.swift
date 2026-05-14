@@ -113,8 +113,9 @@ public struct MainMiddleware: PrismMiddleware {
         case .fetchPredictions: return fetchPredictions(state: state)
         case .wipeAllData: return wipeAllData()
         case let .settleLoan(tx): return settleLoan(transaction: tx)
+        case let .importCSV(url): return importCSV(url: url, state: state)
         case .subscriptionUpdated, .reachabilityUpdated, .syncStatusUpdated,
-             .error, .stopLoading, .replace: return .none
+             .error, .stopLoading, .csvImportFinished, .replace: return .none
         }
     }
 
@@ -256,6 +257,85 @@ public struct MainMiddleware: PrismMiddleware {
                 send(.error(.persistence(.removeFailed(entity: "Transaction", underlying: error.localizedDescription))))
             }
         }
+    }
+
+    private func importCSV(url: URL, state: MainState) -> PrismEffect<MainAction> {
+        let categories = state.categories
+        let budgets = state.budgets
+        let txUseCase = transactionUseCase
+        return .run { send in
+            // Security-scoped resource handling for documents picked
+            // outside the app sandbox. Always release the claim on
+            // exit regardless of success.
+            let didStart = url.startAccessingSecurityScopedResource()
+            defer { if didStart { url.stopAccessingSecurityScopedResource() } }
+
+            let source: String
+            do {
+                source = try String(contentsOf: url, encoding: .utf8)
+            } catch {
+                send(.error(.persistence(.fetchFailed(entity: "CSV", underlying: error.localizedDescription))))
+                return
+            }
+            let rows: [CashlyCSVImporter.TransactionRow]
+            do {
+                rows = try CashlyCSVImporter.transactions(source)
+            } catch {
+                send(.error(.domain(.invalidInput(field: "csv", reason: String(describing: error)))))
+                return
+            }
+
+            var added = 0
+            var skipped = 0
+            for row in rows {
+                // Resolve category via fuzzy match — handles
+                // exporter labels that may not be exact equality.
+                guard let category = CashlyFuzzyMatch.bestMatch(
+                    for: row.categoryName,
+                    in: categories,
+                    key: { $0.name }
+                ) else {
+                    skipped += 1
+                    continue
+                }
+                let budget = CashlyFuzzyMatch.bestMatch(
+                    for: row.budgetSummary,
+                    in: budgets.filter { $0.category.id == category.id },
+                    key: { $0.summary }
+                )
+                let status = Self.parseStatus(row.status)
+                do {
+                    try await txUseCase.addTransaction(
+                        id: UUID().uuidString,
+                        participants: [],
+                        budget: budget,
+                        amount: row.amount,
+                        date: row.date,
+                        summary: row.summary,
+                        status: status,
+                        splitMode: nil,
+                        splitValue: nil,
+                        paymentsPlan: nil,
+                        kind: .expense,
+                        needsReview: false,
+                        category: category
+                    )
+                    added += 1
+                } catch {
+                    skipped += 1
+                }
+            }
+            send(.csvImportFinished(added: added, skipped: skipped))
+            send(.fetch)
+        }
+    }
+
+    private static func parseStatus(_ raw: String) -> TransactionStatus {
+        let lowered = raw.lowercased()
+        if lowered.contains("settled") { return .settled }
+        if lowered.contains("canceled") { return .canceled }
+        if lowered.contains("receive") { return .pendingToReceive }
+        return .pendingToPay
     }
 
     private func settleLoan(transaction tx: CashlyDomain.Transaction) -> PrismEffect<MainAction> {

@@ -5,6 +5,7 @@
 //  Created by Rafael Escaleira on 02/09/25.
 //
 
+import Foundation
 import CashlyDomain
 
 public enum MainAction: CashlyAction, CashlyReplaceableAction {
@@ -38,6 +39,14 @@ public enum MainAction: CashlyAction, CashlyReplaceableAction {
     /// against expense totals (and disappears from the pending loans
     /// list).
     case settleLoan(CashlyDomain.Transaction)
+    /// K14: ingest a CSV file the user picked from disk. The
+    /// middleware uses CashlyCSVImporter, maps rows onto the
+    /// existing categories + budgets, and inserts new transactions.
+    /// Rows that don't map to any category are skipped + summarised
+    /// to the user via an error.
+    case importCSV(URL)
+    /// K14: outcome of an import — rows added vs rows skipped.
+    case csvImportFinished(added: Int, skipped: Int)
     case error(CashlyError)
     case replace(MainState)
 }
