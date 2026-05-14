@@ -115,6 +115,11 @@ public struct SettingsScreen: CashlyView {
                 }
                 .cashly(tint: .color(.yellow))
             }
+            NavigationLink {
+                ManageCategoriesScreen()
+            } label: {
+                CashlyLabel(CashlyL10n.string("Manage Categories"), symbol: "list.bullet.rectangle")
+            }
             CashlyButton {
                 // Restore is a quiet operation — it runs on the
                 // existing paywall store, and the global subscription

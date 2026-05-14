@@ -22,7 +22,8 @@ public protocol AdapterUseCase: Sendable {
         user: String,
         name: String,
         color: String,
-        icon: String
+        icon: String,
+        order: Int
     ) async throws -> CashlyDomain.Category?
 
     func userAdapted(
@@ -66,6 +67,24 @@ public protocol AdapterUseCase: Sendable {
 }
 
 public extension AdapterUseCase {
+    /// K8 back-compat: pre-K8 callsites don't pass order.
+    func categoryAdapted(
+        id: String,
+        user: String,
+        name: String,
+        color: String,
+        icon: String
+    ) async throws -> CashlyDomain.Category? {
+        try await categoryAdapted(
+            id: id,
+            user: user,
+            name: name,
+            color: color,
+            icon: icon,
+            order: 0
+        )
+    }
+
     /// K9 back-compat shim: pre-K9 callsites don't pass rollsOver.
     func budgetAdapted(
         id: String,

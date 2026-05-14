@@ -114,6 +114,7 @@ public struct MainMiddleware: PrismMiddleware {
         case .wipeAllData: return wipeAllData()
         case let .settleLoan(tx): return settleLoan(transaction: tx)
         case let .importCSV(url): return importCSV(url: url, state: state)
+        case let .reorderCategories(ids): return reorderCategories(ids: ids)
         case .subscriptionUpdated, .reachabilityUpdated, .syncStatusUpdated,
              .error, .stopLoading, .csvImportFinished, .replace: return .none
         }
@@ -336,6 +337,17 @@ public struct MainMiddleware: PrismMiddleware {
         if lowered.contains("canceled") { return .canceled }
         if lowered.contains("receive") { return .pendingToReceive }
         return .pendingToPay
+    }
+
+    private func reorderCategories(ids: [String]) -> PrismEffect<MainAction> {
+        .run { send in
+            do {
+                try await categoryUseCase.reorderCategories(ids: ids)
+                send(.fetch)
+            } catch {
+                send(.error(.persistence(.saveFailed(entity: "Category", underlying: error.localizedDescription))))
+            }
+        }
     }
 
     private func settleLoan(transaction tx: CashlyDomain.Transaction) -> PrismEffect<MainAction> {

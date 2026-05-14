@@ -162,11 +162,13 @@ final class CategoryUseCaseDouble: CategoryUseCase, @unchecked Sendable {
         categories.removeAll()
     }
 
-    func addCategory(id: String, user: String, name: String, color: String, icon: String) async throws {
+    func addCategory(id: String, user: String, name: String, color: String, icon: String, order: Int) async throws {
         if throwOnAdd { throw CashlyError.persistence(.saveFailed(entity: "Test", underlying: "save")) }
         // For doubles we just track the call; constructing a real User isn't
         // required for the assertions we make.
     }
+
+    func reorderCategories(ids: [String]) async throws {}
 }
 
 // MARK: - TransactionUseCaseDouble

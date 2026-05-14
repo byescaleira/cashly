@@ -30,7 +30,8 @@ public actor AdapterActor: AdapterUseCase {
                 user: categoryEntity.user,
                 name: categoryEntity.name,
                 color: categoryEntity.color,
-                icon: categoryEntity.icon
+                icon: categoryEntity.icon,
+                order: categoryEntity.order
               )
         else { return nil }
 
@@ -49,7 +50,8 @@ public actor AdapterActor: AdapterUseCase {
         user: String,
         name: String,
         color: String,
-        icon: String
+        icon: String,
+        order: Int
     ) async throws -> CashlyDomain.Category? {
         let userPredicate: Predicate<UserEntity> = #Predicate {
             $0.id == user
@@ -68,7 +70,8 @@ public actor AdapterActor: AdapterUseCase {
             user: user,
             name: name.capitalized,
             color: color,
-            icon: icon
+            icon: icon,
+            order: order
         )
     }
 
@@ -77,7 +80,7 @@ public actor AdapterActor: AdapterUseCase {
     /// `CategoryEntity` so the snapshot crosses actor boundaries
     /// safely.
     public func categoriesAdapted(
-        _ rows: [(id: String, user: String, name: String, color: String, icon: String)]
+        _ rows: [(id: String, user: String, name: String, color: String, icon: String, order: Int)]
     ) throws -> [CashlyDomain.Category] {
         guard !rows.isEmpty else { return [] }
         let usersById = try fetchUsersById(ids: rows.map(\.user))
@@ -88,7 +91,8 @@ public actor AdapterActor: AdapterUseCase {
                 user: u,
                 name: row.name.capitalized,
                 color: row.color,
-                icon: row.icon
+                icon: row.icon,
+                order: row.order
             )
         }
     }
@@ -124,7 +128,7 @@ public actor AdapterActor: AdapterUseCase {
         }
         let categoryEntities = try modelContext.fetch(FetchDescriptor<CategoryEntity>(predicate: categoryPredicate))
         let categoryRows = categoryEntities.map { (
-            id: $0.id, user: $0.user, name: $0.name, color: $0.color, icon: $0.icon
+            id: $0.id, user: $0.user, name: $0.name, color: $0.color, icon: $0.icon, order: $0.order
         ) }
         let categoriesById = Dictionary(
             uniqueKeysWithValues: try categoriesAdapted(categoryRows).map { ($0.id, $0) }
@@ -277,7 +281,7 @@ public actor AdapterActor: AdapterUseCase {
             let predicate: Predicate<CategoryEntity> = #Predicate { $0.id == category }
             let entities = try modelContext.fetch(FetchDescriptor<CategoryEntity>(predicate: predicate))
             resolvedCategory = try categoriesAdapted(entities.map { (
-                id: $0.id, user: $0.user, name: $0.name, color: $0.color, icon: $0.icon
+                id: $0.id, user: $0.user, name: $0.name, color: $0.color, icon: $0.icon, order: $0.order
             ) }).first
         } else {
             resolvedCategory = nil

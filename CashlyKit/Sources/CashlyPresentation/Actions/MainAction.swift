@@ -47,6 +47,9 @@ public enum MainAction: CashlyAction, CashlyReplaceableAction {
     case importCSV(URL)
     /// K14: outcome of an import — rows added vs rows skipped.
     case csvImportFinished(added: Int, skipped: Int)
+    /// K8: persist the drag-reordered category list. UI passes the
+    /// ids in the new order.
+    case reorderCategories([String])
     case error(CashlyError)
     case replace(MainState)
 }

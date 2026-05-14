@@ -48,7 +48,7 @@ public struct MainReducer: PrismReducer {
             state = newState
             state.recomputeDerived()
         case .selectUser, .fetchPredictions, .wipeAllData, .settleLoan,
-             .importCSV, .csvImportFinished: break
+             .importCSV, .csvImportFinished, .reorderCategories: break
         }
         return .none
     }

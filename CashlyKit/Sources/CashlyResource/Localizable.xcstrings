@@ -1350,6 +1350,22 @@
         }
       }
     },
+    "Manage Categories": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manage Categories"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gerenciar Categorias"
+          }
+        }
+      }
+    },
     "Manage Subscription": {
       "extractionState": "manual",
       "localizations": {

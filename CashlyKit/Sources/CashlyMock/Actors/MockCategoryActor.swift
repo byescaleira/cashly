@@ -48,7 +48,8 @@ actor MockCategoryActor: CategoryUseCase {
         user: String,
         name: String,
         color: String,
-        icon: String
+        icon: String,
+        order: Int
     ) async throws {
         guard let user = users.first(where: { $0.id == user }) else { return }
         let category = Category(
@@ -56,9 +57,18 @@ actor MockCategoryActor: CategoryUseCase {
             user: user,
             name: name,
             color: color,
-            icon: icon
+            icon: icon,
+            order: order
         )
         categories.append(category)
+    }
+
+    func reorderCategories(ids: [String]) async throws {
+        var byId = Dictionary(uniqueKeysWithValues: categories.map { ($0.id, $0) })
+        for (index, id) in ids.enumerated() {
+            byId[id]?.order = index
+        }
+        categories = byId.values.sorted { $0.order < $1.order }
     }
 }
 

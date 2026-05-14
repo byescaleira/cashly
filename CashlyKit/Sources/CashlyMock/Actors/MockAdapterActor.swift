@@ -38,7 +38,8 @@ actor MockAdapterActor: AdapterUseCase {
         user: String,
         name: String,
         color: String,
-        icon: String
+        icon: String,
+        order: Int
     ) async throws -> CashlyDomain.Category? {
         guard let user = users.first(where: { $0.id == user }) else { return nil }
         return Category(
@@ -46,7 +47,8 @@ actor MockAdapterActor: AdapterUseCase {
             user: user,
             name: name.capitalized,
             color: color,
-            icon: icon
+            icon: icon,
+            order: order
         )
     }
 

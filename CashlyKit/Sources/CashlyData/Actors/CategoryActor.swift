@@ -29,7 +29,10 @@ public actor CategoryActor: CategoryUseCase {
     }
 
     public func getCategories() async throws -> [CashlyDomain.Category] {
-        let descriptor = FetchDescriptor<CategoryEntity>(sortBy: [.init(\.name, order: .forward)])
+        let descriptor = FetchDescriptor<CategoryEntity>(sortBy: [
+            .init(\.order, order: .forward),
+            .init(\.name, order: .forward)
+        ])
         let entities = try modelContext.fetch(descriptor)
         return try await batchAdapt(entities)
     }
@@ -56,7 +59,10 @@ public actor CategoryActor: CategoryUseCase {
 
         let descriptor = FetchDescriptor<CategoryEntity>(
             predicate: predicate,
-            sortBy: [.init(\.name, order: .forward)]
+            sortBy: [
+                .init(\.order, order: .forward),
+                .init(\.name, order: .forward)
+            ]
         )
 
         let entities = try modelContext.fetch(descriptor)
@@ -65,7 +71,7 @@ public actor CategoryActor: CategoryUseCase {
 
     private func batchAdapt(_ entities: [CategoryEntity]) async throws -> [CashlyDomain.Category] {
         let rows = entities.map { (
-            id: $0.id, user: $0.user, name: $0.name, color: $0.color, icon: $0.icon
+            id: $0.id, user: $0.user, name: $0.name, color: $0.color, icon: $0.icon, order: $0.order
         ) }
         // Fast path when the adapter is the production `AdapterActor`
         // — it exposes a batch method that issues one UserEntity
@@ -113,7 +119,8 @@ public actor CategoryActor: CategoryUseCase {
         user: String,
         name: String,
         color: String,
-        icon: String
+        icon: String,
+        order: Int
     ) async throws {
         let predicate: Predicate<CategoryEntity> = #Predicate { $0.id == id }
         let descriptor = FetchDescriptor<CategoryEntity>(predicate: predicate)
@@ -122,14 +129,27 @@ public actor CategoryActor: CategoryUseCase {
             user: user,
             name: name,
             color: color,
-            icon: icon
+            icon: icon,
+            order: order
         )
         entity.id = id
         entity.user = user
         entity.name = name
         entity.color = color
         entity.icon = icon
+        entity.order = order
         modelContext.insert(entity)
+        try modelContext.save()
+    }
+
+    public func reorderCategories(ids: [String]) async throws {
+        let predicate: Predicate<CategoryEntity> = #Predicate { ids.contains($0.id) }
+        let descriptor = FetchDescriptor<CategoryEntity>(predicate: predicate)
+        let entities = try modelContext.fetch(descriptor)
+        let byId = Dictionary(uniqueKeysWithValues: entities.map { ($0.id, $0) })
+        for (index, id) in ids.enumerated() {
+            byId[id]?.order = index
+        }
         try modelContext.save()
     }
 }

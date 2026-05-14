@@ -161,7 +161,8 @@ private actor SeededCategoryUseCase: CategoryUseCase {
     func getCategories(ids: [String]?, users: [String]?) async throws -> [CashlyDomain.Category] { categories }
     func removeCategory(id: String) async throws {}
     func removeCategories() async throws {}
-    func addCategory(id: String, user: String, name: String, color: String, icon: String) async throws {}
+    func addCategory(id: String, user: String, name: String, color: String, icon: String, order: Int) async throws {}
+    func reorderCategories(ids: [String]) async throws {}
 }
 
 private actor SeededBudgetUseCase: BudgetUseCase {
