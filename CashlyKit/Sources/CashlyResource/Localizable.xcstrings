@@ -2482,6 +2482,22 @@
         }
       }
     },
+    "Switch user": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Switch user"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trocar usuário"
+          }
+        }
+      }
+    },
     "Sync": {
       "extractionState": "manual",
       "localizations": {
@@ -2546,6 +2562,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tags"
+          }
+        }
+      }
+    },
+    "Tap to switch user": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to switch user"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toque para trocar de usuário"
           }
         }
       }
@@ -2848,6 +2880,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Fazer upgrade para Pro"
+          }
+        }
+      }
+    },
+    "User": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "User"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usuário"
           }
         }
       }
