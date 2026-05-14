@@ -73,9 +73,17 @@ extension AddTransactionScreen {
             store.cashlyMutate(\.date, date)
         }
         store.cashlyMutate(\.needsReview, draft.needsReview)
-        if let name = draft.categoryName,
-           let match = state.budgets.first(where: { $0.category.name.lowercased() == name.lowercased() }) {
-            store.cashlyMutate(\.budget, match)
+        if let name = draft.categoryName {
+            // Substring + Levenshtein fallback so "mercado" maps to
+            // "Supermercado" (or vice versa) instead of forcing the
+            // user to use the exact stored label.
+            if let match = CashlyFuzzyMatch.bestMatch(
+                for: name,
+                in: state.budgets,
+                key: { $0.category.name }
+            ) {
+                store.cashlyMutate(\.budget, match)
+            }
         }
         // Map spoken participant names against the loaded users
         // list. Mark them selected in the screen's local set so
