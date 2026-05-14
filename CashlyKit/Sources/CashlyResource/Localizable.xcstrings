@@ -35,6 +35,22 @@
         }
       }
     },
+    "Add": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adicionar"
+          }
+        }
+      }
+    },
     "Add Budget": {
       "extractionState": "manual",
       "localizations": {
@@ -167,6 +183,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Alertas"
+          }
+        }
+      }
+    },
+    "Amount": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amount"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valor"
           }
         }
       }
@@ -305,6 +337,22 @@
         }
       }
     },
+    "Biweekly": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Biweekly"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quinzenal"
+          }
+        }
+      }
+    },
     "Budget": {
       "extractionState": "manual",
       "localizations": {
@@ -386,6 +434,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "CPU"
+          }
+        }
+      }
+    },
+    "Cadence": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cadence"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cadência"
           }
         }
       }
@@ -1466,6 +1530,22 @@
         }
       }
     },
+    "Monthly": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Monthly"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mensal"
+          }
+        }
+      }
+    },
     "Name": {
       "extractionState": "manual",
       "localizations": {
@@ -1532,6 +1612,22 @@
         }
       }
     },
+    "New recurring": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New recurring"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nova recorrente"
+          }
+        }
+      }
+    },
     "No data yet.": {
       "extractionState": "manual",
       "localizations": {
@@ -1562,6 +1658,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sem resultados."
+          }
+        }
+      }
+    },
+    "No recurring transactions yet.": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No recurring transactions yet."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nenhuma transação recorrente ainda."
           }
         }
       }
@@ -1832,6 +1944,38 @@
           "stringUnit": {
             "state": "translated",
             "value": "Recibo"
+          }
+        }
+      }
+    },
+    "Recurring": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recurring"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recorrentes"
+          }
+        }
+      }
+    },
+    "Recurring Transactions": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recurring Transactions"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Transações Recorrentes"
           }
         }
       }
@@ -2234,6 +2378,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gastos por categoria"
+          }
+        }
+      }
+    },
+    "Start": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Início"
           }
         }
       }
@@ -2760,6 +2920,22 @@
         }
       }
     },
+    "Weekly": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weekly"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Semanal"
+          }
+        }
+      }
+    },
     "Welcome to Cashly": {
       "extractionState": "manual",
       "localizations": {
@@ -2790,6 +2966,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Limpa todos os usuários, categorias, orçamentos, tags e transações locais. Cópias do CloudKit seguem no próximo sync."
+          }
+        }
+      }
+    },
+    "Yearly": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yearly"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anual"
           }
         }
       }

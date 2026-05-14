@@ -64,6 +64,22 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
         dataFactory.makeAttachmentStorage()
     }
 
+    public func makeRecurringTransactions() -> RecurringTransactionUseCase {
+        dataFactory.makeRecurringTransactions()
+    }
+
+    public func makeTransactionUseCase() -> TransactionUseCase {
+        dataFactory.makeTransactionUseCase()
+    }
+
+    public func makeBudgetUseCase() -> BudgetUseCase {
+        dataFactory.makeBudgetUseCase()
+    }
+
+    public func makeCategoryUseCase() -> CategoryUseCase {
+        dataFactory.makeCategoryUseCase()
+    }
+
     public func makeAddCategoryStore() -> CashlyStore<AddCategoryState, AddCategoryAction> {
         CashlyStore(
             initialState: .new(),

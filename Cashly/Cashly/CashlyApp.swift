@@ -43,6 +43,10 @@ struct CashlyApp: App {
     let transactionDictation: TransactionDictationUseCase
     let speechTranscriber: SpeechTranscriberUseCase
     let attachmentStorage: AttachmentStorageUseCase
+    let recurringTransactions: RecurringTransactionUseCase
+    let transactionUseCase: TransactionUseCase
+    let budgetUseCase: BudgetUseCase
+    let categoryUseCase: CategoryUseCase
 
     @State private var isLocked: Bool = false
 
@@ -85,6 +89,10 @@ struct CashlyApp: App {
         transactionDictation = factory.makeTransactionDictation()
         speechTranscriber = factory.makeSpeechTranscriber()
         attachmentStorage = factory.makeAttachmentStorage()
+        recurringTransactions = factory.makeRecurringTransactions()
+        transactionUseCase = factory.makeTransactionUseCase()
+        budgetUseCase = factory.makeBudgetUseCase()
+        categoryUseCase = factory.makeCategoryUseCase()
     }
 
     var body: some Scene {
@@ -113,6 +121,7 @@ struct CashlyApp: App {
                 .environment(\.transactionDictation, transactionDictation)
                 .environment(\.speechTranscriber, speechTranscriber)
                 .environment(\.attachmentStorage, attachmentStorage)
+                .environment(\.recurringTransactions, recurringTransactions)
 
                 .environment(\.isLoading, mainStore.state.isLoading)
                 .environment(\.user, mainStore.state.user)
@@ -127,6 +136,7 @@ struct CashlyApp: App {
                 }
 
                 .task { handler(action: .main(.fetch)) }
+                .task { await materializeRecurringTransactions() }
                 .task {
                     if let storeKit = subscriptionService as? StoreKitSubscriptionService {
                         await storeKit.start()
@@ -246,6 +256,49 @@ struct CashlyApp: App {
             await Task.yield()
             pendingDeeplink = nil
         }
+    }
+
+    /// K12c: materializes every past-due recurring transaction
+    /// since the last launch. Runs on app foreground; fetch follows
+    /// up automatically after any inserts.
+    func materializeRecurringTransactions() async {
+        do {
+            let categories = try await categoryUseCaseFetch()
+            let budgets = try await budgetUseCaseFetch()
+            try await recurringTransactions.materializeDue(now: .now) { template, date in
+                guard let category = categories.first(where: { $0.id == template.categoryId })
+                else { return }
+                let budget = budgets.first(where: { $0.id == template.budgetId })
+                try await transactionUseCase.addTransaction(
+                    id: UUID().uuidString,
+                    participants: [],
+                    budget: budget,
+                    amount: template.amount,
+                    date: date,
+                    summary: template.summary,
+                    status: .settled,
+                    splitMode: nil,
+                    splitValue: nil,
+                    paymentsPlan: nil,
+                    kind: template.kind,
+                    needsReview: false,
+                    category: category,
+                    attachmentPath: nil
+                )
+            }
+            handler(action: .main(.fetch))
+        } catch {
+            // Quiet failure — surface via crash reporter if/when
+            // wired; user can still add transactions manually.
+        }
+    }
+
+    private func categoryUseCaseFetch() async throws -> [CashlyDomain.Category] {
+        try await categoryUseCase.getCategories()
+    }
+
+    private func budgetUseCaseFetch() async throws -> [Budget] {
+        try await budgetUseCase.getBudgets()
     }
 
     @MainActor

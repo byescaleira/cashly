@@ -120,6 +120,11 @@ public struct SettingsScreen: CashlyView {
             } label: {
                 CashlyLabel(CashlyL10n.string("Manage Categories"), symbol: "list.bullet.rectangle")
             }
+            NavigationLink {
+                ManageRecurringScreen()
+            } label: {
+                CashlyLabel(CashlyL10n.string("Recurring Transactions"), symbol: "repeat")
+            }
             CashlyButton {
                 // Restore is a quiet operation — it runs on the
                 // existing paywall store, and the global subscription
