@@ -25,6 +25,7 @@ struct RecurringTransactionTemplateTests {
             summary: "Rent",
             amount: 1200,
             budgetId: "b",
+            categoryId: "c",
             startDate: startDate,
             cadence: cadence
         )

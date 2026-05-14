@@ -26,6 +26,7 @@ public protocol CashlyDataFactoryProtocol {
     func makeTransactionDictation() -> TransactionDictationUseCase
     func makeSpeechTranscriber() -> SpeechTranscriberUseCase
     func makeAttachmentStorage() -> AttachmentStorageUseCase
+    func makeRecurringTransactions() -> RecurringTransactionUseCase
     func makeTransactionUseCase() -> TransactionUseCase
     func makeTagUseCase() -> TagUseCase
     func makeParticipantUseCase() -> ParticipantUseCase

@@ -20,7 +20,8 @@ public struct MockCashlyFactory: CashlyDataFactoryProtocol, CashlyPresentationFa
             TransactionEntity.self,
             UserEntity.self,
             TagEntity.self,
-            ParticipantEntity.self
+            ParticipantEntity.self,
+            RecurringTransactionEntity.self
         )
         do {
             modelContainer = try ModelContainer(
@@ -52,6 +53,7 @@ public struct MockCashlyFactory: CashlyDataFactoryProtocol, CashlyPresentationFa
     public func makeTransactionDictation() -> TransactionDictationUseCase { InMemoryTransactionDictation() }
     public func makeSpeechTranscriber() -> SpeechTranscriberUseCase { InMemorySpeechTranscriber() }
     public func makeAttachmentStorage() -> AttachmentStorageUseCase { InMemoryAttachmentStorage() }
+    public func makeRecurringTransactions() -> RecurringTransactionUseCase { MockRecurringTransactionActor() }
     public func makeTransactionUseCase() -> TransactionUseCase { MockTransactionActor() }
     public func makeTagUseCase() -> any TagUseCase { MockTagActor() }
     public func makeParticipantUseCase() -> any ParticipantUseCase { MockParticipantActor() }

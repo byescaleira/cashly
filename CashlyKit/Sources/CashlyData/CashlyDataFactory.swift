@@ -25,7 +25,7 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
     }
 
     public static func make() throws -> CashlyDataFactory {
-        let schema = Schema(versionedSchema: CashlySchemaV2.self)
+        let schema = Schema(versionedSchema: CashlySchemaV3.self)
 
         let configuration = ModelConfiguration(
             schema: schema,
@@ -128,6 +128,10 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
 
     public func makeAttachmentStorage() -> AttachmentStorageUseCase {
         DocumentsAttachmentStorage()
+    }
+
+    public func makeRecurringTransactions() -> RecurringTransactionUseCase {
+        RecurringTransactionActor(modelContainer: modelContainer)
     }
 
     public func makeTransactionDictation() -> TransactionDictationUseCase {
