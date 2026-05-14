@@ -27,13 +27,16 @@ public struct KeywordTransactionDictation: TransactionDictationUseCase {
         let amount = Self.firstNumber(in: utterance)
         let kind = Self.inferKind(from: lowered)
         let summary = Self.summary(from: utterance, removingAmount: amount)
+        let date = Self.inferDate(from: lowered)
+        let participants = Self.inferParticipants(from: utterance)
 
         return TransactionDraft(
             amount: amount,
             summary: summary.isEmpty ? nil : summary,
-            date: nil,
+            date: date,
             kind: kind,
-            categoryName: nil
+            categoryName: nil,
+            participantNames: participants
         )
     }
 
@@ -55,6 +58,42 @@ public struct KeywordTransactionDictation: TransactionDictationUseCase {
         if incomeMarkers.contains(where: { lowered.contains($0) }) { return .income }
         if loanMarkers.contains(where: { lowered.contains($0) }) { return .loan }
         return .expense
+    }
+
+    private static func inferDate(from lowered: String) -> Date? {
+        let calendar = Calendar.current
+        let now = Date()
+        if lowered.contains("ontem") || lowered.contains("yesterday") {
+            return calendar.date(byAdding: .day, value: -1, to: now)
+        }
+        if lowered.contains("anteontem") {
+            return calendar.date(byAdding: .day, value: -2, to: now)
+        }
+        if lowered.contains("hoje") || lowered.contains("today") {
+            return now
+        }
+        if lowered.contains("amanhã") || lowered.contains("tomorrow") {
+            return calendar.date(byAdding: .day, value: 1, to: now)
+        }
+        return nil
+    }
+
+    private static func inferParticipants(from source: String) -> [String] {
+        // Match "with X", "with X and Y", "com X", "com X e Y".
+        let pattern = #"(?:with|com)\s+([A-ZÀ-Úa-zà-ú][\wÀ-ú]+(?:\s+(?:and|e)\s+[A-ZÀ-Úa-zà-ú][\wÀ-ú]+)*)"#
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: []) else { return [] }
+        let range = NSRange(source.startIndex..., in: source)
+        guard let match = regex.firstMatch(in: source, range: range),
+              match.numberOfRanges >= 2,
+              let captureRange = Range(match.range(at: 1), in: source)
+        else { return [] }
+        let captured = String(source[captureRange])
+        return captured
+            .replacingOccurrences(of: " and ", with: ",")
+            .replacingOccurrences(of: " e ", with: ",")
+            .split(separator: ",")
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .filter { !$0.isEmpty }
     }
 
     private static func summary(from source: String, removingAmount amount: Double?) -> String {

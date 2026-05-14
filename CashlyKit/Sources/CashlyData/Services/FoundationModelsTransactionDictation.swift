@@ -55,12 +55,29 @@ public actor FoundationModelsTransactionDictation: TransactionDictationUseCase {
         TransactionDraft()
     }
 
+    /// Parses the model's ISO-8601 string back into a Date. Returns
+    /// nil for malformed values so the draft falls back to "no
+    /// date" rather than risking a wrong one.
+    static func parseISODate(_ raw: String) -> Date? {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withFullDate]
+        return formatter.date(from: raw)
+    }
+
     private static let instructions = """
     You are a financial assistant. Parse the user's spoken sentence
-    into a transaction record. Extract amount (number), summary
-    (short description), kind (expense/income/loan), and a category
-    label if mentioned. Use null for any field you cannot infer.
-    Always answer in the structured format requested.
+    into a transaction record. Extract:
+    - amount (number),
+    - summary (short description),
+    - kind (expense / income / loan),
+    - a category label if mentioned,
+    - a date if the user said one (ISO 8601 yyyy-MM-dd; resolve
+      relative phrases like "yesterday" / "ontem" against the
+      current date),
+    - participant names if the user mentioned anyone ("with Bruno",
+      "com Maria") — return an empty list otherwise.
+    Use null / empty list for anything you cannot infer. Always
+    answer in the structured format requested.
     """
 }
 
@@ -80,13 +97,20 @@ private struct DictationOutput: Equatable {
     @Guide(description: "Category label mentioned by the user (e.g. 'groceries', 'rent'). Null when not mentioned.")
     var category: String?
 
+    @Guide(description: "Date in ISO 8601 yyyy-MM-dd format. Null when the user did not mention one. Resolve relative phrases ('yesterday', 'ontem') against the current date.")
+    var date: String?
+
+    @Guide(description: "Names of participants mentioned alongside the transaction (e.g. 'with Bruno', 'com Maria'). Empty list when none.")
+    var participants: [String]
+
     func toDraft() -> TransactionDraft {
         TransactionDraft(
             amount: amount,
             summary: summary,
-            date: nil,
+            date: date.flatMap(FoundationModelsTransactionDictation.parseISODate),
             kind: kind.map { $0.toDomain },
-            categoryName: category
+            categoryName: category,
+            participantNames: participants
         )
     }
 }

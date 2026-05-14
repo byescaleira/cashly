@@ -20,23 +20,31 @@ public struct TransactionDraft: Sendable, Equatable {
     public var date: Date?
     public var kind: TransactionKind?
     public var categoryName: String?
+    /// Names of participants the user mentioned (e.g. "with Bruno").
+    /// The dictation handler resolves these against MainState.users
+    /// and feeds the matches into AddTransactionState.participants.
+    public var participantNames: [String]
 
     public init(
         amount: Double? = nil,
         summary: String? = nil,
         date: Date? = nil,
         kind: TransactionKind? = nil,
-        categoryName: String? = nil
+        categoryName: String? = nil,
+        participantNames: [String] = []
     ) {
         self.amount = amount
         self.summary = summary
         self.date = date
         self.kind = kind
         self.categoryName = categoryName
+        self.participantNames = participantNames
     }
 
     /// `true` when any of the required fields is still missing.
     /// Drives the `needsReview` flag on persisted transactions.
+    /// Date + participants are optional enrichments and don't gate
+    /// the review flag — the user is fine without them.
     public var needsReview: Bool {
         amount == nil || summary == nil || kind == nil || categoryName == nil
     }

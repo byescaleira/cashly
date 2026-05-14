@@ -50,6 +50,33 @@ struct KeywordTransactionDictationTests {
         #expect(draft.needsReview)
     }
 
+    @Test("'ontem' maps to yesterday")
+    func ontem() async {
+        let parser = KeywordTransactionDictation()
+        let draft = await parser.parse("Ontem gastei 50 no almoço")
+        #expect(draft.date != nil)
+        let diff = Calendar.current.dateComponents(
+            [.day],
+            from: draft.date ?? Date(),
+            to: Date()
+        ).day
+        #expect(diff == 1)
+    }
+
+    @Test("'with Bruno and Maria' captures both participants")
+    func participantsEnglish() async {
+        let parser = KeywordTransactionDictation()
+        let draft = await parser.parse("Dinner 100 with Bruno and Maria")
+        #expect(draft.participantNames == ["Bruno", "Maria"])
+    }
+
+    @Test("'com Maria e Bruno' captures both participants (pt-BR)")
+    func participantsPortuguese() async {
+        let parser = KeywordTransactionDictation()
+        let draft = await parser.parse("Jantar 80 com Maria e Bruno")
+        #expect(draft.participantNames == ["Maria", "Bruno"])
+    }
+
     @Test("InMemory stub records every utterance")
     func inMemoryRecords() async {
         let stub = InMemoryTransactionDictation(draft: TransactionDraft(amount: 1, summary: "S", kind: .expense, categoryName: "Food"))
