@@ -131,7 +131,8 @@ struct ReducerCompositionTests {
                 userUseCase: factory.user,
                 userPreferences: InMemoryUserPreferences(),
                 budgetAlerts: InMemoryBudgetAlerts(),
-                spotlight: InMemorySpotlightIndexer()
+                spotlight: InMemorySpotlightIndexer(),
+                watchSync: InMemoryWatchSync()
             )
         )
     }

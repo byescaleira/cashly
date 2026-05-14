@@ -54,6 +54,7 @@ public struct MockCashlyFactory: CashlyDataFactoryProtocol, CashlyPresentationFa
     public func makeSpeechTranscriber() -> SpeechTranscriberUseCase { InMemorySpeechTranscriber() }
     public func makeAttachmentStorage() -> AttachmentStorageUseCase { InMemoryAttachmentStorage() }
     public func makeRecurringTransactions() -> RecurringTransactionUseCase { MockRecurringTransactionActor() }
+    public func makeWatchSync() -> WatchSyncUseCase { InMemoryWatchSync() }
     public func makeTransactionUseCase() -> TransactionUseCase { MockTransactionActor() }
     public func makeTagUseCase() -> any TagUseCase { MockTagActor() }
     public func makeParticipantUseCase() -> any ParticipantUseCase { MockParticipantActor() }
@@ -148,7 +149,8 @@ public struct MockCashlyFactory: CashlyDataFactoryProtocol, CashlyPresentationFa
                 userUseCase: makeUserUseCase(),
                 userPreferences: makeUserPreferences(),
                 budgetAlerts: makeBudgetAlerts(),
-                spotlight: makeSpotlightIndexer()
+                spotlight: makeSpotlightIndexer(),
+                watchSync: makeWatchSync()
             )
         )
     }

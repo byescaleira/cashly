@@ -134,6 +134,10 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         RecurringTransactionActor(modelContainer: modelContainer)
     }
 
+    public func makeWatchSync() -> WatchSyncUseCase {
+        WCSessionWatchSync()
+    }
+
     public func makeTransactionDictation() -> TransactionDictationUseCase {
         // K2a: prefer the on-device Foundation Models parser when
         // the OS supports it. The impl probes runtime availability

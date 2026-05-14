@@ -69,6 +69,7 @@ public struct MainMiddleware: PrismMiddleware {
     let userPreferences: UserPreferencesUseCase
     let budgetAlerts: BudgetAlertsUseCase
     let spotlight: SpotlightIndexerUseCase
+    let watchSync: WatchSyncUseCase
     /// Fraction of a budget's amount at which the overshoot alert
     /// fires. 0.8 = 80%. Wave G11 will hoist this into UserDefaults
     /// so the user can tune the trip-wire.
@@ -84,6 +85,7 @@ public struct MainMiddleware: PrismMiddleware {
         userPreferences: UserPreferencesUseCase,
         budgetAlerts: BudgetAlertsUseCase,
         spotlight: SpotlightIndexerUseCase,
+        watchSync: WatchSyncUseCase,
         overshootThreshold: Double = 0.8
     ) {
         self.budgetUseCase = budgetUseCase
@@ -94,13 +96,20 @@ public struct MainMiddleware: PrismMiddleware {
         self.userPreferences = userPreferences
         self.budgetAlerts = budgetAlerts
         self.spotlight = spotlight
+        self.watchSync = watchSync
         self.overshootThreshold = overshootThreshold
     }
 
     public func run(state: MainState, action: MainAction) -> PrismEffect<MainAction> {
         switch action {
         case .fetch: return fetch(state: state)
-        case let .update(_, budgets, _, transactions, _, _, _, _):
+        case let .update(_, budgets, _, transactions, _, _, user, _):
+            // K7c: fire-and-forget snapshot to the paired Watch.
+            // Silent no-op when no Watch is paired. Runs alongside
+            // the overshoot-alert effect below.
+            let snapshot = Self.snapshot(transactions: transactions, user: user)
+            let watchSyncRef = watchSync
+            Task { await watchSyncRef.send(snapshot) }
             // Scan freshly-loaded budgets vs their transactions and
             // schedule overshoot alerts. The use case is idempotent
             // per budget id, so re-running on every fetch is safe —
@@ -329,6 +338,44 @@ public struct MainMiddleware: PrismMiddleware {
             send(.csvImportFinished(added: added, skipped: skipped))
             send(.fetch)
         }
+    }
+
+    /// K7c: builds the Watch payload from the freshly-loaded
+    /// transactions + active user. Income / expense / net totals
+    /// mirror the K4 Insights summary; recent list caps at 5 rows
+    /// so the Watch context dictionary stays under WCSession's
+    /// applicationContext size budget.
+    static func snapshot(
+        transactions: [CashlyDomain.Transaction],
+        user: User?
+    ) -> WatchSnapshot {
+        let income = transactions.reduce(Double.zero) { partial, tx in
+            tx.kind == .income ? partial + tx.amount : partial
+        }
+        let expense = transactions.reduce(Double.zero) { partial, tx in
+            tx.contributesToExpenseTotals ? partial + tx.amount : partial
+        }
+        let recent = transactions
+            .sorted { $0.date > $1.date }
+            .prefix(5)
+            .map { tx in
+                WatchTransactionRow(
+                    id: tx.id,
+                    summary: tx.summary,
+                    amount: tx.amount,
+                    date: tx.date,
+                    kindRaw: tx.kind.rawValue
+                )
+            }
+        let code = UserDefaults.standard.string(forKey: "cashly.currencyCode") ?? "USD"
+        return WatchSnapshot(
+            userId: user?.id,
+            income: income,
+            expense: expense,
+            net: income - expense,
+            currencyCode: code,
+            recent: Array(recent)
+        )
     }
 
     private static func parseStatus(_ raw: String) -> TransactionStatus {

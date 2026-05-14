@@ -172,6 +172,7 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
                 userPreferences: dataFactory.makeUserPreferences(),
                 budgetAlerts: dataFactory.makeBudgetAlerts(),
                 spotlight: dataFactory.makeSpotlightIndexer(),
+                watchSync: dataFactory.makeWatchSync(),
                 // Persisted user-tunable threshold. UI exposes it
                 // as a percent; we store the fraction (0–1).
                 overshootThreshold: Self.persistedOvershootThreshold()
