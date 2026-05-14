@@ -34,6 +34,10 @@ public enum MainAction: CashlyAction, CashlyReplaceableAction {
     /// Behaves like a sign-out / factory-reset for offline storage —
     /// remote CloudKit copies follow on next sync.
     case wipeAllData
+    /// K5: marks a loan transaction as settled so it stops counting
+    /// against expense totals (and disappears from the pending loans
+    /// list).
+    case settleLoan(CashlyDomain.Transaction)
     case error(CashlyError)
     case replace(MainState)
 }

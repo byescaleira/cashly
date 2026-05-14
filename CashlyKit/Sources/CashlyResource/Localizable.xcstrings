@@ -1319,6 +1319,22 @@
         }
       }
     },
+    "Mark settled": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mark settled"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marcar como pago"
+          }
+        }
+      }
+    },
     "Memory": {
       "extractionState": "manual",
       "localizations": {

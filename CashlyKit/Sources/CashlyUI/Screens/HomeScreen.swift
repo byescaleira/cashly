@@ -37,6 +37,7 @@ public struct HomeScreen: CashlyView {
                 BalanceView()
                 availableSection
                 varianceSection
+                pendingLoansSection
                 biggestTransactionSection
                 tagsSection
                 spendingForecastSection

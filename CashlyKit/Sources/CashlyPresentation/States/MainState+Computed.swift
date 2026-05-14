@@ -118,6 +118,15 @@ public extension MainState {
     /// Sums every transaction whose kind is `.income`, expanding
     /// installments per month so a 3x income plan registers 3x the
     /// per-installment value over its covered months.
+    /// Active loans the user has lent out and not yet been repaid
+    /// for. Order: newest first so the list mirrors the rest of the
+    /// transaction surfaces.
+    var pendingLoans: [CashlyDomain.Transaction] {
+        transactions
+            .filter { $0.kind == .loan && $0.contributesToExpenseTotals }
+            .sorted { $0.date > $1.date }
+    }
+
     var incomeAmount: Double {
         transactions.reduce(Double.zero) { partial, tx in
             guard tx.kind == .income else { return partial }

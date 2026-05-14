@@ -112,6 +112,7 @@ public struct MainMiddleware: PrismMiddleware {
         case .selectUser: return selectUser(state: state)
         case .fetchPredictions: return fetchPredictions(state: state)
         case .wipeAllData: return wipeAllData()
+        case let .settleLoan(tx): return settleLoan(transaction: tx)
         case .subscriptionUpdated, .reachabilityUpdated, .syncStatusUpdated,
              .error, .stopLoading, .replace: return .none
         }
@@ -253,6 +254,33 @@ public struct MainMiddleware: PrismMiddleware {
                 send(.fetch)
             } catch {
                 send(.error(.persistence(.removeFailed(entity: "Transaction", underlying: error.localizedDescription))))
+            }
+        }
+    }
+
+    private func settleLoan(transaction tx: CashlyDomain.Transaction) -> PrismEffect<MainAction> {
+        .run { send in
+            do {
+                // Re-add the same id with status .settled — addTransaction
+                // is upsert-shaped so this updates in place.
+                try await transactionUseCase.addTransaction(
+                    id: tx.id,
+                    participants: tx.participants,
+                    budget: tx.budget,
+                    amount: tx.amount,
+                    date: tx.date,
+                    summary: tx.summary,
+                    status: .settled,
+                    splitMode: tx.splitMode,
+                    splitValue: tx.splitValue,
+                    paymentsPlan: tx.paymentsPlan,
+                    kind: tx.kind,
+                    needsReview: tx.needsReview,
+                    category: tx.category
+                )
+                send(.fetch)
+            } catch {
+                send(.error(.persistence(.saveFailed(entity: "Transaction", underlying: error.localizedDescription))))
             }
         }
     }
