@@ -33,7 +33,7 @@ public struct OnboardingScreen: View {
     }
 
     public var body: some View {
-        VStack(spacing: 0) {
+        CashlyVStack(spacing: .zero) {
             TabView(selection: $page) {
                 welcomePage
                     .tag(0)
@@ -116,60 +116,57 @@ public struct OnboardingScreen: View {
         title: String,
         subtitle: String
     ) -> some View {
-        VStack(spacing: 24) {
-            Image(systemName: icon)
-                // System text style so the icon scales with Dynamic
-                // Type alongside the title underneath instead of
-                // staying at a fixed point size.
-                .font(.system(.largeTitle).weight(.bold))
+        CashlyVStack(spacing: .large) {
+            CashlySymbol(icon)
+                .cashly(font: .system(.largeTitle).weight(.bold))
                 .imageScale(.large)
                 .foregroundStyle(tint)
                 .accessibilityHidden(true)
-            Text(title)
-                .font(.title.weight(.bold))
-                .multilineTextAlignment(.center)
-            Text(subtitle)
-                .font(.body)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 32)
-            Spacer()
+            CashlyText(title)
+                .cashly(font: .title, weight: .bold)
+                .cashly(alignment: .center)
+            CashlyText(subtitle)
+                .cashly(font: .body)
+                .cashly(color: .textSecondary)
+                .cashly(alignment: .center)
+                .cashlyPadding(.horizontal, .large)
+            CashlySpacer()
         }
-        .padding(.top, 80)
+        .cashlyPadding(.top, .ultraLarge)
     }
 
     @ViewBuilder
     private var footerBar: some View {
         if page < 2 {
-            Button {
+            CashlyButton {
                 advancePage()
             } label: {
-                Text(CashlyL10n.string("Continue"))
-                    .font(.headline.weight(.semibold))
+                CashlyText(CashlyL10n.string("Continue"))
+                    .cashly(font: .headline, weight: .semibold)
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
         } else {
-            VStack(spacing: 12) {
-                Button {
+            CashlyVStack(spacing: .medium) {
+                CashlyButton {
                     onUpgrade()
                     completed = true
                 } label: {
-                    Text(CashlyL10n.string("Upgrade to Pro"))
-                        .font(.headline.weight(.semibold))
+                    CashlyText(CashlyL10n.string("Upgrade to Pro"))
+                        .cashly(font: .headline, weight: .semibold)
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
                 .tint(.yellow)
 
-                Button {
+                CashlyButton {
                     completed = true
                 } label: {
-                    Text(CashlyL10n.string("Continue with Free"))
-                        .font(.subheadline.weight(.semibold))
-                        .foregroundStyle(.secondary)
+                    CashlyText(CashlyL10n.string("Continue with Free"))
+                        .cashly(font: .subheadline, weight: .semibold)
+                        .cashly(color: .textSecondary)
                         .frame(maxWidth: .infinity, minHeight: 44)
                         .contentShape(.rect)
                 }

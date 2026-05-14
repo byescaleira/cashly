@@ -25,6 +25,7 @@ public struct MainScreen: CashlyView {
     @State var categoryRouter = CashlyRouter<MainRoute>()
     @State var homeRouter = CashlyRouter<MainRoute>()
     @State var transactionRouter = CashlyRouter<MainRoute>()
+    @State var settingsRouter = CashlyRouter<MainRoute>()
 
     public init() {}
 
@@ -52,10 +53,12 @@ public struct MainScreen: CashlyView {
             tabItem = .transaction
         case .intelligence:
             tabItem = .intelligence
-        case .paywall, .settings, .insights, .addUser, .addCategory,
+        case .settings:
+            tabItem = .settings
+        case .insights:
+            activeRouter.route(to: route)
+        case .paywall, .addUser, .addCategory,
              .addBudget, .addTransaction, .addTag:
-            // Use the currently active tab's router so the user
-            // stays where they were when the link landed.
             activeRouter.route(to: route)
         }
     }
@@ -66,6 +69,7 @@ public struct MainScreen: CashlyView {
         case .category: return categoryRouter
         case .home: return homeRouter
         case .transaction: return transactionRouter
+        case .settings: return settingsRouter
         }
     }
 
@@ -85,6 +89,10 @@ public struct MainScreen: CashlyView {
 
             Tab(CashlyL10n.string("Transactions"), systemImage: "wallet.bifold", value: .transaction) {
                 transactionScreen
+            }
+
+            Tab(CashlyL10n.string("Settings"), systemImage: "gearshape", value: .settings) {
+                settingsScreen
             }
         }
         #if os(iOS)
@@ -133,6 +141,16 @@ public struct MainScreen: CashlyView {
         .environment(\.router, transactionRouter)
     }
 
+    var settingsScreen: some View {
+        CashlyNavigationView(
+            router: $settingsRouter,
+            destination: destination(_:)
+        ) {
+            SettingsScreen()
+        }
+        .environment(\.router, settingsRouter)
+    }
+
     @ViewBuilder
     func destination(_ route: MainRoute) -> any View {
         switch route {
@@ -166,6 +184,7 @@ enum MainTabItem: Int, Hashable, Identifiable, CaseIterable {
     case category
     case home
     case transaction
+    case settings
 
     var id: Int { rawValue }
 }

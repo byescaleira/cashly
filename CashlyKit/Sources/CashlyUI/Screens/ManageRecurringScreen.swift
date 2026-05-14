@@ -22,7 +22,7 @@ public struct ManageRecurringScreen: CashlyView {
     public init() {}
 
     public var body: some View {
-        List {
+        CashlyList {
             if templates.isEmpty {
                 CashlyText(CashlyL10n.string("No recurring transactions yet."))
                     .cashly(color: .textSecondary)

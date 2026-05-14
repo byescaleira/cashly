@@ -39,7 +39,7 @@ public struct SettingsScreen: CashlyView {
     public init() {}
 
     public var body: some View {
-        Form {
+        CashlyList {
             subscriptionSection
             actionsSection
             appearanceSection
@@ -50,6 +50,9 @@ public struct SettingsScreen: CashlyView {
             exportSection
             appSection
             dangerZoneSection
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigation) { UserItemView() }
         }
         .navigationTitle(CashlyL10n.string("Settings"))
         #if os(iOS) || os(visionOS)
@@ -96,6 +99,8 @@ public struct SettingsScreen: CashlyView {
             }
         } header: {
             CashlyText(CashlyL10n.string("Subscription"))
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
         }
     }
 
@@ -157,6 +162,8 @@ public struct SettingsScreen: CashlyView {
             .accessibilityElement(children: .combine)
         } header: {
             CashlyText(CashlyL10n.string("App"))
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
         }
     }
 
@@ -174,6 +181,8 @@ public struct SettingsScreen: CashlyView {
             #endif
         } header: {
             CashlyText(CashlyL10n.string("Appearance"))
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
         }
     }
 
@@ -184,6 +193,8 @@ public struct SettingsScreen: CashlyView {
             }
         } header: {
             CashlyText(CashlyL10n.string("Security"))
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
         } footer: {
             CashlyText(CashlyL10n.string("Require Face ID, Touch ID, or passcode to open Cashly."))
                 .cashly(font: .caption)
@@ -205,6 +216,8 @@ public struct SettingsScreen: CashlyView {
             #endif
         } header: {
             CashlyText(CashlyL10n.string("Currency"))
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
         }
     }
 
@@ -233,6 +246,8 @@ public struct SettingsScreen: CashlyView {
             #endif
         } header: {
             CashlyText(CashlyL10n.string("Alerts"))
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
         } footer: {
             CashlyText(CashlyL10n.string("Sends a local notification when a budget reaches this percentage of its limit."))
                 .cashly(font: .caption)
@@ -252,6 +267,8 @@ public struct SettingsScreen: CashlyView {
             .accessibilityElement(children: .combine)
         } header: {
             CashlyText(CashlyL10n.string("Sync"))
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
         }
     }
 
@@ -303,6 +320,8 @@ public struct SettingsScreen: CashlyView {
             .cashly(tint: .text)
         } header: {
             CashlyText(CashlyL10n.string("Export"))
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
         }
         .fileImporter(
             isPresented: $showImporter,
@@ -355,6 +374,8 @@ public struct SettingsScreen: CashlyView {
             .cashly(tint: .color(.red))
         } header: {
             CashlyText(CashlyL10n.string("Danger Zone"))
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
         } footer: {
             CashlyText(CashlyL10n.string("Wipes every local user, category, budget, tag and transaction. CloudKit copies follow on next sync."))
                 .cashly(font: .caption)

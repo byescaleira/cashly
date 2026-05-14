@@ -22,15 +22,19 @@ public struct InsightsScreen: CashlyView {
     @Environment(\.action) var action
 
     public var body: some View {
-        Form {
+        CashlyList {
             summarySection
             categoriesSection
             tagsSection
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigation) { UserItemView() }
         }
         .refreshable {
             action(.main(.fetch))
             try? await Task.sleep(nanoseconds: 400_000_000)
         }
+        .onAppear { action(.main(.fetch)) }
         .navigationTitle(CashlyL10n.string("Insights"))
     }
 
@@ -66,6 +70,8 @@ public struct InsightsScreen: CashlyView {
             }
         } header: {
             CashlyText(CashlyL10n.string("Summary"))
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
         }
     }
 
@@ -119,6 +125,8 @@ public struct InsightsScreen: CashlyView {
             }
         } header: {
             CashlyText(CashlyL10n.string("Spending by category"))
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
         }
     }
 
@@ -144,6 +152,8 @@ public struct InsightsScreen: CashlyView {
             }
         } header: {
             CashlyText(CashlyL10n.string("Top tags"))
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
         }
     }
 

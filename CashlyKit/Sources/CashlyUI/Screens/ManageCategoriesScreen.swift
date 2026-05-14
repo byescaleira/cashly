@@ -19,7 +19,7 @@ public struct ManageCategoriesScreen: CashlyView {
     public init() {}
 
     public var body: some View {
-        List {
+        CashlyList {
             ForEach(state.categories, id: \.id) { category in
                 CashlyHStack(spacing: .small) {
                     CashlySymbol(category.icon)

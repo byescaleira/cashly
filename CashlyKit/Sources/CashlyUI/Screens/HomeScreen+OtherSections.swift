@@ -164,6 +164,41 @@ extension HomeScreen {
         }
     }
 
+    var insightsSection: some View {
+        Section {
+            CashlyButton {
+                router.route(to: .insights)
+            } label: {
+                CashlyHStack(spacing: .medium) {
+                    CashlySymbol("chart.bar.xaxis")
+                        .cashly(font: .system(size: 18))
+                        .cashly(color: .primary)
+                        .frame(width: 40, height: 40)
+                        .cashly(background: .color(Color.accentColor.opacity(0.2)))
+                        .cashly(clip: .circle)
+
+                    CashlyVStack(alignment: .leading, spacing: .extraSmall) {
+                        CashlyText(CashlyL10n.string("Insights"))
+                            .cashly(font: .callout, weight: .semibold)
+                        CashlyText(CashlyL10n.string("Income, expenses and spending breakdown"))
+                            .cashly(font: .caption)
+                            .cashly(color: .textSecondary)
+                    }
+
+                    CashlySpacer()
+
+                    CashlySymbol("chevron.forward")
+                        .cashly(color: .disabled)
+                }
+            }
+            .cashly(tint: .text)
+        } header: {
+            CashlyText(CashlyL10n.string("Analytics"))
+                .cashly(font: .title3, weight: .semibold)
+                .cashly(color: .text)
+        }
+    }
+
     @ViewBuilder
     var spendingForecastSection: some View {
         if let user = state.user,

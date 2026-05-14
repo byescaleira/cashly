@@ -40,7 +40,6 @@ public struct IntelligenceScreen: CashlyView {
         .navigationTitle(CashlyL10n.string("Intelligence"))
         .toolbar {
             ToolbarItem(placement: .navigation) { UserItemView() }
-            ToolbarItem { ProBadgeView(isPro: state.isPro, trigger: .intelligenceTab) }
         }
         .onAppear { action(.main(.fetch)) }
         .onChange(of: isTraining) {
