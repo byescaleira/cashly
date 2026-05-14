@@ -255,6 +255,22 @@
         }
       }
     },
+    "Attach receipt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Attach receipt"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anexar recibo"
+          }
+        }
+      }
+    },
     "Available": {
       "extractionState": "manual",
       "localizations": {
@@ -1804,6 +1820,38 @@
         }
       }
     },
+    "Receipt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Receipt"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recibo"
+          }
+        }
+      }
+    },
+    "Remove receipt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove receipt"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remover recibo"
+          }
+        }
+      }
+    },
     "Renews": {
       "extractionState": "manual",
       "localizations": {
@@ -1817,6 +1865,22 @@
           "stringUnit": {
             "state": "translated",
             "value": "Renova"
+          }
+        }
+      }
+    },
+    "Replace receipt": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Replace receipt"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Substituir recibo"
           }
         }
       }

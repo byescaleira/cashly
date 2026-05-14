@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 #if DEBUG
 import CashlyMock
 #endif
@@ -27,9 +28,12 @@ public struct AddTransactionScreen: CashlyView {
     @State var predictionResult: CashlyPredictionResult = .empty
     @State var isDictating: Bool = false
     @State var dictationInterim: String = ""
+    @State var photoPickerItem: PhotosPickerItem?
+    @State var attachmentImageData: Data?
 
     @Environment(\.transactionDictation) var transactionDictation
     @Environment(\.speechTranscriber) var speechTranscriber
+    @Environment(\.attachmentStorage) var attachmentStorage
 
     var predictionInput: Binding<CashlyPredictionInput> {
         Binding {
@@ -51,6 +55,7 @@ public struct AddTransactionScreen: CashlyView {
             categoriesSection
             dateSection
             installmentSection
+            attachmentSection
             selectedParticipantsSection
         }
         .safeAreaInset(edge: .top) {

@@ -126,7 +126,9 @@ public struct AddTransactionMiddleware: PrismMiddleware {
                     splitValue: state.splitValue,
                     paymentsPlan: state.installmentIsOn ? state.installmentPlan : nil,
                     kind: state.kind,
-                    needsReview: state.needsReview
+                    needsReview: state.needsReview,
+                    category: budget.category,
+                    attachmentPath: state.attachmentPath
                 )
                 send(.saved)
             } catch {

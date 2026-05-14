@@ -42,6 +42,7 @@ struct CashlyApp: App {
     let appLock: AppLockUseCase
     let transactionDictation: TransactionDictationUseCase
     let speechTranscriber: SpeechTranscriberUseCase
+    let attachmentStorage: AttachmentStorageUseCase
 
     @State private var isLocked: Bool = false
 
@@ -78,6 +79,7 @@ struct CashlyApp: App {
         appLock = factory.makeAppLock()
         transactionDictation = factory.makeTransactionDictation()
         speechTranscriber = factory.makeSpeechTranscriber()
+        attachmentStorage = factory.makeAttachmentStorage()
     }
 
     var body: some Scene {
@@ -105,6 +107,7 @@ struct CashlyApp: App {
                 .environment(\.action, handler(action:))
                 .environment(\.transactionDictation, transactionDictation)
                 .environment(\.speechTranscriber, speechTranscriber)
+                .environment(\.attachmentStorage, attachmentStorage)
 
                 .environment(\.isLoading, mainStore.state.isLoading)
                 .environment(\.user, mainStore.state.user)

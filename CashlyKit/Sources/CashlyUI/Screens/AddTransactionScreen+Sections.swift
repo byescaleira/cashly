@@ -8,8 +8,87 @@
 import SwiftUI
 import CashlyResource
 import CashlyDomain
+import PhotosUI
 
 extension AddTransactionScreen {
+    var photosPickerBinding: Binding<PhotosPickerItem?> {
+        Binding(
+            get: { photoPickerItem },
+            set: { newItem in
+                photoPickerItem = newItem
+                Task { await persistPickedAttachment(item: newItem) }
+            }
+        )
+    }
+
+    @MainActor
+    func persistPickedAttachment(item: PhotosPickerItem?) async {
+        guard let item else { return }
+        guard let data = try? await item.loadTransferable(type: Data.self) else { return }
+        // Drop the prior receipt if the user picked a replacement.
+        if let oldPath = state.attachmentPath {
+            await attachmentStorage.remove(path: oldPath)
+        }
+        guard let newPath = try? await attachmentStorage.save(
+            data: data,
+            suggestedExtension: "jpg"
+        ) else { return }
+        attachmentImageData = data
+        store.cashlyMutate(\.attachmentPath, newPath)
+    }
+
+    @MainActor
+    func detachReceipt() {
+        if let path = state.attachmentPath {
+            Task { await attachmentStorage.remove(path: path) }
+        }
+        attachmentImageData = nil
+        photoPickerItem = nil
+        store.cashlyMutate(\.attachmentPath, nil)
+    }
+
+    var attachmentPreviewImage: Image? {
+        #if canImport(UIKit)
+        guard let data = attachmentImageData,
+              let uiImage = UIImage(data: data)
+        else { return nil }
+        return Image(uiImage: uiImage)
+        #else
+        return nil
+        #endif
+    }
+
+    var attachmentSection: some View {
+        Section {
+            PhotosPicker(
+                selection: photosPickerBinding,
+                matching: .images
+            ) {
+                CashlyLabel(
+                    state.attachmentPath == nil
+                        ? CashlyL10n.string("Attach receipt")
+                        : CashlyL10n.string("Replace receipt"),
+                    symbol: "paperclip"
+                )
+            }
+            if let preview = attachmentPreviewImage {
+                preview
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxHeight: 200)
+                    .clipShape(.rect(cornerRadius: 8))
+                CashlyButton {
+                    detachReceipt()
+                } label: {
+                    CashlyLabel(CashlyL10n.string("Remove receipt"), symbol: "trash")
+                }
+                .cashly(tint: .color(.red))
+            }
+        } header: {
+            CashlyText(CashlyL10n.string("Receipt"))
+        }
+    }
+
     var kindSection: some View {
         Section {
             Picker(selection: store.cashlyBinding(\.kind)) {

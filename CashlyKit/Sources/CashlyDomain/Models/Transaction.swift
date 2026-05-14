@@ -34,6 +34,10 @@ public struct Transaction: CashlyEntity, Sendable {
     /// canonical category source; budget is now optional and only
     /// useful for the legacy summary field.
     public var category: CashlyDomain.Category
+    /// K10: relative path to a receipt image stored under the
+    /// app sandbox's Documents/Attachments folder. Nil when the
+    /// user didn't attach anything.
+    public var attachmentPath: String?
 
     public init(
         id: String,
@@ -48,7 +52,8 @@ public struct Transaction: CashlyEntity, Sendable {
         paymentsPlan: Int?,
         kind: TransactionKind = .expense,
         needsReview: Bool = false,
-        category: CashlyDomain.Category? = nil
+        category: CashlyDomain.Category? = nil,
+        attachmentPath: String? = nil
     ) {
         self.id = id
         self.participants = participants
@@ -73,6 +78,7 @@ public struct Transaction: CashlyEntity, Sendable {
         } else {
             preconditionFailure("Transaction requires either a budget or a category")
         }
+        self.attachmentPath = attachmentPath
     }
 }
 
@@ -118,7 +124,7 @@ public extension Transaction {
 extension Transaction: Decodable {
     enum CodingKeys: String, CodingKey {
         case id, participants, budget, amount, date, summary, status
-        case splitMode, splitValue, paymentsPlan, kind, needsReview, category
+        case splitMode, splitValue, paymentsPlan, kind, needsReview, category, attachmentPath
     }
 
     public init(from decoder: Decoder) throws {
@@ -135,6 +141,7 @@ extension Transaction: Decodable {
         self.paymentsPlan = try c.decodeIfPresent(Int.self, forKey: .paymentsPlan)
         self.kind = try c.decodeIfPresent(TransactionKind.self, forKey: .kind) ?? .expense
         self.needsReview = try c.decodeIfPresent(Bool.self, forKey: .needsReview) ?? false
+        self.attachmentPath = try c.decodeIfPresent(String.self, forKey: .attachmentPath)
         let decodedCategory = try c.decodeIfPresent(CashlyDomain.Category.self, forKey: .category)
         if let decodedCategory {
             self.category = decodedCategory

@@ -228,7 +228,8 @@ final class TransactionUseCaseDouble: TransactionUseCase, @unchecked Sendable {
         paymentsPlan: Int?,
         kind: TransactionKind,
         needsReview: Bool,
-        category: CashlyDomain.Category
+        category: CashlyDomain.Category,
+        attachmentPath: String?
     ) async throws {
         if throwOnAdd { throw CashlyError.persistence(.saveFailed(entity: "Test", underlying: "save")) }
     }

@@ -209,7 +209,8 @@ public actor AdapterActor: AdapterUseCase {
         paymentsPlan: Int?,
         kind: Int,
         needsReview: Bool,
-        category: String? = nil
+        category: String? = nil,
+        attachmentPath: String? = nil
     ) async throws -> Transaction? {
         let participantsPredicate: Predicate<ParticipantEntity> = #Predicate {
             participants.contains($0.id)
@@ -300,7 +301,8 @@ public actor AdapterActor: AdapterUseCase {
             paymentsPlan: paymentsPlan,
             kind: TransactionKind(rawValue: kind) ?? .expense,
             needsReview: needsReview,
-            category: resolvedCategory
+            category: resolvedCategory,
+            attachmentPath: attachmentPath
         )
     }
 

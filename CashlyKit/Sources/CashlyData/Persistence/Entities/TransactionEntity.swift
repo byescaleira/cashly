@@ -32,6 +32,9 @@ public class TransactionEntity {
     /// category from the budget FK. Once J2f drops `budget`, this
     /// becomes the source of truth.
     public var category: String?
+    /// K10: relative path under Documents/Attachments for a receipt
+    /// image. Nil when no attachment is set.
+    public var attachmentPath: String?
 
     public var yearMonth: Int {
         date.yearMonth
@@ -73,7 +76,8 @@ public class TransactionEntity {
         paymentsPlan: Int? = nil,
         kind: Int = 0,
         needsReview: Bool = false,
-        category: String? = nil
+        category: String? = nil,
+        attachmentPath: String? = nil
     ) {
         self.id = id
         self.participants = participants
@@ -88,6 +92,7 @@ public class TransactionEntity {
         self.kind = kind
         self.needsReview = needsReview
         self.category = category
+        self.attachmentPath = attachmentPath
     }
 }
 

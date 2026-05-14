@@ -25,6 +25,7 @@ public protocol CashlyDataFactoryProtocol {
     func makeAppLock() -> AppLockUseCase
     func makeTransactionDictation() -> TransactionDictationUseCase
     func makeSpeechTranscriber() -> SpeechTranscriberUseCase
+    func makeAttachmentStorage() -> AttachmentStorageUseCase
     func makeTransactionUseCase() -> TransactionUseCase
     func makeTagUseCase() -> TagUseCase
     func makeParticipantUseCase() -> ParticipantUseCase

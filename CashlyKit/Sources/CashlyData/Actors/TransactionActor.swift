@@ -32,7 +32,8 @@ public actor TransactionActor: TransactionUseCase {
             paymentsPlan: entity.paymentsPlan,
             kind: entity.kind,
             needsReview: entity.needsReview,
-            category: entity.category
+            category: entity.category,
+            attachmentPath: entity.attachmentPath
         )
     }
 
@@ -54,7 +55,8 @@ public actor TransactionActor: TransactionUseCase {
                 paymentsPlan: entity.paymentsPlan,
                 kind: entity.kind,
                 needsReview: entity.needsReview,
-                category: entity.category
+                category: entity.category,
+                attachmentPath: entity.attachmentPath
             ) {
                 transactions.append(transaction)
             }
@@ -130,7 +132,8 @@ public actor TransactionActor: TransactionUseCase {
                 paymentsPlan: entity.paymentsPlan,
                 kind: entity.kind,
                 needsReview: entity.needsReview,
-                category: entity.category
+                category: entity.category,
+                attachmentPath: entity.attachmentPath
             ) {
                 if let participants {
                     // `participants` is the user-id whitelist from the
@@ -194,7 +197,8 @@ public actor TransactionActor: TransactionUseCase {
         paymentsPlan: Int?,
         kind: TransactionKind,
         needsReview: Bool,
-        category: CashlyDomain.Category
+        category: CashlyDomain.Category,
+        attachmentPath: String?
     ) async throws {
         let predicate: Predicate<TransactionEntity> = #Predicate { $0.id == id }
         let descriptor = FetchDescriptor<TransactionEntity>(predicate: predicate)
@@ -211,7 +215,8 @@ public actor TransactionActor: TransactionUseCase {
             paymentsPlan: paymentsPlan,
             kind: kind.rawValue,
             needsReview: needsReview,
-            category: category.id
+            category: category.id,
+            attachmentPath: attachmentPath
         )
         entity.id = id
         entity.participants = participants.map(\.id)
@@ -226,6 +231,7 @@ public actor TransactionActor: TransactionUseCase {
         entity.kind = kind.rawValue
         entity.needsReview = needsReview
         entity.category = category.id
+        entity.attachmentPath = attachmentPath
         modelContext.insert(entity)
         try modelContext.save()
     }

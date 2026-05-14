@@ -126,6 +126,10 @@ public struct CashlyDataFactory: CashlyDataFactoryProtocol {
         AppleSpeechTranscriber()
     }
 
+    public func makeAttachmentStorage() -> AttachmentStorageUseCase {
+        DocumentsAttachmentStorage()
+    }
+
     public func makeTransactionDictation() -> TransactionDictationUseCase {
         // K2a: prefer the on-device Foundation Models parser when
         // the OS supports it. The impl probes runtime availability

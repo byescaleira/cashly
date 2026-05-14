@@ -33,7 +33,8 @@ public protocol TransactionUseCase: Sendable {
         paymentsPlan: Int?,
         kind: TransactionKind,
         needsReview: Bool,
-        category: CashlyDomain.Category
+        category: CashlyDomain.Category,
+        attachmentPath: String?
     ) async throws
 }
 
@@ -66,7 +67,8 @@ public extension TransactionUseCase {
             paymentsPlan: paymentsPlan,
             kind: .expense,
             needsReview: false,
-            category: budget.category
+            category: budget.category,
+            attachmentPath: nil
         )
     }
 
@@ -100,7 +102,42 @@ public extension TransactionUseCase {
             paymentsPlan: paymentsPlan,
             kind: kind,
             needsReview: needsReview,
-            category: budget.category
+            category: budget.category,
+            attachmentPath: nil
+        )
+    }
+
+    /// K10 back-compat: pre-K10 callsites don't pass attachmentPath.
+    func addTransaction(
+        id: String,
+        participants: [Participant],
+        budget: Budget?,
+        amount: Double,
+        date: TimeInterval,
+        summary: String,
+        status: TransactionStatus,
+        splitMode: TransactionSplitMode?,
+        splitValue: Double?,
+        paymentsPlan: Int?,
+        kind: TransactionKind,
+        needsReview: Bool,
+        category: CashlyDomain.Category
+    ) async throws {
+        try await addTransaction(
+            id: id,
+            participants: participants,
+            budget: budget,
+            amount: amount,
+            date: date,
+            summary: summary,
+            status: status,
+            splitMode: splitMode,
+            splitValue: splitValue,
+            paymentsPlan: paymentsPlan,
+            kind: kind,
+            needsReview: needsReview,
+            category: category,
+            attachmentPath: nil
         )
     }
 }

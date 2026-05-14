@@ -73,7 +73,8 @@ actor MockTransactionActor: TransactionUseCase {
         paymentsPlan: Int?,
         kind: TransactionKind,
         needsReview: Bool,
-        category: CashlyDomain.Category
+        category: CashlyDomain.Category,
+        attachmentPath: String?
     ) async throws {
         let transaction = CashlyDomain.Transaction(
             id: id,
@@ -88,7 +89,8 @@ actor MockTransactionActor: TransactionUseCase {
             paymentsPlan: paymentsPlan,
             kind: kind,
             needsReview: needsReview,
-            category: category
+            category: category,
+            attachmentPath: attachmentPath
         )
         transactions.append(transaction)
     }

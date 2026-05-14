@@ -94,7 +94,8 @@ actor MockAdapterActor: AdapterUseCase {
         paymentsPlan: Int?,
         kind: Int,
         needsReview: Bool,
-        category: String?
+        category: String?,
+        attachmentPath: String?
     ) async throws -> Transaction? {
         guard let budget = budgets.first(where: { $0.id == budget }),
               let status = TransactionStatus(rawValue: status)
@@ -117,7 +118,8 @@ actor MockAdapterActor: AdapterUseCase {
             paymentsPlan: paymentsPlan,
             kind: TransactionKind(rawValue: kind) ?? .expense,
             needsReview: needsReview,
-            category: resolvedCategory
+            category: resolvedCategory,
+            attachmentPath: attachmentPath
         )
     }
 

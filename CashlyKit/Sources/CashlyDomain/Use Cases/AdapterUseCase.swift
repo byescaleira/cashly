@@ -45,7 +45,8 @@ public protocol AdapterUseCase: Sendable {
         paymentsPlan: Int?,
         kind: Int,
         needsReview: Bool,
-        category: String?
+        category: String?,
+        attachmentPath: String?
     ) async throws -> Transaction?
 
     func tagAdapted(
@@ -132,7 +133,42 @@ public extension AdapterUseCase {
             paymentsPlan: paymentsPlan,
             kind: kind,
             needsReview: needsReview,
-            category: nil
+            category: nil,
+            attachmentPath: nil
+        )
+    }
+
+    /// K10 back-compat: pre-K10 callsites don't pass attachmentPath.
+    func transactionAdapted(
+        id: String,
+        participants: [String],
+        budget: String,
+        amount: Double,
+        date: TimeInterval,
+        summary: String,
+        status: Int,
+        splitMode: Int?,
+        splitValue: Double?,
+        paymentsPlan: Int?,
+        kind: Int,
+        needsReview: Bool,
+        category: String?
+    ) async throws -> Transaction? {
+        try await transactionAdapted(
+            id: id,
+            participants: participants,
+            budget: budget,
+            amount: amount,
+            date: date,
+            summary: summary,
+            status: status,
+            splitMode: splitMode,
+            splitValue: splitValue,
+            paymentsPlan: paymentsPlan,
+            kind: kind,
+            needsReview: needsReview,
+            category: category,
+            attachmentPath: nil
         )
     }
 }

@@ -20,6 +20,10 @@ private struct SpeechTranscriberKey: EnvironmentKey {
     static let defaultValue: SpeechTranscriberUseCase = InMemorySpeechTranscriber(authorization: .unavailable)
 }
 
+private struct AttachmentStorageKey: EnvironmentKey {
+    static let defaultValue: AttachmentStorageUseCase = InMemoryAttachmentStorage()
+}
+
 public extension EnvironmentValues {
     var transactionDictation: TransactionDictationUseCase {
         get { self[DictationParserKey.self] }
@@ -29,5 +33,10 @@ public extension EnvironmentValues {
     var speechTranscriber: SpeechTranscriberUseCase {
         get { self[SpeechTranscriberKey.self] }
         set { self[SpeechTranscriberKey.self] = newValue }
+    }
+
+    var attachmentStorage: AttachmentStorageUseCase {
+        get { self[AttachmentStorageKey.self] }
+        set { self[AttachmentStorageKey.self] = newValue }
     }
 }

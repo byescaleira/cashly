@@ -60,6 +60,10 @@ public struct CashlyPresentationFactory: CashlyPresentationFactoryProtocol {
         dataFactory.makeSpeechTranscriber()
     }
 
+    public func makeAttachmentStorage() -> AttachmentStorageUseCase {
+        dataFactory.makeAttachmentStorage()
+    }
+
     public func makeAddCategoryStore() -> CashlyStore<AddCategoryState, AddCategoryAction> {
         CashlyStore(
             initialState: .new(),

@@ -32,6 +32,9 @@ public struct AddTransactionState: CashlyState {
     /// user should review before saving. UI uses this to render the
     /// review badge.
     public var needsReview: Bool = false
+    /// K10: relative path to the receipt image attached to this
+    /// transaction. UI binds the PhotosPicker through it.
+    public var attachmentPath: String? = nil
 
     public var canSave: Bool {
         // ADR-0009 J5: income / loan transactions can be saved
