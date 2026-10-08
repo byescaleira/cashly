@@ -13,14 +13,14 @@ public final class TagViewModel {
     public var canSave: Bool { hasLoaded && draft.canSave && !isLoading && !isSaved }
     @ObservationIgnored private var hasLoaded = false
     @ObservationIgnored private let contextUserID: String?
-    @ObservationIgnored private let tagUseCase: any TagUseCase
-    @ObservationIgnored private let userUseCase: any UserUseCase
+    @ObservationIgnored private let tags: any TagRepository
+    @ObservationIgnored private let users: any UserRepository
 
-    public init(draft: TagDraft = .new(), dataFactory: any CashlyDataFactoryProtocol) {
+    public init(draft: TagDraft = .new(), repositories: Repositories) {
         self.draft = draft
-        self.contextUserID = dataFactory.userID
-        self.tagUseCase = dataFactory.makeTagUseCase()
-        self.userUseCase = dataFactory.makeUserUseCase()
+        self.contextUserID = repositories.userID
+        self.tags = repositories.tags
+        self.users = repositories.users
     }
 
     public func load() async {
@@ -29,12 +29,12 @@ public final class TagViewModel {
         error = nil
         defer { isLoading = false }
         do {
-            let record = try await tagUseCase.getTag(id: draft.id)
+            let record = try await tags.tag(id: draft.id)
             try Task.checkCancellation()
             if !draft.isNew && record == nil { throw CashlyError.missingRecord }
             let currentUser: User?
             if let contextUserID {
-                currentUser = try await userUseCase.getUser(id: contextUserID)
+                currentUser = try await users.user(id: contextUserID)
             } else {
                 currentUser = nil
             }
@@ -65,13 +65,11 @@ public final class TagViewModel {
                 self.error = .onSave
                 return
             }
-            try await tagUseCase.addTag(
-                id: draft.id,
-                user: user.id,
-                name: draft.name.trimmingCharacters(in: .whitespacesAndNewlines),
-                color: draft.color.hex,
-                icon: draft.icon
-            )
+            try await tags.save(
+                Tag(
+                    id: draft.id, user: user,
+                    name: draft.name.trimmingCharacters(in: .whitespacesAndNewlines),
+                    color: draft.color.hex, icon: draft.icon))
             isSaved = true
         } catch {
             self.error = error as? CashlyError ?? .onSave
@@ -85,11 +83,11 @@ public final class TagViewModel {
         defer { isLoading = false }
         do {
 
-            guard let tag = try await tagUseCase.getTag(id: draft.id) else {
+            guard let tag = try await tags.tag(id: draft.id) else {
                 self.error = .onRemove
                 return
             }
-            try await tagUseCase.removeTag(id: tag.id)
+            try await tags.delete(id: tag.id)
             isSaved = true
         } catch {
             self.error = error as? CashlyError ?? .onRemove

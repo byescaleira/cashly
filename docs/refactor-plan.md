@@ -153,6 +153,9 @@ Concluída. Além do previsto, `BudgetUsage` concentra a razão gasto/orçamento
 
 ### Fase 3: repositórios por agregado
 
+Concluída. `CashlyDatabase` implementa `RepositoryProvider`; `CashlyStore` é o actor único; cada repositório é uma struct sobre `StoreScope`. Os antigos diagnósticos `flows` e `scenarios` do `CashlyAudit` viraram `CashlyDataTests` e `CashlyPresentationTests`.
+
+
 - Trocar os 7 protocolos `*UseCase` (CRUD com 12 parâmetros) por repositórios que recebem entidades:
 
   ```swift
@@ -191,6 +194,7 @@ Concluída. Além do previsto, `BudgetUsage` concentra a razão gasto/orçamento
 - Formulários não leem mais `MainViewModel` do ambiente.
 - Renomear `state`/`mainState` para o nome do model.
 - `CashlySymbolCategory` (479 linhas de SF Symbols) vai para um recurso JSON em `CashlyResource` ou para `FeatureCore`.
+- Corrigir dois bugs já existentes, encontrados nas verificações: o campo de valor interpreta dígitos como reais inteiros ("500" vira R$ 500,00), e o editor de transação desconta o valor da própria transação duas vezes na mensagem de orçamento restante.
 
 ### Fase 6: acabamento
 

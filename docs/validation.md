@@ -12,7 +12,6 @@ scripts/build.sh Release
 swift build -c release --package-path CashlyKit --product CashlyAudit
 CashlyKit/.build/release/CashlyAudit create-legacy /tmp/cashly-legacy/legacy.store
 CashlyKit/.build/release/CashlyAudit audit /tmp/cashly-legacy/legacy.store
-CashlyKit/.build/release/CashlyAudit scenarios
 CashlyKit/.build/release/CashlyAudit preview
 CashlyKit/.build/release/CashlyAudit benchmark 1000
 CashlyKit/.build/release/CashlyAudit benchmark 10000
@@ -89,7 +88,7 @@ O único warning final dos builds do app foi a extração de metadados de AppInt
 
 ## Entradas e schema V3 — 04/10/2026
 
-Os comandos atuais de diagnóstico são `CashlyKit/.build/debug/CashlyAudit flows`, `audit <store>`, `preview` e `scenarios`, após compilar o produto CashlyAudit. `audit` sempre copia o store antes de abri-lo com o novo schema. Nenhum teste automatizado foi executado ou alterado.
+Os comandos atuais de diagnóstico são `audit <store>`, `create-legacy <store>`, `preview`, `benchmark <count>` e `profile <store>`, após compilar o produto CashlyAudit. Os antigos `flows` e `scenarios` viraram os testes de integração em `CashlyKit/Tests/CashlyDataTests` e `CashlyPresentationTests`, executados por `scripts/test.sh`. `audit` sempre copia o store antes de abri-lo com o novo schema. Nenhum teste automatizado foi executado ou alterado.
 
 - V1 → V3 e V2 → V3: preservados 2 usuários, 1 categoria, 1 orçamento, 1 tag, 1 transação e 1 participante; nenhuma referência pendente. Valor original e soma dos rateios: 10.001 centavos; parcelas do proprietário: 5.001 centavos.
 - Fluxos sem orçamento: entradas 120.005 centavos, saídas do mês 13.335, resultado 106.670.

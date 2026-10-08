@@ -18,7 +18,7 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "CashlyAudit",
-            dependencies: ["CashlyDomain", "CashlyData", "CashlyPresentation", "CashlyMock"]),
+            dependencies: ["CashlyDomain", "CashlyData", "CashlyMock"]),
         .target(name: "CashlyDomain"),
         .target(name: "CashlyData", dependencies: ["CashlyDomain"]),
         .target(name: "FeatureCore", dependencies: ["CashlyDomain", "CashlyDesignSystem"]),
@@ -38,5 +38,9 @@ let package = Package(
                 "FeatureCore",
             ]),
         .testTarget(name: "CashlyDomainTests", dependencies: ["CashlyDomain"]),
+        .testTarget(name: "CashlyDataTests", dependencies: ["CashlyDomain", "CashlyData"]),
+        .testTarget(
+            name: "CashlyPresentationTests",
+            dependencies: ["CashlyDomain", "CashlyData", "CashlyPresentation"]),
     ]
 )

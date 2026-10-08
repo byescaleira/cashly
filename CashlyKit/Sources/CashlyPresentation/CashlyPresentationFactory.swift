@@ -2,27 +2,41 @@ import CashlyDomain
 
 @MainActor
 public struct CashlyPresentationFactory {
-    private let dataFactory: any CashlyDataFactoryProtocol
-    public init(dataFactory: any CashlyDataFactoryProtocol) { self.dataFactory = dataFactory }
-    public func scoped(to userID: String?) -> Self {
-        Self(dataFactory: dataFactory.scoped(to: userID))
+    private let provider: any RepositoryProvider
+    private let userID: String?
+
+    public init(provider: any RepositoryProvider, userID: String? = nil) {
+        self.provider = provider
+        self.userID = userID
     }
+
+    public func scoped(to userID: String?) -> CashlyPresentationFactory {
+        CashlyPresentationFactory(provider: provider, userID: userID)
+    }
+
+    private var repositories: Repositories { provider.repositories(for: userID) }
+
     public func makeMainViewModel(persistSelection: Bool = true) -> MainViewModel {
-        MainViewModel(dataFactory: dataFactory, persistSelection: persistSelection)
+        MainViewModel(provider: provider, persistSelection: persistSelection)
     }
+
     public func makeCategoryViewModel(draft: CategoryDraft) -> CategoryViewModel {
-        CategoryViewModel(draft: draft, dataFactory: dataFactory)
+        CategoryViewModel(draft: draft, repositories: repositories)
     }
+
     public func makeBudgetViewModel(draft: BudgetDraft) -> BudgetViewModel {
-        BudgetViewModel(draft: draft, dataFactory: dataFactory)
+        BudgetViewModel(draft: draft, repositories: repositories)
     }
+
     public func makeTransactionViewModel(draft: TransactionDraft) -> TransactionViewModel {
-        TransactionViewModel(draft: draft, dataFactory: dataFactory)
+        TransactionViewModel(draft: draft, repositories: repositories)
     }
+
     public func makeUserViewModel(draft: UserDraft) -> UserViewModel {
-        UserViewModel(draft: draft, dataFactory: dataFactory)
+        UserViewModel(draft: draft, users: repositories.users)
     }
+
     public func makeTagViewModel(draft: TagDraft) -> TagViewModel {
-        TagViewModel(draft: draft, dataFactory: dataFactory)
+        TagViewModel(draft: draft, repositories: repositories)
     }
 }

@@ -46,11 +46,11 @@ Não apagar stores para migrar. Publicação do schema CloudKit e coexistência 
 
 Os targets existentes são iOS/iPadOS, macOS e visionOS 27. APIs indisponíveis em visionOS foram isoladas no design system: superfícies de vidro, botões destacados, espaço de toolbar e comportamento de teclado. As telas usam os adaptadores `cashlySurface`, `CashlySurfaceContainer`, `cashlyProminentButton`, `CashlyToolbarSpacer` e `cashlyDismissKeyboardOnScroll`.
 
-## Verificação manual
+## Verificação automatizada
 
-`CashlyAudit flows` usa um banco em memória, sem tocar no banco do usuário. Verifica criação sem orçamento, associação por competência, alteração/remoção de planejamento, entrada/saída, cancelamento, isolamento de perfil e criação/edição pelo ViewModel. Também confirma que entradas não participam das amostras do estimador de despesas.
+`CashlyDataTests` (`FinancialFlowTests`) e `CashlyPresentationTests` usam um banco em memória, sem tocar no banco do usuário. Verificam criação sem orçamento, associação por competência, alteração/remoção de planejamento, entrada/saída, cancelamento, isolamento de perfil e criação/edição pelo ViewModel. Também confirmam que entradas não participam das amostras do estimador de despesas.
 
-O diagnóstico registrou R$ 1.200,05 de entrada, R$ 133,35 de saída no primeiro mês e R$ 1.066,70 de resultado. Uma saída de R$ 100,01 em três parcelas gerou R$ 33,34 / R$ 33,34 / R$ 33,33. Todos os lançamentos permaneceram após excluir o orçamento.
+Os testes verificam R$ 1.200,05 de entrada, R$ 133,35 de saída no primeiro mês e R$ 1.066,70 de resultado. Uma saída de R$ 100,01 em três parcelas gerou R$ 33,34 / R$ 33,34 / R$ 33,33. Todos os lançamentos permaneceram após excluir o orçamento.
 
 As migrações foram executadas em cópias dos fixtures V1 e V2: preservaram 2 usuários, 1 categoria, 1 orçamento, 1 tag, 1 transação e 1 participante, sem referências pendentes. O valor original de 10.001 centavos permaneceu igual à soma dos rateios, e as parcelas do proprietário somaram seus 5.001 centavos. Os diagnósticos existentes de tags, conflitos, isolamento e preview também passaram.
 

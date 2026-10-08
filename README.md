@@ -17,13 +17,13 @@ Abra `Cashly.xcworkspace` no Xcode e selecione o scheme `Production`. O pacote r
 
 O simulador usa o banco local real com CloudKit desativado. Nos dispositivos, o app usa o container `iCloud.cashly` e precisa das capabilities e assinatura correspondentes.
 
-Não há dependências externas no pacote. `CashlyDesignSystem` reúne os componentes SwiftUI usados pelo app; `CashlyMock` fornece dados em memória para o módulo separado `CashlyPreview`. Esses módulos não são dependências do app. `CashlyAudit` é a ferramenta manual de diagnóstico.
+Não há dependências externas no pacote. `CashlyDesignSystem` reúne os componentes SwiftUI usados pelo app; `CashlyMock` fornece dados em memória para o módulo separado `CashlyPreview`. Esses módulos não são dependências do app. `CashlyAudit` reúne os diagnósticos sobre bancos reais (migração, integridade, volume).
 
 Valores financeiros usam `Money` em centavos BRL. O schema V3 mantém V1/V2 congelados e os campos de migração. Transações não dependem de orçamento; planejamento e despesas se relacionam por proprietário, categoria e competência. Entradas possuem tipo e total separados no domínio e no banco; o layout existente não ganhou controles de entrada. Cada janela possui seu usuário e navegação; consultas financeiras usam esse contexto explicitamente.
 
 Para compilar, use `scripts/build.sh Debug` ou `scripts/build.sh Release`, com `DEVELOPER_DIR` apontando para o Xcode desejado. O script compila iOS, os apps macOS e visionOS, sem executar testes.
 
-Para rodar os testes, use `scripts/test.sh`. O script executa o scheme `CashlyKit-Package` no simulador do iPhone 17 com iOS 27; `CASHLY_TEST_DESTINATION` troca o destino.
+Para rodar os testes, use `scripts/test.sh`. Há três targets: `CashlyDomainTests` (regras puras), `CashlyDataTests` (repositórios com banco em memória) e `CashlyPresentationTests` (ViewModels). O script executa o scheme `CashlyKit-Package` no simulador do iPhone 17 com iOS 27; `CASHLY_TEST_DESTINATION` troca o destino.
 
 Para formatar os fontes, use `scripts/format.sh`; para verificar o padrão, use `scripts/format.sh --check`. O projeto utiliza o `swift-format` incluído no toolchain da Apple, com quatro espaços e as demais regras padrão, configurado em `.swift-format`. O comando abrange o app, os módulos, os testes e o manifesto do pacote.
 

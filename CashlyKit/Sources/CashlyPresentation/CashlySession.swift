@@ -8,12 +8,12 @@ public final class CashlySession {
     public let navigation: CashlyNavigation
     public let intelligence: IntelligenceViewModel
     public init(
-        dataFactory: any CashlyDataFactoryProtocol, intelligenceUseCase: any IntelligenceUseCase,
+        provider: any RepositoryProvider, intelligence: any IntelligenceService,
         persistSelection: Bool = true
     ) {
-        factory = CashlyPresentationFactory(dataFactory: dataFactory)
+        factory = CashlyPresentationFactory(provider: provider)
         main = factory.makeMainViewModel(persistSelection: persistSelection)
         navigation = CashlyNavigation()
-        intelligence = IntelligenceViewModel(useCase: intelligenceUseCase)
+        self.intelligence = IntelligenceViewModel(service: intelligence)
     }
 }

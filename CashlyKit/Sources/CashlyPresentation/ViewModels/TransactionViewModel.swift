@@ -12,13 +12,13 @@ public final class TransactionViewModel {
     @ObservationIgnored private var hasLoaded = false
     @ObservationIgnored private var isFetching = false
     @ObservationIgnored private var loadRevision = 0
-    @ObservationIgnored private let snapshotUseCase: any SnapshotUseCase
-    @ObservationIgnored private let transactionUseCase: any TransactionUseCase
+    @ObservationIgnored private let dashboard: any DashboardRepository
+    @ObservationIgnored private let transactions: any TransactionRepository
 
-    public init(draft: TransactionDraft = .new(), dataFactory: any CashlyDataFactoryProtocol) {
+    public init(draft: TransactionDraft = .new(), repositories: Repositories) {
         self.draft = draft
-        self.snapshotUseCase = dataFactory.makeSnapshotUseCase()
-        self.transactionUseCase = dataFactory.makeTransactionUseCase()
+        self.dashboard = repositories.dashboard
+        self.transactions = repositories.transactions
     }
 
     public func loadOrRefreshOptions() async {
@@ -43,7 +43,7 @@ public final class TransactionViewModel {
             }
         }
         do {
-            let record = try await transactionUseCase.getTransaction(id: draft.id)
+            let record = try await transactions.transaction(id: draft.id)
             try Task.checkCancellation()
             guard request == loadRevision else { return }
             if !draft.isNew && record == nil { throw CashlyError.missingRecord }
@@ -81,20 +81,15 @@ public final class TransactionViewModel {
             guard hasLoaded && draft.canSave, let category = draft.category else {
                 throw CashlyError.onSave
             }
-            try await transactionUseCase.addTransaction(
-                id: draft.id,
-                participants: Array(draft.participants),
-                categoryID: category.id,
-                kind: draft.kind,
-                money: try Money(validating: draft.amount),
-                date: draft.date,
-                summary: draft.summary.trimmingCharacters(in: .whitespacesAndNewlines),
-                status: draft.status,
-                splitMode: draft.splitMode,
-                splitValue: draft.splitValue,
-                paymentsPlan: draft.installmentIsOn ? draft.installmentPlan : nil,
-                tagIDs: draft.selectedTagIDs
-            )
+            try await transactions.save(
+                Transaction(
+                    id: draft.id, participants: Array(draft.participants), category: category,
+                    money: try Money(validating: draft.amount), date: draft.date,
+                    summary: draft.summary.trimmingCharacters(in: .whitespacesAndNewlines),
+                    status: draft.status, splitMode: draft.splitMode,
+                    splitValue: draft.splitValue,
+                    paymentsPlan: draft.installmentIsOn ? draft.installmentPlan : nil,
+                    tagIDs: draft.selectedTagIDs, kind: draft.kind))
 
             isSaved = true
         } catch {
@@ -108,12 +103,12 @@ public final class TransactionViewModel {
         error = nil
         defer { isLoading = false }
         do {
-            guard let transaction = try await transactionUseCase.getTransaction(id: draft.id) else {
+            guard let transaction = try await transactions.transaction(id: draft.id) else {
                 self.error = .onRemove
                 return
             }
 
-            try await transactionUseCase.removeTransaction(id: transaction.id)
+            try await transactions.delete(id: transaction.id)
             isSaved = true
         } catch {
             self.error = error as? CashlyError ?? .onRemove
@@ -127,7 +122,7 @@ public final class TransactionViewModel {
         }
     }
     private func loadOptions(request: Int? = nil) async throws {
-        let snapshot = try await snapshotUseCase.snapshot(month: YearMonth(draft.date))
+        let snapshot = try await dashboard.snapshot(month: YearMonth(draft.date))
         let user = snapshot.currentUser
         let categories = snapshot.categories.filter { $0.user.id == user?.id }
         let tags = snapshot.tags.filter { $0.user.id == user?.id }

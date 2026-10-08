@@ -1,7 +1,6 @@
 import CashlyData
 import CashlyDomain
 import CashlyMock
-import CashlyPresentation
 import Darwin
 import Foundation
 import SwiftData
@@ -18,14 +17,12 @@ struct CashlyAudit {
         let arguments = Array(CommandLine.arguments.dropFirst())
         guard let command = arguments.first else {
             print(
-                "create-legacy <store> | audit <store> | benchmark <count> | profile <store> | scenarios | flows"
+                "create-legacy <store> | audit <store> | benchmark <count> | profile <store> | preview"
             )
             return
         }
         let january = try yearMonth(202601).startDate
         switch command {
-        case "flows":
-            try await inspectFlows()
         case "create-legacy":
             guard arguments.count == 2 else {
                 throw CashlyError.invalidInput("Informe o arquivo de destino.")
@@ -84,11 +81,11 @@ struct CashlyAudit {
                         at: source, to: URL(filePath: copied.path + suffix))
                 }
             }
-            let factory = try CashlyDataFactory.make(cloudSync: false, storeURL: copied)
-            let context = ModelContext(factory.modelContainer)
-            let users = try await factory.makeUserUseCase().getUsers()
+            let database = try CashlyDatabase.open(cloudSync: false, storeURL: copied)
+            let context = ModelContext(database.modelContainer)
+            let users = try await database.repositories(for: nil).users.users()
             for user in users {
-                let dashboard = factory.scoped(to: user.id).makeDashboardUseCase()
+                let dashboard = database.repositories(for: user.id).dashboard
                 let state = try await dashboard.load(query: .init())
                 let training = try await dashboard.trainingData()
                 print(
@@ -113,139 +110,14 @@ struct CashlyAudit {
             )
             print("AUDIT_COPY \(copied.path)")
         case "preview":
-            let factory = try MockCashlyFactory()
-            try await factory.seed()
-            let users = try await factory.dataFactory.makeUserUseCase().getUsers()
+            let database = try await SampleDatabase.make()
+            let users = try await database.repositories(for: nil).users.users()
             var count = 0
             for user in users {
-                count += try await factory.dataFactory.scoped(to: user.id).makeDashboardUseCase()
-                    .load(
-                        query: .init()
-                    ).totalTransactionCount
+                count += try await database.repositories(for: user.id).dashboard
+                    .load(query: .init()).totalTransactionCount
             }
             print("PREVIEW users=\(users.count) transactions=\(count)")
-        case "scenarios":
-            let factory = try CashlyDataFactory.make(inMemory: true)
-            for id in ["owner", "friend"] {
-                try await factory.makeUserUseCase().addUser(id: id, name: id, photo: "1")
-            }
-            let scoped = factory.scoped(to: "owner")
-            try await scoped.makeCategoryUseCase().addCategory(
-                id: "category", user: "owner", name: "Mercado", color: "0099FF", icon: "cart")
-            guard let category = try await scoped.makeCategoryUseCase().getCategory(id: "category")
-            else {
-                throw CashlyError.onFetch
-            }
-            try await scoped.makeBudgetUseCase().addBudget(
-                id: "budget", money: Money(minorUnits: 10000), category: category,
-                month: try yearMonth(202601), summary: "Mensal")
-            guard let budget = try await scoped.makeBudgetUseCase().getBudget(id: "budget"),
-                let friend = try await factory.makeUserUseCase().getUser(id: "friend")
-            else { throw CashlyError.onFetch }
-            try await scoped.makeTagUseCase().addTag(
-                id: "tag", user: "owner", name: "Feira", color: "0099FF", icon: "tag")
-            let participant = Participant(
-                id: "party", user: friend, splitMode: .equal, splitValue: 2, status: .settled,
-                transaction: "transaction")
-            try await scoped.makeTransactionUseCase().addTransaction(
-                id: "transaction", participants: [participant], categoryID: budget.category.id,
-                kind: .expense,
-                money: Money(minorUnits: 9),
-                date: january, summary: "Compra Feira", status: .settled,
-                splitMode: .equal, splitValue: 0.05, paymentsPlan: 3, tagIDs: ["tag"])
-            let dashboard = scoped.makeDashboardUseCase()
-            let before = try await dashboard.datasetRevision()
-            try await scoped.makeTagUseCase().addTag(
-                id: "tag", user: "owner", name: "Alimentação", color: "0099FF", icon: "tag")
-            let tagged = try await dashboard.overview(
-                query: .init(month: try yearMonth(202601), tagIDs: ["tag"]))
-            let after = try await dashboard.datasetRevision()
-            print(
-                "TAGS renamedAssociationMinor=\(tagged.tagExpenses["tag"]?.minorUnits ?? -1) revisionChanged=\(before != after)"
-            )
-            try await scoped.makeTagUseCase().removeTag(id: "tag")
-            let record = try await scoped.makeTransactionUseCase().getTransaction(id: "transaction")
-            print(
-                "TAGS deletedRefs=\(record?.tagIDs.count ?? -1) pending=\(try await dashboard.overview(query: .init()).pendingReferences)"
-            )
-            let percentages = ["p1", "p2"].map {
-                Participant(
-                    id: $0, user: friend, splitMode: .percentage, splitValue: 0.5, status: .settled,
-                    transaction: "tiny")
-            }
-            let allocation = try TransactionAllocation.resolve(
-                total: Money(minorUnits: 1), participants: percentages)
-            print(
-                "CENT owner=\(allocation.owner.minorUnits) p1=\(allocation.participants["p1"]?.minorUnits ?? -1) p2=\(allocation.participants["p2"]?.minorUnits ?? -1)"
-            )
-            let windowA = MainViewModel(dataFactory: factory, persistSelection: false)
-            let windowB = MainViewModel(dataFactory: factory, persistSelection: false)
-            await windowA.selectUser(id: "owner")
-            await windowB.selectUser(id: "friend")
-            windowA.filter.startDate = january
-            windowB.filter.startDate = january
-            await windowA.load()
-            await windowB.load()
-            print(
-                "WINDOWS a=\(windowA.user?.id ?? "nil") b=\(windowB.user?.id ?? "nil") aTotalMinor=\(Int(windowA.expensesAmount * 100)) bCount=\(windowB.totalTransactionCount)"
-            )
-            let context = ModelContext(factory.modelContainer)
-            let first = BudgetEntity(
-                id: "choice-a", amount: 100, category: "category", date: 202602, summary: "Versão A"
-            )
-            let second = BudgetEntity(
-                id: "choice-b", amount: 200, category: "category", date: 202602, summary: "Versão B"
-            )
-            for row in [first, second] {
-                row.ownerID = "owner"
-                row.amountMinorUnits = Int64(row.amount * 100)
-                row.amountSource = row.amount
-            }
-            first.mergedIntoID = "choice-b"
-            first.resolvedTargetID = "choice-b"
-            first.resolutionToken = "later"
-            first.resolutionTimestamp = 2
-            second.mergedIntoID = "choice-a"
-            second.resolvedTargetID = "choice-a"
-            second.resolutionToken = "earlier"
-            second.resolutionTimestamp = 1
-            context.insert(first)
-            context.insert(second)
-            try context.save()
-            let imported = CashlyDataFactory(modelContainer: factory.modelContainer).scoped(
-                to: "owner"
-            )
-            .makeDashboardUseCase()
-            let resolved = try await imported.overview(query: .init(month: try yearMonth(202602)))
-            print(
-                "CONCURRENT_RESOLUTION conflicts=\(resolved.conflicts.count) budgetMinor=\(resolved.budgetsTotal.minorUnits) activeIDs=\(resolved.budgets.map(\.id))"
-            )
-            let training = try await dashboard.trainingData()
-            let folder = FileManager.default.temporaryDirectory.appending(
-                path: "cashly-intelligence-audit-" + UUID().uuidString)
-            let intelligence = LocalIntelligenceService(directory: folder)
-            do {
-                _ = try await intelligence.train(
-                    userID: "owner", transactions: training.transactions, tags: training.tags,
-                    revision: training.revision)
-                print("SUFFICIENCY accepted")
-            } catch { print("SUFFICIENCY rejected=\(error.localizedDescription)") }
-            var another = training.transactions[0]
-            another.id = "another"
-            another.summary = "Compra Padaria"
-            another.date = try yearMonth(202602).startDate
-            let category2 = CashlyDomain.Category(
-                id: "bakery", user: budget.user, name: "Padaria", color: "0099FF", icon: "cart")
-            another.category = category2
-            _ = try await intelligence.train(
-                userID: "owner", transactions: training.transactions + [another],
-                tags: training.tags,
-                revision: training.revision)
-            let fresh = try await intelligence.predict(
-                userID: "owner", input: .text("Padaria"), revision: training.revision)
-            let stale = try await intelligence.predict(
-                userID: "owner", input: .text("Padaria"), revision: "changed")
-            print("INTELLIGENCE fresh=\(fresh) stale=\(stale)")
         case "profile":
             guard arguments.count == 2,
                 URL(filePath: arguments[1]).lastPathComponent == "benchmark.store"
@@ -253,9 +125,9 @@ struct CashlyAudit {
                 throw CashlyError.invalidInput(
                     "Profile aceita somente benchmark.store gerado pelo diagnóstico.")
             }
-            let factory = try CashlyDataFactory.make(
+            let database = try CashlyDatabase.open(
                 cloudSync: false, storeURL: URL(filePath: arguments[1]))
-            let service = factory.scoped(to: "a").makeDashboardUseCase()
+            let service = database.repositories(for: "a").dashboard
             let clock = ContinuousClock()
             var start = clock.now
             let state = try await service.overview(query: .init(month: try yearMonth(202601)))
@@ -278,9 +150,9 @@ struct CashlyAudit {
             let folder = FileManager.default.temporaryDirectory.appending(
                 path: "cashly-benchmark-" + UUID().uuidString)
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-            let factory = try CashlyDataFactory.make(
+            let database = try CashlyDatabase.open(
                 cloudSync: false, storeURL: folder.appending(path: "benchmark.store"))
-            let context = ModelContext(factory.modelContainer)
+            let context = ModelContext(database.modelContainer)
             for id in ["a", "b"] {
                 context.insert(UserEntity(id: id, name: id, photo: "person"))
                 context.insert(
@@ -318,7 +190,8 @@ struct CashlyAudit {
                 if index % 1000 == 999 { try context.save() }
             }
             try context.save()
-            let service = factory.scoped(to: "a").makeDashboardUseCase()
+            let repositories = database.repositories(for: "a")
+            let service = repositories.dashboard
             let clock = ContinuousClock()
             var start = clock.now
             let state = try await service.load(query: .init(month: try yearMonth(202601)))
@@ -326,8 +199,7 @@ struct CashlyAudit {
                 "BENCH count=\(count) dashboard=\(start.duration(to: clock.now)) pageItems=\(state.page.items.count) total=\(state.overview.transactionCount) totalMinor=\(state.overview.expensesTotal.minorUnits)"
             )
             start = clock.now
-            let detail = try await factory.scoped(to: "a").makeTransactionUseCase().getTransaction(
-                id: "00000000")
+            let detail = try await repositories.transactions.transaction(id: "00000000")
             print("DETAIL elapsed=\(start.duration(to: clock.now)) id=\(detail?.id ?? "nil")")
             start = clock.now
             let page = try await service.page(
@@ -335,7 +207,7 @@ struct CashlyAudit {
             print(
                 "PAGE elapsed=\(start.duration(to: clock.now)) items=\(page.items.count) overlaps=\(Set(page.items.map(\.id)).intersection(state.page.items.map(\.id)).count)"
             )
-            let denied = try await factory.scoped(to: "b").makeTransactionUseCase().getTransaction(
+            let denied = try await database.repositories(for: "b").transactions.transaction(
                 id: "00000000")
             print("ISOLATION foreignDetail=\(denied == nil ? "hidden" : "visible")")
             let duplicate = BudgetEntity(
@@ -348,7 +220,7 @@ struct CashlyAudit {
             context.insert(duplicate)
             try context.save()
             let before = try await service.overview(query: .init(month: try yearMonth(202601)))
-            try await service.resolveBudgetConflict(keeping: "budget-a")
+            try await repositories.budgets.resolveConflict(keeping: "budget-a")
             let after = try await service.overview(query: .init(month: try yearMonth(202601)))
             let archived = try context.fetchCount(
                 FetchDescriptor<BudgetEntity>(predicate: #Predicate { $0.mergedIntoID != "" }))
@@ -358,5 +230,12 @@ struct CashlyAudit {
             print("BENCH_STORE \(folder.path)")
         default: throw CashlyError.invalidInput("Comando desconhecido.")
         }
+    }
+
+    static func yearMonth(_ rawValue: Int) throws -> YearMonth {
+        guard let value = YearMonth(rawValue: rawValue) else {
+            throw CashlyError.invalidInput("Competência inválida no diagnóstico.")
+        }
+        return value
     }
 }

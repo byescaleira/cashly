@@ -12,13 +12,13 @@ public final class BudgetViewModel {
     @ObservationIgnored private var hasLoaded = false
     @ObservationIgnored private var isFetching = false
     @ObservationIgnored private var loadRevision = 0
-    @ObservationIgnored private let budgetUseCase: any BudgetUseCase
-    @ObservationIgnored private let snapshotUseCase: any SnapshotUseCase
+    @ObservationIgnored private let budgets: any BudgetRepository
+    @ObservationIgnored private let dashboard: any DashboardRepository
 
-    public init(draft: BudgetDraft = .new(), dataFactory: any CashlyDataFactoryProtocol) {
+    public init(draft: BudgetDraft = .new(), repositories: Repositories) {
         self.draft = draft
-        self.budgetUseCase = dataFactory.makeBudgetUseCase()
-        self.snapshotUseCase = dataFactory.makeSnapshotUseCase()
+        self.budgets = repositories.budgets
+        self.dashboard = repositories.dashboard
     }
 
     public func loadOrRefreshOptions() async {
@@ -43,8 +43,8 @@ public final class BudgetViewModel {
             }
         }
         do {
-            let snapshot = try await snapshotUseCase.snapshot(month: draft.month)
-            let record = draft.isNew ? nil : try await budgetUseCase.getBudget(id: draft.id)
+            let snapshot = try await dashboard.snapshot(month: draft.month)
+            let record = draft.isNew ? nil : try await budgets.budget(id: draft.id)
             try Task.checkCancellation()
             guard request == loadRevision else { return }
             if !draft.isNew && record == nil { throw CashlyError.missingRecord }
@@ -70,7 +70,7 @@ public final class BudgetViewModel {
     public func refreshOptions() async {
         guard hasLoaded, !isLoading, !isSaved else { return }
         do {
-            let snapshot = try await snapshotUseCase.snapshot(month: draft.month)
+            let snapshot = try await dashboard.snapshot(month: draft.month)
             try Task.checkCancellation()
             draft.categories = snapshot.categories.filter { $0.user.id == snapshot.currentUser?.id }
             draft.category =
@@ -94,13 +94,11 @@ public final class BudgetViewModel {
                 self.error = .onSave
                 return
             }
-            try await budgetUseCase.addBudget(
-                id: draft.id,
-                money: try Money(validating: draft.amount),
-                category: category,
-                month: draft.month,
-                summary: draft.summary.trimmingCharacters(in: .whitespacesAndNewlines)
-            )
+            try await budgets.save(
+                Budget(
+                    id: draft.id, money: try Money(validating: draft.amount), category: category,
+                    month: draft.month,
+                    summary: draft.summary.trimmingCharacters(in: .whitespacesAndNewlines)))
             isSaved = true
         } catch {
             self.error = error as? CashlyError ?? .onSave
@@ -113,7 +111,7 @@ public final class BudgetViewModel {
         error = nil
         defer { isLoading = false }
         do {
-            try await budgetUseCase.removeBudget(id: draft.id)
+            try await budgets.delete(id: draft.id)
             isSaved = true
         } catch {
             self.error = error as? CashlyError ?? .onRemove

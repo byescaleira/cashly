@@ -9,10 +9,10 @@ public final class IntelligenceViewModel {
     public private(set) var datasetRevision = ""
     public var isStale: Bool { models.contains { $0.datasetRevision != datasetRevision } }
     public var error: CashlyError?
-    @ObservationIgnored private let useCase: any IntelligenceUseCase
+    @ObservationIgnored private let service: any IntelligenceService
     @ObservationIgnored private var activeUserID: String?
     @ObservationIgnored private var modelsRevision = 0
-    public init(useCase: any IntelligenceUseCase) { self.useCase = useCase }
+    public init(service: any IntelligenceService) { self.service = service }
     public func hasModel(_ kind: CashlyIntelligence) -> Bool {
         models.contains { $0.kind == kind && $0.datasetRevision == datasetRevision }
     }
@@ -25,7 +25,7 @@ public final class IntelligenceViewModel {
         error = nil
         guard let user else { return }
         do {
-            let models = try await useCase.models(userID: user.id)
+            let models = try await service.models(userID: user.id)
             try Task.checkCancellation()
             guard request == modelsRevision, user.id == activeUserID, revision == datasetRevision
             else { return }
@@ -43,7 +43,7 @@ public final class IntelligenceViewModel {
         error = nil
         defer { isTraining = false }
         do {
-            let models = try await useCase.train(
+            let models = try await service.train(
                 userID: user.id, transactions: dataset.transactions, tags: dataset.tags,
                 revision: dataset.revision)
             try Task.checkCancellation()
@@ -62,7 +62,7 @@ public final class IntelligenceViewModel {
         error = nil
         defer { isTraining = false }
         do {
-            try await useCase.clean(userID: user.id)
+            try await service.clean(userID: user.id)
             if user.id == activeUserID { models = [] }
         } catch is CancellationError {} catch {
             if user.id == activeUserID && !Task.isCancelled {
@@ -90,7 +90,7 @@ public final class IntelligenceViewModel {
         let revision = datasetRevision
         guard !revision.isEmpty, !isStale else { return .empty }
         do {
-            let result = try await useCase.predict(
+            let result = try await service.predict(
                 userID: user.id, input: input, revision: revision)
             try Task.checkCancellation()
             return user.id == activeUserID && revision == datasetRevision ? result : .empty

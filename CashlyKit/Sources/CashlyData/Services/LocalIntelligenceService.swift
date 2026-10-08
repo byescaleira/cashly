@@ -1,7 +1,7 @@
 import CashlyDomain
 import Foundation
 
-public actor LocalIntelligenceService: IntelligenceUseCase {
+public actor LocalIntelligenceService: IntelligenceService {
     private struct Model: Codable {
         var info: [IntelligenceModelInfo]
         var budgets: [String: [Int: Double]]

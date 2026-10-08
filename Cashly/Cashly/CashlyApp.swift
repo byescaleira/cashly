@@ -15,25 +15,25 @@ struct CashlyApp: App {
 
 @MainActor @Observable
 private final class CashlyBootstrap {
-    private(set) var data: CashlyDataFactory?
+    private(set) var database: CashlyDatabase?
     private(set) var error: String?
     let intelligence = LocalIntelligenceService()
-    @ObservationIgnored private var preparation: Task<CashlyDataFactory, any Error>?
+    @ObservationIgnored private var preparation: Task<CashlyDatabase, any Error>?
 
     func prepare() async {
-        guard data == nil else { return }
+        guard database == nil else { return }
         error = nil
         let task =
             preparation
             ?? Task.detached(priority: .userInitiated) {
                 #if targetEnvironment(simulator)
-                    return try CashlyDataFactory.make(cloudSync: false)
+                    return try CashlyDatabase.open(cloudSync: false)
                 #else
-                    return try CashlyDataFactory.make()
+                    return try CashlyDatabase.open()
                 #endif
             }
         preparation = task
-        do { data = try await task.value } catch { self.error = error.localizedDescription }
+        do { database = try await task.value } catch { self.error = error.localizedDescription }
         preparation = nil
     }
 }
@@ -65,9 +65,8 @@ private struct CashlyRootView: View {
             guard session == nil else { return }
             await bootstrap.prepare()
             guard !Task.isCancelled else { return }
-            if let data = bootstrap.data {
-                session = CashlySession(
-                    dataFactory: data, intelligenceUseCase: bootstrap.intelligence)
+            if let database = bootstrap.database {
+                session = CashlySession(provider: database, intelligence: bootstrap.intelligence)
             }
         }
     }

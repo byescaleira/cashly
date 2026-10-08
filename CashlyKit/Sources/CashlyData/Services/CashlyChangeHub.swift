@@ -2,7 +2,7 @@ import CashlyDomain
 import CoreData
 import Foundation
 
-public final class CashlyChangeHub: @unchecked Sendable, DataChangeUseCase {
+public final class CashlyChangeHub: @unchecked Sendable, StorageChangeFeed {
     private let lock = NSLock()
     private var revision: UInt64 = 0
     public var remoteRevision: UInt64 { lock.withLock { revision } }

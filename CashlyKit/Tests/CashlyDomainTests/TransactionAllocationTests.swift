@@ -73,4 +73,15 @@ struct TransactionAllocationTests {
                 ])
         }
     }
+
+    @Test func singleCentGoesToLargestRemainderInIdOrder() throws {
+        let result = try TransactionAllocation.resolve(
+            total: Money(minorUnits: 1),
+            participants: [
+                participant("p1", .percentage, 0.5), participant("p2", .percentage, 0.5),
+            ])
+        #expect(result.owner == .zero)
+        #expect(result.participants["p1"]?.minorUnits == 1)
+        #expect(result.participants["p2"] == .zero)
+    }
 }

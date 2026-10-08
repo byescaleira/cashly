@@ -25,8 +25,7 @@ public final class MainViewModel {
     public var allStatuses: [TransactionStatus] { TransactionStatus.allCases }
     public var error: CashlyError?
     var summary = CashlyOverview()
-    @ObservationIgnored let baseFactory: any CashlyDataFactoryProtocol
-    @ObservationIgnored let changes: any DataChangeUseCase
+    @ObservationIgnored let provider: any RepositoryProvider
     @ObservationIgnored let persistSelection: Bool
     @ObservationIgnored var hasResolvedInitialUser = false
     @ObservationIgnored var selectedUserID: String?
@@ -34,10 +33,9 @@ public final class MainViewModel {
     @ObservationIgnored var revision = 0
     @ObservationIgnored var nextCursor: TransactionCursor?
     @ObservationIgnored var loadedQuery = TransactionQuery()
-    var activeFactory: any CashlyDataFactoryProtocol { baseFactory.scoped(to: selectedUserID) }
-    public init(dataFactory: any CashlyDataFactoryProtocol, persistSelection: Bool = true) {
-        baseFactory = dataFactory
-        changes = dataFactory.makeDataChangeUseCase()
+    var repositories: Repositories { provider.repositories(for: selectedUserID) }
+    public init(provider: any RepositoryProvider, persistSelection: Bool = true) {
+        self.provider = provider
         self.persistSelection = persistSelection
     }
     var query: TransactionQuery {

@@ -13,14 +13,14 @@ public final class CategoryViewModel {
     public var canSave: Bool { hasLoaded && draft.canSave && !isLoading && !isSaved }
     @ObservationIgnored private var hasLoaded = false
     @ObservationIgnored private let contextUserID: String?
-    @ObservationIgnored private let categoryUseCase: any CategoryUseCase
-    @ObservationIgnored private let userUseCase: any UserUseCase
+    @ObservationIgnored private let categories: any CategoryRepository
+    @ObservationIgnored private let users: any UserRepository
 
-    public init(draft: CategoryDraft = .new(), dataFactory: any CashlyDataFactoryProtocol) {
+    public init(draft: CategoryDraft = .new(), repositories: Repositories) {
         self.draft = draft
-        self.contextUserID = dataFactory.userID
-        self.categoryUseCase = dataFactory.makeCategoryUseCase()
-        self.userUseCase = dataFactory.makeUserUseCase()
+        self.contextUserID = repositories.userID
+        self.categories = repositories.categories
+        self.users = repositories.users
     }
 
     public func load() async {
@@ -29,12 +29,12 @@ public final class CategoryViewModel {
         error = nil
         defer { isLoading = false }
         do {
-            let record = try await categoryUseCase.getCategory(id: draft.id)
+            let record = try await categories.category(id: draft.id)
             try Task.checkCancellation()
             if !draft.isNew && record == nil { throw CashlyError.missingRecord }
             let currentUser: User?
             if let contextUserID {
-                currentUser = try await userUseCase.getUser(id: contextUserID)
+                currentUser = try await users.user(id: contextUserID)
             } else {
                 currentUser = nil
             }
@@ -65,13 +65,11 @@ public final class CategoryViewModel {
                 self.error = .onSave
                 return
             }
-            try await categoryUseCase.addCategory(
-                id: draft.id,
-                user: user.id,
-                name: draft.name.trimmingCharacters(in: .whitespacesAndNewlines),
-                color: draft.color.hex,
-                icon: draft.icon
-            )
+            try await categories.save(
+                CashlyDomain.Category(
+                    id: draft.id, user: user,
+                    name: draft.name.trimmingCharacters(in: .whitespacesAndNewlines),
+                    color: draft.color.hex, icon: draft.icon))
             isSaved = true
         } catch {
             self.error = error as? CashlyError ?? .onSave
@@ -84,7 +82,7 @@ public final class CategoryViewModel {
         error = nil
         defer { isLoading = false }
         do {
-            try await categoryUseCase.removeCategory(id: draft.id)
+            try await categories.delete(id: draft.id)
             isSaved = true
         } catch {
             self.error = error as? CashlyError ?? .onRemove

@@ -10,11 +10,11 @@ public final class UserViewModel {
     public var error: CashlyError?
     public var canSave: Bool { hasLoaded && draft.canSave && !isLoading && !isSaved }
     @ObservationIgnored private var hasLoaded = false
-    @ObservationIgnored private let userUseCase: any UserUseCase
+    @ObservationIgnored private let users: any UserRepository
 
-    public init(draft: UserDraft = .new(), dataFactory: any CashlyDataFactoryProtocol) {
+    public init(draft: UserDraft = .new(), users: any UserRepository) {
         self.draft = draft
-        self.userUseCase = dataFactory.makeUserUseCase()
+        self.users = users
     }
 
     public func load() async {
@@ -23,7 +23,7 @@ public final class UserViewModel {
         error = nil
         defer { isLoading = false }
         do {
-            let record = try await userUseCase.getUser(id: draft.id)
+            let record = try await users.user(id: draft.id)
             try Task.checkCancellation()
             if !draft.isNew && record == nil { throw CashlyError.missingRecord }
             if let record {
@@ -50,11 +50,11 @@ public final class UserViewModel {
                 self.error = .onSave
                 return
             }
-            try await userUseCase.addUser(
-                id: draft.id,
-                name: draft.name.trimmingCharacters(in: .whitespacesAndNewlines),
-                photo: photo
-            )
+            try await users.save(
+                User(
+                    id: draft.id,
+                    name: draft.name.trimmingCharacters(in: .whitespacesAndNewlines),
+                    photo: photo))
 
             isSaved = true
         } catch {
@@ -68,7 +68,7 @@ public final class UserViewModel {
         error = nil
         defer { isLoading = false }
         do {
-            try await userUseCase.removeUser(id: draft.id)
+            try await users.delete(id: draft.id)
             isSaved = true
         } catch {
             self.error = error as? CashlyError ?? .onRemove

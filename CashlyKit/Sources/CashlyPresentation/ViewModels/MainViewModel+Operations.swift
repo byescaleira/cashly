@@ -3,7 +3,7 @@ import Foundation
 
 extension MainViewModel {
     public func observeChanges() async {
-        let stream = changes.changes()
+        let stream = provider.changes.changes()
         for await event in stream {
             guard !Task.isCancelled else { return }
             guard event.userID == nil || event.userID == selectedUserID else { continue }
@@ -18,7 +18,7 @@ extension MainViewModel {
         error = nil
         defer { if request == revision { isLoading = false } }
         do {
-            let directory = try await baseFactory.makeUserUseCase().getUsers()
+            let directory = try await provider.repositories(for: nil).users.users()
             try Task.checkCancellation()
             guard request == revision else { return }
             if !hasResolvedInitialUser {
@@ -53,7 +53,7 @@ extension MainViewModel {
                 return
             }
             let query = query
-            let state = try await baseFactory.scoped(to: userID).makeDashboardUseCase().load(
+            let state = try await provider.repositories(for: userID).dashboard.load(
                 query: query)
             try Task.checkCancellation()
             guard request == revision, selectedUserID == userID, self.query == query else { return }
@@ -92,7 +92,7 @@ extension MainViewModel {
         isLoadingMore = true
         defer { isLoadingMore = false }
         do {
-            let page = try await baseFactory.scoped(to: userID).makeDashboardUseCase().page(
+            let page = try await provider.repositories(for: userID).dashboard.page(
                 query: query, after: cursor, limit: 50)
             try Task.checkCancellation()
             guard request == revision, selectedUserID == userID, self.query == query else { return }
@@ -111,7 +111,7 @@ extension MainViewModel {
         revision += 1
         selectionRevision += 1
         let selection = selectionRevision
-        guard let value = try? await baseFactory.makeUserUseCase().getUser(id: id) else {
+        guard let value = try? await provider.repositories(for: nil).users.user(id: id) else {
             self.error = .missingRecord
             return
         }
@@ -134,36 +134,36 @@ extension MainViewModel {
         await load()
     }
     public func trainingData() async throws -> TrainingDataset {
-        try await activeFactory.makeDashboardUseCase().trainingData()
+        try await repositories.dashboard.trainingData()
     }
     public func budgetConflict(categoryID: String, month: YearMonth) async throws
         -> BudgetConflict?
     {
-        let catalog = try await activeFactory.makeSnapshotUseCase().snapshot(month: month)
+        let catalog = try await repositories.dashboard.snapshot(month: month)
         return BudgetConflict.detect(in: catalog.budgets).first {
             $0.categoryID == categoryID && $0.month == month && $0.budgets.count > 1
         }
     }
     public func resolveBudgetConflict(keeping id: String) async throws {
-        try await activeFactory.makeDashboardUseCase().resolveBudgetConflict(keeping: id)
+        try await repositories.budgets.resolveConflict(keeping: id)
         await load()
     }
     public func removeTag(_ tag: Tag) async {
         do {
-            try await activeFactory.makeTagUseCase().removeTag(id: tag.id)
+            try await repositories.tags.delete(id: tag.id)
             filter.tags = Set(filter.tags.filter { $0.id != tag.id })
             await load()
         } catch { self.error = error as? CashlyError ?? .onRemove }
     }
     public func removeTransaction(_ transaction: CashlyDomain.Transaction) async {
         do {
-            try await activeFactory.makeTransactionUseCase().removeTransaction(id: transaction.id)
+            try await repositories.transactions.delete(id: transaction.id)
             await load()
         } catch { self.error = error as? CashlyError ?? .onRemove }
     }
     public func removeTransactions(_ transactions: Set<CashlyDomain.Transaction>) async {
         do {
-            try await activeFactory.makeTransactionUseCase().removeTransactions(
+            try await repositories.transactions.delete(
                 ids: Set(transactions.map(\.id)))
             await load()
         } catch { self.error = error as? CashlyError ?? .onRemove }

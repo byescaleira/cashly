@@ -28,14 +28,13 @@ struct MockModifier: ViewModifier {
         }.task {
             guard session == nil else { return }
             do {
-                let mock = try MockCashlyFactory()
-                if includeSampleData { try await mock.seed() }
+                let database = try await SampleDatabase.make(seeded: includeSampleData)
                 try Task.checkCancellation()
                 let directory = FileManager.default.temporaryDirectory.appending(
                     path: UUID().uuidString)
                 session = CashlySession(
-                    dataFactory: mock.dataFactory,
-                    intelligenceUseCase: LocalIntelligenceService(directory: directory),
+                    provider: database,
+                    intelligence: LocalIntelligenceService(directory: directory),
                     persistSelection: false)
             } catch is CancellationError {} catch { self.error = error.localizedDescription }
         }
