@@ -187,28 +187,82 @@ Concluída. `CashlyWindow` monta `SessionModel`, `FinanceModel`, `TransactionLis
 - Formulários: um `EditorPhase` (`idle/loading/saving/saved/failed`) e um helper de revisão em vez de repetir `isLoading/isSaved/hasLoaded/revision` em cinco ViewModels. Validação só no draft.
 - Drafts sem SwiftUI: cor como hex no draft, `Color` só na view.
 
-### Fase 5: features isoladas e telas
+### Fase 5: features, design system e layout adaptativo
 
-- Criar `FeatureCore` e `AppShell`; mover `CashlyNavigation`/`MainRoute` para eles (`Route` com nomes de destino, ex. `transactionEditor(id:)`).
-- Migrar uma feature por vez para seu target, começando pela menor (`FeatureTags`) para validar a receita, depois Categories, Budgets, Users, Intelligence, Transactions e Dashboard.
-- Remover `CashlyPresentation` e `CashlyUI` quando vazios.
-- Quebrar telas acima de ~200 linhas em seções (`HomeScreen` 488, `AddTransactionScreen` 492, `TransactionScreen` 307, `FilterItemView` 244).
-- Tirar lógica das views: conflito de orçamento do formulário de transação, montagem dos pontos de gráfico, seleção padrão de categoria/tag.
-- Formulários não leem mais `MainViewModel` do ambiente.
-- Renomear `state`/`mainState` para o nome do model.
-- `CashlySymbolCategory` (479 linhas de SF Symbols) vai para um recurso JSON em `CashlyResource` ou para `FeatureCore`.
-- Corrigir dois bugs já existentes, encontrados nas verificações: o campo de valor interpreta dígitos como reais inteiros ("500" vira R$ 500,00), e o editor de transação desconta o valor da própria transação duas vezes na mensagem de orçamento restante.
+Dividida em dez etapas. Cada etapa termina com build nas três plataformas, lint, testes, conferência no simulador (iPhone em retrato, iPhone em paisagem e iPad) e um commit próprio no GitHub.
 
-- Layout adaptativo para iPad e iPhone dobrável/landscape: as telas usam `List`, que só ocupa a largura toda em landscape. Avaliar o `AdaptiveList`/`AdaptiveSection` e a navegação adaptativa do projeto bread-such (`bread-such/BreadSuch/BreadSuch/UI/Components/`) e decidir entre reaproveitar, melhorar ou substituir.
+Decisões de 08/10/2026:
+
+- **Layout híbrido nativo.** Telas de linhas (transações, formulários, settings) continuam `List`/`Form`, com largura de leitura limitada no iPad. Telas de painel (Home, Categorias) viram uma grade adaptativa de cards, evolução do `AdaptiveSection` do bread-such: carregamento preguiçoso, colunas por largura disponível e tokens do design system.
+- **Inspector para formulários e detalhes.** `.inspector` nativo: painel à direita no iPad e no iPhone em paisagem, sheet no iPhone em retrato. Substitui o hack de UIKit do bread-such, que não roda em macOS e visionOS.
+- **Uma reescrita por tela.** O design system novo e os textos em pt-BR entram na fase 5: cada tela migrada já sai com visual final, componentes nativos e strings no catálogo.
+
+Regra de dependência: uma feature não importa outra. O que é usado por mais de uma feature (seletor de usuário, menu de filtro, estados vazios, gráficos, variação de categoria, modificador de inteligência, catálogo de símbolos) vai para `FeatureCore`.
+
+#### 5.1 Base de targets
+
+- `FeatureCore` passa a conter o estado compartilhado que hoje está em `CashlyPresentation`: `SessionModel`, `FinanceModel`, `IntelligenceModel`, `EditorStatus`, `TransactionFilter`, `UserPreference`, `ModelHost`, Environment values, rotas (`MainRoute` vira `Route`, `CashlySection` vira `AppSection`) e `CashlyNavigation`.
+- Novo target `AppShell`: `CashlyWindow`, `MainScreen`, mapa rota → tela e a raiz do app. Durante a migração depende de `CashlyUI` e de cada feature já migrada.
+- `CashlyPresentation` fica só com os editores e o `TransactionListModel`, que saem nas etapas seguintes.
+- Pronto quando o app se comporta exatamente como antes.
+
+#### 5.2 Design system e componentes adaptativos
+
+- Tokens novos com linguagem visual inspirada no Claude: neutros quentes (marfim e grafite), acento terracota, títulos serifados (`.fontDesign(.serif)`), espaçamento generoso, Liquid Glass do iOS 27 nos controles. Claro e escuro.
+- Prévia visual dos tokens e componentes para aprovação antes de aplicar nas telas.
+- Componentes: `CardGrid` (grade adaptativa preguiçosa), `Card` (seção em card, sucessor do `AdaptiveSection`), largura de leitura para `List`/`Form`, estado vazio sobre `ContentUnavailableView`, valor monetário com transição numérica.
+- `CashlyNavigation` abre rotas no inspector em largura regular e por push em largura compacta.
+- String Catalog em cada target de feature, com `defaultLocalization: "pt-BR"`.
+- Os wrappers antigos (`CashlyText`, `CashlyHStack`…) continuam existindo até a 5.10, para as telas ainda não migradas.
+
+#### 5.3 Piloto: `FeatureTags`
+
+- `TagEditorModel`, `TagDraft` e o editor de tag quebrado em seções pequenas.
+- O seletor de ícones e `CashlySymbolCategory` vão para `FeatureCore` (o editor de categoria também usa).
+- Testes do editor movidos para `FeatureTagsTests`.
+- Revisar a receita de feature com o que o piloto ensinar.
+
+#### 5.4 `FeatureUsers`
+
+- Editor de usuário e seletor de avatar.
+- Seletor de usuário da toolbar e estado vazio de usuário vão para `FeatureCore`, porque aparecem em todas as abas.
+
+#### 5.5 `FeatureCategories`
+
+- Lista de categorias em `CardGrid`, detalhe da categoria e editor.
+- Barra de variação da categoria vai para `FeatureCore` (o editor de transação também mostra).
+
+#### 5.6 `FeatureBudgets`
+
+- Editor de orçamento e resolução de conflito.
+
+#### 5.7 `FeatureTransactions`
+
+- `TransactionListModel`, lista com seleção múltipla, swipe e paginação, editor de transação (hoje com 499 linhas) quebrado em seções: valor, descrição, tags, categoria, data, parcelas, participantes.
+- Menu de filtro vai para `FeatureCore` (Home, Categorias e Transações usam).
+- Correções: o campo de valor passa a tratar dígitos como centavos; a mensagem de orçamento restante deixa de descontar duas vezes a transação em edição.
+
+#### 5.8 `FeatureDashboard`
+
+- Home em `CardGrid`: saldo e score, disponível, comparação planejado × gasto, maiores gastos, tags, previsão.
+- Pontos de gráfico e seleções padrão saem da view e vão para o model.
+- Gráficos vão para `FeatureCore`.
+
+#### 5.9 `FeatureIntelligence`
+
+- Tela de inteligência e monitor do sistema; o modificador de previsão usado pelos editores vai para `FeatureCore`.
+
+#### 5.10 Encerramento
+
+- Remover `CashlyPresentation`, `CashlyUI` e os wrappers triviais do DesignSystem.
+- Previews por feature com `SampleDatabase`.
+- Passada final em iPhone retrato/paisagem, iPad e macOS.
 
 ### Fase 6: acabamento
 
-- Strings de UI em pt-BR num String Catalog (`defaultLocalization` já é `pt-BR`); hoje há inglês e português misturados na mesma tela.
-- Remover wrappers triviais do DesignSystem (`CashlyText`, `CashlyHStack`, `CashlyVStack`, `CashlySymbol`): manter tokens e superfícies, usar SwiftUI nativo para o resto.
-- Nova linguagem visual inspirada no Claude: neutros quentes (fundo marfim, texto grafite), acento terracota, tipografia sóbria com títulos serifados, muito espaço e pouca decoração. Apenas componentes nativos e Liquid Glass do iOS 27; sem marca ou logotipo de terceiros. Os tokens são validados com uma prévia antes de aplicar nas telas.
 - `CashlyAudit` como suíte automatizada de integração e diagnóstico, rodando por script e no CI.
-- Regras de lint para `file_length`, `type_body_length` e `function_parameter_count`, para o código não voltar ao estado atual.
-- Consolidar os 9 documentos de `docs/` em `architecture.md` + registro de decisões; remover revisões que já viraram código.
+- Regras de lint para `file_length`, `type_body_length` e `function_parameter_count`, para o código não voltar ao estado anterior.
+- Consolidar os documentos de `docs/` em `architecture.md` + registro de decisões; remover revisões que já viraram código.
 
 ### Fase 7: Settings
 
@@ -230,7 +284,7 @@ A ordem de implementação parte do que não exige mudança de domínio (aparên
 Aprovadas em 08/10/2026.
 
 1. Um target SPM por feature.
-2. Wrappers triviais do DesignSystem removidos na fase 6.
+2. Wrappers triviais do DesignSystem removidos ao fim da fase 5 (5.10).
 3. UI só em pt-BR, via String Catalog.
 4. `CashlyAudit` concentra as ferramentas de teste e diagnóstico: fixtures, integração com store real em memória e validação automatizada (migração, integridade, desempenho), executadas por script e no CI.
 
