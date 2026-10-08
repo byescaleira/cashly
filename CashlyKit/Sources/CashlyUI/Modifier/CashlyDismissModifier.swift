@@ -1,5 +1,6 @@
 import CashlyDomain
 import CashlyPresentation
+import FeatureCore
 import SwiftUI
 
 struct CashlyDismissModifier: ViewModifier {

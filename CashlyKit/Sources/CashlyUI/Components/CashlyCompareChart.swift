@@ -1,6 +1,7 @@
 import CashlyDesignSystem
 import CashlyDomain
 import Charts
+import FeatureCore
 import Foundation
 import SwiftUI
 

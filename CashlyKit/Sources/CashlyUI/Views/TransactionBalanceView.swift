@@ -2,6 +2,7 @@ import CashlyDesignSystem
 import CashlyDomain
 import CashlyPresentation
 import CashlyResource
+import FeatureCore
 import Foundation
 import SwiftUI
 
@@ -45,7 +46,7 @@ struct TransactionBalanceView: View {
     var statusView: some View {
         let status =
             state.filter.isFilteringByDate
-            ? state.filter.startDate.string(with: .cashly(.status)) ?? "" : "All Data"
+            ? state.filter.startDate.formatted(.dateTime.month(.wide).year()) : "All Data"
         CashlyText(status.uppercased())
             .cashly(font: .caption, weight: .bold)
             .cashly(color: .primary)
@@ -56,7 +57,7 @@ struct TransactionBalanceView: View {
 
     var amountView: some View {
         CashlyVStack(spacing: .zero) {
-            CashlyText(state.expensesAmount.currency())
+            CashlyText(state.expensesAmount.formatted(.brl))
                 .cashly(font: .largeTitle, weight: .black)
                 .cashly(color: .text)
                 .contentTransition(.numericText(value: state.expensesAmount))
@@ -68,14 +69,14 @@ struct TransactionBalanceView: View {
         if !tags.isEmpty {
             CashlyHStack(spacing: .zero) {
                 ForEach(tags.enumerated(), id: \.offset) { index, tag in
-                    let isEven = index.isEven
+                    let isEven = index.isMultiple(of: 2)
                     let point: CGFloat = isAnimated ? (isEven ? -3 : 3) : (isEven ? 3 : -3)
                     CashlySymbol(tag.icon)
                         .cashly(font: .system(size: 18))
                         .cashly(color: .hex(tag.color))
                         .frame(width: 45, height: 45)
                         .overlay(alignment: isEven ? .topLeading : .bottomLeading) {
-                            CashlyText((index + 1).string)
+                            CashlyText(String(index + 1))
                                 .cashly(font: .caption, weight: .bold)
                                 .cashly(color: .hex(tag.color))
                                 .cashlyPadding()

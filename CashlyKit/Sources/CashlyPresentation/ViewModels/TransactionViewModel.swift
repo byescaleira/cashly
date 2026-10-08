@@ -51,8 +51,8 @@ public final class TransactionViewModel {
                 draft.participants = record.participants
                 draft.category = record.category
                 draft.kind = record.kind
-                draft.amount = record.amount
-                draft.date = record.date.date
+                draft.amount = record.money.doubleValue
+                draft.date = record.date
                 draft.summary = record.summary
                 draft.status = record.status
                 draft.selectedTagIDs = record.tagIDs
@@ -87,7 +87,7 @@ public final class TransactionViewModel {
                 categoryID: category.id,
                 kind: draft.kind,
                 money: try Money(validating: draft.amount),
-                date: draft.date.timeIntervalSince1970,
+                date: draft.date,
                 summary: draft.summary.trimmingCharacters(in: .whitespacesAndNewlines),
                 status: draft.status,
                 splitMode: draft.splitMode,
@@ -127,7 +127,7 @@ public final class TransactionViewModel {
         }
     }
     private func loadOptions(request: Int? = nil) async throws {
-        let snapshot = try await snapshotUseCase.snapshot(month: 0)
+        let snapshot = try await snapshotUseCase.snapshot(month: YearMonth(draft.date))
         let user = snapshot.currentUser
         let categories = snapshot.categories.filter { $0.user.id == user?.id }
         let tags = snapshot.tags.filter { $0.user.id == user?.id }
@@ -162,7 +162,7 @@ public final class TransactionViewModel {
         let previous = Dictionary(
             draft.participants.map { ($0.user.id, $0) }, uniquingKeysWith: { first, _ in first })
         draft.splitMode = users.isEmpty ? nil : (draft.splitMode ?? .equal)
-        draft.participants = users.sorted(by: \.name).map { user in
+        draft.participants = users.sorted { $0.name < $1.name }.map { user in
             previous[user.id]
                 ?? Participant(
                     id: UUID().uuidString, user: user,

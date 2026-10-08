@@ -2,6 +2,7 @@ import CashlyDesignSystem
 import CashlyDomain
 import CashlyPresentation
 import CashlyResource
+import FeatureCore
 import Foundation
 import SwiftUI
 
@@ -36,12 +37,12 @@ public struct AddTransactionScreen: View {
             summarySection
             if let budget = mainState.budgets.first(where: {
                 $0.category.id == state.category?.id
-                    && $0.date == state.date.timeIntervalSince1970.yearMonth
+                    && $0.month == YearMonth(state.date)
             }), budget.isConflicted {
                 Section {
                     Button("Resolver conflito de orçamento") {
                         open(
-                            .budgetConflict(categoryID: budget.category.id, month: budget.date),
+                            .budgetConflict(categoryID: budget.category.id, month: budget.month),
                             in: section)
                     }
                 }
@@ -161,7 +162,7 @@ public struct AddTransactionScreen: View {
     var splitValueView: some View {
         let status = state.participants.first(where: { $0.status != .settled })?.status ?? .settled
         if !state.participants.isEmpty {
-            CashlyText(state.splitValue?.currency())
+            CashlyText(state.splitValue?.formatted(.brl))
                 .cashly(font: .headline, weight: .semibold)
                 .cashly(color: .color(status.color))
                 .contentTransition(.numericText())
@@ -239,8 +240,8 @@ public struct AddTransactionScreen: View {
                 let remaining = mainState.categoryRemainingAmount(category: category) - state.amount
                 let description =
                     remaining < .zero
-                    ? "You’ve exceeded the planned budget in the \(category.name.capitalized) category by \((remaining * -1).currency() ?? "")"
-                    : "You’re \(remaining.currency() ?? "") away from reaching the planned budget in the \(category.name.capitalized) category."
+                    ? "You’ve exceeded the planned budget in the \(category.name.capitalized) category by \((remaining * -1).formatted(.brl))"
+                    : "You’re \(remaining.formatted(.brl)) away from reaching the planned budget in the \(category.name.capitalized) category."
                 CashlyText(description)
                     .contentTransition(.numericText(value: remaining))
                     .animation(.bouncy, value: state.amount)
@@ -312,7 +313,7 @@ public struct AddTransactionScreen: View {
         @Bindable var viewModel = viewModel
         Section {
             DatePicker(
-                state.date.string(with: .cashly(.weekDay)) ?? "",
+                state.date.formatted(.dateTime.weekday(.wide)),
                 selection: $viewModel.draft.date,
                 displayedComponents: .hourAndMinute.union(.date)
             )
@@ -372,7 +373,12 @@ public struct AddTransactionScreen: View {
 
     func participantBinding(id: String) -> Binding<Participant> {
         Binding(
-            get: { state.participants.first { $0.id == id } ?? .empty },
+            get: {
+                state.participants.first { $0.id == id }
+                    ?? Participant(
+                        id: id, user: User(id: "", name: "", photo: ""), splitMode: .equal,
+                        splitValue: 0, status: .settled, transaction: state.id)
+            },
             set: { participant in
                 guard let index = viewModel.draft.participants.firstIndex(where: { $0.id == id })
                 else {
@@ -455,7 +461,7 @@ public struct AddTransactionScreen: View {
             if state.installmentIsOn {
                 Picker(selection: $viewModel.draft.installmentPlan) {
                     ForEach(1...21, id: \.self) {
-                        let value = $0.string + "x"
+                        let value = "\($0)x"
                         CashlyText(value)
                             .tag($0)
                     }

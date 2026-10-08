@@ -42,10 +42,9 @@ public final class MainViewModel {
     }
     var query: TransactionQuery {
         TransactionQuery(
-            month: filter.isFilteringByDate
-                ? filter.startDate.timeIntervalSince1970.yearMonth : nil,
+            month: filter.isFilteringByDate ? YearMonth(filter.startDate) : nil,
             categoryIDs: Set(filter.categories.map(\.id)), tagIDs: Set(filter.tags.map(\.id)),
             participantUserIDs: Set(filter.participants.map(\.id)),
-            statuses: Set(filter.transactionStatuses.map(\.rawValue)), kinds: filter.kinds)
+            statuses: filter.transactionStatuses, kinds: filter.kinds)
     }
 }

@@ -2,6 +2,7 @@ import CashlyDesignSystem
 import CashlyDomain
 import CashlyPresentation
 import CashlyResource
+import FeatureCore
 import Foundation
 import SwiftUI
 
@@ -78,7 +79,7 @@ public struct HomeScreen: View {
 
                             Spacer()
 
-                            CashlyText(amount.currency())
+                            CashlyText(amount.formatted(.brl))
                                 .cashly(font: .title3, weight: .bold)
                                 .cashly(color: .text)
                                 .contentTransition(.numericText())
@@ -204,7 +205,7 @@ public struct HomeScreen: View {
 
                 CashlyHStack(spacing: .extraSmall) {
                     CashlyVStack(alignment: .leading, spacing: .extraSmall) {
-                        CashlyText(budgetAmount.currency())
+                        CashlyText(budgetAmount.formatted(.brl))
                             .cashly(font: .title3, weight: .bold)
                             .cashly(color: .text)
                             .contentTransition(.numericText())
@@ -219,7 +220,7 @@ public struct HomeScreen: View {
                     Spacer()
 
                     CashlyVStack(alignment: .trailing, spacing: .extraSmall) {
-                        CashlyText(expensesAmount.currency())
+                        CashlyText(expensesAmount.formatted(.brl))
                             .cashly(font: .title3, weight: .bold)
                             .cashly(color: .text)
                             .contentTransition(.numericText())
@@ -359,9 +360,9 @@ public struct HomeScreen: View {
                     }
 
                     CashlyHStack(spacing: .small) {
-                        CashlyText(availableCategory.currency())
+                        CashlyText(availableCategory.formatted(.brl))
                             .cashly(font: .title3, weight: .bold)
-                        CashlyText("/  \(budgetsAmount.currency() ?? "")")
+                        CashlyText("/  \(budgetsAmount.formatted(.brl))")
                             .cashly(font: .footnote)
                             .cashly(color: .textSecondary)
                             .cashlyPadding(.bottom, .negative(.extraSmall))
@@ -390,12 +391,12 @@ public struct HomeScreen: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
 
                     CashlyVStack(spacing: .extraSmall) {
-                        CashlyText(available.currency())
+                        CashlyText(available.formatted(.brl))
                             .cashly(font: .largeTitle, weight: .black)
                             .cashly(color: .text)
                             .cashly(alignment: .center)
 
-                        CashlyText(budgetsAmount.currency())
+                        CashlyText(budgetsAmount.formatted(.brl))
                             .cashly(font: .title3, weight: .semibold)
                             .cashly(color: .textSecondary)
                             .cashly(alignment: .center)
@@ -435,7 +436,7 @@ public struct HomeScreen: View {
                             CashlyText(
                                 transaction.billingMoney(
                                     in: state.filter.isFilteringByDate
-                                        ? state.filter.startDate.timeIntervalSince1970.yearMonth
+                                        ? YearMonth(state.filter.startDate)
                                         : nil
                                 ).formatted
                             )

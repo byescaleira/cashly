@@ -2,6 +2,7 @@ import CashlyDesignSystem
 import CashlyDomain
 import CashlyPresentation
 import CashlyResource
+import FeatureCore
 import Foundation
 import SwiftUI
 
@@ -15,7 +16,8 @@ public struct DetailCategoryScreen: View {
     private var category: CashlyDomain.Category {
         state.allCategories.first { $0.id == categoryID }
             ?? CashlyDomain.Category(
-                id: categoryID, user: .empty, name: "Categoria indisponível", color: "808080",
+                id: categoryID, user: User(id: "", name: "", photo: ""),
+                name: "Categoria indisponível", color: "808080",
                 icon: "questionmark")
     }
 
@@ -76,11 +78,11 @@ public struct DetailCategoryScreen: View {
 
     var amountView: some View {
         CashlyVStack(spacing: .zero) {
-            CashlyText(state.budgetsAmount(for: category).currency())
+            CashlyText(state.budgetsAmount(for: category).formatted(.brl))
                 .cashly(font: .largeTitle, weight: .black)
                 .cashly(color: .text)
 
-            CashlyText(state.expensesAmount(for: category).currency())
+            CashlyText(state.expensesAmount(for: category).formatted(.brl))
                 .cashly(font: .title2, weight: .bold)
                 .cashly(color: .textSecondary)
         }
@@ -110,23 +112,20 @@ public struct DetailCategoryScreen: View {
     func budgetItemView(budget: Budget) -> some View {
         CashlyHStack(spacing: .medium) {
             let transactionAmount = state.expensesAmount(for: budget)
-            let budgetAmount = budget.amount
+            let budgetAmount = budget.money.doubleValue
             let variation = transactionAmount / (budgetAmount.isZero ? 1 : budgetAmount)
             CashlyVStack(alignment: .leading, spacing: .extraSmall) {
-                CashlyText(
-                    budget.date.string.date(with: .cashly(.yearMonth))?.string(
-                        with: .cashly(.status))
-                )
-                .cashly(font: .callout, weight: .semibold)
+                CashlyText(budget.month.startDate.formatted(.dateTime.month(.wide).year()))
+                    .cashly(font: .callout, weight: .semibold)
                 CashlyText(variation.percentage)
             }
 
             Spacer()
 
             CashlyVStack(alignment: .trailing, spacing: .extraSmall) {
-                CashlyText(budgetAmount.currency())
+                CashlyText(budgetAmount.formatted(.brl))
                     .cashly(font: .callout, weight: .semibold)
-                CashlyText(transactionAmount.currency())
+                CashlyText(transactionAmount.formatted(.brl))
             }
 
             CashlySymbol("chevron.forward")

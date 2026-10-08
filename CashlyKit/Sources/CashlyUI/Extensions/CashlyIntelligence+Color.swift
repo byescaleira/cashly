@@ -1,5 +1,6 @@
 import CashlyDesignSystem
 import CashlyDomain
+import FeatureCore
 import SwiftUI
 
 extension CashlyIntelligence {

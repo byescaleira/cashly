@@ -43,7 +43,7 @@ public final class BudgetViewModel {
             }
         }
         do {
-            let snapshot = try await snapshotUseCase.snapshot(month: 0)
+            let snapshot = try await snapshotUseCase.snapshot(month: draft.month)
             let record = draft.isNew ? nil : try await budgetUseCase.getBudget(id: draft.id)
             try Task.checkCancellation()
             guard request == loadRevision else { return }
@@ -51,9 +51,9 @@ public final class BudgetViewModel {
             draft.categories = snapshot.categories.filter { $0.user.id == snapshot.currentUser?.id }
             if let record {
                 draft.id = record.id
-                draft.amount = record.amount
+                draft.amount = record.money.doubleValue
                 draft.category = record.category
-                draft.date = Date.from(yearMonth: record.date) ?? draft.date
+                draft.date = record.month.startDate
                 draft.summary = record.summary
             } else {
                 draft.category = draft.category ?? draft.categories.first
@@ -70,7 +70,7 @@ public final class BudgetViewModel {
     public func refreshOptions() async {
         guard hasLoaded, !isLoading, !isSaved else { return }
         do {
-            let snapshot = try await snapshotUseCase.snapshot(month: 0)
+            let snapshot = try await snapshotUseCase.snapshot(month: draft.month)
             try Task.checkCancellation()
             draft.categories = snapshot.categories.filter { $0.user.id == snapshot.currentUser?.id }
             draft.category =
@@ -96,9 +96,9 @@ public final class BudgetViewModel {
             }
             try await budgetUseCase.addBudget(
                 id: draft.id,
-                amount: draft.amount,
+                money: try Money(validating: draft.amount),
                 category: category,
-                date: draft.date.timeIntervalSince1970.yearMonth,
+                month: draft.month,
                 summary: draft.summary.trimmingCharacters(in: .whitespacesAndNewlines)
             )
             isSaved = true

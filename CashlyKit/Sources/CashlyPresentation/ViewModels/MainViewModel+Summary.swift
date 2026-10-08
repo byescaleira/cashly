@@ -1,4 +1,5 @@
 import CashlyDomain
+import FeatureCore
 import Foundation
 
 extension MainViewModel {
@@ -36,8 +37,9 @@ extension MainViewModel {
     }
     public var variation: Double { expensesAmount / (budgetsAmount > 0 ? budgetsAmount : 1) }
     public var score: BalanceScore {
-        let value = variation <= 0.85 ? 1000 : (1000 - (800 / 1.15) * (variation - 0.85)).int
-        return BalanceScore(score: min(max(value, 200), 1000))
+        let value = variation <= 0.85 ? 1000 : 1000 - (800 / 1.15) * (variation - 0.85)
+        let clamped = value.isFinite ? min(max(value, 200), 1000) : 200
+        return BalanceScore(score: Int(clamped))
     }
     public var warningCategories: [CashlyDomain.Category] {
         Array(
@@ -59,7 +61,7 @@ extension MainViewModel {
         let month = loadedQuery.month
         let groups = Dictionary(grouping: transactions) { transaction in
             CashlyCalendar.current.startOfDay(
-                for: month.flatMap { transaction.billingDate(in: $0) } ?? transaction.date.date)
+                for: month.flatMap { transaction.billingDate(in: $0) } ?? transaction.date)
         }
         return groups.keys.sorted(by: >).map { groups[$0, default: []] }
     }

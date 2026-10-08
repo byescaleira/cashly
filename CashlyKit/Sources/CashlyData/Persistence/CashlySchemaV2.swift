@@ -137,19 +137,6 @@ public enum CashlySchemaV2: VersionedSchema {
         public var splitValue: Double?
         public var paymentsPlan: Int?
 
-        public var yearMonth: Int {
-            date.yearMonth
-        }
-
-        public var endDate: Set<Int>? {
-            guard let paymentsPlan, (1...1200).contains(paymentsPlan) else { return nil }
-            return Set(
-                (0..<paymentsPlan).compactMap { offset in
-                    CashlyCalendar.current.date(byAdding: .month, value: offset, to: date.date)?
-                        .timeIntervalSince1970.yearMonth
-                })
-        }
-
         public init(
             id: String,
             participants: [String],

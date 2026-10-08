@@ -2,6 +2,7 @@ import CashlyDesignSystem
 import CashlyDomain
 import CashlyPresentation
 import CashlyResource
+import FeatureCore
 import Foundation
 import SwiftUI
 
@@ -81,8 +82,8 @@ public struct TransactionScreen: View {
             let sectionDate = transactions.first.map { transaction in
                 state.filter.isFilteringByDate
                     ? transaction.billingDate(
-                        in: state.filter.startDate.timeIntervalSince1970.yearMonth)
-                        ?? transaction.date.date : transaction.date.date
+                        in: YearMonth(state.filter.startDate))
+                        ?? transaction.date : transaction.date
             }
             Section {
                 ForEach(transactions) { transaction in
@@ -97,9 +98,9 @@ public struct TransactionScreen: View {
                 }
             } header: {
                 CashlyHStack {
-                    CashlyText(sectionDate?.cashly(with: .transactionSection))
+                    CashlyText(sectionDate?.formatted(.dateTime.day().month(.wide).year()))
                     Spacer()
-                    CashlyText(sectionDate?.cashly(with: .weekDay))
+                    CashlyText(sectionDate?.formatted(.dateTime.weekday(.wide)))
                 }
                 .textCase(.uppercase)
                 .cashly(font: .footnote)
@@ -122,7 +123,7 @@ public struct TransactionScreen: View {
                 CashlyText(transaction.summary)
 
                 CashlyHStack {
-                    CashlyText(transaction.date.date.cashly(with: .time))
+                    CashlyText(transaction.date.formatted(.dateTime.hour().minute()))
                     participantsView(participants: transaction.participants)
                 }
                 .cashly(color: .textSecondary)
@@ -136,16 +137,16 @@ public struct TransactionScreen: View {
                     CashlyText(
                         transaction.billingMoney(
                             in: state.filter.isFilteringByDate
-                                ? state.filter.startDate.timeIntervalSince1970.yearMonth : nil
+                                ? YearMonth(state.filter.startDate) : nil
                         ).formatted)
                 } else if let paymentPlan = transaction.paymentsPlan {
                     CashlyHStack(spacing: .extraSmall) {
-                        CashlyText(paymentPlan.string + "x")
+                        CashlyText("\(paymentPlan)x")
                             .cashly(color: .textSecondary)
                         CashlyText(
                             transaction.billingMoney(
                                 in: state.filter.isFilteringByDate
-                                    ? state.filter.startDate.timeIntervalSince1970.yearMonth : nil
+                                    ? YearMonth(state.filter.startDate) : nil
                             ).formatted)
                     }
                 }
@@ -249,10 +250,9 @@ public struct TransactionScreen: View {
     var shareButton: some View {
         if isSelecting {
             ShareLink(
-                item: selection.shareMessage(
-                    participants: state.filter.participants,
-                    billingMonth: state.filter.isFilteringByDate
-                        ? state.filter.startDate.timeIntervalSince1970.yearMonth : nil)
+                item: TransactionShareMessage.make(
+                    transactions: selection, participants: state.filter.participants,
+                    month: state.filter.isFilteringByDate ? YearMonth(state.filter.startDate) : nil)
             ) {
                 CashlySymbol("square.and.arrow.up")
                     .cashly(color: selection.isEmpty ? .disabled : .text)

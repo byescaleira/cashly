@@ -26,7 +26,7 @@ extension MainViewModel {
                 if persistSelection {
                     let preference = UserDefaults.standard.string(forKey: "cashly.user.id")
                     let old = UserDefaults.standard.data(forKey: "cashly.user").flatMap {
-                        try? JSONDecoder().decode(User.self, from: $0)
+                        try? JSONDecoder().decode(StoredUser.self, from: $0)
                     }
                     selectedUserID = directory.first { $0.id == preference || $0.id == old?.id }?.id
                 }
@@ -136,7 +136,9 @@ extension MainViewModel {
     public func trainingData() async throws -> TrainingDataset {
         try await activeFactory.makeDashboardUseCase().trainingData()
     }
-    public func budgetConflict(categoryID: String, month: Int) async throws -> BudgetConflict? {
+    public func budgetConflict(categoryID: String, month: YearMonth) async throws
+        -> BudgetConflict?
+    {
         let catalog = try await activeFactory.makeSnapshotUseCase().snapshot(month: month)
         let budgets = catalog.budgets.filter { $0.category.id == categoryID && $0.isConflicted }
         return budgets.count > 1
@@ -166,4 +168,8 @@ extension MainViewModel {
             await load()
         } catch { self.error = error as? CashlyError ?? .onRemove }
     }
+}
+
+private struct StoredUser: Decodable {
+    let id: String
 }

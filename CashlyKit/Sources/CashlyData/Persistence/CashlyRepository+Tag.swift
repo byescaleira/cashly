@@ -21,22 +21,6 @@ extension CashlyRepository {
         }
     }
 
-    public func removeTags(userID: String) throws {
-        do {
-            let descriptor = FetchDescriptor<TagEntity>(predicate: #Predicate { $0.user == userID })
-            let entities = try modelContext.fetch(descriptor)
-            try detachTags(ids: Set(entities.map(\.id)), userID: userID)
-            for entity in entities {
-                modelContext.delete(entity)
-            }
-            try commit(userID: userID)
-
-        } catch {
-            modelContext.rollback()
-            throw error
-        }
-    }
-
     private func detachTags(ids: Set<String>, userID: String) throws {
         var descriptor = FetchDescriptor<TransactionEntity>(
             predicate: #Predicate { $0.ownerID == userID }, sortBy: [SortDescriptor(\.id)])

@@ -2,6 +2,7 @@ import CashlyDesignSystem
 import CashlyDomain
 import CashlyPresentation
 import CashlyResource
+import FeatureCore
 import Foundation
 import SwiftUI
 
@@ -39,7 +40,7 @@ public struct AddBudgetScreen: View {
         }
         .cashlyDismissKeyboardOnScroll()
         .onChange(of: state.category?.id) { predictionInput = .empty }
-        .onChange(of: state.yearMonth) { predictionInput = .empty }
+        .onChange(of: state.month) { predictionInput = .empty }
         .onChange(of: predictionResult) { handlerPrediction() }
         .task(id: main.allCategories) { await viewModel.loadOrRefreshOptions() }
         .cashlyIntelligence(
@@ -221,7 +222,7 @@ public struct AddBudgetScreen: View {
         {
             Button {
                 predictionInput = .budget(
-                    yearMonth: state.date.timeIntervalSince1970.yearMonth,
+                    month: state.month,
                     categoryID: state.category?.id ?? ""
                 )
             } label: {

@@ -17,13 +17,10 @@ extension CashlyAudit {
             _ id: String, kind: TransactionKind, cents: Int64, plan: Int? = nil,
             month: Int = 202601, status: TransactionStatus = .settled
         ) async throws {
-            guard let date = Date.from(yearMonth: month) else {
-                throw CashlyError.invalidInput("Competência inválida no diagnóstico financeiro.")
-            }
             try await transactions.addTransaction(
                 id: id, participants: [], categoryID: "flow-category", kind: kind,
                 money: Money(minorUnits: cents),
-                date: date.timeIntervalSince1970,
+                date: try yearMonth(month).startDate,
                 summary: "Registro " + id, status: status, splitMode: nil, splitValue: nil,
                 paymentsPlan: plan, tagIDs: [])
         }
@@ -31,7 +28,7 @@ extension CashlyAudit {
         try await record("installments", kind: .expense, cents: 10001, plan: 3)
         try await record("income", kind: .income, cents: 120005)
         let dashboard = scoped.makeDashboardUseCase()
-        let initial = try await dashboard.overview(query: .init(month: 202601))
+        let initial = try await dashboard.overview(query: .init(month: try yearMonth(202601)))
         guard initial.budgets.isEmpty, initial.expensesTotal.minorUnits == 13335,
             initial.incomeTotal.minorUnits == 120005, initial.netTotal.minorUnits == 106670
         else {
@@ -40,17 +37,19 @@ extension CashlyAudit {
         guard let category = try await scoped.makeCategoryUseCase().getCategory(id: "flow-category")
         else { throw CashlyError.missingRecord }
         try await scoped.makeBudgetUseCase().addBudget(
-            id: "flow-budget", amount: 200, category: category, date: 202601,
+            id: "flow-budget", money: Money(minorUnits: 20000), category: category,
+            month: try yearMonth(202601),
             summary: "Planejamento")
-        let linked = try await dashboard.overview(query: .init(month: 202601))
+        let linked = try await dashboard.overview(query: .init(month: try yearMonth(202601)))
         guard linked.budgetExpenses["flow-budget"]?.minorUnits == 13335 else {
             throw CashlyError.persistence("A associação por categoria e mês está incorreta.")
         }
         try await scoped.makeBudgetUseCase().addBudget(
-            id: "flow-budget", amount: 200, category: category, date: 202602,
+            id: "flow-budget", money: Money(minorUnits: 20000), category: category,
+            month: try yearMonth(202602),
             summary: "Planejamento")
-        let february = try await dashboard.overview(query: .init(month: 202602))
-        let march = try await dashboard.overview(query: .init(month: 202603))
+        let february = try await dashboard.overview(query: .init(month: try yearMonth(202602)))
+        let march = try await dashboard.overview(query: .init(month: try yearMonth(202603)))
         guard february.budgetExpenses["flow-budget"]?.minorUnits == 3334,
             march.expensesTotal.minorUnits == 3333
         else {
@@ -78,22 +77,19 @@ extension CashlyAudit {
             .getTransaction(id: "income")
         guard foreign == nil else { throw CashlyError.persistence("Escopo financeiro violado.") }
         try await record("expense", kind: .expense, cents: 10001, month: 202602)
-        let moved = try await dashboard.overview(query: .init(month: 202601))
+        let moved = try await dashboard.overview(query: .init(month: try yearMonth(202601)))
         guard moved.expensesTotal.minorUnits == 3334 else {
             throw CashlyError.persistence("Editar a data não atualizou a competência.")
         }
         try await record("income", kind: .income, cents: 120005, status: .canceled)
-        let canceled = try await dashboard.overview(query: .init(month: 202601))
+        let canceled = try await dashboard.overview(query: .init(month: try yearMonth(202601)))
         guard canceled.incomeTotal == .zero else {
             throw CashlyError.persistence("Entrada cancelada ainda participa dos totais.")
         }
         let form = TransactionViewModel(dataFactory: scoped)
         await form.load()
         form.draft.kind = .income
-        guard let formDate = Date.from(yearMonth: 202602) else {
-            throw CashlyError.invalidInput("Competência inválida no diagnóstico do formulário.")
-        }
-        form.draft.date = formDate
+        form.draft.date = try yearMonth(202602).startDate
         form.draft.amount = 500.02
         form.draft.summary = "Entrada pelo formulário"
         await form.save()
@@ -112,5 +108,12 @@ extension CashlyAudit {
         print("FLOWS dateAssociation=ok installments=3334/3334/3333 budgetRemoval=preserved")
         print("FLOWS incomeFilter=ok profileScope=ok dateEdit=ok canceledIncome=excluded")
         print("FLOWS expenseTraining=isolated incomeForm=created/edited withoutBudget=ok")
+    }
+
+    static func yearMonth(_ rawValue: Int) throws -> YearMonth {
+        guard let value = YearMonth(rawValue: rawValue) else {
+            throw CashlyError.invalidInput("Competência inválida no diagnóstico.")
+        }
+        return value
     }
 }

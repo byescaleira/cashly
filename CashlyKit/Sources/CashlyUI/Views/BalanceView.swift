@@ -1,6 +1,7 @@
 import CashlyDesignSystem
 import CashlyDomain
 import CashlyPresentation
+import FeatureCore
 import Foundation
 import SwiftUI
 
@@ -55,7 +56,7 @@ struct BalanceView: View {
 
             CashlyVStack(alignment: .leading, spacing: .medium) {
                 CashlyHStack(spacing: .small) {
-                    CashlyText(enabledScoreValue.string)
+                    CashlyText(String(enabledScoreValue))
                         .cashly(font: .title, weight: .bold)
                     CashlyText("/  1000")
                         .cashly(font: .footnote)
@@ -77,7 +78,7 @@ struct BalanceView: View {
                         ProgressView(value: score == enabledScore ? score.progress : 1.0, total: 1)
                             .cashly(
                                 tint: .color(
-                                    enabledScoreValue.double > score.max || score == enabledScore
+                                    Double(enabledScoreValue) > score.max || score == enabledScore
                                         ? (enabledScore?.color.color ?? .secondary) : .clear))
                     }
                 }
@@ -107,7 +108,7 @@ struct BalanceView: View {
         CashlyVStack(spacing: .zero) {
             let expensesAmount = state.expensesAmount
 
-            CashlyText(expensesAmount.currency())
+            CashlyText(expensesAmount.formatted(.brl))
                 .cashly(font: .largeTitle, weight: .black)
                 .cashly(color: .text)
                 .contentTransition(.numericText(value: expensesAmount))
@@ -120,14 +121,14 @@ struct BalanceView: View {
             CashlyHStack(spacing: .zero) {
                 ForEach(categories.enumerated(), id: \.offset) { index, category in
                     let variation = state.categoryVariation(category: category)
-                    let isEven = index.isEven
+                    let isEven = index.isMultiple(of: 2)
                     let point: CGFloat = isAnimated ? (isEven ? -3 : 3) : (isEven ? 3 : -3)
                     CashlySymbol(category.icon)
                         .cashly(font: .system(size: 18))
                         .cashly(color: .color(variation.variationColor))
                         .frame(width: 45, height: 45)
                         .overlay(alignment: isEven ? .topLeading : .bottomLeading) {
-                            CashlyText((index + 1).string)
+                            CashlyText(String(index + 1))
                                 .cashly(font: .caption, weight: .bold)
                                 .cashly(color: .color(variation.variationColor))
                                 .cashlyPadding()

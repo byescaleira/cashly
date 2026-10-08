@@ -94,8 +94,7 @@ extension CashlyRepository {
                     if row.paymentsPlanSource != row.paymentsPlan {
                         row.paymentsPlanSource = row.paymentsPlan
                     }
-                    let month = row.date.yearMonth
-                    let start = month / 100 * 12 + month % 100 - 1
+                    let start = YearMonth(Date(timeIntervalSince1970: row.date)).monthIndex
                     let end = start + max(min(row.paymentsPlan ?? 1, 1200), 1) - 1
                     if row.startMonthIndex != start { row.startMonthIndex = start }
                     if row.endMonthIndex != end { row.endMonthIndex = end }

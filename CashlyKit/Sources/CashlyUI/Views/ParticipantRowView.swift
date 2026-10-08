@@ -2,6 +2,7 @@ import CashlyDesignSystem
 import CashlyDomain
 import CashlyPresentation
 import CashlyResource
+import FeatureCore
 import Foundation
 import SwiftUI
 
@@ -78,7 +79,7 @@ struct ParticipantRowView: View {
         CashlyText(
             participant.allocatedMoney?.formatted
                 ?? participant.splitMode.value(splitValue: participant.splitValue, amount: amount)?
-                .currency())
+                .formatted(.brl))
     }
 
     var fixedAmountValueView: some View {
@@ -92,8 +93,8 @@ struct ParticipantRowView: View {
         Menu {
             Picker(selection: $participant.splitValue) {
                 ForEach(1...100, id: \.self) { value in
-                    CashlyText((value.double / 100).double.percentage)
-                        .tag(value.double / 100)
+                    CashlyText((Double(value) / 100).percentage)
+                        .tag(Double(value) / 100)
                 }
             } label: {
                 EmptyView()

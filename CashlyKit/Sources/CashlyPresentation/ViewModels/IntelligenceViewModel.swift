@@ -70,7 +70,8 @@ public final class IntelligenceViewModel {
             }
         }
     }
-    public func predictExpenses(user: User, month: Int, categoryIDs: [String]) async -> Double {
+    public func predictExpenses(user: User, month: YearMonth, categoryIDs: [String]) async -> Double
+    {
         let revision = datasetRevision
         var total = 0.0
         for categoryID in categoryIDs {
@@ -78,7 +79,7 @@ public final class IntelligenceViewModel {
                 return 0
             }
             let result = await predict(
-                user: user, input: .budget(yearMonth: month, categoryID: categoryID))
+                user: user, input: .budget(month: month, categoryID: categoryID))
             if case .tabularRegression(let amount) = result { total += amount }
         }
         return !Task.isCancelled && user.id == activeUserID && revision == datasetRevision

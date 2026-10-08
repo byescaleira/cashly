@@ -30,12 +30,15 @@ extension CashlyRepository {
             })
         descriptor.fetchLimit = 2
         let conflicted = try modelContext.fetch(descriptor).count > 1
+        guard let budgetMonth = YearMonth(rawValue: row.date) else {
+            throw CashlyError.missingRecord
+        }
         return Budget(
             id: row.id,
             money: try money(
                 minorUnits: row.amountMinorUnits, legacy: row.amount, currencyCode: row.currencyCode
             ),
-            category: category, date: row.date, summary: row.summary,
+            category: category, month: budgetMonth, summary: row.summary,
             isConflicted: row.isConflicted || conflicted)
     }
     func mapTag(_ row: TagEntity) throws -> Tag {
@@ -112,19 +115,16 @@ extension CashlyRepository {
                 items.append(
                     CashlyDomain.Transaction(
                         id: row.id, participants: related, category: category, money: value,
-                        date: row.date,
+                        date: Date(timeIntervalSince1970: row.date),
                         summary: row.summary, status: status,
                         splitMode: row.splitMode.flatMap(TransactionSplitMode.init),
                         splitValue: allocation.owner.doubleValue, paymentsPlan: row.paymentsPlan,
-                        ownerMoney: allocation.owner, tagIDs: Set(row.tagIDs),
-                        billingStartMonth: row.startMonthIndex / 12 * 100 + row.startMonthIndex % 12
-                            + 1,
-                        kind: kind))
+                        ownerMoney: allocation.owner, tagIDs: Set(row.tagIDs), kind: kind))
             } catch { pending += 1 }
         }
         return (items, pending)
     }
-    func uniqueIndex<Entity: CashlyEntity>(_ values: [Entity]) throws -> [String: Entity]
+    func uniqueIndex<Entity: Identifiable>(_ values: [Entity]) throws -> [String: Entity]
     where Entity.ID == String {
         var output: [String: Entity] = [:]
         for value in values {

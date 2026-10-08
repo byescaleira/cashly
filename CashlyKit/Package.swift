@@ -21,20 +21,21 @@ let package = Package(
             dependencies: ["CashlyDomain", "CashlyData", "CashlyPresentation", "CashlyMock"]),
         .target(name: "CashlyDomain"),
         .target(name: "CashlyData", dependencies: ["CashlyDomain"]),
-        .target(name: "CashlyPresentation", dependencies: ["CashlyDomain", "CashlyDesignSystem"]),
+        .target(name: "FeatureCore", dependencies: ["CashlyDomain", "CashlyDesignSystem"]),
+        .target(
+            name: "CashlyPresentation",
+            dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"]),
         .target(name: "CashlyDesignSystem"),
         .target(name: "CashlyResource", resources: [.process("Assets")]),
         .target(
             name: "CashlyMock",
-            dependencies: [
-                "CashlyDomain", "CashlyData", "CashlyPresentation", "CashlyResource",
-                "CashlyDesignSystem",
-            ], resources: [.process("Mocks")]),
+            dependencies: ["CashlyDomain", "CashlyData", "CashlyPresentation"]),
         .target(name: "CashlyPreview", dependencies: ["CashlyUI", "CashlyMock"]),
         .target(
             name: "CashlyUI",
             dependencies: [
                 "CashlyDomain", "CashlyPresentation", "CashlyResource", "CashlyDesignSystem",
+                "FeatureCore",
             ]),
         .testTarget(name: "CashlyDomainTests", dependencies: ["CashlyDomain"]),
     ]

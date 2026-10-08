@@ -22,7 +22,7 @@ struct CashlyAudit {
             )
             return
         }
-        guard let january = Date.from(yearMonth: 202601) else { throw CashlyError.onFetch }
+        let january = try yearMonth(202601).startDate
         switch command {
         case "flows":
             try await inspectFlows()
@@ -137,7 +137,8 @@ struct CashlyAudit {
                 throw CashlyError.onFetch
             }
             try await scoped.makeBudgetUseCase().addBudget(
-                id: "budget", amount: 100, category: category, date: 202601, summary: "Mensal")
+                id: "budget", money: Money(minorUnits: 10000), category: category,
+                month: try yearMonth(202601), summary: "Mensal")
             guard let budget = try await scoped.makeBudgetUseCase().getBudget(id: "budget"),
                 let friend = try await factory.makeUserUseCase().getUser(id: "friend")
             else { throw CashlyError.onFetch }
@@ -150,13 +151,14 @@ struct CashlyAudit {
                 id: "transaction", participants: [participant], categoryID: budget.category.id,
                 kind: .expense,
                 money: Money(minorUnits: 9),
-                date: january.timeIntervalSince1970, summary: "Compra Feira", status: .settled,
+                date: january, summary: "Compra Feira", status: .settled,
                 splitMode: .equal, splitValue: 0.05, paymentsPlan: 3, tagIDs: ["tag"])
             let dashboard = scoped.makeDashboardUseCase()
             let before = try await dashboard.datasetRevision()
             try await scoped.makeTagUseCase().addTag(
                 id: "tag", user: "owner", name: "Alimentação", color: "0099FF", icon: "tag")
-            let tagged = try await dashboard.overview(query: .init(month: 202601, tagIDs: ["tag"]))
+            let tagged = try await dashboard.overview(
+                query: .init(month: try yearMonth(202601), tagIDs: ["tag"]))
             let after = try await dashboard.datasetRevision()
             print(
                 "TAGS renamedAssociationMinor=\(tagged.tagExpenses["tag"]?.minorUnits ?? -1) revisionChanged=\(before != after)"
@@ -214,7 +216,7 @@ struct CashlyAudit {
                 to: "owner"
             )
             .makeDashboardUseCase()
-            let resolved = try await imported.overview(query: .init(month: 202602))
+            let resolved = try await imported.overview(query: .init(month: try yearMonth(202602)))
             print(
                 "CONCURRENT_RESOLUTION conflicts=\(resolved.conflicts.count) budgetMinor=\(resolved.budgetsTotal.minorUnits) activeIDs=\(resolved.budgets.map(\.id))"
             )
@@ -231,9 +233,7 @@ struct CashlyAudit {
             var another = training.transactions[0]
             another.id = "another"
             another.summary = "Compra Padaria"
-            another.date =
-                Date.from(yearMonth: 202602)?.timeIntervalSince1970 ?? january.timeIntervalSince1970
-            another.billingStartMonth = 202602
+            another.date = try yearMonth(202602).startDate
             let category2 = CashlyDomain.Category(
                 id: "bakery", user: budget.user, name: "Padaria", color: "0099FF", icon: "cart")
             another.category = category2
@@ -258,7 +258,7 @@ struct CashlyAudit {
             let service = factory.scoped(to: "a").makeDashboardUseCase()
             let clock = ContinuousClock()
             var start = clock.now
-            let state = try await service.overview(query: .init(month: 202601))
+            let state = try await service.overview(query: .init(month: try yearMonth(202601)))
             print(
                 "PROFILE overview=\(start.duration(to: clock.now)) count=\(state.transactionCount)")
             start = clock.now
@@ -267,7 +267,8 @@ struct CashlyAudit {
                 "PROFILE revision=\(start.duration(to: clock.now)) fingerprint=\(revision.prefix(8))"
             )
             start = clock.now
-            let page = try await service.page(query: .init(month: 202601), after: nil, limit: 50)
+            let page = try await service.page(
+                query: .init(month: try yearMonth(202601)), after: nil, limit: 50)
             print("PROFILE firstPage=\(start.duration(to: clock.now)) items=\(page.items.count)")
         case "benchmark":
             let count = arguments.count > 1 ? Int(arguments[1]) ?? 1000 : 1000
@@ -320,7 +321,7 @@ struct CashlyAudit {
             let service = factory.scoped(to: "a").makeDashboardUseCase()
             let clock = ContinuousClock()
             var start = clock.now
-            let state = try await service.load(query: .init(month: 202601))
+            let state = try await service.load(query: .init(month: try yearMonth(202601)))
             print(
                 "BENCH count=\(count) dashboard=\(start.duration(to: clock.now)) pageItems=\(state.page.items.count) total=\(state.overview.transactionCount) totalMinor=\(state.overview.expensesTotal.minorUnits)"
             )
@@ -330,7 +331,7 @@ struct CashlyAudit {
             print("DETAIL elapsed=\(start.duration(to: clock.now)) id=\(detail?.id ?? "nil")")
             start = clock.now
             let page = try await service.page(
-                query: .init(month: 202601), after: state.page.nextCursor, limit: 50)
+                query: .init(month: try yearMonth(202601)), after: state.page.nextCursor, limit: 50)
             print(
                 "PAGE elapsed=\(start.duration(to: clock.now)) items=\(page.items.count) overlaps=\(Set(page.items.map(\.id)).intersection(state.page.items.map(\.id)).count)"
             )
@@ -346,9 +347,9 @@ struct CashlyAudit {
             duplicate.amountSource = 1500
             context.insert(duplicate)
             try context.save()
-            let before = try await service.overview(query: .init(month: 202601))
+            let before = try await service.overview(query: .init(month: try yearMonth(202601)))
             try await service.resolveBudgetConflict(keeping: "budget-a")
-            let after = try await service.overview(query: .init(month: 202601))
+            let after = try await service.overview(query: .init(month: try yearMonth(202601)))
             let archived = try context.fetchCount(
                 FetchDescriptor<BudgetEntity>(predicate: #Predicate { $0.mergedIntoID != "" }))
             print(

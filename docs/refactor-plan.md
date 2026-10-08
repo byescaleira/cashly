@@ -119,12 +119,18 @@ Cada fase termina com: `scripts/build.sh Debug` passando, `scripts/lint.sh` pass
 
 ### Fase 0: checkpoint
 
+Concluída: `f63f0b8`.
+
+
 - Commit do working tree atual (137 arquivos) como está, para ter um ponto de retorno.
 - Rodar build e lint e registrar o estado de partida.
 - Corrigir ou remover `BudgetActorTests`/`CommonTestSuite`, que não acompanham a API atual.
 - Remover os comentários restantes e adicionar a regra de lint que os proíbe.
 
 ### Fase 1: fundação do Domain
+
+Concluída. `Score` foi para `FeatureCore` e terá suas regras extraídas na fase 2. Entidades deixaram de ser `Codable`; mocks passaram a ser `SampleData` em Swift.
+
 
 - Criar `YearMonth` (struct com `year`/`month`, aritmética de meses, `Comparable`) e substituir os `Int` de competência (`Budget.date`, `TransactionQuery.month`, `billingStartMonth`, `occurs(in:)`).
 - `Transaction.date` vira `Date`; a conversão de `TimeInterval` fica no mapeamento de Data.

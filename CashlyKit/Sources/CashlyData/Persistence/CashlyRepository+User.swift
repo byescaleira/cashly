@@ -32,19 +32,6 @@ extension CashlyRepository {
         try commit()
     }
 
-    public func removeUsers() throws {
-        guard try modelContext.fetchCount(FetchDescriptor<CategoryEntity>()) == 0,
-            try modelContext.fetchCount(FetchDescriptor<TagEntity>()) == 0,
-            try modelContext.fetchCount(FetchDescriptor<ParticipantEntity>()) == 0
-        else { throw CashlyError.onRemove }
-        let descriptor = FetchDescriptor<UserEntity>()
-        let entities = try modelContext.fetch(descriptor)
-        for entity in entities {
-            modelContext.delete(entity)
-        }
-        try commit()
-    }
-
     public func addUser(
         id: String,
         name: String,

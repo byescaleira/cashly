@@ -26,62 +26,43 @@ extension CashlyRepository {
         try commit(userID: userID)
     }
 
-    public func removeBudgets(userID: String) throws {
-        try ensureNormalization()
-        guard
-            try modelContext.fetchCount(
-                FetchDescriptor<TransactionEntity>(
-                    predicate: #Predicate {
-                        $0.categoryID == "" && ($0.ownerID == userID || $0.ownerID == "")
-                    })) == 0
-        else {
-            throw CashlyError.onRemove
-        }
-        let descriptor = FetchDescriptor<BudgetEntity>(
-            predicate: #Predicate { $0.ownerID == userID })
-        let entities = try modelContext.fetch(descriptor)
-        for entity in entities {
-            modelContext.delete(entity)
-        }
-        try commit(userID: userID)
-    }
-
     public func addBudget(
         id: String,
-        amount: Double,
+        money: Money,
         category: CashlyDomain.Category,
-        date: Int,
+        month: YearMonth,
         summary: String,
         userID: String
     ) throws {
         try ensureNormalization()
+        let date = month.rawValue
+        let categoryID = category.id
         _ = try requireCategory(id: category.id, userID: userID)
         guard category.user.id == userID else { throw CashlyError.onSave }
-        let canonical = try Money(validating: amount)
-        guard amount.isFinite, canonical.minorUnits > 0,
+        let canonical = money
+        guard canonical.minorUnits > 0,
             summary.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3,
             try modelContext.fetch(
-                FetchDescriptor<CategoryEntity>(predicate: #Predicate { $0.id == category.id })
+                FetchDescriptor<CategoryEntity>(predicate: #Predicate { $0.id == categoryID })
             ).first != nil
         else { throw CashlyError.onSave }
         let duplicate = try modelContext.fetch(
             FetchDescriptor<BudgetEntity>(
                 predicate: #Predicate {
-                    $0.category == category.id && $0.date == date && $0.id != id
+                    $0.category == categoryID && $0.date == date && $0.id != id
                         && $0.mergedIntoID == ""
                 }))
         guard duplicate.isEmpty else {
             throw CashlyError.invalidInput(
                 "Já existe um orçamento para essa categoria e mês. Edite o orçamento existente.")
         }
-        guard (1...12).contains(date % 100), date / 100 > 0 else { throw CashlyError.onSave }
         let predicate: Predicate<BudgetEntity> = #Predicate { $0.id == id }
         let descriptor = FetchDescriptor<BudgetEntity>(predicate: predicate)
         let entity =
             try modelContext.fetch(descriptor).first
             ?? BudgetEntity(
                 id: id,
-                amount: amount,
+                amount: canonical.doubleValue,
                 category: category.id,
                 date: date,
                 summary: summary

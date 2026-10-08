@@ -4,7 +4,9 @@ import Foundation
 import SwiftData
 
 extension CashlyRepository {
-    public func catalog(userID: String, month: Int? = nil) throws -> CashlySnapshot {
+    public func catalog(userID: String, month: YearMonth? = nil, includesBudgets: Bool = true)
+        throws -> CashlySnapshot
+    {
         try ensureNormalization()
         let users = try getUsers()
         guard let user = users.first(where: { $0.id == userID }) else {
@@ -20,22 +22,27 @@ extension CashlyRepository {
         }
         let categoryMap = try uniqueIndex(categories)
         let filteringMonth = month != nil
-        let targetMonth = month ?? 0
-        let budgetRows = try modelContext.fetch(
-            FetchDescriptor<BudgetEntity>(
-                predicate: #Predicate {
-                    $0.ownerID == userID && $0.mergedIntoID == ""
-                        && (!filteringMonth || $0.date == targetMonth)
-                },
-                sortBy: [
-                    SortDescriptor(\.date, order: .reverse), SortDescriptor(\.id, order: .reverse),
-                ])
-        )
+        let targetMonth = month?.rawValue ?? 0
+        let budgetRows: [BudgetEntity] =
+            try !includesBudgets
+            ? []
+            : modelContext.fetch(
+                FetchDescriptor<BudgetEntity>(
+                    predicate: #Predicate {
+                        $0.ownerID == userID && $0.mergedIntoID == ""
+                            && (!filteringMonth || $0.date == targetMonth)
+                    },
+                    sortBy: [
+                        SortDescriptor(\.date, order: .reverse),
+                        SortDescriptor(\.id, order: .reverse),
+                    ])
+            )
         var pending = try modelContext.fetchCount(
             FetchDescriptor<TransactionEntity>(predicate: #Predicate { $0.ownerID == "" }))
         let groups = Dictionary(grouping: budgetRows, by: { $0.category + "." + String($0.date) })
         let budgets = budgetRows.compactMap { row -> Budget? in
             guard let category = categoryMap[row.category],
+                let budgetMonth = YearMonth(rawValue: row.date),
                 let value = try? money(
                     minorUnits: row.amountMinorUnits, legacy: row.amount,
                     currencyCode: row.currencyCode)
@@ -45,7 +52,8 @@ extension CashlyRepository {
             }
             let conflict = groups[row.category + "." + String(row.date), default: []].count > 1
             return Budget(
-                id: row.id, money: value, category: category, date: row.date, summary: row.summary,
+                id: row.id, money: value, category: category, month: budgetMonth,
+                summary: row.summary,
                 isConflicted: conflict || row.isConflicted)
         }
         let tags = try modelContext.fetch(
@@ -54,8 +62,7 @@ extension CashlyRepository {
                 sortBy: [SortDescriptor(\.name), SortDescriptor(\.id)])
         ).map { Tag(id: $0.id, user: user, name: $0.name, color: $0.color, icon: $0.icon) }
         var result = CashlySnapshot(
-            users: users, currentUser: user, categories: categories, budgets: budgets, tags: tags,
-            transactions: [], participants: [])
+            users: users, currentUser: user, categories: categories, budgets: budgets, tags: tags)
         result.pendingReferences = pending
         return result
     }
@@ -88,7 +95,7 @@ extension CashlyRepository {
         return try mapTag(row)
     }
     public func getTransaction(id: String, userID: String) throws -> CashlyDomain.Transaction? {
-        let catalog = try catalog(userID: userID, month: 0)
+        let catalog = try catalog(userID: userID, includesBudgets: false)
         var descriptor = FetchDescriptor<TransactionEntity>(
             predicate: #Predicate { $0.id == id && $0.ownerID == userID })
         descriptor.fetchLimit = 2
@@ -106,10 +113,10 @@ extension CashlyRepository {
     ) -> FetchDescriptor<TransactionEntity> {
         let categories = query.categoryIDs
         let kinds = Set(query.kinds.map(\.rawValue))
-        let statuses = query.statuses
-        let month = query.month.map { $0 / 100 * 12 + $0 % 100 - 1 } ?? 0
+        let statuses = Set(query.statuses.map(\.rawValue))
+        let month = query.month?.monthIndex ?? 0
         let filteringMonth = query.month != nil
-        let before = cursor?.date ?? 0
+        let before = cursor?.timestamp ?? 0
         let afterID = cursor?.id ?? ""
         let hasCursor = cursor != nil
         let scope = #Predicate<TransactionEntity> { $0.ownerID == userID }
@@ -166,7 +173,7 @@ extension CashlyRepository {
                     mapped.items.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
                 pending += mapped.pending
                 for row in rows {
-                    position = TransactionCursor(date: row.date, id: row.id)
+                    position = TransactionCursor(timestamp: row.date, id: row.id)
                     if let record = records[row.id], matches(record, query: query) {
                         items.append(record)
                     }
@@ -198,16 +205,16 @@ extension CashlyRepository {
             var output = CashlyOverview()
             output.pendingReferences = catalog.pendingReferences
             output.budgets = catalog.budgets.filter {
-                (query.month == nil || $0.date == query.month)
+                (query.month == nil || $0.month == query.month)
                     && (query.categoryIDs.isEmpty || query.categoryIDs.contains($0.category.id))
             }
             let conflicted = Dictionary(
                 grouping: output.budgets.filter(\.isConflicted),
-                by: { $0.category.id + "." + String($0.date) })
+                by: { $0.category.id + "." + String($0.month.rawValue) })
             output.conflicts = conflicted.values.compactMap { values in
                 guard let first = values.first else { return nil }
                 return BudgetConflict(
-                    categoryID: first.category.id, month: first.date,
+                    categoryID: first.category.id, month: first.month,
                     budgets: values.sorted { $0.id < $1.id }
                 )
             }.sorted { $0.id < $1.id }
@@ -221,13 +228,10 @@ extension CashlyRepository {
             let budgetsByPeriod = Dictionary(
                 grouping: output.budgets.filter { !$0.isConflicted }, by: \.periodKey)
             let calendar = CashlyCalendar.current
-            let daysInPeriod =
-                query.month.flatMap(Date.from(yearMonth:)).flatMap {
-                    calendar.range(of: .day, in: .month, for: $0)?.count
-                } ?? 31
+            let daysInPeriod = query.month?.dayCount ?? 31
             var days: Set<Date> = []
             var periodDays: Set<Int> = []
-            var lastTimestamp: TimeInterval?
+            var lastTimestamp: Date?
             var lastDay = 1
             var people: [String: (User, Money)] = [:]
             var cursor: TransactionCursor?
@@ -265,11 +269,11 @@ extension CashlyRepository {
                     }
                     guard record.kind == .expense else { continue }
                     if query.month == nil {
-                        days.insert(calendar.startOfDay(for: record.date.date))
+                        days.insert(calendar.startOfDay(for: record.date))
                     } else {
                         if lastTimestamp != record.date {
                             lastDay = min(
-                                calendar.component(.day, from: record.date.date), daysInPeriod)
+                                calendar.component(.day, from: record.date), daysInPeriod)
                             lastTimestamp = record.date
                         }
                         periodDays.insert(lastDay)
@@ -293,7 +297,7 @@ extension CashlyRepository {
                         output.biggestTransactions.removeLast()
                     }
                 }
-                cursor = rows.last.map { TransactionCursor(date: $0.date, id: $0.id) }
+                cursor = rows.last.map { TransactionCursor(timestamp: $0.date, id: $0.id) }
                 if rows.count < 500 { break }
             } while cursor != nil
             output.netTotal = try output.incomeTotal.subtracting(output.expensesTotal)
@@ -323,7 +327,7 @@ extension CashlyRepository {
                     "Aguarde a sincronização completa antes de treinar os modelos.")
             }
             items.append(contentsOf: mapped.items)
-            cursor = rows.last.map { TransactionCursor(date: $0.date, id: $0.id) }
+            cursor = rows.last.map { TransactionCursor(timestamp: $0.date, id: $0.id) }
             if rows.count < 500 { break }
         } while cursor != nil
         return TrainingDataset(

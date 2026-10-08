@@ -23,26 +23,6 @@ extension CashlyRepository {
         try commit(userID: userID)
     }
 
-    public func removeCategories(userID: String) throws {
-        try ensureNormalization()
-        guard
-            try modelContext.fetchCount(
-                FetchDescriptor<BudgetEntity>(predicate: #Predicate { $0.ownerID == userID })) == 0,
-            try modelContext.fetchCount(
-                FetchDescriptor<TransactionEntity>(predicate: #Predicate { $0.ownerID == userID }))
-                == 0
-        else {
-            throw CashlyError.onRemove
-        }
-        let descriptor = FetchDescriptor<CategoryEntity>(
-            predicate: #Predicate { $0.user == userID })
-        let entities = try modelContext.fetch(descriptor)
-        for entity in entities {
-            modelContext.delete(entity)
-        }
-        try commit(userID: userID)
-    }
-
     public func addCategory(
         id: String,
         user: String,

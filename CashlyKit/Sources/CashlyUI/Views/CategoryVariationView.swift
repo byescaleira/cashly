@@ -1,6 +1,7 @@
 import CashlyDesignSystem
 import CashlyDomain
 import CashlyPresentation
+import FeatureCore
 import Foundation
 import SwiftUI
 

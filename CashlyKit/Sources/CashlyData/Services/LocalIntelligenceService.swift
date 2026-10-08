@@ -39,7 +39,6 @@ public actor LocalIntelligenceService: IntelligenceUseCase {
     {
         let records = transactions.filter {
             $0.ownerID == userID && $0.kind == .expense && $0.status != .canceled
-                && $0.amount.isFinite
         }
         guard records.count >= 2 else {
             throw CashlyError.intelligence(
@@ -49,13 +48,9 @@ public actor LocalIntelligenceService: IntelligenceUseCase {
         for record in records {
             try Task.checkCancellation()
             let category = record.category.id
-            let start = record.billingStartMonth ?? record.date.yearMonth
-            let months = (0..<min(max(record.paymentsPlan ?? 1, 1), 1200)).map { offset in
-                let index = start / 100 * 12 + start % 100 - 1 + offset
-                return index / 12 * 100 + index % 12 + 1
-            }
+            let months = record.billingMonths
             for month in months {
-                model.budgets[category, default: [:]][month, default: 0] +=
+                model.budgets[category, default: [:]][month.rawValue, default: 0] +=
                     record.billingMoney(in: month).doubleValue
             }
             model.labels[category, default: 0] += 1
@@ -65,7 +60,7 @@ public actor LocalIntelligenceService: IntelligenceUseCase {
             for tag in tags
             where tag.user.id == userID && record.tagIDs.contains(tag.id) {
                 for month in months {
-                    model.tags[tag.id, default: [:]][month, default: 0] +=
+                    model.tags[tag.id, default: [:]][month.rawValue, default: 0] +=
                         record.billingMoney(in: month).doubleValue
                 }
             }
@@ -132,9 +127,11 @@ public actor LocalIntelligenceService: IntelligenceUseCase {
             return best.map { .textClassification($0.0) } ?? .empty
         }
     }
-    private func estimate(_ history: [Int: Double]?, before month: Int) -> CashlyPredictionResult {
+    private func estimate(_ history: [Int: Double]?, before month: YearMonth)
+        -> CashlyPredictionResult
+    {
         guard let history else { return .empty }
-        let recent = history.filter { $0.key < month }.sorted { $0.key > $1.key }.prefix(6)
+        let recent = history.filter { $0.key < month.rawValue }.sorted { $0.key > $1.key }.prefix(6)
         guard recent.count >= 2 else { return .empty }
         return .tabularRegression(recent.reduce(0) { $0 + $1.value } / Double(recent.count))
     }

@@ -2,6 +2,7 @@ import CashlyDesignSystem
 import CashlyDomain
 import CashlyPresentation
 import CashlyResource
+import FeatureCore
 import Foundation
 import SwiftUI
 
@@ -125,12 +126,12 @@ public struct CategoryScreen: View {
                     .padding(.trailing, -6)
 
                 if budgetAmount > .zero {
-                    CashlyText(budgetAmount.currency())
+                    CashlyText(budgetAmount.formatted(.brl))
                         .cashly(font: .callout, weight: .semibold)
                 }
 
                 if expensesAmount > .zero {
-                    CashlyText(expensesAmount.currency())
+                    CashlyText(expensesAmount.formatted(.brl))
                         .cashly(font: .callout, weight: .semibold)
                         .cashly(color: .textSecondary)
                 }

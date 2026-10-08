@@ -29,17 +29,6 @@ extension CashlyRepository {
         for row in participants { modelContext.delete(row) }
         try commit(userID: userID)
     }
-    public func removeTransactions(userID: String) throws {
-        let rows = try modelContext.fetch(
-            FetchDescriptor<TransactionEntity>(predicate: #Predicate { $0.ownerID == userID }))
-        let ids = Set(rows.map(\.id))
-        let participants = try modelContext.fetch(
-            FetchDescriptor<ParticipantEntity>(
-                predicate: #Predicate { ids.contains($0.transaction) }))
-        for row in rows { modelContext.delete(row) }
-        for row in participants { modelContext.delete(row) }
-        try commit(userID: userID)
-    }
 
     public func addTransaction(
         id: String,
@@ -47,7 +36,7 @@ extension CashlyRepository {
         categoryID: String,
         kind: TransactionKind,
         money: Money,
-        date: TimeInterval,
+        date: Date,
         summary: String,
         status: TransactionStatus,
         splitMode: TransactionSplitMode?,
@@ -75,7 +64,7 @@ extension CashlyRepository {
         categoryID: String,
         kind: TransactionKind,
         money: Money,
-        date: TimeInterval,
+        date: Date,
         summary: String,
         status: TransactionStatus,
         splitMode: TransactionSplitMode?,
@@ -85,13 +74,14 @@ extension CashlyRepository {
         userID: String
     ) throws {
         try ensureNormalization()
+        let timestamp = date.timeIntervalSince1970
         let canonical = money
         let allocation = try TransactionAllocation.resolve(
             total: canonical, participants: participants)
         let storedCategory = try requireCategory(id: categoryID, userID: userID)
         for tagID in tagIDs { _ = try requireTag(id: tagID, userID: userID) }
         guard storedCategory.user == userID,
-            canonical.minorUnits > 0, date.isFinite,
+            canonical.minorUnits > 0, timestamp.isFinite,
             summary.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3,
             paymentsPlan == nil || (1...1200).contains(paymentsPlan ?? 0),
             kind != .income || participants.isEmpty
@@ -149,7 +139,7 @@ extension CashlyRepository {
                 participants: participants.map(\.id),
                 budget: "",
                 amount: canonical.doubleValue,
-                date: date,
+                date: timestamp,
                 summary: summary,
                 status: status.rawValue,
                 splitMode: splitMode?.rawValue,
@@ -169,13 +159,12 @@ extension CashlyRepository {
         entity.currencyCode = Money.currencyCode
         entity.tagIDs = tagIDs.sorted()
         entity.tagsMigrated = true
-        let month = date.yearMonth
-        entity.startMonthIndex = month / 100 * 12 + month % 100 - 1
+        entity.startMonthIndex = YearMonth(date).monthIndex
         entity.endMonthIndex = entity.startMonthIndex + max(paymentsPlan ?? 1, 1) - 1
         entity.contentRevision = UUID().uuidString
-        entity.dateSource = date
+        entity.dateSource = timestamp
         entity.paymentsPlanSource = paymentsPlan
-        entity.date = date
+        entity.date = timestamp
         entity.summary = summary
         entity.status = status.rawValue
         entity.splitMode = splitMode?.rawValue

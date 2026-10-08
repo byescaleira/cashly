@@ -8,7 +8,7 @@ public enum MainRoute: Hashable {
     case addTransaction(id: String?)
     case addTag(id: String?)
     case detailCategory(id: String)
-    case budgetConflict(categoryID: String, month: Int)
+    case budgetConflict(categoryID: String, month: YearMonth)
 }
 
 public enum CashlySection: String, CaseIterable, Identifiable {

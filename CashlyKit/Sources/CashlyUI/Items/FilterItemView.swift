@@ -2,6 +2,7 @@ import CashlyDesignSystem
 import CashlyDomain
 import CashlyPresentation
 import CashlyResource
+import FeatureCore
 import Foundation
 import SwiftUI
 
@@ -60,21 +61,21 @@ struct FilterItemView: View {
 
     private var selectedMonth: Binding<Int> {
         Binding(
-            get: { state.filter.startDate.timeIntervalSince1970.yearMonth % 100 },
+            get: { YearMonth(state.filter.startDate).month },
             set: { month in
-                let year = state.filter.startDate.timeIntervalSince1970.yearMonth / 100
-                if let date = Date.from(yearMonth: year * 100 + month) {
-                    state.filter.startDate = date
+                let year = YearMonth(state.filter.startDate).year
+                if let value = YearMonth(year: year, month: month) {
+                    state.filter.startDate = value.startDate
                 }
             })
     }
     private var selectedYear: Binding<Int> {
         Binding(
-            get: { state.filter.startDate.timeIntervalSince1970.yearMonth / 100 },
+            get: { YearMonth(state.filter.startDate).year },
             set: { year in
-                let month = state.filter.startDate.timeIntervalSince1970.yearMonth % 100
-                if let date = Date.from(yearMonth: year * 100 + month) {
-                    state.filter.startDate = date
+                let month = YearMonth(state.filter.startDate).month
+                if let value = YearMonth(year: year, month: month) {
+                    state.filter.startDate = value.startDate
                 }
             })
     }
@@ -89,7 +90,7 @@ struct FilterItemView: View {
 
             if state.filter.isFilteringByDate {
                 let months = CashlyCalendar.current.monthSymbols
-                let currentYear = Date.now.string(with: .cashly(.year))?.int ?? .zero
+                let currentYear = YearMonth(.now).year
                 let years = ((currentYear - 5)...(currentYear + 5))
 
                 Divider()
@@ -104,24 +105,22 @@ struct FilterItemView: View {
                         EmptyView()
                     }
                 } label: {
-                    CashlyText(state.filter.startDate.string(with: .cashly(.month))?.capitalized)
+                    CashlyText(state.filter.startDate.formatted(.dateTime.month(.wide)).capitalized)
                 }
                 Menu {
                     Picker(selection: selectedYear) {
                         ForEach(years, id: \.self) { year in
-                            CashlyText(year.string)
+                            CashlyText(String(year))
                                 .tag(year)
                         }
                     } label: {
                         EmptyView()
                     }
                 } label: {
-                    CashlyText(state.filter.startDate.string(with: .cashly(.year))?.capitalized)
+                    CashlyText(state.filter.startDate.formatted(.dateTime.year()))
                 }
 
-                if state.filter.startDate.timeIntervalSince1970.yearMonth
-                    != Date.now.timeIntervalSince1970.yearMonth
-                {
+                if YearMonth(state.filter.startDate) != YearMonth(.now) {
                     Divider()
 
                     Button {
@@ -148,7 +147,7 @@ struct FilterItemView: View {
         } label: {
             CashlyLabel("Categories", symbol: "swatchpalette")
             if state.filter.categories.count > .zero {
-                CashlyText(state.filter.categories.count.string.space + "selected")
+                CashlyText("\(state.filter.categories.count) selected")
             }
         }
         .cashly(tint: .text)
@@ -165,7 +164,7 @@ struct FilterItemView: View {
         } label: {
             CashlyLabel("Tags", symbol: "tag")
             if state.filter.tags.count > .zero {
-                CashlyText(state.filter.tags.count.string.space + "selected")
+                CashlyText("\(state.filter.tags.count) selected")
             }
         }
         .cashly(tint: .text)
@@ -182,7 +181,7 @@ struct FilterItemView: View {
         } label: {
             CashlyLabel("Statuses", symbol: "text.pad.header.badge.clock")
             if state.filter.transactionStatuses.count > .zero {
-                CashlyText(state.filter.transactionStatuses.count.string.space + "selected")
+                CashlyText("\(state.filter.transactionStatuses.count) selected")
             }
         }
         .cashly(tint: .text)
@@ -199,7 +198,7 @@ struct FilterItemView: View {
         } label: {
             CashlyLabel("Participants", symbol: "person.2")
             if state.filter.participants.count > .zero {
-                CashlyText(state.filter.participants.count.string.space + "selected")
+                CashlyText("\(state.filter.participants.count) selected")
             }
         }
         .cashly(tint: .text)
@@ -209,8 +208,7 @@ struct FilterItemView: View {
     var cleanMenu: some View {
         if !state.filter.isFilteringByDate
             || (state.filter.isFilteringByDate
-                && state.filter.startDate.timeIntervalSince1970.yearMonth
-                    != Date.now.timeIntervalSince1970.yearMonth)
+                && YearMonth(state.filter.startDate) != YearMonth(.now))
             || !state.filter.categories.isEmpty || !state.filter.tags.isEmpty
             || !state.filter.transactionStatuses.isEmpty || !state.filter.participants.isEmpty
         {

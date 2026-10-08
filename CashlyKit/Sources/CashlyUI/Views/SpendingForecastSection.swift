@@ -1,6 +1,7 @@
 import CashlyDesignSystem
 import CashlyDomain
 import CashlyPresentation
+import FeatureCore
 import SwiftUI
 
 struct SpendingForecastSection: View {
@@ -10,7 +11,7 @@ struct SpendingForecastSection: View {
 
     private struct Request: Hashable {
         let userID: String?
-        let month: Int
+        let month: YearMonth
         let isFilteringByDate: Bool
         let categoryIDs: [String]
         let revision: String
@@ -21,7 +22,7 @@ struct SpendingForecastSection: View {
     private var request: Request {
         Request(
             userID: main.user?.id,
-            month: main.filter.startDate.timeIntervalSince1970.yearMonth,
+            month: YearMonth(main.filter.startDate),
             isFilteringByDate: main.filter.isFilteringByDate,
             categoryIDs: Array(Set(main.budgets.map { $0.category.id })).sorted(),
             revision: intelligence.datasetRevision,
@@ -40,7 +41,7 @@ struct SpendingForecastSection: View {
                         .cashly(font: .callout)
                         .cashly(color: .textSecondary)
 
-                        CashlyText(amount.currency())
+                        CashlyText(amount.formatted(.brl))
                             .cashly(font: .largeTitle, weight: .black)
                             .cashly(color: .text)
                     }

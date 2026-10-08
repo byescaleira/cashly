@@ -1,12 +1,13 @@
 import CashlyDomain
 import CashlyPresentation
+import FeatureCore
 import SwiftUI
 
 struct BudgetConflictScreen: View {
     @Environment(MainViewModel.self) private var main
     @Environment(\.dismiss) private var dismiss
     let categoryID: String
-    let month: Int
+    let month: YearMonth
     @State private var conflict: BudgetConflict?
     @State private var isLoading = true
     @State private var isSaving = false

@@ -19,8 +19,8 @@ public struct BudgetDraft: Hashable {
             && summary.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3
     }
 
-    public var yearMonth: Int {
-        date.timeIntervalSince1970.yearMonth
+    public var month: YearMonth {
+        YearMonth(date)
     }
 
     private init(
