@@ -113,7 +113,7 @@ public struct DetailCategoryScreen: View {
         CashlyHStack(spacing: .medium) {
             let transactionAmount = state.expensesAmount(for: budget)
             let budgetAmount = budget.money.doubleValue
-            let variation = transactionAmount / (budgetAmount.isZero ? 1 : budgetAmount)
+            let variation = BudgetUsage(spent: transactionAmount, budgeted: budgetAmount).ratio
             CashlyVStack(alignment: .leading, spacing: .extraSmall) {
                 CashlyText(budget.month.startDate.formatted(.dateTime.month(.wide).year()))
                     .cashly(font: .callout, weight: .semibold)

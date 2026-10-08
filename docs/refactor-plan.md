@@ -143,6 +143,9 @@ Concluída. `Score` foi para `FeatureCore` e terá suas regras extraídas na fas
 
 ### Fase 2: regras de negócio no Domain
 
+Concluída. Além do previsto, `BudgetUsage` concentra a razão gasto/orçamento e os estágios de uso, antes repetidos em seis pontos da UI.
+
+
 - `BudgetHealth`: score, variação, restante, categorias em alerta (hoje em `MainViewModel+Summary`).
 - `OverviewAccumulator`: struct que recebe lotes de transações/orçamentos e produz `Overview`. O repositório continua lendo em lotes de 500 e só alimenta o acumulador (hoje tudo dentro de `CashlyRepository+Queries.overview`).
 - `BudgetConflictDetector`: detecção por usuário/categoria/mês (hoje duplicada entre `catalog` e `MainViewModel.budgetConflict`).
@@ -213,6 +216,13 @@ Aprovadas em 08/10/2026.
 - O mais simples que resolva: sem abstração antecipada, sem protocolo para tipo com uma única implementação fora de fronteira de módulo.
 - Sem extensions públicas em tipos da stdlib.
 - Uma responsabilidade por tipo e um tipo principal por arquivo, com o nome do arquivo.
+
+### Views
+
+- Todo model chega pela view via `@Environment(Tipo.self)`. Para editar, `@Bindable var model = model` dentro do `body`. Views não recebem model por `init` nem guardam model em `@State`.
+- Dados e ações ficam sempre no model. A view só lê estado e chama métodos: sem cálculo, regra ou formatação de negócio.
+- Cada tela é separada da sua construção: quem cria o model e injeta no Environment é a rota/`AppShell`, não a tela.
+- Componentes, seções e ações isolados em views pequenas; uma tela é a composição delas, com pouco código.
 
 ## Fora de escopo
 

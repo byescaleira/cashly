@@ -1,4 +1,6 @@
 import CashlyDesignSystem
+import CashlyDomain
+import FeatureCore
 import Foundation
 import SwiftUI
 
@@ -14,21 +16,10 @@ extension Double {
     }
 
     var variationMessage: String {
-        switch self {
-        case ..<0.1: return "Just started"
-        case ..<0.5: return "On track"
-        case ..<0.9: return "Watch out"
-        case ..<1.0: return "Almost spent"
-        default: return "Over budget"
-        }
+        BudgetUsage(ratio: self).stage.title
     }
 
     var variationColor: Color {
-        switch self {
-        case ..<0.5: return .green
-        case ..<0.9: return .yellow
-        case ..<1.0: return .orange
-        default: return .red
-        }
+        BudgetUsage(ratio: self).stage.color
     }
 }

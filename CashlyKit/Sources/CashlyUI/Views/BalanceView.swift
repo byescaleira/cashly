@@ -50,40 +50,40 @@ struct BalanceView: View {
 
     var scoreSection: some View {
         Section {
-            let score = state.score
-            let enabledScore = score.scores.first(where: { $0.isEnable })
-            let enabledScoreValue = enabledScore?.score ?? .zero
+            let health = state.health
+            let level = health.level
 
             CashlyVStack(alignment: .leading, spacing: .medium) {
                 CashlyHStack(spacing: .small) {
-                    CashlyText(String(enabledScoreValue))
+                    CashlyText(String(health.score))
                         .cashly(font: .title, weight: .bold)
-                    CashlyText("/  1000")
+                    CashlyText("/  " + String(BudgetHealth.maximumScore))
                         .cashly(font: .footnote)
                         .cashly(color: .textSecondary)
                         .cashlyPadding(.bottom, .negative(.small))
                     Spacer()
 
-                    CashlyText(enabledScore?.title.uppercased())
+                    CashlyText(level.title.uppercased())
                         .cashly(font: .caption2, weight: .bold)
-                        .cashly(color: .color(enabledScore?.color.color ?? .secondary))
+                        .cashly(color: .color(level.color))
                         .cashlyPadding()
                         .cashlyPadding(.horizontal, .extraSmall)
-                        .cashlyContentSurface(
-                            tint: enabledScore?.color.color.opacity(0.2), in: .capsule)
+                        .cashlyContentSurface(tint: level.color.opacity(0.2), in: .capsule)
                 }
 
                 CashlyHStack(spacing: .small) {
-                    ForEach(score.scores) { score in
-                        ProgressView(value: score == enabledScore ? score.progress : 1.0, total: 1)
-                            .cashly(
-                                tint: .color(
-                                    Double(enabledScoreValue) > score.max || score == enabledScore
-                                        ? (enabledScore?.color.color ?? .secondary) : .clear))
+                    ForEach(BudgetHealth.Level.allCases, id: \.self) { item in
+                        ProgressView(
+                            value: item == level ? item.progress(for: health.score) : 1.0, total: 1
+                        )
+                        .cashly(
+                            tint: .color(
+                                health.score > item.scores.upperBound || item == level
+                                    ? level.color : .clear))
                     }
                 }
 
-                CashlyText(enabledScore?.summary)
+                CashlyText(level.summary)
                     .cashly(font: .callout)
             }
             .cashlyPadding()

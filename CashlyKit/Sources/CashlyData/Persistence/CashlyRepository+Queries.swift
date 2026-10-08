@@ -202,38 +202,9 @@ extension CashlyRepository {
     public func overview(userID: String, query: TransactionQuery) throws -> CashlyOverview {
         try CashlyMetrics.measure("DashboardOverview") {
             let catalog = try catalog(userID: userID, month: query.month)
-            var output = CashlyOverview()
-            output.pendingReferences = catalog.pendingReferences
-            output.budgets = catalog.budgets.filter {
-                (query.month == nil || $0.month == query.month)
-                    && (query.categoryIDs.isEmpty || query.categoryIDs.contains($0.category.id))
-            }
-            let conflicted = Dictionary(
-                grouping: output.budgets.filter(\.isConflicted),
-                by: { $0.category.id + "." + String($0.month.rawValue) })
-            output.conflicts = conflicted.values.compactMap { values in
-                guard let first = values.first else { return nil }
-                return BudgetConflict(
-                    categoryID: first.category.id, month: first.month,
-                    budgets: values.sorted { $0.id < $1.id }
-                )
-            }.sorted { $0.id < $1.id }
-            for budget in output.budgets where !budget.isConflicted {
-                output.budgetsTotal = try output.budgetsTotal.adding(budget.money)
-                output.budgetsByCategory[budget.category.id, default: []].append(budget)
-                output.budgetAmounts[budget.category.id] = try output.budgetAmounts[
-                    budget.category.id, default: .zero
-                ].adding(budget.money)
-            }
-            let budgetsByPeriod = Dictionary(
-                grouping: output.budgets.filter { !$0.isConflicted }, by: \.periodKey)
-            let calendar = CashlyCalendar.current
-            let daysInPeriod = query.month?.dayCount ?? 31
-            var days: Set<Date> = []
-            var periodDays: Set<Int> = []
-            var lastTimestamp: Date?
-            var lastDay = 1
-            var people: [String: (User, Money)] = [:]
+            var accumulator = try OverviewAccumulator(
+                budgets: catalog.budgets, month: query.month, categoryIDs: query.categoryIDs,
+                pendingReferences: catalog.pendingReferences)
             var cursor: TransactionCursor?
             repeat {
                 try Task.checkCancellation()
@@ -241,71 +212,14 @@ extension CashlyRepository {
                     descriptor(userID: userID, query: query, after: cursor, limit: 500))
                 guard !rows.isEmpty else { break }
                 let mapped = try mapTransactions(rows, userID: userID, catalog: catalog)
-                output.pendingReferences += mapped.pending
+                accumulator.addPendingReferences(mapped.pending)
                 for record in mapped.items where matches(record, query: query) {
-                    let amount = record.billingMoney(in: query.month)
-                    output.transactionCount += 1
-                    if record.kind == .income {
-                        output.incomeTotal = try output.incomeTotal.adding(amount)
-                    } else {
-                        output.expensesTotal = try output.expensesTotal.adding(amount)
-                        output.categoryExpenses[record.category.id] = try output.categoryExpenses[
-                            record.category.id, default: .zero
-                        ].adding(amount)
-                        let months = query.month.map { [$0] } ?? record.billingMonths
-                        for month in months {
-                            for budget in budgetsByPeriod[record.periodKey(in: month), default: []]
-                            {
-                                let contribution = record.billingMoney(in: month)
-                                output.budgetExpenses[budget.id] = try output.budgetExpenses[
-                                    budget.id, default: .zero
-                                ].adding(contribution)
-                            }
-                        }
-                        for id in record.tagIDs {
-                            output.tagExpenses[id] = try output.tagExpenses[id, default: .zero]
-                                .adding(amount)
-                        }
-                    }
-                    guard record.kind == .expense else { continue }
-                    if query.month == nil {
-                        days.insert(calendar.startOfDay(for: record.date))
-                    } else {
-                        if lastTimestamp != record.date {
-                            lastDay = min(
-                                calendar.component(.day, from: record.date), daysInPeriod)
-                            lastTimestamp = record.date
-                        }
-                        periodDays.insert(lastDay)
-                    }
-                    guard record.status != .canceled && record.kind == .expense else { continue }
-                    for participant in record.participants {
-                        let prior = people[participant.user.id]?.1 ?? .zero
-                        people[participant.user.id] = (
-                            participant.user,
-                            try prior.adding(
-                                record.participantMoney(id: participant.id, in: query.month))
-                        )
-                    }
-                    output.biggestTransactions.append(record)
-                    output.biggestTransactions.sort {
-                        let a = $0.billingMoney(in: query.month)
-                        let b = $1.billingMoney(in: query.month)
-                        return a == b ? $0.id < $1.id : a > b
-                    }
-                    if output.biggestTransactions.count > 5 {
-                        output.biggestTransactions.removeLast()
-                    }
+                    try accumulator.add(record)
                 }
                 cursor = rows.last.map { TransactionCursor(timestamp: $0.date, id: $0.id) }
                 if rows.count < 500 { break }
             } while cursor != nil
-            output.netTotal = try output.incomeTotal.subtracting(output.expensesTotal)
-            output.expenseDayCount = query.month == nil ? days.count : periodDays.count
-            output.participantUsers = people.values.sorted {
-                $0.1 == $1.1 ? $0.0.id < $1.0.id : $0.1 > $1.1
-            }.prefix(5).map(\.0)
-            return output
+            return try accumulator.result()
         }
     }
     public func trainingData(userID: String) throws -> TrainingDataset {

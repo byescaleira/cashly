@@ -200,7 +200,7 @@ public struct HomeScreen: View {
                 })
                 let budgetAmount = selectedData?.planned ?? .zero
                 let expensesAmount = selectedData?.spent ?? .zero
-                let variation = expensesAmount / (budgetAmount == .zero ? 1 : budgetAmount)
+                let variation = BudgetUsage(spent: expensesAmount, budgeted: budgetAmount).ratio
                 let percentage = variation > 1 ? 1 - variation : variation
 
                 CashlyHStack(spacing: .extraSmall) {
@@ -328,8 +328,9 @@ public struct HomeScreen: View {
                     let budgetsAmount = state.budgetsAmount(for: selectedAvailableCategory)
                     let expensesAmount = state.expensesAmount(for: selectedAvailableCategory)
                     let availableCategory = budgetsAmount - expensesAmount
-                    let conventionalVariation =
-                        expensesAmount / (budgetsAmount.isZero ? 1 : budgetsAmount)
+                    let conventionalVariation = BudgetUsage(
+                        spent: expensesAmount, budgeted: budgetsAmount
+                    ).ratio
                     let variation = 1 - conventionalVariation
                     Menu {
                         Picker(selection: $selectedAvailableCategory) {

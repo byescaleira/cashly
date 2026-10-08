@@ -140,9 +140,9 @@ extension MainViewModel {
         -> BudgetConflict?
     {
         let catalog = try await activeFactory.makeSnapshotUseCase().snapshot(month: month)
-        let budgets = catalog.budgets.filter { $0.category.id == categoryID && $0.isConflicted }
-        return budgets.count > 1
-            ? BudgetConflict(categoryID: categoryID, month: month, budgets: budgets) : nil
+        return BudgetConflict.detect(in: catalog.budgets).first {
+            $0.categoryID == categoryID && $0.month == month && $0.budgets.count > 1
+        }
     }
     public func resolveBudgetConflict(keeping id: String) async throws {
         try await activeFactory.makeDashboardUseCase().resolveBudgetConflict(keeping: id)

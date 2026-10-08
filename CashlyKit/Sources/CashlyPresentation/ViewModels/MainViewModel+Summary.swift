@@ -1,5 +1,4 @@
 import CashlyDomain
-import FeatureCore
 import Foundation
 
 extension MainViewModel {
@@ -35,21 +34,25 @@ extension MainViewModel {
         Money(minorUnits: summary.budgetsTotal.minorUnits - summary.expensesTotal.minorUnits)
             .doubleValue
     }
-    public var variation: Double { expensesAmount / (budgetsAmount > 0 ? budgetsAmount : 1) }
-    public var score: BalanceScore {
-        let value = variation <= 0.85 ? 1000 : 1000 - (800 / 1.15) * (variation - 0.85)
-        let clamped = value.isFinite ? min(max(value, 200), 1000) : 200
-        return BalanceScore(score: Int(clamped))
+    public var usage: BudgetUsage {
+        BudgetUsage(spent: summary.expensesTotal, budgeted: summary.budgetsTotal)
     }
+    public var variation: Double { usage.ratio }
+    public var health: BudgetHealth { BudgetHealth(usage: usage) }
     public var warningCategories: [CashlyDomain.Category] {
         Array(
-            categories.filter { categoryVariation(category: $0) >= 0.8 }
+            categories.filter { categoryUsage(category: $0).isWarning }
                 .sorted { categoryVariation(category: $0) > categoryVariation(category: $1) }
                 .prefix(5))
     }
+    public func categoryUsage(category: CashlyDomain.Category, adding amount: Double = 0)
+        -> BudgetUsage
+    {
+        BudgetUsage(
+            spent: expensesAmount(for: category) + amount, budgeted: budgetsAmount(for: category))
+    }
     public func categoryVariation(category: CashlyDomain.Category, amount: Double = 0) -> Double {
-        let budget = budgetsAmount(for: category)
-        return (expensesAmount(for: category) + amount) / (budget > 0 ? budget : 1)
+        categoryUsage(category: category, adding: amount).ratio
     }
     public func categoryRemainingAmount(category: CashlyDomain.Category) -> Double {
         Money(
