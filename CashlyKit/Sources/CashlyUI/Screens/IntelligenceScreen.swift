@@ -50,7 +50,7 @@ public struct IntelligenceScreen: View {
             }
         }
         .navigationTitle("Intelligence")
-        .toolbar { ToolbarItem { UserItemView() } }
+        .toolbar { ToolbarItem { UserMenu() } }
         .cashlyErrorAlert(error: $intelligence.error)
     }
 }

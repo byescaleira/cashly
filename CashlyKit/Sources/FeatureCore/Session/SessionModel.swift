@@ -57,6 +57,14 @@ public final class SessionModel {
         }
     }
 
+    public var userSelection: User? {
+        get { user }
+        set {
+            guard let newValue else { return }
+            Task { await selectUser(newValue) }
+        }
+    }
+
     public func selectUser(_ user: User) async {
         await selectUser(id: user.id)
     }

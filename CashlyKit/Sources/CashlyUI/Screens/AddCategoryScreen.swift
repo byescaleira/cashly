@@ -14,7 +14,7 @@ public struct AddCategoryScreen: View {
     @Environment(\.open) var open
     @Environment(\.navigationSection) var section
 
-    @State var category: CashlySymbolCategory = .food
+    @State var category: SymbolCategory = .food
 
     public init() {}
 
@@ -46,10 +46,7 @@ public struct AddCategoryScreen: View {
 
     func onChangeIcon() {
         guard !state.isNew else { return }
-        category =
-            CashlySymbolCategory.allCases.first(where: {
-                $0.symbols.contains(state.icon)
-            }) ?? .food
+        category = SymbolCategory.containing(state.icon) ?? .food
     }
 
     var infoSection: some View {
@@ -76,78 +73,8 @@ public struct AddCategoryScreen: View {
 
     @ViewBuilder
     var iconCategorySection: some View {
-        Section {
-            CashlyHStack {
-                CashlyText("Category")
-
-                Spacer()
-
-                Menu {
-                    Picker(selection: $category) {
-                        ForEach(CashlySymbolCategory.allCases, id: \.self) {
-                            CashlyText($0.name)
-                                .tag($0)
-                        }
-                    } label: {
-                        CashlyText(category.name)
-                    }
-                } label: {
-                    CashlyHStack {
-                        CashlyText(category.name)
-                            .cashly(font: .body, weight: .semibold)
-                        CashlySymbol("chevron.up.chevron.down")
-                            .cashly(font: .footnote, weight: .semibold)
-                    }
-                }
-                .cashly(tint: .color(color))
-            }
-        } header: {
-            CashlyText("Icon")
-                .cashly(font: .title3, weight: .semibold)
-                .cashly(color: .text)
-        }
-
-        Section {
-            LazyVGrid(
-                columns: [.init(.adaptive(minimum: 45, maximum: 45))], alignment: .leading,
-                spacing: 16
-            ) {
-                ForEach(category.symbols, id: \.self) { icon in
-                    iconItemView(item: icon)
-                        .cashlyPadding()
-                }
-            }
-        }
-    }
-
-    func iconItemView(item: String) -> some View {
-        Button {
-            model.draft.icon = item
-        } label: {
-            CashlySymbol(item)
-                .cashly(font: .system(size: 18))
-                .cashly(color: item == state.icon ? .color(color) : .color(.gray))
-                .frame(width: 40, height: 40)
-                .cashly(
-                    background: item == state.icon
-                        ? .color(color.opacity(0.2)) : .color(.gray.opacity(0.2))
-                )
-                .cashly(clip: .circle)
-                .overlay {
-                    if item == state.icon {
-                        Circle()
-                            .stroke(color, lineWidth: 2)
-                            .frame(width: 45, height: 45)
-                    }
-                }
-                .cashly(if: item == state.icon) {
-                    $0.cashly(
-                        symbol: .bounce.byLayer,
-                        options: .repeat(.continuous).speed(0.1)
-                    )
-                }
-        }
-        .buttonStyle(.plain)
+        @Bindable var model = model
+        IconSection(icon: $model.draft.icon, category: $category, color: color, layout: .grid)
     }
 
     @ViewBuilder

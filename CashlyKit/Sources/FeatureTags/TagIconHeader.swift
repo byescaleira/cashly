@@ -1,0 +1,32 @@
+import FeatureCore
+import SwiftUI
+
+struct TagIconHeader: View {
+    @Environment(TagEditorModel.self) private var model
+
+    var body: some View {
+        @Bindable var model = model
+        Section {
+        } header: {
+            Image(systemName: model.draft.icon)
+                .symbolRenderingMode(.hierarchical)
+                .font(.system(size: 50))
+                .symbolEffect(.bounce.byLayer, options: .repeat(.continuous).speed(0.1))
+                .foregroundStyle(model.color)
+                .background {
+                    Image(systemName: "tag.fill")
+                        .font(.system(size: 130))
+                        .foregroundStyle(model.color.opacity(0.3))
+                }
+                .frame(width: 140, height: 140)
+                .overlay(alignment: .bottom) {
+                    ColorPicker("Cor", selection: $model.draft.color.hexColor)
+                        .labelsHidden()
+                        .scaleEffect(1.5)
+                }
+                .frame(maxWidth: .infinity)
+                .contentTransition(.symbolEffect(.replace))
+                .padding(.top, 16)
+        }
+    }
+}

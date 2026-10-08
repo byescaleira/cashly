@@ -2,6 +2,7 @@ import CashlyDomain
 import CashlyPresentation
 import CashlyUI
 import FeatureCore
+import FeatureTags
 import SwiftUI
 
 struct RouteScreen: View {
@@ -35,7 +36,7 @@ struct RouteScreen: View {
         case .addTag(let id):
             ModelHost(
                 TagEditorModel(draft: id.map(TagDraft.edit) ?? .new(), repositories: repositories)
-            ) { AddTagScreen() }
+            ) { TagEditorScreen() }
         case .detailCategory(let id): DetailCategoryScreen(categoryID: id)
         case .budgetConflict(let categoryID, let month):
             BudgetConflictScreen(categoryID: categoryID, month: month)

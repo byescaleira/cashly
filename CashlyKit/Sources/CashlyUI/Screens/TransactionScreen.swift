@@ -46,7 +46,7 @@ public struct TransactionScreen: View {
         .toolbar {
             ToolbarItem(placement: .leading) {
                 if !isSelecting {
-                    UserItemView()
+                    UserMenu()
                 }
                 selectAllButton
             }

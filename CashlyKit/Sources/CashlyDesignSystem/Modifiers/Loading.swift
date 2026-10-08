@@ -5,3 +5,7 @@ extension View {
         redacted(reason: isLoading ? .placeholder : [])
     }
 }
+
+extension EnvironmentValues {
+    @Entry public var isLoading: Bool = false
+}

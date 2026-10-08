@@ -69,15 +69,19 @@ Um conjunto pequeno e fixo. Qualquer código novo se encaixa em um destes; se n�
 
 ### Receita: adicionar uma feature
 
-Exemplo: uma feature "Metas".
+Revisada com o piloto `FeatureTags` (5.3). Exemplo: uma feature "Metas".
 
 1. **Domain**: `Entities/Goal.swift`, `Repositories/GoalRepository.swift` (protocolo) e, se houver cálculo, `Rules/GoalProgress.swift` com teste.
-2. **Data**: `@Model GoalEntity` em um novo schema versionado, `GoalMapper`, `SwiftDataGoalRepository`. Registrar no `Session`.
-3. **Feature**: target `FeatureGoals` com `GoalListModel`, `GoalEditorModel`, `GoalDraft`, `GoalListScreen`, `GoalEditorScreen`. Depende só de `FeatureCore`.
-4. **Rotas**: adicionar `case goalEditor(id:)` em `Route`, mapear no `AppShell`, e se for aba, um `case` em `AppSection`.
-5. **Testes**: regra no Domain, repositório com store em memória, model com repositório fake.
+2. **Data**: `@Model GoalEntity` em um novo schema versionado, mapeamento no `CashlyStore`, `SwiftDataGoalRepository` e o repositório no `Repositories`.
+3. **Feature**: target `FeatureGoals`, que depende só de `CashlyDomain`, `CashlyDesignSystem` e `FeatureCore`:
+   - `GoalDraft` (valores do formulário, `make…()` e `apply(_:)`), `GoalEditorModel` (`@Observable`, com `EditorStatus`, `canSave`, `canRemove`, `load`, `save`, `remove`);
+   - `GoalEditorScreen` curta: `Form` com uma view por seção, `EditorActions` na toolbar e `.editorLifecycle(model.status) { await model.load() }`;
+   - cada seção é uma `struct` própria que lê o model por `@Environment` e cria `@Bindable` no `body`;
+   - `Resources/Localizable.xcstrings` com `sourceLanguage` pt-BR.
+4. **Rotas**: `case` em `Route` e o mapeamento em `AppShell/RouteScreen` com `ModelHost(GoalEditorModel(…)) { GoalEditorScreen() }`; se for aba, um `case` em `AppSection`.
+5. **Testes**: regra no Domain, repositório com store em memória e target `FeatureGoalsTests` com o model sobre `CashlyDatabase.open(inMemory: true)`.
 
-Nada fora dessas cinco etapas precisa ser tocado.
+Depois do build, `scripts/strings.sh` sincroniza os catálogos com as strings extraídas pelo compilador. Peças usadas por mais de uma feature (`UserMenu`, `IconSection`, `EditorActions`, `editorLifecycle`) ficam no `FeatureCore`.
 
 ### Estrutura de pastas
 
@@ -221,15 +225,18 @@ Concluída, sem mudança visual no iPhone em retrato.
 
 #### 5.3 Piloto: `FeatureTags`
 
-- `TagEditorModel`, `TagDraft` e o editor de tag quebrado em seções pequenas.
-- O seletor de ícones e `CashlySymbolCategory` vão para `FeatureCore` (o editor de categoria também usa).
-- Testes do editor movidos para `FeatureTagsTests`.
-- Revisar a receita de feature com o que o piloto ensinar.
+Concluída.
+
+- `FeatureTags`: `TagDraft`, `TagEditorModel` (agora com `symbolCategory`, `canRemove` e `color`), `TagEditorScreen`, `TagIconHeader`, `TagNameSection` e o String Catalog.
+- `FeatureCore` ganhou `SymbolCategory` (antes `CashlySymbolCategory`, nomes em pt-BR), `IconSection` (faixa para tag, grade para categoria; o editor de categoria já usa), `IconChoice`, `UserMenu` (antes `UserItemView`, adiantado da 5.4 porque o editor de tag o usa), `EditorActions` e `.editorLifecycle`. A escolha de usuário passou para `SessionModel.userSelection`.
+- `.sectionTitle()` no design system; `scripts/strings.sh` para os catálogos.
+- `CashlyMock` deixou de depender do `AppShell` (o modificador de preview foi para `CashlyPreview`), e o `CashlyAudit` voltou a rodar no Mac.
+- Os testes rodam no simulador (`scripts/test.sh`): o `FeatureCore` usa APIs do SwiftUI 27 que o macOS 26 do host não tem.
 
 #### 5.4 `FeatureUsers`
 
 - Editor de usuário e seletor de avatar.
-- Seletor de usuário da toolbar e estado vazio de usuário vão para `FeatureCore`, porque aparecem em todas as abas.
+- Estado vazio de usuário vai para `FeatureCore`, porque aparece em todas as abas (o seletor de usuário já foi na 5.3).
 
 #### 5.5 `FeatureCategories`
 

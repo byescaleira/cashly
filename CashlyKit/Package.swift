@@ -15,7 +15,14 @@ let package = Package(
         .target(name: "CashlyData", dependencies: ["CashlyDomain"]),
         .target(name: "CashlyDesignSystem"),
         .target(name: "CashlyResource", resources: [.process("Assets")]),
-        .target(name: "FeatureCore", dependencies: ["CashlyDomain", "CashlyDesignSystem"]),
+        .target(
+            name: "FeatureCore",
+            dependencies: ["CashlyDomain", "CashlyDesignSystem", "CashlyResource"],
+            resources: [.process("Resources")]),
+        .target(
+            name: "FeatureTags",
+            dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"],
+            resources: [.process("Resources")]),
         .target(
             name: "CashlyPresentation",
             dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"]),
@@ -29,16 +36,18 @@ let package = Package(
             name: "AppShell",
             dependencies: [
                 "CashlyDomain", "CashlyDesignSystem", "FeatureCore", "CashlyPresentation",
-                "CashlyUI",
+                "CashlyUI", "FeatureTags",
             ]),
         .target(
-            name: "CashlyMock",
-            dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "AppShell"]),
+            name: "CashlyMock", dependencies: ["CashlyDomain", "CashlyData"]),
         .target(name: "CashlyPreview", dependencies: ["AppShell", "CashlyUI", "CashlyMock"]),
         .executableTarget(
             name: "CashlyAudit", dependencies: ["CashlyDomain", "CashlyData", "CashlyMock"]),
         .testTarget(name: "CashlyDomainTests", dependencies: ["CashlyDomain"]),
         .testTarget(name: "CashlyDataTests", dependencies: ["CashlyDomain", "CashlyData"]),
+        .testTarget(
+            name: "FeatureTagsTests",
+            dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureTags"]),
         .testTarget(
             name: "CashlyPresentationTests",
             dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "CashlyPresentation"]),

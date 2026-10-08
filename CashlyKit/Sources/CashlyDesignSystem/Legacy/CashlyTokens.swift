@@ -56,6 +56,3 @@ public enum CashlyShape: Shape {
         }
     }
 }
-extension EnvironmentValues {
-    @Entry public var isLoading: Bool = false
-}

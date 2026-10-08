@@ -29,7 +29,7 @@ public struct CategoryScreen: View {
         .lineLimit(2)
         .cashly(font: .callout)
         .toolbar {
-            ToolbarItem(placement: .leading) { UserItemView() }
+            ToolbarItem(placement: .leading) { UserMenu() }
             ToolbarItem { FilterItemView() }
             CashlyToolbarSpacer()
             ToolbarItem { addButton }

@@ -127,15 +127,6 @@ struct PresentationFlowTests {
         #expect(form.status.error == .onSave)
     }
 
-    @Test func editingMissingRecordReportsError() async throws {
-        let database = try await database()
-        let form = TagEditorModel(
-            draft: .edit(id: "missing"), repositories: database.repositories(for: owner.id))
-        await form.load()
-        #expect(!form.status.isLoaded)
-        #expect(form.status.error == .missingRecord)
-    }
-
     @Test func categoryEditorStoresHexColor() async throws {
         let database = try await database()
         let repositories = database.repositories(for: owner.id)

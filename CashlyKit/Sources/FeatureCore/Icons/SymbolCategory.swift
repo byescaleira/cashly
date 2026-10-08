@@ -1,7 +1,6 @@
 import Foundation
-import SwiftUI
 
-public enum CashlySymbolCategory: Int, Hashable, CaseIterable {
+public enum SymbolCategory: Int, Hashable, CaseIterable {
     case food
     case transport
     case housing
@@ -13,14 +12,14 @@ public enum CashlySymbolCategory: Int, Hashable, CaseIterable {
 
     public var name: String {
         switch self {
-        case .food: return "Food & Shopping"
-        case .transport: return "Transport & Travel"
-        case .housing: return "Housing & Home"
-        case .utilities: return "Bills & Utilities"
-        case .health: return "Health & Wellness"
-        case .entertainment: return "Entertainment & Leisure"
-        case .education: return "Education & Work"
-        case .technology: return "Technology & Communication"
+        case .food: "Comida e compras"
+        case .transport: "Transporte e viagem"
+        case .housing: "Casa e moradia"
+        case .utilities: "Contas e serviços"
+        case .health: "Saúde e bem-estar"
+        case .entertainment: "Lazer e entretenimento"
+        case .education: "Educação e trabalho"
+        case .technology: "Tecnologia e comunicação"
         }
     }
 
@@ -469,11 +468,11 @@ public enum CashlySymbolCategory: Int, Hashable, CaseIterable {
         }
     }
 
-    public static var random: CashlySymbolCategory {
+    public static var random: SymbolCategory {
         allCases.randomElement() ?? .technology
     }
 
-    public static var randomSymbol: String {
-        CashlySymbolCategory.random.symbols.randomElement() ?? "questionmark"
+    public static func containing(_ symbol: String) -> SymbolCategory? {
+        allCases.first { $0.symbols.contains(symbol) }
     }
 }

@@ -30,7 +30,7 @@ public struct HomeScreen: View {
             SpendingForecastSection()
         }
         .toolbar {
-            ToolbarItem(placement: .leading) { UserItemView() }
+            ToolbarItem(placement: .leading) { UserMenu() }
             ToolbarItem { FilterItemView() }
         }
         .refreshable { await finance.load() }
