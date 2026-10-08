@@ -210,6 +210,21 @@ Concluída. `CashlyWindow` monta `SessionModel`, `FinanceModel`, `TransactionLis
 - Regras de lint para `file_length`, `type_body_length` e `function_parameter_count`, para o código não voltar ao estado atual.
 - Consolidar os 9 documentos de `docs/` em `architecture.md` + registro de decisões; remover revisões que já viraram código.
 
+### Fase 7: Settings
+
+Pedida em 08/10/2026. Primeira feature nova construída pela receita, como target `FeatureSettings`, com uma seção por tópico:
+
+- **Aparência**: tema (sistema, claro, escuro) e ícone do app (ícones alternativos).
+- **Moeda**: hoje `Money.currencyCode` é fixo em BRL. Escolher outra moeda exige guardar a moeda por registro no domínio e no schema; até lá, a opção mostra BRL.
+- **Notificações**: permissão e lembretes (por exemplo, orçamento perto do limite). Depende de definir quais alertas o produto terá.
+- **Armazenamento e dados**: exportar, importar e apagar tudo, com confirmação.
+- **iCloud**: ligar e desligar a sincronização (`CashlyDatabase.open(cloudSync:)`), estado da última sincronização e backup.
+- **Ajuda**: avaliar o app, novidades da versão, fale conosco, central de ajuda.
+- **Sobre**: privacidade, termos de serviço, compartilhar com um amigo.
+- **Integrações (futuro)**: Calendário, servidor MCP para Claude Code, Atalhos, importador, App Intents/Siri, Foundation Models. Entram como seção "em breve" até cada uma ser implementada.
+
+A ordem de implementação parte do que não exige mudança de domínio (aparência, ajuda, sobre, dados, iCloud) e deixa moeda, notificações e integrações para etapas próprias.
+
 ## Decisões
 
 Aprovadas em 08/10/2026.
@@ -235,4 +250,4 @@ Aprovadas em 08/10/2026.
 
 ## Fora de escopo
 
-Mudanças de produto, de layout visual, de schema persistido e de algoritmo de inteligência. Desempenho do dashboard em 100 mil registros (projeções incrementais) continua como item separado em `execution-plan.md`.
+Mudanças de produto (exceto a tela de Settings da fase 7), de schema persistido e de algoritmo de inteligência. Desempenho do dashboard em 100 mil registros (projeções incrementais) continua como item separado em `execution-plan.md`.
