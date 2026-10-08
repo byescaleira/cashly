@@ -1,68 +1,43 @@
-//
-//  MockModifier.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 01/09/25.
-//
-
-import SwiftUI
-import RyzeUI
-import RyzeArchitecture
+import CashlyData
+import CashlyDomain
 import CashlyPresentation
+import SwiftUI
 
 struct MockModifier: ViewModifier {
-    @Environment(\.theme) var theme
-    
-    @StateObject var addCategoryStore = MockCashlyFactory.shared.makeAddCategoryStore()
-    @StateObject var addBudgetStore = MockCashlyFactory.shared.makeAddBudgetStore()
-    @StateObject var addTransactionStore = MockCashlyFactory.shared.makeAddTransactionStore()
-    @StateObject var addUserStore = MockCashlyFactory.shared.makeAddUserStore()
-    @StateObject var addTagStore = MockCashlyFactory.shared.makeAddTagStore()
-    @StateObject var mainStore = MockCashlyFactory.shared.makeMainStore()
-    
+    var includeSampleData = true
+    @State private var session: CashlySession?
+    @State private var error: String?
     func body(content: Content) -> some View {
-        content
-            .environmentObject(addCategoryStore)
-            .environmentObject(addBudgetStore)
-            .environmentObject(addTransactionStore)
-            .environmentObject(addUserStore)
-            .environmentObject(addTagStore)
-            .environmentObject(mainStore)
-        
-            .environment(\.addCategoryState, addCategoryStore.state)
-            .environment(\.addBudgetState, addBudgetStore.state)
-            .environment(\.addTransactionState, addTransactionStore.state)
-            .environment(\.addUserState, addUserStore.state)
-            .environment(\.addTagState, addTagStore.state)
-            .environment(\.mainState, mainStore.state)
-        
-            .environment(\.action, handler(action:))
-    
-            .environment(\.isLoading, mainStore.state.isLoading)
-            .environment(\.user, mainStore.state.user)
-        
-            .onChange(of: mainStore.state.filter) { handler(action: .main(.fetch)) }
-            .onChange(of: mainStore.state.user) { selectUser() }
-        
-            .task { handler(action: .main(.fetch)) }
-        
-            .tint(theme.color.primary)
-    }
-    
-    func handler(action: ApplicationAction) {
-        Task(priority: .high) { @MainActor in
-            switch action {
-            case let .addCategory(action): try await addCategoryStore.dispatch(action: action)
-            case let .addBudget(action): try await addBudgetStore.dispatch(action: action)
-            case let .addTransaction(action): try await addTransactionStore.dispatch(action: action)
-            case let .addUser(action): return try await addUserStore.dispatch(action: action)
-            case let .addTag(action): return try await addTagStore.dispatch(action: action)
-            case let .main(action): try await mainStore.dispatch(action: action)
+        Group {
+            if let session {
+                content.environment(session).environment(session.main).environment(
+                    session.navigation
+                )
+                .environment(session.intelligence)
+                .environment(\.user, session.main.user)
+                .task {
+                    await session.main.load()
+                    await session.intelligence.loadModels(
+                        user: session.main.user, revision: session.main.datasetRevision)
+                }
+            } else if let error {
+                Text(error)
+            } else {
+                ProgressView()
             }
+        }.task {
+            guard session == nil else { return }
+            do {
+                let mock = try MockCashlyFactory()
+                if includeSampleData { try await mock.seed() }
+                try Task.checkCancellation()
+                let directory = FileManager.default.temporaryDirectory.appending(
+                    path: UUID().uuidString)
+                session = CashlySession(
+                    dataFactory: mock.dataFactory,
+                    intelligenceUseCase: LocalIntelligenceService(directory: directory),
+                    persistSelection: false)
+            } catch is CancellationError {} catch { self.error = error.localizedDescription }
         }
-    }
-    
-    func selectUser() {
-        handler(action: .main(.selectUser))
     }
 }

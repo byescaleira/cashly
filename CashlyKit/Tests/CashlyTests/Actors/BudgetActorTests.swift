@@ -1,10 +1,3 @@
-//
-//  BudgetActorTests.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 30/08/25.
-//
-
 import Testing
 import CashlyDomain
 import CashlyMock

@@ -1,21 +1,16 @@
-//
-//  CashlyCardView.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 02/09/25.
-//
-
-import SwiftUI
+import CashlyDesignSystem
 import CashlyResource
+import Foundation
+import SwiftUI
 
-public struct CashlyCardView: CashlyView {
+public struct CashlyCardView: View {
     let image: CashlyResourceImage
     let title: String
     let subtitle: String
     let buttonTitle: String
     let size: CGFloat
     let action: () -> Void
-    
+
     public init(
         image: CashlyResourceImage,
         title: String,
@@ -31,56 +26,41 @@ public struct CashlyCardView: CashlyView {
         self.size = size
         self.action = action
     }
-    
+
     public var body: some View {
         CashlyVStack(spacing: .large) {
             image.image
                 .resizable()
                 .scaledToFit()
                 .frame(height: size)
-            
+
             CashlyVStack(spacing: .small) {
                 CashlyText(title)
                     .cashly(font: .headline, weight: .bold)
                     .cashly(color: .text)
-                
+
                 CashlyText(subtitle)
                     .cashly(font: .callout)
                     .cashly(color: .textSecondary)
             }
-            
+
             button
         }
         .frame(maxWidth: .infinity)
         .cashly(alignment: .center)
     }
-    
+
     var button: some View {
-        CashlyButton {
+        Button {
             action()
         } label: {
             CashlyText(buttonTitle)
                 .cashly(font: .headline, weight: .bold)
                 .frame(maxWidth: .infinity)
         }
-        .buttonStyle(.glassProminent)
+        .cashlyProminentButton()
         .controlSize(.large)
         .cashly(tint: .primary)
     }
-    
-    public static var mock: some View {
-        CashlyCardView(
-            image: .illustrationEmpty,
-            title: "Empty",
-            subtitle: "Empty Description",
-            buttonTitle: "Open Empty"
-        ) {
-            
-        }
-    }
-}
 
-#Preview {
-    CashlyCardView
-        .mock
 }

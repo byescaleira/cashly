@@ -1,33 +1,25 @@
-//
-//  AddUserScreen.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 06/09/25.
-//
-
-import SwiftUI
-import CashlyMock
+import CashlyDesignSystem
 import CashlyDomain
-import CashlyResource
 import CashlyPresentation
+import CashlyResource
+import Foundation
+import SwiftUI
 
-public struct AddUserScreen: CashlyView {
-    @EnvironmentObject var store: CashlyStore<AddUserReducer, AddUserMiddleware>
-    
-    @Environment(\.addUserState) var state
-    @Environment(\.action) var action
-    @Environment(\.router) var router
-    
+public struct AddUserScreen: View {
+    @State private var viewModel: UserViewModel
+
+    var state: UserDraft { viewModel.draft }
+    @Environment(\.open) var open
+    @Environment(\.navigationSection) var section
+
     @State var gender: Int = .zero
-    
-    var initialState: AddUserState?
-    
-    public init(initialState: AddUserState? = nil) {
-        self.initialState = initialState
+
+    public init(draft: UserDraft, factory: CashlyPresentationFactory) {
+        _viewModel = State(initialValue: factory.makeUserViewModel(draft: draft))
     }
-    
+
     public var body: some View {
-        CashlyList {
+        List {
             photoSection
             nameSection
             photosSection
@@ -38,26 +30,24 @@ public struct AddUserScreen: CashlyView {
                 saveButton
             }
         }
-        .onChange(of: state.isLoading) { updatePhoto() }
-        .scrollDismissesKeyboard(.immediately)
-        .cashlyDismiss(isSaved: state.isSaved)
+        .onChange(of: viewModel.isLoading) { updatePhoto() }
+        .cashlyDismissKeyboardOnScroll()
+        .cashlyDismiss(isSaved: viewModel.isSaved, selectedUserID: state.isNew ? state.id : nil)
+        .cashlyErrorAlert(error: Binding(get: { viewModel.error }, set: { viewModel.error = $0 }))
+        .disabled(viewModel.isLoading || viewModel.isSaved)
+        .interactiveDismissDisabled(viewModel.isLoading)
         .task { await handlerInitialState() }
     }
-    
-    func handlerInitialState() async {
-        if let initialState {
-            store.state = initialState
-        }
-        try? await Task.sleep(for: .seconds(0.5))
-        action(.addUser(.fetch))
-    }
-    
+
+    func handlerInitialState() async { await viewModel.load() }
+
     func updatePhoto() {
-        store.state.photo = state.photo ?? state.photos(for: gender).randomElement()
+        viewModel.draft.photo = state.photo ?? state.photos(for: gender).randomElement()
     }
-    
+
     var photoSection: some View {
-        Section {} header: {
+        Section {
+        } header: {
             CashlyResourceImage.avatar(id: state.photo)
                 .resizable()
                 .scaledToFit()
@@ -68,22 +58,24 @@ public struct AddUserScreen: CashlyView {
                 .frame(maxWidth: .infinity)
         }
     }
-    
+
     var repeatButton: some View {
-        CashlyButton {
-            store.state.photo = state.photos(for: gender).randomElement()
+        Button {
+            viewModel.draft.photo = state.photos(for: gender).randomElement()
         } label: {
             CashlySymbol("repeat")
                 .cashly(font: .system(size: 20), weight: .bold)
         }
-        .buttonStyle(.glassProminent)
+        .cashlyProminentButton()
     }
-    
+
+    @ViewBuilder
     var nameSection: some View {
+        @Bindable var viewModel = viewModel
         Section {
             TextField(
                 "Enter the user name",
-                text: $store.state.name
+                text: $viewModel.draft.name
             )
         } header: {
             CashlyText("First & Last Name")
@@ -91,10 +83,10 @@ public struct AddUserScreen: CashlyView {
                 .cashly(color: .text)
         }
     }
-    
+
     var photosSection: some View {
         Section {
-            
+
         } header: {
             CashlyText("Photo")
                 .cashly(font: .title3, weight: .semibold)
@@ -107,7 +99,7 @@ public struct AddUserScreen: CashlyView {
             .cashlyPadding(.horizontal, .negative(.medium))
         }
     }
-    
+
     var segmentedGenderView: some View {
         Picker(selection: $gender) {
             CashlyText("Male")
@@ -120,19 +112,19 @@ public struct AddUserScreen: CashlyView {
         .pickerStyle(.segmented)
         .controlSize(.large)
     }
-    
+
     var photosGridView: some View {
         LazyVGrid(columns: [.init(.adaptive(minimum: 70), spacing: 14)], spacing: 14) {
             ForEach(state.photos(for: gender), id: \.self) { photo in
-                CashlyButton {
-                    store.state.photo = photo
+                Button {
+                    viewModel.draft.photo = photo
                 } label: {
                     CashlyResourceImage.avatar(id: photo)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 70, height: 70)
                         .overlay {
-                            if state.photo == photo {
+                            if viewModel.draft.photo == photo {
                                 Circle()
                                     .stroke(Color.accentColor, lineWidth: 4)
                                     .cashlyPadding(.negative(.extraSmall))
@@ -143,38 +135,29 @@ public struct AddUserScreen: CashlyView {
             }
         }
     }
-    
+
     var saveButton: some View {
-        CashlyButton {
-            action(.addUser(.save))
+        Button {
+            Task { await viewModel.save() }
         } label: {
             CashlySymbol("checkmark")
         }
-        .buttonStyle(.glassProminent)
-        .disabled(!state.canSave)
+        .cashlyProminentButton()
+        .accessibilityLabel("Salvar")
+        .disabled(!viewModel.canSave)
         .cashly(tint: .primary)
     }
-    
+
     @ViewBuilder
     var removeButton: some View {
-        if !state.isNew && !state.isLoading {
-            CashlyButton {
-                action(.addUser(.remove))
+        if !state.isNew && !viewModel.isLoading {
+            Button {
+                Task { await viewModel.remove() }
             } label: {
                 CashlySymbol("trash")
             }
             .cashly(tint: .text)
         }
     }
-    
-    public static var mock: some View {
-        AddUserScreen()
-    }
-}
 
-#Preview {
-    NavigationView {
-        AddUserScreen
-            .cashlyPreview()
-    }
 }

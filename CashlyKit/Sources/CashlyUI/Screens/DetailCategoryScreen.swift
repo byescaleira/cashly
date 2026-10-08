@@ -1,41 +1,39 @@
-//
-//  DetailCategoryScreen.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 15/09/25.
-//
-
-import SwiftUI
-import CashlyMock
+import CashlyDesignSystem
 import CashlyDomain
-import CashlyResource
 import CashlyPresentation
+import CashlyResource
+import Foundation
+import SwiftUI
 
-public struct DetailCategoryScreen: CashlyView {
-    @EnvironmentObject var store: CashlyStore<MainReducer, MainMiddleware>
-    
-    @Environment(\.mainState) var state
-    @Environment(\.action) var action
-    @Environment(\.router) var router
-    
-    let category: CashlyDomain.Category
-    
-    public init(category: CashlyDomain.Category) {
-        self.category = category
+public struct DetailCategoryScreen: View {
+
+    @Environment(MainViewModel.self) var state
+    @Environment(\.open) var open
+    @Environment(\.navigationSection) var section
+
+    private let categoryID: String
+    private var category: CashlyDomain.Category {
+        state.allCategories.first { $0.id == categoryID }
+            ?? CashlyDomain.Category(
+                id: categoryID, user: .empty, name: "Categoria indisponível", color: "808080",
+                icon: "questionmark")
     }
-    
+
+    public init(categoryID: String) {
+        self.categoryID = categoryID
+    }
+
     public var body: some View {
-        CashlyList {
+        List {
             headerSection
             descriptionSection
             budgetsSection
         }
         .navigationTitle(category.name.capitalized)
         .environment(\.isLoading, state.isLoading)
-        .onAppear { action(.main(.fetch)) }
-        .refreshable { action(.main(.fetch)) }
+        .refreshable { await state.load() }
     }
-    
+
     var headerSection: some View {
         Section {
             CashlyText(state.budget(for: category)?.summary)
@@ -54,13 +52,13 @@ public struct DetailCategoryScreen: CashlyView {
             .cashlyPadding(.vertical, .medium)
         }
     }
-    
+
     var descriptionSection: some View {
         Section {
-            
+
         }
     }
-    
+
     var iconView: some View {
         CashlySymbol(category.icon)
             .cashly(font: .system(size: 30))
@@ -75,27 +73,27 @@ public struct DetailCategoryScreen: CashlyView {
             }
             .cashly(symbol: .bounce.byLayer, options: .repeat(.continuous).speed(0.1))
     }
-    
+
     var amountView: some View {
         CashlyVStack(spacing: .zero) {
             CashlyText(state.budgetsAmount(for: category).currency())
                 .cashly(font: .largeTitle, weight: .black)
                 .cashly(color: .text)
-            
-            CashlyText(state.transactionsAmount(for: category).currency())
+
+            CashlyText(state.expensesAmount(for: category).currency())
                 .cashly(font: .title2, weight: .bold)
                 .cashly(color: .textSecondary)
         }
     }
-    
+
     @ViewBuilder
     var budgetsSection: some View {
         let budgets = state.budgets(for: category)
         if !budgets.isEmpty {
             Section {
                 ForEach(budgets) { budget in
-                    CashlyButton {
-                        router.route(to: .addBudget(state: .edit(id: budget.id)))
+                    Button {
+                        open(.addBudget(id: budget.id, categoryID: nil, date: nil), in: section)
                     } label: {
                         budgetItemView(budget: budget)
                     }
@@ -108,41 +106,33 @@ public struct DetailCategoryScreen: CashlyView {
             }
         }
     }
-    
+
     func budgetItemView(budget: Budget) -> some View {
         CashlyHStack(spacing: .medium) {
-            let transactionAmount = state.transactionsAmount(for: budget)
+            let transactionAmount = state.expensesAmount(for: budget)
             let budgetAmount = budget.amount
             let variation = transactionAmount / (budgetAmount.isZero ? 1 : budgetAmount)
             CashlyVStack(alignment: .leading, spacing: .extraSmall) {
-                CashlyText(budget.date.string.date(with: .cashly(.yearMonth))?.string(with: .cashly(.status)))
-                    .cashly(font: .callout, weight: .semibold)
+                CashlyText(
+                    budget.date.string.date(with: .cashly(.yearMonth))?.string(
+                        with: .cashly(.status))
+                )
+                .cashly(font: .callout, weight: .semibold)
                 CashlyText(variation.percentage)
             }
-            
-            CashlySpacer()
-            
+
+            Spacer()
+
             CashlyVStack(alignment: .trailing, spacing: .extraSmall) {
                 CashlyText(budgetAmount.currency())
                     .cashly(font: .callout, weight: .semibold)
                 CashlyText(transactionAmount.currency())
             }
-            
+
             CashlySymbol("chevron.forward")
                 .cashly(color: .disabled)
         }
         .cashly(font: .callout)
     }
-    
-    public static var mock: some View {
-        DetailCategoryScreen(category: .mock)
-    }
-}
 
-#Preview {
-    NavigationView {
-        DetailCategoryScreen
-            .cashlyPreview()
-    }
 }
-

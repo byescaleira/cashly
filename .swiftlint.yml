@@ -1,0 +1,47 @@
+# swift-format owns whitespace, layout and import ordering.
+# SwiftLint focuses on potentially unsafe or unintended code.
+included:
+  - Cashly/Cashly
+  - CashlyKit/Sources
+  - CashlyKit/Package.swift
+
+excluded:
+  - CashlyKit/Tests
+  - CashlyKit/.build
+  - CashlyKit/.swiftpm
+  - .tools
+
+only_rules:
+  - blanket_disable_command
+  - compiler_protocol_init
+  - discarded_notification_center_observer
+  - duplicate_conditions
+  - duplicate_enum_cases
+  - duplicate_imports
+  - duplicated_key_in_dictionary_literal
+  - fatal_error_message
+  - force_cast
+  - force_try
+  - force_unwrapping
+  - identical_operands
+  - implicitly_unwrapped_optional
+  - invalid_swiftlint_command
+  - notification_center_detachment
+  - orphaned_doc_comment
+  - overridden_super_call
+  - prohibited_super_call
+  - unhandled_throwing_task
+  - unused_closure_parameter
+  - unused_control_flow_label
+  - unused_optional_binding
+  - unused_setter_value
+  - weak_delegate
+
+force_cast: error
+force_try: error
+force_unwrapping: error
+implicitly_unwrapped_optional: error
+strict: true
+allow_zero_lintable_files: false
+check_for_updates: false
+reporter: xcode

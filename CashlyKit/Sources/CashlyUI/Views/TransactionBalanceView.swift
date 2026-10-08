@@ -1,28 +1,23 @@
-//
-//  TransactionTransactionBalanceView.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 08/09/25.
-//
-
-import SwiftUI
+import CashlyDesignSystem
 import CashlyDomain
-import CashlyResource
 import CashlyPresentation
-import CashlyMock
+import CashlyResource
+import Foundation
+import SwiftUI
 
-struct TransactionBalanceView: CashlyView {
-    @Environment(\.theme) var theme
-    @Environment(\.mainState) var state
-    
+struct TransactionBalanceView: View {
+    @Environment(MainViewModel.self) var state
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State var isAnimated: Bool = false
-    
+
     @ViewBuilder
     var body: some View {
         if !state.categories.isEmpty,
-           !state.budgets.isEmpty {
+            !state.budgets.isEmpty
+        {
             Section {
-                
+
             } header: {
                 CashlyVStack(spacing: .medium) {
                     statusView
@@ -34,76 +29,73 @@ struct TransactionBalanceView: CashlyView {
                 .cashlyPadding(.top, .medium)
             }
             .environment(\.isLoading, state.isLoading)
-            .onAppear {
+            .task(id: reduceMotion) {
                 isAnimated = false
-                Task {
+                guard !reduceMotion else { return }
+                do {
                     try await Task.sleep(for: .seconds(1))
+                    try Task.checkCancellation()
                     isAnimated = true
-                }
+                } catch {}
             }
         }
     }
-    
+
     @ViewBuilder
     var statusView: some View {
-        let status = state.filter.isFilteringByDate ? state.filter.startDate.string(with: .cashly(.status)) ?? "" : "All Data"
+        let status =
+            state.filter.isFilteringByDate
+            ? state.filter.startDate.string(with: .cashly(.status)) ?? "" : "All Data"
         CashlyText(status.uppercased())
             .cashly(font: .caption, weight: .bold)
             .cashly(color: .primary)
             .cashlyPadding()
             .cashlyPadding(.horizontal, .extraSmall)
-            .cashly(glass: .clear.tint(theme.color.primary.opacity(0.2)).interactive(), in: .capsule)
+            .cashlyContentSurface(tint: Color.accentColor.opacity(0.2), in: .capsule)
     }
-    
+
     var amountView: some View {
         CashlyVStack(spacing: .zero) {
-            CashlyText(state.transactionsAmount.currency())
+            CashlyText(state.expensesAmount.currency())
                 .cashly(font: .largeTitle, weight: .black)
                 .cashly(color: .text)
-                .contentTransition(.numericText(value: state.transactionsAmount))
+                .contentTransition(.numericText(value: state.expensesAmount))
         }
     }
-    
+
     @ViewBuilder
     func biggestTagsView(tags: [Tag]) -> some View {
         if !tags.isEmpty {
-            GlassEffectContainer {
-                CashlyHStack(spacing: .zero) {
-                    ForEach(tags.enumerated(), id: \.offset) { index, tag in
-                        let isEven = index.isEven
-                        let point: CGFloat = isAnimated ? (isEven ? -3 : 3) : (isEven ? 3 : -3)
-                        CashlySymbol(tag.icon)
-                            .cashly(font: .system(size: 18))
-                            .cashly(color: .hex(tag.color))
-                            .frame(width: 45, height: 45)
-                            .overlay(alignment: isEven ? .topLeading : .bottomLeading) {
-                                CashlyText((index + 1).string)
-                                    .cashly(font: .caption, weight: .bold)
-                                    .cashly(color: .hex(tag.color))
-                                    .cashlyPadding()
-                                    .cashly(background: .background)
-                                    .cashly(clip: .circle)
-                                    .cashlyPadding(.negative(.small))
-                            }
-                            .cashly(glass: .clear.tint(Color(hex: tag.color).opacity(0.2)).interactive(), in: .circle)
-                            .offset(y: point)
-                            .animation(.linear.speed(0.5).repeatCount(isAnimated ? .max : .zero, autoreverses: true), value: isAnimated)
-                    }
+            CashlyHStack(spacing: .zero) {
+                ForEach(tags.enumerated(), id: \.offset) { index, tag in
+                    let isEven = index.isEven
+                    let point: CGFloat = isAnimated ? (isEven ? -3 : 3) : (isEven ? 3 : -3)
+                    CashlySymbol(tag.icon)
+                        .cashly(font: .system(size: 18))
+                        .cashly(color: .hex(tag.color))
+                        .frame(width: 45, height: 45)
+                        .overlay(alignment: isEven ? .topLeading : .bottomLeading) {
+                            CashlyText((index + 1).string)
+                                .cashly(font: .caption, weight: .bold)
+                                .cashly(color: .hex(tag.color))
+                                .cashlyPadding()
+                                .cashly(background: .background)
+                                .cashly(clip: .circle)
+                                .cashlyPadding(.negative(.small))
+                        }
+                        .cashlyContentSurface(
+                            tint: Color(hex: tag.color).opacity(0.2), in: .circle
+                        )
+                        .offset(y: point)
+                        .animation(
+                            .linear.speed(0.5).repeatCount(
+                                isAnimated ? .max : .zero, autoreverses: true),
+                            value: isAnimated)
                 }
             }
             .minimumScaleFactor(0.3)
             .cashly(alignment: .center)
         }
     }
-    
-    static var mock: some View {
-        TransactionBalanceView()
-    }
-}
 
-#Preview {
-    CashlyList {
-        TransactionBalanceView
-            .cashlyPreview()
-    }
 }

@@ -1,10 +1,4 @@
-//
-//  CashlySymbolCategory.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 02/09/25.
-//
-
+import Foundation
 import SwiftUI
 
 public enum CashlySymbolCategory: Int, Hashable, CaseIterable {
@@ -16,7 +10,7 @@ public enum CashlySymbolCategory: Int, Hashable, CaseIterable {
     case entertainment
     case education
     case technology
-    
+
     public var name: String {
         switch self {
         case .food: return "Food & Shopping"
@@ -29,7 +23,7 @@ public enum CashlySymbolCategory: Int, Hashable, CaseIterable {
         case .technology: return "Technology & Communication"
         }
     }
-    
+
     public var symbols: [String] {
         switch self {
         case .food:
@@ -56,9 +50,9 @@ public enum CashlySymbolCategory: Int, Hashable, CaseIterable {
                 "bag.fill.badge.plus",
                 "creditcard.fill",
                 "creditcard.rewards.fill",
-                "giftcard.fill"
+                "giftcard.fill",
             ]
-            
+
         case .transport:
             return [
                 "figure.walk",
@@ -106,9 +100,9 @@ public enum CashlySymbolCategory: Int, Hashable, CaseIterable {
                 "house.and.flag.fill",
                 "building.2.fill",
                 "drone.fill",
-                "sunglasses.fill"
+                "sunglasses.fill",
             ]
-            
+
         case .housing:
             return [
                 "thermometer.and.ellipsis",
@@ -167,9 +161,9 @@ public enum CashlySymbolCategory: Int, Hashable, CaseIterable {
                 "scanner.fill",
                 "building.fill",
                 "key.2.on.ring.fill",
-                "shippingbox.fill"
+                "shippingbox.fill",
             ]
-            
+
         case .utilities:
             return [
                 "folder.fill",
@@ -230,9 +224,9 @@ public enum CashlySymbolCategory: Int, Hashable, CaseIterable {
                 "flame.fill",
                 "bolt.fill",
                 "apple.meditate",
-                "atom"
+                "atom",
             ]
-            
+
         case .health:
             return [
                 "figure.walk",
@@ -304,9 +298,9 @@ public enum CashlySymbolCategory: Int, Hashable, CaseIterable {
                 "staroflife.fill",
                 "heart.text.square.fill",
                 "waveform.path.ecg",
-                "waveform.path.ecg.rectangle.fill"
+                "waveform.path.ecg.rectangle.fill",
             ]
-            
+
         case .entertainment:
             return [
                 "paperplane.fill",
@@ -338,9 +332,9 @@ public enum CashlySymbolCategory: Int, Hashable, CaseIterable {
                 "gamecontroller.fill",
                 "paintpalette.fill",
                 "swatchpalette.fill",
-                "birthday.cake.fill"
+                "birthday.cake.fill",
             ]
-            
+
         case .education:
             return [
                 "pencil",
@@ -402,9 +396,9 @@ public enum CashlySymbolCategory: Int, Hashable, CaseIterable {
                 "character.text.justify",
                 "text.line.magnify",
                 "textformat.characters.dottedunderline",
-                "bold.italic.underline"
+                "bold.italic.underline",
             ]
-            
+
         case .technology:
             return [
                 "keyboard.fill",
@@ -470,16 +464,15 @@ public enum CashlySymbolCategory: Int, Hashable, CaseIterable {
                 "mediastick",
                 "tv",
                 "tv.and.hifispeaker.fill",
-                "tv.and.mediabox.fill"
+                "tv.and.mediabox.fill",
             ]
         }
     }
 
-    
     public static var random: CashlySymbolCategory {
         allCases.randomElement() ?? .technology
     }
-    
+
     public static var randomSymbol: String {
         CashlySymbolCategory.random.symbols.randomElement() ?? "questionmark"
     }

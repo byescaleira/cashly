@@ -1,69 +1,54 @@
-//
-//  CashlyDataFactory.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 29/08/25.
-//
-
-import SwiftData
 import CashlyDomain
+import Foundation
+import SwiftData
 
 public struct CashlyDataFactory: CashlyDataFactoryProtocol {
-    let modelContainer: ModelContainer
-    
-    public init() {
-        do {
-            let schema = Schema(
-                BudgetEntity.self,
-                CategoryEntity.self,
-                TransactionEntity.self,
-                UserEntity.self,
-                TagEntity.self,
-                ParticipantEntity.self
-            )
-            
-            let configuration = ModelConfiguration(
-                schema: schema,
-                isStoredInMemoryOnly: false,
-                cloudKitDatabase: .private("iCloud.cashly")
-            )
-            
-            let container = try ModelContainer(
-                for: schema,
-                configurations: configuration
-            )
-            
-            modelContainer = container
-        } catch {
-            fatalError(error.localizedDescription)
+    public let modelContainer: ModelContainer
+    public let userID: String?
+    private let repository: CashlyRepository
+    public init(modelContainer: ModelContainer) {
+        self.modelContainer = modelContainer
+        self.userID = nil
+        self.repository = CashlyRepository(modelContainer: modelContainer)
+    }
+    private init(modelContainer: ModelContainer, repository: CashlyRepository, userID: String?) {
+        self.modelContainer = modelContainer
+        self.repository = repository
+        self.userID = userID
+    }
+    public static func make(inMemory: Bool = false, cloudSync: Bool = true, storeURL: URL? = nil)
+        throws -> Self
+    {
+        let schema = Schema(versionedSchema: CashlySchemaV3.self)
+        let database: ModelConfiguration.CloudKitDatabase =
+            inMemory || !cloudSync ? .none : .private("iCloud.cashly")
+        let configuration: ModelConfiguration
+        if let storeURL {
+            configuration = ModelConfiguration(
+                schema: schema, url: storeURL, cloudKitDatabase: database)
+        } else {
+            configuration = ModelConfiguration(
+                schema: schema, isStoredInMemoryOnly: inMemory, cloudKitDatabase: database)
+        }
+        return try CashlyMetrics.measure("OpenStore") {
+            Self(
+                modelContainer: try ModelContainer(
+                    for: schema, migrationPlan: CashlyMigrationPlan.self,
+                    configurations: configuration))
         }
     }
-    
-    public func makeAdapter() -> AdapterUseCase {
-        AdapterActor(modelContainer: modelContainer)
+    public func scoped(to userID: String?) -> any CashlyDataFactoryProtocol {
+        Self(modelContainer: modelContainer, repository: repository, userID: userID)
     }
-    
-    public func makeBudgetUseCase() -> BudgetUseCase {
-        BudgetActor(modelContainer: modelContainer)
+    private var gateway: CashlyScopedRepository {
+        CashlyScopedRepository(repository: repository, userID: userID)
     }
-    
-    public func makeCategoryUseCase() -> CategoryUseCase {
-        CategoryActor(modelContainer: modelContainer)
-    }
-    
-    public func makeUserUseCase() -> UserUseCase {
-        UserActor(modelContainer: modelContainer)
-    }
-    
-    public func makeTransactionUseCase() -> TransactionUseCase {
-        TransactionActor(modelContainer: modelContainer)
-    }
-    
-    public func makeTagUseCase() -> TagUseCase {
-        TagActor(modelContainer: modelContainer)
-    }
-    
-    public func makeParticipantUseCase() -> any ParticipantUseCase {
-        ParticipantActor(modelContainer: modelContainer)
-    }
+    public func makeSnapshotUseCase() -> any SnapshotUseCase { gateway }
+    public func makeDashboardUseCase() -> any DashboardUseCase { gateway }
+    public func makeDataChangeUseCase() -> any DataChangeUseCase { repository.changeHub }
+    public func makeBudgetUseCase() -> any BudgetUseCase { gateway }
+    public func makeCategoryUseCase() -> any CategoryUseCase { gateway }
+    public func makeUserUseCase() -> any UserUseCase { gateway }
+    public func makeTransactionUseCase() -> any TransactionUseCase { gateway }
+    public func makeTagUseCase() -> any TagUseCase { gateway }
 }

@@ -1,59 +1,53 @@
-//
-//  FilterItemView.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 16/09/25.
-//
-
-import SwiftUI
+import CashlyDesignSystem
 import CashlyDomain
-import CashlyResource
 import CashlyPresentation
-import CashlyMock
+import CashlyResource
+import Foundation
+import SwiftUI
 
-struct FilterItemView: CashlyView {
-    @EnvironmentObject var store: CashlyStore<MainReducer, MainMiddleware>
-    
-    @Environment(\.mainState) var state
-    @Environment(\.action) var action
-    @Environment(\.router) var router
-    
+struct FilterItemView: View {
+
+    @Environment(MainViewModel.self) var state
+    @Environment(\.open) var open
+    @Environment(\.navigationSection) var section
+
     var selectedMenus: Set<FilterItem>
-    
+
     init(menus: [FilterItem] = FilterItem.allCases) {
         selectedMenus = Set(menus)
     }
-    
+
     func contains(_ menu: FilterItem) -> Bool {
         selectedMenus.contains(menu)
     }
-    
+
     @ViewBuilder
     var body: some View {
         if state.user != nil,
-           !state.filter.allCategories.isEmpty {
+            !state.allCategories.isEmpty
+        {
             Menu {
                 if contains(.date) {
                     toggleDateMenu
                     Divider()
                 }
-                
-                if contains(.categories), !state.filter.allCategories.isEmpty {
+
+                if contains(.categories), !state.allCategories.isEmpty {
                     categoriesMenu
                 }
-                
-                if contains(.tags), !state.filter.allTags.isEmpty {
+
+                if contains(.tags), !state.allTags.isEmpty {
                     tagsMenu
                 }
-                
-                if contains(.statuses), !state.filter.allTransactions.isEmpty {
+
+                if contains(.statuses), state.hasTransactions {
                     statusesMenu
                 }
-                
-                if contains(.participants), !state.users.isEmpty, !state.filter.allTransactions.isEmpty {
+
+                if contains(.participants), !state.users.isEmpty, state.hasTransactions {
                     participantsMenu
                 }
-                
+
                 cleanMenu
             } label: {
                 CashlySymbol("line.3.horizontal.decrease")
@@ -63,29 +57,48 @@ struct FilterItemView: CashlyView {
             .buttonStyle(.plain)
         }
     }
-    
-    @State var month: String = ""
-    @State var year: Int = .zero
-    
+
+    private var selectedMonth: Binding<Int> {
+        Binding(
+            get: { state.filter.startDate.timeIntervalSince1970.yearMonth % 100 },
+            set: { month in
+                let year = state.filter.startDate.timeIntervalSince1970.yearMonth / 100
+                if let date = Date.from(yearMonth: year * 100 + month) {
+                    state.filter.startDate = date
+                }
+            })
+    }
+    private var selectedYear: Binding<Int> {
+        Binding(
+            get: { state.filter.startDate.timeIntervalSince1970.yearMonth / 100 },
+            set: { year in
+                let month = state.filter.startDate.timeIntervalSince1970.yearMonth % 100
+                if let date = Date.from(yearMonth: year * 100 + month) {
+                    state.filter.startDate = date
+                }
+            })
+    }
+
     @ViewBuilder
     var toggleDateMenu: some View {
+        @Bindable var state = state
         Menu {
-            Toggle(isOn: $store.state.filter.isFilteringByDate) {
+            Toggle(isOn: $state.filter.isFilteringByDate) {
                 CashlyText("Filter by Date")
             }
-            
+
             if state.filter.isFilteringByDate {
-                let months = Calendar.current.monthSymbols
+                let months = CashlyCalendar.current.monthSymbols
                 let currentYear = Date.now.string(with: .cashly(.year))?.int ?? .zero
-                let years = ((currentYear - 5) ... (currentYear + 5))
-                
+                let years = ((currentYear - 5)...(currentYear + 5))
+
                 Divider()
-                
+
                 Menu {
-                    Picker(selection: $month) {
-                        ForEach(months, id: \.self) { month in
+                    Picker(selection: selectedMonth) {
+                        ForEach(Array(months.enumerated()), id: \.offset) { index, month in
                             CashlyText(month.capitalized)
-                                .tag(month)
+                                .tag(index + 1)
                         }
                     } label: {
                         EmptyView()
@@ -93,14 +106,8 @@ struct FilterItemView: CashlyView {
                 } label: {
                     CashlyText(state.filter.startDate.string(with: .cashly(.month))?.capitalized)
                 }
-                .onAppear {
-                    month = month.isEmpty ? state.filter.startDate.string(with: .cashly(.month)) ?? "" : month
-                    year = year == .zero ? state.filter.startDate.string(with: .cashly(.year))?.int ?? .zero : year
-                }
-                .onChange(of: month) { updateDate() }
-                
                 Menu {
-                    Picker(selection: $year) {
+                    Picker(selection: selectedYear) {
                         ForEach(years, id: \.self) { year in
                             CashlyText(year.string)
                                 .tag(year)
@@ -111,13 +118,14 @@ struct FilterItemView: CashlyView {
                 } label: {
                     CashlyText(state.filter.startDate.string(with: .cashly(.year))?.capitalized)
                 }
-                .onChange(of: year) { updateDate() }
-                
-                if state.filter.startDate.timeIntervalSince1970.yearMonth != Date.now.timeIntervalSince1970.yearMonth {
+
+                if state.filter.startDate.timeIntervalSince1970.yearMonth
+                    != Date.now.timeIntervalSince1970.yearMonth
+                {
                     Divider()
-                    
-                    CashlyButton {
-                        store.state.filter.startDate = .now
+
+                    Button {
+                        state.filter.startDate = .now
                     } label: {
                         CashlyLabel("Today", symbol: "location")
                     }
@@ -128,18 +136,13 @@ struct FilterItemView: CashlyView {
         }
         .cashly(tint: .text)
     }
-    
-    func updateDate() {
-        let month = month.date(with: .cashly(.month))?.string(with: .cashly(.numberMonth))?.int ?? 0
-        let date = ((year * 100) + month).string.date(with: .cashly(.yearMonth)) ?? .now
-        store.state.filter.startDate = date
-    }
-    
+
     @ViewBuilder
     var categoriesMenu: some View {
+        @Bindable var state = state
         CashlyMenuSelectionView(
-            items: state.filter.allCategories,
-            selectedItems: $store.state.filter.categories
+            items: state.allCategories,
+            selectedItems: $state.filter.categories
         ) { category in
             CashlyText(category.name.capitalized)
         } label: {
@@ -150,12 +153,13 @@ struct FilterItemView: CashlyView {
         }
         .cashly(tint: .text)
     }
-    
+
     @ViewBuilder
     var tagsMenu: some View {
+        @Bindable var state = state
         CashlyMenuSelectionView(
-            items: state.filter.allTags,
-            selectedItems: $store.state.filter.tags
+            items: state.allTags,
+            selectedItems: $state.filter.tags
         ) { tag in
             CashlyText(tag.name.capitalized)
         } label: {
@@ -166,12 +170,13 @@ struct FilterItemView: CashlyView {
         }
         .cashly(tint: .text)
     }
-    
+
     @ViewBuilder
     var statusesMenu: some View {
+        @Bindable var state = state
         CashlyMenuSelectionView(
-            items: state.filter.allStatuses,
-            selectedItems: $store.state.filter.transactionStatuses
+            items: state.allStatuses,
+            selectedItems: $state.filter.transactionStatuses
         ) { status in
             CashlyText(status.summary)
         } label: {
@@ -182,12 +187,13 @@ struct FilterItemView: CashlyView {
         }
         .cashly(tint: .text)
     }
-    
+
     @ViewBuilder
     var participantsMenu: some View {
+        @Bindable var state = state
         CashlyMenuSelectionView(
             items: state.users,
-            selectedItems: $store.state.filter.participants
+            selectedItems: $state.filter.participants
         ) { user in
             CashlyText(user.name)
         } label: {
@@ -198,33 +204,31 @@ struct FilterItemView: CashlyView {
         }
         .cashly(tint: .text)
     }
-    
+
     @ViewBuilder
     var cleanMenu: some View {
-        if !state.filter.isFilteringByDate ||
-            (state.filter.isFilteringByDate && state.filter.startDate.timeIntervalSince1970.yearMonth != Date.now.timeIntervalSince1970.yearMonth) ||
-            !state.filter.categories.isEmpty ||
-            !state.filter.tags.isEmpty ||
-            !state.filter.transactionStatuses.isEmpty ||
-            !state.filter.participants.isEmpty {
+        if !state.filter.isFilteringByDate
+            || (state.filter.isFilteringByDate
+                && state.filter.startDate.timeIntervalSince1970.yearMonth
+                    != Date.now.timeIntervalSince1970.yearMonth)
+            || !state.filter.categories.isEmpty || !state.filter.tags.isEmpty
+            || !state.filter.transactionStatuses.isEmpty || !state.filter.participants.isEmpty
+        {
             Divider()
-            CashlyButton {
-                store.state.filter.isFilteringByDate = true
-                store.state.filter.startDate = Date.now
-                store.state.filter.categories = []
-                store.state.filter.tags = []
-                store.state.filter.transactionStatuses = []
-                store.state.filter.participants = []
+            Button {
+                state.filter.isFilteringByDate = true
+                state.filter.startDate = Date.now
+                state.filter.categories = []
+                state.filter.tags = []
+                state.filter.transactionStatuses = []
+                state.filter.participants = []
             } label: {
                 CashlyLabel("Clear", symbol: "eraser.line.dashed")
             }
             .cashly(tint: .text)
         }
     }
-    
-    static var mock: some View {
-        FilterItemView()
-    }
+
 }
 
 public enum FilterItem: Int, Identifiable, CaseIterable {
@@ -233,19 +237,8 @@ public enum FilterItem: Int, Identifiable, CaseIterable {
     case tags
     case statuses
     case participants
-    
+
     public var id: Int {
         rawValue
-    }
-}
-
-#Preview {
-    NavigationView {
-        CashlyList {
-              
-        }
-        .toolbar {
-            ToolbarItem { FilterItemView.cashlyPreview() }
-        }
     }
 }

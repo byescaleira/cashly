@@ -1,79 +1,50 @@
-//
-//  CashlyIntelligenceModifier.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 24/09/25.
-//
-
-import SwiftUI
-import Combine
 import CashlyDomain
+import CashlyPresentation
+import Foundation
+import SwiftUI
 
 struct CashlyIntelligenceModifier: ViewModifier {
-    @Environment(\.user) var user
- 
-    @State var prediction: CashlyPrediction?
+    @Environment(\.user) private var user
+    @Environment(IntelligenceViewModel.self) private var intelligence
     @Binding var input: CashlyPredictionInput
     @Binding var result: CashlyPredictionResult
-    
-    let timer: Publishers.Autoconnect<Timer.TimerPublisher>?
-    
     let model: CashlyIntelligence
     let isActive: Bool
-    
     init(
-        model: CashlyIntelligence,
-        isActive: Bool = true,
-        input: Binding<CashlyPredictionInput>,
-        publishEvery: TimeInterval? = nil,
+        model: CashlyIntelligence, isActive: Bool = true, input: Binding<CashlyPredictionInput>,
         result: Binding<CashlyPredictionResult>
     ) {
         self.model = model
         self.isActive = isActive
         self._input = input
         self._result = result
-        
-        if let publishEvery {
-            timer = Timer.publish(
-                every: publishEvery,
-                on: .main,
-                in: .common
-            ).autoconnect()
-        } else {
-            timer = nil
-        }
     }
-    
+    private struct Request: Hashable {
+        let userID: String?
+        let input: CashlyPredictionInput
+        let isActive: Bool
+        let revision: String
+        let modelDates: [Date]
+    }
     func body(content: Content) -> some View {
-        content
-            .onAppear { setupPrediction() }
-            .cashly(if: timer == nil) {
-                $0.onChange(of: input) { predict() }
+        content.task(
+            id: Request(
+                userID: user?.id, input: input, isActive: isActive,
+                revision: intelligence.datasetRevision,
+                modelDates: intelligence.models.map(\.updateDate))
+        ) {
+            guard let user, isActive, input != .empty, intelligence.hasModel(model) else {
+                result = .empty
+                return
             }
-            .cashly(item: timer) {
-                $0.onReceive($1) { _ in predict() }
-            }
-    }
-    
-    func setupPrediction() {
-        guard let user,
-              let model = model.model(for: user)
-        else { return }
-        Task { @MainActor in
-            prediction = await CashlyPrediction(model: model)
+            let request = input
+            do {
+                try await Task.sleep(for: .milliseconds(350))
+                let prediction = await intelligence.predict(user: user, input: request)
+                try Task.checkCancellation()
+                result = prediction
+                if model != .categoryName { input = .empty }
+            } catch is CancellationError {} catch { result = .empty }
         }
-    }
-    
-    func predict() {
-        guard let prediction, isActive else { return }
-        let input = input
-        Task { @MainActor in
-            switch model {
-            case .budgetValue: result = await prediction.regressionPrediction(from: input)
-            case .categoryName: result = await prediction.textPrediction(from: input)
-            case .tagValue: result = await prediction.regressionPrediction(from: input)
-            }
-        }
-        self.input = .empty
     }
 }

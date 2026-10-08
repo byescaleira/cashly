@@ -1,30 +1,22 @@
-//
-//  AddTagScreen.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 10/09/25.
-//
-
-import SwiftUI
-import CashlyMock
+import CashlyDesignSystem
 import CashlyDomain
 import CashlyPresentation
+import Foundation
+import SwiftUI
 
-public struct AddTagScreen: CashlyView {
-    @EnvironmentObject var store: CashlyStore<AddTagReducer, AddTagMiddleware>
-    
-    @Environment(\.addTagState) var state
-    @Environment(\.action) var action
-    @Environment(\.router) var router
-    
+public struct AddTagScreen: View {
+    @State private var viewModel: TagViewModel
+
+    var state: TagDraft { viewModel.draft }
+    @Environment(\.open) var open
+    @Environment(\.navigationSection) var section
+
     @State var category: CashlySymbolCategory = .random
-    
-    var initialState: AddTagState?
-    
-    public init(initialState: AddTagState? = nil) {
-        self.initialState = initialState
+
+    public init(draft: TagDraft, factory: CashlyPresentationFactory) {
+        _viewModel = State(initialValue: factory.makeTagViewModel(draft: draft))
     }
-    
+
     public var body: some View {
         Form {
             infoSection
@@ -38,32 +30,32 @@ public struct AddTagScreen: CashlyView {
                 saveButton
             }
         }
-        .onChange(of: state.isLoading) { setIcon() }
+        .onChange(of: viewModel.isLoading) { setIcon() }
         .task { await handlerInitialState() }
-        .scrollDismissesKeyboard(.immediately)
-        .cashlyDismiss(isSaved: state.isSaved)
-        .environment(\.isLoading, state.isLoading)
+        .cashlyDismissKeyboardOnScroll()
+        .cashlyDismiss(isSaved: viewModel.isSaved)
+        .cashlyErrorAlert(error: Binding(get: { viewModel.error }, set: { viewModel.error = $0 }))
+        .disabled(viewModel.isLoading || viewModel.isSaved)
+        .interactiveDismissDisabled(viewModel.isLoading)
+        .environment(\.isLoading, viewModel.isLoading)
     }
-    
-    func handlerInitialState() async {
-        if let initialState {
-            store.state = initialState
-        }
-        try? await Task.sleep(for: .seconds(0.5))
-        action(.addTag(.fetch))
-    }
-    
+
+    func handlerInitialState() async { await viewModel.load() }
+
     var infoSection: some View {
-        Section {} header: {
+        Section {
+        } header: {
             iconHeaderView
         }
     }
-    
+
+    @ViewBuilder
     var nameSection: some View {
+        @Bindable var viewModel = viewModel
         Section {
             TextField(
                 "Enter the tag name",
-                text: $store.state.name
+                text: $viewModel.draft.name
             )
         } header: {
             CashlyText("Name")
@@ -71,14 +63,14 @@ public struct AddTagScreen: CashlyView {
                 .cashly(color: .text)
         }
     }
-    
+
     var iconTagSection: some View {
         Section {
             CashlyHStack {
                 CashlyText("Category")
-                
-                CashlySpacer()
-                
+
+                Spacer()
+
                 Menu {
                     Picker(selection: $category) {
                         ForEach(CashlySymbolCategory.allCases, id: \.self) {
@@ -110,29 +102,33 @@ public struct AddTagScreen: CashlyView {
                             .cashlyPadding()
                     }
                 }
-                .onChange(of: state.icon) {
-                    Task {
-                        try await Task.sleep(for: .seconds(0.2))
+                .task(id: state.icon) {
+                    do {
+                        try await Task.sleep(for: .milliseconds(200))
+                        try Task.checkCancellation()
                         withAnimation(.bouncy.speed(0.5)) {
                             proxy.scrollTo(state.icon, anchor: .center)
                         }
-                    }
+                    } catch {}
                 }
                 .padding(.horizontal, 40)
             }
             .padding(.horizontal, -40)
         }
     }
-    
+
     func iconItemView(item: String) -> some View {
-        CashlyButton {
-            store.state.icon = item
+        Button {
+            viewModel.draft.icon = item
         } label: {
             CashlySymbol(item)
                 .cashly(font: .system(size: 18))
                 .cashly(color: item == state.icon ? .color(state.color) : .color(.gray))
                 .frame(width: 40, height: 40)
-                .cashly(background: item == state.icon ? .color(state.color.opacity(0.2)) : .color(.gray.opacity(0.2)))
+                .cashly(
+                    background: item == state.icon
+                        ? .color(state.color.opacity(0.2)) : .color(.gray.opacity(0.2))
+                )
                 .cashly(clip: .circle)
                 .overlay {
                     if item == state.icon {
@@ -150,8 +146,10 @@ public struct AddTagScreen: CashlyView {
         }
         .buttonStyle(.plain)
     }
-    
+
+    @ViewBuilder
     var iconHeaderView: some View {
+        @Bindable var viewModel = viewModel
         CashlySymbol(state.icon, mode: .hierarchical)
             .cashly(font: .system(size: 50))
             .cashly(
@@ -166,50 +164,41 @@ public struct AddTagScreen: CashlyView {
             }
             .frame(width: 140, height: 140)
             .overlay(alignment: .bottom) {
-                ColorPicker("", selection: $store.state.color)
+                ColorPicker("", selection: $viewModel.draft.color)
                     .scaleEffect(1.5)
             }
             .frame(maxWidth: .infinity)
             .contentTransition(.symbolEffect(.replace))
             .cashlyPadding(.top, .medium)
     }
-    
+
     var saveButton: some View {
-        CashlyButton {
-            action(.addTag(.save))
+        Button {
+            Task { await viewModel.save() }
         } label: {
             CashlySymbol("checkmark")
         }
-        .buttonStyle(.glassProminent)
-        .disabled(!state.canSave)
+        .cashlyProminentButton()
+        .accessibilityLabel("Salvar")
+        .disabled(!viewModel.canSave)
         .cashly(tint: state.canSave ? .primary : .disabled)
     }
-    
+
     @ViewBuilder
     var removeButton: some View {
-        if !state.isNew && !state.isLoading {
-            CashlyButton {
-                action(.addTag(.remove))
+        if !state.isNew && !viewModel.isLoading {
+            Button {
+                Task { await viewModel.remove() }
             } label: {
                 CashlySymbol("trash")
             }
             .cashly(tint: .text)
         }
     }
-    
-    func setIcon() {
-        guard !state.isLoading && state.isNew && state.icon.isEmpty else { return }
-        store.state.icon = category.symbols.first ?? ""
-    }
-    
-    public static var mock: some View {
-        AddTagScreen()
-    }
-}
 
-#Preview {
-    NavigationView {
-        AddTagScreen
-            .cashlyPreview()
+    func setIcon() {
+        guard !viewModel.isLoading && state.isNew && state.icon.isEmpty else { return }
+        viewModel.draft.icon = category.symbols.first ?? ""
     }
+
 }

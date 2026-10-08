@@ -30,6 +30,8 @@ playground.xcworkspace
 # .swiftpm
 
 .build/
+.tools/
+.swiftlint_cache/
 
 # CocoaPods
 #

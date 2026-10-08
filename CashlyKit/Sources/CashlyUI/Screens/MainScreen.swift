@@ -1,121 +1,55 @@
-//
-//  MainScreen.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 09/09/25.
-//
-
-import SwiftUI
-import CashlyMock
+import CashlyDesignSystem
+import CashlyDomain
 import CashlyPresentation
+import SwiftUI
 
-public struct MainScreen: CashlyView {
-    @EnvironmentObject var store: CashlyStore<MainReducer, MainMiddleware>
-    
-    @Environment(\.mainState) var state
-    @Environment(\.action) var action
-    
-    @State var tabItem: MainTabItem = .home
-    
+public struct MainScreen: View {
+    @Environment(MainViewModel.self) private var main
+    @Environment(IntelligenceViewModel.self) private var intelligence
+    @Environment(CashlyNavigation.self) private var navigation
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     public init() {}
-    
-    public var body: some View {
-        tabView
-    }
-    
-    var tabView: some View {
-        TabView(selection: $tabItem) {
-            Tab("Intelligence", systemImage: "cpu", value: .intelligence) {
-                intelligenceScreen
-            }
-            
-            Tab("Categories", systemImage: "tag", value: .category) {
-                categoriesScreen
-            }
-            
-            Tab("Home", systemImage: "house", value: .home) {
-                homeScreen
-            }
-            
-            Tab("Transactions", systemImage: "wallet.bifold", value: .transaction) {
-                transactionScreen
-            }
-        }
-        .tabBarMinimizeBehavior(.onScrollDown)
-        .tabViewStyle(.sidebarAdaptable)
-    }
-    
-    var intelligenceScreen: some View {
-        CashlyNavigationView(
-            router: $store.state.intelligenceRouter,
-            destination: destination(_:)
-        ) {
-            IntelligenceScreen()
-        }
-        .environment(\.router, store.state.intelligenceRouter)
-    }
-    
-    var categoriesScreen: some View {
-        CashlyNavigationView(
-            router: $store.state.categoryRouter,
-            destination: destination(_:)
-        ) {
-            CategoryScreen()
-        }
-        .environment(\.router, store.state.categoryRouter)
-    }
-    
-    var homeScreen: some View {
-        CashlyNavigationView(
-            router: $store.state.homeRouter,
-            destination: destination(_:)
-        ) {
-            HomeScreen()
-        }
-        .environment(\.router, store.state.homeRouter)
-    }
-    
-    var transactionScreen: some View {
-        CashlyNavigationView(
-            router: $store.state.transactionRouter,
-            destination: destination(_:)
-        ) {
-            TransactionScreen()
-        }
-        .environment(\.router, store.state.transactionRouter)
-    }
-    
+
     @ViewBuilder
-    func destination(_ route: MainRoute) -> any View {
-        switch route {
-        case let .addUser(state): AddUserScreen(initialState: state)
-        case let .addCategory(state): AddCategoryScreen( initialState: state)
-        case let .addBudget(state): AddBudgetScreen(initialState: state)
-        case let .addTransaction(state): AddTransactionScreen(initialState: state)
-        case let .addTag(state): AddTagScreen(initialState: state)
-        case let .detailCategory(category): DetailCategoryScreen(category: category)
-        case .category: CategoryScreen()
-        case .transaction: TransactionScreen()
-        case .home: HomeScreen()
-        case .intelligence: IntelligenceScreen()
+    public var body: some View {
+        @Bindable var navigation = navigation
+        TabView(selection: $navigation.selectedSection) {
+            ForEach(CashlySection.allCases) { section in
+                Tab(section.title, systemImage: section.systemImage, value: section) {
+                    NavigationStack(path: navigation.path(for: section)) {
+                        CashlySectionScreen(section: section)
+                            .navigationDestination(for: MainRoute.self) {
+                                CashlyRouteScreen(route: $0)
+                            }
+                    }
+                    .environment(\.navigationSection, section)
+                }
+            }
         }
+        .tabViewStyle(.sidebarAdaptable)
+        #if os(iOS)
+            .tabBarMinimizeBehavior(.onScrollDown)
+        #endif
+        .sheet(item: $navigation.sheet) { sheet in
+            CashlySheetScreen(destination: sheet)
+        }
+        .environment(
+            \.open,
+            CashlyDestination { route, section in
+                navigation.open(route, in: section, asSheet: horizontalSizeClass == .regular)
+            }
+        )
+        .environment(\.user, main.user)
+        .environment(\.isLoading, main.isLoading)
+        .task { await main.observeChanges() }
+        .task(id: main.filter) { await main.load() }
+        .task(id: (main.user?.id ?? "") + ":" + main.datasetRevision) {
+            await intelligence.loadModels(user: main.user, revision: main.datasetRevision)
+        }
+        .onChange(of: main.user?.id) { old, new in
+            if old != nil && old != new { navigation.reset() }
+        }
+        .cashlyErrorAlert(error: Binding(get: { main.error }, set: { main.error = $0 }))
     }
-    
-    public static var mock: some View {
-        MainScreen()
-    }
-}
 
-enum MainTabItem: Int, Hashable, Identifiable, CaseIterable {
-    case intelligence
-    case category
-    case home
-    case transaction
-    
-    var id: Int { rawValue }
-}
-
-#Preview {
-    MainScreen
-        .cashlyPreview()
 }

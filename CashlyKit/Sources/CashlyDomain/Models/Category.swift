@@ -1,9 +1,4 @@
-//
-//  Category.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 29/08/25.
-//
+import Foundation
 
 public struct Category: CashlyEntity, Sendable {
     public var id: String
@@ -11,7 +6,7 @@ public struct Category: CashlyEntity, Sendable {
     public var name: String
     public var color: String
     public var icon: String
-    
+
     public init(
         id: String,
         user: User,

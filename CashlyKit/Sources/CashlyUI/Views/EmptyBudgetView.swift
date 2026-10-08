@@ -1,36 +1,36 @@
-//
-//  EmptyBudgetView.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 05/09/25.
-//
-
-import SwiftUI
+import CashlyDesignSystem
 import CashlyDomain
+import CashlyPresentation
+import Foundation
+import SwiftUI
 
-struct EmptyBudgetView: CashlyView {
+struct EmptyBudgetView: View {
     @Environment(\.isLoading) var isLoading
-    @Environment(\.mainState) var state
-    @Environment(\.router) var router
-    
+    @Environment(MainViewModel.self) var state
+    @Environment(\.open) var open
+    @Environment(\.navigationSection) var section
+
     var budgets: [Budget]
-    
+
     @ViewBuilder
     var body: some View {
         if budgets.isEmpty,
-           !state.categories.isEmpty,
-           !isLoading {
+            !state.categories.isEmpty,
+            !isLoading
+        {
             Section {
-                CashlyZStack {
+                ZStack {
                     if budgets.isEmpty,
-                       !state.categories.isEmpty {
+                        !state.categories.isEmpty
+                    {
                         CashlyCardView(
                             image: .illustrationNoData,
                             title: "No Budgets Yet",
-                            subtitle: "Budgets help you stay in control of your spending. Set a budget for your categories to track and manage expenses effectively.",
+                            subtitle:
+                                "Budgets help you stay in control of your spending. Set a budget for your categories to track and manage expenses effectively.",
                             buttonTitle: "Add Budget"
                         ) {
-                            router.route(to: .addBudget(state: .new()))
+                            open(.addBudget(id: nil, categoryID: nil, date: nil), in: section)
                         }
                         .cashlyPadding(.medium)
                     }
@@ -45,16 +45,5 @@ struct EmptyBudgetView: CashlyView {
             .transition(.scale)
         }
     }
-    
-    static var mock: some View {
-        EmptyBudgetView(budgets: [])
-    }
-}
 
-#Preview {
-    CashlyList {
-        EmptyBudgetView.mock
-    }
-    .cashlyPreview()
 }
-

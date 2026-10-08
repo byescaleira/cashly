@@ -1,32 +1,31 @@
-//
-//  EmptyUserView.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 05/09/25.
-//
-
-import SwiftUI
+import CashlyDesignSystem
 import CashlyDomain
+import CashlyPresentation
+import Foundation
+import SwiftUI
 
-struct EmptyUserView: CashlyView {
+struct EmptyUserView: View {
     @Environment(\.isLoading) var isLoading
-    @Environment(\.mainState) var state
-    @Environment(\.router) var router
-    
+    @Environment(MainViewModel.self) var state
+    @Environment(\.open) var open
+    @Environment(\.navigationSection) var section
+
     @ViewBuilder
     var body: some View {
         if state.users.isEmpty,
-           !isLoading {
+            !isLoading
+        {
             Section {
-                CashlyZStack {
+                ZStack {
                     if state.users.isEmpty {
                         CashlyCardView(
                             image: .illustrationPeople,
                             title: "No Users Yet",
-                            subtitle: "Users let you share and manage your finances as a team. Add your first user to start collaborating.",
+                            subtitle:
+                                "Users let you share and manage your finances as a team. Add your first user to start collaborating.",
                             buttonTitle: "Add User"
                         ) {
-                            router.route(to: .addUser(state: .new()))
+                            open(.addUser(id: nil), in: section)
                         }
                         .cashlyPadding(.medium)
                     }
@@ -40,14 +39,5 @@ struct EmptyUserView: CashlyView {
             .transition(.scale)
         }
     }
-    
-    static var mock: some View {
-        EmptyUserView()
-    }
-}
 
-#Preview {
-    CashlyList {
-        EmptyUserView.mock
-    }
 }

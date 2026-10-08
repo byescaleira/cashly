@@ -1,10 +1,3 @@
-//
-//  Participant.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 05/09/25.
-//
-
 import Foundation
 
 public struct Participant: CashlyEntity, Sendable {
@@ -13,15 +6,17 @@ public struct Participant: CashlyEntity, Sendable {
     public var splitMode: TransactionSplitMode
     public var splitValue: Double
     public var status: TransactionStatus
+    public var allocatedMoney: Money?
     public var transaction: String
-    
+
     public init(
         id: String,
         user: User,
         splitMode: TransactionSplitMode,
         splitValue: Double,
         status: TransactionStatus,
-        transaction: String
+        transaction: String,
+        allocatedMoney: Money? = nil
     ) {
         self.id = id
         self.user = user
@@ -29,8 +24,9 @@ public struct Participant: CashlyEntity, Sendable {
         self.splitValue = splitValue
         self.status = status
         self.transaction = transaction
+        self.allocatedMoney = allocatedMoney
     }
-    
+
     public static var empty: Participant {
         Participant(
             id: "",

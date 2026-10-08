@@ -1,27 +1,21 @@
-//
-//  CategoryVariationView.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 05/09/25.
-//
-
-import SwiftUI
+import CashlyDesignSystem
 import CashlyDomain
 import CashlyPresentation
-import CashlyMock
+import Foundation
+import SwiftUI
 
-struct CategoryVariationView: CashlyView {
-    @Environment(\.mainState) var state
+struct CategoryVariationView: View {
+    @Environment(MainViewModel.self) var state
     @State var variation: Double = .zero
-    
+
     var category: CashlyDomain.Category?
     var amount: Double
-    
+
     init(category: CashlyDomain.Category? = nil, amount: Double = .zero) {
         self.category = category
         self.amount = amount
     }
-    
+
     @ViewBuilder
     var body: some View {
         if let category {
@@ -30,26 +24,22 @@ struct CategoryVariationView: CashlyView {
                 amount: amount
             )
             variationView
-                .onChange(of: variation.variationColor) { restartAnimation(value: variation) }
-                .task { restartAnimation(value: variation, needRestart: false) }
+                .task(id: variation) {
+                    self.variation = .zero
+                    do {
+                        try await Task.sleep(for: .milliseconds(500))
+                        try Task.checkCancellation()
+                        self.variation = variation
+                    } catch {}
+                }
         }
     }
-    
-    func restartAnimation(value: Double, needRestart: Bool = true) {
-        if needRestart {
-            variation = .zero
-        }
-        Task {
-            try await Task.sleep(for: .seconds(0.5))
-            variation = value
-        }
-    }
-    
+
     var variationView: some View {
-        CashlyZStack {
+        ZStack {
             if variation != .zero {
                 CashlyHStack(spacing: .extraSmall) {
-                    ForEach(1 ... 4, id: \.self) { index in
+                    ForEach(1...4, id: \.self) { index in
                         Circle()
                             .fill(getColor(index: index, variation: variation))
                             .frame(width: 10, height: 10)
@@ -62,7 +52,7 @@ struct CategoryVariationView: CashlyView {
         }
         .animation(.bouncy.speed(1.5), value: variation)
     }
-    
+
     func getColor(index: Int, variation: Double) -> Color {
         let variationColor = variation.variationColor
         switch (index, variationColor) {
@@ -73,13 +63,5 @@ struct CategoryVariationView: CashlyView {
         default: return .secondary.opacity(0.2)
         }
     }
-    
-    static var mock: some View {
-        CategoryVariationView(category: .mock)
-    }
-}
 
-#Preview {
-    CategoryVariationView
-        .cashlyPreview()
 }

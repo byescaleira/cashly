@@ -1,116 +1,52 @@
-//
-//  View+Extension.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 02/09/25.
-//
-
-import SwiftUI
-import RyzeUI
+import CashlyDesignSystem
 import CashlyDomain
+import CashlyPresentation
+import SwiftUI
+import Symbols
 
-public extension View {
-    func cashly(
-        font: Font = .callout,
-        weight: Font.Weight? = nil,
-        design: Font.Design? = .rounded
+extension View {
+    public func cashly(
+        font: Font = .callout, weight: Font.Weight? = nil, design: Font.Design? = .rounded
     ) -> some View {
-        self.ryze(
-            font: font,
-            weight: weight,
-            design: design
-        )
+        self.font(font).fontWeight(weight).fontDesign(design)
     }
-    
-    func cashly(color: CashlyColor?) -> some View {
-        self.ryze(color: color ?? .textSecondary)
+    public func cashly(color: CashlyColor?) -> some View {
+        foregroundStyle((color ?? .textSecondary).value)
     }
-    
-    func cashly(tint: CashlyColor) -> some View {
-        self.ryze(tint: tint)
+    public func cashly(tint: CashlyColor) -> some View { self.tint(tint.value) }
+    public func cashlyPadding(_ edges: Edge.Set = .all, _ spacing: CashlySpacing = .small)
+        -> some View
+    { padding(edges, spacing.value) }
+    public func cashlyPadding(_ spacing: CashlySpacing) -> some View { padding(spacing.value) }
+    public func cashly(background color: CashlyColor) -> some View { background(color.value) }
+    public func cashly(clip shape: CashlyShape) -> some View { clipShape(shape) }
+    public func cashly(alignment: TextAlignment) -> some View { multilineTextAlignment(alignment) }
+    public func cashly(loading: Bool) -> some View { redacted(reason: loading ? .placeholder : []) }
+    public func cashlyBackgroundItem() -> some View {
+        listRowBackground(Color.secondary.opacity(0.08))
     }
-    
-    func cashlyPadding(
-        _ edges: Edge.Set = .all,
-        _ spacing: CashlySpacing = .small,
+    public func cashlyRounded() -> some View { clipShape(RoundedRectangle(cornerRadius: 32)) }
+    @ViewBuilder public func cashly<Content: View>(
+        if condition: Bool, _ transform: (Self) -> Content
+    )
+        -> some View
+    {
+        if condition { transform(self) } else { self }
+    }
+    @ViewBuilder public func cashly<Content: View, Value>(
+        item: Value?, _ transform: (Self, Value) -> Content
     ) -> some View {
-        self.ryzePadding(
-            edges,
-            spacing
-        )
+        if let item { transform(self, item) } else { self }
     }
-    
-    func cashlyPadding(_ spacing: CashlySpacing = .small) -> some View {
-        self.ryzePadding(spacing)
-    }
-    
-    func cashly(glass: Glass, in shape: CashlyShape) -> some View {
-        self.glassEffect(glass, in: shape)
-    }
-    
-    func cashly(background color: CashlyColor) -> some View {
-        self.ryze(background: color)
-    }
-    
-    func cashly(clip shape: CashlyShape) -> some View {
-        self.ryze(clip: shape)
-    }
-    
-    func cashly(alignment: TextAlignment) -> some View {
-        self.ryze(alignment: alignment)
-    }
-    
-    func cashly(loading: Bool) -> some View {
-        self.ryze(if: loading) { $0.redacted(reason: .placeholder) }
-    }
-    
-    func cashlyBackgroundItem() -> some View {
-        self.ryzeBackgroundRow()
-    }
-    
-    func cashlyRounded() -> some View {
-        self.cashly(clip: .rounded(radius: 32))
-    }
-    
-    func cashly<V>(environment: WritableKeyPath<EnvironmentValues, V>, _ value: V) -> some View {
-        self.environment(environment, value)
-    }
-    
-    func cashly<T>(object: T) -> some View where T : ObservableObject {
-        self.environmentObject(object)
-    }
-    
-    func cashly(colorScheme: ColorScheme?) -> some View {
-        self.preferredColorScheme(colorScheme)
-    }
-    
-    func cashly<Content: View>(if condition: Bool, _ transform: (Self) -> Content) -> some View {
-        self.ryze(if: condition, transform: transform)
-    }
-    
-    func cashly<Content: View, Value>(item: Value?, _ transform: (Self, Value) -> Content) -> some View {
-        self.ryze(item: item, transform: transform)
-    }
-    
-    func cashlyConfetti(for seconds: Int = 3) -> some View {
-        self.ryzeConfetti(seconds: seconds)
-    }
-    
-    func cashly<T: IndefiniteSymbolEffect & SymbolEffect>(
+    public func cashly<T: IndefiniteSymbolEffect & SymbolEffect>(
         symbol effect: T,
-        options: SymbolEffectOptions = .default,
-        isActive: Bool = true
+        options: SymbolEffectOptions = .default, isActive: Bool = true
     ) -> some View {
-        self.ryzeSymbol(
-            effect: effect,
-            options: options,
-            isActive: isActive
-        )
+        symbolEffect(effect, options: options, isActive: isActive)
     }
-    
-    func cashlyDelete(action: @escaping () -> Void) -> some View {
+    public func cashlyDelete(action: @escaping () -> Void) -> some View {
         self.swipeActions(edge: .trailing, allowsFullSwipe: true) {
-            CashlyButton(role: .destructive) {
+            Button(role: .destructive) {
                 action()
             } label: {
                 CashlyLabel("Delete", symbol: "trash.fill")
@@ -118,10 +54,10 @@ public extension View {
             .cashly(tint: .error)
         }
     }
-    
-    func cashlyEdit(action: @escaping () -> Void) -> some View {
+
+    public func cashlyEdit(action: @escaping () -> Void) -> some View {
         self.swipeActions(edge: .trailing, allowsFullSwipe: false) {
-            CashlyButton {
+            Button {
                 action()
             } label: {
                 CashlyLabel("Edit", symbol: "square.and.pencil")
@@ -129,16 +65,15 @@ public extension View {
             .cashly(tint: .info)
         }
     }
-    
-    func cashlyDismiss(isSaved: Bool) -> some View {
-        self.modifier(CashlyDismissModifier(isSaved: isSaved))
+
+    public func cashlyDismiss(isSaved: Bool, selectedUserID: String? = nil) -> some View {
+        self.modifier(CashlyDismissModifier(isSaved: isSaved, selectedUserID: selectedUserID))
     }
-    
-    func cashlyIntelligence(
+
+    public func cashlyIntelligence(
         model: CashlyIntelligence,
         isActive: Bool = true,
         input: Binding<CashlyPredictionInput>,
-        publishEvery: TimeInterval? = nil,
         result: Binding<CashlyPredictionResult>
     ) -> some View {
         self.modifier(
@@ -146,13 +81,9 @@ public extension View {
                 model: model,
                 isActive: isActive,
                 input: input,
-                publishEvery: publishEvery,
                 result: result
             )
         )
     }
-    
-    func cashly(systemMonitor: Binding<CashlySystemMonitor>) -> some View {
-        self.ryze(systemMonitor: systemMonitor)
-    }
+
 }

@@ -1,33 +1,27 @@
-//
-//  AddBudgetScreen.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 02/09/25.
-//
-
-import SwiftUI
-import CashlyMock
+import CashlyDesignSystem
 import CashlyDomain
-import CashlyResource
 import CashlyPresentation
+import CashlyResource
+import Foundation
+import SwiftUI
 
-public struct AddBudgetScreen: CashlyView {
-    @EnvironmentObject var store: CashlyStore<AddBudgetReducer, AddBudgetMiddleware>
-    
-    @Environment(\.addBudgetState) var state
-    @Environment(\.action) var action
-    @Environment(\.router) var router
+public struct AddBudgetScreen: View {
+    @State private var viewModel: BudgetViewModel
+
+    var state: BudgetDraft { viewModel.draft }
+    @Environment(\.open) var open
+    @Environment(\.navigationSection) var section
+    @Environment(IntelligenceViewModel.self) var intelligence
+    @Environment(MainViewModel.self) var main
     @Environment(\.user) var user
-    
+
     @State var predictionInput: CashlyPredictionInput = .empty
     @State var predictionResult: CashlyPredictionResult = .empty
-    
-    var initialState: AddBudgetState?
-    
-    public init(initialState: AddBudgetState? = nil) {
-        self.initialState = initialState
+
+    public init(draft: BudgetDraft, factory: CashlyPresentationFactory) {
+        _viewModel = State(initialValue: factory.makeBudgetViewModel(draft: draft))
     }
-    
+
     public var body: some View {
         Form {
             amountSection
@@ -40,53 +34,52 @@ public struct AddBudgetScreen: CashlyView {
                 quickFillItem
                 removeButton
             }
-            
+
             ToolbarItem { saveButton }
         }
-        .scrollDismissesKeyboard(.immediately)
-        .onChange(of: state.yearMonth) { action(.addBudget(.fetch)) }
-        .onChange(of: state.category) { action(.addBudget(.fetch)) }
+        .cashlyDismissKeyboardOnScroll()
+        .onChange(of: state.category?.id) { predictionInput = .empty }
+        .onChange(of: state.yearMonth) { predictionInput = .empty }
         .onChange(of: predictionResult) { handlerPrediction() }
-        .task { await handlerInitialState() }
+        .task(id: main.allCategories) { await viewModel.loadOrRefreshOptions() }
         .cashlyIntelligence(
             model: .budgetValue,
             input: $predictionInput,
             result: $predictionResult
         )
-        .cashlyDismiss(isSaved: state.isSaved)
-        .environment(\.isLoading, state.isLoading)
+        .cashlyDismiss(isSaved: viewModel.isSaved)
+        .cashlyErrorAlert(error: Binding(get: { viewModel.error }, set: { viewModel.error = $0 }))
+        .disabled(viewModel.isLoading || viewModel.isSaved)
+        .interactiveDismissDisabled(viewModel.isLoading)
+        .environment(\.isLoading, viewModel.isLoading)
     }
-    
+
     func handlerPrediction() {
         switch predictionResult {
         case .tabularRegression(let value):
-            store.state.amount = value
+            viewModel.draft.amount = value
         default:
             break
         }
     }
-    
-    func handlerInitialState() async {
-        if let initialState {
-            store.state = initialState
-        }
-        try? await Task.sleep(for: .seconds(0.5))
-        action(.addBudget(.fetch))
-    }
-    
+
+    @ViewBuilder
     var amountSection: some View {
-        Section {} header: {
+        @Bindable var viewModel = viewModel
+        Section {
+        } header: {
             CashlyVStack(spacing: .zero) {
                 CashlyText(state.category?.name.uppercased())
                     .cashly(font: .caption, weight: .bold)
                     .cashly(color: .hex(state.category?.color))
                     .cashlyPadding()
                     .cashlyPadding(.horizontal, .extraSmall)
-                    .cashly(glass: .clear.tint(Color(hex: state.category?.color).opacity(0.2)), in: .capsule)
-                
-                CashlyCurrencyTextField(amount: $store.state.amount)
+                    .cashlyContentSurface(
+                        tint: Color(hex: state.category?.color).opacity(0.2), in: .capsule)
+
+                CashlyCurrencyTextField(amount: $viewModel.draft.amount)
                     #if os(iOS)
-                    .keyboardType(.numberPad)
+                        .keyboardType(.decimalPad)
                     #endif
                     .frame(maxWidth: .infinity)
                     .cashly(alignment: .center)
@@ -96,12 +89,14 @@ public struct AddBudgetScreen: CashlyView {
             }
         }
     }
-    
+
+    @ViewBuilder
     var summarySection: some View {
+        @Bindable var viewModel = viewModel
         Section {
             TextField(
                 "Provide a summary of your budget",
-                text: $store.state.summary,
+                text: $viewModel.draft.summary,
                 axis: .vertical
             )
         } header: {
@@ -110,7 +105,7 @@ public struct AddBudgetScreen: CashlyView {
                 .cashly(color: .text)
         }
     }
-    
+
     var categoriesSection: some View {
         Section {
             categoriesView
@@ -121,7 +116,7 @@ public struct AddBudgetScreen: CashlyView {
                 .cashly(color: .text)
         }
     }
-    
+
     @ViewBuilder
     var categoriesView: some View {
         if !state.categories.isEmpty {
@@ -142,33 +137,47 @@ public struct AddBudgetScreen: CashlyView {
             .cashlyPadding(.horizontal, .negative(.medium))
         }
     }
-    
+
     func categoryItemView(category: CashlyDomain.Category) -> some View {
-        CashlyButton {
-            store.state.category = category
+        Button {
+            viewModel.draft.category = category
         } label: {
             CashlySymbol(category.icon)
                 .cashly(font: .system(size: 20))
-                .cashly(color: state.category == category ? .hex(category.color) : .color(.secondary))
+                .cashly(
+                    color: viewModel.draft.category == category
+                        ? .hex(category.color) : .color(.secondary)
+                )
                 .frame(width: 45, height: 45)
-                .cashly(background: .color((state.category == category ? Color(hex: category.color) : .secondary).opacity(0.2)))
+                .cashly(
+                    background: .color(
+                        (viewModel.draft.category == category
+                            ? Color(hex: category.color) : .secondary)
+                            .opacity(0.2))
+                )
                 .cashly(clip: .circle)
                 .overlay {
                     Circle()
-                        .stroke(state.category == category ? Color(hex: category.color) : .secondary, lineWidth: 3)
+                        .stroke(
+                            viewModel.draft.category == category
+                                ? Color(hex: category.color) : .secondary,
+                            lineWidth: 3
+                        )
                         .frame(width: 50, height: 50)
                 }
-                .opacity(state.category == category ? 1 : 0.3)
+                .opacity(viewModel.draft.category == category ? 1 : 0.3)
         }
         .buttonStyle(.plain)
         .cashlyPadding()
     }
-    
+
+    @ViewBuilder
     var dateSection: some View {
+        @Bindable var viewModel = viewModel
         Section {
             DatePicker(
                 "",
-                selection: $store.state.date,
+                selection: $viewModel.draft.date,
                 displayedComponents: .date
             )
             .datePickerStyle(.graphical)
@@ -180,41 +189,40 @@ public struct AddBudgetScreen: CashlyView {
                 .cashly(color: .text)
         }
     }
-    
+
     var saveButton: some View {
-        CashlyButton {
-            action(.addBudget(.save))
+        Button {
+            Task { await viewModel.save() }
         } label: {
             CashlySymbol("checkmark")
         }
-        .buttonStyle(.glassProminent)
-        .disabled(!state.canSave)
+        .cashlyProminentButton()
+        .accessibilityLabel("Salvar")
+        .disabled(!viewModel.canSave)
         .cashly(tint: state.canSave ? .primary : .disabled)
     }
-    
+
     @ViewBuilder
     var removeButton: some View {
-        if !state.isNew && !state.isLoading {
-            CashlyButton {
-                action(.addBudget(.remove))
+        if !state.isNew && !viewModel.isLoading {
+            Button {
+                Task { await viewModel.remove() }
             } label: {
                 CashlySymbol("trash")
             }
             .cashly(tint: .text)
         }
     }
-    
+
     @ViewBuilder
     var quickFillItem: some View {
-        if let user,
-           let model = CashlyIntelligence.budgetValue.model(for: user),
-           model.createDate != nil {
-            CashlyButton {
-                predictionInput = .tabularData(
-                    .budgetValue(
-                        date: state.date.timeIntervalSince1970.yearMonth,
-                        category: state.category?.name ?? ""
-                    )
+        if user != nil,
+            intelligence.hasModel(.budgetValue)
+        {
+            Button {
+                predictionInput = .budget(
+                    yearMonth: state.date.timeIntervalSince1970.yearMonth,
+                    categoryID: state.category?.id ?? ""
                 )
             } label: {
                 CashlySymbol("bolt.fill")
@@ -222,15 +230,5 @@ public struct AddBudgetScreen: CashlyView {
             .cashly(tint: .color(.yellow))
         }
     }
-    
-    public static var mock: some View {
-        AddBudgetScreen()
-    }
-}
 
-#Preview {
-    NavigationView {
-        AddBudgetScreen
-            .cashlyPreview()
-    }
 }

@@ -1,46 +1,52 @@
-//
-//  AddTransactionScreen.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 04/09/25.
-//
-
-import SwiftUI
-import RyzeArchitecture
-import CashlyMock
+import CashlyDesignSystem
 import CashlyDomain
-import CashlyResource
 import CashlyPresentation
+import CashlyResource
+import Foundation
+import SwiftUI
 
-public struct AddTransactionScreen: CashlyView {
-    @EnvironmentObject var store: CashlyStore<AddTransactionReducer, AddTransactionMiddleware>
-    
-    @Environment(\.addTransactionState) var state
-    @Environment(\.mainState) var mainState
-    @Environment(\.action) var action
-    @Environment(\.router) var router
+public struct AddTransactionScreen: View {
+    @State private var viewModel: TransactionViewModel
+
+    var state: TransactionDraft { viewModel.draft }
+    @Environment(MainViewModel.self) var mainState
+    @Environment(\.open) var open
+    @Environment(\.navigationSection) var section
+    @Environment(IntelligenceViewModel.self) var intelligence
     @Environment(\.user) var user
-    
-    @State var selectedUsers: Set<User> = []
+
     @State var isActivePrediction: Bool = true
     @State var predictionResult: CashlyPredictionResult = .empty
-    
+
     var predictionInput: Binding<CashlyPredictionInput> {
         Binding {
             state.summary.isEmpty ? .empty : .text(state.summary)
-        } set: { _ in }
+        } set: { _ in
+        }
     }
-    
-    var initialState: AddTransactionState?
-    
-    public init(initialState: AddTransactionState? = nil) {
-        self.initialState = initialState
+
+    public init(draft: TransactionDraft, factory: CashlyPresentationFactory) {
+        _viewModel = State(initialValue: factory.makeTransactionViewModel(draft: draft))
+        _isActivePrediction = State(initialValue: draft.isNew)
     }
-    
+
     public var body: some View {
         Form {
             amountSection
             summarySection
+            if let budget = mainState.budgets.first(where: {
+                $0.category.id == state.category?.id
+                    && $0.date == state.date.timeIntervalSince1970.yearMonth
+            }), budget.isConflicted {
+                Section {
+                    Button("Resolver conflito de orçamento") {
+                        open(
+                            .budgetConflict(categoryID: budget.category.id, month: budget.date),
+                            in: section)
+                    }
+                }
+            }
+            tagsSection
             categoriesSection
             dateSection
             installmentSection
@@ -52,88 +58,69 @@ public struct AddTransactionScreen: CashlyView {
                 participantsItem
                 removeButton
             }
-            
+
             ToolbarItem { saveButton }
         }
-        .task { await handlerInitialState() }
-        .onChange(of: state.date.timeIntervalSince1970.yearMonth) { action(.addTransaction(.fetch)) }
-        .onChange(of: selectedUsers) { onChangeSelectedUsers() }
+        .task(id: CatalogRequest(categories: mainState.allCategories, tags: mainState.allTags)) {
+            await viewModel.loadOrRefreshOptions()
+        }
         .onChange(of: state.participants) { updateSplitValue() }
         .onChange(of: state.amount) { updateSplitValue() }
+        .onChange(of: state.splitMode) { viewModel.changeSplitMode() }
         .onChange(of: predictionResult) { handlerPrediction() }
-        .onDisappear { selectedUsers = [] }
-        .scrollDismissesKeyboard(.immediately)
+
+        .cashlyDismissKeyboardOnScroll()
         .cashlyIntelligence(
             model: .categoryName,
-            isActive: isActivePrediction,
+            isActive: isActivePrediction && state.kind == .expense,
             input: predictionInput,
-            publishEvery: 1,
             result: $predictionResult
         )
-        .cashlyDismiss(isSaved: state.isSaved)
-        .environment(\.isLoading, state.isLoading)
+        .cashlyDismiss(isSaved: viewModel.isSaved)
+        .cashlyErrorAlert(error: Binding(get: { viewModel.error }, set: { viewModel.error = $0 }))
+        .disabled(viewModel.isLoading || viewModel.isSaved)
+        .interactiveDismissDisabled(viewModel.isLoading)
+        .environment(\.isLoading, viewModel.isLoading)
     }
-    
+
     func handlerPrediction() {
         switch predictionResult {
         case .textClassification(let value):
-            let category = value.lowercased()
-            store.state.budget = state.budgets.first(where: {
-                $0.category.name.lowercased() == category
-            }) ?? state.budget
+            let categoryID = value
+            viewModel.draft.category =
+                state.categories.first { $0.id == categoryID } ?? state.category
         default:
             break
         }
     }
-    
-    func handlerInitialState() async {
-        if let initialState {
-            store.state = initialState
-        }
-        try? await Task.sleep(for: .seconds(0.5))
-        action(.addTransaction(.fetch))
-    }
-    
-    func onChangeSelectedUsers() {
-        guard selectedUsers.count != store.state.participants.count else { return }
-        store.state.splitMode = selectedUsers.isEmpty ? nil : store.state.splitMode ?? .equal
-        store.state.participants = selectedUsers.map {
-            let splitValue: Double
-            switch store.state.splitMode ?? .equal {
-            case .equal: splitValue = (selectedUsers.count.double + 1)
-            case .fixedAmount: splitValue =  .zero
-            case .percentage: splitValue =  1 / (selectedUsers.count.double + 1)
-            case .payerBased: splitValue = .zero
-            }
-            return Participant(
-                id: UUID().uuidString,
-                user: $0,
-                splitMode: store.state.splitMode ?? .equal,
-                splitValue: splitValue,
-                status: .settled,
-                transaction: state.id
-            )
-        }.sorted(by: \.user.name)
-    }
-    
+
+    @ViewBuilder
     var amountSection: some View {
-        Section {} header: {
+        @Bindable var viewModel = viewModel
+        Section {
+        } header: {
             CashlyVStack(spacing: .small) {
                 transactionStatusView
                 splitValueView
-                
+
                 CashlyVStack(spacing: .zero) {
-                    CashlyCurrencyTextField(amount: $store.state.amount)
+                    CashlyCurrencyTextField(amount: $viewModel.draft.amount)
                         #if os(iOS)
-                        .keyboardType(.numberPad)
+                            .keyboardType(.decimalPad)
                         #endif
                         .cashly(alignment: .center)
                         .cashly(font: .system(size: 40), weight: .black)
                         .cashly(tint: .color(.clear))
-                    
+
                     if state.installmentIsOn, state.amount > .zero {
-                        let value = state.amount / state.installmentPlan.double
-                        let description = "\(state.installmentPlan)x payments of \(value.currency() ?? "")"
+                        let money = (try? Money(validating: state.amount)) ?? .zero
+                        let first = money.installment(at: 0, count: state.installmentPlan)
+                        let last = money.installment(
+                            at: state.installmentPlan - 1, count: state.installmentPlan)
+                        let description =
+                            first == last
+                            ? "\(state.installmentPlan)x de \(first.formatted)"
+                            : "\(state.installmentPlan)x de \(last.formatted) a \(first.formatted)"
                         CashlyText(description)
                             .cashly(font: .callout, weight: .medium)
                             .cashly(color: .textSecondary)
@@ -146,30 +133,30 @@ public struct AddTransactionScreen: CashlyView {
             .cashlyPadding(.vertical, .small)
         }
     }
-    
+
     @ViewBuilder
     var transactionStatusView: some View {
-        if state.participants.isEmpty {
-            Menu {
-                Picker(selection: $store.state.status) {
-                    ForEach(TransactionStatus.allCases) {
-                        CashlyText($0.summary)
-                            .tag($0)
-                    }
-                } label: {
-                    EmptyView()
+        @Bindable var viewModel = viewModel
+        Menu {
+            Picker(selection: $viewModel.draft.status) {
+                ForEach(TransactionStatus.allCases) {
+                    CashlyText($0.summary)
+                        .tag($0)
                 }
             } label: {
-                CashlyText(state.status.summary.uppercased())
-                    .cashly(font: .caption, weight: .bold)
-                    .cashly(color: .color(state.status.color))
-                    .cashlyPadding()
-                    .cashlyPadding(.horizontal, .extraSmall)
-                    .cashly(glass: .clear.tint(state.status.color.opacity(0.2)).interactive(), in: .capsule)
+                EmptyView()
             }
+        } label: {
+            CashlyText(state.status.summary.uppercased())
+                .cashly(font: .caption, weight: .bold)
+                .cashly(color: .color(state.status.color))
+                .cashlyPadding()
+                .cashlyPadding(.horizontal, .extraSmall)
+                .cashlySurface(
+                    tint: state.status.color.opacity(0.2), in: .capsule, interactive: true)
         }
     }
-    
+
     @ViewBuilder
     var splitValueView: some View {
         let status = state.participants.first(where: { $0.status != .settled })?.status ?? .settled
@@ -178,18 +165,20 @@ public struct AddTransactionScreen: CashlyView {
                 .cashly(font: .headline, weight: .semibold)
                 .cashly(color: .color(status.color))
                 .contentTransition(.numericText())
-                .animation(.linear, value: store.state.splitValue)
+                .animation(.linear, value: state.splitValue)
                 .cashlyPadding()
                 .cashlyPadding(.horizontal, .extraSmall)
-                .cashly(glass: .clear.tint(status.color.opacity(0.2)), in: .capsule)
+                .cashlyContentSurface(tint: status.color.opacity(0.2), in: .capsule)
         }
     }
-    
+
+    @ViewBuilder
     var summarySection: some View {
+        @Bindable var viewModel = viewModel
         Section {
             TextField(
                 "Provide a summary of your transaction",
-                text: $store.state.summary,
+                text: $viewModel.draft.summary,
                 axis: .vertical
             )
         } header: {
@@ -198,49 +187,48 @@ public struct AddTransactionScreen: CashlyView {
                 .cashly(color: .text)
         }
     }
-    
+
     @ViewBuilder
-    var tagsView: some View {
-        CashlyZStack {
-            if !state.summaryTags.isEmpty {
-                CashlyHorizontalList { _ in
-                    CashlyHStack {
-                        ForEach(state.summaryTags) { tag in
-                            CashlyHStack {
-                                CashlySymbol(tag.icon)
-                                CashlyText(tag.name.uppercased())
-                            }
-                            .cashly(font: .footnote, weight: .semibold)
-                            .cashly(color: .hex(tag.color))
-                            .cashlyPadding()
-                            .cashlyPadding(.horizontal, .extraSmall)
-                            .cashly(
-                                glass: .clear.tint(Color(hex: tag.color).opacity(0.2)),
-                                in: .capsule
-                            )
-                            .transition(.move(edge: .top).animation(.bouncy.speed(0.2)))
+    var tagsSection: some View {
+        @Bindable var viewModel = viewModel
+        if !state.tags.isEmpty {
+            Section("Tags") {
+                ForEach(state.tags) { tag in
+                    Toggle(
+                        tag.name,
+                        isOn: Binding(
+                            get: { state.selectedTagIDs.contains(tag.id) },
+                            set: { selected in
+                                if selected {
+                                    viewModel.draft.selectedTagIDs.insert(tag.id)
+                                } else {
+                                    viewModel.draft.selectedTagIDs.remove(tag.id)
+                                }
+                            }))
+                }
+                if !state.suggestedTags.isEmpty {
+                    Text("Sugestões pela descrição").font(.caption).foregroundStyle(.secondary)
+                    ForEach(state.suggestedTags) { tag in
+                        Button("Adicionar \(tag.name)") {
+                            viewModel.draft.selectedTagIDs.insert(tag.id)
                         }
                     }
-                    .padding(.horizontal, 30)
                 }
-                .frame(height: 50)
-                .padding(.horizontal, -40)
             }
         }
-        .animation(.bouncy, value: state.summaryTags)
     }
-    
+
     var categoriesSection: some View {
         Section {
             categoriesView
             EmptyCategoryView()
-            EmptyBudgetView(budgets: state.budgets)
+            EmptyBudgetView(budgets: mainState.budgets)
         } header: {
             CashlyHStack {
                 CashlyText("Categories")
                     .cashly(font: .title3, weight: .semibold)
                     .cashly(color: .text)
-                CashlySpacer()
+                Spacer()
                 CategoryVariationView(
                     category: state.category,
                     amount: state.amount
@@ -249,14 +237,17 @@ public struct AddTransactionScreen: CashlyView {
         } footer: {
             if let category = state.category {
                 let remaining = mainState.categoryRemainingAmount(category: category) - state.amount
-                let description = remaining < .zero ? "You’ve exceeded the planned budget in the \(category.name.capitalized) category by \((remaining * -1).currency() ?? "")" : "You’re \(remaining.currency() ?? "") away from reaching the planned budget in the \(category.name.capitalized) category."
+                let description =
+                    remaining < .zero
+                    ? "You’ve exceeded the planned budget in the \(category.name.capitalized) category by \((remaining * -1).currency() ?? "")"
+                    : "You’re \(remaining.currency() ?? "") away from reaching the planned budget in the \(category.name.capitalized) category."
                 CashlyText(description)
                     .contentTransition(.numericText(value: remaining))
                     .animation(.bouncy, value: state.amount)
             }
         }
     }
-    
+
     @ViewBuilder
     var categoriesView: some View {
         if !state.categories.isEmpty {
@@ -267,47 +258,62 @@ public struct AddTransactionScreen: CashlyView {
                             .id(category)
                     }
                 }
-                .onChange(of: state.category) {
-                    Task {
-                        try await Task.sleep(for: .seconds(0.2))
+                .task(id: state.category) {
+                    do {
+                        try await Task.sleep(for: .milliseconds(200))
+                        try Task.checkCancellation()
                         withAnimation(.bouncy.speed(0.5)) {
                             proxy.scrollTo(state.category, anchor: .center)
                         }
-                    }
+                    } catch {}
                 }
                 .padding(.horizontal, 20)
             }
             .padding(.horizontal, -20)
         }
     }
-    
+
     func categoryItemView(category: CashlyDomain.Category) -> some View {
-        CashlyButton {
+        Button {
             isActivePrediction = false
-            store.state.budget = state.budgets.first(where: { $0.category.id == category.id })
+            viewModel.draft.category = category
         } label: {
             CashlySymbol(category.icon)
                 .cashly(font: .system(size: 20))
-                .cashly(color: state.category == category ? .hex(category.color) : .color(.secondary))
+                .cashly(
+                    color: viewModel.draft.category == category
+                        ? .hex(category.color) : .color(.secondary)
+                )
                 .frame(width: 45, height: 45)
-                .cashly(background: .color((state.category == category ? Color(hex: category.color) : .secondary).opacity(0.2)))
+                .cashly(
+                    background: .color(
+                        (viewModel.draft.category == category
+                            ? Color(hex: category.color) : .secondary)
+                            .opacity(0.2))
+                )
                 .cashly(clip: .circle)
                 .overlay {
                     Circle()
-                        .stroke(state.category == category ? Color(hex: category.color) : .secondary, lineWidth: 3)
+                        .stroke(
+                            viewModel.draft.category == category
+                                ? Color(hex: category.color) : .secondary,
+                            lineWidth: 3
+                        )
                         .frame(width: 50, height: 50)
                 }
-                .opacity(state.category == category ? 1 : 0.3)
+                .opacity(viewModel.draft.category == category ? 1 : 0.3)
         }
         .buttonStyle(.plain)
         .cashlyPadding()
     }
-    
+
+    @ViewBuilder
     var dateSection: some View {
+        @Bindable var viewModel = viewModel
         Section {
             DatePicker(
                 state.date.string(with: .cashly(.weekDay)) ?? "",
-                selection: $store.state.date,
+                selection: $viewModel.draft.date,
                 displayedComponents: .hourAndMinute.union(.date)
             )
             .datePickerStyle(.compact)
@@ -318,7 +324,7 @@ public struct AddTransactionScreen: CashlyView {
                 .cashly(color: .text)
         }
     }
-    
+
     @ViewBuilder
     var selectedParticipantsSection: some View {
         if !state.participants.isEmpty {
@@ -331,22 +337,24 @@ public struct AddTransactionScreen: CashlyView {
             } footer: {
                 CashlyText(state.splitMode?.description)
             }
-            
+
             participantsView
         }
     }
-    
+
+    @ViewBuilder
     var splitModeView: some View {
+        @Bindable var viewModel = viewModel
         CashlyHStack {
             CashlyText("Select Split Mode")
-            
-            CashlySpacer()
-            
+
+            Spacer()
+
             Menu {
-                Picker(selection: $store.state.splitMode) {
+                Picker(selection: $viewModel.draft.splitMode) {
                     ForEach(TransactionSplitMode.allCases) {
                         CashlyText($0.summary)
-                            .tag($0)
+                            .tag(Optional($0))
                     }
                 } label: {
                     EmptyView()
@@ -357,54 +365,41 @@ public struct AddTransactionScreen: CashlyView {
                     .cashly(color: .primary)
                     .cashlyPadding()
                     .cashlyPadding(.horizontal, .extraSmall)
-                    .cashly(glass: .clear.tint(.accentColor.opacity(0.2)), in: .capsule)
+                    .cashlySurface(tint: .accentColor.opacity(0.2), in: .capsule, interactive: true)
             }
         }
     }
-    
-    func participantBinding(at index: Int) -> Binding<Participant> {
-        Binding {
-            guard store.state.participants.indices.contains(index) else { return .empty }
-            return store.state.participants[index]
-        } set: { participant in
-            guard store.state.participants.indices.contains(index) else { return }
-            store.state.participants[index] = participant
-        }
+
+    func participantBinding(id: String) -> Binding<Participant> {
+        Binding(
+            get: { state.participants.first { $0.id == id } ?? .empty },
+            set: { participant in
+                guard let index = viewModel.draft.participants.firstIndex(where: { $0.id == id })
+                else {
+                    return
+                }
+                viewModel.draft.participants[index] = participant
+            })
     }
-    
     var participantsView: some View {
         Section {
-            ForEach(Array(store.state.participants).enumerated(), id: \.offset) { index, participant in
+            ForEach(state.participants) { participant in
                 ParticipantRowView(
-                    participant: participantBinding(at: index),
-                    splitMode: state.splitMode,
-                    amount: state.amount,
-                    count: state.participants.count
+                    participant: participantBinding(id: participant.id), amount: state.amount
                 )
-                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                    CashlyButton(role: .destructive) {
-                        if let index = state.participants.firstIndex(of: participant) {
-                            store.state.participants.remove(at: index)
-                        }
+                .swipeActions {
+                    Button(role: .destructive) {
+                        viewModel.selectParticipants(
+                            Set(state.participants.filter { $0.id != participant.id }.map(\.user)))
                     } label: {
-                        CashlyLabel("Delete", symbol: "trash.fill")
+                        Label("Delete", systemImage: "trash")
                     }
-                    .cashly(tint: .error)
                 }
-                .onChange(of: participant.splitValue) { updateSplitValue() }
             }
         }
     }
-    
     func updateSplitValue() {
-        if store.state.participants.count != selectedUsers.count {
-            selectedUsers = Set(state.participants.map(\.user))
-        }
-        
-        store.state.splitValue = store.state.participants.isEmpty ? nil : (store.state.amount - store.state.participants.compactMap {
-            let value = $0.splitMode.value(splitValue: $0.splitValue, amount: store.state.amount)
-            return value
-        }.reduce(.zero, +))
+        viewModel.updateShares()
     }
 
     @ViewBuilder
@@ -413,7 +408,9 @@ public struct AddTransactionScreen: CashlyView {
         if !users.isEmpty {
             CashlyMenuSelectionView(
                 items: users,
-                selectedItems: $selectedUsers
+                selectedItems: Binding(
+                    get: { Set(state.participants.map(\.user)) },
+                    set: { viewModel.selectParticipants($0) })
             ) { user in
                 CashlyText(user.name.capitalized)
             } label: {
@@ -422,39 +419,42 @@ public struct AddTransactionScreen: CashlyView {
             }
         }
     }
-    
+
     var saveButton: some View {
-        CashlyButton {
-            action(.addTransaction(.save))
+        Button {
+            Task { await viewModel.save() }
         } label: {
             CashlySymbol("checkmark")
         }
-        .buttonStyle(.glassProminent)
-        .disabled(!state.canSave)
+        .cashlyProminentButton()
+        .accessibilityLabel("Salvar")
+        .disabled(!viewModel.canSave)
         .cashly(tint: state.canSave ? .primary : .disabled)
     }
-    
+
     @ViewBuilder
     var removeButton: some View {
-        if !state.isNew && !state.isLoading {
-            CashlyButton {
-                action(.addTransaction(.remove))
+        if !state.isNew && !viewModel.isLoading {
+            Button {
+                Task { await viewModel.remove() }
             } label: {
                 CashlySymbol("trash")
             }
             .cashly(tint: .text)
         }
     }
-    
+
+    @ViewBuilder
     var installmentSection: some View {
+        @Bindable var viewModel = viewModel
         Section {
-            Toggle(isOn: $store.state.installmentIsOn) {
+            Toggle(isOn: $viewModel.draft.installmentIsOn) {
                 CashlyText("Enable installments")
             }
-            
+
             if state.installmentIsOn {
-                Picker(selection: $store.state.installmentPlan) {
-                    ForEach(1 ... 21, id: \.self) {
+                Picker(selection: $viewModel.draft.installmentPlan) {
+                    ForEach(1...21, id: \.self) {
                         let value = $0.string + "x"
                         CashlyText(value)
                             .tag($0)
@@ -469,29 +469,24 @@ public struct AddTransactionScreen: CashlyView {
                 .cashly(color: .text)
         }
     }
-    
+
     @ViewBuilder
     var intelligenceItem: some View {
-        if let user,
-           let model = CashlyIntelligence.categoryName.model(for: user),
-           model.createDate != nil,
-           !isActivePrediction {
-            CashlyButton {
+        if user != nil,
+            intelligence.hasModel(.categoryName),
+            !isActivePrediction
+        {
+            Button {
                 isActivePrediction = true
             } label: {
                 CashlySymbol("bolt.fill")
             }
         }
     }
-    
-    public static var mock: some View {
-        AddTransactionScreen()
-    }
+
 }
 
-#Preview {
-    NavigationView {
-        AddTransactionScreen
-            .cashlyPreview()
-    }
+private struct CatalogRequest: Hashable {
+    let categories: [CashlyDomain.Category]
+    let tags: [Tag]
 }

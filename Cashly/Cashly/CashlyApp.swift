@@ -1,78 +1,74 @@
-//
-//  CashlyApp.swift
-//  Cashly
-//
-//  Created by Rafael Escaleira on 29/08/25.
-//
-
-import SwiftUI
-import SwiftData
-
-import RyzeUI
-import RyzeArchitecture
-import RyzeIntelligence
-
-import CashlyDomain
 import CashlyData
+import CashlyDomain
 import CashlyPresentation
 import CashlyUI
-import CashlyMock
+import Observation
+import SwiftUI
 
 @main
 struct CashlyApp: App {
-    @Environment(\.theme) var theme
-    
-    @StateObject var addCategoryStore = CashlyPresentationFactory.shared.makeAddCategoryStore()
-    @StateObject var addBudgetStore = CashlyPresentationFactory.shared.makeAddBudgetStore()
-    @StateObject var addTransactionStore = CashlyPresentationFactory.shared.makeAddTransactionStore()
-    @StateObject var addUserStore = CashlyPresentationFactory.shared.makeAddUserStore()
-    @StateObject var addTagStore = CashlyPresentationFactory.shared.makeAddTagStore()
-    @StateObject var mainStore = CashlyPresentationFactory.shared.makeMainStore()
-    
+    @State private var bootstrap = CashlyBootstrap()
     var body: some Scene {
-        WindowGroup {
-            MainScreen()
-                #if targetEnvironment(simulator)
-                .cashlyPreview()
-                #else
-                .environmentObject(addCategoryStore)
-                .environmentObject(addBudgetStore)
-                .environmentObject(addTransactionStore)
-                .environmentObject(addUserStore)
-                .environmentObject(addTagStore)
-                .environmentObject(mainStore)
-            
-                .environment(\.addCategoryState, addCategoryStore.state)
-                .environment(\.addBudgetState, addBudgetStore.state)
-                .environment(\.addTransactionState, addTransactionStore.state)
-                .environment(\.addUserState, addUserStore.state)
-                .environment(\.addTagState, addTagStore.state)
-                .environment(\.mainState, mainStore.state)
-            
-                .environment(\.action, handler(action:))
-        
-                .environment(\.isLoading, mainStore.state.isLoading)
-                .environment(\.user, mainStore.state.user)
-            
-                .onChange(of: mainStore.state.filter) { handler(action: .main(.fetch)) }
-                .onChange(of: mainStore.state.user) { handler(action: .main(.selectUser)) }
-            
-                .task { handler(action: .main(.fetch)) }
-            
-                .tint(theme.color.primary)
-                #endif
-        }
+        WindowGroup { CashlyRootView().environment(bootstrap) }
     }
-    
-    func handler(action: ApplicationAction) {
-        Task(priority: .high) { @MainActor in
-            switch action {
-            case let .addCategory(action): try await addCategoryStore.dispatch(action: action)
-            case let .addBudget(action): try await addBudgetStore.dispatch(action: action)
-            case let .addTransaction(action): try await addTransactionStore.dispatch(action: action)
-            case let .addUser(action): return try await addUserStore.dispatch(action: action)
-            case let .addTag(action): return try await addTagStore.dispatch(action: action)
-            case let .main(action): try await mainStore.dispatch(action: action)
+}
+
+@MainActor @Observable
+private final class CashlyBootstrap {
+    private(set) var data: CashlyDataFactory?
+    private(set) var error: String?
+    let intelligence = LocalIntelligenceService()
+    @ObservationIgnored private var preparation: Task<CashlyDataFactory, any Error>?
+
+    func prepare() async {
+        guard data == nil else { return }
+        error = nil
+        let task =
+            preparation
+            ?? Task.detached(priority: .userInitiated) {
+                #if targetEnvironment(simulator)
+                    // Simulator builds use real local persistence without signed CloudKit capabilities.
+                    return try CashlyDataFactory.make(cloudSync: false)
+                #else
+                    return try CashlyDataFactory.make()
+                #endif
+            }
+        preparation = task
+        do { data = try await task.value } catch { self.error = error.localizedDescription }
+        preparation = nil
+    }
+}
+
+private struct CashlyRootView: View {
+    @Environment(CashlyBootstrap.self) private var bootstrap
+    @State private var session: CashlySession?
+    @State private var attempt = 0
+    var body: some View {
+        Group {
+            if let session {
+                MainScreen().environment(session).environment(session.main)
+                    .environment(session.navigation).environment(session.intelligence)
+            } else if let error = bootstrap.error {
+                ContentUnavailableView {
+                    Label(
+                        "Não foi possível abrir o Cashly",
+                        systemImage: "externaldrive.badge.exclamationmark")
+                } description: {
+                    Text(error)
+                } actions: {
+                    Button("Tentar novamente") { attempt += 1 }
+                }
+            } else {
+                ProgressView("Abrindo Cashly")
+            }
+        }
+        .task(id: attempt) {
+            guard session == nil else { return }
+            await bootstrap.prepare()
+            guard !Task.isCancelled else { return }
+            if let data = bootstrap.data {
+                session = CashlySession(
+                    dataFactory: data, intelligenceUseCase: bootstrap.intelligence)
             }
         }
     }

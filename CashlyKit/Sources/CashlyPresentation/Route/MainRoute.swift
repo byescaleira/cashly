@@ -1,45 +1,33 @@
-//
-//  MainRoute.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 09/09/25.
-//
-
-import RyzeArchitecture
 import CashlyDomain
+import Foundation
 
-public enum MainRoute: CashlyRoutable {
-    public static func == (lhs: MainRoute, rhs: MainRoute) -> Bool {
-        switch (lhs, rhs) {
-        case (.addUser, .addUser),
-            (.addCategory, .addCategory),
-            (.addBudget, .addBudget),
-            (.category, .category),
-            (.transaction, .transaction),
-            (.detailCategory, .detailCategory),
-            (.home, .home),
-            (.intelligence, .intelligence): return true
-        default: return false
+public enum MainRoute: Hashable {
+    case addUser(id: String?)
+    case addCategory(id: String?)
+    case addBudget(id: String?, categoryID: String?, date: Date?)
+    case addTransaction(id: String?)
+    case addTag(id: String?)
+    case detailCategory(id: String)
+    case budgetConflict(categoryID: String, month: Int)
+}
+
+public enum CashlySection: String, CaseIterable, Identifiable {
+    case intelligence, category, home, transaction
+    public var id: String { rawValue }
+    public var title: String {
+        switch self {
+        case .intelligence: "Intelligence"
+        case .category: "Categories"
+        case .home: "Home"
+        case .transaction: "Transactions"
         }
     }
-    
-    case addUser(state: AddUserState)
-    case addCategory(state: AddCategoryState)
-    case addBudget(state: AddBudgetState)
-    case addTransaction(state: AddTransactionState)
-    case addTag(state: AddTagState)
-    case detailCategory(category: CashlyDomain.Category)
-    case category
-    case transaction
-    case home
-    case intelligence
-    
-    public var navigationStyle: CashlyNavigationStyle {
-        .push
-    }
-    
-    @ViewBuilder
-    public func makeView(content: @escaping (MainRoute) -> any View) -> some View {
-        AnyView(content(self))
+    public var systemImage: String {
+        switch self {
+        case .intelligence: "cpu"
+        case .category: "tag"
+        case .home: "house"
+        case .transaction: "wallet.bifold"
+        }
     }
 }

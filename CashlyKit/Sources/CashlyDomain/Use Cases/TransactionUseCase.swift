@@ -1,15 +1,10 @@
-//
-//  TransactionUseCase.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 31/08/25.
-//
+import Foundation
 
 public protocol TransactionUseCase: Sendable {
     func getTransaction(id: String) async throws -> Transaction?
     func getTransactions() async throws -> [Transaction]
     func getTransactions(
-        budgets: [String]?,
+        categories: [String]?,
         tags: [String]?,
         statuses: [Int]?,
         participants: [String]?,
@@ -21,13 +16,15 @@ public protocol TransactionUseCase: Sendable {
     func addTransaction(
         id: String,
         participants: [Participant],
-        budget: Budget,
-        amount: Double,
+        categoryID: String,
+        kind: TransactionKind,
+        money: Money,
         date: TimeInterval,
         summary: String,
         status: TransactionStatus,
         splitMode: TransactionSplitMode?,
         splitValue: Double?,
-        paymentsPlan: Int?
+        paymentsPlan: Int?,
+        tagIDs: Set<String>
     ) async throws
 }

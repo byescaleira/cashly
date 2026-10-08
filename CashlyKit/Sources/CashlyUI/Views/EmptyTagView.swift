@@ -1,34 +1,33 @@
-//
-//  EmptyTagView.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 16/09/25.
-//
-
-import SwiftUI
+import CashlyDesignSystem
 import CashlyDomain
+import CashlyPresentation
+import Foundation
+import SwiftUI
 
-struct EmptyTagView: CashlyView {
+struct EmptyTagView: View {
     @Environment(\.isLoading) var isLoading
-    @Environment(\.mainState) var state
-    @Environment(\.router) var router
-    
+    @Environment(MainViewModel.self) var state
+    @Environment(\.open) var open
+    @Environment(\.navigationSection) var section
+
     @ViewBuilder
     var body: some View {
         if !state.categories.isEmpty,
-           !state.users.isEmpty,
+            !state.users.isEmpty,
             state.tags.isEmpty,
-           !isLoading {
+            !isLoading
+        {
             Section {
-                CashlyZStack {
+                ZStack {
                     if state.tags.isEmpty {
                         CashlyCardView(
                             image: .illustrationTag,
-                                title: "No Tags Yet",
-                                subtitle: "Tags help you categorize and track your expenses more easily. Start by creating your first tag to keep things organized.",
-                                buttonTitle: "Add Tag"
+                            title: "No Tags Yet",
+                            subtitle:
+                                "Tags help you categorize and track your expenses more easily. Start by creating your first tag to keep things organized.",
+                            buttonTitle: "Add Tag"
                         ) {
-                            router.route(to: .addTag(state: .new()))
+                            open(.addTag(id: nil), in: section)
                         }
                         .cashlyPadding(.medium)
                     }
@@ -44,14 +43,5 @@ struct EmptyTagView: CashlyView {
             .transition(.scale)
         }
     }
-    
-    static var mock: some View {
-        EmptyTagView()
-    }
-}
 
-#Preview {
-    CashlyList {
-        EmptyTagView.mock
-    }
 }

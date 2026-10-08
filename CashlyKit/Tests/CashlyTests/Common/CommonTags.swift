@@ -1,10 +1,3 @@
-//
-//  CommonTags.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 30/08/25.
-//
-
 import Testing
 
 extension Tag {

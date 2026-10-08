@@ -1,9 +1,4 @@
-//
-//  BudgetUseCase.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 29/08/25.
-//
+import Foundation
 
 public protocol BudgetUseCase: Sendable {
     func getBudget(id: String) async throws -> Budget?

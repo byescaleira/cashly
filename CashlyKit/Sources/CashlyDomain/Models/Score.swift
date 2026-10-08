@@ -1,41 +1,35 @@
-//
-//  Score.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 16/09/25.
-//
+import Foundation
 
-import SwiftUI
-
+public enum ScoreColor: Sendable { case red, orange, yellow, green }
 public struct Score: Equatable, Identifiable {
     public var title: String
     public var score: Int
     public var min: Double
     public var max: Double
     public var summary: String
-    public var color: Color
-    
+    public var color: ScoreColor
+
     public var id: String {
         title
     }
-    
+
     public var isEnable: Bool {
         let score = score.double
         return score >= min && score <= max
     }
-    
+
     public var progress: Double {
         let score = score.double
-        return (score - min) / (max - min)
+        return max > min ? Swift.min(Swift.max((score - min) / (max - min), 0), 1) : 0
     }
-    
+
     public init(
         title: String,
         score: Int,
         min: Double,
         max: Double,
         summary: String,
-        color: Color
+        color: ScoreColor
     ) {
         self.title = title
         self.score = score
@@ -54,8 +48,8 @@ extension Score {
             min: 200,
             max: 499,
             summary: """
-            You are spending significantly above your planned budget. Immediate action is required to regain control.
-            """,
+                You are spending significantly above your planned budget. Immediate action is required to regain control.
+                """,
             color: .red
         )
     }
@@ -67,8 +61,8 @@ extension Score {
             min: 500,
             max: 699,
             summary: """
-            Your spending is above your budget. Take steps to reduce discretionary expenses and monitor your cash flow closely to avoid further overspending.
-            """,
+                Your spending is above your budget. Take steps to reduce discretionary expenses and monitor your cash flow closely to avoid further overspending.
+                """,
             color: .orange
         )
     }
@@ -80,8 +74,8 @@ extension Score {
             min: 700,
             max: 894,
             summary: """
-            You have exceeded your planned budget. Adjust your spending immediately and focus on essential costs to regain control of your finances.
-            """,
+                You have exceeded your planned budget. Adjust your spending immediately and focus on essential costs to regain control of your finances.
+                """,
             color: .yellow
         )
     }
@@ -93,32 +87,32 @@ extension Score {
             min: 895,
             max: 1000,
             summary: """
-            Excellent! You are within your planned budget and managing your finances well.
-            """,
+                Excellent! You are within your planned budget and managing your finances well.
+                """,
             color: .green
         )
     }
 
 }
 
-public extension Array where Element == Score {
-    static func scores(for score: Int) -> [Score] {
+extension Array where Element == Score {
+    public static func scores(for score: Int) -> [Score] {
         [
             .critical(score: score),
             .atRisk(score: score),
             .overBudget(score: score),
-            .healthy(score: score)
+            .healthy(score: score),
         ]
     }
 }
 
 public struct BalanceScore: Equatable {
     var score: Int
-    
+
     public init(score: Int) {
         self.score = score
     }
-    
+
     public var scores: [Score] {
         .scores(for: score)
     }

@@ -1,35 +1,13 @@
-//
-//  CashlyResourceImage.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 02/09/25.
-//
+import SwiftUI
 
-import RyzeFoundation
-
-public enum CashlyResourceImage: String, RyzeResourceImage {
-    case illustrationEmpty
-    case illustrationNoData
-    case illustrationPeople
-    case illustrationTransaction
-    case illustrationTag
-    
-    public var resource: ImageResource {
-        switch self {
-        case .illustrationEmpty: return .illustrationEmpty
-        case .illustrationNoData: return .illustrationNoData
-        case .illustrationPeople: return .illustrationPeople
-        case .illustrationTransaction: return .illustrationTransaction
-        case .illustrationTag: return .illustrationTag
-        }
-    }
-    
+public enum CashlyResourceImage: String {
+    case illustrationEmpty, illustrationNoData, illustrationPeople, illustrationTransaction,
+        illustrationTag
+    public var image: Image { Image(rawValue, bundle: .module) }
     public static func avatar(id: String?) -> Image {
-        guard let id else { return Image(systemName: "person.crop.circle.dashed") }
+        guard let id, (1...100).contains(Int(id) ?? 0) else {
+            return Image(systemName: "person.crop.circle")
+        }
         return Image("avatar\(id)", bundle: .module)
-    }
-    
-    public var image: Image {
-        Image(resource)
     }
 }

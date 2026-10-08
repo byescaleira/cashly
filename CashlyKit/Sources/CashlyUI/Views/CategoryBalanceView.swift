@@ -1,27 +1,22 @@
-//
-//  CategoryBalanceView.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 08/09/25.
-//
-
-import SwiftUI
+import CashlyDesignSystem
 import CashlyDomain
 import CashlyPresentation
-import CashlyMock
+import Foundation
+import SwiftUI
 
-struct CategoryBalanceView: CashlyView {
-    @Environment(\.theme) var theme
-    @Environment(\.mainState) var state
-    
+struct CategoryBalanceView: View {
+    @Environment(MainViewModel.self) var state
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State var isAnimated: Bool = false
-    
+
     @ViewBuilder
     var body: some View {
         if !state.categories.isEmpty,
-           !state.budgets.isEmpty {
+            !state.budgets.isEmpty
+        {
             Section {
-                
+
             } header: {
                 CashlyVStack(spacing: .medium) {
                     statusView
@@ -33,76 +28,73 @@ struct CategoryBalanceView: CashlyView {
                 .cashlyPadding(.top, .medium)
             }
             .environment(\.isLoading, state.isLoading)
-            .onAppear {
+            .task(id: reduceMotion) {
                 isAnimated = false
-                Task {
+                guard !reduceMotion else { return }
+                do {
                     try await Task.sleep(for: .seconds(1))
+                    try Task.checkCancellation()
                     isAnimated = true
-                }
+                } catch {}
             }
         }
     }
-    
+
     @ViewBuilder
     var statusView: some View {
-        let status = state.filter.isFilteringByDate ? state.filter.startDate.string(with: .cashly(.status)) ?? "" : "All Data"
+        let status =
+            state.filter.isFilteringByDate
+            ? state.filter.startDate.string(with: .cashly(.status)) ?? "" : "All Data"
         CashlyText(status.uppercased())
             .cashly(font: .caption, weight: .bold)
             .cashly(color: .primary)
             .cashlyPadding()
             .cashlyPadding(.horizontal, .extraSmall)
-            .cashly(glass: .clear.tint(theme.color.primary.opacity(0.2)).interactive(), in: .capsule)
+            .cashlyContentSurface(tint: Color.accentColor.opacity(0.2), in: .capsule)
     }
-    
+
     var amountView: some View {
         CashlyVStack(spacing: .zero) {
             CashlyText(state.budgetsAmount.currency())
                 .cashly(font: .largeTitle, weight: .black)
                 .cashly(color: .text)
-                .contentTransition(.numericText(value: state.transactionsAmount))
+                .contentTransition(.numericText(value: state.expensesAmount))
         }
     }
-    
+
     @ViewBuilder
     func biggestCategoriesView(categories: [CashlyDomain.Category]) -> some View {
         if !categories.isEmpty {
-                GlassEffectContainer {
-                    CashlyHStack(spacing: .zero) {
-                        ForEach(categories.enumerated(), id: \.offset) { index, category in
-                            let isEven = index.isEven
-                            let point: CGFloat = isAnimated ? (isEven ? -3 : 3) : (isEven ? 3 : -3)
-                            CashlySymbol(category.icon)
-                                .cashly(font: .system(size: 18))
+            CashlyHStack(spacing: .zero) {
+                ForEach(categories.enumerated(), id: \.offset) { index, category in
+                    let isEven = index.isEven
+                    let point: CGFloat = isAnimated ? (isEven ? -3 : 3) : (isEven ? 3 : -3)
+                    CashlySymbol(category.icon)
+                        .cashly(font: .system(size: 18))
+                        .cashly(color: .hex(category.color))
+                        .frame(width: 45, height: 45)
+                        .overlay(alignment: isEven ? .topLeading : .bottomLeading) {
+                            CashlyText((index + 1).string)
+                                .cashly(font: .caption, weight: .bold)
                                 .cashly(color: .hex(category.color))
-                                .frame(width: 45, height: 45)
-                                .overlay(alignment: isEven ? .topLeading : .bottomLeading) {
-                                    CashlyText((index + 1).string)
-                                        .cashly(font: .caption, weight: .bold)
-                                        .cashly(color: .hex(category.color))
-                                        .cashlyPadding()
-                                        .cashly(background: .background)
-                                        .cashly(clip: .circle)
-                                        .cashlyPadding(.negative(.small))
-                                }
-                                .cashly(glass: .clear.tint(Color(hex: category.color).opacity(0.2)).interactive(), in: .circle)
-                                .offset(y: point)
-                                .animation(.linear.speed(0.5).repeatCount(isAnimated ? .max : .zero, autoreverses: true), value: isAnimated)
+                                .cashlyPadding()
+                                .cashly(background: .background)
+                                .cashly(clip: .circle)
+                                .cashlyPadding(.negative(.small))
                         }
-                    }
+                        .cashlyContentSurface(
+                            tint: Color(hex: category.color).opacity(0.2), in: .circle
+                        )
+                        .offset(y: point)
+                        .animation(
+                            .linear.speed(0.5).repeatCount(
+                                isAnimated ? .max : .zero, autoreverses: true),
+                            value: isAnimated)
                 }
-                .minimumScaleFactor(0.3)
-                .cashly(alignment: .center)
+            }
+            .minimumScaleFactor(0.3)
+            .cashly(alignment: .center)
         }
     }
-    
-    static var mock: some View {
-        CategoryBalanceView()
-    }
-}
 
-#Preview {
-    CashlyList {
-        CategoryBalanceView
-            .cashlyPreview()
-    }
 }

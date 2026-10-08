@@ -1,33 +1,32 @@
-//
-//  EmptyCategoryView.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 04/09/25.
-//
-
-import SwiftUI
+import CashlyDesignSystem
 import CashlyDomain
+import CashlyPresentation
+import Foundation
+import SwiftUI
 
-struct EmptyCategoryView: CashlyView {
+struct EmptyCategoryView: View {
     @Environment(\.isLoading) var isLoading
-    @Environment(\.mainState) var state
-    @Environment(\.router) var router
-    
+    @Environment(MainViewModel.self) var state
+    @Environment(\.open) var open
+    @Environment(\.navigationSection) var section
+
     @ViewBuilder
     var body: some View {
         if state.categories.isEmpty,
-           !state.users.isEmpty,
-           !isLoading {
+            !state.users.isEmpty,
+            !isLoading
+        {
             Section {
-                CashlyZStack {
+                ZStack {
                     if state.categories.isEmpty {
                         CashlyCardView(
                             image: .illustrationEmpty,
                             title: "No Categories Yet",
-                            subtitle: "Categories help you understand where your money goes. Create your first category to start organizing your expenses.",
+                            subtitle:
+                                "Categories help you understand where your money goes. Create your first category to start organizing your expenses.",
                             buttonTitle: "Add Category"
                         ) {
-                            router.route(to: .addCategory(state: .new()))
+                            open(.addCategory(id: nil), in: section)
                         }
                         .cashlyPadding(.medium)
                     }
@@ -42,14 +41,5 @@ struct EmptyCategoryView: CashlyView {
             .transition(.scale)
         }
     }
-    
-    static var mock: some View {
-        EmptyCategoryView()
-    }
-}
 
-#Preview {
-    CashlyList {
-        EmptyCategoryView.mock
-    }
 }

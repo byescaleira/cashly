@@ -1,9 +1,4 @@
-//
-//  TagUseCase.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 03/09/25.
-//
+import Foundation
 
 public protocol TagUseCase: Sendable {
     func getTag(id: String) async throws -> Tag?

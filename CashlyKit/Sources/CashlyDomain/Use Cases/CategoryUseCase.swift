@@ -1,9 +1,4 @@
-//
-//  CategoryUseCase.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 29/08/25.
-//
+import Foundation
 
 public protocol CategoryUseCase: Sendable {
     func getCategory(id: String) async throws -> Category?

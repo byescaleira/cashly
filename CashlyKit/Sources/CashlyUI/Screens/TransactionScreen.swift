@@ -1,86 +1,105 @@
-//
-//  TransactionScreen.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 08/09/25.
-//
-
-import SwiftUI
-import RyzeArchitecture
-import CashlyMock
+import CashlyDesignSystem
 import CashlyDomain
-import CashlyResource
 import CashlyPresentation
+import CashlyResource
+import Foundation
+import SwiftUI
 
-public struct TransactionScreen: CashlyView {
-    @EnvironmentObject var store: CashlyStore<MainReducer, MainMiddleware>
-    
-    @Environment(\.mainState) var state
-    @Environment(\.action) var action
-    @Environment(\.router) var router
-    
-    @State private var editMode = EditMode.inactive
+public struct TransactionScreen: View {
+
+    @Environment(MainViewModel.self) var state
+    @Environment(\.open) var open
+    @Environment(\.navigationSection) var section
+
+    @State private var isSelecting = false
     @State private var selection: Set<CashlyDomain.Transaction> = []
-    
+
     public init() {}
-    
+
     public var body: some View {
-        CashlyList(selection: $selection) {
+        List(selection: $selection) {
             TransactionBalanceView()
             EmptyCategoryView()
             EmptyBudgetView(budgets: state.budgets)
             EmptyUserView()
+            DataStatusView()
             transactionsSection
+            if state.hasMoreTransactions {
+                Button("Carregar mais transações") { Task { await state.loadMoreTransactions() } }
+                    .disabled(state.isLoading || state.isLoadingMore)
+            }
+            if state.isLoadingMore { ProgressView() }
+
         }
-        .environment(\.editMode, $editMode)
+        #if os(iOS) || os(visionOS)
+            .environment(
+                \.editMode,
+                Binding(
+                    get: { isSelecting ? .active : .inactive }, set: { isSelecting = $0 == .active }
+                ))
+        #endif
         .toolbar {
             ToolbarItem(placement: .navigation) {
-                if editMode != .active {
+                if !isSelecting {
                     UserItemView()
                 }
                 selectAllButton
             }
-            
+
             ToolbarItemGroup {
                 editButton
                 FilterItemView()
             }
-            
-            ToolbarSpacer(.fixed)
+
+            CashlyToolbarSpacer()
             ToolbarItemGroup {
                 addButton
-                
+
                 shareButton
                 removeButton
                 checkButton
             }
         }
         .environment(\.isLoading, state.isLoading)
-        .onAppear { action(.main(.fetch)) }
+        .refreshable { await state.load() }
         .navigationTitle("Transactions")
+        .onChange(of: state.transactions) {
+            let ids = Set(selection.map(\.id))
+            selection = Set(state.transactions.filter { ids.contains($0.id) })
+        }
+        .onChange(of: state.user?.id) {
+            selection = []
+            isSelecting = false
+        }
     }
-    
+
     @ViewBuilder
     var transactionsSection: some View {
         let sections = state.transactionSections
         ForEach(sections.indices, id: \.self) {
             let transactions = sections[$0]
+            let sectionDate = transactions.first.map { transaction in
+                state.filter.isFilteringByDate
+                    ? transaction.billingDate(
+                        in: state.filter.startDate.timeIntervalSince1970.yearMonth)
+                        ?? transaction.date.date : transaction.date.date
+            }
             Section {
                 ForEach(transactions) { transaction in
-                    CashlyButton {
-                        router.route(to: .addTransaction(state: .edit(id: transaction.id)))
+                    Button {
+                        open(.addTransaction(id: transaction.id), in: section)
                     } label: {
                         transactionView(transaction: transaction)
                     }
                     .tag(transaction)
                     .cashly(tint: .text)
-                    .cashlyDelete { action(.main(.removeTransaction(transaction))) }
+                    .cashlyDelete { Task { await state.removeTransaction(transaction) } }
                 }
             } header: {
                 CashlyHStack {
-                    CashlyText(transactions.first?.date.date.cashly(with: .transactionSection))
-                    CashlySpacer()
-                    CashlyText(transactions.first?.date.date.cashly(with: .weekDay))
+                    CashlyText(sectionDate?.cashly(with: .transactionSection))
+                    Spacer()
+                    CashlyText(sectionDate?.cashly(with: .weekDay))
                 }
                 .textCase(.uppercase)
                 .cashly(font: .footnote)
@@ -88,17 +107,17 @@ public struct TransactionScreen: CashlyView {
             }
         }
     }
-    
+
     func transactionView(transaction: CashlyDomain.Transaction) -> some View {
         CashlyHStack(spacing: .medium) {
-            categoryIcon(category: transaction.budget.category)
+            categoryIcon(category: transaction.category)
                 .overlay(alignment: .bottomTrailing) {
                     statusView(
                         participants: transaction.participants,
                         status: transaction.status
                     )
                 }
-            
+
             CashlyVStack(alignment: .leading, spacing: .extraSmall) {
                 CashlyText(transaction.summary)
 
@@ -109,31 +128,41 @@ public struct TransactionScreen: CashlyView {
                 .cashly(color: .textSecondary)
             }
             .cashly(font: .callout)
-            
-            CashlySpacer()
-            
+
+            Spacer()
+
             CashlyVStack(alignment: .trailing, spacing: .extraSmall) {
                 if !transaction.participants.isEmpty {
-                    CashlyText(transaction.splitValue?.currency())
+                    CashlyText(
+                        transaction.billingMoney(
+                            in: state.filter.isFilteringByDate
+                                ? state.filter.startDate.timeIntervalSince1970.yearMonth : nil
+                        ).formatted)
                 } else if let paymentPlan = transaction.paymentsPlan {
                     CashlyHStack(spacing: .extraSmall) {
                         CashlyText(paymentPlan.string + "x")
                             .cashly(color: .textSecondary)
-                        CashlyText((transaction.amount / paymentPlan.double).currency())
+                        CashlyText(
+                            transaction.billingMoney(
+                                in: state.filter.isFilteringByDate
+                                    ? state.filter.startDate.timeIntervalSince1970.yearMonth : nil
+                            ).formatted)
                     }
                 }
-                
-                CashlyText(transaction.amount.currency())
-                    .cashly(color: transaction.participants.isEmpty && transaction.paymentsPlan == nil ? .text : .textSecondary)
+
+                CashlyText(transaction.money.formatted)
+                    .cashly(
+                        color: transaction.participants.isEmpty && transaction.paymentsPlan == nil
+                            ? .text : .textSecondary)
             }
             .cashly(font: .callout, weight: .semibold)
-            
+
             CashlySymbol("chevron.forward")
                 .cashly(color: .disabled)
         }
         .lineLimit(2)
     }
-    
+
     func categoryIcon(category: CashlyDomain.Category) -> some View {
         CashlySymbol(category.icon)
             .cashly(font: .system(size: 18))
@@ -142,7 +171,7 @@ public struct TransactionScreen: CashlyView {
             .cashly(background: .color((Color(hex: category.color)).opacity(0.2)))
             .cashly(clip: .circle)
     }
-    
+
     @ViewBuilder
     func statusView(
         participants: [Participant],
@@ -153,11 +182,11 @@ public struct TransactionScreen: CashlyView {
                 .cashly(font: .system(size: 10), weight: .bold)
                 .cashly(color: .white)
                 .cashlyPadding(.extraSmall)
-                .cashly(glass: .clear.tint(status.color), in: .circle)
+                .cashlyContentSurface(tint: status.color, in: .circle)
                 .cashlyPadding([.bottom, .trailing], .negative(.extraSmall))
         }
     }
-    
+
     @ViewBuilder
     func participantsView(participants: [Participant]) -> some View {
         if !participants.isEmpty {
@@ -172,12 +201,12 @@ public struct TransactionScreen: CashlyView {
             }
         }
     }
-    
+
     @ViewBuilder
     var addButton: some View {
-        if !state.users.isEmpty, editMode == .inactive {
-            CashlyButton {
-                router.route(to: .addTransaction(state: .new()))
+        if !state.users.isEmpty, !isSelecting {
+            Button {
+                open(.addTransaction(id: nil), in: section)
             } label: {
                 CashlySymbol("plus")
                     .cashly(color: .text)
@@ -185,13 +214,13 @@ public struct TransactionScreen: CashlyView {
             .disabled(state.isLoading)
         }
     }
-    
+
     @ViewBuilder
     var editButton: some View {
-        if !state.users.isEmpty, editMode == .inactive, !state.transactions.isEmpty {
-            CashlyButton {
+        if !state.users.isEmpty, !isSelecting, !state.transactions.isEmpty {
+            Button {
                 withAnimation(.bouncy(duration: 0.8)) {
-                    editMode = .active
+                    isSelecting = true
                 }
             } label: {
                 CashlySymbol("checkmark.circle")
@@ -200,26 +229,31 @@ public struct TransactionScreen: CashlyView {
             .disabled(state.isLoading)
         }
     }
-    
+
     @ViewBuilder
     var selectAllButton: some View {
         let isAllSelected = selection.count == state.transactions.count
-        if editMode == .active {
-            CashlyButton {
+        if isSelecting {
+            Button {
                 selection = isAllSelected ? [] : Set(state.transactions)
             } label: {
-                CashlyText(isAllSelected ? "Clear Selection" : "Select All")
+                CashlyText(isAllSelected ? "Clear Selection" : "Selecionar transações carregadas")
                     .cashly(font: .body, weight: .bold)
                     .cashly(color: .text)
             }
             .disabled(state.isLoading)
         }
     }
-    
+
     @ViewBuilder
     var shareButton: some View {
-        if editMode == .active {
-            ShareLink(item: selection.shareMessage(participants: state.filter.participants)) {
+        if isSelecting {
+            ShareLink(
+                item: selection.shareMessage(
+                    participants: state.filter.participants,
+                    billingMonth: state.filter.isFilteringByDate
+                        ? state.filter.startDate.timeIntervalSince1970.yearMonth : nil)
+            ) {
                 CashlySymbol("square.and.arrow.up")
                     .cashly(color: selection.isEmpty ? .disabled : .text)
             }
@@ -227,13 +261,13 @@ public struct TransactionScreen: CashlyView {
             .disabled(selection.isEmpty)
         }
     }
-    
+
     @State var showDeleteAlert = false
-    
+
     @ViewBuilder
     var removeButton: some View {
-        if editMode == .active {
-            CashlyButton {
+        if isSelecting {
+            Button {
                 showDeleteAlert = true
             } label: {
                 CashlySymbol("trash")
@@ -242,41 +276,32 @@ public struct TransactionScreen: CashlyView {
             .disabled(state.isLoading)
             .disabled(selection.isEmpty)
             .alert("Delete Transactions", isPresented: $showDeleteAlert) {
-                Button("Cancel", role: .cancel) { }
+                Button("Cancel", role: .cancel) {}
                 Button("Delete", role: .destructive) {
-                    action(.main(.removeTransactions(selection)))
+                    Task { await state.removeTransactions(selection) }
                 }
             } message: {
-                CashlyText("Are you sure you want to delete \(selection.count) selected transaction\(selection.count == 1 ? "" : "s")? This action cannot be undone.")
+                CashlyText(
+                    "Are you sure you want to delete \(selection.count) selected transaction\(selection.count == 1 ? "" : "s")? This action cannot be undone."
+                )
             }
 
         }
     }
-    
+
     @ViewBuilder
     var checkButton: some View {
-        if editMode == .active {
-            CashlyButton {
+        if isSelecting {
+            Button {
                 withAnimation(.bouncy(duration: 0.8)) {
-                    editMode = .inactive
+                    isSelecting = false
                 }
             } label: {
                 CashlySymbol("checkmark")
             }
             .disabled(state.isLoading)
-            .buttonStyle(.glassProminent)
+            .cashlyProminentButton()
         }
     }
-    
-    public static var mock: some View {
-        TransactionScreen()
-    }
-}
 
-#Preview {
-    NavigationView {
-        TransactionScreen
-            .cashlyPreview()
-    }
 }
-

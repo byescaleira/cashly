@@ -1,31 +1,31 @@
-//
-//  CashlyChart.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 17/09/25.
-//
-
-import SwiftUI
-import Charts
+import CashlyDesignSystem
 import CashlyDomain
+import Charts
+import Foundation
+import SwiftUI
 
-struct CashlyChart: CashlyView {
-    @Environment(\.theme) var theme
-    
+struct CashlyChartPoint: Identifiable {
+    let id: String
+    let label: String
+    let amount: Double
+}
+
+struct CashlyChart: View {
+
     let type: CashlyChartType
-    let data: [(String, Double)]
+    let data: [CashlyChartPoint]
     let startItemsAmount: Double
-    
+
     init(
         type: CashlyChartType = .bar,
         startItemsAmount: Double = 7.5,
-        data: [(String, Double)]
+        data: [CashlyChartPoint]
     ) {
         self.type = type
         self.startItemsAmount = startItemsAmount
         self.data = data
     }
-    
+
     @ViewBuilder
     var body: some View {
         switch type {
@@ -33,15 +33,23 @@ struct CashlyChart: CashlyView {
         case .bar: barChart
         }
     }
-    
+
     var barChart: some View {
         Chart {
-            ForEach(data.indices, id: \.self) { index in
-                let data = data[index]
-                buildBarMark(x: data.0, y: data.1)
+            ForEach(data) { point in
+                buildBarMark(x: point.id, y: point.amount)
             }
         }
         .chartYAxis { AxisMarks(position: .trailing) }
+        .chartXAxis {
+            AxisMarks(values: data.map(\.id)) { value in
+                AxisValueLabel {
+                    if let id = value.as(String.self) {
+                        Text(verbatim: data.first { $0.id == id }?.label ?? "")
+                    }
+                }
+            }
+        }
         .chartPlotStyle { $0.padding(.vertical, 10) }
         .chartYScale(domain: getDomain())
         .chartLegend(.hidden)
@@ -50,15 +58,23 @@ struct CashlyChart: CashlyView {
         .frame(height: 120)
         .cashlyPadding(.bottom, .medium)
     }
-    
+
     var lineChart: some View {
         Chart {
-            ForEach(data.indices, id: \.self) { index in
-                let data = data[index]
-                buildLineMark(x: data.0, y: data.1)
+            ForEach(data) { point in
+                buildLineMark(x: point.id, y: point.amount)
             }
         }
         .chartYAxis { AxisMarks(position: .trailing) }
+        .chartXAxis {
+            AxisMarks(values: data.map(\.id)) { value in
+                AxisValueLabel {
+                    if let id = value.as(String.self) {
+                        Text(verbatim: data.first { $0.id == id }?.label ?? "")
+                    }
+                }
+            }
+        }
         .chartPlotStyle { $0.padding(.vertical, 10) }
         .chartYScale(domain: getDomain())
         .chartLegend(.hidden)
@@ -67,7 +83,7 @@ struct CashlyChart: CashlyView {
         .frame(height: 120)
         .cashlyPadding(.bottom, .medium)
     }
-    
+
     func buildBarMark(x: String, y: Double) -> some ChartContent {
         BarMark(
             x: .value("x", x),
@@ -76,42 +92,26 @@ struct CashlyChart: CashlyView {
             stacking: .standard
         )
     }
-    
+
     func buildLineMark(x: String, y: Double) -> some ChartContent {
         LineMark(
             x: .value("x", x),
             y: .value("y", y)
         )
-        .interpolationMethod(.cardinal)
+        .interpolationMethod(.monotone)
         .symbol(.circle)
     }
-    
+
     func getDomain() -> ClosedRange<Double> {
         var min: Double = .infinity
         var max: Double = .zero
-        
-        for item in data {
-            if item.1 < min { min = item.1 }
-            if item.1 > max { max = item.1 }
-        }
-        
-        return .zero ... (max + 10)
-    }
-    
-    @ViewBuilder
-    static var mock: some View {
-        let categories = CashlyDomain.Category.mocks
-        let data: [(String, Double)] = categories.map {
-            return (
-                $0.name.capitalized,
-                .random(in: 10 ... 30)
-            )
-        }
-        CashlyChart(data: data)
-    }
-}
 
-#Preview {
-    CashlyChart
-        .mock
+        for item in data {
+            if item.amount < min { min = item.amount }
+            if item.amount > max { max = item.amount }
+        }
+
+        return .zero...(max + 10)
+    }
+
 }

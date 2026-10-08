@@ -1,21 +1,15 @@
-//
-//  MockTag.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 03/09/25.
-//
-
 import CashlyDomain
 import CashlyResource
-import RyzeFoundation
+import Foundation
 
-extension Tag: RyzeMock {
+extension Tag {
     public static var mock: Tag {
-        mocks.randomElement()!
+        mocks.first
+            ?? Tag(id: "preview-tag", user: .mock, name: "Mercado", color: "34C759", icon: "cart")
     }
-    
+
     public static var mocks: [Tag] {
-        let tags: [Tag] = CashlyResourceFile.tags.decoded()
+        let tags: [Tag] = (try? CashlyResourceFile.tags.decoded()) ?? []
         return tags.sorted(by: \.name)
     }
 }

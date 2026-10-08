@@ -1,62 +1,64 @@
-//
-//  UserItemView.swift
-//  CashlyKit
-//
-//  Created by Rafael Escaleira on 05/09/25.
-//
-
-import SwiftUI
+import CashlyDesignSystem
 import CashlyDomain
-import CashlyResource
 import CashlyPresentation
-import CashlyMock
+import CashlyResource
+import Foundation
+import SwiftUI
 
-struct UserItemView: CashlyView {
-    @EnvironmentObject var store: CashlyStore<MainReducer, MainMiddleware>
-    
-    @Environment(\.mainState) var state
-    @Environment(\.action) var action
-    @Environment(\.router) var router
-    
+struct UserItemView: View {
+
+    @Environment(MainViewModel.self) var state
+    @Environment(\.open) var open
+    @Environment(\.navigationSection) var section
+
+    var userSelection: Binding<User?> {
+        Binding(
+            get: { state.user },
+            set: { user in
+                guard let user else { return }
+                Task { await state.selectUser(user) }
+            })
+    }
     @ViewBuilder
     var body: some View {
+        @Bindable var state = state
         if !state.users.isEmpty {
             Menu {
-                Picker(selection: $store.state.user) {
+                Picker(selection: userSelection) {
                     ForEach(state.users) { user in
                         CashlyHStack {
                             CashlyResourceImage.avatar(id: user.photo)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 36, height: 36)
-                            
+
                             CashlyText(user.name.capitalized)
                         }
-                        .tag(user)
+                        .tag(Optional(user))
                     }
                 } label: {
                     EmptyView()
                 }
-                
+
                 Divider()
-                
+
                 if let user = state.user {
-                    CashlyButton {
-                        router.route(to: .addUser(state: .edit(id: user.id)))
+                    Button {
+                        open(.addUser(id: user.id), in: section)
                     } label: {
                         CashlyLabel("Edit User", symbol: "pencil")
                             .cashly(color: .text)
                     }
                 }
-                
-                CashlyButton {
-                    router.route(to: .addUser(state: .new()))
+
+                Button {
+                    open(.addUser(id: nil), in: section)
                 } label: {
                     CashlyLabel("Add User", symbol: "plus")
                         .cashly(color: .text)
                 }
             } label: {
-                CashlyResourceImage.avatar(id: store.state.user?.photo)
+                CashlyResourceImage.avatar(id: state.user?.photo)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 36, height: 36)
@@ -65,19 +67,5 @@ struct UserItemView: CashlyView {
             .buttonStyle(.plain)
         }
     }
-    
-    static var mock: some View {
-        UserItemView()
-    }
-}
 
-#Preview {
-    NavigationView {
-        CashlyList {
-              
-        }
-        .toolbar {
-            ToolbarItem { UserItemView.cashlyPreview() }
-        }
-    }
 }
