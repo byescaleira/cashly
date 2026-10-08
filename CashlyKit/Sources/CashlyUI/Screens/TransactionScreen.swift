@@ -44,7 +44,7 @@ public struct TransactionScreen: View {
                 ))
         #endif
         .toolbar {
-            ToolbarItem(placement: .navigation) {
+            ToolbarItem(placement: .leading) {
                 if !isSelecting {
                     UserItemView()
                 }

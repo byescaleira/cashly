@@ -5,34 +5,57 @@ import SwiftUI
 public final class CashlyNavigation {
     public var selectedSection: AppSection = .home
     public var paths: [AppSection: [Route]] = [:]
-    public var sheet: SheetDestination?
-    public var sheetPath: [Route] = []
+    public var inspector: Inspector?
+    public var inspectorPath: [Route] = []
     public init() {}
 
-    public struct SheetDestination: Identifiable {
+    public struct Inspector: Identifiable, Equatable {
         public let id = UUID()
         public let route: Route
         public let section: AppSection
     }
+
     public func path(for section: AppSection) -> Binding<[Route]> {
         Binding(get: { self.paths[section, default: []] }, set: { self.paths[section] = $0 })
     }
-    public func open(_ route: Route, in section: AppSection, asSheet: Bool) {
-        if sheet != nil {
-            sheetPath.append(route)
+
+    public var isInspecting: Binding<Bool> {
+        Binding(get: { self.inspector != nil }, set: { if !$0 { self.closeInspector() } })
+    }
+
+    public func open(_ route: Route, in section: AppSection, beside: Bool) {
+        if inspector != nil {
+            inspectorPath.append(route)
             return
         }
         selectedSection = section
-        if asSheet {
-            sheetPath = []
-            sheet = SheetDestination(route: route, section: section)
+        if beside {
+            inspectorPath = []
+            inspector = Inspector(route: route, section: section)
         } else {
             paths[section, default: []].append(route)
         }
     }
+
+    public func close(in section: AppSection, inspecting: Bool) {
+        if inspecting {
+            if inspectorPath.isEmpty { closeInspector() } else { inspectorPath.removeLast() }
+        } else if paths[section]?.isEmpty == false {
+            paths[section]?.removeLast()
+        }
+    }
+
+    public func closeInspectorOutsideSelection() {
+        if inspector?.section != selectedSection { closeInspector() }
+    }
+
+    public func closeInspector() {
+        inspector = nil
+        inspectorPath = []
+    }
+
     public func reset() {
         paths = [:]
-        sheet = nil
-        sheetPath = []
+        closeInspector()
     }
 }

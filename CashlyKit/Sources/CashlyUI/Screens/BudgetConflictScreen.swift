@@ -5,7 +5,7 @@ import SwiftUI
 
 public struct BudgetConflictScreen: View {
     @Environment(FinanceModel.self) private var finance
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.close) private var close
     let categoryID: String
     let month: YearMonth
     @State private var conflict: BudgetConflict?
@@ -36,7 +36,7 @@ public struct BudgetConflictScreen: View {
                                 defer { isSaving = false }
                                 do {
                                     try await finance.resolveBudgetConflict(keeping: budget.id)
-                                    dismiss()
+                                    close()
                                 } catch { self.error = error as? CashlyError ?? .onSave }
                             }
                         }

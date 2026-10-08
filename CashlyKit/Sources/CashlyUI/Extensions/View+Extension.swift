@@ -22,10 +22,7 @@ extension View {
     public func cashly(background color: CashlyColor) -> some View { background(color.value) }
     public func cashly(clip shape: CashlyShape) -> some View { clipShape(shape) }
     public func cashly(alignment: TextAlignment) -> some View { multilineTextAlignment(alignment) }
-    public func cashly(loading: Bool) -> some View { redacted(reason: loading ? .placeholder : []) }
-    public func cashlyBackgroundItem() -> some View {
-        listRowBackground(Color.secondary.opacity(0.08))
-    }
+    public func cashly(loading: Bool) -> some View { self.loading(loading) }
     public func cashlyRounded() -> some View { clipShape(RoundedRectangle(cornerRadius: 32)) }
     @ViewBuilder public func cashly<Content: View>(
         if condition: Bool, _ transform: (Self) -> Content
@@ -45,27 +42,9 @@ extension View {
     ) -> some View {
         symbolEffect(effect, options: options, isActive: isActive)
     }
-    public func cashlyDelete(action: @escaping () -> Void) -> some View {
-        self.swipeActions(edge: .trailing, allowsFullSwipe: true) {
-            Button(role: .destructive) {
-                action()
-            } label: {
-                CashlyLabel("Delete", symbol: "trash.fill")
-            }
-            .cashly(tint: .error)
-        }
-    }
+    public func cashlyDelete(action: @escaping () -> Void) -> some View { deleteAction(action) }
 
-    public func cashlyEdit(action: @escaping () -> Void) -> some View {
-        self.swipeActions(edge: .trailing, allowsFullSwipe: false) {
-            Button {
-                action()
-            } label: {
-                CashlyLabel("Edit", symbol: "square.and.pencil")
-            }
-            .cashly(tint: .info)
-        }
-    }
+    public func cashlyEdit(action: @escaping () -> Void) -> some View { editAction(action) }
 
     public func cashlyDismiss(isSaved: Bool, selectedUserID: String? = nil) -> some View {
         self.modifier(CashlyDismissModifier(isSaved: isSaved, selectedUserID: selectedUserID))

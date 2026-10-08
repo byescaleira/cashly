@@ -54,8 +54,7 @@ struct CashlyChart: View {
         .chartPlotStyle { $0.padding(.vertical, 10) }
         .chartYScale(domain: getDomain())
         .chartLegend(.hidden)
-        .chartScrollableAxes(.horizontal)
-        .chartXVisibleDomain(length: startItemsAmount)
+        .chartScrolling(visible: startItemsAmount, count: data.count)
         .frame(height: 120)
         .cashlyPadding(.bottom, .medium)
     }
@@ -79,8 +78,7 @@ struct CashlyChart: View {
         .chartPlotStyle { $0.padding(.vertical, 10) }
         .chartYScale(domain: getDomain())
         .chartLegend(.hidden)
-        .chartScrollableAxes(.horizontal)
-        .chartXVisibleDomain(length: startItemsAmount)
+        .chartScrolling(visible: startItemsAmount, count: data.count)
         .frame(height: 120)
         .cashlyPadding(.bottom, .medium)
     }

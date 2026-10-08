@@ -17,7 +17,7 @@ public struct HomeScreen: View {
     public init() {}
 
     public var body: some View {
-        List {
+        AdaptiveList {
             EmptyUserView()
             DataStatusView()
             EmptyCategoryView()
@@ -30,7 +30,7 @@ public struct HomeScreen: View {
             SpendingForecastSection()
         }
         .toolbar {
-            ToolbarItem(placement: .navigation) { UserItemView() }
+            ToolbarItem(placement: .leading) { UserItemView() }
             ToolbarItem { FilterItemView() }
         }
         .refreshable { await finance.load() }

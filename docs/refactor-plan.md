@@ -193,9 +193,10 @@ Dividida em dez etapas. Cada etapa termina com build nas três plataformas, lint
 
 Decisões de 08/10/2026:
 
-- **Layout híbrido nativo.** Telas de linhas (transações, formulários, settings) continuam `List`/`Form`, com largura de leitura limitada no iPad. Telas de painel (Home, Categorias) viram uma grade adaptativa de cards, evolução do `AdaptiveSection` do bread-such: carregamento preguiçoso, colunas por largura disponível e tokens do design system.
+- **Visual atual mantido.** As telas continuam com a aparência de hoje: `List`/`Form` nativos, glass do sistema e cor de destaque do sistema, seguindo as diretrizes da Apple. Duas propostas de identidade nova foram testadas e rejeitadas em 08/10/2026.
+- **Lista adaptativa.** Evolução do `AdaptiveList`/`AdaptiveSection` do bread-such: as seções que hoje esticam no iPad e em paisagem passam a se distribuir em colunas pela largura disponível, mantendo o estilo das seções atuais.
 - **Inspector para formulários e detalhes.** `.inspector` nativo: painel à direita no iPad e no iPhone em paisagem, sheet no iPhone em retrato. Substitui o hack de UIKit do bread-such, que não roda em macOS e visionOS.
-- **Uma reescrita por tela.** O design system novo e os textos em pt-BR entram na fase 5: cada tela migrada já sai com visual final, componentes nativos e strings no catálogo.
+- **Uma reescrita por tela.** Os estilos reorganizados e os textos em pt-BR entram na fase 5: cada tela migrada já sai com a estrutura final, componentes nativos e strings no catálogo.
 
 Regra de dependência: uma feature não importa outra. O que é usado por mais de uma feature (seletor de usuário, menu de filtro, estados vazios, gráficos, variação de categoria, modificador de inteligência, catálogo de símbolos) vai para `FeatureCore`.
 
@@ -209,14 +210,14 @@ Concluída. A raiz do app (bootstrap do banco) continua no target do app, que é
 - `CashlyPresentation` fica só com os editores e o `TransactionListModel`, que saem nas etapas seguintes.
 - Pronto quando o app se comporta exatamente como antes.
 
-#### 5.2 Design system e componentes adaptativos
+#### 5.2 Estilos e layout adaptativo
 
-- Tokens novos com linguagem visual inspirada no Claude: neutros quentes (marfim e grafite), acento terracota, títulos serifados (`.fontDesign(.serif)`), espaçamento generoso, Liquid Glass do iOS 27 nos controles. Claro e escuro.
-- Prévia visual dos tokens e componentes para aprovação antes de aplicar nas telas.
-- Componentes: `CardGrid` (grade adaptativa preguiçosa), `Card` (seção em card, sucessor do `AdaptiveSection`), largura de leitura para `List`/`Form`, estado vazio sobre `ContentUnavailableView`, valor monetário com transição numérica.
-- `CashlyNavigation` abre rotas no inspector em largura regular e por push em largura compacta.
-- String Catalog em cada target de feature, com `defaultLocalization: "pt-BR"`.
-- Os wrappers antigos (`CashlyText`, `CashlyHStack`…) continuam existindo até a 5.10, para as telas ainda não migradas.
+Concluída, sem mudança visual no iPhone em retrato.
+
+- `CashlyDesignSystem` organizado em `Styles/` (extensions de `ShapeStyle`: `.positive`, `.negative`, `.warning`, `.info`, `.disabled`, `.subtleFill`, `.rowFill`, `.groupedBackground`, `.groupedRow`; `ToolbarItemPlacement.leading`; `Color(hex:)`), `Modifiers/` (extensions de `View`: `surface`, `contentSurface`, `prominentButton`, `dismissKeyboardOnScroll`, `loading`, `deleteAction`, `editAction`), `Layout/` (`AdaptiveList`, `SurfaceContainer`, `FixedToolbarSpacer`) e `Legacy/` (os wrappers antigos, que agora só encaminham para os novos e saem na 5.10). `errorAlert` foi para `FeatureCore`.
+- `AdaptiveList`: recebe as mesmas `Section` de uma `List`. Com largura para uma coluna, é a `List` nativa; com mais, lê as seções com `Group(sections:)` e as distribui em colunas de no mínimo 320 pt, com a aparência agrupada do sistema. A Home já usa.
+- Navegação adaptativa: em largura regular as rotas abrem no `.inspector` da janela (sheet no visionOS); em compacta, por push. `\.close` fecha a rota no contexto certo (inspector, pilha do inspector ou pilha da aba). O inspector fica na `TabView` porque, preso a cada pilha, empurra a barra da tela para baixo da barra de abas.
+- Correção: gráficos com rolagem horizontal travavam o app no iPad quando havia menos pontos que o domínio visível; a rolagem agora só liga quando há pontos sobrando.
 
 #### 5.3 Piloto: `FeatureTags`
 
@@ -232,7 +233,7 @@ Concluída. A raiz do app (bootstrap do banco) continua no target do app, que é
 
 #### 5.5 `FeatureCategories`
 
-- Lista de categorias em `CardGrid`, detalhe da categoria e editor.
+- Lista de categorias em `AdaptiveList`, detalhe da categoria e editor.
 - Barra de variação da categoria vai para `FeatureCore` (o editor de transação também mostra).
 
 #### 5.6 `FeatureBudgets`
@@ -247,7 +248,7 @@ Concluída. A raiz do app (bootstrap do banco) continua no target do app, que é
 
 #### 5.8 `FeatureDashboard`
 
-- Home em `CardGrid`: saldo e score, disponível, comparação planejado × gasto, maiores gastos, tags, previsão.
+- Home em `AdaptiveList`: saldo e score, disponível, comparação planejado × gasto, maiores gastos, tags, previsão.
 - Pontos de gráfico e seleções padrão saem da view e vão para o model.
 - Gráficos vão para `FeatureCore`.
 

@@ -61,8 +61,7 @@ struct CashlyCompareChart: View {
         .chartPlotStyle { $0.padding(.vertical, 10) }
         .chartYScale(domain: getDomain())
         .chartLegend(.hidden)
-        .chartScrollableAxes(.horizontal)
-        .chartXVisibleDomain(length: startItemsAmount)
+        .chartScrolling(visible: startItemsAmount, count: data.count)
         .chartForegroundStyleScale(
             [
                 "budget": Color.blue,
@@ -93,8 +92,7 @@ struct CashlyCompareChart: View {
         .chartPlotStyle { $0.padding(.vertical, 10) }
         .chartYScale(domain: getDomain())
         .chartLegend(.hidden)
-        .chartScrollableAxes(.horizontal)
-        .chartXVisibleDomain(length: startItemsAmount)
+        .chartScrolling(visible: startItemsAmount, count: data.count)
         .chartForegroundStyleScale(
             [
                 "budget": Color.blue,

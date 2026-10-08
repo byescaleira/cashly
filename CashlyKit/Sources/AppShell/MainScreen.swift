@@ -21,27 +21,23 @@ public struct MainScreen: View {
         TabView(selection: $navigation.selectedSection) {
             ForEach(AppSection.allCases) { section in
                 Tab(section.title, systemImage: section.systemImage, value: section) {
-                    NavigationStack(path: navigation.path(for: section)) {
-                        SectionScreen(section: section)
-                            .navigationDestination(for: Route.self) {
-                                RouteScreen(route: $0)
-                            }
-                    }
-                    .environment(\.navigationSection, section)
+                    SectionStack(section: section)
                 }
             }
         }
         .tabViewStyle(.sidebarAdaptable)
+        .routeInspector(isPresented: navigation.isInspecting) {
+            if let inspector = navigation.inspector {
+                InspectorScreen(inspector: inspector)
+            }
+        }
         #if os(iOS)
             .tabBarMinimizeBehavior(.onScrollDown)
         #endif
-        .sheet(item: $navigation.sheet) { sheet in
-            SheetScreen(destination: sheet)
-        }
         .environment(
             \.open,
             CashlyDestination { route, section in
-                navigation.open(route, in: section, asSheet: horizontalSizeClass == .regular)
+                navigation.open(route, in: section, beside: horizontalSizeClass == .regular)
             }
         )
         .environment(\.user, session.user)
@@ -51,6 +47,7 @@ public struct MainScreen: View {
         .task(id: (session.user?.id ?? "") + ":" + finance.datasetRevision) {
             await intelligence.loadModels(revision: finance.datasetRevision)
         }
+        .onChange(of: navigation.selectedSection) { navigation.closeInspectorOutsideSelection() }
         .onChange(of: session.user?.id) { old, new in
             if old != nil && old != new { navigation.reset() }
         }
