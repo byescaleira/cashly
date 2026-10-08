@@ -2,7 +2,6 @@ import CashlyDomain
 import Foundation
 import SwiftData
 
-/// A single actor owns the store. Immutable scoped gateways supply the window's user ID.
 @ModelActor
 public actor CashlyRepository {
     public nonisolated let changeHub = CashlyChangeHub()

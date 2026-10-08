@@ -1,7 +1,6 @@
 import Foundation
 import SwiftData
 
-/// Frozen field layout from commit 510d6be. Never add fields to this schema.
 public enum CashlySchemaV1: VersionedSchema {
     public static var versionIdentifier: Schema.Version { .init(1, 0, 0) }
     public static var models: [any PersistentModel.Type] {

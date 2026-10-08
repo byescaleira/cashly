@@ -3,7 +3,6 @@ import Foundation
 import SwiftData
 
 extension CashlyRepository {
-    /// Additive conversion. Unresolved records stay intact until their references arrive.
     public func prepare() throws {
         try CashlyMetrics.measure("NormalizeLegacyStore") {
             let users = try uniqueIndex(getUsers())
@@ -101,7 +100,6 @@ extension CashlyRepository {
                     if row.startMonthIndex != start { row.startMonthIndex = start }
                     if row.endMonthIndex != end { row.endMonthIndex = end }
                     if !row.tagsMigrated {
-                        // Preserve the legacy text-based associations once, then use stable tag IDs.
                         row.tagIDs = allTags.filter {
                             $0.user == category.user
                                 && row.summary.localizedCaseInsensitiveContains($0.name)

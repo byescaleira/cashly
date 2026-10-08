@@ -1,6 +1,5 @@
 import Foundation
 
-/// Query-time association between planning and financial facts, never a foreign key.
 public struct FinancialPeriodKey: Hashable, Sendable {
     public let ownerID: String
     public let categoryID: String

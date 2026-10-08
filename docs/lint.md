@@ -2,9 +2,9 @@
 
 Execute `scripts/lint.sh` na raiz do projeto. O comando verifica primeiro a formatação com o `swift-format` da Apple e depois executa o SwiftLint em modo estrito: qualquer violação retorna erro e bloqueia o job de compilação no CI. Para corrigir apenas a formatação, execute `scripts/format.sh`.
 
-O escopo inclui o app em `Cashly/Cashly`, todos os módulos em `CashlyKit/Sources` e o manifesto `CashlyKit/Package.swift`. Testes, caches, dependências e arquivos do Xcode ficam fora dessa seleção. O lint não altera os fontes automaticamente.
+O escopo inclui o app em `Cashly/Cashly`, todos os módulos em `CashlyKit/Sources`, os testes em `CashlyKit/Tests` e o manifesto `CashlyKit/Package.swift`. Caches, dependências e arquivos do Xcode ficam fora dessa seleção. O lint não altera os fontes automaticamente.
 
-`.swift-format` controla indentação, espaçamento, quebra de linhas e ordenação de imports. `.swiftlint.yml` seleciona 24 regras de segurança e uso de APIs, incluindo:
+`.swift-format` controla indentação, espaçamento, quebra de linhas e ordenação de imports. `.swiftlint.yml` seleciona 24 regras de segurança e uso de APIs e a regra própria `no_comments`, que proíbe comentários em código Swift (a única exceção é `// swift-tools-version` no manifesto). As regras incluem:
 
 - Cast, `try`, unwrap e optional implicitamente forçados.
 - Condições, casos de enum, imports e chaves de dicionário duplicados.

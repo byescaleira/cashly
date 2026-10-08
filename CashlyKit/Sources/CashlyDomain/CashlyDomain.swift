@@ -2,7 +2,6 @@ import Foundation
 
 public protocol CashlyEntity: Identifiable, Codable, Hashable, Sendable {}
 
-/// Persisted month keys always use Gregorian years and the user's local time zone.
 public enum CashlyCalendar {
     public static var current: Calendar {
         var calendar = Calendar(identifier: .gregorian)

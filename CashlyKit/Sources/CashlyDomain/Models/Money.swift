@@ -1,6 +1,5 @@
 import Foundation
 
-/// BRL is the currency supported by this version; amounts never change with the device locale.
 public struct Money: Codable, Hashable, Comparable, Sendable {
     public let minorUnits: Int64
     public static let currencyCode = "BRL"
@@ -18,7 +17,6 @@ public struct Money: Codable, Hashable, Comparable, Sendable {
         self.minorUnits = NSDecimalNumber(decimal: rounded).int64Value
     }
     public var decimalValue: Decimal { Decimal(minorUnits) / 100 }
-    /// For controls and chart coordinates only. Financial calculations use minorUnits.
     public var doubleValue: Double { NSDecimalNumber(decimal: decimalValue).doubleValue }
     public var formatted: String { decimalValue.formatted(.currency(code: Self.currencyCode)) }
     public static func < (lhs: Self, rhs: Self) -> Bool { lhs.minorUnits < rhs.minorUnits }

@@ -2,7 +2,6 @@ import CashlyDomain
 import CoreData
 import Foundation
 
-/// NSLock protects all mutable state; callbacks never access a ModelContext.
 public final class CashlyChangeHub: @unchecked Sendable, DataChangeUseCase {
     private let lock = NSLock()
     private var revision: UInt64 = 0
@@ -30,8 +29,6 @@ public final class CashlyChangeHub: @unchecked Sendable, DataChangeUseCase {
             if change.isRemote { revision &+= 1 }
             return Array(listeners.values)
         }
-        // A coalesced signal invalidates all windows so a later event for another user
-        // cannot hide a prior change for this window in bufferingNewest(1).
         let invalidation = StorageChange(isRemote: change.isRemote)
         for listener in current { listener.yield(invalidation) }
     }

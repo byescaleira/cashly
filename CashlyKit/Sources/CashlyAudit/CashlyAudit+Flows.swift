@@ -5,7 +5,6 @@ import Foundation
 import SwiftData
 
 extension CashlyAudit {
-    /// Manual financial-flow diagnostic; operates on a fresh in-memory store.
     @MainActor static func inspectFlows() async throws {
         let factory = try CashlyDataFactory.make(inMemory: true)
         try await factory.makeUserUseCase().addUser(id: "flow-owner", name: "Perfil", photo: "1")

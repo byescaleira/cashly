@@ -3,7 +3,6 @@ import Foundation
 import SwiftData
 
 extension CashlyRepository {
-    /// Resolves only after an explicit choice. No amount or original budget row is discarded.
     public func resolveBudgetConflict(keeping budgetID: String, userID: String) throws {
         try ensureNormalization()
         let kept = try requireBudget(id: budgetID, userID: userID)
@@ -31,8 +30,6 @@ extension CashlyRepository {
             throw error
         }
     }
-    /// Reconcile competing explicit resolutions by timestamp and token. Rows that were
-    /// not part of any resolution stay active and still require a new user choice.
     func reconcileResolutions() throws {
         let rows = try modelContext.fetch(
             FetchDescriptor<BudgetEntity>(predicate: #Predicate { $0.resolutionToken != "" }))

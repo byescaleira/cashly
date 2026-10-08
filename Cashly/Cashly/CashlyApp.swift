@@ -27,7 +27,6 @@ private final class CashlyBootstrap {
             preparation
             ?? Task.detached(priority: .userInitiated) {
                 #if targetEnvironment(simulator)
-                    // Simulator builds use real local persistence without signed CloudKit capabilities.
                     return try CashlyDataFactory.make(cloudSync: false)
                 #else
                     return try CashlyDataFactory.make()

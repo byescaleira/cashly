@@ -23,8 +23,10 @@ Valores financeiros usam `Money` em centavos BRL. O schema V3 mantém V1/V2 cong
 
 Para compilar, use `scripts/build.sh Debug` ou `scripts/build.sh Release`, com `DEVELOPER_DIR` apontando para o Xcode desejado. O script compila iOS, os apps macOS e visionOS, sem executar testes.
 
-Para formatar os fontes, use `scripts/format.sh`; para verificar o padrão, use `scripts/format.sh --check`. O projeto utiliza o `swift-format` incluído no toolchain da Apple, com quatro espaços e as demais regras padrão, configurado em `.swift-format`. O comando abrange o app, os módulos e o manifesto do pacote; os testes ficam fora desse escopo.
+Para rodar os testes, use `scripts/test.sh`. O script executa o scheme `CashlyKit-Package` no simulador do iPhone 17 com iOS 27; `CASHLY_TEST_DESTINATION` troca o destino.
 
-Para verificar formatação e qualidade, use `scripts/lint.sh`. O comando instala o SwiftLint 0.65.1 em `.tools` na primeira execução, validando o SHA-256 da distribuição oficial, e aplica `.swiftlint.yml` em modo estrito. O job de lint bloqueia os builds do CI em caso de violação. Veja [o escopo e as regras](docs/lint.md).
+Para formatar os fontes, use `scripts/format.sh`; para verificar o padrão, use `scripts/format.sh --check`. O projeto utiliza o `swift-format` incluído no toolchain da Apple, com quatro espaços e as demais regras padrão, configurado em `.swift-format`. O comando abrange o app, os módulos, os testes e o manifesto do pacote.
+
+Para verificar formatação e qualidade, use `scripts/lint.sh`. O comando instala o SwiftLint 0.65.1 em `.tools` na primeira execução, validando o SHA-256 da distribuição oficial, e aplica `.swiftlint.yml` em modo estrito. Comentários no código Swift são proibidos pela regra `no_comments`. O job de lint bloqueia os builds do CI em caso de violação. Veja [o escopo e as regras](docs/lint.md).
 
 A reestruturação parte do commit `510d6be` (`Add Intelligence`). O histórico posterior foi preservado na branch local `backup/pre-ai-rollback-2026-10-04`; o remoto não foi alterado.

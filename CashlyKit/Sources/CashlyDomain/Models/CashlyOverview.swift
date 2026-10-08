@@ -1,6 +1,5 @@
 import Foundation
 
-/// Full-query aggregates. The displayed transaction page is loaded independently.
 public struct CashlyOverview: Sendable {
     public var budgets: [Budget] = []
     public var budgetsByCategory: [String: [Budget]] = [:]
@@ -9,7 +8,6 @@ public struct CashlyOverview: Sendable {
     public var budgetExpenses: [String: Money] = [:]
     public var tagExpenses: [String: Money] = [:]
     public var budgetsTotal: Money = .zero
-    /// Expense total; income never reduces budget consumption.
     public var expensesTotal: Money = .zero
     public var incomeTotal: Money = .zero
     public var netTotal: Money = .zero

@@ -9,7 +9,6 @@ public class TransactionEntity {
         [\.ownerID, \.kind, \.date], [\.ownerID, \.startMonthIndex, \.endMonthIndex])
     public var id: String = ""
     public var participants: [String] = []
-    /// Legacy migration input only; new transactions never reference a budget.
     public var budget: String = ""
     public var categoryID: String = ""
     public var kind: Int = 0

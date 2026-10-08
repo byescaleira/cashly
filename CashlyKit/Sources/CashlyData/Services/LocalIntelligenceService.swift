@@ -1,8 +1,6 @@
 import CashlyDomain
 import Foundation
 
-/// Monthly mean estimators and a multinomial Naive Bayes text classifier.
-/// Persists training data per user; models are built and used on this actor.
 public actor LocalIntelligenceService: IntelligenceUseCase {
     private struct Model: Codable {
         var info: [IntelligenceModelInfo]
@@ -20,7 +18,6 @@ public actor LocalIntelligenceService: IntelligenceUseCase {
                 path: "Cashly/Intelligence", directoryHint: .isDirectory)
     }
     private func url(for userID: String) -> URL {
-        // Persisted user IDs are UUIDs; encoding also prevents arbitrary path traversal.
         let key = Data(userID.utf8).base64EncodedString().replacingOccurrences(of: "/", with: "_")
         return directory.appending(path: key + ".json")
     }

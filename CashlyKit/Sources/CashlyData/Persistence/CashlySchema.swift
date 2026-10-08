@@ -14,7 +14,6 @@ public enum CashlyMigrationPlan: SchemaMigrationPlan {
     public static var schemas: [any VersionedSchema.Type] {
         [CashlySchemaV1.self, CashlySchemaV2.self, CashlySchemaV3.self]
     }
-    // New fields are optional or have CloudKit-compatible defaults. Old fields remain intact.
     public static var stages: [MigrationStage] {
         [
             .lightweight(fromVersion: CashlySchemaV1.self, toVersion: CashlySchemaV2.self),

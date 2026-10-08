@@ -1,12 +1,10 @@
-# swift-format owns whitespace, layout and import ordering.
-# SwiftLint focuses on potentially unsafe or unintended code.
 included:
   - Cashly/Cashly
   - CashlyKit/Sources
+  - CashlyKit/Tests
   - CashlyKit/Package.swift
 
 excluded:
-  - CashlyKit/Tests
   - CashlyKit/.build
   - CashlyKit/.swiftpm
   - .tools
@@ -14,6 +12,7 @@ excluded:
 only_rules:
   - blanket_disable_command
   - compiler_protocol_init
+  - custom_rules
   - discarded_notification_center_observer
   - duplicate_conditions
   - duplicate_enum_cases
@@ -36,6 +35,17 @@ only_rules:
   - unused_optional_binding
   - unused_setter_value
   - weak_delegate
+
+custom_rules:
+  no_comments:
+    name: No comments
+    message: Comments are not allowed. Express intent through names and structure.
+    regex: '(//|/\*)'
+    match_kinds:
+      - comment
+      - doccomment
+    excluded: '.*Package\.swift$'
+    severity: error
 
 force_cast: error
 force_try: error

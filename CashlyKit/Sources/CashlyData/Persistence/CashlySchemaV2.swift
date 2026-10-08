@@ -2,7 +2,6 @@ import CashlyDomain
 import Foundation
 import SwiftData
 
-/// Frozen V2 layout. Changes belong in a new schema version.
 public enum CashlySchemaV2: VersionedSchema {
     public static var versionIdentifier: Schema.Version { .init(2, 0, 0) }
     public static var models: [any PersistentModel.Type] {

@@ -6,7 +6,6 @@ import Darwin
 import Foundation
 import SwiftData
 
-/// Manual storage diagnostics. Never opens the original store with the new schema.
 @main
 struct CashlyAudit {
     @MainActor static func main() async {
@@ -37,7 +36,6 @@ struct CashlyAudit {
             }
             try FileManager.default.createDirectory(
                 at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-            // Unversioned schema reproduces the pre-migration container.
             let schema = Schema(CashlySchemaV1.models)
             let configuration = ModelConfiguration(
                 schema: schema, url: url, cloudKitDatabase: .none)
@@ -339,7 +337,6 @@ struct CashlyAudit {
             let denied = try await factory.scoped(to: "b").makeTransactionUseCase().getTransaction(
                 id: "00000000")
             print("ISOLATION foreignDetail=\(denied == nil ? "hidden" : "visible")")
-            // Simulate a conflict imported from another device without deleting either original.
             let duplicate = BudgetEntity(
                 id: "duplicate", amount: 1500, category: "category-a", date: 202601,
                 summary: "Outra versão"

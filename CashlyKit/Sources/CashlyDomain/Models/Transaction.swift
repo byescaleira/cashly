@@ -222,7 +222,6 @@ extension Set where Element == Transaction {
 }
 
 extension Transaction {
-    /// The original timestamp projected onto the billing month, including installments.
     public func billingDate(in yearMonth: Int) -> Date? {
         guard occurs(in: yearMonth) else { return nil }
         let calendar = CashlyCalendar.current

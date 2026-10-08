@@ -1,6 +1,5 @@
 import Foundation
 
-/// The owner receives the first remainder cent, followed by participants in stable ID order.
 public struct TransactionAllocation: Sendable {
     public let owner: Money
     public let participants: [String: Money]

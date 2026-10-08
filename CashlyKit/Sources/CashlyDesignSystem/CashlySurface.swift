@@ -17,14 +17,12 @@ extension View {
         #endif
     }
 
-    /// A custom control surface. Apply after sizing and appearance modifiers.
     public func cashlySurface(
         tint: Color? = nil, in shape: CashlyShape, interactive: Bool = false
     ) -> some View {
         modifier(CashlyGlassSurfaceModifier(tint: tint, shape: shape, interactive: interactive))
     }
 
-    /// A tinted background for information within content, without an optical glass layer.
     public func cashlyContentSurface(tint: Color? = nil, in shape: CashlyShape) -> some View {
         background(tint ?? .secondary.opacity(0.12), in: shape)
     }
@@ -63,7 +61,6 @@ public struct CashlySurfaceContainer<Content: View>: View {
     private let content: Content
     private let spacing: CGFloat
 
-    /// Optical merging distance, independent of the content's layout spacing.
     public init(spacing: CGFloat = 0, @ViewBuilder content: () -> Content) {
         self.spacing = spacing
         self.content = content()

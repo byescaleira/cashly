@@ -31,8 +31,6 @@ extension CashlyRepository {
                     SortDescriptor(\.date, order: .reverse), SortDescriptor(\.id, order: .reverse),
                 ])
         )
-        // Legacy imports without a budget cannot yet be assigned to a window.
-        // Expose only a completeness warning, never another user's financial records.
         var pending = try modelContext.fetchCount(
             FetchDescriptor<TransactionEntity>(predicate: #Predicate { $0.ownerID == "" }))
         let groups = Dictionary(grouping: budgetRows, by: { $0.category + "." + String($0.date) })
@@ -135,7 +133,6 @@ extension CashlyRepository {
             sortBy: [
                 SortDescriptor(\.date, order: .reverse), SortDescriptor(\.id, order: .reverse),
             ])
-        // Tag/participant filters are applied after mapping a bounded batch.
         result.fetchLimit = limit
         return result
     }
@@ -351,8 +348,6 @@ extension CashlyRepository {
                 FetchDescriptor<ParticipantEntity>(
                     predicate: #Predicate { ids.contains($0.transaction) },
                     sortBy: [SortDescriptor(\.transaction), SortDescriptor(\.id)]))
-            // Actual inputs protect against related CloudKit records arriving after the
-            // transaction revision, and against edits made by an older client.
             let fields = rows.map { row in
                 [
                     row.id, row.contentRevision, String(row.amountMinorUnits ?? -1),

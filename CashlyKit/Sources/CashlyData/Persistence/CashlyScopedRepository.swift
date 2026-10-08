@@ -1,7 +1,6 @@
 import CashlyDomain
 import Foundation
 
-/// Immutable user context: sharing the actor never shares a window's selection.
 struct CashlyScopedRepository: BudgetUseCase, CategoryUseCase, UserUseCase, TagUseCase,
     TransactionUseCase, SnapshotUseCase, DashboardUseCase
 {

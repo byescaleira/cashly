@@ -187,6 +187,7 @@ Cada fase termina com: `scripts/build.sh Debug` passando, `scripts/lint.sh` pass
 
 - Strings de UI em pt-BR num String Catalog (`defaultLocalization` já é `pt-BR`); hoje há inglês e português misturados na mesma tela.
 - Remover wrappers triviais do DesignSystem (`CashlyText`, `CashlyHStack`, `CashlyVStack`, `CashlySymbol`): manter tokens e superfícies, usar SwiftUI nativo para o resto.
+- Nova linguagem visual inspirada no Claude: neutros quentes (fundo marfim, texto grafite), acento terracota, tipografia sóbria com títulos serifados, muito espaço e pouca decoração. Apenas componentes nativos e Liquid Glass do iOS 27; sem marca ou logotipo de terceiros. Os tokens são validados com uma prévia antes de aplicar nas telas.
 - `CashlyAudit` como suíte automatizada de integração e diagnóstico, rodando por script e no CI.
 - Regras de lint para `file_length`, `type_body_length` e `function_parameter_count`, para o código não voltar ao estado atual.
 - Consolidar os 9 documentos de `docs/` em `architecture.md` + registro de decisões; remover revisões que já viraram código.

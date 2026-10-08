@@ -36,11 +36,6 @@ let package = Package(
             dependencies: [
                 "CashlyDomain", "CashlyPresentation", "CashlyResource", "CashlyDesignSystem",
             ]),
-        .testTarget(
-            name: "CashlyTests",
-            dependencies: [
-                "CashlyDomain", "CashlyData", "CashlyPresentation", "CashlyUI", "CashlyMock",
-            ],
-            exclude: ["Cashly.xctestplan"]),
+        .testTarget(name: "CashlyDomainTests", dependencies: ["CashlyDomain"]),
     ]
 )
