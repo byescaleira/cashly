@@ -8,7 +8,11 @@ import SwiftUI
 
 public struct TransactionScreen: View {
 
-    @Environment(MainViewModel.self) var state
+    @Environment(SessionModel.self) var session
+
+    @Environment(FinanceModel.self) var finance
+
+    @Environment(TransactionListModel.self) var transactions
     @Environment(\.open) var open
     @Environment(\.navigationSection) var section
 
@@ -21,15 +25,15 @@ public struct TransactionScreen: View {
         List(selection: $selection) {
             TransactionBalanceView()
             EmptyCategoryView()
-            EmptyBudgetView(budgets: state.budgets)
+            EmptyBudgetView(budgets: finance.budgets)
             EmptyUserView()
             DataStatusView()
             transactionsSection
-            if state.hasMoreTransactions {
-                Button("Carregar mais transações") { Task { await state.loadMoreTransactions() } }
-                    .disabled(state.isLoading || state.isLoadingMore)
+            if transactions.hasMore {
+                Button("Carregar mais transações") { Task { await transactions.loadMore() } }
+                    .disabled(finance.isLoading || transactions.isLoadingMore)
             }
-            if state.isLoadingMore { ProgressView() }
+            if transactions.isLoadingMore { ProgressView() }
 
         }
         #if os(iOS) || os(visionOS)
@@ -61,14 +65,15 @@ public struct TransactionScreen: View {
                 checkButton
             }
         }
-        .environment(\.isLoading, state.isLoading)
-        .refreshable { await state.load() }
+        .environment(\.isLoading, finance.isLoading)
+        .refreshable { await transactions.load() }
+        .task(id: session.loadKey) { await transactions.load() }
         .navigationTitle("Transactions")
-        .onChange(of: state.transactions) {
+        .onChange(of: transactions.items) {
             let ids = Set(selection.map(\.id))
-            selection = Set(state.transactions.filter { ids.contains($0.id) })
+            selection = Set(transactions.items.filter { ids.contains($0.id) })
         }
-        .onChange(of: state.user?.id) {
+        .onChange(of: session.user?.id) {
             selection = []
             isSelecting = false
         }
@@ -76,17 +81,17 @@ public struct TransactionScreen: View {
 
     @ViewBuilder
     var transactionsSection: some View {
-        let sections = state.transactionSections
+        let sections = transactions.sections
         ForEach(sections.indices, id: \.self) {
-            let transactions = sections[$0]
-            let sectionDate = transactions.first.map { transaction in
-                state.filter.isFilteringByDate
+            let group = sections[$0]
+            let sectionDate = group.first.map { transaction in
+                session.filter.isFilteringByDate
                     ? transaction.billingDate(
-                        in: YearMonth(state.filter.startDate))
+                        in: YearMonth(session.filter.startDate))
                         ?? transaction.date : transaction.date
             }
             Section {
-                ForEach(transactions) { transaction in
+                ForEach(group) { transaction in
                     Button {
                         open(.addTransaction(id: transaction.id), in: section)
                     } label: {
@@ -94,7 +99,7 @@ public struct TransactionScreen: View {
                     }
                     .tag(transaction)
                     .cashly(tint: .text)
-                    .cashlyDelete { Task { await state.removeTransaction(transaction) } }
+                    .cashlyDelete { Task { await transactions.delete(transaction) } }
                 }
             } header: {
                 CashlyHStack {
@@ -136,8 +141,8 @@ public struct TransactionScreen: View {
                 if !transaction.participants.isEmpty {
                     CashlyText(
                         transaction.billingMoney(
-                            in: state.filter.isFilteringByDate
-                                ? YearMonth(state.filter.startDate) : nil
+                            in: session.filter.isFilteringByDate
+                                ? YearMonth(session.filter.startDate) : nil
                         ).formatted)
                 } else if let paymentPlan = transaction.paymentsPlan {
                     CashlyHStack(spacing: .extraSmall) {
@@ -145,8 +150,8 @@ public struct TransactionScreen: View {
                             .cashly(color: .textSecondary)
                         CashlyText(
                             transaction.billingMoney(
-                                in: state.filter.isFilteringByDate
-                                    ? YearMonth(state.filter.startDate) : nil
+                                in: session.filter.isFilteringByDate
+                                    ? YearMonth(session.filter.startDate) : nil
                             ).formatted)
                     }
                 }
@@ -205,20 +210,20 @@ public struct TransactionScreen: View {
 
     @ViewBuilder
     var addButton: some View {
-        if !state.users.isEmpty, !isSelecting {
+        if !session.users.isEmpty, !isSelecting {
             Button {
                 open(.addTransaction(id: nil), in: section)
             } label: {
                 CashlySymbol("plus")
                     .cashly(color: .text)
             }
-            .disabled(state.isLoading)
+            .disabled(finance.isLoading)
         }
     }
 
     @ViewBuilder
     var editButton: some View {
-        if !state.users.isEmpty, !isSelecting, !state.transactions.isEmpty {
+        if !session.users.isEmpty, !isSelecting, !transactions.items.isEmpty {
             Button {
                 withAnimation(.bouncy(duration: 0.8)) {
                     isSelecting = true
@@ -227,22 +232,22 @@ public struct TransactionScreen: View {
                 CashlySymbol("checkmark.circle")
                     .cashly(color: .text)
             }
-            .disabled(state.isLoading)
+            .disabled(finance.isLoading)
         }
     }
 
     @ViewBuilder
     var selectAllButton: some View {
-        let isAllSelected = selection.count == state.transactions.count
+        let isAllSelected = selection.count == transactions.items.count
         if isSelecting {
             Button {
-                selection = isAllSelected ? [] : Set(state.transactions)
+                selection = isAllSelected ? [] : Set(transactions.items)
             } label: {
                 CashlyText(isAllSelected ? "Clear Selection" : "Selecionar transações carregadas")
                     .cashly(font: .body, weight: .bold)
                     .cashly(color: .text)
             }
-            .disabled(state.isLoading)
+            .disabled(finance.isLoading)
         }
     }
 
@@ -251,13 +256,14 @@ public struct TransactionScreen: View {
         if isSelecting {
             ShareLink(
                 item: TransactionShareMessage.make(
-                    transactions: selection, participants: state.filter.participants,
-                    month: state.filter.isFilteringByDate ? YearMonth(state.filter.startDate) : nil)
+                    transactions: selection, participants: session.filter.participants,
+                    month: session.filter.isFilteringByDate
+                        ? YearMonth(session.filter.startDate) : nil)
             ) {
                 CashlySymbol("square.and.arrow.up")
                     .cashly(color: selection.isEmpty ? .disabled : .text)
             }
-            .disabled(state.isLoading)
+            .disabled(finance.isLoading)
             .disabled(selection.isEmpty)
         }
     }
@@ -273,12 +279,12 @@ public struct TransactionScreen: View {
                 CashlySymbol("trash")
                     .cashly(color: selection.isEmpty ? .disabled : .text)
             }
-            .disabled(state.isLoading)
+            .disabled(finance.isLoading)
             .disabled(selection.isEmpty)
             .alert("Delete Transactions", isPresented: $showDeleteAlert) {
                 Button("Cancel", role: .cancel) {}
                 Button("Delete", role: .destructive) {
-                    Task { await state.removeTransactions(selection) }
+                    Task { await transactions.delete(selection) }
                 }
             } message: {
                 CashlyText(
@@ -299,7 +305,7 @@ public struct TransactionScreen: View {
             } label: {
                 CashlySymbol("checkmark")
             }
-            .disabled(state.isLoading)
+            .disabled(finance.isLoading)
             .cashlyProminentButton()
         }
     }

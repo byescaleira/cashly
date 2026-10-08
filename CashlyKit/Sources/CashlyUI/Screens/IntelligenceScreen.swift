@@ -5,15 +5,16 @@ import FeatureCore
 import SwiftUI
 
 public struct IntelligenceScreen: View {
-    @Environment(MainViewModel.self) private var main
-    @Environment(IntelligenceViewModel.self) private var viewModel
+    @Environment(SessionModel.self) private var session
+    @Environment(FinanceModel.self) private var finance
+    @Environment(IntelligenceModel.self) private var intelligence
     public init() {}
     @ViewBuilder
     public var body: some View {
-        @Bindable var viewModel = viewModel
+        @Bindable var intelligence = intelligence
         List {
             CashlySystemMonitorView()
-            if viewModel.isStale {
+            if intelligence.isStale {
                 Text("O histórico mudou. Treine novamente para atualizar as sugestões.")
                     .foregroundStyle(
                         .secondary)
@@ -21,7 +22,7 @@ public struct IntelligenceScreen: View {
             ForEach(CashlyIntelligence.allCases) { kind in
                 Section {
                     Label(kind.name, systemImage: kind.icon).foregroundStyle(kind.color)
-                    if let model = viewModel.models.first(where: { $0.kind == kind }) {
+                    if let model = intelligence.models.first(where: { $0.kind == kind }) {
                         LabeledContent(
                             "Last Update",
                             value: model.updateDate.formatted(date: .abbreviated, time: .shortened)
@@ -34,21 +35,14 @@ public struct IntelligenceScreen: View {
             }
             Section {
                 Button("Train Models") {
-                    guard let user = main.user else { return }
-                    Task {
-                        do {
-                            let dataset = try await main.trainingData()
-                            await viewModel.train(user: user, dataset: dataset)
-                        } catch { viewModel.error = error as? CashlyError ?? .onFetch }
-                    }
+                    Task { await intelligence.train() }
                 }.disabled(
-                    main.user == nil || main.totalTransactionCount < 2 || main.pendingReferences > 0
-                        || viewModel.isTraining)
+                    session.user == nil || finance.totalTransactionCount < 2
+                        || finance.pendingReferences > 0 || intelligence.isTraining)
                 Button("Clean Models", role: .destructive) {
-                    guard let user = main.user else { return }
-                    Task { await viewModel.clean(user: user) }
-                }.disabled(main.user == nil || viewModel.isTraining)
-                if viewModel.isTraining { ProgressView("Training") }
+                    Task { await intelligence.clean() }
+                }.disabled(session.user == nil || intelligence.isTraining)
+                if intelligence.isTraining { ProgressView("Training") }
             } footer: {
                 Text(
                     "Estimates use recent monthly spending. Categorization learns from the descriptions of your transactions. Processing stays on this device."
@@ -57,6 +51,6 @@ public struct IntelligenceScreen: View {
         }
         .navigationTitle("Intelligence")
         .toolbar { ToolbarItem { UserItemView() } }
-        .cashlyErrorAlert(error: $viewModel.error)
+        .cashlyErrorAlert(error: $intelligence.error)
     }
 }

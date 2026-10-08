@@ -5,8 +5,9 @@ import FeatureCore
 import SwiftUI
 
 struct SpendingForecastSection: View {
-    @Environment(MainViewModel.self) private var main
-    @Environment(IntelligenceViewModel.self) private var intelligence
+    @Environment(SessionModel.self) private var session
+    @Environment(FinanceModel.self) private var finance
+    @Environment(IntelligenceModel.self) private var intelligence
     @State private var amount = 0.0
 
     private struct Request: Hashable {
@@ -21,10 +22,10 @@ struct SpendingForecastSection: View {
 
     private var request: Request {
         Request(
-            userID: main.user?.id,
-            month: YearMonth(main.filter.startDate),
-            isFilteringByDate: main.filter.isFilteringByDate,
-            categoryIDs: Array(Set(main.budgets.map { $0.category.id })).sorted(),
+            userID: session.user?.id,
+            month: YearMonth(session.filter.startDate),
+            isFilteringByDate: session.filter.isFilteringByDate,
+            categoryIDs: Array(Set(finance.budgets.map { $0.category.id })).sorted(),
             revision: intelligence.datasetRevision,
             modelDates: intelligence.models.map(\.updateDate),
             hasBudgetModel: intelligence.hasModel(.budgetValue))
@@ -32,7 +33,7 @@ struct SpendingForecastSection: View {
 
     var body: some View {
         Group {
-            if main.user != nil, intelligence.hasModel(.budgetValue) {
+            if session.user != nil, intelligence.hasModel(.budgetValue) {
                 Section {
                     CashlyVStack(spacing: .medium) {
                         CashlyText(
@@ -57,11 +58,11 @@ struct SpendingForecastSection: View {
         .task(id: request) {
             let request = request
             amount = 0
-            guard let user = main.user, request.isFilteringByDate,
+            guard session.user != nil, request.isFilteringByDate,
                 intelligence.hasModel(.budgetValue)
             else { return }
             let prediction = await intelligence.predictExpenses(
-                user: user, month: request.month, categoryIDs: request.categoryIDs)
+                month: request.month, categoryIDs: request.categoryIDs)
             guard !Task.isCancelled else { return }
             amount = prediction
         }

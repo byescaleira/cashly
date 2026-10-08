@@ -8,13 +8,13 @@ import SwiftUI
 
 public struct DetailCategoryScreen: View {
 
-    @Environment(MainViewModel.self) var state
+    @Environment(FinanceModel.self) var finance
     @Environment(\.open) var open
     @Environment(\.navigationSection) var section
 
     private let categoryID: String
     private var category: CashlyDomain.Category {
-        state.allCategories.first { $0.id == categoryID }
+        finance.allCategories.first { $0.id == categoryID }
             ?? CashlyDomain.Category(
                 id: categoryID, user: User(id: "", name: "", photo: ""),
                 name: "Categoria indisponível", color: "808080",
@@ -32,13 +32,13 @@ public struct DetailCategoryScreen: View {
             budgetsSection
         }
         .navigationTitle(category.name.capitalized)
-        .environment(\.isLoading, state.isLoading)
-        .refreshable { await state.load() }
+        .environment(\.isLoading, finance.isLoading)
+        .refreshable { await finance.load() }
     }
 
     var headerSection: some View {
         Section {
-            CashlyText(state.budget(for: category)?.summary)
+            CashlyText(finance.budget(for: category)?.summary)
                 .frame(maxWidth: .infinity)
                 .cashly(alignment: .center)
                 .cashlyPadding()
@@ -78,11 +78,11 @@ public struct DetailCategoryScreen: View {
 
     var amountView: some View {
         CashlyVStack(spacing: .zero) {
-            CashlyText(state.budgetsAmount(for: category).formatted(.brl))
+            CashlyText(finance.budgetsAmount(for: category).formatted(.brl))
                 .cashly(font: .largeTitle, weight: .black)
                 .cashly(color: .text)
 
-            CashlyText(state.expensesAmount(for: category).formatted(.brl))
+            CashlyText(finance.expensesAmount(for: category).formatted(.brl))
                 .cashly(font: .title2, weight: .bold)
                 .cashly(color: .textSecondary)
         }
@@ -90,7 +90,7 @@ public struct DetailCategoryScreen: View {
 
     @ViewBuilder
     var budgetsSection: some View {
-        let budgets = state.budgets(for: category)
+        let budgets = finance.budgets(for: category)
         if !budgets.isEmpty {
             Section {
                 ForEach(budgets) { budget in
@@ -111,7 +111,7 @@ public struct DetailCategoryScreen: View {
 
     func budgetItemView(budget: Budget) -> some View {
         CashlyHStack(spacing: .medium) {
-            let transactionAmount = state.expensesAmount(for: budget)
+            let transactionAmount = finance.expensesAmount(for: budget)
             let budgetAmount = budget.money.doubleValue
             let variation = BudgetUsage(spent: transactionAmount, budgeted: budgetAmount).ratio
             CashlyVStack(alignment: .leading, spacing: .extraSmall) {

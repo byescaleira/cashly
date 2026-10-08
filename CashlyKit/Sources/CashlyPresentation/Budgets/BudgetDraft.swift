@@ -52,4 +52,29 @@ public struct BudgetDraft: Hashable {
     public static func edit(id: String) -> BudgetDraft {
         BudgetDraft(id: id, isNew: false)
     }
+
+    public func makeBudget() throws -> Budget {
+        guard canSave, let category else { throw CashlyError.onSave }
+        return Budget(
+            id: id, money: try Money(validating: amount), category: category, month: month,
+            summary: summary.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+
+    public mutating func apply(_ budget: Budget?, categories: [CashlyDomain.Category]) {
+        self.categories = categories
+        if let budget {
+            id = budget.id
+            amount = budget.money.doubleValue
+            category = budget.category
+            date = budget.month.startDate
+            summary = budget.summary
+        } else {
+            category = category ?? categories.first
+        }
+    }
+
+    public mutating func refresh(categories: [CashlyDomain.Category]) {
+        self.categories = categories
+        category = categories.first { $0.id == category?.id } ?? categories.first
+    }
 }

@@ -7,18 +7,18 @@ import SwiftUI
 
 struct EmptyUserView: View {
     @Environment(\.isLoading) var isLoading
-    @Environment(MainViewModel.self) var state
+    @Environment(SessionModel.self) var session
     @Environment(\.open) var open
     @Environment(\.navigationSection) var section
 
     @ViewBuilder
     var body: some View {
-        if state.users.isEmpty,
+        if session.users.isEmpty,
             !isLoading
         {
             Section {
                 ZStack {
-                    if state.users.isEmpty {
+                    if session.users.isEmpty {
                         CashlyCardView(
                             image: .illustrationPeople,
                             title: "No Users Yet",
@@ -31,7 +31,7 @@ struct EmptyUserView: View {
                         .cashlyPadding(.medium)
                     }
                 }
-                .animation(.bouncy, value: state.users.isEmpty)
+                .animation(.bouncy, value: session.users.isEmpty)
             } header: {
                 CashlyText("Users")
                     .cashly(font: .title3, weight: .semibold)

@@ -192,11 +192,10 @@ extension CashlyStore {
     public func loadDashboard(userID: String, query: TransactionQuery) throws -> DashboardState {
         let catalog = try catalog(userID: userID, month: query.month)
         let overview = try overview(userID: userID, query: query)
-        let page = try page(userID: userID, query: query, after: nil, limit: 50)
         let count = try modelContext.fetchCount(
             FetchDescriptor<TransactionEntity>(predicate: #Predicate { $0.ownerID == userID }))
         return DashboardState(
-            catalog: catalog, overview: overview, page: page,
+            catalog: catalog, overview: overview,
             datasetRevision: try datasetRevision(userID: userID), totalTransactionCount: count)
     }
     public func overview(userID: String, query: TransactionQuery) throws -> CashlyOverview {

@@ -11,10 +11,11 @@
     #Preview("Categorias") { NavigationStack { CategoryScreen().cashlyPreview() } }
     #Preview("Transações") { NavigationStack { TransactionScreen().cashlyPreview() } }
     private struct NewTransactionPreview: View {
-        @Environment(CashlySession.self) var session
+        @Environment(SessionModel.self) var session
         var body: some View {
-            AddTransactionScreen(
-                draft: .new(), factory: session.factory.scoped(to: session.main.user?.id))
+            ModelHost(TransactionEditorModel(repositories: session.repositories)) {
+                AddTransactionScreen()
+            }
         }
     }
     #Preview("Nova transação") { NavigationStack { NewTransactionPreview().cashlyPreview() } }

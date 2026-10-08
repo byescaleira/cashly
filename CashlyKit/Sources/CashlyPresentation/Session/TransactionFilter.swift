@@ -27,4 +27,17 @@ public struct TransactionFilter: Equatable, Hashable {
         self.participants = participants
         self.isFilteringByDate = isFilteringByDate
     }
+
+    public var month: YearMonth? { isFilteringByDate ? YearMonth(startDate) : nil }
+
+    public var query: TransactionQuery {
+        TransactionQuery(
+            month: month, categoryIDs: Set(categories.map(\.id)), tagIDs: Set(tags.map(\.id)),
+            participantUserIDs: Set(participants.map(\.id)), statuses: transactionStatuses,
+            kinds: kinds)
+    }
+
+    public var keepingPeriod: TransactionFilter {
+        TransactionFilter(startDate: startDate, isFilteringByDate: isFilteringByDate)
+    }
 }

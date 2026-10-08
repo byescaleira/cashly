@@ -7,15 +7,16 @@ import Foundation
 import SwiftUI
 
 struct TransactionBalanceView: View {
-    @Environment(MainViewModel.self) var state
+    @Environment(SessionModel.self) var session
+    @Environment(FinanceModel.self) var finance
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State var isAnimated: Bool = false
 
     @ViewBuilder
     var body: some View {
-        if !state.categories.isEmpty,
-            !state.budgets.isEmpty
+        if !finance.categories.isEmpty,
+            !finance.budgets.isEmpty
         {
             Section {
 
@@ -23,13 +24,13 @@ struct TransactionBalanceView: View {
                 CashlyVStack(spacing: .medium) {
                     statusView
                     amountView
-                    biggestTagsView(tags: state.biggestTags)
+                    biggestTagsView(tags: finance.biggestTags)
                 }
                 .cashly(alignment: .center)
                 .frame(maxWidth: .infinity)
                 .cashlyPadding(.top, .medium)
             }
-            .environment(\.isLoading, state.isLoading)
+            .environment(\.isLoading, finance.isLoading)
             .task(id: reduceMotion) {
                 isAnimated = false
                 guard !reduceMotion else { return }
@@ -45,8 +46,8 @@ struct TransactionBalanceView: View {
     @ViewBuilder
     var statusView: some View {
         let status =
-            state.filter.isFilteringByDate
-            ? state.filter.startDate.formatted(.dateTime.month(.wide).year()) : "All Data"
+            session.filter.isFilteringByDate
+            ? session.filter.startDate.formatted(.dateTime.month(.wide).year()) : "All Data"
         CashlyText(status.uppercased())
             .cashly(font: .caption, weight: .bold)
             .cashly(color: .primary)
@@ -57,10 +58,10 @@ struct TransactionBalanceView: View {
 
     var amountView: some View {
         CashlyVStack(spacing: .zero) {
-            CashlyText(state.expensesAmount.formatted(.brl))
+            CashlyText(finance.expensesAmount.formatted(.brl))
                 .cashly(font: .largeTitle, weight: .black)
                 .cashly(color: .text)
-                .contentTransition(.numericText(value: state.expensesAmount))
+                .contentTransition(.numericText(value: finance.expensesAmount))
         }
     }
 

@@ -89,7 +89,7 @@ struct CashlyAudit {
                 let state = try await dashboard.load(query: .init())
                 let training = try await dashboard.trainingData()
                 print(
-                    "MIGRATED user=\(user.id) transactions=\(state.totalTransactionCount) loaded=\(state.page.items.count) pending=\(state.overview.pendingReferences) ownerMinor=\(state.overview.expensesTotal.minorUnits) budgetMinor=\(state.overview.budgetsTotal.minorUnits)"
+                    "MIGRATED user=\(user.id) transactions=\(state.totalTransactionCount) loaded=\(try await dashboard.page(query: .init(), after: nil, limit: 50).items.count) pending=\(state.overview.pendingReferences) ownerMinor=\(state.overview.expensesTotal.minorUnits) budgetMinor=\(state.overview.budgetsTotal.minorUnits)"
                 )
                 for record in training.transactions {
                     let shares = try record.participants.reduce(record.attributedMoney) {
@@ -195,17 +195,19 @@ struct CashlyAudit {
             let clock = ContinuousClock()
             var start = clock.now
             let state = try await service.load(query: .init(month: try yearMonth(202601)))
+            let firstPage = try await service.page(
+                query: .init(month: try yearMonth(202601)), after: nil, limit: 50)
             print(
-                "BENCH count=\(count) dashboard=\(start.duration(to: clock.now)) pageItems=\(state.page.items.count) total=\(state.overview.transactionCount) totalMinor=\(state.overview.expensesTotal.minorUnits)"
+                "BENCH count=\(count) dashboard=\(start.duration(to: clock.now)) pageItems=\(firstPage.items.count) total=\(state.overview.transactionCount) totalMinor=\(state.overview.expensesTotal.minorUnits)"
             )
             start = clock.now
             let detail = try await repositories.transactions.transaction(id: "00000000")
             print("DETAIL elapsed=\(start.duration(to: clock.now)) id=\(detail?.id ?? "nil")")
             start = clock.now
             let page = try await service.page(
-                query: .init(month: try yearMonth(202601)), after: state.page.nextCursor, limit: 50)
+                query: .init(month: try yearMonth(202601)), after: firstPage.nextCursor, limit: 50)
             print(
-                "PAGE elapsed=\(start.duration(to: clock.now)) items=\(page.items.count) overlaps=\(Set(page.items.map(\.id)).intersection(state.page.items.map(\.id)).count)"
+                "PAGE elapsed=\(start.duration(to: clock.now)) items=\(page.items.count) overlaps=\(Set(page.items.map(\.id)).intersection(firstPage.items.map(\.id)).count)"
             )
             let denied = try await database.repositories(for: "b").transactions.transaction(
                 id: "00000000")

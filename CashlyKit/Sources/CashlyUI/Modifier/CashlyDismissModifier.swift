@@ -5,19 +5,17 @@ import SwiftUI
 
 struct CashlyDismissModifier: ViewModifier {
     @Environment(\.dismiss) private var dismiss
-    @Environment(MainViewModel.self) private var main
+    @Environment(SessionModel.self) private var session
     var isSaved: Bool
     var selectedUserID: String? = nil
     func body(content: Content) -> some View {
         content.onChange(of: isSaved) {
             guard isSaved else { return }
             dismiss()
-            Task {
-                if let selectedUserID {
-                    await main.selectUser(id: selectedUserID)
-                } else {
-                    await main.load()
-                }
+            if let selectedUserID {
+                Task { await session.selectUser(id: selectedUserID) }
+            } else {
+                session.reload()
             }
         }
     }

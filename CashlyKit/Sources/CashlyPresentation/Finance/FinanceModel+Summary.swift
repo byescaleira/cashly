@@ -1,7 +1,7 @@
 import CashlyDomain
 import Foundation
 
-extension MainViewModel {
+extension FinanceModel {
     public func expensesAmount(for category: CashlyDomain.Category) -> Double {
         summary.categoryExpenses[category.id, default: .zero].doubleValue
     }
@@ -59,14 +59,6 @@ extension MainViewModel {
             minorUnits: summary.budgetAmounts[category.id, default: .zero].minorUnits
                 - summary.categoryExpenses[category.id, default: .zero].minorUnits
         ).doubleValue
-    }
-    public var transactionSections: [[CashlyDomain.Transaction]] {
-        let month = loadedQuery.month
-        let groups = Dictionary(grouping: transactions) { transaction in
-            CashlyCalendar.current.startOfDay(
-                for: month.flatMap { transaction.billingDate(in: $0) } ?? transaction.date)
-        }
-        return groups.keys.sorted(by: >).map { groups[$0, default: []] }
     }
     public var transactionUsers: [User] { summary.participantUsers }
     public var expensesAverageAmount: Double {

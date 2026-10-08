@@ -8,8 +8,9 @@ import SwiftUI
 
 public struct HomeScreen: View {
 
-    @Environment(IntelligenceViewModel.self) var intelligence
-    @Environment(MainViewModel.self) var state
+    @Environment(IntelligenceModel.self) var intelligence
+    @Environment(SessionModel.self) var session
+    @Environment(FinanceModel.self) var finance
     @Environment(\.open) var open
     @Environment(\.navigationSection) var section
 
@@ -20,7 +21,7 @@ public struct HomeScreen: View {
             EmptyUserView()
             DataStatusView()
             EmptyCategoryView()
-            EmptyBudgetView(budgets: state.budgets)
+            EmptyBudgetView(budgets: finance.budgets)
             BalanceView()
             availableSection
             varianceSection
@@ -32,20 +33,20 @@ public struct HomeScreen: View {
             ToolbarItem(placement: .navigation) { UserItemView() }
             ToolbarItem { FilterItemView() }
         }
-        .refreshable { await state.load() }
-        .navigationTitle((state.user?.selfFirstName ?? "") + "Home")
-        .onChange(of: state.categories, initial: true) {
+        .refreshable { await finance.load() }
+        .navigationTitle((session.user?.selfFirstName ?? "") + "Home")
+        .onChange(of: finance.categories, initial: true) {
             selectedCompareCategory =
-                state.categories.first { $0.id == selectedCompareCategory?.id }
-                ?? state.categories.first
+                finance.categories.first { $0.id == selectedCompareCategory?.id }
+                ?? finance.categories.first
             selectedAvailableCategory =
-                state.categories.first { $0.id == selectedAvailableCategory?.id }
-                ?? state.categories.first
+                finance.categories.first { $0.id == selectedAvailableCategory?.id }
+                ?? finance.categories.first
         }
-        .onChange(of: state.tags, initial: true) {
-            selectedTag = state.tags.first { $0.id == selectedTag?.id } ?? state.tags.first
+        .onChange(of: finance.tags, initial: true) {
+            selectedTag = finance.tags.first { $0.id == selectedTag?.id } ?? finance.tags.first
         }
-        .onChange(of: state.biggestTransactions) { selectedBiggestTransactionIndex = 0 }
+        .onChange(of: finance.biggestTransactions) { selectedBiggestTransactionIndex = 0 }
 
     }
 
@@ -55,15 +56,15 @@ public struct HomeScreen: View {
     var tagsSection: some View {
         EmptyTagView()
 
-        if !state.tags.isEmpty {
+        if !finance.tags.isEmpty {
             Section {
-                let data: [CashlyChartPoint] = state.tags.map {
-                    let amount = state.expensesAmount(for: $0)
+                let data: [CashlyChartPoint] = finance.tags.map {
+                    let amount = finance.expensesAmount(for: $0)
                     return CashlyChartPoint(id: $0.id, label: $0.name.capitalized, amount: amount)
                 }
 
                 if let selectedTag {
-                    let amount = state.expensesAmount(for: selectedTag)
+                    let amount = finance.expensesAmount(for: selectedTag)
 
                     Button {
                         open(.addTag(id: selectedTag.id), in: section)
@@ -127,7 +128,7 @@ public struct HomeScreen: View {
         CashlyVStack(alignment: .leading, spacing: .small) {
             CashlyHorizontalList { proxy in
                 CashlyHStack {
-                    ForEach(state.tags) { tag in
+                    ForEach(finance.tags) { tag in
                         Button {
                             selectedTag = tag
                         } label: {
@@ -174,7 +175,7 @@ public struct HomeScreen: View {
                 .animation(.bouncy, value: selectedTag)
                 .padding(.horizontal, 40)
             }
-            .onAppear { selectedTag = selectedTag == nil ? state.tags.first : selectedTag }
+            .onAppear { selectedTag = selectedTag == nil ? finance.tags.first : selectedTag }
             .padding(.horizontal, -40)
         }
     }
@@ -183,13 +184,13 @@ public struct HomeScreen: View {
 
     @ViewBuilder
     var varianceSection: some View {
-        if !state.categories.isEmpty,
-            !state.budgets.isEmpty
+        if !finance.categories.isEmpty,
+            !finance.budgets.isEmpty
         {
             Section {
-                let data = state.categories.map { category in
-                    let budgetAmount = state.budgetsAmount(for: category)
-                    let expensesAmount = state.expensesAmount(for: category)
+                let data = finance.categories.map { category in
+                    let budgetAmount = finance.budgetsAmount(for: category)
+                    let expensesAmount = finance.expensesAmount(for: category)
                     return CashlyComparisonPoint(
                         id: category.id, label: category.name.capitalized, planned: budgetAmount,
                         spent: expensesAmount)
@@ -260,7 +261,7 @@ public struct HomeScreen: View {
         CashlyVStack(alignment: .leading, spacing: .small) {
             CashlyHorizontalList { proxy in
                 CashlyHStack {
-                    ForEach(state.categories) { category in
+                    ForEach(finance.categories) { category in
                         Button {
                             selected.wrappedValue = category
                         } label: {
@@ -312,7 +313,7 @@ public struct HomeScreen: View {
             }
             .onAppear {
                 selected.wrappedValue =
-                    selected.wrappedValue == nil ? state.categories.first : selected.wrappedValue
+                    selected.wrappedValue == nil ? finance.categories.first : selected.wrappedValue
             }
             .padding(.horizontal, -40)
         }
@@ -322,11 +323,11 @@ public struct HomeScreen: View {
 
     @ViewBuilder
     var availableSection: some View {
-        if !state.budgets.isEmpty {
+        if !finance.budgets.isEmpty {
             Section {
                 if let selectedAvailableCategory {
-                    let budgetsAmount = state.budgetsAmount(for: selectedAvailableCategory)
-                    let expensesAmount = state.expensesAmount(for: selectedAvailableCategory)
+                    let budgetsAmount = finance.budgetsAmount(for: selectedAvailableCategory)
+                    let expensesAmount = finance.expensesAmount(for: selectedAvailableCategory)
                     let availableCategory = budgetsAmount - expensesAmount
                     let conventionalVariation = BudgetUsage(
                         spent: expensesAmount, budgeted: budgetsAmount
@@ -334,7 +335,7 @@ public struct HomeScreen: View {
                     let variation = 1 - conventionalVariation
                     Menu {
                         Picker(selection: $selectedAvailableCategory) {
-                            ForEach(state.categories) {
+                            ForEach(finance.categories) {
                                 CashlyText($0.name)
                                     .tag($0)
                             }
@@ -382,8 +383,8 @@ public struct HomeScreen: View {
                 }
             } header: {
                 CashlyVStack(alignment: .leading, spacing: .small) {
-                    let budgetsAmount = state.budgetsAmount
-                    let expensesAmount = state.expensesAmount
+                    let budgetsAmount = finance.budgetsAmount
+                    let expensesAmount = finance.expensesAmount
                     let available = budgetsAmount - expensesAmount
 
                     CashlyText("Available")
@@ -408,7 +409,7 @@ public struct HomeScreen: View {
                 .onAppear {
                     selectedAvailableCategory =
                         selectedAvailableCategory == nil
-                        ? state.categories.first : selectedAvailableCategory
+                        ? finance.categories.first : selectedAvailableCategory
                 }
             }
         }
@@ -418,7 +419,7 @@ public struct HomeScreen: View {
 
     @ViewBuilder
     var biggestTransactionSection: some View {
-        let transactions = state.biggestTransactions
+        let transactions = finance.biggestTransactions
         if !transactions.isEmpty {
             Section {
                 TabView(selection: $selectedBiggestTransactionIndex) {
@@ -436,8 +437,8 @@ public struct HomeScreen: View {
 
                             CashlyText(
                                 transaction.billingMoney(
-                                    in: state.filter.isFilteringByDate
-                                        ? YearMonth(state.filter.startDate)
+                                    in: session.filter.isFilteringByDate
+                                        ? YearMonth(session.filter.startDate)
                                         : nil
                                 ).formatted
                             )

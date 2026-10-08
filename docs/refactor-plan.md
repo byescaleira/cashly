@@ -174,6 +174,9 @@ Concluída. `CashlyDatabase` implementa `RepositoryProvider`; `CashlyStore` é o
 
 ### Fase 4: composição e estado
 
+Concluída. `CashlyWindow` monta `SessionModel`, `FinanceModel`, `TransactionListModel`, `IntelligenceModel` e `CashlyNavigation` e os injeta via `.cashlyWindow(_:)`. A rota cria o editor de cada formulário com `ModelHost`; as telas leem tudo por `@Environment`. O `DashboardState` deixou de trazer a primeira página da lista.
+
+
 - `Session`: guarda o usuário da janela e os repositórios já delimitados a ele, criados uma vez por seleção. Substitui `CashlySession`, `CashlyPresentationFactory` e o `activeFactory` recalculado a cada chamada.
 - Dividir `MainViewModel`:
   - `SessionModel`: lista de usuários, seleção, preferência persistida (encapsulando o `UserDefaults`).
@@ -195,6 +198,8 @@ Concluída. `CashlyDatabase` implementa `RepositoryProvider`; `CashlyStore` é o
 - Renomear `state`/`mainState` para o nome do model.
 - `CashlySymbolCategory` (479 linhas de SF Symbols) vai para um recurso JSON em `CashlyResource` ou para `FeatureCore`.
 - Corrigir dois bugs já existentes, encontrados nas verificações: o campo de valor interpreta dígitos como reais inteiros ("500" vira R$ 500,00), e o editor de transação desconta o valor da própria transação duas vezes na mensagem de orçamento restante.
+
+- Layout adaptativo para iPad e iPhone dobrável/landscape: as telas usam `List`, que só ocupa a largura toda em landscape. Avaliar o `AdaptiveList`/`AdaptiveSection` e a navegação adaptativa do projeto bread-such (`bread-such/BreadSuch/BreadSuch/UI/Components/`) e decidir entre reaproveitar, melhorar ou substituir.
 
 ### Fase 6: acabamento
 

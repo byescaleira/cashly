@@ -7,19 +7,18 @@ import Foundation
 import SwiftUI
 
 public struct AddUserScreen: View {
-    @State private var viewModel: UserViewModel
+    @Environment(UserEditorModel.self) private var model
 
-    var state: UserDraft { viewModel.draft }
+    var state: UserDraft { model.draft }
     @Environment(\.open) var open
     @Environment(\.navigationSection) var section
 
     @State var gender: Int = .zero
 
-    public init(draft: UserDraft, factory: CashlyPresentationFactory) {
-        _viewModel = State(initialValue: factory.makeUserViewModel(draft: draft))
-    }
+    public init() {}
 
     public var body: some View {
+        @Bindable var status = model.status
         List {
             photoSection
             nameSection
@@ -31,19 +30,19 @@ public struct AddUserScreen: View {
                 saveButton
             }
         }
-        .onChange(of: viewModel.isLoading) { updatePhoto() }
+        .onChange(of: model.status.isBusy) { updatePhoto() }
         .cashlyDismissKeyboardOnScroll()
-        .cashlyDismiss(isSaved: viewModel.isSaved, selectedUserID: state.isNew ? state.id : nil)
-        .cashlyErrorAlert(error: Binding(get: { viewModel.error }, set: { viewModel.error = $0 }))
-        .disabled(viewModel.isLoading || viewModel.isSaved)
-        .interactiveDismissDisabled(viewModel.isLoading)
+        .cashlyDismiss(isSaved: model.status.isSaved, selectedUserID: state.isNew ? state.id : nil)
+        .cashlyErrorAlert(error: $status.error)
+        .disabled(model.status.isBusy || model.status.isSaved)
+        .interactiveDismissDisabled(model.status.isBusy)
         .task { await handlerInitialState() }
     }
 
-    func handlerInitialState() async { await viewModel.load() }
+    func handlerInitialState() async { await model.load() }
 
     func updatePhoto() {
-        viewModel.draft.photo = state.photo ?? state.photos(for: gender).randomElement()
+        model.draft.photo = state.photo ?? state.photos(for: gender).randomElement()
     }
 
     var photoSection: some View {
@@ -62,7 +61,7 @@ public struct AddUserScreen: View {
 
     var repeatButton: some View {
         Button {
-            viewModel.draft.photo = state.photos(for: gender).randomElement()
+            model.draft.photo = state.photos(for: gender).randomElement()
         } label: {
             CashlySymbol("repeat")
                 .cashly(font: .system(size: 20), weight: .bold)
@@ -72,11 +71,11 @@ public struct AddUserScreen: View {
 
     @ViewBuilder
     var nameSection: some View {
-        @Bindable var viewModel = viewModel
+        @Bindable var model = model
         Section {
             TextField(
                 "Enter the user name",
-                text: $viewModel.draft.name
+                text: $model.draft.name
             )
         } header: {
             CashlyText("First & Last Name")
@@ -118,14 +117,14 @@ public struct AddUserScreen: View {
         LazyVGrid(columns: [.init(.adaptive(minimum: 70), spacing: 14)], spacing: 14) {
             ForEach(state.photos(for: gender), id: \.self) { photo in
                 Button {
-                    viewModel.draft.photo = photo
+                    model.draft.photo = photo
                 } label: {
                     CashlyResourceImage.avatar(id: photo)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 70, height: 70)
                         .overlay {
-                            if viewModel.draft.photo == photo {
+                            if model.draft.photo == photo {
                                 Circle()
                                     .stroke(Color.accentColor, lineWidth: 4)
                                     .cashlyPadding(.negative(.extraSmall))
@@ -139,21 +138,21 @@ public struct AddUserScreen: View {
 
     var saveButton: some View {
         Button {
-            Task { await viewModel.save() }
+            Task { await model.save() }
         } label: {
             CashlySymbol("checkmark")
         }
         .cashlyProminentButton()
         .accessibilityLabel("Salvar")
-        .disabled(!viewModel.canSave)
+        .disabled(!model.canSave)
         .cashly(tint: .primary)
     }
 
     @ViewBuilder
     var removeButton: some View {
-        if !state.isNew && !viewModel.isLoading {
+        if !state.isNew && !model.status.isBusy {
             Button {
-                Task { await viewModel.remove() }
+                Task { await model.remove() }
             } label: {
                 CashlySymbol("trash")
             }

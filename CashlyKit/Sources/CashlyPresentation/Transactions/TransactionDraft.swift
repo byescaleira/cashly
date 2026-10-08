@@ -90,4 +90,49 @@ public struct TransactionDraft: Hashable {
     public static func edit(id: String) -> TransactionDraft {
         TransactionDraft(id: id, isNew: false)
     }
+
+    public func makeTransaction() throws -> CashlyDomain.Transaction {
+        guard canSave, let category else { throw CashlyError.onSave }
+        return CashlyDomain.Transaction(
+            id: id, participants: participants, category: category,
+            money: try Money(validating: amount), date: date,
+            summary: summary.trimmingCharacters(in: .whitespacesAndNewlines), status: status,
+            splitMode: splitMode, splitValue: splitValue,
+            paymentsPlan: installmentIsOn ? installmentPlan : nil, tagIDs: selectedTagIDs,
+            kind: kind)
+    }
+
+    public mutating func apply(_ transaction: CashlyDomain.Transaction?) {
+        guard let transaction else { return }
+        participants = transaction.participants
+        category = transaction.category
+        kind = transaction.kind
+        amount = transaction.money.doubleValue
+        date = transaction.date
+        summary = transaction.summary
+        status = transaction.status
+        selectedTagIDs = transaction.tagIDs
+        splitMode = transaction.splitMode
+        splitValue = transaction.splitValue
+        installmentIsOn = transaction.paymentsPlan != nil
+        installmentPlan = max(transaction.paymentsPlan ?? 1, 1)
+    }
+
+    public mutating func applyOptions(categories: [CashlyDomain.Category], tags: [Tag]) throws {
+        guard selectedTagIDs.isSubset(of: Set(tags.map(\.id))) else {
+            throw CashlyError.persistence(
+                "Uma tag selecionada está indisponível. Aguarde a sincronização ou remova a seleção."
+            )
+        }
+        if let selected = category {
+            guard let latest = categories.first(where: { $0.id == selected.id }) else {
+                throw CashlyError.missingRecord
+            }
+            category = latest
+        } else if isNew {
+            category = categories.first
+        }
+        self.categories = categories
+        self.tags = tags
+    }
 }

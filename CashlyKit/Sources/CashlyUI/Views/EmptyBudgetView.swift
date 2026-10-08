@@ -7,7 +7,7 @@ import SwiftUI
 
 struct EmptyBudgetView: View {
     @Environment(\.isLoading) var isLoading
-    @Environment(MainViewModel.self) var state
+    @Environment(FinanceModel.self) var finance
     @Environment(\.open) var open
     @Environment(\.navigationSection) var section
 
@@ -16,13 +16,13 @@ struct EmptyBudgetView: View {
     @ViewBuilder
     var body: some View {
         if budgets.isEmpty,
-            !state.categories.isEmpty,
+            !finance.categories.isEmpty,
             !isLoading
         {
             Section {
                 ZStack {
                     if budgets.isEmpty,
-                        !state.categories.isEmpty
+                        !finance.categories.isEmpty
                     {
                         CashlyCardView(
                             image: .illustrationNoData,
@@ -37,7 +37,7 @@ struct EmptyBudgetView: View {
                     }
                 }
                 .animation(.bouncy, value: budgets.isEmpty)
-                .animation(.bouncy, value: state.categories.isEmpty)
+                .animation(.bouncy, value: finance.categories.isEmpty)
             } header: {
                 CashlyText("Budgets")
                     .cashly(font: .title3, weight: .semibold)

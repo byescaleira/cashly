@@ -5,8 +5,9 @@ import FeatureCore
 import SwiftUI
 
 public struct MainScreen: View {
-    @Environment(MainViewModel.self) private var main
-    @Environment(IntelligenceViewModel.self) private var intelligence
+    @Environment(SessionModel.self) private var session
+    @Environment(FinanceModel.self) private var finance
+    @Environment(IntelligenceModel.self) private var intelligence
     @Environment(CashlyNavigation.self) private var navigation
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     public init() {}
@@ -14,6 +15,8 @@ public struct MainScreen: View {
     @ViewBuilder
     public var body: some View {
         @Bindable var navigation = navigation
+        @Bindable var session = session
+        @Bindable var finance = finance
         TabView(selection: $navigation.selectedSection) {
             ForEach(CashlySection.allCases) { section in
                 Tab(section.title, systemImage: section.systemImage, value: section) {
@@ -40,17 +43,18 @@ public struct MainScreen: View {
                 navigation.open(route, in: section, asSheet: horizontalSizeClass == .regular)
             }
         )
-        .environment(\.user, main.user)
-        .environment(\.isLoading, main.isLoading)
-        .task { await main.observeChanges() }
-        .task(id: main.filter) { await main.load() }
-        .task(id: (main.user?.id ?? "") + ":" + main.datasetRevision) {
-            await intelligence.loadModels(user: main.user, revision: main.datasetRevision)
+        .environment(\.user, session.user)
+        .environment(\.isLoading, finance.isLoading)
+        .task { await session.start() }
+        .task(id: session.loadKey) { await finance.load() }
+        .task(id: (session.user?.id ?? "") + ":" + finance.datasetRevision) {
+            await intelligence.loadModels(revision: finance.datasetRevision)
         }
-        .onChange(of: main.user?.id) { old, new in
+        .onChange(of: session.user?.id) { old, new in
             if old != nil && old != new { navigation.reset() }
         }
-        .cashlyErrorAlert(error: Binding(get: { main.error }, set: { main.error = $0 }))
+        .cashlyErrorAlert(error: $finance.error)
+        .cashlyErrorAlert(error: $session.error)
     }
 
 }

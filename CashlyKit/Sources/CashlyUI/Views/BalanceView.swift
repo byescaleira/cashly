@@ -6,19 +6,20 @@ import Foundation
 import SwiftUI
 
 struct BalanceView: View {
-    @Environment(MainViewModel.self) var state
+    @Environment(SessionModel.self) var session
+    @Environment(FinanceModel.self) var finance
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State var isAnimated: Bool = false
 
     @ViewBuilder
     var body: some View {
-        if !state.users.isEmpty {
+        if !session.users.isEmpty {
             Group {
                 balanceSection
                 scoreSection
             }
-            .environment(\.isLoading, state.isLoading)
+            .environment(\.isLoading, finance.isLoading)
             .task(id: reduceMotion) {
                 isAnimated = false
                 guard !reduceMotion else { return }
@@ -36,9 +37,9 @@ struct BalanceView: View {
 
         } header: {
             CashlyVStack(spacing: .medium) {
-                let variation = state.variation
+                let variation = finance.variation
                 variationView(variation: variation)
-                let warningCategories = state.warningCategories
+                let warningCategories = finance.warningCategories
                 amountView(variationColor: variation.variationColor)
                 warningCategoriesView(categories: warningCategories)
             }
@@ -50,7 +51,7 @@ struct BalanceView: View {
 
     var scoreSection: some View {
         Section {
-            let health = state.health
+            let health = finance.health
             let level = health.level
 
             CashlyVStack(alignment: .leading, spacing: .medium) {
@@ -106,7 +107,7 @@ struct BalanceView: View {
 
     func amountView(variationColor: Color) -> some View {
         CashlyVStack(spacing: .zero) {
-            let expensesAmount = state.expensesAmount
+            let expensesAmount = finance.expensesAmount
 
             CashlyText(expensesAmount.formatted(.brl))
                 .cashly(font: .largeTitle, weight: .black)
@@ -120,7 +121,7 @@ struct BalanceView: View {
         if !categories.isEmpty {
             CashlyHStack(spacing: .zero) {
                 ForEach(categories.enumerated(), id: \.offset) { index, category in
-                    let variation = state.categoryVariation(category: category)
+                    let variation = finance.categoryVariation(category: category)
                     let isEven = index.isMultiple(of: 2)
                     let point: CGFloat = isAnimated ? (isEven ? -3 : 3) : (isEven ? 3 : -3)
                     CashlySymbol(category.icon)

@@ -1,13 +1,11 @@
-import CashlyDesignSystem
 import CashlyDomain
 import Foundation
-import SwiftUI
 
 public struct TagDraft: Hashable {
     public var id: String
     public var user: User?
     public var name: String
-    public var color: Color
+    public var color: String
     public var icon: String
     public var isNew: Bool
 
@@ -27,7 +25,7 @@ public struct TagDraft: Hashable {
         self.id = id
         self.user = user
         self.name = name
-        self.color = Color(hex: color)
+        self.color = color
         self.icon = icon
         self.isNew = isNew
     }
@@ -38,5 +36,22 @@ public struct TagDraft: Hashable {
 
     public static func edit(id: String) -> TagDraft {
         TagDraft(id: id, isNew: false)
+    }
+
+    public func makeTag() throws -> Tag {
+        guard canSave, let user else { throw CashlyError.onSave }
+        return Tag(
+            id: id, user: user, name: name.trimmingCharacters(in: .whitespacesAndNewlines),
+            color: color, icon: icon)
+    }
+
+    public mutating func apply(_ tag: Tag?, currentUser: User?) {
+        user = tag?.user ?? user ?? currentUser
+        if let tag {
+            name = tag.name
+            icon = tag.icon
+            color = tag.color
+        }
+        if icon.isEmpty { icon = "tag.fill" }
     }
 }

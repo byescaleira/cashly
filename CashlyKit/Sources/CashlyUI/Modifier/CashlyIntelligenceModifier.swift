@@ -6,7 +6,7 @@ import SwiftUI
 
 struct CashlyIntelligenceModifier: ViewModifier {
     @Environment(\.user) private var user
-    @Environment(IntelligenceViewModel.self) private var intelligence
+    @Environment(IntelligenceModel.self) private var intelligence
     @Binding var input: CashlyPredictionInput
     @Binding var result: CashlyPredictionResult
     let model: CashlyIntelligence
@@ -41,7 +41,7 @@ struct CashlyIntelligenceModifier: ViewModifier {
             let request = input
             do {
                 try await Task.sleep(for: .milliseconds(350))
-                let prediction = await intelligence.predict(user: user, input: request)
+                let prediction = await intelligence.predict(request)
                 try Task.checkCancellation()
                 result = prediction
                 if model != .categoryName { input = .empty }

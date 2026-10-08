@@ -37,4 +37,18 @@ public struct UserDraft: Hashable {
     public static func edit(id: String) -> UserDraft {
         UserDraft(id: id, isNew: false)
     }
+
+    public func makeUser() throws -> User {
+        guard canSave, let photo else { throw CashlyError.onSave }
+        return User(
+            id: id, name: name.trimmingCharacters(in: .whitespacesAndNewlines), photo: photo)
+    }
+
+    public mutating func apply(_ user: User?) {
+        if let user {
+            name = user.name
+            photo = user.photo
+        }
+        if photo == nil { photo = "1" }
+    }
 }

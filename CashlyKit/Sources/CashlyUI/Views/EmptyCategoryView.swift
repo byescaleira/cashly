@@ -7,19 +7,20 @@ import SwiftUI
 
 struct EmptyCategoryView: View {
     @Environment(\.isLoading) var isLoading
-    @Environment(MainViewModel.self) var state
+    @Environment(SessionModel.self) var session
+    @Environment(FinanceModel.self) var finance
     @Environment(\.open) var open
     @Environment(\.navigationSection) var section
 
     @ViewBuilder
     var body: some View {
-        if state.categories.isEmpty,
-            !state.users.isEmpty,
+        if finance.categories.isEmpty,
+            !session.users.isEmpty,
             !isLoading
         {
             Section {
                 ZStack {
-                    if state.categories.isEmpty {
+                    if finance.categories.isEmpty {
                         CashlyCardView(
                             image: .illustrationEmpty,
                             title: "No Categories Yet",
@@ -32,8 +33,8 @@ struct EmptyCategoryView: View {
                         .cashlyPadding(.medium)
                     }
                 }
-                .animation(.bouncy, value: state.categories.isEmpty)
-                .animation(.bouncy, value: state.users.isEmpty)
+                .animation(.bouncy, value: finance.categories.isEmpty)
+                .animation(.bouncy, value: session.users.isEmpty)
             } header: {
                 CashlyText("Categories")
                     .cashly(font: .title3, weight: .semibold)

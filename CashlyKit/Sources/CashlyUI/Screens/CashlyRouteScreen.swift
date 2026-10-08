@@ -17,23 +17,37 @@ struct CashlySectionScreen: View {
 }
 
 struct CashlyRouteScreen: View {
-    @Environment(CashlySession.self) private var session
-    @Environment(MainViewModel.self) private var main
+    @Environment(SessionModel.self) private var session
+    @Environment(FinanceModel.self) private var finance
     let route: MainRoute
 
     @ViewBuilder var body: some View {
-        let factory = session.factory.scoped(to: main.user?.id)
+        let repositories = session.repositories
         switch route {
         case .addUser(let id):
-            AddUserScreen(draft: id.map(UserDraft.edit) ?? .new(), factory: factory)
+            ModelHost(
+                UserEditorModel(draft: id.map(UserDraft.edit) ?? .new(), users: repositories.users)
+            ) { AddUserScreen() }
         case .addCategory(let id):
-            AddCategoryScreen(draft: id.map(CategoryDraft.edit) ?? .new(), factory: factory)
+            ModelHost(
+                CategoryEditorModel(
+                    draft: id.map(CategoryDraft.edit) ?? .new(), repositories: repositories)
+            ) { AddCategoryScreen() }
         case .addBudget(let id, let categoryID, let date):
-            AddBudgetScreen(
-                draft: budgetDraft(id: id, categoryID: categoryID, date: date), factory: factory)
+            ModelHost(
+                BudgetEditorModel(
+                    draft: budgetDraft(id: id, categoryID: categoryID, date: date),
+                    repositories: repositories)
+            ) { AddBudgetScreen() }
         case .addTransaction(let id):
-            AddTransactionScreen(draft: id.map(TransactionDraft.edit) ?? .new(), factory: factory)
-        case .addTag(let id): AddTagScreen(draft: id.map(TagDraft.edit) ?? .new(), factory: factory)
+            ModelHost(
+                TransactionEditorModel(
+                    draft: id.map(TransactionDraft.edit) ?? .new(), repositories: repositories)
+            ) { AddTransactionScreen() }
+        case .addTag(let id):
+            ModelHost(
+                TagEditorModel(draft: id.map(TagDraft.edit) ?? .new(), repositories: repositories)
+            ) { AddTagScreen() }
         case .detailCategory(let id): DetailCategoryScreen(categoryID: id)
         case .budgetConflict(let categoryID, let month):
             BudgetConflictScreen(categoryID: categoryID, month: month)
@@ -42,8 +56,10 @@ struct CashlyRouteScreen: View {
 
     private func budgetDraft(id: String?, categoryID: String?, date: Date?) -> BudgetDraft {
         if let id { return .edit(id: id) }
-        if let categoryID, let category = main.allCategories.first(where: { $0.id == categoryID }) {
-            return .new(category: category, date: date ?? main.filter.startDate)
+        if let categoryID,
+            let category = finance.allCategories.first(where: { $0.id == categoryID })
+        {
+            return .new(category: category, date: date ?? session.filter.startDate)
         }
         return .new()
     }

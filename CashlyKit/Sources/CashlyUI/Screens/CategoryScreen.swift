@@ -8,7 +8,9 @@ import SwiftUI
 
 public struct CategoryScreen: View {
 
-    @Environment(MainViewModel.self) var state
+    @Environment(SessionModel.self) var session
+
+    @Environment(FinanceModel.self) var finance
     @Environment(\.open) var open
     @Environment(\.navigationSection) var section
 
@@ -18,7 +20,7 @@ public struct CategoryScreen: View {
         List {
             CategoryBalanceView()
             EmptyCategoryView()
-            EmptyBudgetView(budgets: state.budgets)
+            EmptyBudgetView(budgets: finance.budgets)
             EmptyUserView()
             DataStatusView()
             categoriesWithoutBudgetsSection
@@ -32,14 +34,14 @@ public struct CategoryScreen: View {
             CashlyToolbarSpacer()
             ToolbarItem { addButton }
         }
-        .environment(\.isLoading, state.isLoading)
-        .refreshable { await state.load() }
+        .environment(\.isLoading, finance.isLoading)
+        .refreshable { await finance.load() }
         .navigationTitle("Categories")
     }
 
     @ViewBuilder
     var categoriesSection: some View {
-        let categories = state.categoriesWithBudgets
+        let categories = finance.categoriesWithBudgets
         if !categories.isEmpty {
             Section {
                 ForEach(categories, id: \.id) { category in
@@ -61,8 +63,8 @@ public struct CategoryScreen: View {
 
     @ViewBuilder
     var categoriesWithoutBudgetsSection: some View {
-        let categories = state.categoriesWithoutBudgets
-        if !categories.isEmpty, state.filter.isFilteringByDate {
+        let categories = finance.categoriesWithoutBudgets
+        if !categories.isEmpty, session.filter.isFilteringByDate {
             Section {
                 CashlyVStack(alignment: .leading) {
                     CashlyText(
@@ -86,7 +88,7 @@ public struct CategoryScreen: View {
                     Button {
                         open(
                             .addBudget(
-                                id: nil, categoryID: category.id, date: state.filter.startDate),
+                                id: nil, categoryID: category.id, date: session.filter.startDate),
                             in: section
                         )
                     } label: {
@@ -111,15 +113,15 @@ public struct CategoryScreen: View {
                 }
                 .cashly(font: .callout, weight: .semibold)
 
-                CashlyText(state.budget(for: category)?.summary)
+                CashlyText(finance.budget(for: category)?.summary)
                     .cashly(color: .textSecondary)
             }
 
             Spacer()
 
             CashlyVStack(alignment: .trailing, spacing: .extraSmall) {
-                let budgetAmount = state.budgetsAmount(for: category)
-                let expensesAmount = state.expensesAmount(for: category)
+                let budgetAmount = finance.budgetsAmount(for: category)
+                let expensesAmount = finance.expensesAmount(for: category)
 
                 CategoryVariationView(category: category)
                     .scaleEffect(0.7)
@@ -165,14 +167,14 @@ public struct CategoryScreen: View {
 
     @ViewBuilder
     var addButton: some View {
-        if !state.users.isEmpty {
+        if !session.users.isEmpty {
             Button {
                 open(.addCategory(id: nil), in: section)
             } label: {
                 CashlySymbol("plus")
                     .cashly(color: .text)
             }
-            .disabled(state.isLoading)
+            .disabled(finance.isLoading)
         }
     }
 

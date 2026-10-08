@@ -40,13 +40,12 @@ private final class CashlyBootstrap {
 
 private struct CashlyRootView: View {
     @Environment(CashlyBootstrap.self) private var bootstrap
-    @State private var session: CashlySession?
+    @State private var window: CashlyWindow?
     @State private var attempt = 0
     var body: some View {
         Group {
-            if let session {
-                MainScreen().environment(session).environment(session.main)
-                    .environment(session.navigation).environment(session.intelligence)
+            if let window {
+                MainScreen().cashlyWindow(window)
             } else if let error = bootstrap.error {
                 ContentUnavailableView {
                     Label(
@@ -62,11 +61,11 @@ private struct CashlyRootView: View {
             }
         }
         .task(id: attempt) {
-            guard session == nil else { return }
+            guard window == nil else { return }
             await bootstrap.prepare()
             guard !Task.isCancelled else { return }
             if let database = bootstrap.database {
-                session = CashlySession(provider: database, intelligence: bootstrap.intelligence)
+                window = CashlyWindow(provider: database, intelligence: bootstrap.intelligence)
             }
         }
     }

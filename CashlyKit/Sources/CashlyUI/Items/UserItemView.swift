@@ -8,25 +8,25 @@ import SwiftUI
 
 struct UserItemView: View {
 
-    @Environment(MainViewModel.self) var state
+    @Environment(SessionModel.self) var session
     @Environment(\.open) var open
     @Environment(\.navigationSection) var section
 
     var userSelection: Binding<User?> {
         Binding(
-            get: { state.user },
+            get: { session.user },
             set: { user in
                 guard let user else { return }
-                Task { await state.selectUser(user) }
+                Task { await session.selectUser(user) }
             })
     }
     @ViewBuilder
     var body: some View {
-        @Bindable var state = state
-        if !state.users.isEmpty {
+        @Bindable var session = session
+        if !session.users.isEmpty {
             Menu {
                 Picker(selection: userSelection) {
-                    ForEach(state.users) { user in
+                    ForEach(session.users) { user in
                         CashlyHStack {
                             CashlyResourceImage.avatar(id: user.photo)
                                 .resizable()
@@ -43,7 +43,7 @@ struct UserItemView: View {
 
                 Divider()
 
-                if let user = state.user {
+                if let user = session.user {
                     Button {
                         open(.addUser(id: user.id), in: section)
                     } label: {
@@ -59,7 +59,7 @@ struct UserItemView: View {
                         .cashly(color: .text)
                 }
             } label: {
-                CashlyResourceImage.avatar(id: state.user?.photo)
+                CashlyResourceImage.avatar(id: session.user?.photo)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 36, height: 36)

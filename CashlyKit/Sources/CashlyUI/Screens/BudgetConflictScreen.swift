@@ -4,7 +4,7 @@ import FeatureCore
 import SwiftUI
 
 struct BudgetConflictScreen: View {
-    @Environment(MainViewModel.self) private var main
+    @Environment(FinanceModel.self) private var finance
     @Environment(\.dismiss) private var dismiss
     let categoryID: String
     let month: YearMonth
@@ -29,7 +29,7 @@ struct BudgetConflictScreen: View {
                             Task {
                                 defer { isSaving = false }
                                 do {
-                                    try await main.resolveBudgetConflict(keeping: budget.id)
+                                    try await finance.resolveBudgetConflict(keeping: budget.id)
                                     dismiss()
                                 } catch { self.error = error as? CashlyError ?? .onSave }
                             }
@@ -43,11 +43,11 @@ struct BudgetConflictScreen: View {
             }
         }
         .navigationTitle("Resolver orçamento")
-        .task(id: main.contentGeneration) {
+        .task(id: finance.contentGeneration) {
             isLoading = true
             defer { isLoading = false }
             do {
-                conflict = try await main.budgetConflict(categoryID: categoryID, month: month)
+                conflict = try await finance.budgetConflict(categoryID: categoryID, month: month)
             } catch {
                 self.error = error as? CashlyError ?? .onFetch
             }

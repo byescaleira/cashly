@@ -2,7 +2,7 @@
 
 Aplicativo de planejamento financeiro em SwiftUI, com persistência local em SwiftData e sincronização CloudKit em dispositivos assinados.
 
-O código usa MVVM com Observation. As telas recebem dependências pelo ambiente; cada formulário mantém seu próprio ViewModel e rascunho. A navegação tem uma pilha por seção e apresentações modais em telas regulares.
+O código usa models `@Observable` por responsabilidade (sessão, finanças, lista de transações, inteligência e um editor por formulário). As telas recebem todos os models pelo `@Environment`; a rota cria o editor de cada formulário. A arquitetura e as fases de refatoração estão em [docs/refactor-plan.md](docs/refactor-plan.md). A navegação tem uma pilha por seção e apresentações modais em telas regulares.
 
 - [Arquitetura, isolamento e escolha dos patterns](docs/architecture.md)
 - [Code review, correções e próximos pontos de atenção](docs/code-review.md)

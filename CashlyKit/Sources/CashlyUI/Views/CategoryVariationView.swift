@@ -6,7 +6,7 @@ import Foundation
 import SwiftUI
 
 struct CategoryVariationView: View {
-    @Environment(MainViewModel.self) var state
+    @Environment(FinanceModel.self) var finance
     @State var variation: Double = .zero
 
     var category: CashlyDomain.Category?
@@ -20,7 +20,7 @@ struct CategoryVariationView: View {
     @ViewBuilder
     var body: some View {
         if let category {
-            let variation = state.categoryVariation(
+            let variation = finance.categoryVariation(
                 category: category,
                 amount: amount
             )
