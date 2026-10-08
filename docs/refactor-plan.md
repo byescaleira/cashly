@@ -201,6 +201,9 @@ Regra de dependência: uma feature não importa outra. O que é usado por mais d
 
 #### 5.1 Base de targets
 
+Concluída. A raiz do app (bootstrap do banco) continua no target do app, que é o composition root; o `AppShell` expõe `CashlyWindow` e `MainScreen`.
+
+
 - `FeatureCore` passa a conter o estado compartilhado que hoje está em `CashlyPresentation`: `SessionModel`, `FinanceModel`, `IntelligenceModel`, `EditorStatus`, `TransactionFilter`, `UserPreference`, `ModelHost`, Environment values, rotas (`MainRoute` vira `Route`, `CashlySection` vira `AppSection`) e `CashlyNavigation`.
 - Novo target `AppShell`: `CashlyWindow`, `MainScreen`, mapa rota → tela e a raiz do app. Durante a migração depende de `CashlyUI` e de cada feature já migrada.
 - `CashlyPresentation` fica só com os editores e o `TransactionListModel`, que saem nas etapas seguintes.

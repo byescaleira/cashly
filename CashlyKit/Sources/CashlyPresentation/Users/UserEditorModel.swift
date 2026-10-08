@@ -1,4 +1,5 @@
 import CashlyDomain
+import FeatureCore
 import Observation
 
 @MainActor @Observable

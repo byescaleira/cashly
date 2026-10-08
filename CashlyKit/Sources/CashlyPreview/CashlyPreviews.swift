@@ -1,6 +1,8 @@
 #if DEBUG
+    import AppShell
     import CashlyDomain
     import CashlyPresentation
+    import FeatureCore
     import CashlyMock
     import CashlyUI
     import SwiftUI

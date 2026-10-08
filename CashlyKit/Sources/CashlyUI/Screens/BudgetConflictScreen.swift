@@ -3,7 +3,7 @@ import CashlyPresentation
 import FeatureCore
 import SwiftUI
 
-struct BudgetConflictScreen: View {
+public struct BudgetConflictScreen: View {
     @Environment(FinanceModel.self) private var finance
     @Environment(\.dismiss) private var dismiss
     let categoryID: String
@@ -12,7 +12,13 @@ struct BudgetConflictScreen: View {
     @State private var isLoading = true
     @State private var isSaving = false
     @State private var error: CashlyError?
-    var body: some View {
+
+    public init(categoryID: String, month: YearMonth) {
+        self.categoryID = categoryID
+        self.month = month
+    }
+
+    public var body: some View {
         List {
             Section {
                 Text(

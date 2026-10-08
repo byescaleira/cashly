@@ -1,25 +1,13 @@
 import CashlyDomain
 import CashlyPresentation
+import CashlyUI
 import FeatureCore
 import SwiftUI
 
-struct CashlySectionScreen: View {
-    let section: CashlySection
-
-    @ViewBuilder var body: some View {
-        switch section {
-        case .intelligence: IntelligenceScreen()
-        case .category: CategoryScreen()
-        case .home: HomeScreen()
-        case .transaction: TransactionScreen()
-        }
-    }
-}
-
-struct CashlyRouteScreen: View {
+struct RouteScreen: View {
     @Environment(SessionModel.self) private var session
     @Environment(FinanceModel.self) private var finance
-    let route: MainRoute
+    let route: Route
 
     @ViewBuilder var body: some View {
         let repositories = session.repositories
@@ -62,26 +50,5 @@ struct CashlyRouteScreen: View {
             return .new(category: category, date: date ?? session.filter.startDate)
         }
         return .new()
-    }
-}
-
-struct CashlySheetScreen: View {
-    @Environment(\.dismiss) private var dismiss
-    @Environment(CashlyNavigation.self) private var navigation
-    let destination: CashlyNavigation.SheetDestination
-
-    var body: some View {
-        @Bindable var navigation = navigation
-        NavigationStack(path: $navigation.sheetPath) {
-            CashlyRouteScreen(route: destination.route)
-                .navigationDestination(for: MainRoute.self) { CashlyRouteScreen(route: $0) }
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("Close") { dismiss() }
-                    }
-                }
-        }
-        .environment(\.navigationSection, destination.section)
-        .presentationDetents([.large])
     }
 }

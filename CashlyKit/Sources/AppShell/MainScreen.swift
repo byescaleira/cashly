@@ -1,6 +1,7 @@
 import CashlyDesignSystem
 import CashlyDomain
 import CashlyPresentation
+import CashlyUI
 import FeatureCore
 import SwiftUI
 
@@ -18,12 +19,12 @@ public struct MainScreen: View {
         @Bindable var session = session
         @Bindable var finance = finance
         TabView(selection: $navigation.selectedSection) {
-            ForEach(CashlySection.allCases) { section in
+            ForEach(AppSection.allCases) { section in
                 Tab(section.title, systemImage: section.systemImage, value: section) {
                     NavigationStack(path: navigation.path(for: section)) {
-                        CashlySectionScreen(section: section)
-                            .navigationDestination(for: MainRoute.self) {
-                                CashlyRouteScreen(route: $0)
+                        SectionScreen(section: section)
+                            .navigationDestination(for: Route.self) {
+                                RouteScreen(route: $0)
                             }
                     }
                     .environment(\.navigationSection, section)
@@ -35,7 +36,7 @@ public struct MainScreen: View {
             .tabBarMinimizeBehavior(.onScrollDown)
         #endif
         .sheet(item: $navigation.sheet) { sheet in
-            CashlySheetScreen(destination: sheet)
+            SheetScreen(destination: sheet)
         }
         .environment(
             \.open,
