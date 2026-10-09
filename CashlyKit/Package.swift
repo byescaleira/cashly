@@ -6,7 +6,9 @@ let package = Package(
     defaultLocalization: "pt-BR",
     platforms: [.iOS("27.0"), .macOS("27.0"), .visionOS("27.0")],
     products: [
-        .library(name: "CashlyKit", targets: ["CashlyDomain", "CashlyData", "AppShell"]),
+        .library(
+            name: "CashlyKit",
+            targets: ["CashlyDomain", "CashlyData", "FeatureSettings", "AppShell"]),
         .library(name: "CashlyPreview", targets: ["CashlyPreview"]),
         .executable(name: "CashlyAudit", targets: ["CashlyAudit"]),
     ],
@@ -44,6 +46,8 @@ let package = Package(
             dependencies: ["CashlyDomain", "CashlyDesignSystem", "CashlyResource", "FeatureCore"],
             resources: [.process("Resources")]),
         .target(
+            name: "FeatureSettings", resources: [.process("Resources")]),
+        .target(
             name: "FeatureUsers",
             dependencies: ["CashlyDomain", "CashlyDesignSystem", "CashlyResource", "FeatureCore"],
             resources: [.process("Resources")]),
@@ -51,9 +55,8 @@ let package = Package(
             name: "AppShell",
             dependencies: [
                 "CashlyDomain", "CashlyDesignSystem", "FeatureCore", "FeatureBudgets",
-                "FeatureCategories", "FeatureDashboard", "FeatureIntelligence", "FeatureTags",
-                "FeatureTransactions",
-                "FeatureUsers",
+                "FeatureCategories", "FeatureDashboard", "FeatureIntelligence", "FeatureSettings",
+                "FeatureTags", "FeatureTransactions", "FeatureUsers",
             ]),
         .target(
             name: "CashlyMock", dependencies: ["CashlyDomain", "CashlyData"]),
@@ -61,8 +64,8 @@ let package = Package(
             name: "CashlyPreview",
             dependencies: [
                 "AppShell", "CashlyMock", "FeatureBudgets", "FeatureCategories", "FeatureCore",
-                "FeatureDashboard", "FeatureIntelligence", "FeatureTags", "FeatureTransactions",
-                "FeatureUsers",
+                "FeatureDashboard", "FeatureIntelligence", "FeatureSettings", "FeatureTags",
+                "FeatureTransactions", "FeatureUsers",
             ]),
         .executableTarget(
             name: "CashlyAudit", dependencies: ["CashlyDomain", "CashlyData", "CashlyMock"]),
@@ -89,6 +92,7 @@ let package = Package(
         .testTarget(
             name: "FeatureTransactionsTests",
             dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureTransactions"]),
+        .testTarget(name: "FeatureSettingsTests", dependencies: ["FeatureSettings"]),
         .testTarget(
             name: "FeatureCoreTests", dependencies: ["CashlyDomain", "CashlyData", "FeatureCore"]),
     ]

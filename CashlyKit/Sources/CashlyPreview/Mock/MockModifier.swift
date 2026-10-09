@@ -2,18 +2,21 @@ import AppShell
 import CashlyData
 import CashlyDomain
 import CashlyMock
+import FeatureSettings
 import Foundation
 import SwiftUI
 
 struct MockModifier: ViewModifier {
     var includeSampleData = true
     @State private var window: CashlyWindow?
+    @State private var settings = SettingsModel.preview
     @State private var error: String?
 
     func body(content: Content) -> some View {
         Group {
             if let window {
                 content.cashlyWindow(window)
+                    .cashlySettings(settings)
                     .task {
                         await window.session.refreshUsers()
                         await window.finance.load()

@@ -1,0 +1,54 @@
+{
+  "sourceLanguage" : "pt-BR",
+  "strings" : {
+    "Ajuda" : {
+
+    },
+    "Ajustes" : {
+
+    },
+    "Aparência" : {
+
+    },
+    "Avaliar o Cashly" : {
+
+    },
+    "Central de ajuda" : {
+
+    },
+    "Compartilhar o Cashly" : {
+
+    },
+    "Conta" : {
+
+    },
+    "Fale conosco" : {
+
+    },
+    "O Cashly não tem servidores próprios. Seus dados ficam neste aparelho e, com a sincronização ligada, na sua conta do iCloud. As sugestões são calculadas no próprio aparelho." : {
+
+    },
+    "Política de privacidade" : {
+
+    },
+    "Sincronizar com o iCloud" : {
+
+    },
+    "Sobre" : {
+
+    },
+    "Tema" : {
+
+    },
+    "Termos de uso" : {
+
+    },
+    "Versão" : {
+
+    },
+    "iCloud" : {
+
+    }
+  },
+  "version" : "1.0"
+}

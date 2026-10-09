@@ -3,6 +3,7 @@ import Foundation
 import SwiftData
 
 public struct CashlyDatabase: RepositoryProvider {
+    public static let cloudContainer = "iCloud.cashly"
     public let modelContainer: ModelContainer
     let store: CashlyStore
 
@@ -16,7 +17,7 @@ public struct CashlyDatabase: RepositoryProvider {
     {
         let schema = Schema(versionedSchema: CashlySchemaV3.self)
         let database: ModelConfiguration.CloudKitDatabase =
-            inMemory || !cloudSync ? .none : .private("iCloud.cashly")
+            inMemory || !cloudSync ? .none : .private(cloudContainer)
         let configuration =
             if let storeURL {
                 ModelConfiguration(schema: schema, url: storeURL, cloudKitDatabase: database)

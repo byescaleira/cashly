@@ -1,14 +1,30 @@
 import AppShell
 import CashlyData
 import CashlyDomain
+import FeatureSettings
 import Observation
 import SwiftUI
 
 @main
 struct CashlyApp: App {
-    @State private var bootstrap = CashlyBootstrap()
+    @State private var settings: SettingsModel
+    @State private var bootstrap: CashlyBootstrap
+
+    init() {
+        #if targetEnvironment(simulator)
+            let settings = SettingsModel(cloudContainer: nil)
+        #else
+            let settings = SettingsModel(cloudContainer: CashlyDatabase.cloudContainer)
+        #endif
+        _settings = State(initialValue: settings)
+        _bootstrap = State(initialValue: CashlyBootstrap(cloudSync: settings.syncsAtLaunch))
+    }
+
     var body: some Scene {
-        WindowGroup { CashlyRootView().environment(bootstrap) }
+        WindowGroup { CashlyRootView().environment(bootstrap).cashlySettings(settings) }
+        #if os(macOS)
+            Settings { SettingsScreen().cashlySettings(settings) }
+        #endif
     }
 }
 
@@ -17,19 +33,20 @@ private final class CashlyBootstrap {
     private(set) var database: CashlyDatabase?
     private(set) var error: String?
     let intelligence = LocalIntelligenceService()
+    private let cloudSync: Bool
     @ObservationIgnored private var preparation: Task<CashlyDatabase, any Error>?
+
+    init(cloudSync: Bool) {
+        self.cloudSync = cloudSync
+    }
 
     func prepare() async {
         guard database == nil else { return }
         error = nil
         let task =
             preparation
-            ?? Task.detached(priority: .userInitiated) {
-                #if targetEnvironment(simulator)
-                    return try CashlyDatabase.open(cloudSync: false)
-                #else
-                    return try CashlyDatabase.open()
-                #endif
+            ?? Task.detached(priority: .userInitiated) { [cloudSync] in
+                try CashlyDatabase.open(cloudSync: cloudSync)
             }
         preparation = task
         do { database = try await task.value } catch { self.error = error.localizedDescription }

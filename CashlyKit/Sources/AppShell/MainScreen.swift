@@ -1,6 +1,7 @@
 import CashlyDesignSystem
 import CashlyDomain
 import FeatureCore
+import FeatureSettings
 import SwiftUI
 
 public struct MainScreen: View {
@@ -28,6 +29,9 @@ public struct MainScreen: View {
             if let inspector = navigation.inspector {
                 InspectorScreen(inspector: inspector)
             }
+        }
+        .sheet(isPresented: $navigation.isShowingSettings) {
+            NavigationStack { SettingsScreen() }
         }
         #if os(iOS)
             .tabBarMinimizeBehavior(.onScrollDown)

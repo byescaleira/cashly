@@ -112,6 +112,16 @@
                ReferencedContainer = "container:CashlyKit">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FeatureSettingsTests"
+               BuildableName = "FeatureSettingsTests"
+               BlueprintName = "FeatureSettingsTests"
+               ReferencedContainer = "container:CashlyKit">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

@@ -26,7 +26,8 @@ flowchart TD
 | `CashlyResource` | Avatares e ilustrações | nada |
 | `FeatureCore` | Estado compartilhado (`SessionModel`, `FinanceModel`, `IntelligenceModel`, `EditorStatus`, `TransactionFilter`), navegação (`Route`, `AppSection`, `CashlyNavigation`, `\.open`, `\.close`), componentes usados por mais de uma feature, textos de exibição | Domain, DesignSystem, Resource |
 | `Feature*` | Uma área do app: model, telas e seções | Domain, DesignSystem, FeatureCore |
-| `AppShell` | `CashlyWindow`, `MainScreen`, `SectionStack`, `RouteScreen`, inspector | todas as features |
+| `FeatureSettings` | Ajustes do app (`SettingsModel`, `AppInfo`), um por processo e não por janela | nada |
+| `AppShell` | `CashlyWindow`, `MainScreen`, `SectionStack`, `RouteScreen`, inspector, folha de ajustes | todas as features |
 | `CashlyMock` | `SampleData` e `SampleDatabase` em memória | Domain, Data |
 | `CashlyPreview` | Previews por feature sobre o `SampleDatabase` | AppShell, features, Mock |
 | `CashlyAudit` | Diagnóstico e validação automatizada (migração, integridade, volume) | Domain, Data, Mock |
@@ -48,9 +49,11 @@ Regras de dependência:
 | `FeatureTags` | Editor de tag |
 | `FeatureUsers` | Editor de usuário |
 | `FeatureIntelligence` | Treino e estado dos modelos locais |
+| `FeatureSettings` | Aparência, iCloud, ajuda e sobre |
 
 ## Estado e fluxo de dados
 
+- **App.** `CashlyApp` cria um `SettingsModel` para o processo inteiro e o injeta com `.cashlySettings(_:)`, que também aplica o tema em todas as janelas. A preferência de iCloud é lida antes de abrir o banco e só vale na abertura seguinte.
 - **Janela.** `CashlyWindow` cria, por janela, `SessionModel` (usuário selecionado, filtro, repositórios do usuário), `FinanceModel` (resumo do período), `TransactionListModel`, `IntelligenceModel` e `CashlyNavigation`, e os injeta no ambiente. Duas janelas podem ter usuários diferentes.
 - **Escopo.** `SessionModel.repositories` entrega repositórios presos ao usuário da janela; o store recusa leitura e escrita de outro dono.
 - **Mudanças.** O `CashlyChangeHub` avisa a sessão quando o banco muda (inclusive por CloudKit), e a sessão recarrega o que estiver na tela.
@@ -62,6 +65,8 @@ Regras de dependência:
 - `TabView` em `sidebarAdaptable` com uma `NavigationStack` por aba (`SectionStack`).
 - Telas pedem navegação por `@Environment(\.open)` com uma `Route`; o `AppShell` decide como apresentar: em largura regular, no `.inspector` da janela (sheet no visionOS); em largura compacta, por push.
 - `@Environment(\.close)` fecha a rota no contexto certo (inspector, pilha do inspector ou pilha da aba).
+- Ajustes abrem pelo menu do avatar: em folha no iOS, iPadOS e visionOS (`CashlyNavigation.isShowingSettings`) e na janela de Ajustes do sistema no Mac (cena `Settings`, ⌘,).
+- Os links de ajuda e sobre vêm das chaves `CashlyAppStoreID`, `CashlySupportEmail`, `CashlyHelpURL`, `CashlyPrivacyURL` e `CashlyTermsURL` do `Info.plist`; a linha some enquanto a chave estiver vazia.
 
 ## Views
 
