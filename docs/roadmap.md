@@ -1,6 +1,6 @@
 # Roadmap
 
-O que o Cashly pode ganhar depois da reestruturação, com a assinatura como eixo. Cada item diz o que entrega, a tecnologia e se fica no plano grátis ou no Pro. Os pré-requisitos técnicos estão no [backlog.md](backlog.md).
+O que o Cashly pode ganhar depois da reestruturação, com a assinatura como eixo. Cada item diz o que entrega e a tecnologia; tudo faz parte do Cashly Pro. Os pré-requisitos técnicos estão no [backlog.md](backlog.md).
 
 ## Onde o app está
 
@@ -27,30 +27,15 @@ O que o Cashly pode ganhar depois da reestruturação, com a assinatura como eix
 
 ### Modelo
 
-O modelo é freemium: o plano grátis cria o hábito de registrar, e o Pro vende **tempo** (captura por IA e leitura de comprovante), **visão** (relatórios completos, previsão e patrimônio), **colaboração** (família) e **personalização**.
+Teste grátis e depois pago: tudo liberado no período de teste e, depois, o app exige a assinatura. Decidido em 09/10/2026. O app ainda não foi publicado, então não há usuários antigos a preservar.
 
-Um bloqueio total logo na entrada afasta quem ainda não viu valor, e em finanças o valor só aparece depois de algumas semanas de registro.
-
-**Princípios:**
-- **Quem já usa não perde nada:** o que está na versão publicada continua grátis para todos.
-- **Fora do paywall:** segurança (Face ID), exportar os próprios dados e registrar gastos (inclusive pela Siri). Esses três itens também puxam engajamento.
-- **Lançamento com valor:** a assinatura só vai ao ar com pelo menos dois recursos Pro fortes prontos (por exemplo, IA de texto livre e relatórios completos). Antes disso, a infraestrutura pode existir desligada.
-
-| Área | Grátis | Pro |
-| --- | --- | --- |
-| Registro | Manual, ilimitado; Siri, Atalhos e automação do Wallet | Texto livre com IA, leitura de comprovante, importação OFX |
-| Planejamento | Orçamentos por categoria, recorrências, 1 meta | Metas ilimitadas, orçamento por tag (viagem, evento) |
-| Relatórios | Mês atual e anterior | Histórico completo, ano contra ano, previsão, relatório em PDF |
-| Inteligência | Sugestão de categoria (atual) | Resumo do mês, perguntas sobre os gastos, detecção de assinaturas |
-| Widgets | Saldo do mês (pequeno) | Todos os tamanhos, Tela Bloqueada, Live Activities |
-| Família | Participantes e divisão | Orçamento compartilhado da casa via iCloud |
-| Personalização | Ícone padrão | Ícones alternativos |
-| Engajamento | Gamificação, conteúdo, calculadoras | — |
+- **Teste grátis:** oferta introdutória do StoreKit nos dois planos. A Apple controla a elegibilidade (uma vez por Apple ID no grupo de assinatura) e a cobrança começa sozinha no fim do teste, a menos que a pessoa cancele.
+- **Depois que expira:** os dados continuam visíveis em modo leitura, e exportar (JSON e CSV) segue liberado. Registrar, editar e os recursos avançados pedem a assinatura. Prender os dados da pessoa gera avaliação ruim e risco na revisão.
+- **Sem limite artificial durante o teste:** a pessoa vê o app inteiro, inclusive IA, widgets e relatórios.
 
 ### Planos
 
-- **Mensal e anual** no mesmo grupo de assinatura. O anual tem desconto equivalente de cerca de 40% e 7 dias grátis (oferta introdutória só no anual, que é onde a retenção compensa).
-- **Vitalício (opcional):** compra não consumível de 2,5 a 3 vezes o anual. Atende quem rejeita assinatura.
+- **Cashly Pro Mensal e Cashly Pro Anual**, no mesmo grupo de assinatura (`cashly.pro.monthly`, `cashly.pro.yearly`). O anual tem desconto equivalente de cerca de 40%.
 - **Preço de partida para validar:** R$ 14,90/mês e R$ 99,90/ano. Antes de fechar, comparar com os apps nacionais do segmento e ajustar à grade da App Store.
 - **Compartilhamento Familiar** ligado, porque finanças da casa são um uso natural.
 - **Ofertas sem servidor:**
@@ -59,33 +44,33 @@ Um bloqueio total logo na entrada afasta quem ainda não viu valor, e em finanç
 
 ### Implementação (StoreKit 2, sem servidor)
 
-- **Domínio:** `ProFeature` (enum dos recursos pagos) e o protocolo `EntitlementProviding`. As features perguntam `entitlements.allows(.aiEntry)` e não conhecem StoreKit.
+- **Domínio:** `Entitlement` (teste, ativo, expirado) e o protocolo `EntitlementProviding`. As features perguntam `entitlement.canWrite` e não conhecem StoreKit.
 - **Target `FeatureStore`:**
   - `StoreModel` (`@Observable`) escuta `Transaction.updates` desde a abertura do app, lê `Transaction.currentEntitlements` e carrega os `Product`.
   - O paywall é a `SubscriptionStoreView(groupID:)` nativa, com o cabeçalho de marketing do Cashly. Botões de restaurar e resgatar código via `.storeButton(.visible, for: .restorePurchases, .redeemCode)`, links de termos e privacidade via `.subscriptionStorePolicyDestination`.
   - `.subscriptionStatusTask(for:)` na raiz mantém o status atualizado.
   - Gerenciar assinatura via `.manageSubscriptionsSheet`.
-- **Gate contextual:** um modificador `.proFeature(.aiEntry)` mostra o paywall daquele recurso quando a pessoa toca nele.
+- **Bloqueio:** um modificador `.requiresPro()` nas ações de escrita mostra o paywall quando não há assinatura ativa. As telas de leitura e a exportação continuam abertas.
 - **Ajustes > Cashly Pro:** status, renovação, gerenciar, restaurar e resgatar código.
 - **Status para widgets e intents:** uma cópia só de leitura no App Group. A fonte de verdade continua sendo o StoreKit, que valida o JWS no aparelho.
 - **Testes:**
   - arquivo `Cashly.storekit` no esquema para o simulador;
   - `SKTestSession` (StoreKitTest) para compra, renovação, expiração e reembolso;
-  - testes do mapeamento produto → recursos com um provedor falso.
+  - testes do estado de assinatura (teste, ativo, expirado, reembolsado) com um provedor falso.
 - **Métricas:** pelo App Store Connect (conversão do teste grátis, retenção, cancelamentos). Sem SDK de terceiros, mantendo o selo de privacidade "Dados não coletados".
 
 ### Onde o paywall aparece
 
-- No fim do onboarding, pulável ("Começar grátis").
-- Ao tocar num recurso Pro, mostrando aquele recurso.
-- Em Ajustes > Cashly Pro.
-- Nunca durante o registro de um gasto, e sem pop-up recorrente.
+- **No fim do onboarding**, oferecendo o teste grátis: "Experimente 7 dias grátis".
+- **Ao abrir o app sem assinatura ativa**, depois do teste ou de um cancelamento, sobre os dados em modo leitura.
+- **Ao tentar registrar ou editar sem assinatura.**
+- **Em Ajustes > Cashly Pro**, com status, gerenciar, restaurar e resgatar código.
 
 ### O que fica com você
 
 - **No App Store Connect:**
   - aceitar o contrato de apps pagos e preencher dados bancários e fiscais;
-  - criar o grupo e os produtos (`cashly.pro.monthly`, `cashly.pro.yearly`, `cashly.pro.lifetime`) com textos em pt-BR;
+  - criar o grupo e os produtos (`cashly.pro.monthly`, `cashly.pro.yearly`) com o teste grátis e textos em pt-BR;
   - capturar a tela do paywall para a revisão;
   - criar testadores sandbox.
 - **No `Info.plist`:** preencher `CashlyTermsURL` e `CashlyPrivacyURL`. A diretriz 3.1.2 exige termos (EULA) e privacidade no paywall e na descrição da loja.
@@ -113,23 +98,23 @@ Um bloqueio total logo na entrada afasta quem ainda não viu valor, e em finanç
 
 Os widgets leem um retrato pequeno (JSON) que o app grava no App Group a cada mudança. Isso evita mover o banco SwiftData de lugar, o que exigiria migração.
 
-| Recurso | O que entrega | Tecnologia | Plano |
-| --- | --- | --- | --- |
-| Siri e Atalhos | "Adicionar gasto", "Quanto gastei este mês?", "Quanto sobra em Mercado?", "Marcar conta como paga"; aparecem no Spotlight e no app Atalhos sem configuração | App Intents, `AppShortcutsProvider`, `AppEntity` para categoria, tag e perfil | Grátis |
-| Automação do Wallet | Ao pagar com Apple Pay, o Atalhos envia valor e estabelecimento para "Adicionar gasto"; o Cashly oferece o atalho pronto e um passo a passo | Automação "Transação" do Atalhos + App Intent | Grátis |
-| Botão de Ação e Central de Controle | "Novo gasto" num toque | `ControlWidget` + App Intent | Grátis |
-| Widgets | Saldo do mês, orçamento por categoria (`Gauge`), próximos vencimentos, botão "marcar como pago"; Tela Bloqueada, StandBy, Mac e visionOS | WidgetKit, widgets interativos | Pequeno grátis, demais Pro |
-| Live Activities | "Fatura vence hoje" com ação de pagar; modo viagem com gasto da tag em tempo real | ActivityKit (atualização local) | Pro |
-| Notificações | Alertas de orçamento em 80% e 100%, resumo semanal, ações "Marcar paga" e "Adiar 1 dia", vencimento como Sensível ao Tempo | UserNotifications (categorias e ações) | Grátis |
-| Face ID | Bloqueio opcional, modo discreto que oculta valores, desfoque no seletor de apps | LocalAuthentication | Grátis |
-| Spotlight | Transações e categorias pesquisáveis no sistema | `IndexedEntity` | Grátis |
-| Calendário | Vencimentos e parcelas no Calendário | EventKit (acesso só de escrita) | Grátis |
-| Contatos | Escolher participantes dos Contatos | `ContactAccessButton` | Grátis |
-| Comprovante | Fotografar recibo ou nota e preencher valor, data e estabelecimento | Vision (reconhecimento de documento) + Foundation Models | Pro |
-| Foundation Models | Texto livre vira transação ("almoço 45 com João ontem"); resumo do mês; "Pergunte ao Cashly" com ferramentas que consultam o banco local | `LanguageModelSession`, `@Generable`, `Tool`; fallback quando `SystemLanguageModel.default` não está disponível | Pro |
-| Importação | Extratos OFX/CSV com sugestão de categoria | `fileImporter` + parser | Pro |
-| Mac | Adicionar pela barra de menus, atalhos de teclado | `MenuBarExtra`, `keyboardShortcut` | Grátis |
-| Apple Watch | Complicação de saldo e gasto por voz | watchOS + App Intents | Pro (fase final) |
+| Recurso | O que entrega | Tecnologia |
+| --- | --- | --- |
+| Siri e Atalhos | "Adicionar gasto", "Quanto gastei este mês?", "Quanto sobra em Mercado?", "Marcar conta como paga"; aparecem no Spotlight e no app Atalhos sem configuração | App Intents, `AppShortcutsProvider`, `AppEntity` para categoria, tag e perfil |
+| Automação do Wallet | Ao pagar com Apple Pay, o Atalhos envia valor e estabelecimento para "Adicionar gasto"; o Cashly oferece o atalho pronto e um passo a passo | Automação "Transação" do Atalhos + App Intent |
+| Botão de Ação e Central de Controle | "Novo gasto" num toque | `ControlWidget` + App Intent |
+| Widgets | Saldo do mês, orçamento por categoria (`Gauge`), próximos vencimentos, botão "marcar como pago"; Tela Bloqueada, StandBy, Mac e visionOS | WidgetKit, widgets interativos |
+| Live Activities | "Fatura vence hoje" com ação de pagar; modo viagem com gasto da tag em tempo real | ActivityKit (atualização local) |
+| Notificações | Alertas de orçamento em 80% e 100%, resumo semanal, ações "Marcar paga" e "Adiar 1 dia", vencimento como Sensível ao Tempo | UserNotifications (categorias e ações) |
+| Face ID | Bloqueio opcional, modo discreto que oculta valores, desfoque no seletor de apps | LocalAuthentication |
+| Spotlight | Transações e categorias pesquisáveis no sistema | `IndexedEntity` |
+| Calendário | Vencimentos e parcelas no Calendário | EventKit (acesso só de escrita) |
+| Contatos | Escolher participantes dos Contatos | `ContactAccessButton` |
+| Comprovante | Fotografar recibo ou nota e preencher valor, data e estabelecimento | Vision (reconhecimento de documento) + Foundation Models |
+| Foundation Models | Texto livre vira transação ("almoço 45 com João ontem"); resumo do mês; "Pergunte ao Cashly" com ferramentas que consultam o banco local | `LanguageModelSession`, `@Generable`, `Tool`; fallback quando `SystemLanguageModel.default` não está disponível |
+| Importação | Extratos OFX/CSV com sugestão de categoria | `fileImporter` + parser |
+| Mac | Adicionar pela barra de menus, atalhos de teclado | `MenuBarExtra`, `keyboardShortcut` |
+| Apple Watch | Complicação de saldo e gasto por voz | watchOS + App Intents |
 
 Fora de alcance sem servidor:
 - **Open Finance (conexão automática com bancos):** exige um agregador contratado e um backend.
@@ -137,11 +122,11 @@ Fora de alcance sem servidor:
 
 ## 4. Features de finanças que faltam
 
-- **Recorrências:** contas fixas, salário e assinaturas geram lançamentos e vencimentos sozinhos. O Pro detecta assinaturas pelo padrão de gastos e mostra "Suas assinaturas: R$ X/mês". Plano grátis.
+- **Recorrências:** contas fixas, salário e assinaturas geram lançamentos e vencimentos sozinhos. O app detecta assinaturas pelo padrão de gastos e mostra "Suas assinaturas: R$ X/mês".
 - **Metas (caixinhas):** objetivo, prazo, aporte mensal sugerido e progresso. Ligam-se à gamificação e ao conteúdo.
 - **Acerto de contas:** resolve o P1 "Quem pagou" do backlog. Mostra quem deve a quem e gera a cobrança (seção 7).
 - **Contas e cartões:** saldo por conta; cartão com fechamento, vencimento e fatura; transferências. É a maior mudança de domínio e anda junto com os itens de competência e `Obligation` do backlog.
-- **Patrimônio:** saldos de investimentos informados à mão (sem cotação) e evolução do patrimônio líquido. Plano Pro.
+- **Patrimônio:** saldos de investimentos informados à mão (sem cotação) e evolução do patrimônio líquido.
 - **Dívidas:** plano bola de neve ou avalanche, com data de quitação.
 
 ## 5. Gamificação
@@ -172,16 +157,16 @@ Fora de alcance sem servidor:
   - juros compostos;
   - quanto guardar por mês para uma meta;
   - CDI contra poupança, com Selic, CDI e IPCA da API pública do Banco Central (SGS, gratuita) ou digitados.
-- **Dicas a partir dos dados:** por exemplo, "Delivery subiu 30% em relação à sua média". Usam estatística local e, no Pro, texto do Foundation Models.
+- **Dicas a partir dos dados:** por exemplo, "Delivery subiu 30% em relação à sua média". Usam estatística local e, quando disponível, texto do Foundation Models.
 - **Cuidado regulatório:** recomendar ativos específicos é atividade regulada pela CVM (analista ou consultor credenciado). O app fica em educação e simulação, com o aviso "não é recomendação de investimento". Parcerias com corretoras só depois de análise jurídica.
 
 ## 7. Compartilhamento de dados
 
-- **Relatório do mês** como imagem para compartilhar (grátis) ou PDF (Pro), com `ImageRenderer` + `ShareLink`.
+- **Relatório do mês** como imagem ou PDF, com `ImageRenderer` + `ShareLink`.
 - **Cobrança de divisão:**
   - mensagem pronta com o valor e um Pix Copia e Cola gerado no aparelho (BR Code estático com a chave Pix da pessoa);
   - lembrete para cobrar de novo.
-- **Orçamento da casa compartilhado (Pro):**
+- **Orçamento da casa compartilhado:**
   - compartilhamento do CloudKit (`CKShare`) com parceiro ou família.
   - **Investigar antes:** se o SwiftData já expõe o banco compartilhado. Se não, a parte compartilhada usa `NSPersistentCloudKitContainer` ou `CKSyncEngine`. É o item de maior risco desta lista.
 - **Exportação para o contador:** o CSV já existe; falta filtrar por período e categoria.
@@ -190,9 +175,9 @@ Fora de alcance sem servidor:
 
 | Fase | Entrega | Por quê |
 | --- | --- | --- |
-| 8 | **Base da assinatura:** App Group, composição compartilhada, `EntitlementProviding`, `FeatureStore` com paywall, Ajustes > Cashly Pro, onboarding, TipKit | É a prioridade; fica pronta e testada, ainda sem cobrar |
-| 9 | **Captura rápida:** App Intents, automação do Wallet, Central de Controle, widgets, notificações com ação, Face ID e modo discreto | Agiliza o registro, que sustenta todo o resto; quase tudo grátis, para atrair usuários |
+| 8 | **Assinatura:** `EntitlementProviding`, `FeatureStore` com paywall e teste grátis, modo leitura após expirar, Ajustes > Cashly Pro, onboarding, TipKit | É a prioridade e vai ao ar com o primeiro lançamento |
+| 9 | **Captura rápida:** App Group, composição compartilhada, App Intents, automação do Wallet, Central de Controle, widgets, notificações com ação, Face ID e modo discreto | Registrar rápido é o que mantém a pessoa no app depois do teste |
 | 10 | **Finanças essenciais:** recorrências, metas, acerto de contas com Pix | Fecha as lacunas que concorrentes já cobrem |
-| 11 | **Pro forte:** Foundation Models (texto livre, resumo, perguntas), comprovante, relatórios completos, PDF, widgets Pro e Live Activities. **A assinatura vai ao ar aqui** | O Pro estreia com valor claro |
-| 12 | **Engajamento:** gamificação, conteúdo, calculadoras, dicas pelos dados | Retenção depois da conversão |
+| 11 | **Inteligência:** Foundation Models (texto livre, resumo, perguntas), comprovante, relatório em PDF, Live Activities | Diferencial que justifica o preço |
+| 12 | **Engajamento:** gamificação, conteúdo, calculadoras, dicas pelos dados | Retenção e renovação |
 | 13 | **Expansão:** contas e cartões com fatura, orçamento compartilhado, importação OFX, Apple Watch, Mac na barra de menus | Maior esforço e risco de domínio |

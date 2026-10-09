@@ -99,3 +99,10 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **`ViewThatFits` para pares curtos, tamanho de acessibilidade para linhas com texto livre.** O `ViewThatFits` mede a largura ideal, sem quebra; numa linha com a descrição de uma transação, ele empilharia sempre que a descrição fosse longa, mesmo no tamanho padrão. Por isso essas linhas mudam de forma só nos tamanhos de acessibilidade (`AdaptiveRow`).
 - **Valor nunca quebra no meio.** "R$ 497.500,0 / 0" é ilegível; o valor fica numa linha e a fonte reduz até a metade.
 - **"/ R$ 500,00" virou "de R$ 500,00"**, que continua claro quando o total desce para a linha de baixo.
+
+## 09/10/2026: assinatura
+
+- **Cashly Pro, com teste grátis e depois pago.** Sem plano grátis permanente: a pessoa usa tudo no período de teste e depois assina. Como o app não foi publicado, não há usuários antigos a preservar.
+- **Mensal e anual**, sem vitalício. O teste grátis é a oferta introdutória do StoreKit, e a Apple controla a elegibilidade.
+- **Os dados nunca ficam presos.** Sem assinatura, o app abre em modo leitura e a exportação continua liberada.
+- **StoreKit 2 sem servidor**, com a tela de assinatura nativa e métricas do App Store Connect, sem SDK de terceiros.
