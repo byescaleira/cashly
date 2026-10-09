@@ -32,8 +32,9 @@ struct AvailableSection: View {
                         }
                     }
                     HStack(spacing: 8) {
-                        Text(availability.available.formatted(.brl)).font(.title3.weight(.bold))
-                        Text("/  \(availability.budgeted.formatted(.brl))")
+                        Text(availability.available.formatted(.appCurrency)).font(
+                            .title3.weight(.bold))
+                        Text("/  \(availability.budgeted.formatted(.appCurrency))")
                             .font(.footnote)
                             .foregroundStyle(Color.secondary)
                             .padding(.bottom, -4)
@@ -54,10 +55,10 @@ struct AvailableSection: View {
                     Text("Disponível").sectionTitle().frame(
                         maxWidth: .infinity, alignment: .leading)
                     VStack(spacing: 4) {
-                        Text(dashboard.totalAvailable.formatted(.brl))
+                        Text(dashboard.totalAvailable.formatted(.appCurrency))
                             .font(.largeTitle.weight(.black))
                             .foregroundStyle(Color.primary)
-                        Text(finance.budgetsAmount.formatted(.brl))
+                        Text(finance.budgetsAmount.formatted(.appCurrency))
                             .font(.title3.weight(.semibold))
                             .foregroundStyle(Color.secondary)
                     }

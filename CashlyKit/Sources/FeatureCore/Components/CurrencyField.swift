@@ -11,7 +11,7 @@ public struct CurrencyField: View {
         TextField(
             "Valor",
             text: Binding(
-                get: { amount.formatted(.brl) },
+                get: { amount.formatted(.appCurrency) },
                 set: { amount = CurrencyInput.amount(typed: $0) })
         )
         #if os(iOS)

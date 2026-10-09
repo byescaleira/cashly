@@ -58,7 +58,7 @@ Regras de dependência:
 - **Escopo.** `SessionModel.repositories` entrega repositórios presos ao usuário da janela; o store recusa leitura e escrita de outro dono.
 - **Mudanças.** O `CashlyChangeHub` avisa a sessão quando o banco muda (inclusive por CloudKit), e a sessão recarrega o que estiver na tela.
 - **Editores.** Cada rota de edição recebe um model novo por `ModelHost`, com `EditorStatus` para carregar, salvar e excluir com proteção contra respostas atrasadas. `.editorLifecycle` cuida de carregar, fechar ao salvar e mostrar erros.
-- **Dinheiro.** Valores são `Money` em centavos inteiros; `Double` só existe na borda da interface.
+- **Dinheiro.** Valores são `Money` em centavos inteiros; `Double` só existe na borda da interface. A moeda exibida e gravada nos registros novos vem de `CurrencySetting.shared`, observável e segura entre threads; a formatação (`.appCurrency`, `Money.formatted`) lê dela, então as telas se atualizam quando ela muda.
 
 ## Navegação
 

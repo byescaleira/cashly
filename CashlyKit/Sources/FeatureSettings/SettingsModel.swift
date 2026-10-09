@@ -1,3 +1,4 @@
+import CashlyDomain
 import CloudKit
 import Foundation
 import Observation
@@ -6,6 +7,12 @@ import Observation
 public final class SettingsModel {
     public var appearance: Appearance {
         didSet { defaults.set(appearance.rawValue, forKey: Key.appearance) }
+    }
+    public var currency: String {
+        didSet {
+            defaults.set(currency, forKey: Key.currency)
+            currencySetting.code = currency
+        }
     }
     public var syncsWithICloud: Bool {
         didSet { defaults.set(syncsWithICloud, forKey: Key.cloudSync) }
@@ -16,12 +23,22 @@ public final class SettingsModel {
     public let syncsAtLaunch: Bool
     private let cloudContainer: String?
     @ObservationIgnored private let defaults: UserDefaults
+    @ObservationIgnored private let currencySetting: CurrencySetting
 
-    public init(defaults: UserDefaults = .standard, cloudContainer: String?, info: AppInfo = .main)
-    {
+    public init(
+        defaults: UserDefaults = .standard, cloudContainer: String?, info: AppInfo = .main,
+        currencySetting: CurrencySetting = .shared
+    ) {
         self.defaults = defaults
         self.cloudContainer = cloudContainer
         self.info = info
+        self.currencySetting = currencySetting
+        let currency =
+            defaults.string(forKey: Key.currency).flatMap {
+                CurrencySetting.isSupported($0) ? $0 : nil
+            } ?? currencySetting.code
+        currencySetting.code = currency
+        self.currency = currency
         appearance =
             defaults.string(forKey: Key.appearance).flatMap(Appearance.init(rawValue:)) ?? .system
         let syncs = defaults.object(forKey: Key.cloudSync) as? Bool ?? true
@@ -48,6 +65,11 @@ public final class SettingsModel {
         return "Seus dados ficam só neste aparelho."
     }
 
+    func currencyName(_ code: String) -> String {
+        let name = Locale(identifier: "pt_BR").localizedString(forCurrencyCode: code) ?? code
+        return name.prefix(1).uppercased() + name.dropFirst() + " (\(code))"
+    }
+
     func loadCloudAccount() async {
         guard let cloudContainer else { return }
         cloudAccount = .checking
@@ -62,5 +84,6 @@ public final class SettingsModel {
     private enum Key {
         static let appearance = "cashly.settings.appearance"
         static let cloudSync = "cashly.settings.cloudSync"
+        static let currency = "cashly.settings.currency"
     }
 }

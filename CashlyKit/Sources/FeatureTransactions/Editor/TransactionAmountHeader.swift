@@ -27,7 +27,7 @@ struct TransactionAmountHeader: View {
                 .accessibilityLabel("Status: \(model.draft.status.summary)")
                 if !model.draft.participants.isEmpty {
                     Pill(
-                        model.draft.splitValue?.formatted(.brl) ?? "",
+                        model.draft.splitValue?.formatted(.appCurrency) ?? "",
                         color: model.splitStatus.color
                     )
                     .font(.headline.weight(.semibold))

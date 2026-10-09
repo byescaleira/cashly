@@ -38,7 +38,7 @@ public struct PeriodSummaryHeader: View {
                     .padding(.vertical, 8)
                     .padding(.horizontal, 12)
                     .background(badge.color.opacity(0.2), in: .capsule)
-                Text(amount.formatted(.brl))
+                Text(amount.formatted(.appCurrency))
                     .font(.largeTitle.weight(.black))
                     .foregroundStyle(Color.primary)
                     .contentTransition(.numericText(value: amount))

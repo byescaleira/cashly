@@ -9,6 +9,7 @@ public struct SettingsScreen: View {
     public var body: some View {
         Form {
             AppearanceSection()
+            CurrencySection()
             CloudSection()
             if let data = settings.data { DataSection().environment(data) }
             if settings.info.hasHelp { HelpSection() }

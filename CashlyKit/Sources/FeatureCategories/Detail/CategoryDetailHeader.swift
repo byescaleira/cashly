@@ -15,10 +15,10 @@ struct CategoryDetailHeader: View {
             VStack(spacing: 16) {
                 CategoryBadge(category: category, diameter: 70, ring: 5)
                 VStack(spacing: 0) {
-                    Text(finance.budgetsAmount(for: category).formatted(.brl))
+                    Text(finance.budgetsAmount(for: category).formatted(.appCurrency))
                         .font(.largeTitle.weight(.black))
                         .foregroundStyle(Color.primary)
-                    Text(finance.expensesAmount(for: category).formatted(.brl))
+                    Text(finance.expensesAmount(for: category).formatted(.appCurrency))
                         .font(.title2.weight(.bold))
                         .foregroundStyle(Color.secondary)
                 }

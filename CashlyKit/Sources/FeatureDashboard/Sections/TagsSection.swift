@@ -25,7 +25,7 @@ struct TagsSection: View {
                                 .padding(.horizontal, 12)
                                 .background(color.opacity(0.2), in: .capsule)
                             Spacer()
-                            Text(dashboard.selectedTagAmount.formatted(.brl))
+                            Text(dashboard.selectedTagAmount.formatted(.appCurrency))
                                 .font(.title3.weight(.bold))
                                 .foregroundStyle(Color.primary)
                                 .contentTransition(.numericText())

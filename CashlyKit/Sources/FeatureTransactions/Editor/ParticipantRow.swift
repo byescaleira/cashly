@@ -102,6 +102,6 @@ private struct ShareValue: View {
         Text(
             participant.allocatedMoney?.formatted
                 ?? participant.splitMode.value(splitValue: participant.splitValue, amount: amount)?
-                .formatted(.brl) ?? "")
+                .formatted(.appCurrency) ?? "")
     }
 }

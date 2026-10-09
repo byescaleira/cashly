@@ -69,7 +69,7 @@ public struct CashlyBackup: Codable, Equatable, Sendable {
             throw CashlyError.invalidInput(
                 "Este backup foi criado por uma versão mais nova do Cashly. Atualize o app.")
         }
-        guard backup.currency == Money.currencyCode else {
+        guard CurrencySetting.isSupported(backup.currency) else {
             throw CashlyError.invalidInput("Este backup usa uma moeda ainda não suportada.")
         }
         self = backup

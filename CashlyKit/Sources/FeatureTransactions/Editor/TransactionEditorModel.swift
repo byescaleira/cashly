@@ -65,8 +65,8 @@ public final class TransactionEditorModel {
             finance.categoryRemainingAmount(category: category) - budgetImpact(in: month)
         let name = category.name.capitalized
         return remaining < .zero
-            ? "Você passou do orçamento de \(name) em \((-remaining).formatted(.brl))."
-            : "Faltam \(remaining.formatted(.brl)) para atingir o orçamento de \(name)."
+            ? "Você passou do orçamento de \(name) em \((-remaining).formatted(.appCurrency))."
+            : "Faltam \(remaining.formatted(.appCurrency)) para atingir o orçamento de \(name)."
     }
 
     public func conflictedBudget(in finance: FinanceModel) -> Budget? {

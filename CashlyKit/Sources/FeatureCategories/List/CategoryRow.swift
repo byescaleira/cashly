@@ -26,10 +26,10 @@ struct CategoryRow: View {
                     .scaleEffect(0.7)
                     .padding(.trailing, -6)
                 if budgeted > .zero {
-                    Text(budgeted.formatted(.brl)).font(.callout.weight(.semibold))
+                    Text(budgeted.formatted(.appCurrency)).font(.callout.weight(.semibold))
                 }
                 if spent > .zero {
-                    Text(spent.formatted(.brl))
+                    Text(spent.formatted(.appCurrency))
                         .font(.callout.weight(.semibold))
                         .foregroundStyle(Color.secondary)
                 }

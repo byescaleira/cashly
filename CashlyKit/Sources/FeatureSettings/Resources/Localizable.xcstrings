@@ -49,6 +49,9 @@
     "Importar backup?" : {
 
     },
+    "Moeda" : {
+
+    },
     "Não foi possível concluir" : {
 
     },
@@ -56,6 +59,9 @@
 
     },
     "O backup é um arquivo com usuários, categorias, tags, orçamentos e transações. Importar adiciona os registros do arquivo aos que já estão no aparelho." : {
+
+    },
+    "Os valores não são convertidos: trocar a moeda muda o símbolo exibido e a moeda dos novos registros." : {
 
     },
     "Política de privacidade" : {
@@ -74,6 +80,9 @@
 
     },
     "Usuários, categorias, tags, orçamentos, transações e modelos de inteligência serão apagados. Com o iCloud ligado, os dados também saem dos seus outros aparelhos. Não é possível desfazer." : {
+
+    },
+    "Valores em" : {
 
     },
     "Versão" : {

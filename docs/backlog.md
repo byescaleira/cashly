@@ -16,7 +16,7 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 - **[P2] Responsabilidades sobrepostas.** `Participant` aponta para `User`, que também é perfil financeiro; não há pagador, vencimento ou liquidação parcial. Proposta: `FinancialProfile`, `Counterparty`, `ExpenseAllocation`, `Obligation`, `Settlement`.
 - **[P2] Fonte de verdade por associação.** Transação e participante guardam referências nos dois sentidos, e valores coexistem em quatro campos. Separar dados canônicos, legado de migração e projeções.
 - **[P2] Atualização duplicada após salvar.** `.editorLifecycle` recarrega a sessão e o `CashlyChangeHub` também avisa; centralizar o refresh.
-- **[P3] Múltiplas moedas.** `Money` fixa BRL. Se contas em outras moedas entrarem no escopo, incluir a moeda no valor e tratar câmbio como operação explícita.
+- **[P3] Múltiplas moedas.** O app tem uma moeda escolhida nos Ajustes, e cada registro grava a moeda em que foi salvo, mas os totais somam tudo sem conversão. Se contas em moedas diferentes entrarem no escopo, incluir a moeda no `Money` e tratar câmbio como operação explícita.
 
 ## Inteligência e integrações
 
@@ -34,7 +34,6 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
   - ícone do app (exige ícones alternativos no projeto);
   - novidades da versão;
   - notificações (permissão e lembretes de orçamento);
-  - moeda (hoje fixa em BRL; exige moeda por registro);
   - integrações futuras: Calendário, servidor MCP para Claude Code, Atalhos, importador, App Intents/Siri, Foundation Models.
 - **[P3] Acessibilidade e restauração.** Exercitar VoiceOver e Dynamic Type, principalmente gráficos e seletores de ícones; rotas pequenas permitem deep links e restauração.
 - **Ações de retry** nos editores quando a carga inicial falha (hoje é preciso fechar e abrir).

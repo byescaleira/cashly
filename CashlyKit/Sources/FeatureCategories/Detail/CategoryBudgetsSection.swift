@@ -43,8 +43,9 @@ private struct BudgetRow: View {
             }
             Spacer()
             VStack(alignment: .trailing, spacing: 4) {
-                Text(budget.money.doubleValue.formatted(.brl)).font(.callout.weight(.semibold))
-                Text(finance.expensesAmount(for: budget).formatted(.brl))
+                Text(budget.money.doubleValue.formatted(.appCurrency)).font(
+                    .callout.weight(.semibold))
+                Text(finance.expensesAmount(for: budget).formatted(.appCurrency))
             }
             .fixedSize()
             Image(systemName: "chevron.forward").foregroundStyle(.disabled)

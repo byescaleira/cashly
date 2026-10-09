@@ -1,7 +1,7 @@
 import Foundation
 
 public struct Money: Hashable, Comparable, Sendable {
-    public static let currencyCode = "BRL"
+    public static var currencyCode: String { CurrencySetting.shared.code }
     public static let zero = Money(minorUnits: 0)
 
     public let minorUnits: Int64

@@ -14,7 +14,7 @@ struct ForecastSection: View {
                     )
                     .font(.callout)
                     .foregroundStyle(Color.secondary)
-                    Text(dashboard.forecast.formatted(.brl))
+                    Text(dashboard.forecast.formatted(.appCurrency))
                         .font(.largeTitle.weight(.black))
                         .foregroundStyle(Color.primary)
                 }

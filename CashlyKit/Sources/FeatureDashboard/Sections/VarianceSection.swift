@@ -13,7 +13,7 @@ struct VarianceSection: View {
             Section {
                 HStack(spacing: 4) {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(comparison.planned.formatted(.brl))
+                        Text(comparison.planned.formatted(.appCurrency))
                             .font(.title3.weight(.bold))
                             .contentTransition(.numericText())
                             .animation(.bouncy, value: comparison.planned)
@@ -21,7 +21,7 @@ struct VarianceSection: View {
                     }
                     Spacer()
                     VStack(alignment: .trailing, spacing: 4) {
-                        Text(comparison.spent.formatted(.brl))
+                        Text(comparison.spent.formatted(.appCurrency))
                             .font(.title3.weight(.bold))
                             .contentTransition(.numericText())
                             .animation(.bouncy, value: comparison.spent)

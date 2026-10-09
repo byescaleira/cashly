@@ -6,7 +6,7 @@ extension CashlyStore {
     func money(minorUnits: Int64?, legacy: Double, currencyCode: String = Money.currencyCode) throws
         -> Money
     {
-        guard currencyCode == Money.currencyCode else {
+        guard CurrencySetting.isSupported(currencyCode) else {
             throw CashlyError.persistence(
                 "Este registro usa uma moeda ainda não suportada pelo Cashly.")
         }
