@@ -33,7 +33,6 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
   - iCloud: última sincronização (eventos do CloudKit) e backup;
   - ícone do app (exige ícones alternativos no projeto);
   - novidades da versão;
-  - notificações (permissão e lembretes de orçamento);
   - integrações futuras: Calendário, servidor MCP para Claude Code, Atalhos, importador, App Intents/Siri, Foundation Models.
 - **[P3] Acessibilidade e restauração.** Exercitar VoiceOver e Dynamic Type, principalmente gráficos e seletores de ícones; rotas pequenas permitem deep links e restauração.
 - **Ações de retry** nos editores quando a carga inicial falha (hoje é preciso fechar e abrir).

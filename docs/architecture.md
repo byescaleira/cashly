@@ -26,7 +26,7 @@ flowchart TD
 | `CashlyResource` | Avatares e ilustrações | nada |
 | `FeatureCore` | Estado compartilhado (`SessionModel`, `FinanceModel`, `IntelligenceModel`, `EditorStatus`, `TransactionFilter`), navegação (`Route`, `AppSection`, `CashlyNavigation`, `\.open`, `\.close`), componentes usados por mais de uma feature, textos de exibição | Domain, DesignSystem, Resource |
 | `Feature*` | Uma área do app: model, telas e seções | Domain, DesignSystem, FeatureCore |
-| `FeatureSettings` | Ajustes do app (`SettingsModel`, `DataModel`, `AppInfo`), um por processo e não por janela | Domain |
+| `FeatureSettings` | Ajustes do app (`SettingsModel`, `DataModel`, `AppInfo`), um por processo e não por janela | Domain, FeatureCore |
 | `AppShell` | `CashlyWindow`, `MainScreen`, `SectionStack`, `RouteScreen`, inspector, folha de ajustes | todas as features |
 | `CashlyMock` | `SampleData` e `SampleDatabase` em memória | Domain, Data |
 | `CashlyPreview` | Previews por feature sobre o `SampleDatabase` | AppShell, features, Mock |
@@ -49,13 +49,14 @@ Regras de dependência:
 | `FeatureTags` | Editor de tag |
 | `FeatureUsers` | Editor de usuário |
 | `FeatureIntelligence` | Treino e estado dos modelos locais |
-| `FeatureSettings` | Aparência, iCloud, dados (exportar, importar, apagar tudo), ajuda e sobre |
+| `FeatureSettings` | Aparência, moeda, notificações, iCloud, dados (exportar, importar, apagar tudo), ajuda e sobre |
 
 ## Estado e fluxo de dados
 
 - **App.** `CashlyApp` cria um `SettingsModel` para o processo inteiro e o injeta com `.cashlySettings(_:)`, que também aplica o tema em todas as janelas. A preferência de iCloud é lida antes de abrir o banco e só vale na abertura seguinte. Quando o banco abre, o app entrega ao `SettingsModel` um `DataModel` com o `BackupRepository`, que não é preso a usuário: backup e "apagar tudo" valem para o banco inteiro.
 - **Janela.** `CashlyWindow` cria, por janela, `SessionModel` (usuário selecionado, filtro, repositórios do usuário), `FinanceModel` (resumo do período), `TransactionListModel`, `IntelligenceModel` e `CashlyNavigation`, e os injeta no ambiente. Duas janelas podem ter usuários diferentes.
 - **Escopo.** `SessionModel.repositories` entrega repositórios presos ao usuário da janela; o store recusa leitura e escrita de outro dono.
+- **Lembretes.** `NotificationsModel` (em `FeatureCore`, porque o `AppShell` agenda e os Ajustes mostram) fala com o sistema por `NotificationScheduling`. O `MainScreen` reagenda os vencimentos do usuário da janela sempre que a sessão recarrega; `PaymentSchedule` (domínio) escolhe as 50 parcelas pendentes mais próximas, às 9h do dia.
 - **Mudanças.** O `CashlyChangeHub` avisa a sessão quando o banco muda (inclusive por CloudKit), e a sessão recarrega o que estiver na tela.
 - **Editores.** Cada rota de edição recebe um model novo por `ModelHost`, com `EditorStatus` para carregar, salvar e excluir com proteção contra respostas atrasadas. `.editorLifecycle` cuida de carregar, fechar ao salvar e mostrar erros.
 - **Dinheiro.** Valores são `Money` em centavos inteiros; `Double` só existe na borda da interface. A moeda exibida e gravada nos registros novos vem de `CurrencySetting.shared`, observável e segura entre threads; a formatação (`.appCurrency`, `Money.formatted`) lê dela, então as telas se atualizam quando ela muda.

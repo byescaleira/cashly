@@ -19,7 +19,7 @@ struct SettingsModelTests {
         let next = SettingsModel(defaults: defaults, cloudContainer: nil, currencySetting: other)
         #expect(next.currency == "USD")
         #expect(other.code == "USD")
-        #expect(next.currencyName("BRL") == "Real brasileiro (BRL)")
+        #expect(next.currencyName("BRL") == "Real brasileiro")
     }
 
     @Test func appearanceIsSavedForTheNextLaunch() {

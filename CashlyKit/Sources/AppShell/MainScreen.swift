@@ -9,6 +9,7 @@ public struct MainScreen: View {
     @Environment(FinanceModel.self) private var finance
     @Environment(IntelligenceModel.self) private var intelligence
     @Environment(CashlyNavigation.self) private var navigation
+    @Environment(NotificationsModel.self) private var notifications
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     public init() {}
 
@@ -48,6 +49,12 @@ public struct MainScreen: View {
         .task(id: session.loadKey) { await finance.load() }
         .task(id: (session.user?.id ?? "") + ":" + finance.datasetRevision) {
             await intelligence.loadModels(revision: finance.datasetRevision)
+        }
+        .task(
+            id: notifications.paymentsKey(userID: session.user?.id, generation: session.generation)
+        ) {
+            await notifications.schedulePayments(
+                for: session.user?.id, repositories: session.repositories)
         }
         .onChange(of: navigation.selectedSection) { navigation.closeInspectorOutsideSelection() }
         .onChange(of: session.user?.id) { old, new in

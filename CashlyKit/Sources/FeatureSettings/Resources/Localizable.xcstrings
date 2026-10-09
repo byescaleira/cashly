@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "pt-BR",
   "strings" : {
+    "Abrir ajustes de notificações" : {
+
+    },
     "Ajuda" : {
 
     },
@@ -31,6 +34,9 @@
     "Conta" : {
 
     },
+    "Contas a pagar e a receber" : {
+
+    },
     "Dados" : {
 
     },
@@ -52,6 +58,9 @@
     "Moeda" : {
 
     },
+    "Notificações" : {
+
+    },
     "Não foi possível concluir" : {
 
     },
@@ -62,6 +71,9 @@
 
     },
     "Os valores não são convertidos: trocar a moeda muda o símbolo exibido e a moeda dos novos registros." : {
+
+    },
+    "Planejamento do mês" : {
 
     },
     "Política de privacidade" : {
@@ -80,9 +92,6 @@
 
     },
     "Usuários, categorias, tags, orçamentos, transações e modelos de inteligência serão apagados. Com o iCloud ligado, os dados também saem dos seus outros aparelhos. Não é possível desfazer." : {
-
-    },
-    "Valores em" : {
 
     },
     "Versão" : {

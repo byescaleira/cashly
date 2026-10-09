@@ -1,5 +1,6 @@
 import CashlyDomain
 import CloudKit
+import FeatureCore
 import Foundation
 import Observation
 
@@ -19,6 +20,7 @@ public final class SettingsModel {
     }
     public private(set) var cloudAccount: CloudAccount
     public var data: DataModel?
+    public let notifications: NotificationsModel
     public let info: AppInfo
     public let syncsAtLaunch: Bool
     private let cloudContainer: String?
@@ -27,8 +29,10 @@ public final class SettingsModel {
 
     public init(
         defaults: UserDefaults = .standard, cloudContainer: String?, info: AppInfo = .main,
-        currencySetting: CurrencySetting = .shared
+        currencySetting: CurrencySetting = .shared,
+        notifications: NotificationsModel = NotificationsModel()
     ) {
+        self.notifications = notifications
         self.defaults = defaults
         self.cloudContainer = cloudContainer
         self.info = info
@@ -67,7 +71,7 @@ public final class SettingsModel {
 
     func currencyName(_ code: String) -> String {
         let name = Locale(identifier: "pt_BR").localizedString(forCurrencyCode: code) ?? code
-        return name.prefix(1).uppercased() + name.dropFirst() + " (\(code))"
+        return name.prefix(1).uppercased() + name.dropFirst()
     }
 
     func loadCloudAccount() async {
