@@ -2,41 +2,28 @@ import SwiftUI
 
 extension View {
     public func surface(
-        tint: Color? = nil, in shape: CashlyShape, interactive: Bool = false
+        tint: Color? = nil, in shape: some InsettableShape, interactive: Bool = false
     ) -> some View {
         modifier(GlassSurface(tint: tint, shape: shape, interactive: interactive))
     }
 
-    public func contentSurface(tint: Color? = nil, in shape: CashlyShape) -> some View {
+    public func contentSurface(tint: Color? = nil, in shape: some Shape) -> some View {
         background(tint ?? .subtleFill, in: shape)
     }
 }
 
-private struct GlassSurface: ViewModifier {
+private struct GlassSurface<S: InsettableShape>: ViewModifier {
     @Environment(\.isEnabled) private var isEnabled
     let tint: Color?
-    let shape: CashlyShape
+    let shape: S
     let interactive: Bool
 
-    @ViewBuilder func body(content: Content) -> some View {
+    func body(content: Content) -> some View {
         #if os(visionOS)
-            switch shape {
-            case .circle: visionSurface(content, in: Circle())
-            case .capsule: visionSurface(content, in: Capsule())
-            case .rounded(let radius):
-                visionSurface(content, in: RoundedRectangle(cornerRadius: radius))
-            }
+            content.background(tint ?? .clear, in: shape).glassBackgroundEffect(in: shape)
         #else
             content.glassEffect(
                 .regular.tint(tint).interactive(interactive && isEnabled), in: shape)
         #endif
     }
-
-    #if os(visionOS)
-        private func visionSurface<S: InsettableShape>(
-            _ content: Content, in shape: S
-        ) -> some View {
-            content.background(tint ?? .clear, in: shape).glassBackgroundEffect(in: shape)
-        }
-    #endif
 }

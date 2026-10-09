@@ -1,5 +1,4 @@
 import CashlyDomain
-import CashlyUI
 import FeatureBudgets
 import FeatureCategories
 import FeatureCore

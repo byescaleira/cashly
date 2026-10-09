@@ -48,7 +48,7 @@ Os targets existentes são iOS/iPadOS, macOS e visionOS 27. APIs indisponíveis 
 
 ## Verificação automatizada
 
-`CashlyDataTests` (`FinancialFlowTests`) e `CashlyPresentationTests` usam um banco em memória, sem tocar no banco do usuário. Verificam criação sem orçamento, associação por competência, alteração/remoção de planejamento, entrada/saída, cancelamento, isolamento de perfil e criação/edição pelo ViewModel. Também confirmam que entradas não participam das amostras do estimador de despesas.
+`CashlyDataTests` (`FinancialFlowTests`), `FeatureCoreTests` e os `Feature…Tests` usam um banco em memória, sem tocar no banco do usuário. Verificam criação sem orçamento, associação por competência, alteração/remoção de planejamento, entrada/saída, cancelamento, isolamento de perfil e criação/edição pelo ViewModel. Também confirmam que entradas não participam das amostras do estimador de despesas.
 
 Os testes verificam R$ 1.200,05 de entrada, R$ 133,35 de saída no primeiro mês e R$ 1.066,70 de resultado. Uma saída de R$ 100,01 em três parcelas gerou R$ 33,34 / R$ 33,34 / R$ 33,33. Todos os lançamentos permaneceram após excluir o orçamento.
 

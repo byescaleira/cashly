@@ -291,9 +291,12 @@ Concluída.
 
 #### 5.10 Encerramento
 
-- Remover `CashlyUI` e os wrappers triviais do DesignSystem (`CashlyPresentation` já saiu na 5.7).
-- Previews por feature com `SampleDatabase`.
-- Passada final em iPhone retrato/paisagem, iPad e macOS.
+Concluída. Fase 5 encerrada.
+
+- Removidos o target `CashlyUI` e a pasta `CashlyDesignSystem/Legacy` (`CashlyText`, `CashlyHStack`, `CashlyColor`, `CashlySpacing`, `CashlyShape` e os modifiers `cashly…`). O design system ficou com `Styles/`, `Modifiers/` e `Layout/`; `surface` e `contentSurface` aceitam qualquer forma do SwiftUI.
+- `CashlyPreview` com um arquivo de previews por feature, sobre o `SampleDatabase`, e `WithSession` para montar editores com a sessão de exemplo.
+- Passada final: iPhone retrato (todas as abas e editores), iPad retrato (abas, inspector, colunas), build de iOS, macOS e visionOS. Na lista de transações, "Selecionar" foi para `.secondaryAction`; no iPad de 11" em retrato o sistema recolhe "Adicionar" no menu "…" por falta de espaço ao lado das abas.
+- Não conferido na tela: iPhone em paisagem (o simulador roda sem janela e não gira por linha de comando) e o app no Mac (só o build).
 
 ### Fase 6: acabamento
 

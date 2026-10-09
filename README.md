@@ -23,7 +23,7 @@ Valores financeiros usam `Money` em centavos BRL. O schema V3 mantém V1/V2 cong
 
 Para compilar, use `scripts/build.sh Debug` ou `scripts/build.sh Release`, com `DEVELOPER_DIR` apontando para o Xcode desejado. O script compila iOS, os apps macOS e visionOS, sem executar testes.
 
-Para rodar os testes, use `scripts/test.sh`. Há três targets: `CashlyDomainTests` (regras puras), `CashlyDataTests` (repositórios com banco em memória) e `CashlyPresentationTests` (ViewModels). O script executa o scheme `CashlyKit-Package` no simulador do iPhone 17 com iOS 27; `CASHLY_TEST_DESTINATION` troca o destino.
+Para rodar os testes, use `scripts/test.sh`. Há um target por camada: `CashlyDomainTests` (regras puras), `CashlyDataTests` (repositórios com banco em memória), `FeatureCoreTests` (sessão, navegação, filtro) e um `Feature…Tests` por feature (models das telas). O script executa o scheme `CashlyKit-Package` no simulador do iPhone 17 com iOS 27; `CASHLY_TEST_DESTINATION` troca o destino.
 
 Para formatar os fontes, use `scripts/format.sh`; para verificar o padrão, use `scripts/format.sh --check`. O projeto utiliza o `swift-format` incluído no toolchain da Apple, com quatro espaços e as demais regras padrão, configurado em `.swift-format`. O comando abrange o app, os módulos, os testes e o manifesto do pacote.
 

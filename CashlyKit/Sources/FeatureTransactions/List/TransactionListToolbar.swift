@@ -21,18 +21,16 @@ struct TransactionListToolbar: ToolbarContent {
                 UserMenu()
             }
         }
-        ToolbarItemGroup {
+        ToolbarItem(placement: .secondaryAction) {
             if !session.users.isEmpty, !list.isSelecting, !list.items.isEmpty {
                 Button("Selecionar", systemImage: "checkmark.circle") {
                     withAnimation(.bouncy(duration: 0.8)) { list.isSelecting = true }
                 }
-                .tint(Color.primary)
                 .disabled(finance.isLoading)
             }
-            FilterMenu()
         }
-        FixedToolbarSpacer()
-        ToolbarItemGroup {
+        ToolbarItem { FilterMenu() }
+        ToolbarItemGroup(placement: .primaryAction) {
             if list.isSelecting {
                 SelectionActions().disabled(finance.isLoading)
             } else if !session.users.isEmpty {

@@ -12,16 +12,16 @@
                         .font(.caption.bold())
                         .foregroundStyle(.blue)
                         .padding(12)
-                        .cashlyContentSurface(tint: .blue.opacity(0.2), in: .capsule)
+                        .contentSurface(tint: .blue.opacity(0.2), in: .capsule)
                     Text("EM ABERTO")
                         .font(.caption.bold())
                         .foregroundStyle(.orange)
                         .padding(12)
-                        .cashlyContentSurface(tint: .orange.opacity(0.2), in: .capsule)
+                        .contentSurface(tint: .orange.opacity(0.2), in: .capsule)
                 }
                 Text("Controles")
                     .font(.headline)
-                CashlySurfaceContainer(spacing: 8) {
+                SurfaceContainer(spacing: 8) {
                     HStack(spacing: 16) {
                         control("slider.horizontal.3", title: "Opções")
                         control("checkmark", title: "Confirmar")
@@ -29,7 +29,7 @@
                     }
                 }
                 Button("Salvar") {}
-                    .cashlyProminentButton()
+                    .prominentButton()
                     .controlSize(.large)
             }
             .padding(32)
@@ -42,7 +42,7 @@
                 Image(systemName: symbol)
                     .font(.headline)
                     .frame(width: 46, height: 46)
-                    .cashlySurface(in: .circle, interactive: true)
+                    .surface(in: .circle, interactive: true)
             }
             .buttonStyle(.plain)
             .accessibilityLabel(title)

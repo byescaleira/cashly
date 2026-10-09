@@ -1,5 +1,4 @@
 import CashlyDomain
-import CashlyUI
 import FeatureCore
 import FeatureTransactions
 import SwiftUI
