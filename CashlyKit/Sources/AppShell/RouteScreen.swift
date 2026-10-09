@@ -1,6 +1,7 @@
 import CashlyDomain
 import CashlyPresentation
 import CashlyUI
+import FeatureBudgets
 import FeatureCategories
 import FeatureCore
 import FeatureTags
@@ -29,7 +30,7 @@ struct RouteScreen: View {
                 BudgetEditorModel(
                     draft: budgetDraft(id: id, categoryID: categoryID, date: date),
                     repositories: repositories)
-            ) { AddBudgetScreen() }
+            ) { BudgetEditorScreen() }
         case .addTransaction(let id):
             ModelHost(
                 TransactionEditorModel(
@@ -41,7 +42,9 @@ struct RouteScreen: View {
             ) { TagEditorScreen() }
         case .detailCategory(let id): CategoryDetailScreen(categoryID: id)
         case .budgetConflict(let categoryID, let month):
-            BudgetConflictScreen(categoryID: categoryID, month: month)
+            ModelHost(
+                BudgetConflictModel(finance: finance, categoryID: categoryID, month: month)
+            ) { BudgetConflictScreen() }
         }
     }
 

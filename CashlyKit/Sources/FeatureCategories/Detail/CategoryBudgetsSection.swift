@@ -46,6 +46,7 @@ private struct BudgetRow: View {
                 Text(budget.money.doubleValue.formatted(.brl)).font(.callout.weight(.semibold))
                 Text(finance.expensesAmount(for: budget).formatted(.brl))
             }
+            .fixedSize()
             Image(systemName: "chevron.forward").foregroundStyle(.disabled)
         }
         .font(.callout)

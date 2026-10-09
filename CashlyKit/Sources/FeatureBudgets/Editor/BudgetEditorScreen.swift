@@ -1,0 +1,38 @@
+import FeatureCore
+import SwiftUI
+
+public struct BudgetEditorScreen: View {
+    @Environment(BudgetEditorModel.self) private var model
+    @Environment(FinanceModel.self) private var finance
+    @Environment(IntelligenceModel.self) private var intelligence
+
+    public init() {}
+
+    public var body: some View {
+        Form {
+            BudgetAmountHeader()
+            BudgetSummarySection()
+            BudgetCategorySection()
+            BudgetDateSection()
+        }
+        .fontDesign(.rounded)
+        .toolbar {
+            if model.canSuggestAmount(with: intelligence) {
+                ToolbarItem {
+                    Button("Sugerir valor", systemImage: "bolt.fill") {
+                        Task { await model.suggestAmount(with: intelligence) }
+                    }
+                    .tint(.yellow)
+                }
+            }
+            EditorActions(canSave: model.canSave, canRemove: model.canRemove) {
+                await model.save()
+            } remove: {
+                await model.remove()
+            }
+        }
+        .editorLifecycle(model.status, reloadingOn: finance.allCategories) {
+            await model.loadOrRefresh()
+        }
+    }
+}

@@ -1,0 +1,39 @@
+{
+  "sourceLanguage" : "pt-BR",
+  "strings" : {
+    "Categoria" : {
+
+    },
+    "Data" : {
+
+    },
+    "Descreva este orçamento" : {
+
+    },
+    "Descrição" : {
+
+    },
+    "Escolha o valor planejado que deve prevalecer. As transações serão reunidas nesse orçamento; os outros registros serão preservados como histórico do conflito." : {
+
+    },
+    "Este conflito já foi resolvido. Atualize os dados para continuar." : {
+
+    },
+    "Manter este orçamento" : {
+
+    },
+    "Mês" : {
+
+    },
+    "Resolver orçamento" : {
+
+    },
+    "Sugerir valor" : {
+
+    },
+    "Valor" : {
+
+    }
+  },
+  "version" : "1.0"
+}

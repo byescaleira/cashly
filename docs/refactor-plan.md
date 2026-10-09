@@ -253,13 +253,19 @@ Concluída.
 
 #### 5.6 `FeatureBudgets`
 
-- Editor de orçamento e resolução de conflito.
+Concluída.
+
+- `FeatureBudgets/Editor`: draft, `BudgetEditorModel` (com `canRemove` e a sugestão de valor da inteligência, que antes passava por estado e `onChange` na view), `BudgetEditorScreen` e as seções de valor, descrição, categoria e data.
+- `FeatureBudgets/Conflict`: `BudgetConflictModel` com o estado e as ações que estavam na view, e `BudgetConflictScreen`.
+- `FeatureCore` ganhou `CurrencyField`, `CurrencyInput` e `CategorySelector`; `.editorLifecycle` aceita `reloadingOn:`.
+- Correção adiantada da 5.7: o campo de valor trata os dígitos como centavos. Vale para orçamento agora e para transação quando ela migrar.
 
 #### 5.7 `FeatureTransactions`
 
 - `TransactionListModel`, lista com seleção múltipla, swipe e paginação, editor de transação (hoje com 499 linhas) quebrado em seções: valor, descrição, tags, categoria, data, parcelas, participantes.
 - Menu de filtro vai para `FeatureCore` (Home, Categorias e Transações usam).
-- Correções: o campo de valor passa a tratar dígitos como centavos; a mensagem de orçamento restante deixa de descontar duas vezes a transação em edição.
+- Usar `CurrencyField` e `CategorySelector` do `FeatureCore`; o modificador de previsão da inteligência vai para o `FeatureCore`.
+- Correção: a mensagem de orçamento restante deixa de descontar duas vezes a transação em edição.
 
 #### 5.8 `FeatureDashboard`
 

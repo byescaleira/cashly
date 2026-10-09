@@ -14,6 +14,18 @@ public final class BudgetEditorModel {
     }
 
     public var canSave: Bool { status.isLoaded && !status.isLocked && draft.canSave }
+    public var canRemove: Bool { !draft.isNew && !status.isBusy }
+
+    public func canSuggestAmount(with intelligence: IntelligenceModel) -> Bool {
+        repositories.userID != nil && intelligence.hasModel(.budgetValue)
+    }
+
+    public func suggestAmount(with intelligence: IntelligenceModel) async {
+        guard let category = draft.category else { return }
+        let prediction = await intelligence.predict(
+            .budget(month: draft.month, categoryID: category.id))
+        if case .tabularRegression(let value) = prediction { draft.amount = value }
+    }
 
     public func loadOrRefresh() async {
         if status.isLoaded { await refresh() } else { await load() }
