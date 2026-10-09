@@ -21,7 +21,7 @@ struct EmptyCategoryView: View {
             Section {
                 ZStack {
                     if finance.categories.isEmpty {
-                        CashlyCardView(
+                        EmptyStateCard(
                             image: .illustrationEmpty,
                             title: "No Categories Yet",
                             subtitle:

@@ -46,8 +46,8 @@ extension View {
 
     public func cashlyEdit(action: @escaping () -> Void) -> some View { editAction(action) }
 
-    public func cashlyDismiss(isSaved: Bool, selectedUserID: String? = nil) -> some View {
-        self.modifier(CashlyDismissModifier(isSaved: isSaved, selectedUserID: selectedUserID))
+    public func cashlyDismiss(isSaved: Bool) -> some View {
+        modifier(CashlyDismissModifier(isSaved: isSaved))
     }
 
     public func cashlyIntelligence(

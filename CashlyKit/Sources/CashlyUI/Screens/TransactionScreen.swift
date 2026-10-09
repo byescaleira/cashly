@@ -26,7 +26,7 @@ public struct TransactionScreen: View {
             TransactionBalanceView()
             EmptyCategoryView()
             EmptyBudgetView(budgets: finance.budgets)
-            EmptyUserView()
+            EmptyUsersSection()
             DataStatusView()
             transactionsSection
             if transactions.hasMore {

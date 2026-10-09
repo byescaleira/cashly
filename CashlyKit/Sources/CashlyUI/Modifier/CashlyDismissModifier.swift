@@ -7,16 +7,11 @@ struct CashlyDismissModifier: ViewModifier {
     @Environment(\.close) private var close
     @Environment(SessionModel.self) private var session
     var isSaved: Bool
-    var selectedUserID: String? = nil
     func body(content: Content) -> some View {
         content.onChange(of: isSaved) {
             guard isSaved else { return }
             close()
-            if let selectedUserID {
-                Task { await session.selectUser(id: selectedUserID) }
-            } else {
-                session.reload()
-            }
+            session.reload()
         }
     }
 }

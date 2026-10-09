@@ -21,7 +21,7 @@ public struct CategoryScreen: View {
             CategoryBalanceView()
             EmptyCategoryView()
             EmptyBudgetView(budgets: finance.budgets)
-            EmptyUserView()
+            EmptyUsersSection()
             DataStatusView()
             categoriesWithoutBudgetsSection
             categoriesSection

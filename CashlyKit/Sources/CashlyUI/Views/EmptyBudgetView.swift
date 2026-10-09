@@ -24,7 +24,7 @@ struct EmptyBudgetView: View {
                     if budgets.isEmpty,
                         !finance.categories.isEmpty
                     {
-                        CashlyCardView(
+                        EmptyStateCard(
                             image: .illustrationNoData,
                             title: "No Budgets Yet",
                             subtitle:

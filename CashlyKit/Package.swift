@@ -24,6 +24,10 @@ let package = Package(
             dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"],
             resources: [.process("Resources")]),
         .target(
+            name: "FeatureUsers",
+            dependencies: ["CashlyDomain", "CashlyDesignSystem", "CashlyResource", "FeatureCore"],
+            resources: [.process("Resources")]),
+        .target(
             name: "CashlyPresentation",
             dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"]),
         .target(
@@ -36,7 +40,7 @@ let package = Package(
             name: "AppShell",
             dependencies: [
                 "CashlyDomain", "CashlyDesignSystem", "FeatureCore", "CashlyPresentation",
-                "CashlyUI", "FeatureTags",
+                "CashlyUI", "FeatureTags", "FeatureUsers",
             ]),
         .target(
             name: "CashlyMock", dependencies: ["CashlyDomain", "CashlyData"]),
@@ -45,6 +49,9 @@ let package = Package(
             name: "CashlyAudit", dependencies: ["CashlyDomain", "CashlyData", "CashlyMock"]),
         .testTarget(name: "CashlyDomainTests", dependencies: ["CashlyDomain"]),
         .testTarget(name: "CashlyDataTests", dependencies: ["CashlyDomain", "CashlyData"]),
+        .testTarget(
+            name: "FeatureUsersTests",
+            dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureUsers"]),
         .testTarget(
             name: "FeatureTagsTests",
             dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureTags"]),

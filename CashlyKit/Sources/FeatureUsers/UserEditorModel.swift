@@ -5,6 +5,7 @@ import Observation
 @MainActor @Observable
 public final class UserEditorModel {
     public var draft: UserDraft
+    public var avatarStyle: AvatarStyle = .masculine
     public let status = EditorStatus()
     @ObservationIgnored private let users: any UserRepository
 
@@ -14,6 +15,12 @@ public final class UserEditorModel {
     }
 
     public var canSave: Bool { status.isLoaded && !status.isLocked && draft.canSave }
+    public var canRemove: Bool { !draft.isNew && !status.isBusy }
+    public var userToSelect: String? { draft.isNew ? draft.id : nil }
+
+    public func shufflePhoto() {
+        draft.photo = avatarStyle.photos.randomElement()
+    }
 
     public func load() async {
         await status.load {
@@ -21,6 +28,8 @@ public final class UserEditorModel {
             try Task.checkCancellation()
             if !draft.isNew && record == nil { throw CashlyError.missingRecord }
             draft.apply(record)
+            avatarStyle =
+                AvatarStyle.allCases.first { $0.photos.contains(draft.photo ?? "") } ?? avatarStyle
         }
     }
 

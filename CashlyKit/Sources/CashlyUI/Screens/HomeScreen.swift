@@ -18,7 +18,7 @@ public struct HomeScreen: View {
 
     public var body: some View {
         AdaptiveList {
-            EmptyUserView()
+            EmptyUsersSection()
             DataStatusView()
             EmptyCategoryView()
             EmptyBudgetView(budgets: finance.budgets)

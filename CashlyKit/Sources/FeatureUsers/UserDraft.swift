@@ -12,12 +12,6 @@ public struct UserDraft: Hashable {
             && (1...100).contains(Int(photo ?? "") ?? 0)
     }
 
-    public func photos(for gender: Int = .zero) -> [String] {
-        ((gender == .zero ? 1 : 51)...(gender == .zero ? 50 : 100)).map {
-            "\($0)"
-        }
-    }
-
     private init(
         id: String = UUID().uuidString,
         name: String = "",

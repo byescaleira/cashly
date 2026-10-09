@@ -22,7 +22,7 @@ struct EmptyTagView: View {
             Section {
                 ZStack {
                     if finance.tags.isEmpty {
-                        CashlyCardView(
+                        EmptyStateCard(
                             image: .illustrationTag,
                             title: "No Tags Yet",
                             subtitle:

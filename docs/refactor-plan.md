@@ -235,8 +235,11 @@ Concluída.
 
 #### 5.4 `FeatureUsers`
 
-- Editor de usuário e seletor de avatar.
-- Estado vazio de usuário vai para `FeatureCore`, porque aparece em todas as abas (o seletor de usuário já foi na 5.3).
+Concluída.
+
+- `FeatureUsers`: `UserDraft`, `UserEditorModel` (com `avatarStyle`, `shufflePhoto()`, `canRemove` e `userToSelect`), `AvatarStyle` (as faixas de fotos saíram do draft), `UserEditorScreen` e as seções `UserPhotoHeader`, `UserNameSection` e `AvatarSection`.
+- `.editorLifecycle(_:selecting:)` seleciona o usuário recém-criado depois de salvar, no lugar de recarregar a sessão.
+- `FeatureCore` ganhou `EmptyStateCard` (antes `CashlyCardView`, usado pelos estados vazios) e `EmptyUsersSection` (antes `EmptyUserView`), que Home, Categorias e Transações já usam.
 
 #### 5.5 `FeatureCategories`
 

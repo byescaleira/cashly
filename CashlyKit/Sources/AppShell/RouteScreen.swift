@@ -3,6 +3,7 @@ import CashlyPresentation
 import CashlyUI
 import FeatureCore
 import FeatureTags
+import FeatureUsers
 import SwiftUI
 
 struct RouteScreen: View {
@@ -16,7 +17,7 @@ struct RouteScreen: View {
         case .addUser(let id):
             ModelHost(
                 UserEditorModel(draft: id.map(UserDraft.edit) ?? .new(), users: repositories.users)
-            ) { AddUserScreen() }
+            ) { UserEditorScreen() }
         case .addCategory(let id):
             ModelHost(
                 CategoryEditorModel(

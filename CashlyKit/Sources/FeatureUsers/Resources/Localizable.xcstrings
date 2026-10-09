@@ -1,0 +1,24 @@
+{
+  "sourceLanguage" : "pt-BR",
+  "strings" : {
+    "Digite o nome do usuário" : {
+
+    },
+    "Estilo" : {
+
+    },
+    "Foto" : {
+
+    },
+    "Foto %@" : {
+
+    },
+    "Nome e sobrenome" : {
+
+    },
+    "Sortear foto" : {
+
+    }
+  },
+  "version" : "1.0"
+}
