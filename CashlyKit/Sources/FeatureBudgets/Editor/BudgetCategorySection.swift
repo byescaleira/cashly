@@ -9,8 +9,9 @@ struct BudgetCategorySection: View {
         @Bindable var model = model
         Section {
             if !model.draft.categories.isEmpty {
-                CategorySelector(
-                    categories: model.draft.categories, selection: $model.draft.category)
+                SymbolPicker(
+                    items: model.draft.categories, selection: $model.draft.category, icon: \.icon,
+                    color: { Color(hex: $0.color) }, name: \.name)
             }
             EmptyCategoriesSection()
         } header: {

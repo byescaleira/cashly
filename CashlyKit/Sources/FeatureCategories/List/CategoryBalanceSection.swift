@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import FeatureCore
 import SwiftUI
 
@@ -9,7 +10,7 @@ struct CategoryBalanceSection: View {
             PeriodSummaryHeader(
                 amount: finance.budgetsAmount,
                 items: finance.biggestCategories.map {
-                    .init(id: $0.id, name: $0.name, icon: $0.icon, color: $0.color)
+                    .init(id: $0.id, name: $0.name, icon: $0.icon, color: Color(hex: $0.color))
                 })
         }
     }

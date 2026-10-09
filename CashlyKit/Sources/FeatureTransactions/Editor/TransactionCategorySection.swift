@@ -11,8 +11,9 @@ struct TransactionCategorySection: View {
         @Bindable var model = model
         Section {
             if !model.draft.categories.isEmpty {
-                CategorySelector(
-                    categories: model.draft.categories, selection: $model.chosenCategory)
+                SymbolPicker(
+                    items: model.draft.categories, selection: $model.chosenCategory, icon: \.icon,
+                    color: { Color(hex: $0.color) }, name: \.name)
             }
             EmptyCategoriesSection()
             EmptyBudgetsSection()

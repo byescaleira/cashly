@@ -4,23 +4,23 @@ import SwiftUI
 extension BudgetHealth.Level {
     public var title: String {
         switch self {
-        case .critical: "Critical"
-        case .atRisk: "At Risk"
-        case .overBudget: "Over Budget"
-        case .healthy: "Healthy"
+        case .critical: "Crítico"
+        case .atRisk: "Em risco"
+        case .overBudget: "Acima do orçamento"
+        case .healthy: "Saudável"
         }
     }
 
     public var summary: String {
         switch self {
         case .critical:
-            "You are spending significantly above your planned budget. Immediate action is required to regain control."
+            "Os gastos estão muito acima do planejado. É preciso agir agora para retomar o controle."
         case .atRisk:
-            "Your spending is above your budget. Take steps to reduce discretionary expenses and monitor your cash flow closely to avoid further overspending."
+            "Os gastos passaram do orçamento. Corte despesas não essenciais e acompanhe o caixa de perto para não piorar."
         case .overBudget:
-            "You have exceeded your planned budget. Adjust your spending immediately and focus on essential costs to regain control of your finances."
+            "Você ultrapassou o orçamento planejado. Ajuste os gastos e priorize o essencial para retomar o controle."
         case .healthy:
-            "Excellent! You are within your planned budget and managing your finances well."
+            "Ótimo! Você está dentro do orçamento e cuidando bem das finanças."
         }
     }
 

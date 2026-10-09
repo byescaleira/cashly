@@ -273,9 +273,12 @@ Concluída.
 
 #### 5.8 `FeatureDashboard`
 
-- Home em `AdaptiveList`: saldo e score, disponível, comparação planejado × gasto, maiores gastos, tags, previsão.
-- Pontos de gráfico e seleções padrão saem da view e vão para o model.
-- Gráficos vão para `FeatureCore`.
+Concluída.
+
+- `FeatureDashboard`: `HomeScreen` em `AdaptiveList` só monta as seções (`SpendingSummarySection`, `ScoreSection`, `AvailableSection`, `VarianceSection`, `TopSpendingSection`, `TagsSection`, `EmptyTagsSection`, `ForecastSection`). A tela de 491 linhas e as views auxiliares saíram do `CashlyUI`.
+- `DashboardModel` guarda as seleções (tag, categoria comparada, categoria do disponível, maior gasto em destaque), os pontos dos gráficos, as contas de disponível e comparação e a previsão de gastos. O `AppShell` cria o model com `ModelHost`, como nas rotas.
+- Os gráficos ficaram no próprio `FeatureDashboard` (só a Início usa), reduzidos às formas usadas: linha para tags e barras para planejado × gasto.
+- `FeatureCore`: `SymbolPicker` genérico (substitui `CategorySelector`; usado também nos editores de orçamento e transação), `PeriodSummaryHeader` com selo opcional, níveis de saúde e estágios de uso em pt-BR.
 
 #### 5.9 `FeatureIntelligence`
 

@@ -4,11 +4,11 @@ import SwiftUI
 extension BudgetUsage.Stage {
     public var title: String {
         switch self {
-        case .justStarted: "Just started"
-        case .onTrack: "On track"
-        case .watchOut: "Watch out"
-        case .almostSpent: "Almost spent"
-        case .overBudget: "Over budget"
+        case .justStarted: "Começando"
+        case .onTrack: "No caminho"
+        case .watchOut: "Atenção"
+        case .almostSpent: "Quase no limite"
+        case .overBudget: "Acima do orçamento"
         }
     }
 
