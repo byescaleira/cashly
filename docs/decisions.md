@@ -86,3 +86,10 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Última sincronização** vem dos eventos do `NSPersistentCloudKitContainer` (importação e exportação concluídas), que o SwiftData publica. `CashlyDatabase.syncEvents()` assina antes de abrir o banco, e o app grava a data mais recente nos Ajustes.
 - **Novidades por versão** numa lista fixa (`ReleaseNote.current`), aberta em Sobre. Não aparece sozinha ao abrir o app, para não interromper.
 - **Integrações ficam para depois**, por decisão de produto; estão no backlog.
+
+## 09/10/2026: abas
+
+- **Início, Transações, Planejamento, Relatórios e Buscar.** O Início fica com o resumo do mês; gráficos, comparações e previsão vão para Relatórios. Categorias e orçamentos viram Planejamento.
+- **Busca como aba de sistema** (`TabRole.search`) em vez de um botão "+" no meio da barra: aba é destino, não ação. A busca procura transações em todos os períodos, pela descrição ou pela categoria, e lista categorias e tags pelo nome.
+- **Inteligência sai das abas** e vai para os Ajustes; quando não há modelo treinado, Relatórios oferece o treino no lugar da previsão.
+- **Ícones** que dizem o conteúdo: setas de entrada e saída para Transações, pizza para Planejamento e linha para Relatórios.

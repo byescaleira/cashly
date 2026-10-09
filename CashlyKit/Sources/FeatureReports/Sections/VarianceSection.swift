@@ -4,12 +4,12 @@ import SwiftUI
 
 struct VarianceSection: View {
     @Environment(FinanceModel.self) private var finance
-    @Environment(DashboardModel.self) private var dashboard
+    @Environment(ReportsModel.self) private var reports
 
     var body: some View {
-        @Bindable var dashboard = dashboard
+        @Bindable var reports = reports
         if !finance.categories.isEmpty, !finance.budgets.isEmpty {
-            let comparison = dashboard.comparison
+            let comparison = reports.comparison
             Section {
                 HStack(spacing: 4) {
                     VStack(alignment: .leading, spacing: 4) {
@@ -35,12 +35,12 @@ struct VarianceSection: View {
                         }
                     }
                 }
-                ComparisonChart(data: dashboard.comparisonPoints)
+                ComparisonChart(data: reports.comparisonPoints)
             } header: {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Planejado × gasto").sectionTitle()
                     SymbolPicker(
-                        items: finance.categories, selection: $dashboard.comparedCategory,
+                        items: finance.categories, selection: $reports.comparedCategory,
                         icon: \.icon, color: { Color(hex: $0.color) }, name: \.name, bounces: true)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)

@@ -76,9 +76,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FeatureIntelligenceTests"
-               BuildableName = "FeatureIntelligenceTests"
-               BlueprintName = "FeatureIntelligenceTests"
+               BlueprintIdentifier = "FeatureReportsTests"
+               BuildableName = "FeatureReportsTests"
+               BlueprintName = "FeatureReportsTests"
                ReferencedContainer = "container:CashlyKit">
             </BuildableReference>
          </TestableReference>
@@ -119,6 +119,16 @@
                BlueprintIdentifier = "FeatureSettingsTests"
                BuildableName = "FeatureSettingsTests"
                BlueprintName = "FeatureSettingsTests"
+               ReferencedContainer = "container:CashlyKit">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FeatureSearchTests"
+               BuildableName = "FeatureSearchTests"
+               BlueprintName = "FeatureSearchTests"
                ReferencedContainer = "container:CashlyKit">
             </BuildableReference>
          </TestableReference>

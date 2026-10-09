@@ -3,10 +3,10 @@ import FeatureCore
 import SwiftUI
 
 struct ForecastSection: View {
-    @Environment(DashboardModel.self) private var dashboard
+    @Environment(ReportsModel.self) private var reports
 
     var body: some View {
-        if dashboard.showsForecast {
+        if reports.showsForecast {
             Section {
                 VStack(spacing: 16) {
                     Text(
@@ -14,7 +14,7 @@ struct ForecastSection: View {
                     )
                     .font(.callout)
                     .foregroundStyle(Color.secondary)
-                    Text(dashboard.forecast.formatted(.appCurrency))
+                    Text(reports.forecast.formatted(.appCurrency))
                         .font(.largeTitle.weight(.black))
                         .foregroundStyle(Color.primary)
                 }

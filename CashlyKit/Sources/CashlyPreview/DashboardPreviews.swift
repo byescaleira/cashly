@@ -5,12 +5,8 @@
 
     #Preview("Início") {
         NavigationStack {
-            WithSession { session, finance, intelligence in
-                ModelHost(
-                    DashboardModel(session: session, finance: finance, intelligence: intelligence)
-                ) {
-                    HomeScreen()
-                }
+            WithSession { session, finance, _ in
+                ModelHost(DashboardModel(session: session, finance: finance)) { HomeScreen() }
             }
         }
         .cashlyPreview()

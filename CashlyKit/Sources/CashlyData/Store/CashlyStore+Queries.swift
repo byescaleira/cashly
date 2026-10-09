@@ -144,7 +144,8 @@ extension CashlyStore {
         return result
     }
     func matches(_ record: CashlyDomain.Transaction, query: TransactionQuery) -> Bool {
-        (query.categoryIDs.isEmpty || query.categoryIDs.contains(record.category.id))
+        (query.matches(text: record.summary) || query.matches(text: record.category.name))
+            && (query.categoryIDs.isEmpty || query.categoryIDs.contains(record.category.id))
             && (query.tagIDs.isEmpty || !record.tagIDs.isDisjoint(with: query.tagIDs))
             && (query.participantUserIDs.isEmpty
                 || !Set(record.participants.map(\.user.id)).isDisjoint(

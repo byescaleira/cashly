@@ -38,6 +38,6 @@ public struct CategoryListScreen: View {
             }
         }
         .refreshable { await finance.load() }
-        .navigationTitle("Categorias")
+        .navigationTitle("Planejamento")
     }
 }

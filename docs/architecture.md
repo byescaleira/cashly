@@ -42,14 +42,15 @@ Regras de dependência:
 
 | Target | Conteúdo |
 | --- | --- |
-| `FeatureDashboard` | `HomeScreen` e `DashboardModel` (seleções, gráficos, disponível, comparação, previsão) |
+| `FeatureDashboard` | `HomeScreen` e `DashboardModel`: resumo do período, pontuação, disponível e maiores gastos |
+| `FeatureReports` | `ReportsScreen` e `ReportsModel`: previsão, planejado × gasto, gastos por tag e gráficos |
+| `FeatureSearch` | `SearchScreen` e `SearchModel`: transações de todos os períodos, categorias e tags |
 | `FeatureTransactions` | Lista paginada com seleção (`TransactionListModel`) e editor (`TransactionEditorModel`) |
 | `FeatureCategories` | Lista, detalhe e editor de categoria |
 | `FeatureBudgets` | Editor de orçamento e resolução de conflito |
 | `FeatureTags` | Editor de tag |
 | `FeatureUsers` | Editor de usuário |
-| `FeatureIntelligence` | Treino e estado dos modelos locais |
-| `FeatureSettings` | Aparência e ícone, moeda, notificações, iCloud (estado e última sincronização), dados (backup, planilha CSV, backup automático, importar, apagar tudo), ajuda, sobre e novidades |
+| `FeatureSettings` | Aparência e ícone, moeda, notificações, inteligência (estado e treino dos modelos), iCloud (estado e última sincronização), dados (backup, planilha CSV, backup automático, importar, apagar tudo), ajuda, sobre e novidades |
 
 ## Estado e fluxo de dados
 
@@ -63,7 +64,7 @@ Regras de dependência:
 
 ## Navegação
 
-- `TabView` em `sidebarAdaptable` com uma `NavigationStack` por aba (`SectionStack`).
+- `TabView` em `sidebarAdaptable` com uma `NavigationStack` por aba (`SectionStack`): Início, Transações, Planejamento, Relatórios e Buscar (`TabRole.search`, que o sistema fixa no fim da barra). O app abre no Início.
 - Telas pedem navegação por `@Environment(\.open)` com uma `Route`; o `AppShell` decide como apresentar: em largura regular, no `.inspector` da janela (sheet no visionOS); em largura compacta, por push.
 - `@Environment(\.close)` fecha a rota no contexto certo (inspector, pilha do inspector ou pilha da aba).
 - Ajustes abrem pelo menu do avatar: em folha no iOS, iPadOS e visionOS (`CashlyNavigation.isShowingSettings`) e na janela de Ajustes do sistema no Mac (cena `Settings`, ⌘,).

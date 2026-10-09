@@ -20,12 +20,12 @@ struct NavigationTests {
 
     @Test func compactWidthPushesAndCloses() {
         let navigation = CashlyNavigation()
-        navigation.open(.addTag(id: nil), in: .category, beside: false)
-        #expect(navigation.selectedSection == .category)
-        #expect(navigation.paths[.category] == [.addTag(id: nil)])
+        navigation.open(.addTag(id: nil), in: .planning, beside: false)
+        #expect(navigation.selectedSection == .planning)
+        #expect(navigation.paths[.planning] == [.addTag(id: nil)])
         #expect(navigation.inspector == nil)
-        navigation.close(in: .category, inspecting: false)
-        #expect(navigation.paths[.category] == [])
+        navigation.close(in: .planning, inspecting: false)
+        #expect(navigation.paths[.planning] == [])
     }
 
     @Test func changingSectionClosesForeignInspector() {

@@ -35,30 +35,22 @@ struct DashboardModelTests {
         session.filter.startDate = month.startDate
         let finance = FinanceModel(session: session)
         await finance.load()
-        let intelligence = IntelligenceModel(
-            service: LocalIntelligenceService(
-                directory: FileManager.default.temporaryDirectory.appending(path: UUID().uuidString)
-            ),
-            session: session)
-        return (
-            DashboardModel(session: session, finance: finance, intelligence: intelligence), finance
-        )
+        return (DashboardModel(session: session, finance: finance), finance)
     }
 
     @Test func syncSelectsFirstItemsAndKeepsExistingChoice() async throws {
         let (dashboard, finance) = try await dashboard()
         dashboard.sync()
-        #expect(dashboard.selectedTag?.id == "trip")
-        #expect(dashboard.comparedCategory == finance.categories.first)
+        #expect(dashboard.availableCategory == finance.categories.first)
         let other = try #require(finance.categories.last)
-        dashboard.comparedCategory = other
+        dashboard.availableCategory = other
         dashboard.highlightedTransaction = 3
         dashboard.sync()
-        #expect(dashboard.comparedCategory == other)
+        #expect(dashboard.availableCategory == other)
         #expect(dashboard.highlightedTransaction == 0)
     }
 
-    @Test func availabilityAndComparisonUseThePeriod() async throws {
+    @Test func availabilityUsesThePeriod() async throws {
         let (dashboard, finance) = try await dashboard()
         let market = try #require(finance.categories.first { $0.id == "market" })
         let availability = dashboard.availability(of: market)
@@ -66,25 +58,5 @@ struct DashboardModelTests {
         #expect(availability.available == 750)
         #expect(availability.remainingRatio == 0.75)
         #expect(dashboard.totalAvailable == 750)
-        dashboard.comparedCategory = market
-        let comparison = dashboard.comparison
-        #expect([comparison.planned, comparison.spent, comparison.ratio] == [1000, 250, 0.25])
-    }
-
-    @Test func tagPointsCarryExpenses() async throws {
-        let (dashboard, _) = try await dashboard()
-        dashboard.sync()
-        let point = try #require(dashboard.tagPoints.first)
-        #expect(dashboard.tagPoints.count == 1)
-        #expect([point.id, point.label] == ["trip", "Viagem"])
-        #expect(point.amount == 250)
-        #expect(dashboard.selectedTagAmount == 250)
-    }
-
-    @Test func forecastNeedsATrainedModel() async throws {
-        let (dashboard, _) = try await dashboard()
-        #expect(!dashboard.showsForecast)
-        await dashboard.loadForecast()
-        #expect(dashboard.forecast == 0)
     }
 }

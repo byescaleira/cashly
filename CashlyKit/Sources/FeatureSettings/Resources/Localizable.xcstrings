@@ -10,6 +10,9 @@
     "Ajustes" : {
 
     },
+    "Apagar modelos" : {
+
+    },
     "Apagar todos os dados" : {
 
     },
@@ -19,7 +22,13 @@
     "Apagar tudo" : {
 
     },
+    "Aparelho" : {
+
+    },
     "Aparência" : {
+
+    },
+    "As estimativas usam os gastos mensais recentes. A categorização aprende com as descrições das suas transações. Todo o processamento fica neste aparelho." : {
 
     },
     "Avaliar o Cashly" : {
@@ -61,6 +70,15 @@
     "Importar backup?" : {
 
     },
+    "Inteligência" : {
+
+    },
+    "Memória" : {
+
+    },
+    "Modelos treinados no aparelho para previsões e sugestões de categoria." : {
+
+    },
     "Moeda" : {
 
     },
@@ -79,6 +97,9 @@
     "O backup é um arquivo com usuários, categorias, tags, orçamentos e transações. Importar adiciona os registros do arquivo aos que já estão no aparelho. A planilha traz só as transações." : {
 
     },
+    "O histórico mudou. Treine novamente para atualizar as sugestões." : {
+
+    },
     "Os valores não são convertidos: trocar a moeda muda o símbolo exibido e a moeda dos novos registros." : {
 
     },
@@ -86,6 +107,9 @@
 
     },
     "Política de privacidade" : {
+
+    },
+    "Processadores" : {
 
     },
     "Sincronizar com o iCloud" : {
@@ -97,7 +121,19 @@
     "Tema" : {
 
     },
+    "Temperatura" : {
+
+    },
     "Termos de uso" : {
+
+    },
+    "Transações" : {
+
+    },
+    "Treinando" : {
+
+    },
+    "Treinar modelos" : {
 
     },
     "Usuários, categorias, tags, orçamentos, transações e modelos de inteligência serão apagados. Com o iCloud ligado, os dados também saem dos seus outros aparelhos. Não é possível desfazer." : {
@@ -110,6 +146,9 @@
 
     },
     "Ícone" : {
+
+    },
+    "Última atualização" : {
 
     },
     "Última sincronização" : {

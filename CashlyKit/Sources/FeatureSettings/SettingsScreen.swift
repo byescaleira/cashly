@@ -11,6 +11,7 @@ public struct SettingsScreen: View {
             AppearanceSection()
             CurrencySection()
             NotificationSection()
+            IntelligenceSection()
             CloudSection()
             if let data = settings.data { DataSection().environment(data) }
             if settings.info.hasHelp { HelpSection() }

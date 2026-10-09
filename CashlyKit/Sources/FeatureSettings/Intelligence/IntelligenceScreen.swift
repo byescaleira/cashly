@@ -2,14 +2,12 @@ import CashlyDomain
 import FeatureCore
 import SwiftUI
 
-public struct IntelligenceScreen: View {
+struct IntelligenceScreen: View {
     @Environment(IntelligenceModel.self) private var intelligence
 
-    public init() {}
-
-    public var body: some View {
+    var body: some View {
         @Bindable var intelligence = intelligence
-        List {
+        Form {
             DeviceSection()
             if intelligence.isStale {
                 Text("O histórico mudou. Treine novamente para atualizar as sugestões.")
@@ -18,9 +16,8 @@ public struct IntelligenceScreen: View {
             ForEach(CashlyIntelligence.allCases) { ModelSection(kind: $0) }
             TrainingSection()
         }
-        .fontDesign(.rounded)
+        .formStyle(.grouped)
         .navigationTitle("Inteligência")
-        .toolbar { ToolbarItem { UserMenu() } }
         .errorAlert($intelligence.error)
     }
 }

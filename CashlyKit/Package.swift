@@ -26,7 +26,11 @@ let package = Package(
             dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"],
             resources: [.process("Resources")]),
         .target(
-            name: "FeatureIntelligence",
+            name: "FeatureReports",
+            dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"],
+            resources: [.process("Resources")]),
+        .target(
+            name: "FeatureSearch",
             dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"],
             resources: [.process("Resources")]),
         .target(
@@ -56,7 +60,8 @@ let package = Package(
             name: "AppShell",
             dependencies: [
                 "CashlyDomain", "CashlyDesignSystem", "FeatureCore", "FeatureBudgets",
-                "FeatureCategories", "FeatureDashboard", "FeatureIntelligence", "FeatureSettings",
+                "FeatureCategories", "FeatureDashboard", "FeatureReports", "FeatureSearch",
+                "FeatureSettings",
                 "FeatureTags", "FeatureTransactions", "FeatureUsers",
             ]),
         .target(
@@ -65,7 +70,8 @@ let package = Package(
             name: "CashlyPreview",
             dependencies: [
                 "AppShell", "CashlyMock", "FeatureBudgets", "FeatureCategories", "FeatureCore",
-                "FeatureDashboard", "FeatureIntelligence", "FeatureSettings", "FeatureTags",
+                "FeatureDashboard", "FeatureReports", "FeatureSearch", "FeatureSettings",
+                "FeatureTags",
                 "FeatureTransactions", "FeatureUsers",
             ]),
         .executableTarget(
@@ -79,8 +85,11 @@ let package = Package(
             name: "FeatureDashboardTests",
             dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureDashboard"]),
         .testTarget(
-            name: "FeatureIntelligenceTests",
-            dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureIntelligence"]),
+            name: "FeatureReportsTests",
+            dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureReports"]),
+        .testTarget(
+            name: "FeatureSearchTests",
+            dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureSearch"]),
         .testTarget(
             name: "FeatureCategoriesTests",
             dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureCategories"]),

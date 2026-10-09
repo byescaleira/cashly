@@ -1,7 +1,8 @@
 import FeatureCategories
 import FeatureCore
 import FeatureDashboard
-import FeatureIntelligence
+import FeatureReports
+import FeatureSearch
 import FeatureTransactions
 import SwiftUI
 
@@ -13,15 +14,17 @@ struct SectionScreen: View {
 
     @ViewBuilder var body: some View {
         switch section {
-        case .intelligence: IntelligenceScreen()
-        case .category: CategoryListScreen()
         case .home:
-            ModelHost(
-                DashboardModel(session: session, finance: finance, intelligence: intelligence)
-            ) {
-                HomeScreen()
-            }
+            ModelHost(DashboardModel(session: session, finance: finance)) { HomeScreen() }
         case .transaction: TransactionListScreen()
+        case .planning: CategoryListScreen()
+        case .reports:
+            ModelHost(
+                ReportsModel(session: session, finance: finance, intelligence: intelligence)
+            ) {
+                ReportsScreen()
+            }
+        case .search: SearchScreen()
         }
     }
 }

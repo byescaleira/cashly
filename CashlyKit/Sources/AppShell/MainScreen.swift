@@ -19,10 +19,16 @@ public struct MainScreen: View {
         @Bindable var session = session
         @Bindable var finance = finance
         TabView(selection: $navigation.selectedSection) {
-            ForEach(AppSection.allCases) { section in
+            ForEach(AppSection.tabs) { section in
                 Tab(section.title, systemImage: section.systemImage, value: section) {
                     SectionStack(section: section)
                 }
+            }
+            Tab(
+                AppSection.search.title, systemImage: AppSection.search.systemImage,
+                value: AppSection.search, role: .search
+            ) {
+                SectionStack(section: .search)
             }
         }
         .tabViewStyle(.sidebarAdaptable)

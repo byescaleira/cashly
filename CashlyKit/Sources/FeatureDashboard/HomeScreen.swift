@@ -17,11 +17,7 @@ public struct HomeScreen: View {
             SpendingSummarySection()
             ScoreSection()
             AvailableSection()
-            VarianceSection()
             TopSpendingSection()
-            EmptyTagsSection()
-            TagsSection()
-            ForecastSection()
         }
         .fontDesign(.rounded)
         .toolbar {
@@ -31,6 +27,5 @@ public struct HomeScreen: View {
         .refreshable { await finance.load() }
         .navigationTitle("Início")
         .onChange(of: dashboard.syncKey, initial: true) { dashboard.sync() }
-        .task(id: dashboard.forecastKey) { await dashboard.loadForecast() }
     }
 }

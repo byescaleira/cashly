@@ -4,7 +4,7 @@ import FeatureCore
 import Foundation
 import Testing
 
-@testable import FeatureIntelligence
+@testable import FeatureSettings
 
 @MainActor
 struct TrainingRulesTests {
