@@ -67,6 +67,7 @@ Regras de dependência:
 - Telas pedem navegação por `@Environment(\.open)` com uma `Route`; o `AppShell` decide como apresentar: em largura regular, no `.inspector` da janela (sheet no visionOS); em largura compacta, por push.
 - `@Environment(\.close)` fecha a rota no contexto certo (inspector, pilha do inspector ou pilha da aba).
 - Ajustes abrem pelo menu do avatar: em folha no iOS, iPadOS e visionOS (`CashlyNavigation.isShowingSettings`) e na janela de Ajustes do sistema no Mac (cena `Settings`, ⌘,).
+- Ícones alternativos são pastas `.icon` em `Cashly/Cashly` (`CashlyIconDark`, `CashlyIconOrange`, `CashlyIconGraphite`), incluídas por `ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS`. Para um novo, crie a pasta e acrescente um `case` em `AppIcon`.
 - Os links de ajuda e sobre vêm das chaves `CashlyAppStoreID`, `CashlySupportEmail`, `CashlyHelpURL`, `CashlyPrivacyURL` e `CashlyTermsURL` do `Info.plist`; a linha some enquanto a chave estiver vazia.
 
 ## Views

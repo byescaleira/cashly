@@ -31,7 +31,6 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
   - preencher as chaves de links no `Info.plist` (App Store, e-mail de suporte, central de ajuda, privacidade, termos) e o `NSUbiquitousContainerName`, que ainda tem o texto de exemplo;
   - exportar transações em CSV para planilhas e backup automático periódico;
   - iCloud: última sincronização (eventos do CloudKit) e backup;
-  - ícone do app (exige ícones alternativos no projeto);
   - novidades da versão;
   - integrações futuras: Calendário, servidor MCP para Claude Code, Atalhos, importador, App Intents/Siri, Foundation Models.
 - **[P3] Acessibilidade e restauração.** Exercitar VoiceOver e Dynamic Type, principalmente gráficos e seletores de ícones; rotas pequenas permitem deep links e restauração.

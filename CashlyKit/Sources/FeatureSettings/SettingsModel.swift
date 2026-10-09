@@ -19,6 +19,8 @@ public final class SettingsModel {
         didSet { defaults.set(syncsWithICloud, forKey: Key.cloudSync) }
     }
     public private(set) var cloudAccount: CloudAccount
+    public private(set) var appIcon: AppIcon
+    public var iconError: String?
     public var data: DataModel?
     public let notifications: NotificationsModel
     public let info: AppInfo
@@ -26,12 +28,16 @@ public final class SettingsModel {
     private let cloudContainer: String?
     @ObservationIgnored private let defaults: UserDefaults
     @ObservationIgnored private let currencySetting: CurrencySetting
+    @ObservationIgnored private let iconSwitcher: any AppIconSwitching
 
     public init(
         defaults: UserDefaults = .standard, cloudContainer: String?, info: AppInfo = .main,
         currencySetting: CurrencySetting = .shared,
-        notifications: NotificationsModel = NotificationsModel()
+        notifications: NotificationsModel = NotificationsModel(),
+        iconSwitcher: any AppIconSwitching = SystemAppIcon()
     ) {
+        self.iconSwitcher = iconSwitcher
+        appIcon = AppIcon(assetName: iconSwitcher.current)
         self.notifications = notifications
         self.defaults = defaults
         self.cloudContainer = cloudContainer
@@ -67,6 +73,28 @@ public final class SettingsModel {
             return "Seus dados ficam na sua conta do iCloud e aparecem nos seus outros aparelhos."
         }
         return "Seus dados ficam só neste aparelho."
+    }
+
+    var supportsAppIcons: Bool { iconSwitcher.supportsAlternateIcons }
+
+    var isShowingIconError: Bool {
+        get { iconError != nil }
+        set { if !newValue { iconError = nil } }
+    }
+
+    var appIconSelection: AppIcon {
+        get { appIcon }
+        set { Task { await setAppIcon(newValue) } }
+    }
+
+    func setAppIcon(_ icon: AppIcon) async {
+        guard icon != appIcon else { return }
+        do {
+            try await iconSwitcher.set(icon.assetName)
+            appIcon = icon
+        } catch {
+            iconError = "Não foi possível trocar o ícone."
+        }
     }
 
     func currencyName(_ code: String) -> String {
