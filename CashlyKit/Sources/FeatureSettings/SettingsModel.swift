@@ -11,6 +11,7 @@ public final class SettingsModel {
         didSet { defaults.set(syncsWithICloud, forKey: Key.cloudSync) }
     }
     public private(set) var cloudAccount: CloudAccount
+    public var data: DataModel?
     public let info: AppInfo
     public let syncsAtLaunch: Bool
     private let cloudContainer: String?

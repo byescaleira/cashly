@@ -35,6 +35,8 @@ public struct CashlyDatabase: RepositoryProvider {
 
     public var changes: any StorageChangeFeed { store.changeHub }
 
+    public var backup: any BackupRepository { SwiftDataBackupRepository(store: store) }
+
     public func repositories(for userID: String?) -> Repositories {
         let scope = StoreScope(store: store, userID: userID)
         return Repositories(

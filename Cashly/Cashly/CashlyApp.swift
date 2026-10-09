@@ -17,7 +17,7 @@ struct CashlyApp: App {
             let settings = SettingsModel(cloudContainer: CashlyDatabase.cloudContainer)
         #endif
         _settings = State(initialValue: settings)
-        _bootstrap = State(initialValue: CashlyBootstrap(cloudSync: settings.syncsAtLaunch))
+        _bootstrap = State(initialValue: CashlyBootstrap(settings: settings))
     }
 
     var body: some Scene {
@@ -33,23 +33,30 @@ private final class CashlyBootstrap {
     private(set) var database: CashlyDatabase?
     private(set) var error: String?
     let intelligence = LocalIntelligenceService()
-    private let cloudSync: Bool
+    private let settings: SettingsModel
     @ObservationIgnored private var preparation: Task<CashlyDatabase, any Error>?
 
-    init(cloudSync: Bool) {
-        self.cloudSync = cloudSync
+    init(settings: SettingsModel) {
+        self.settings = settings
     }
 
     func prepare() async {
         guard database == nil else { return }
         error = nil
+        let cloudSync = settings.syncsAtLaunch
         let task =
             preparation
-            ?? Task.detached(priority: .userInitiated) { [cloudSync] in
+            ?? Task.detached(priority: .userInitiated) {
                 try CashlyDatabase.open(cloudSync: cloudSync)
             }
         preparation = task
-        do { database = try await task.value } catch { self.error = error.localizedDescription }
+        do {
+            let database = try await task.value
+            self.database = database
+            settings.data = DataModel(backup: database.backup, intelligence: intelligence)
+        } catch {
+            self.error = error.localizedDescription
+        }
         preparation = nil
     }
 }

@@ -39,6 +39,11 @@ extension CashlyStore {
     }
 
     public func save(_ tag: Tag) throws {
+        try upsert(tag)
+        try commit(userID: tag.user.id)
+    }
+
+    func upsert(_ tag: Tag) throws {
         let id = tag.id
         let user = tag.user.id
         let name = tag.name
@@ -65,7 +70,6 @@ extension CashlyStore {
         entity.color = color
         entity.icon = icon
         modelContext.insert(entity)
-        try commit(userID: user)
     }
 
 }

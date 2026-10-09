@@ -28,6 +28,11 @@ extension CashlyStore {
 
     public func save(_ budget: Budget, userID: String) throws {
         try ensureNormalization()
+        try upsert(budget, userID: userID, allowsConflict: false)
+        try commit(userID: userID)
+    }
+
+    func upsert(_ budget: Budget, userID: String, allowsConflict: Bool) throws {
         let id = budget.id
         let money = budget.money
         let category = budget.category
@@ -49,7 +54,7 @@ extension CashlyStore {
                     $0.category == categoryID && $0.date == date && $0.id != id
                         && $0.mergedIntoID == ""
                 }))
-        guard duplicate.isEmpty else {
+        guard allowsConflict || duplicate.isEmpty else {
             throw CashlyError.invalidInput(
                 "Já existe um orçamento para essa categoria e mês. Edite o orçamento existente.")
         }
@@ -75,7 +80,6 @@ extension CashlyStore {
         entity.date = date
         entity.summary = summary
         modelContext.insert(entity)
-        try commit(userID: userID)
     }
 
 }

@@ -20,13 +20,13 @@ flowchart TD
 
 | Target | Responsabilidade | Depende de |
 | --- | --- | --- |
-| `CashlyDomain` | Entidades (`Transaction`, `Budget`, `Category`…), valores (`Money` em centavos, `YearMonth`), regras puras (`BudgetUsage`, `BudgetHealth`, `TransactionAllocation`…), protocolos de repositório | nada |
-| `CashlyData` | `CashlyDatabase`, `CashlyStore` (`@ModelActor`), schemas V1/V2 congelados e V3 atual, repositórios por agregado, `CashlyChangeHub`, `LocalIntelligenceService` | Domain |
+| `CashlyDomain` | Entidades (`Transaction`, `Budget`, `Category`…), valores (`Money` em centavos, `YearMonth`), regras puras (`BudgetUsage`, `BudgetHealth`, `TransactionAllocation`…), formato de backup (`CashlyBackup`), protocolos de repositório | nada |
+| `CashlyData` | `CashlyDatabase`, `CashlyStore` (`@ModelActor`), schemas V1/V2 congelados e V3 atual, repositórios por agregado, backup (`CashlyDatabase.backup`), `CashlyChangeHub`, `LocalIntelligenceService` | Domain |
 | `CashlyDesignSystem` | `Styles/` (extensions de `ShapeStyle`, `Color(hex:)`), `Modifiers/` (extensions de `View`), `Layout/` (`AdaptiveList`, `SurfaceContainer`) | nada |
 | `CashlyResource` | Avatares e ilustrações | nada |
 | `FeatureCore` | Estado compartilhado (`SessionModel`, `FinanceModel`, `IntelligenceModel`, `EditorStatus`, `TransactionFilter`), navegação (`Route`, `AppSection`, `CashlyNavigation`, `\.open`, `\.close`), componentes usados por mais de uma feature, textos de exibição | Domain, DesignSystem, Resource |
 | `Feature*` | Uma área do app: model, telas e seções | Domain, DesignSystem, FeatureCore |
-| `FeatureSettings` | Ajustes do app (`SettingsModel`, `AppInfo`), um por processo e não por janela | nada |
+| `FeatureSettings` | Ajustes do app (`SettingsModel`, `DataModel`, `AppInfo`), um por processo e não por janela | Domain |
 | `AppShell` | `CashlyWindow`, `MainScreen`, `SectionStack`, `RouteScreen`, inspector, folha de ajustes | todas as features |
 | `CashlyMock` | `SampleData` e `SampleDatabase` em memória | Domain, Data |
 | `CashlyPreview` | Previews por feature sobre o `SampleDatabase` | AppShell, features, Mock |
@@ -49,11 +49,11 @@ Regras de dependência:
 | `FeatureTags` | Editor de tag |
 | `FeatureUsers` | Editor de usuário |
 | `FeatureIntelligence` | Treino e estado dos modelos locais |
-| `FeatureSettings` | Aparência, iCloud, ajuda e sobre |
+| `FeatureSettings` | Aparência, iCloud, dados (exportar, importar, apagar tudo), ajuda e sobre |
 
 ## Estado e fluxo de dados
 
-- **App.** `CashlyApp` cria um `SettingsModel` para o processo inteiro e o injeta com `.cashlySettings(_:)`, que também aplica o tema em todas as janelas. A preferência de iCloud é lida antes de abrir o banco e só vale na abertura seguinte.
+- **App.** `CashlyApp` cria um `SettingsModel` para o processo inteiro e o injeta com `.cashlySettings(_:)`, que também aplica o tema em todas as janelas. A preferência de iCloud é lida antes de abrir o banco e só vale na abertura seguinte. Quando o banco abre, o app entrega ao `SettingsModel` um `DataModel` com o `BackupRepository`, que não é preso a usuário: backup e "apagar tudo" valem para o banco inteiro.
 - **Janela.** `CashlyWindow` cria, por janela, `SessionModel` (usuário selecionado, filtro, repositórios do usuário), `FinanceModel` (resumo do período), `TransactionListModel`, `IntelligenceModel` e `CashlyNavigation`, e os injeta no ambiente. Duas janelas podem ter usuários diferentes.
 - **Escopo.** `SessionModel.repositories` entrega repositórios presos ao usuário da janela; o store recusa leitura e escrita de outro dono.
 - **Mudanças.** O `CashlyChangeHub` avisa a sessão quando o banco muda (inclusive por CloudKit), e a sessão recarrega o que estiver na tela.

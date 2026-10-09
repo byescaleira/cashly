@@ -32,16 +32,16 @@ extension CashlyStore {
 
     public func save(_ transaction: CashlyDomain.Transaction, userID: String) throws {
         do {
-            try upsertTransaction(transaction, userID: userID)
+            try ensureNormalization()
+            try upsert(transaction, userID: userID)
+            try commit(userID: userID)
         } catch {
             modelContext.rollback()
             throw error
         }
     }
 
-    private func upsertTransaction(
-        _ transaction: CashlyDomain.Transaction, userID: String
-    ) throws {
+    func upsert(_ transaction: CashlyDomain.Transaction, userID: String) throws {
         let id = transaction.id
         let participants = transaction.participants
         let categoryID = transaction.category.id
@@ -54,7 +54,6 @@ extension CashlyStore {
         let splitValue = transaction.splitValue
         let paymentsPlan = transaction.paymentsPlan
         let tagIDs = transaction.tagIDs
-        try ensureNormalization()
         let timestamp = date.timeIntervalSince1970
         let canonical = money
         let allocation = try TransactionAllocation.resolve(
@@ -152,7 +151,6 @@ extension CashlyStore {
         entity.splitValue = splitValue
         entity.paymentsPlan = paymentsPlan
         modelContext.insert(entity)
-        try commit(userID: userID)
     }
 
 }

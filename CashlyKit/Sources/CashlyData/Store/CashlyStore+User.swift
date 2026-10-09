@@ -33,6 +33,11 @@ extension CashlyStore {
     }
 
     public func save(_ user: User, contextUserID: String?) throws {
+        try upsert(user, contextUserID: contextUserID, replacing: false)
+        try commit()
+    }
+
+    func upsert(_ user: User, contextUserID: String?, replacing: Bool) throws {
         let id = user.id
         let name = user.name
         let photo = user.photo
@@ -42,19 +47,13 @@ extension CashlyStore {
         let predicate: Predicate<UserEntity> = #Predicate { $0.id == id }
         let descriptor = FetchDescriptor<UserEntity>(predicate: predicate)
         let previous = try modelContext.fetch(descriptor).first
-        guard previous == nil || id == contextUserID else { throw CashlyError.onSave }
-        let entity =
-            try modelContext.fetch(descriptor).first
-            ?? UserEntity(
-                id: id,
-                name: name,
-                photo: photo
-            )
-        entity.id = id
+        guard replacing || previous == nil || id == contextUserID else {
+            throw CashlyError.onSave
+        }
+        let entity = previous ?? UserEntity(id: id, name: name, photo: photo)
         entity.name = name
         entity.photo = photo
         modelContext.insert(entity)
-        try commit()
     }
 
 }

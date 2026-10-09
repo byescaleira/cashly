@@ -24,6 +24,11 @@ extension CashlyStore {
     }
 
     public func save(_ category: CashlyDomain.Category) throws {
+        try upsert(category)
+        try commit(userID: category.user.id)
+    }
+
+    func upsert(_ category: CashlyDomain.Category) throws {
         let id = category.id
         let user = category.user.id
         let name = category.name
@@ -50,7 +55,6 @@ extension CashlyStore {
         entity.color = color
         entity.icon = icon
         modelContext.insert(entity)
-        try commit(userID: user)
     }
 
 }

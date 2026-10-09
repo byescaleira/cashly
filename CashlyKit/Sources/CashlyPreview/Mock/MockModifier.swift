@@ -36,10 +36,10 @@ struct MockModifier: ViewModifier {
                 try Task.checkCancellation()
                 let directory = FileManager.default.temporaryDirectory.appending(
                     path: UUID().uuidString)
+                let intelligence = LocalIntelligenceService(directory: directory)
+                settings.data = DataModel(backup: database.backup, intelligence: intelligence)
                 window = CashlyWindow(
-                    provider: database,
-                    intelligence: LocalIntelligenceService(directory: directory),
-                    preference: .disabled)
+                    provider: database, intelligence: intelligence, preference: .disabled)
             } catch is CancellationError {} catch { self.error = error.localizedDescription }
         }
     }

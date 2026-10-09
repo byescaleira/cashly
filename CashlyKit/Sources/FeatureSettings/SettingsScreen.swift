@@ -10,6 +10,7 @@ public struct SettingsScreen: View {
         Form {
             AppearanceSection()
             CloudSection()
+            if let data = settings.data { DataSection().environment(data) }
             if settings.info.hasHelp { HelpSection() }
             AboutSection()
         }
