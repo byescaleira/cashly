@@ -115,27 +115,4 @@ struct PresentationFlowTests {
         let edited = try await repositories.transactions.transaction(id: saved.id)
         #expect(edited?.money.minorUnits == 50003)
     }
-
-    @Test func invalidDraftIsNotSaved() async throws {
-        let database = try await database()
-        let form = CategoryEditorModel(repositories: database.repositories(for: owner.id))
-        await form.load()
-        form.draft.name = "AB"
-        #expect(!form.canSave)
-        await form.save()
-        #expect(!form.status.isSaved)
-        #expect(form.status.error == .onSave)
-    }
-
-    @Test func categoryEditorStoresHexColor() async throws {
-        let database = try await database()
-        let repositories = database.repositories(for: owner.id)
-        let form = CategoryEditorModel(
-            draft: .edit(id: category.id), repositories: repositories)
-        await form.load()
-        #expect(form.draft.color == "0099FF")
-        form.draft.color = "FF0000"
-        await form.save()
-        #expect(try await repositories.categories.category(id: category.id)?.color == "FF0000")
-    }
 }

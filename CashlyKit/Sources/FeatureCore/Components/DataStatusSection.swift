@@ -1,14 +1,13 @@
-import CashlyDomain
-import CashlyPresentation
-import FeatureCore
 import SwiftUI
 
-struct DataStatusView: View {
+public struct DataStatusSection: View {
     @Environment(SessionModel.self) private var session
     @Environment(FinanceModel.self) private var finance
     @Environment(\.open) private var open
     @Environment(\.navigationSection) private var section
-    var body: some View {
+    public init() {}
+
+    public var body: some View {
         if finance.pendingReferences > 0 {
             Section {
                 Label(

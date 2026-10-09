@@ -1,10 +1,13 @@
+import CashlyDesignSystem
 import CashlyDomain
 import FeatureCore
 import Observation
+import SwiftUI
 
 @MainActor @Observable
 public final class CategoryEditorModel {
     public var draft: CategoryDraft
+    public var symbolCategory: SymbolCategory = .food
     public let status = EditorStatus()
     @ObservationIgnored private let repositories: Repositories
 
@@ -14,6 +17,8 @@ public final class CategoryEditorModel {
     }
 
     public var canSave: Bool { status.isLoaded && !status.isLocked && draft.canSave }
+    public var canRemove: Bool { !draft.isNew && !status.isBusy }
+    public var color: Color { Color(hex: draft.color) }
 
     public func load() async {
         await status.load {
@@ -26,6 +31,7 @@ public final class CategoryEditorModel {
             }
             try Task.checkCancellation()
             draft.apply(record, currentUser: currentUser)
+            symbolCategory = SymbolCategory.containing(draft.icon) ?? symbolCategory
         }
     }
 

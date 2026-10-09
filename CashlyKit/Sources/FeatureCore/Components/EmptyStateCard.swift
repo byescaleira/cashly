@@ -30,8 +30,8 @@ public struct EmptyStateCard: View {
                 .frame(height: size)
                 .accessibilityHidden(true)
             VStack(spacing: 8) {
-                Text(title).font(.headline.weight(.bold)).foregroundStyle(.primary)
-                Text(subtitle).font(.callout).foregroundStyle(.secondary)
+                Text(title).font(.headline.weight(.bold)).foregroundStyle(Color.primary)
+                Text(subtitle).font(.callout).foregroundStyle(Color.secondary)
             }
             Button(action: action) {
                 Text(buttonTitle).font(.headline.weight(.bold)).frame(maxWidth: .infinity)

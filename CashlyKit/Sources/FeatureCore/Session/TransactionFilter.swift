@@ -30,6 +30,40 @@ public struct TransactionFilter: Equatable, Hashable {
 
     public var month: YearMonth? { isFilteringByDate ? YearMonth(startDate) : nil }
 
+    public var monthNumber: Int {
+        get { YearMonth(startDate).month }
+        set { move(year: year, month: newValue) }
+    }
+
+    public var year: Int {
+        get { YearMonth(startDate).year }
+        set { move(year: newValue, month: monthNumber) }
+    }
+
+    public var periodTitle: String {
+        isFilteringByDate ? startDate.formatted(.dateTime.month(.wide).year()) : "Todos os dados"
+    }
+
+    public var isCurrentMonth: Bool { YearMonth(startDate) == YearMonth(.now) }
+
+    public var isCustomized: Bool {
+        !isFilteringByDate || !isCurrentMonth || !categories.isEmpty || !tags.isEmpty
+            || !transactionStatuses.isEmpty || !participants.isEmpty
+    }
+
+    public static var selectableYears: ClosedRange<Int> {
+        let current = YearMonth(.now).year
+        return (current - 5)...(current + 5)
+    }
+
+    public mutating func reset() {
+        self = TransactionFilter(kinds: kinds)
+    }
+
+    private mutating func move(year: Int, month: Int) {
+        if let value = YearMonth(year: year, month: month) { startDate = value.startDate }
+    }
+
     public var query: TransactionQuery {
         TransactionQuery(
             month: month, categoryIDs: Set(categories.map(\.id)), tagIDs: Set(tags.map(\.id)),

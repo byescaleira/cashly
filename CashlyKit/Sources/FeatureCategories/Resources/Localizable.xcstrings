@@ -1,0 +1,43 @@
+{
+  "sourceLanguage" : "pt-BR",
+  "strings" : {
+    "%lld. %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld. %2$@"
+          }
+        }
+      }
+    },
+    "Adicionar categoria" : {
+
+    },
+    "Categorias" : {
+
+    },
+    "Cor" : {
+
+    },
+    "Definir orçamento de %@" : {
+
+    },
+    "Digite o nome da categoria" : {
+
+    },
+    "Estas categorias ainda não têm orçamento. Toque em uma para definir o valor do mês." : {
+
+    },
+    "Nome" : {
+
+    },
+    "Orçamentos" : {
+
+    },
+    "Quer mais controle?" : {
+
+    }
+  },
+  "version" : "1.0"
+}

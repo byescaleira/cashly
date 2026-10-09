@@ -24,10 +24,10 @@ public struct TransactionScreen: View {
     public var body: some View {
         List(selection: $selection) {
             TransactionBalanceView()
-            EmptyCategoryView()
-            EmptyBudgetView(budgets: finance.budgets)
+            EmptyCategoriesSection()
+            EmptyBudgetsSection()
             EmptyUsersSection()
-            DataStatusView()
+            DataStatusSection()
             transactionsSection
             if transactions.hasMore {
                 Button("Carregar mais transações") { Task { await transactions.loadMore() } }
@@ -53,7 +53,7 @@ public struct TransactionScreen: View {
 
             ToolbarItemGroup {
                 editButton
-                FilterItemView()
+                FilterMenu()
             }
 
             CashlyToolbarSpacer()

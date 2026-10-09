@@ -1,13 +1,37 @@
 {
   "sourceLanguage" : "pt-BR",
   "strings" : {
+    "%lld selecionados" : {
+
+    },
+    "Adicionar categoria" : {
+
+    },
+    "Adicionar orçamento" : {
+
+    },
     "Adicionar usuário" : {
+
+    },
+    "Atualizar dados" : {
 
     },
     "Categoria" : {
 
     },
+    "Categorias" : {
+
+    },
+    "Categorias mostram para onde vai o seu dinheiro. Crie a primeira para organizar os gastos." : {
+
+    },
     "Com usuários, você compartilha e organiza as finanças em equipe. Adicione o primeiro para começar." : {
+
+    },
+    "Conflitos de orçamento" : {
+
+    },
+    "Data" : {
 
     },
     "Editar usuário" : {
@@ -16,7 +40,31 @@
     "Excluir" : {
 
     },
+    "Filtrar por data" : {
+
+    },
+    "Filtros" : {
+
+    },
+    "Hoje" : {
+
+    },
+    "Há registros incompletos aguardando sincronização. Os totais exibidos consideram apenas os registros disponíveis." : {
+
+    },
+    "Limpar" : {
+
+    },
+    "Limpar filtros" : {
+
+    },
+    "Nenhum orçamento ainda" : {
+
+    },
     "Nenhum usuário ainda" : {
+
+    },
+    "Nenhuma categoria ainda" : {
 
     },
     "Não foi possível concluir" : {
@@ -25,13 +73,31 @@
     "OK" : {
 
     },
+    "Orçamentos" : {
+
+    },
+    "Orçamentos ajudam a controlar os gastos. Defina um valor para cada categoria e acompanhe o mês." : {
+
+    },
+    "Participantes" : {
+
+    },
     "Salvar" : {
+
+    },
+    "Status" : {
+
+    },
+    "Tags" : {
 
     },
     "Usuário" : {
 
     },
     "Usuários" : {
+
+    },
+    "Valores planejados em conflito ficam fora dos totais até você escolher o orçamento que deve prevalecer." : {
 
     },
     "Ícone" : {

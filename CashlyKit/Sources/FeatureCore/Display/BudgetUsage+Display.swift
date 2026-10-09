@@ -20,4 +20,18 @@ extension BudgetUsage.Stage {
         case .overBudget: .red
         }
     }
+
+    public var level: Int {
+        switch self {
+        case .justStarted, .onTrack: 1
+        case .watchOut: 2
+        case .almostSpent: 3
+        case .overBudget: 4
+        }
+    }
+
+    public func dotColor(at index: Int) -> Color {
+        guard index <= level else { return .secondary.opacity(0.2) }
+        return [Color.green, .yellow, .orange, .red][index - 1]
+    }
 }

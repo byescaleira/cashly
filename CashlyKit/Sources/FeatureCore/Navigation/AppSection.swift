@@ -5,10 +5,10 @@ public enum AppSection: String, CaseIterable, Identifiable {
     public var id: String { rawValue }
     public var title: String {
         switch self {
-        case .intelligence: "Intelligence"
-        case .category: "Categories"
-        case .home: "Home"
-        case .transaction: "Transactions"
+        case .intelligence: "Inteligência"
+        case .category: "Categorias"
+        case .home: "Início"
+        case .transaction: "Transações"
         }
     }
     public var systemImage: String {

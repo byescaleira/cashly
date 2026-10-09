@@ -21,7 +21,7 @@ public struct EditorActions: ToolbarContent {
         ToolbarItemGroup {
             if canRemove {
                 Button("Excluir", systemImage: "trash") { Task { await remove() } }
-                    .tint(.primary)
+                    .tint(Color.primary)
             }
             Button("Salvar", systemImage: "checkmark") { Task { await save() } }
                 .prominentButton()

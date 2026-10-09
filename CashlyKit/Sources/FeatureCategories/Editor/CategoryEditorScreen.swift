@@ -1,0 +1,28 @@
+import FeatureCore
+import SwiftUI
+
+public struct CategoryEditorScreen: View {
+    @Environment(CategoryEditorModel.self) private var model
+
+    public init() {}
+
+    public var body: some View {
+        @Bindable var model = model
+        Form {
+            CategoryIconHeader()
+            CategoryNameSection()
+            IconSection(
+                icon: $model.draft.icon, category: $model.symbolCategory, color: model.color,
+                layout: .grid)
+        }
+        .fontDesign(.rounded)
+        .toolbar {
+            EditorActions(canSave: model.canSave, canRemove: model.canRemove) {
+                await model.save()
+            } remove: {
+                await model.remove()
+            }
+        }
+        .editorLifecycle(model.status) { await model.load() }
+    }
+}

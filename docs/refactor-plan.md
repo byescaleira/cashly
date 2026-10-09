@@ -243,8 +243,13 @@ Concluída.
 
 #### 5.5 `FeatureCategories`
 
-- Lista de categorias em `AdaptiveList`, detalhe da categoria e editor.
-- Barra de variação da categoria vai para `FeatureCore` (o editor de transação também mostra).
+Concluída.
+
+- `FeatureCategories` em três pastas: `List/` (`CategoryListScreen` em `AdaptiveList`, `CategoryBalanceSection`, `BudgetedCategoriesSection`, `CategoryRow`, `UnbudgetedCategoriesSection`), `Detail/` (`CategoryDetailScreen`, `CategoryDetailHeader`, `CategoryBudgetsSection` e uma extensão do `FinanceModel` com a categoria de reserva e o uso de cada orçamento) e `Editor/` (draft, model com `symbolCategory`, tela e seções). `CategoryBadge` é o ícone circular usado nas três.
+- `FeatureCore` ganhou `FilterMenu` (antes `FilterItemView`), `MultiSelectMenu`, `CategoryVariation`, `EmptyCategoriesSection`, `EmptyBudgetsSection` e `DataStatusSection`. Mês, ano, período, "personalizado" e limpar o filtro viraram regras do `TransactionFilter`; a cor dos pontos de variação virou `BudgetUsage.Stage.dotColor(at:)`.
+- Abas em pt-BR.
+- Correção: na lista de categorias do iPhone, os valores quebravam em duas linhas e eram cortados ("500.000,…"); agora o valor ocupa a largura dele.
+- Cuidado aprendido: em cabeçalho de `List`, `.foregroundStyle(.primary)` é relativo ao cinza do cabeçalho; use `Color.primary`, como o código antigo.
 
 #### 5.6 `FeatureBudgets`
 

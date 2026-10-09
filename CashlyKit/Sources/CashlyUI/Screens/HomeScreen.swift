@@ -19,9 +19,9 @@ public struct HomeScreen: View {
     public var body: some View {
         AdaptiveList {
             EmptyUsersSection()
-            DataStatusView()
-            EmptyCategoryView()
-            EmptyBudgetView(budgets: finance.budgets)
+            DataStatusSection()
+            EmptyCategoriesSection()
+            EmptyBudgetsSection()
             BalanceView()
             availableSection
             varianceSection
@@ -31,7 +31,7 @@ public struct HomeScreen: View {
         }
         .toolbar {
             ToolbarItem(placement: .leading) { UserMenu() }
-            ToolbarItem { FilterItemView() }
+            ToolbarItem { FilterMenu() }
         }
         .refreshable { await finance.load() }
         .navigationTitle((session.user?.selfFirstName ?? "") + "Home")

@@ -5,12 +5,13 @@
     import FeatureCore
     import CashlyMock
     import CashlyUI
+    import FeatureCategories
     import SwiftUI
 
     #Preview("Cashly") { MainScreen().cashlyPreview() }
     #Preview("Cashly sem perfis") { MainScreen().cashlyPreview(includeSampleData: false) }
     #Preview("Início") { NavigationStack { HomeScreen().cashlyPreview() } }
-    #Preview("Categorias") { NavigationStack { CategoryScreen().cashlyPreview() } }
+    #Preview("Categorias") { NavigationStack { CategoryListScreen().cashlyPreview() } }
     #Preview("Transações") { NavigationStack { TransactionScreen().cashlyPreview() } }
     private struct NewTransactionPreview: View {
         @Environment(SessionModel.self) var session

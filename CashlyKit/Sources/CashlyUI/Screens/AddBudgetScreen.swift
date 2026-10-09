@@ -109,7 +109,7 @@ public struct AddBudgetScreen: View {
     var categoriesSection: some View {
         Section {
             categoriesView
-            EmptyCategoryView()
+            EmptyCategoriesSection()
         } header: {
             CashlyText("Categories")
                 .cashly(font: .title3, weight: .semibold)

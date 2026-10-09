@@ -223,18 +223,17 @@ public struct AddTransactionScreen: View {
     var categoriesSection: some View {
         Section {
             categoriesView
-            EmptyCategoryView()
-            EmptyBudgetView(budgets: finance.budgets)
+            EmptyCategoriesSection()
+            EmptyBudgetsSection()
         } header: {
             CashlyHStack {
                 CashlyText("Categories")
                     .cashly(font: .title3, weight: .semibold)
                     .cashly(color: .text)
                 Spacer()
-                CategoryVariationView(
-                    category: state.category,
-                    amount: state.amount
-                )
+                if let category = state.category {
+                    CategoryVariation(category: category, amount: state.amount)
+                }
             }
         } footer: {
             if let category = state.category {

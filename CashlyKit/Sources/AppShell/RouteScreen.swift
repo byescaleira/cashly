@@ -1,6 +1,7 @@
 import CashlyDomain
 import CashlyPresentation
 import CashlyUI
+import FeatureCategories
 import FeatureCore
 import FeatureTags
 import FeatureUsers
@@ -22,7 +23,7 @@ struct RouteScreen: View {
             ModelHost(
                 CategoryEditorModel(
                     draft: id.map(CategoryDraft.edit) ?? .new(), repositories: repositories)
-            ) { AddCategoryScreen() }
+            ) { CategoryEditorScreen() }
         case .addBudget(let id, let categoryID, let date):
             ModelHost(
                 BudgetEditorModel(
@@ -38,7 +39,7 @@ struct RouteScreen: View {
             ModelHost(
                 TagEditorModel(draft: id.map(TagDraft.edit) ?? .new(), repositories: repositories)
             ) { TagEditorScreen() }
-        case .detailCategory(let id): DetailCategoryScreen(categoryID: id)
+        case .detailCategory(let id): CategoryDetailScreen(categoryID: id)
         case .budgetConflict(let categoryID, let month):
             BudgetConflictScreen(categoryID: categoryID, month: month)
         }
