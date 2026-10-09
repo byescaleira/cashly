@@ -1,6 +1,5 @@
 import CashlyDesignSystem
 import CashlyDomain
-import CashlyPresentation
 import FeatureCore
 import SwiftUI
 import Symbols
@@ -45,25 +44,5 @@ extension View {
     public func cashlyDelete(action: @escaping () -> Void) -> some View { deleteAction(action) }
 
     public func cashlyEdit(action: @escaping () -> Void) -> some View { editAction(action) }
-
-    public func cashlyDismiss(isSaved: Bool) -> some View {
-        modifier(CashlyDismissModifier(isSaved: isSaved))
-    }
-
-    public func cashlyIntelligence(
-        model: CashlyIntelligence,
-        isActive: Bool = true,
-        input: Binding<CashlyPredictionInput>,
-        result: Binding<CashlyPredictionResult>
-    ) -> some View {
-        self.modifier(
-            CashlyIntelligenceModifier(
-                model: model,
-                isActive: isActive,
-                input: input,
-                result: result
-            )
-        )
-    }
 
 }

@@ -5,16 +5,19 @@ public struct MultiSelectMenu<Item: Identifiable & Hashable, Row: View>: View {
     private let systemImage: String
     private let items: [Item]
     @Binding private var selection: Set<Item>
+    private let showsCount: Bool
     private let row: (Item) -> Row
 
     public init(
         _ title: LocalizedStringKey, systemImage: String, items: [Item],
-        selection: Binding<Set<Item>>, @ViewBuilder row: @escaping (Item) -> Row
+        selection: Binding<Set<Item>>, showsCount: Bool = true,
+        @ViewBuilder row: @escaping (Item) -> Row
     ) {
         self.title = title
         self.systemImage = systemImage
         self.items = items
         _selection = selection
+        self.showsCount = showsCount
         self.row = row
     }
 
@@ -29,7 +32,7 @@ public struct MultiSelectMenu<Item: Identifiable & Hashable, Row: View>: View {
             }
         } label: {
             Label(title, systemImage: systemImage)
-            if !selection.isEmpty {
+            if showsCount, !selection.isEmpty {
                 Text("\(selection.count) selecionados")
             }
         }

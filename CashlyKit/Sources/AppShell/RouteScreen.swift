@@ -1,10 +1,10 @@
 import CashlyDomain
-import CashlyPresentation
 import CashlyUI
 import FeatureBudgets
 import FeatureCategories
 import FeatureCore
 import FeatureTags
+import FeatureTransactions
 import FeatureUsers
 import SwiftUI
 
@@ -35,7 +35,7 @@ struct RouteScreen: View {
             ModelHost(
                 TransactionEditorModel(
                     draft: id.map(TransactionDraft.edit) ?? .new(), repositories: repositories)
-            ) { AddTransactionScreen() }
+            ) { TransactionEditorScreen() }
         case .addTag(let id):
             ModelHost(
                 TagEditorModel(draft: id.map(TagDraft.edit) ?? .new(), repositories: repositories)

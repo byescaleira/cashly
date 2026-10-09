@@ -262,10 +262,14 @@ Concluída.
 
 #### 5.7 `FeatureTransactions`
 
-- `TransactionListModel`, lista com seleção múltipla, swipe e paginação, editor de transação (hoje com 499 linhas) quebrado em seções: valor, descrição, tags, categoria, data, parcelas, participantes.
-- Menu de filtro vai para `FeatureCore` (Home, Categorias e Transações usam).
-- Usar `CurrencyField` e `CategorySelector` do `FeatureCore`; o modificador de previsão da inteligência vai para o `FeatureCore`.
-- Correção: a mensagem de orçamento restante deixa de descontar duas vezes a transação em edição.
+Concluída.
+
+- `FeatureTransactions/List`: `TransactionListModel` (agora com seleção, grupos por dia, valores do período, mensagem de compartilhamento e exclusão da seleção), `TransactionListScreen`, `TransactionListToolbar`, `TransactionDaySection`, `TransactionRow`, `TransactionBalanceSection` e `LoadMoreRow`. A lista continua `List` (swipe e seleção), com largura de leitura no iPad.
+- `FeatureTransactions/Editor`: o editor de 499 linhas virou uma tela curta e oito seções (valor, descrição, conflito, tags, categoria, data, parcelamento e participantes). Previsão de categoria, tags, participantes, parcelas, status da divisão e mensagem de orçamento foram para o `TransactionEditorModel`; o modificador de previsão deixou de existir.
+- Correção: o editor guarda a transação original e calcula o impacto da edição no período filtrado, então a mensagem de orçamento restante e a barra de variação não contam mais a transação duas vezes.
+- `FeatureCore` ganhou `PeriodSummaryHeader` (também usado em Categorias), `SessionModel.otherUsers` e status e modos de divisão em pt-BR; `readableWidth()` voltou ao design system.
+- `CashlyPresentation` ficou vazio e saiu; `CashlyPresentationTests` virou `FeatureCoreTests`.
+- `scripts/test.sh` passou a usar `-collect-test-diagnostics never`: com teste falhando, o `xcodebuild` coletava um sysdiagnose do simulador e ficava mais de 10 minutos parado.
 
 #### 5.8 `FeatureDashboard`
 
@@ -279,7 +283,7 @@ Concluída.
 
 #### 5.10 Encerramento
 
-- Remover `CashlyPresentation`, `CashlyUI` e os wrappers triviais do DesignSystem.
+- Remover `CashlyUI` e os wrappers triviais do DesignSystem (`CashlyPresentation` já saiu na 5.7).
 - Previews por feature com `SampleDatabase`.
 - Passada final em iPhone retrato/paisagem, iPad e macOS.
 

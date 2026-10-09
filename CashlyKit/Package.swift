@@ -32,29 +32,32 @@ let package = Package(
             dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"],
             resources: [.process("Resources")]),
         .target(
+            name: "FeatureTransactions",
+            dependencies: ["CashlyDomain", "CashlyDesignSystem", "CashlyResource", "FeatureCore"],
+            resources: [.process("Resources")]),
+        .target(
             name: "FeatureUsers",
             dependencies: ["CashlyDomain", "CashlyDesignSystem", "CashlyResource", "FeatureCore"],
             resources: [.process("Resources")]),
         .target(
-            name: "CashlyPresentation",
-            dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"]),
-        .target(
             name: "CashlyUI",
             dependencies: [
-                "CashlyDomain", "CashlyPresentation", "CashlyResource", "CashlyDesignSystem",
+                "CashlyDomain", "CashlyResource", "CashlyDesignSystem",
                 "FeatureCore",
             ]),
         .target(
             name: "AppShell",
             dependencies: [
-                "CashlyDomain", "CashlyDesignSystem", "FeatureCore", "CashlyPresentation",
-                "CashlyUI", "FeatureBudgets", "FeatureCategories", "FeatureTags", "FeatureUsers",
+                "CashlyDomain", "CashlyDesignSystem", "FeatureCore", "CashlyUI", "FeatureBudgets",
+                "FeatureCategories", "FeatureTags", "FeatureTransactions", "FeatureUsers",
             ]),
         .target(
             name: "CashlyMock", dependencies: ["CashlyDomain", "CashlyData"]),
         .target(
             name: "CashlyPreview",
-            dependencies: ["AppShell", "CashlyUI", "CashlyMock", "FeatureCategories"]),
+            dependencies: [
+                "AppShell", "CashlyUI", "CashlyMock", "FeatureCategories", "FeatureTransactions",
+            ]),
         .executableTarget(
             name: "CashlyAudit", dependencies: ["CashlyDomain", "CashlyData", "CashlyMock"]),
         .testTarget(name: "CashlyDomainTests", dependencies: ["CashlyDomain"]),
@@ -72,7 +75,9 @@ let package = Package(
             name: "FeatureTagsTests",
             dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureTags"]),
         .testTarget(
-            name: "CashlyPresentationTests",
-            dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "CashlyPresentation"]),
+            name: "FeatureTransactionsTests",
+            dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureTransactions"]),
+        .testTarget(
+            name: "FeatureCoreTests", dependencies: ["CashlyDomain", "CashlyData", "FeatureCore"]),
     ]
 )

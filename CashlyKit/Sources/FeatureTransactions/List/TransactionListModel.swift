@@ -8,6 +8,9 @@ public final class TransactionListModel {
     public private(set) var items: [CashlyDomain.Transaction] = []
     public private(set) var isLoading = false
     public private(set) var isLoadingMore = false
+    public var isSelecting = false
+    public var selection: Set<CashlyDomain.Transaction> = []
+    public var isConfirmingDelete = false
     public var error: CashlyError?
     @ObservationIgnored private let session: SessionModel
     @ObservationIgnored private var nextCursor: TransactionCursor?
@@ -20,13 +23,42 @@ public final class TransactionListModel {
 
     public var hasMore: Bool { nextCursor != nil }
 
-    public var sections: [[CashlyDomain.Transaction]] {
-        let month = loadedKey?.query.month
-        let groups = Dictionary(grouping: items) { transaction in
-            CashlyCalendar.current.startOfDay(
-                for: month.flatMap { transaction.billingDate(in: $0) } ?? transaction.date)
+    public var days: [TransactionDay] {
+        let groups = Dictionary(grouping: items) {
+            CashlyCalendar.current.startOfDay(for: date(of: $0))
         }
-        return groups.keys.sorted(by: >).map { groups[$0, default: []] }
+        return groups.keys.sorted(by: >).map {
+            TransactionDay(date: $0, items: groups[$0, default: []])
+        }
+    }
+
+    public var isAllSelected: Bool { !items.isEmpty && selection.count == items.count }
+
+    public func date(of transaction: CashlyDomain.Transaction) -> Date {
+        loadedKey?.query.month.flatMap { transaction.billingDate(in: $0) } ?? transaction.date
+    }
+
+    public func billing(of transaction: CashlyDomain.Transaction) -> Money {
+        transaction.billingMoney(in: loadedKey?.query.month)
+    }
+
+    public func shareMessage(participants: Set<User>) -> String {
+        TransactionShareMessage.make(
+            transactions: selection, participants: participants, month: loadedKey?.query.month)
+    }
+
+    public func toggleSelectAll() {
+        selection = isAllSelected ? [] : Set(items)
+    }
+
+    public func endSelection() {
+        isSelecting = false
+        selection = []
+    }
+
+    public func deleteSelection() async {
+        await delete(selection)
+        selection = []
     }
 
     public func load() async {
@@ -35,6 +67,7 @@ public final class TransactionListModel {
         let key = session.loadKey
         guard session.user != nil else {
             items = []
+            selection = []
             nextCursor = nil
             loadedKey = key
             return
@@ -49,6 +82,8 @@ public final class TransactionListModel {
             items = page.items
             nextCursor = page.nextCursor
             loadedKey = key
+            let selected = Set(selection.map(\.id))
+            selection = Set(items.filter { selected.contains($0.id) })
         } catch is CancellationError {} catch {
             if current == request && !Task.isCancelled {
                 self.error = error as? CashlyError ?? .onFetch

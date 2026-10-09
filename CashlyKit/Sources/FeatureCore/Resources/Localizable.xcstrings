@@ -4,6 +4,16 @@
     "%lld selecionados" : {
 
     },
+    "%lld. %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld. %2$@"
+          }
+        }
+      }
+    },
     "Adicionar categoria" : {
 
     },

@@ -57,6 +57,8 @@ public final class SessionModel {
         }
     }
 
+    public var otherUsers: [User] { users.filter { $0.id != user?.id } }
+
     public var userSelection: User? {
         get { user }
         set {

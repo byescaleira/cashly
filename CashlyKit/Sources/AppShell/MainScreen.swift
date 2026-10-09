@@ -1,6 +1,5 @@
 import CashlyDesignSystem
 import CashlyDomain
-import CashlyPresentation
 import CashlyUI
 import FeatureCore
 import SwiftUI
@@ -51,8 +50,8 @@ public struct MainScreen: View {
         .onChange(of: session.user?.id) { old, new in
             if old != nil && old != new { navigation.reset() }
         }
-        .cashlyErrorAlert(error: $finance.error)
-        .cashlyErrorAlert(error: $session.error)
+        .errorAlert($finance.error)
+        .errorAlert($session.error)
     }
 
 }

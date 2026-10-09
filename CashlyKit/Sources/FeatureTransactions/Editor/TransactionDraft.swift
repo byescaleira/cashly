@@ -91,15 +91,19 @@ public struct TransactionDraft: Hashable {
         TransactionDraft(id: id, isNew: false)
     }
 
-    public func makeTransaction() throws -> CashlyDomain.Transaction {
-        guard canSave, let category else { throw CashlyError.onSave }
+    public var preview: CashlyDomain.Transaction? {
+        guard let category, let money = try? Money(validating: amount) else { return nil }
         return CashlyDomain.Transaction(
-            id: id, participants: participants, category: category,
-            money: try Money(validating: amount), date: date,
+            id: id, participants: participants, category: category, money: money, date: date,
             summary: summary.trimmingCharacters(in: .whitespacesAndNewlines), status: status,
             splitMode: splitMode, splitValue: splitValue,
             paymentsPlan: installmentIsOn ? installmentPlan : nil, tagIDs: selectedTagIDs,
             kind: kind)
+    }
+
+    public func makeTransaction() throws -> CashlyDomain.Transaction {
+        guard canSave, let preview else { throw CashlyError.onSave }
+        return preview
     }
 
     public mutating func apply(_ transaction: CashlyDomain.Transaction?) {

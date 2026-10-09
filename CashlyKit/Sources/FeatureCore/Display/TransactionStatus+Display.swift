@@ -1,12 +1,13 @@
 import CashlyDomain
+import SwiftUI
 
 extension TransactionStatus {
     public var summary: String {
         switch self {
-        case .pendingToReceive: "Pending to Receive"
-        case .pendingToPay: "Pending to Pay"
-        case .settled: "Settled"
-        case .canceled: "Canceled"
+        case .pendingToReceive: "A receber"
+        case .pendingToPay: "A pagar"
+        case .settled: "Pago"
+        case .canceled: "Cancelado"
         }
     }
 
@@ -16,6 +17,15 @@ extension TransactionStatus {
         case .pendingToPay: "arrow.up"
         case .settled: "checkmark"
         case .canceled: "xmark"
+        }
+    }
+
+    public var color: Color {
+        switch self {
+        case .pendingToReceive: .blue
+        case .pendingToPay: .orange
+        case .settled: .green
+        case .canceled: .red
         }
     }
 }

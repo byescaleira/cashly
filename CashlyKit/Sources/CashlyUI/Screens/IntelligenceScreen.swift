@@ -1,6 +1,5 @@
 import CashlyDesignSystem
 import CashlyDomain
-import CashlyPresentation
 import FeatureCore
 import SwiftUI
 
@@ -51,6 +50,6 @@ public struct IntelligenceScreen: View {
         }
         .navigationTitle("Intelligence")
         .toolbar { ToolbarItem { UserMenu() } }
-        .cashlyErrorAlert(error: $intelligence.error)
+        .errorAlert($intelligence.error)
     }
 }

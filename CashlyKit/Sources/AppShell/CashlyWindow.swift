@@ -1,7 +1,7 @@
 import CashlyDomain
-import CashlyPresentation
 import CashlyUI
 import FeatureCore
+import FeatureTransactions
 import SwiftUI
 
 @MainActor

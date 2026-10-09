@@ -1,0 +1,96 @@
+{
+  "sourceLanguage" : "pt-BR",
+  "strings" : {
+    "%lldx" : {
+
+    },
+    "Adicionar %@" : {
+
+    },
+    "Adicionar transação" : {
+
+    },
+    "As %lld transações selecionadas serão excluídas. Não é possível desfazer." : {
+
+    },
+    "Cancelar" : {
+
+    },
+    "Carregar mais transações" : {
+
+    },
+    "Categoria" : {
+
+    },
+    "Compartilhar" : {
+
+    },
+    "Concluir" : {
+
+    },
+    "Data" : {
+
+    },
+    "Descreva a transação" : {
+
+    },
+    "Descrição" : {
+
+    },
+    "Excluir" : {
+
+    },
+    "Excluir transações" : {
+
+    },
+    "Limpar seleção" : {
+
+    },
+    "Modo de divisão" : {
+
+    },
+    "Número de parcelas" : {
+
+    },
+    "Parcelamento" : {
+
+    },
+    "Parcelar" : {
+
+    },
+    "Participantes" : {
+
+    },
+    "Quem pagou" : {
+
+    },
+    "Remover" : {
+
+    },
+    "Resolver conflito de orçamento" : {
+
+    },
+    "Selecionar" : {
+
+    },
+    "Selecionar carregadas" : {
+
+    },
+    "Status: %@" : {
+
+    },
+    "Sugerir categoria" : {
+
+    },
+    "Sugestões pela descrição" : {
+
+    },
+    "Tags" : {
+
+    },
+    "Transações" : {
+
+    }
+  },
+  "version" : "1.0"
+}

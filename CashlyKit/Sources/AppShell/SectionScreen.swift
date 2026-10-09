@@ -1,8 +1,8 @@
 import CashlyDomain
-import CashlyPresentation
 import CashlyUI
 import FeatureCategories
 import FeatureCore
+import FeatureTransactions
 import SwiftUI
 
 struct SectionScreen: View {
@@ -13,7 +13,7 @@ struct SectionScreen: View {
         case .intelligence: IntelligenceScreen()
         case .category: CategoryListScreen()
         case .home: HomeScreen()
-        case .transaction: TransactionScreen()
+        case .transaction: TransactionListScreen()
         }
     }
 }
