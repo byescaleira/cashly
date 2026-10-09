@@ -24,6 +24,7 @@ struct TransactionResultsSection: View {
                                 transaction.category.name.capitalized + " · "
                                     + transaction.date.formatted(date: .abbreviated, time: .omitted)
                             )
+                            .foregroundStyle(Color.secondary)
                         }
                     }
                 }
