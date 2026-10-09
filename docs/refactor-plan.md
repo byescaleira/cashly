@@ -282,7 +282,12 @@ Concluída.
 
 #### 5.9 `FeatureIntelligence`
 
-- Tela de inteligência e monitor do sistema; o modificador de previsão usado pelos editores vai para `FeatureCore`.
+Concluída.
+
+- `FeatureIntelligence`: `IntelligenceScreen` com `DeviceSection`, `ModelSection` e `TrainingSection`. A regra de quando dá para treinar e a descrição do aparelho (`DeviceStatus`) saíram da view.
+- Nomes, descrições e cores dos modelos ficaram juntos em `CashlyIntelligence+Display`, em pt-BR.
+- O modificador de previsão já tinha deixado de existir na 5.7; editores pedem a previsão direto ao `IntelligenceModel`.
+- O `CashlyUI` ficou só com os wrappers antigos, que saem na 5.10.
 
 #### 5.10 Encerramento
 

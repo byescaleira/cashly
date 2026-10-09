@@ -1,22 +1,23 @@
 import CashlyDomain
+import SwiftUI
 
 extension CashlyIntelligence {
     public var name: String {
         switch self {
-        case .budgetValue: "Smart Budget"
-        case .categoryName: "Automatic Categorization"
-        case .tagValue: "Tag Spending Prediction"
+        case .budgetValue: "Orçamento inteligente"
+        case .categoryName: "Categorização automática"
+        case .tagValue: "Previsão por tag"
         }
     }
 
     public var summary: String {
         switch self {
         case .budgetValue:
-            "Estimates monthly spending per category using the average of up to six recorded months."
+            "Estima o gasto mensal de cada categoria pela média de até seis meses registrados."
         case .categoryName:
-            "Suggests a category using words from your previously recorded transactions."
+            "Sugere a categoria a partir das palavras de transações já registradas."
         case .tagValue:
-            "Predicts the expected spending amount per tag for a specific month based on historical patterns."
+            "Prevê o gasto esperado de cada tag em um mês a partir do histórico."
         }
     }
 
@@ -25,6 +26,14 @@ extension CashlyIntelligence {
         case .budgetValue: "dollarsign.bank.building.fill"
         case .categoryName: "swatchpalette.fill"
         case .tagValue: "tag.fill"
+        }
+    }
+
+    public var color: Color {
+        switch self {
+        case .budgetValue: .blue
+        case .categoryName: .green
+        case .tagValue: .orange
         }
     }
 }

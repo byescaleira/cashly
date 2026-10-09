@@ -1,7 +1,7 @@
-import CashlyUI
 import FeatureCategories
 import FeatureCore
 import FeatureDashboard
+import FeatureIntelligence
 import FeatureTransactions
 import SwiftUI
 
