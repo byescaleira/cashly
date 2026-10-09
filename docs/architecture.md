@@ -49,7 +49,7 @@ Regras de dependência:
 | `FeatureTags` | Editor de tag |
 | `FeatureUsers` | Editor de usuário |
 | `FeatureIntelligence` | Treino e estado dos modelos locais |
-| `FeatureSettings` | Aparência, moeda, notificações, iCloud, dados (exportar, importar, apagar tudo), ajuda e sobre |
+| `FeatureSettings` | Aparência, moeda, notificações, iCloud, dados (backup, planilha CSV, backup automático, importar, apagar tudo), ajuda e sobre |
 
 ## Estado e fluxo de dados
 

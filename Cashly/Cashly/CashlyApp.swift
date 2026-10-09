@@ -53,7 +53,9 @@ private final class CashlyBootstrap {
         do {
             let database = try await task.value
             self.database = database
-            settings.data = DataModel(backup: database.backup, intelligence: intelligence)
+            let data = DataModel(backup: database.backup, intelligence: intelligence)
+            settings.data = data
+            Task { await data.runAutoBackupIfNeeded() }
         } catch {
             self.error = error.localizedDescription
         }

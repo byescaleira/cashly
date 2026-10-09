@@ -29,7 +29,6 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 
 - **Fase 7: Ajustes (`FeatureSettings`).** Feito: tema, sincronização com iCloud (vale na próxima abertura) e estado da conta, dados (backup em JSON, importar e apagar tudo), ajuda e sobre. Falta:
   - preencher as chaves de links no `Info.plist` (App Store, e-mail de suporte, central de ajuda, privacidade, termos) e o `NSUbiquitousContainerName`, que ainda tem o texto de exemplo;
-  - exportar transações em CSV para planilhas e backup automático periódico;
   - iCloud: última sincronização (eventos do CloudKit) e backup;
   - novidades da versão;
   - integrações futuras: Calendário, servidor MCP para Claude Code, Atalhos, importador, App Intents/Siri, Foundation Models.

@@ -25,6 +25,9 @@
     "Avaliar o Cashly" : {
 
     },
+    "Backup automático" : {
+
+    },
     "Central de ajuda" : {
 
     },
@@ -41,6 +44,9 @@
 
     },
     "Exportar backup" : {
+
+    },
+    "Exportar planilha (CSV)" : {
 
     },
     "Fale conosco" : {
@@ -67,7 +73,7 @@
     "O Cashly não tem servidores próprios. Seus dados ficam neste aparelho e, com a sincronização ligada, na sua conta do iCloud. As sugestões são calculadas no próprio aparelho." : {
 
     },
-    "O backup é um arquivo com usuários, categorias, tags, orçamentos e transações. Importar adiciona os registros do arquivo aos que já estão no aparelho." : {
+    "O backup é um arquivo com usuários, categorias, tags, orçamentos e transações. Importar adiciona os registros do arquivo aos que já estão no aparelho. A planilha traz só as transações." : {
 
     },
     "Os valores não são convertidos: trocar a moeda muda o símbolo exibido e a moeda dos novos registros." : {
