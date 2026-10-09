@@ -11,18 +11,20 @@ struct VarianceSection: View {
         if !finance.categories.isEmpty, !finance.budgets.isEmpty {
             let comparison = reports.comparison
             Section {
-                HStack(spacing: 4) {
+                AdaptiveStack(alignment: .top, spacing: 8) {
                     VStack(alignment: .leading, spacing: 4) {
                         Text(comparison.planned.formatted(.appCurrency))
                             .font(.title3.weight(.bold))
+                            .amountLine()
                             .contentTransition(.numericText())
                             .animation(.bouncy, value: comparison.planned)
                         Text("Orçamento").font(.callout.weight(.semibold)).foregroundStyle(.info)
                     }
-                    Spacer()
-                    VStack(alignment: .trailing, spacing: 4) {
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    VStack(alignment: .leading, spacing: 4) {
                         Text(comparison.spent.formatted(.appCurrency))
                             .font(.title3.weight(.bold))
+                            .amountLine()
                             .contentTransition(.numericText())
                             .animation(.bouncy, value: comparison.spent)
                         HStack(spacing: 8) {

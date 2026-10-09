@@ -4,6 +4,7 @@ import SwiftUI
 struct ComparisonChart: View {
     let data: [ComparisonPoint]
     var visibleCount: Double = 4.5
+    @ScaledMetric(relativeTo: .caption) private var height = 120.0
 
     var body: some View {
         Chart(data) { point in
@@ -25,7 +26,7 @@ struct ComparisonChart: View {
         .chartLegend(.hidden)
         .chartScrolling(visible: visibleCount, count: data.count)
         .chartForegroundStyleScale(["budget": Color.blue, "transaction": Color.accentColor])
-        .frame(height: 120)
+        .frame(height: height)
         .padding(.bottom, 16)
     }
 

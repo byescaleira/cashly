@@ -4,6 +4,7 @@ import SwiftUI
 struct ExpenseChart: View {
     let data: [ChartPoint]
     var visibleCount: Double = 4.5
+    @ScaledMetric(relativeTo: .caption) private var height = 120.0
 
     var body: some View {
         Chart(data) { point in
@@ -25,7 +26,7 @@ struct ExpenseChart: View {
         .chartYScale(domain: 0...((data.map(\.amount).max() ?? 0) + 10))
         .chartLegend(.hidden)
         .chartScrolling(visible: visibleCount, count: data.count)
-        .frame(height: 120)
+        .frame(height: height)
         .padding(.bottom, 16)
     }
 }

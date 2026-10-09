@@ -16,6 +16,7 @@ struct TransactionResultsSection: View {
                     } label: {
                         LabeledContent {
                             Text(transaction.money.formatted)
+                                .amountLine()
                                 .foregroundStyle(
                                     transaction.kind == .income ? Color.green : Color.primary)
                         } label: {

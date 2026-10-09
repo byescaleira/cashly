@@ -20,7 +20,7 @@ struct TransactionCategorySection: View {
         } header: {
             HStack {
                 Text("Categoria").sectionTitle()
-                Spacer()
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 if let category = model.draft.category {
                     CategoryVariation(
                         category: category, amount: model.budgetImpact(in: session.filter.month))

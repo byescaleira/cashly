@@ -18,17 +18,20 @@ struct TagsSection: View {
                         open(.addTag(id: tag.id), in: section)
                     } label: {
                         HStack {
-                            Text(tag.name.uppercased())
-                                .font(.caption2.weight(.bold))
-                                .foregroundStyle(color)
-                                .padding(.vertical, 8)
-                                .padding(.horizontal, 12)
-                                .background(color.opacity(0.2), in: .capsule)
-                            Spacer()
-                            Text(reports.selectedTagAmount.formatted(.appCurrency))
-                                .font(.title3.weight(.bold))
-                                .foregroundStyle(Color.primary)
-                                .contentTransition(.numericText())
+                            AdaptiveStack(spacing: 8) {
+                                Text(tag.name.uppercased())
+                                    .font(.caption2.weight(.bold))
+                                    .foregroundStyle(color)
+                                    .padding(.vertical, 8)
+                                    .padding(.horizontal, 12)
+                                    .background(color.opacity(0.2), in: .capsule)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                Text(reports.selectedTagAmount.formatted(.appCurrency))
+                                    .font(.title3.weight(.bold))
+                                    .foregroundStyle(Color.primary)
+                                    .contentTransition(.numericText())
+                                    .amountLine()
+                            }
                             Image(systemName: "chevron.forward").foregroundStyle(.disabled)
                         }
                         .animation(.bouncy, value: reports.selectedTagAmount)

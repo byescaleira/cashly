@@ -4,40 +4,60 @@ import FeatureCore
 import SwiftUI
 
 struct TransactionRow: View {
-    @Environment(TransactionListModel.self) private var list
     let transaction: CashlyDomain.Transaction
 
     var body: some View {
         HStack(spacing: 16) {
-            TransactionIcon(transaction: transaction)
-            VStack(alignment: .leading, spacing: 4) {
-                Text(transaction.summary)
-                HStack {
-                    Text(transaction.date.formatted(.dateTime.hour().minute()))
-                    ParticipantDots(participants: transaction.participants)
-                }
-                .foregroundStyle(Color.secondary)
+            AdaptiveRow {
+                TransactionIcon(transaction: transaction)
+                TransactionSummary(transaction: transaction)
+                TransactionAmounts(transaction: transaction)
             }
-            .font(.callout)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            VStack(alignment: .trailing, spacing: 4) {
-                if !transaction.participants.isEmpty {
-                    Text(list.billing(of: transaction).formatted)
-                } else if let plan = transaction.paymentsPlan {
-                    HStack(spacing: 4) {
-                        Text("\(plan)x").foregroundStyle(Color.secondary)
-                        Text(list.billing(of: transaction).formatted)
-                    }
-                }
-                Text(transaction.money.formatted)
-                    .foregroundStyle(
-                        transaction.isSplitOrInstallment ? Color.secondary : Color.primary)
-            }
-            .font(.callout.weight(.semibold))
-            .fixedSize()
             Image(systemName: "chevron.forward").foregroundStyle(.disabled)
         }
-        .lineLimit(2)
+    }
+}
+
+private struct TransactionSummary: View {
+    let transaction: CashlyDomain.Transaction
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(transaction.summary)
+            HStack {
+                Text(transaction.date.formatted(.dateTime.hour().minute()))
+                ParticipantDots(participants: transaction.participants)
+            }
+            .foregroundStyle(Color.secondary)
+        }
+        .font(.callout)
+        .lineLimit(3)
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+private struct TransactionAmounts: View {
+    @Environment(TransactionListModel.self) private var list
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    let transaction: CashlyDomain.Transaction
+
+    var body: some View {
+        VStack(alignment: dynamicTypeSize.isAccessibilitySize ? .leading : .trailing, spacing: 4) {
+            if !transaction.participants.isEmpty {
+                Text(list.billing(of: transaction).formatted)
+            } else if let plan = transaction.paymentsPlan {
+                HStack(spacing: 4) {
+                    Text("\(plan)x").foregroundStyle(Color.secondary)
+                    Text(list.billing(of: transaction).formatted)
+                }
+            }
+            Text(transaction.money.formatted)
+                .foregroundStyle(
+                    transaction.isSplitOrInstallment ? Color.secondary : Color.primary)
+        }
+        .font(.callout.weight(.semibold))
+        .amountLine()
+        .fixedSize(horizontal: !dynamicTypeSize.isAccessibilitySize, vertical: false)
     }
 }
 

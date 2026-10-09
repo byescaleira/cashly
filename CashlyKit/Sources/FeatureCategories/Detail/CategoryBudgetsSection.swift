@@ -34,20 +34,22 @@ private struct BudgetRow: View {
 
     var body: some View {
         HStack(spacing: 16) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(budget.month.startDate.formatted(.dateTime.month(.wide).year()))
-                    .font(.callout.weight(.semibold))
-                Text(
-                    finance.usage(of: budget).ratio.formatted(
-                        .percent.precision(.fractionLength(0))))
+            AdaptiveStack(spacing: 8) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(budget.month.startDate.formatted(.dateTime.month(.wide).year()))
+                        .font(.callout.weight(.semibold))
+                    Text(
+                        finance.usage(of: budget).ratio.formatted(
+                            .percent.precision(.fractionLength(0))))
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(budget.money.doubleValue.formatted(.appCurrency)).font(
+                        .callout.weight(.semibold))
+                    Text(finance.expensesAmount(for: budget).formatted(.appCurrency))
+                }
+                .amountLine()
             }
-            Spacer()
-            VStack(alignment: .trailing, spacing: 4) {
-                Text(budget.money.doubleValue.formatted(.appCurrency)).font(
-                    .callout.weight(.semibold))
-                Text(finance.expensesAmount(for: budget).formatted(.appCurrency))
-            }
-            .fixedSize()
             Image(systemName: "chevron.forward").foregroundStyle(.disabled)
         }
         .font(.callout)

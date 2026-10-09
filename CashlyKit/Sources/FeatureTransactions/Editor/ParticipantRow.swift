@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import CashlyDomain
 import CashlyResource
 import FeatureCore
@@ -8,7 +9,7 @@ struct ParticipantRow: View {
     let amount: Double
 
     var body: some View {
-        HStack(spacing: 16) {
+        AdaptiveRow {
             CashlyResourceImage.avatar(id: participant.user.photo)
                 .resizable()
                 .scaledToFit()
@@ -20,9 +21,8 @@ struct ParticipantRow: View {
                     .foregroundStyle(Color.primary)
                 Text(participant.status.summary).foregroundStyle(Color.secondary)
             }
-            .lineLimit(1)
+            .lineLimit(2)
             .frame(maxWidth: .infinity, alignment: .leading)
-            Spacer()
             ShareValue(participant: $participant, amount: amount)
                 .contentTransition(.numericText())
         }
@@ -102,6 +102,8 @@ private struct ShareValue: View {
         Text(
             participant.allocatedMoney?.formatted
                 ?? participant.splitMode.value(splitValue: participant.splitValue, amount: amount)?
-                .formatted(.appCurrency) ?? "")
+                .formatted(.appCurrency) ?? ""
+        )
+        .amountLine()
     }
 }

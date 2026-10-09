@@ -17,6 +17,7 @@ struct ForecastSection: View {
                     Text(reports.forecast.formatted(.appCurrency))
                         .font(.largeTitle.weight(.black))
                         .foregroundStyle(Color.primary)
+                        .amountLine()
                 }
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity)

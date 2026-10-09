@@ -13,32 +13,20 @@ struct AvailableSection: View {
             Section {
                 if let category = dashboard.availableCategory {
                     let availability = dashboard.availability(of: category)
-                    Menu {
-                        Picker(selection: $dashboard.availableCategory) {
-                            ForEach(finance.categories) { Text($0.name).tag(Optional($0)) }
-                        } label: {
-                            EmptyView()
-                        }
-                    } label: {
-                        HStack(spacing: 16) {
-                            Text("Categoria").font(.body).foregroundStyle(Color.primary)
-                            Spacer()
-                            HStack {
-                                Text(category.name.capitalized).font(.body.weight(.semibold))
-                                Image(systemName: "chevron.up.chevron.down")
-                                    .font(.footnote.weight(.semibold))
-                            }
-                            .foregroundStyle(Color.accentColor)
-                        }
+                    Picker("Categoria", selection: $dashboard.availableCategory) {
+                        ForEach(finance.categories) { Text($0.name.capitalized).tag(Optional($0)) }
                     }
-                    HStack(spacing: 8) {
-                        Text(availability.available.formatted(.appCurrency)).font(
-                            .title3.weight(.bold))
-                        Text("/  \(availability.budgeted.formatted(.appCurrency))")
-                            .font(.footnote)
-                            .foregroundStyle(Color.secondary)
-                            .padding(.bottom, -4)
-                        Spacer()
+                    AdaptiveStack(spacing: 8) {
+                        AdaptiveStack(alignment: .firstTextBaseline, spacing: 4) {
+                            Text(availability.available.formatted(.appCurrency))
+                                .font(.title3.weight(.bold))
+                                .amountLine()
+                            Text("de \(availability.budgeted.formatted(.appCurrency))")
+                                .font(.footnote)
+                                .foregroundStyle(Color.secondary)
+                                .amountLine()
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         Text(
                             availability.remainingRatio.formatted(
                                 .percent.precision(.fractionLength(0)))
@@ -58,9 +46,11 @@ struct AvailableSection: View {
                         Text(dashboard.totalAvailable.formatted(.appCurrency))
                             .font(.largeTitle.weight(.black))
                             .foregroundStyle(Color.primary)
+                            .amountLine()
                         Text(finance.budgetsAmount.formatted(.appCurrency))
                             .font(.title3.weight(.semibold))
                             .foregroundStyle(Color.secondary)
+                            .amountLine()
                     }
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity)

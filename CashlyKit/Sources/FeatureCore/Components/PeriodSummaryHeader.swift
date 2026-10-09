@@ -42,6 +42,7 @@ public struct PeriodSummaryHeader: View {
                     .font(.largeTitle.weight(.black))
                     .foregroundStyle(Color.primary)
                     .contentTransition(.numericText(value: amount))
+                    .amountLine()
                 RankedSymbols(items: items)
             }
             .multilineTextAlignment(.center)
@@ -72,6 +73,7 @@ private struct RankedSymbols: View {
                             .padding(8)
                             .background(Color(white: 0.95), in: .circle)
                             .padding(-8)
+                            .dynamicTypeSize(...DynamicTypeSize.large)
                     }
                     .background(color.opacity(0.2), in: .circle)
                     .offset(y: isFloating == isEven ? -3 : 3)

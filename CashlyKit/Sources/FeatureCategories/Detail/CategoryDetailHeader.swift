@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import CashlyDomain
 import FeatureCore
 import SwiftUI
@@ -18,9 +19,11 @@ struct CategoryDetailHeader: View {
                     Text(finance.budgetsAmount(for: category).formatted(.appCurrency))
                         .font(.largeTitle.weight(.black))
                         .foregroundStyle(Color.primary)
+                        .amountLine()
                     Text(finance.expensesAmount(for: category).formatted(.appCurrency))
                         .font(.title2.weight(.bold))
                         .foregroundStyle(Color.secondary)
+                        .amountLine()
                 }
                 CategoryVariation(category: category).scaleEffect(1.2)
             }

@@ -22,7 +22,7 @@ flowchart TD
 | --- | --- | --- |
 | `CashlyDomain` | Entidades (`Transaction`, `Budget`, `Category`…), valores (`Money` em centavos, `YearMonth`), regras puras (`BudgetUsage`, `BudgetHealth`, `TransactionAllocation`…), formato de backup (`CashlyBackup`), protocolos de repositório | nada |
 | `CashlyData` | `CashlyDatabase`, `CashlyStore` (`@ModelActor`), schemas V1/V2 congelados e V3 atual, repositórios por agregado, backup (`CashlyDatabase.backup`), `CashlyChangeHub`, `LocalIntelligenceService` | Domain |
-| `CashlyDesignSystem` | `Styles/` (extensions de `ShapeStyle`, `Color(hex:)`), `Modifiers/` (extensions de `View`), `Layout/` (`AdaptiveList`, `SurfaceContainer`) | nada |
+| `CashlyDesignSystem` | `Styles/` (extensions de `ShapeStyle`, `Color(hex:)`), `Modifiers/` (extensions de `View`, como `.amountLine()`), `Layout/` (`AdaptiveList`, `AdaptiveStack`, `AdaptiveRow`, `SurfaceContainer`) | nada |
 | `CashlyResource` | Avatares e ilustrações | nada |
 | `FeatureCore` | Estado compartilhado (`SessionModel`, `FinanceModel`, `IntelligenceModel`, `EditorStatus`, `TransactionFilter`), navegação (`Route`, `AppSection`, `CashlyNavigation`, `\.open`, `\.close`), componentes usados por mais de uma feature, textos de exibição | Domain, DesignSystem, Resource |
 | `Feature*` | Uma área do app: model, telas e seções | Domain, DesignSystem, FeatureCore |
@@ -77,6 +77,11 @@ Regras de dependência:
 - Dados, contas e ações ficam no model. A view só lê estado e chama métodos.
 - A tela só monta seções; cada seção é uma `struct` própria no mesmo target.
 - Visual nativo: `List`/`Form` do sistema, Liquid Glass só em controles, `Color.primary`/`Color.secondary` para texto (em cabeçalho de lista, `.primary` hierárquico fica cinza).
+- **Texto grande.** Toda tela precisa funcionar do tamanho padrão aos tamanhos de acessibilidade:
+  - pares curtos lado a lado (valor e porcentagem, título e seletor) usam `AdaptiveStack`, um `ViewThatFits` que empilha quando a linha não cabe;
+  - linhas de lista com texto livre (transação, categoria, participante) usam `AdaptiveRow`, que empilha nos tamanhos de acessibilidade;
+  - valores monetários usam `.amountLine()`: uma linha, reduzindo a fonte em vez de quebrar o número;
+  - seletores usam `Picker` nativo, que já se ajusta; gráficos têm altura em `@ScaledMetric`.
 - Telas de painel usam `AdaptiveList`: com largura para uma coluna é a `List` nativa; com mais, as mesmas `Section` se distribuem em colunas de no mínimo 320 pt.
 - Textos em pt-BR, com String Catalog por target (`scripts/strings.sh` sincroniza após o build).
 

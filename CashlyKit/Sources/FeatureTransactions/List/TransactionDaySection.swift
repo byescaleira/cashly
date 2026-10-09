@@ -21,9 +21,9 @@ struct TransactionDaySection: View {
                 .deleteAction { Task { await list.delete(transaction) } }
             }
         } header: {
-            HStack {
+            AdaptiveStack(spacing: 4) {
                 Text(day.date.formatted(.dateTime.day().month(.wide).year()))
-                Spacer()
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 Text(day.date.formatted(.dateTime.weekday(.wide)))
             }
             .textCase(.uppercase)

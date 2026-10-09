@@ -10,9 +10,8 @@ struct ParticipantsSection: View {
         @Bindable var model = model
         if !model.draft.participants.isEmpty {
             Section {
-                HStack {
-                    Text("Modo de divisão")
-                    Spacer()
+                AdaptiveStack(spacing: 8) {
+                    Text("Modo de divisão").frame(maxWidth: .infinity, alignment: .leading)
                     Menu {
                         Picker(selection: $model.draft.splitMode) {
                             ForEach(TransactionSplitMode.allCases) {

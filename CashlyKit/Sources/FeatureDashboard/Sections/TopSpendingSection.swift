@@ -25,6 +25,7 @@ struct TopSpendingSection: View {
                             Text(dashboard.billing(of: transaction).formatted)
                                 .font(.title.weight(.bold))
                                 .foregroundStyle(Color.primary)
+                                .amountLine()
                             Text(transaction.summary).foregroundStyle(Color.secondary)
                             Spacer()
                         }
@@ -33,7 +34,7 @@ struct TopSpendingSection: View {
                         .tag(index)
                     }
                 }
-                .frame(height: 170)
+                .frame(minHeight: 170)
                 .padding(.horizontal, -20)
                 .animation(.bouncy, value: dashboard.highlightedTransaction)
                 #if os(iOS)

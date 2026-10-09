@@ -13,13 +13,15 @@ struct ScoreSection: View {
             let level = health.level
             Section {
                 VStack(alignment: .leading, spacing: 16) {
-                    HStack(spacing: 8) {
-                        Text(String(health.score)).font(.title.weight(.bold))
-                        Text("/  \(BudgetHealth.maximumScore)")
-                            .font(.footnote)
-                            .foregroundStyle(Color.secondary)
-                            .padding(.bottom, -8)
-                        Spacer()
+                    AdaptiveStack(spacing: 8) {
+                        HStack(alignment: .firstTextBaseline, spacing: 4) {
+                            Text(health.score.formatted()).font(.title.weight(.bold))
+                            Text("de \(BudgetHealth.maximumScore)")
+                                .font(.footnote)
+                                .foregroundStyle(Color.secondary)
+                        }
+                        .amountLine()
+                        .frame(maxWidth: .infinity, alignment: .leading)
                         Text(level.title.uppercased())
                             .font(.caption2.weight(.bold))
                             .foregroundStyle(level.color)
