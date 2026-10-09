@@ -23,7 +23,7 @@ struct CashlyApp: App {
     var body: some Scene {
         WindowGroup { CashlyRootView().environment(bootstrap).cashlySettings(settings) }
         #if os(macOS)
-            Settings { SettingsScreen().cashlySettings(settings) }
+            Settings { NavigationStack { SettingsScreen() }.cashlySettings(settings) }
         #endif
     }
 }
@@ -44,6 +44,12 @@ private final class CashlyBootstrap {
         guard database == nil else { return }
         error = nil
         let cloudSync = settings.syncsAtLaunch
+        if cloudSync && preparation == nil {
+            let events = CashlyDatabase.syncEvents()
+            Task { [settings] in
+                for await date in events { settings.recordSync(date) }
+            }
+        }
         let task =
             preparation
             ?? Task.detached(priority: .userInitiated) {

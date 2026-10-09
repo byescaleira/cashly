@@ -27,11 +27,9 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 
 ## Produto
 
-- **Fase 7: Ajustes (`FeatureSettings`).** Feito: tema, sincronização com iCloud (vale na próxima abertura) e estado da conta, dados (backup em JSON, importar e apagar tudo), ajuda e sobre. Falta:
-  - preencher as chaves de links no `Info.plist` (App Store, e-mail de suporte, central de ajuda, privacidade, termos) e o `NSUbiquitousContainerName`, que ainda tem o texto de exemplo;
-  - iCloud: última sincronização (eventos do CloudKit) e backup;
-  - novidades da versão;
-  - integrações futuras: Calendário, servidor MCP para Claude Code, Atalhos, importador, App Intents/Siri, Foundation Models.
+- **Configuração da distribuição.** Preencher no `Info.plist` as chaves de links (`CashlyAppStoreID`, `CashlySupportEmail`, `CashlyHelpURL`, `CashlyPrivacyURL`, `CashlyTermsURL`) e o `NSUbiquitousContainerName`, que ainda tem o texto de exemplo. Atualizar `ReleaseNote.current` a cada versão.
+- **Integrações (futuro).** Atalhos e Siri (App Intents), Calendário, importação de extratos (CSV/OFX), Foundation Models para descrever gastos em texto livre e servidor MCP para o Claude Code. Antes de App Intents, resolver "Serviços fora da janela" acima.
+- **Backup no iCloud Drive.** O backup automático é local; para guardar no iCloud Drive, configurar o container de documentos no `Info.plist`.
 - **[P3] Acessibilidade e restauração.** Exercitar VoiceOver e Dynamic Type, principalmente gráficos e seletores de ícones; rotas pequenas permitem deep links e restauração.
 - **Ações de retry** nos editores quando a carga inicial falha (hoje é preciso fechar e abrir).
 - **Estado vazio na abertura.** Antes de carregar os usuários, o Início mostra "Nenhum usuário ainda" por um instante; mostrar carregamento até a primeira leitura.

@@ -6,6 +6,11 @@ struct AboutSection: View {
     var body: some View {
         Section {
             LabeledContent("Versão", value: settings.info.version)
+            NavigationLink {
+                WhatsNewScreen()
+            } label: {
+                Label("Novidades", systemImage: "sparkles")
+            }
             if let url = settings.info.privacyURL {
                 Link(destination: url) {
                     Label("Política de privacidade", systemImage: "hand.raised")

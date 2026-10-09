@@ -80,3 +80,9 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 
 - **Planilha em CSV com ponto e vírgula**, valores com vírgula decimal e datas no fuso do aparelho: abre direto no Numbers e no Excel em português. Uma linha por transação, com usuário, categoria, tipo, situação, valor, moeda, parcelas e tags.
 - **Backup automático semanal e local**, ao abrir o app, em `Documents/Backups`, que aparece no app Arquivos (`UIFileSharingEnabled`). Ficam as 5 cópias mais recentes. Não depende do iCloud Drive, porque o container de documentos ainda não está configurado no `Info.plist`.
+
+## 09/10/2026: fim da fase 7
+
+- **Última sincronização** vem dos eventos do `NSPersistentCloudKitContainer` (importação e exportação concluídas), que o SwiftData publica. `CashlyDatabase.syncEvents()` assina antes de abrir o banco, e o app grava a data mais recente nos Ajustes.
+- **Novidades por versão** numa lista fixa (`ReleaseNote.current`), aberta em Sobre. Não aparece sozinha ao abrir o app, para não interromper.
+- **Integrações ficam para depois**, por decisão de produto; estão no backlog.

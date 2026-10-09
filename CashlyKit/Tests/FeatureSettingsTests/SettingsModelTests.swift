@@ -67,3 +67,17 @@ struct SettingsModelTests {
         #expect(settings.cloudAccount == .unavailable)
     }
 }
+
+@MainActor
+struct LastSyncTests {
+    @Test func keepsTheNewestSyncDate() {
+        let defaults = UserDefaults(suiteName: UUID().uuidString) ?? .standard
+        let settings = SettingsModel(defaults: defaults, cloudContainer: "iCloud.test")
+        #expect(settings.lastSyncText == "Ainda não")
+        let date = Date(timeIntervalSince1970: 1_800_000_000)
+        settings.recordSync(date)
+        settings.recordSync(date.addingTimeInterval(-60))
+        #expect(settings.lastSync == date)
+        #expect(SettingsModel(defaults: defaults, cloudContainer: "iCloud.test").lastSync == date)
+    }
+}

@@ -4,6 +4,7 @@ public struct AppInfo: Sendable {
     public static let main = AppInfo(info: Bundle.main.infoDictionary ?? [:])
 
     let version: String
+    let number: String
     let appStoreURL: URL?
     let reviewURL: URL?
     let supportURL: URL?
@@ -16,6 +17,7 @@ public struct AppInfo: Sendable {
             (info[key] as? String).flatMap { $0.isEmpty ? nil : $0 }
         }
         let number = value("CFBundleShortVersionString") ?? "—"
+        self.number = number
         version = value("CFBundleVersion").map { "\(number) (\($0))" } ?? number
         let store = value("CashlyAppStoreID").map { "https://apps.apple.com/app/id\($0)" }
         appStoreURL = store.flatMap(URL.init(string:))

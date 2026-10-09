@@ -10,6 +10,9 @@ struct CloudSection: View {
                 .disabled(!settings.isCloudAvailable)
             if settings.isCloudAvailable {
                 LabeledContent("Conta", value: settings.cloudAccount.title)
+                if settings.syncsAtLaunch {
+                    LabeledContent("Última sincronização", value: settings.lastSyncText)
+                }
             }
         } header: {
             Text("iCloud")

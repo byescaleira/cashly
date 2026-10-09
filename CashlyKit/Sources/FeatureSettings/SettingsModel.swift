@@ -19,6 +19,7 @@ public final class SettingsModel {
         didSet { defaults.set(syncsWithICloud, forKey: Key.cloudSync) }
     }
     public private(set) var cloudAccount: CloudAccount
+    public private(set) var lastSync: Date?
     public private(set) var appIcon: AppIcon
     public var iconError: String?
     public var data: DataModel?
@@ -37,6 +38,7 @@ public final class SettingsModel {
         iconSwitcher: any AppIconSwitching = SystemAppIcon()
     ) {
         self.iconSwitcher = iconSwitcher
+        lastSync = defaults.object(forKey: Key.lastSync) as? Date
         appIcon = AppIcon(assetName: iconSwitcher.current)
         self.notifications = notifications
         self.defaults = defaults
@@ -73,6 +75,16 @@ public final class SettingsModel {
             return "Seus dados ficam na sua conta do iCloud e aparecem nos seus outros aparelhos."
         }
         return "Seus dados ficam só neste aparelho."
+    }
+
+    public func recordSync(_ date: Date) {
+        guard date > lastSync ?? .distantPast else { return }
+        lastSync = date
+        defaults.set(date, forKey: Key.lastSync)
+    }
+
+    var lastSyncText: String {
+        lastSync?.formatted(date: .abbreviated, time: .shortened) ?? "Ainda não"
     }
 
     var supportsAppIcons: Bool { iconSwitcher.supportsAlternateIcons }
@@ -117,5 +129,6 @@ public final class SettingsModel {
         static let appearance = "cashly.settings.appearance"
         static let cloudSync = "cashly.settings.cloudSync"
         static let currency = "cashly.settings.currency"
+        static let lastSync = "cashly.settings.lastSync"
     }
 }
