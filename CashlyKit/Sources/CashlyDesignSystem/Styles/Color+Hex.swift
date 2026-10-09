@@ -1,11 +1,5 @@
 import SwiftUI
 
-#if canImport(UIKit)
-    import UIKit
-#elseif canImport(AppKit)
-    import AppKit
-#endif
-
 extension Color {
     public init(hex: String?) {
         let text = (hex ?? "").trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
@@ -19,30 +13,10 @@ extension Color {
             green: Double((rgba >> 16) & 255) / 255,
             blue: Double((rgba >> 8) & 255) / 255, opacity: Double(rgba & 255) / 255)
     }
-    @MainActor public var hex: String {
-        #if canImport(UIKit)
-            let color = UIColor(self)
-            var red: CGFloat = 0
-            var green: CGFloat = 0
-            var blue: CGFloat = 0
-            var alpha: CGFloat = 0
-            guard color.getRed(&red, green: &green, blue: &blue, alpha: &alpha) else {
-                return "808080"
-            }
-        #elseif canImport(AppKit)
-            guard let color = NSColor(self).usingColorSpace(.sRGB) else { return "808080" }
-            let red = color.redComponent
-            let green = color.greenComponent
-            let blue = color.blueComponent
-            let alpha = color.alphaComponent
-        #else
-            let red = 0.5
-            let green = 0.5
-            let blue = 0.5
-            let alpha = 1.0
-        #endif
-        return String(
-            format: "%02X%02X%02X%02X", Int(red * 255), Int(green * 255), Int(blue * 255),
-            Int(alpha * 255))
+    public var hex: String {
+        let color = resolve(in: EnvironmentValues())
+        return [color.red, color.green, color.blue, color.opacity]
+            .map { String(format: "%02X", Int((min(max($0, 0), 1) * 255).rounded())) }
+            .joined()
     }
 }

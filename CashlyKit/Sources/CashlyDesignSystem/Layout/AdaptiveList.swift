@@ -32,12 +32,8 @@ public struct AdaptiveList<Content: View>: View {
                 List { content }
             }
         }
-        .onGeometryChange(for: Int.self) { proxy in
-            let width = proxy.size.width - GroupedMetrics.margin * 2
-            let fit =
-                (width + GroupedMetrics.columnSpacing)
-                / (columnWidth + GroupedMetrics.columnSpacing)
-            return max(1, Int(fit))
+        .onGeometryChange(for: Int.self) { [columnWidth] proxy in
+            GroupedMetrics.columns(in: proxy.size.width, columnWidth: columnWidth)
         } action: {
             columns = $0
         }
@@ -47,5 +43,13 @@ public struct AdaptiveList<Content: View>: View {
 extension SectionCollection {
     fileprivate func column(_ column: Int, of count: Int) -> [SectionConfiguration] {
         enumerated().filter { $0.offset % count == column }.map(\.element)
+    }
+}
+
+extension GroupedMetrics {
+    fileprivate static func columns(in width: CGFloat, columnWidth: CGFloat) -> Int {
+        let available = width - margin * 2
+        let fit = (available + columnSpacing) / (columnWidth + columnSpacing)
+        return max(1, Int(fit))
     }
 }

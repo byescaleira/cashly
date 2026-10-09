@@ -58,7 +58,8 @@ struct ReportsModelTests {
 
     @Test func comparisonUsesThePeriod() async throws {
         let (reports, finance) = try await reports()
-        reports.comparedCategory = try #require(finance.categories.first { $0.id == "market" })
+        let market = try #require(finance.categories.first { $0.id == "market" })
+        reports.comparedCategory = market
         let comparison = reports.comparison
         #expect([comparison.planned, comparison.spent, comparison.ratio] == [1000, 250, 0.25])
     }

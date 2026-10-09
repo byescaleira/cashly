@@ -3,10 +3,12 @@ import Darwin
 
 @main
 struct CashlyAudit {
-    static let commands: [any AuditCommand.Type] = [
-        CheckCommand.self, CreateLegacyCommand.self, MigrationAuditCommand.self,
-        PreviewCommand.self, BenchmarkCommand.self, ProfileCommand.self,
-    ]
+    static var commands: [any AuditCommand.Type] {
+        [
+            CheckCommand.self, CreateLegacyCommand.self, MigrationAuditCommand.self,
+            PreviewCommand.self, BenchmarkCommand.self, ProfileCommand.self,
+        ]
+    }
 
     @MainActor static func main() async {
         let arguments = Array(CommandLine.arguments.dropFirst())
