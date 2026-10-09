@@ -28,7 +28,7 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 ## Produto
 
 - **Configuração da distribuição.** Preencher no `Info.plist` as chaves de links (`CashlyAppStoreID`, `CashlySupportEmail`, `CashlyHelpURL`, `CashlyPrivacyURL`, `CashlyTermsURL`) e o `NSUbiquitousContainerName`, que ainda tem o texto de exemplo. Atualizar `ReleaseNote.current` a cada versão.
-- **Integrações (futuro).** Atalhos e Siri (App Intents), Calendário, importação de extratos (CSV/OFX), Foundation Models para descrever gastos em texto livre e servidor MCP para o Claude Code. Antes de App Intents, resolver "Serviços fora da janela" acima.
+- **Integrações, assinatura e novas features.** Planejadas por fase em [roadmap.md](roadmap.md). Antes de App Intents e widgets, resolver "Serviços fora da janela" acima. Servidor MCP para o Claude Code continua como ideia futura.
 - **Backup no iCloud Drive.** O backup automático é local; para guardar no iCloud Drive, configurar o container de documentos no `Info.plist`.
 - **[P3] Acessibilidade e restauração.** Dynamic Type conferido no iPhone até o tamanho de acessibilidade AX3; falta VoiceOver, principalmente gráficos e seletores de ícones. Rotas pequenas permitem deep links e restauração.
 - **Datas seguem o idioma do aparelho.** Com o aparelho em inglês, meses e dias da semana aparecem em inglês, enquanto o resto da interface está em português.
