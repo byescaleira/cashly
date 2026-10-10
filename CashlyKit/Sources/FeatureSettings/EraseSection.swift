@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import SwiftUI
 
 struct EraseSection: View {
@@ -9,7 +10,7 @@ struct EraseSection: View {
             Button("Apagar todos os dados", systemImage: "trash", role: .destructive) {
                 data.isConfirmingErase = true
             }
-            .foregroundStyle(Color.red)
+            .foregroundStyle(.negative)
             .confirmationDialog(
                 "Apagar todos os dados?", isPresented: $data.isConfirmingErase,
                 titleVisibility: .visible

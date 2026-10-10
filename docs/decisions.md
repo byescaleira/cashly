@@ -106,3 +106,9 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Mensal e anual**, sem vitalício: R$ 14,90/mês e R$ 99,90/ano. O teste grátis de 7 dias é a oferta introdutória do StoreKit, e a Apple controla a elegibilidade.
 - **Os dados nunca ficam presos.** Sem assinatura, o app abre em modo leitura e a exportação continua liberada.
 - **StoreKit 2 sem servidor**, com a tela de assinatura nativa e métricas do App Store Connect, sem SDK de terceiros.
+
+## 10/10/2026: abas e cores
+
+- **Relatórios voltam para o Início** (planejado × gasto, tags, previsão e treino), dentro do `FeatureDashboard`; o target `FeatureReports` deixou de existir. A aba liberada virou **Ajustes**, que sai do menu do avatar.
+- **Paleta retrô** em `Color+Retro`: mostarda, laranja queimado, ferrugem, oliva, petróleo, jeans, ameixa e marrom, cada uma com variante clara e escura. As cores semânticas (`positive`, `negative`, `warning`, `info`), estados de orçamento, saúde, status de transação, gráficos e interruptores usam a paleta. O `AccentColor` do app é o laranja queimado.
+- **Ilustrações** trocaram o verde da Apple pela mostarda. As cores que a pessoa escolhe para categorias e tags não mudam.

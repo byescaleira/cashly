@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import SwiftUI
 
 public struct DataStatusSection: View {
@@ -14,7 +15,7 @@ public struct DataStatusSection: View {
                     "Há registros incompletos aguardando sincronização. Os totais exibidos consideram apenas os registros disponíveis.",
                     systemImage: "icloud.and.arrow.down"
                 )
-                .foregroundStyle(.orange)
+                .foregroundStyle(.warning)
                 Button("Atualizar dados") { session.reload() }
             }
         }

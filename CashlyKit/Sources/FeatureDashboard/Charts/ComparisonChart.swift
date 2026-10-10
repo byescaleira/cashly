@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import Charts
 import SwiftUI
 
@@ -25,7 +26,7 @@ struct ComparisonChart: View {
         .chartYScale(domain: 0...((data.map { max($0.planned, $0.spent) }.max() ?? 0) + 10))
         .chartLegend(.hidden)
         .chartScrolling(visible: visibleCount, count: data.count)
-        .chartForegroundStyleScale(["budget": Color.blue, "transaction": Color.accentColor])
+        .chartForegroundStyleScale(["budget": Color.retroDenim, "transaction": Color.accentColor])
         .frame(height: height)
         .padding(.bottom, 16)
     }

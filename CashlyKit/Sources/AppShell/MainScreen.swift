@@ -1,7 +1,6 @@
 import CashlyDesignSystem
 import CashlyDomain
 import FeatureCore
-import FeatureSettings
 import SwiftUI
 
 public struct MainScreen: View {
@@ -19,16 +18,13 @@ public struct MainScreen: View {
         @Bindable var session = session
         @Bindable var finance = finance
         TabView(selection: $navigation.selectedSection) {
-            ForEach(AppSection.tabs) { section in
-                Tab(section.title, systemImage: section.systemImage, value: section) {
+            ForEach(AppSection.allCases) { section in
+                Tab(
+                    section.title, systemImage: section.systemImage, value: section,
+                    role: section.role
+                ) {
                     SectionStack(section: section)
                 }
-            }
-            Tab(
-                AppSection.search.title, systemImage: AppSection.search.systemImage,
-                value: AppSection.search, role: .search
-            ) {
-                SectionStack(section: .search)
             }
         }
         .tabViewStyle(.sidebarAdaptable)
@@ -37,12 +33,6 @@ public struct MainScreen: View {
                 InspectorScreen(inspector: inspector)
             }
         }
-        .sheet(isPresented: $navigation.isShowingSettings) {
-            NavigationStack { SettingsScreen() }
-        }
-        #if os(iOS)
-            .tabBarMinimizeBehavior(.onScrollDown)
-        #endif
         .environment(
             \.open,
             CashlyDestination { route, section in
@@ -69,5 +59,4 @@ public struct MainScreen: View {
         .errorAlert($finance.error)
         .errorAlert($session.error)
     }
-
 }

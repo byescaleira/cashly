@@ -1,19 +1,64 @@
 {
   "sourceLanguage" : "pt-BR",
   "strings" : {
+    "Adicionar tag" : {
+
+    },
     "Categoria" : {
 
     },
     "Disponível" : {
 
     },
+    "Estimativa dos gastos do mês, feita no aparelho a partir do seu histórico." : {
+
+    },
+    "Gasto" : {
+
+    },
     "Início" : {
+
+    },
+    "Item" : {
 
     },
     "Maiores gastos" : {
 
     },
+    "Nenhuma tag ainda" : {
+
+    },
+    "Orçamento" : {
+
+    },
+    "Planejado × gasto" : {
+
+    },
     "Pontuação" : {
+
+    },
+    "Posição" : {
+
+    },
+    "Previsão de gastos" : {
+
+    },
+    "Série" : {
+
+    },
+    "Tags" : {
+
+    },
+    "Tags ajudam a classificar e acompanhar os gastos. Crie a primeira para manter tudo organizado." : {
+
+    },
+    "Treinar modelos" : {
+
+    },
+    "Treine os modelos para ver a estimativa de gastos do mês. Tudo é calculado neste aparelho, com o seu histórico." : {
+
+    },
+    "Valor" : {
 
     },
     "de %@" : {

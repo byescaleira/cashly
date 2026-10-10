@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import CashlyDomain
 import SwiftUI
 
@@ -26,10 +27,10 @@ extension BudgetHealth.Level {
 
     public var color: Color {
         switch self {
-        case .critical: .red
-        case .atRisk: .orange
-        case .overBudget: .yellow
-        case .healthy: .green
+        case .critical: .retroRust
+        case .atRisk: .retroOrange
+        case .overBudget: .retroMustard
+        case .healthy: .retroOlive
         }
     }
 }

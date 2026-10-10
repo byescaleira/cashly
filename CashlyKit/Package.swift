@@ -26,10 +26,6 @@ let package = Package(
             dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"],
             resources: [.process("Resources")]),
         .target(
-            name: "FeatureReports",
-            dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"],
-            resources: [.process("Resources")]),
-        .target(
             name: "FeatureSearch",
             dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"],
             resources: [.process("Resources")]),
@@ -50,7 +46,8 @@ let package = Package(
             dependencies: ["CashlyDomain", "CashlyDesignSystem", "CashlyResource", "FeatureCore"],
             resources: [.process("Resources")]),
         .target(
-            name: "FeatureSettings", dependencies: ["CashlyDomain", "FeatureCore"],
+            name: "FeatureSettings",
+            dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"],
             resources: [.process("Resources")]),
         .target(
             name: "FeatureUsers",
@@ -60,7 +57,7 @@ let package = Package(
             name: "AppShell",
             dependencies: [
                 "CashlyDomain", "CashlyDesignSystem", "FeatureCore", "FeatureBudgets",
-                "FeatureCategories", "FeatureDashboard", "FeatureReports", "FeatureSearch",
+                "FeatureCategories", "FeatureDashboard", "FeatureSearch",
                 "FeatureSettings",
                 "FeatureTags", "FeatureTransactions", "FeatureUsers",
             ]),
@@ -70,7 +67,7 @@ let package = Package(
             name: "CashlyPreview",
             dependencies: [
                 "AppShell", "CashlyMock", "FeatureBudgets", "FeatureCategories", "FeatureCore",
-                "FeatureDashboard", "FeatureReports", "FeatureSearch", "FeatureSettings",
+                "FeatureDashboard", "FeatureSearch", "FeatureSettings",
                 "FeatureTags",
                 "FeatureTransactions", "FeatureUsers",
             ]),
@@ -84,9 +81,6 @@ let package = Package(
         .testTarget(
             name: "FeatureDashboardTests",
             dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureDashboard"]),
-        .testTarget(
-            name: "FeatureReportsTests",
-            dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureReports"]),
         .testTarget(
             name: "FeatureSearchTests",
             dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureSearch"]),

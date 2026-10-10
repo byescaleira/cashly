@@ -1,7 +1,7 @@
 import CashlyData
 import CashlyDomain
 import FeatureCore
-import FeatureReports
+import FeatureDashboard
 import Foundation
 import Testing
 

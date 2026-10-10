@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import CashlyDomain
 import SwiftUI
 
@@ -31,9 +32,9 @@ extension CashlyIntelligence {
 
     public var color: Color {
         switch self {
-        case .budgetValue: .blue
-        case .categoryName: .green
-        case .tagValue: .orange
+        case .budgetValue: .retroDenim
+        case .categoryName: .retroOlive
+        case .tagValue: .retroOrange
         }
     }
 }

@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import FeatureCore
 import SwiftUI
 
@@ -7,8 +8,11 @@ struct NotificationSection: View {
     var body: some View {
         @Bindable var notifications = notifications
         Section {
-            Toggle("Contas a pagar e a receber", isOn: $notifications.paymentsToggle)
-            Toggle("Planejamento do mês", isOn: $notifications.planningToggle)
+            Group {
+                Toggle("Contas a pagar e a receber", isOn: $notifications.paymentsToggle)
+                Toggle("Planejamento do mês", isOn: $notifications.planningToggle)
+            }
+            .tint(.positive)
             if notifications.status == .denied, let url = notifications.systemSettingsURL {
                 Link("Abrir ajustes de notificações", destination: url)
             }

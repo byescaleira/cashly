@@ -15,80 +15,80 @@ public enum SampleData {
     public static let categories: [CashlyDomain.Category] = [
         CashlyDomain.Category(
             id: "1a2b3c4d-1111-2222-3333-444455556666", user: owner, name: "Groceries",
-            color: "34C759",
+            color: "5F7A2E",
             icon: "cart.fill"),
         CashlyDomain.Category(
             id: "2b3c4d5e-2222-3333-4444-555566667777", user: owner, name: "Restaurants",
-            color: "FF9500",
+            color: "C2602A",
             icon: "fork.knife"),
         CashlyDomain.Category(
             id: "3c4d5e6f-3333-4444-5555-666677778888", user: owner, name: "Transport",
-            color: "007AFF",
+            color: "3D5F86",
             icon: "car.fill"),
         CashlyDomain.Category(
             id: "4d5e6f7a-4444-5555-6666-777788889999", user: owner, name: "Housing",
-            color: "8E8E93",
+            color: "7E5536",
             icon: "house.fill"),
         CashlyDomain.Category(
             id: "5e6f7a8b-5555-6666-7777-888899990000", user: owner, name: "Travel",
-            color: "AF52DE",
+            color: "74415F",
             icon: "airplane"),
         CashlyDomain.Category(
             id: "6f7a8b9c-6666-7777-8888-999900001111", user: owner, name: "Health",
-            color: "FF3B30",
+            color: "A63D2C",
             icon: "heart.fill"),
         CashlyDomain.Category(
             id: "7a8b9c0d-7777-8888-9999-000011112222", user: owner, name: "Entertainment",
-            color: "FF2D55",
+            color: "B5546A",
             icon: "film.fill"),
         CashlyDomain.Category(
             id: "8b9c0d1e-8888-9999-0000-111122223333", user: owner, name: "Education",
-            color: "5856D6",
+            color: "4A5A8C",
             icon: "book.fill"),
         CashlyDomain.Category(
             id: "9c0d1e2f-9999-0000-1111-222233334444", user: owner, name: "Clothing",
-            color: "00C7BE",
+            color: "2A7069",
             icon: "tshirt.fill"),
         CashlyDomain.Category(
-            id: "0d1e2f3a-0000-1111-2222-333344445555", user: owner, name: "Gifts", color: "FFD60A",
+            id: "0d1e2f3a-0000-1111-2222-333344445555", user: owner, name: "Gifts", color: "B8841C",
             icon: "gift.fill"),
     ]
 
     public static let tags: [Tag] = [
         Tag(
             id: "973745e7-605f-4ff9-96c2-0cd7c0a3049e", user: owner, name: "Coffee",
-            color: "FF9500",
+            color: "C2602A",
             icon: "cup.and.saucer.fill"),
         Tag(
             id: "92c8399c-de09-4c24-8141-2b8d4f199ec7", user: owner, name: "Starbucks",
-            color: "34C759",
+            color: "5F7A2E",
             icon: "leaf.fill"),
         Tag(
-            id: "598b48ad-1e29-4fdb-8899-47fa9ac7eddf", user: owner, name: "Nike", color: "007AFF",
+            id: "598b48ad-1e29-4fdb-8899-47fa9ac7eddf", user: owner, name: "Nike", color: "3D5F86",
             icon: "tshirt.fill"),
         Tag(
             id: "43d5de1b-be6f-4a6d-9565-18181a53aa88", user: owner, name: "Netflix",
-            color: "FF2D55",
+            color: "B5546A",
             icon: "film.fill"),
         Tag(
-            id: "684b1864-3372-494a-b1c0-dfc4bafe2b65", user: owner, name: "Uber", color: "8E8E93",
+            id: "684b1864-3372-494a-b1c0-dfc4bafe2b65", user: owner, name: "Uber", color: "7E5536",
             icon: "car.fill"),
         Tag(
-            id: "66bd0e29-867a-4c1f-ad64-d2c61d006bfd", user: owner, name: "Apple", color: "5856D6",
+            id: "66bd0e29-867a-4c1f-ad64-d2c61d006bfd", user: owner, name: "Apple", color: "4A5A8C",
             icon: "laptopcomputer.and.iphone"),
         Tag(
             id: "304b33e3-75f8-4a40-8331-09dc2de64c40", user: owner, name: "Amazon",
-            color: "FF3B30",
+            color: "A63D2C",
             icon: "cart.fill"),
         Tag(
-            id: "d892be08-6498-4788-885c-eec70db8bf6b", user: owner, name: "Gym", color: "AF52DE",
+            id: "d892be08-6498-4788-885c-eec70db8bf6b", user: owner, name: "Gym", color: "74415F",
             icon: "dumbbell.fill"),
         Tag(
             id: "305db5d6-c78c-4152-9624-0dfcbaf7ff99", user: owner, name: "Spotify",
-            color: "00C7BE",
+            color: "2A7069",
             icon: "music.note.list"),
         Tag(
-            id: "22ab9818-0e49-450f-9bdc-8481dcf17097", user: owner, name: "Zara", color: "FFD60A",
+            id: "22ab9818-0e49-450f-9bdc-8481dcf17097", user: owner, name: "Zara", color: "B8841C",
             icon: "bag.fill"),
     ]
 

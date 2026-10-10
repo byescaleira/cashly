@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import CashlyDomain
 import SwiftUI
 
@@ -22,10 +23,10 @@ extension TransactionStatus {
 
     public var color: Color {
         switch self {
-        case .pendingToReceive: .blue
-        case .pendingToPay: .orange
-        case .settled: .green
-        case .canceled: .red
+        case .pendingToReceive: .info
+        case .pendingToPay: .warning
+        case .settled: .positive
+        case .canceled: .negative
         }
     }
 }

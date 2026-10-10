@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import SwiftUI
 
 struct DataSection: View {
@@ -34,6 +35,7 @@ struct DataSection: View {
             }
             Section {
                 Toggle("Backup automático", isOn: $data.autoBackupToggle)
+                    .tint(.positive)
             } footer: {
                 Text(data.autoBackupFooter)
             }

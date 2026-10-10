@@ -37,7 +37,7 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 
 - iPhone em paisagem e app no Mac: só builds conferidos.
 - Campo de valor muito grande (13 dígitos) corta o "R$" na borda.
-- iPad de 11" em retrato: a barra de abas tem largura limitada pelo sistema, e Relatórios fica atrás da seta de rolagem. Na lista de transações, "Adicionar" fica no menu "…".
+- iPad de 11" em retrato: a barra de abas tem largura limitada pelo sistema; conferir se as quatro abas cabem com Ajustes no lugar de Relatórios. Na lista de transações, "Adicionar" fica no menu "…".
 
 ## Qualidade de código
 

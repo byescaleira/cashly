@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import FeatureCore
 import SwiftUI
 
@@ -22,7 +23,7 @@ public struct BudgetEditorScreen: View {
                     Button("Sugerir valor", systemImage: "bolt.fill") {
                         Task { await model.suggestAmount(with: intelligence) }
                     }
-                    .tint(.yellow)
+                    .tint(.retroMustard)
                 }
             }
             EditorActions(canSave: model.canSave, canRemove: model.canRemove) {

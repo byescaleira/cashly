@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import CashlyDomain
 import SwiftUI
 
@@ -14,10 +15,10 @@ extension BudgetUsage.Stage {
 
     public var color: Color {
         switch self {
-        case .justStarted, .onTrack: .green
-        case .watchOut: .yellow
-        case .almostSpent: .orange
-        case .overBudget: .red
+        case .justStarted, .onTrack: .retroOlive
+        case .watchOut: .retroMustard
+        case .almostSpent: .retroOrange
+        case .overBudget: .retroRust
         }
     }
 
@@ -32,6 +33,6 @@ extension BudgetUsage.Stage {
 
     public func dotColor(at index: Int) -> Color {
         guard index <= level else { return .secondary.opacity(0.2) }
-        return [Color.green, .yellow, .orange, .red][index - 1]
+        return [Color.retroOlive, .retroMustard, .retroOrange, .retroRust][index - 1]
     }
 }

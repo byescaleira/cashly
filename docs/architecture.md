@@ -22,7 +22,7 @@ flowchart TD
 | --- | --- | --- |
 | `CashlyDomain` | Entidades (`Transaction`, `Budget`, `Category`…), valores (`Money` em centavos, `YearMonth`), regras puras (`BudgetUsage`, `BudgetHealth`, `TransactionAllocation`…), formato de backup (`CashlyBackup`), protocolos de repositório | nada |
 | `CashlyData` | `CashlyDatabase`, `CashlyStore` (`@ModelActor`), schemas V1/V2 congelados e V3 atual, repositórios por agregado, backup (`CashlyDatabase.backup`), `CashlyChangeHub`, `LocalIntelligenceService` | Domain |
-| `CashlyDesignSystem` | `Styles/` (extensions de `ShapeStyle`, `Color(hex:)`), `Modifiers/` (extensions de `View`, como `.amountLine()`), `Layout/` (`AdaptiveList`, `AdaptiveStack`, `AdaptiveRow`, `SurfaceContainer`) | nada |
+| `CashlyDesignSystem` | `Styles/` (extensions de `ShapeStyle`, paleta retrô em `Color+Retro`, `Color(hex:)`), `Modifiers/` (extensions de `View`, como `.amountLine()`), `Layout/` (`AdaptiveList`, `AdaptiveStack`, `AdaptiveRow`, `SurfaceContainer`) | nada |
 | `CashlyResource` | Avatares e ilustrações | nada |
 | `FeatureCore` | Estado compartilhado (`SessionModel`, `FinanceModel`, `IntelligenceModel`, `EditorStatus`, `TransactionFilter`), navegação (`Route`, `AppSection`, `CashlyNavigation`, `\.open`, `\.close`), componentes usados por mais de uma feature, textos de exibição | Domain, DesignSystem, Resource |
 | `Feature*` | Uma área do app: model, telas e seções | Domain, DesignSystem, FeatureCore |
@@ -42,8 +42,7 @@ Regras de dependência:
 
 | Target | Conteúdo |
 | --- | --- |
-| `FeatureDashboard` | `HomeScreen` e `DashboardModel`: resumo do período, pontuação, disponível e maiores gastos |
-| `FeatureReports` | `ReportsScreen` e `ReportsModel`: previsão, planejado × gasto, gastos por tag e gráficos |
+| `FeatureDashboard` | `HomeScreen` com `DashboardModel` (resumo do período, pontuação, disponível, maiores gastos) e `ReportsModel` (planejado × gasto, gastos por tag, previsão e gráficos) |
 | `FeatureSearch` | `SearchScreen` e `SearchModel`: transações de todos os períodos, categorias e tags |
 | `FeatureTransactions` | Lista paginada com seleção (`TransactionListModel`) e editor (`TransactionEditorModel`) |
 | `FeatureCategories` | Lista, detalhe e editor de categoria |
@@ -64,10 +63,10 @@ Regras de dependência:
 
 ## Navegação
 
-- `TabView` em `sidebarAdaptable` com uma `NavigationStack` por aba (`SectionStack`): Início, Transações, Planejamento, Relatórios e Buscar (`TabRole.search`, que o sistema fixa no fim da barra). O app abre no Início.
+- `TabView` em `sidebarAdaptable` com uma `NavigationStack` por aba (`SectionStack`): Início, Transações, Planejamento, Ajustes e Buscar (`TabRole.search` com papel proeminente, em bolha separada no fim da barra). O app abre no Início.
 - Telas pedem navegação por `@Environment(\.open)` com uma `Route`; o `AppShell` decide como apresentar: em largura regular, no `.inspector` da janela (sheet no visionOS); em largura compacta, por push.
 - `@Environment(\.close)` fecha a rota no contexto certo (inspector, pilha do inspector ou pilha da aba).
-- Ajustes abrem pelo menu do avatar: em folha no iOS, iPadOS e visionOS (`CashlyNavigation.isShowingSettings`) e na janela de Ajustes do sistema no Mac (cena `Settings`, ⌘,).
+- Ajustes são uma aba em todas as plataformas; no Mac também abrem na janela de Ajustes do sistema (cena `Settings`, ⌘,). O menu do avatar só troca, edita e adiciona usuários.
 - Ícones alternativos são pastas `.icon` em `Cashly/Cashly` (`CashlyIconDark`, `CashlyIconOrange`, `CashlyIconGraphite`), incluídas por `ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS`. Para um novo, crie a pasta e acrescente um `case` em `AppIcon`.
 - Os links de ajuda e sobre vêm das chaves `CashlyAppStoreID`, `CashlySupportEmail`, `CashlyHelpURL`, `CashlyPrivacyURL` e `CashlyTermsURL` do `Info.plist`; a linha some enquanto a chave estiver vazia.
 

@@ -1,25 +1,34 @@
-import Foundation
+import SwiftUI
 
 public enum AppSection: String, CaseIterable, Identifiable {
-    case home, transaction, planning, reports, search
+    case home, transaction, planning, settings, search
+
     public var id: String { rawValue }
+
     public var title: String {
         switch self {
         case .home: "Início"
         case .transaction: "Transações"
         case .planning: "Planejamento"
-        case .reports: "Relatórios"
+        case .settings: "Ajustes"
         case .search: "Buscar"
         }
     }
+
     public var systemImage: String {
         switch self {
         case .home: "house"
         case .transaction: "arrow.left.arrow.right"
         case .planning: "chart.pie"
-        case .reports: "chart.xyaxis.line"
+        case .settings: "gearshape"
         case .search: "magnifyingglass"
         }
     }
-    public static var tabs: [AppSection] { allCases.filter { $0 != .search } }
+
+    public var role: TabRole? {
+        switch self {
+        case .search: .prominent
+        default: nil
+        }
+    }
 }
