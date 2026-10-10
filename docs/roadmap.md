@@ -29,14 +29,14 @@ O que o Cashly pode ganhar depois da reestruturação, com a assinatura como eix
 
 Teste grátis e depois pago: tudo liberado no período de teste e, depois, o app exige a assinatura. Decidido em 09/10/2026. O app ainda não foi publicado, então não há usuários antigos a preservar.
 
-- **Teste grátis:** oferta introdutória do StoreKit nos dois planos. A Apple controla a elegibilidade (uma vez por Apple ID no grupo de assinatura) e a cobrança começa sozinha no fim do teste, a menos que a pessoa cancele.
+- **Teste grátis de 7 dias:** oferta introdutória do StoreKit nos dois planos. A Apple controla a elegibilidade (uma vez por Apple ID no grupo de assinatura) e a cobrança começa sozinha no fim do teste, a menos que a pessoa cancele.
 - **Depois que expira:** os dados continuam visíveis em modo leitura, e exportar (JSON e CSV) segue liberado. Registrar, editar e os recursos avançados pedem a assinatura. Prender os dados da pessoa gera avaliação ruim e risco na revisão.
 - **Sem limite artificial durante o teste:** a pessoa vê o app inteiro, inclusive IA, widgets e relatórios.
 
 ### Planos
 
 - **Cashly Pro Mensal e Cashly Pro Anual**, no mesmo grupo de assinatura (`cashly.pro.monthly`, `cashly.pro.yearly`). O anual tem desconto equivalente de cerca de 40%.
-- **Preço de partida para validar:** R$ 14,90/mês e R$ 99,90/ano. Antes de fechar, comparar com os apps nacionais do segmento e ajustar à grade da App Store.
+- **Preço:** R$ 14,90/mês e R$ 99,90/ano, ajustável depois no App Store Connect.
 - **Compartilhamento Familiar** ligado, porque finanças da casa são um uso natural.
 - **Ofertas sem servidor:**
   - códigos de oferta para parcerias e influenciadores;

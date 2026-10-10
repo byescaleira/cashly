@@ -38,10 +38,8 @@ CashlyKit/.build/release/CashlyAudit profile <pasta do benchmark>/benchmark.stor
 
 ## Antes de distribuir
 
-1. **Banco real.** Copiar o banco de uma instalação distribuída (`Library/Application Support/default.store` e sidecars), rodar `audit` na cópia e comparar contagens e totais com o app antigo. Nunca apagar nem recriar o banco quando a abertura falhar.
-2. **CloudKit em dois aparelhos assinados.** Offline e reconexão, referências que chegam em momentos diferentes, conflito de orçamento editado nos dois, exclusões, troca de usuários e duas janelas no iPad.
-3. **Versões misturadas.** Um aparelho na versão antiga e outro na nova, editando o mesmo usuário, ou definir versão mínima.
-4. **Backup.** Exportar num aparelho, apagar tudo, importar e conferir contagens e totais; importar num segundo aparelho com iCloud e ver os registros chegarem ao primeiro.
-5. **Interface.** Criar, editar e excluir em cada editor; inspector no iPad; iPhone em paisagem; app no Mac; VoiceOver e Dynamic Type nos gráficos e seletores de ícone.
+1. **CloudKit em dois aparelhos assinados.** Offline e reconexão, referências que chegam em momentos diferentes, conflito de orçamento editado nos dois, exclusões, troca de usuários e duas janelas no iPad.
+2. **Backup.** Exportar num aparelho, apagar tudo, importar e conferir contagens e totais; importar num segundo aparelho com iCloud e ver os registros chegarem ao primeiro.
+3. **Interface.** Criar, editar e excluir em cada editor; inspector no iPad; iPhone em paisagem; app no Mac; VoiceOver e Dynamic Type nos gráficos e seletores de ícone.
 
 No simulador o app usa o banco local com CloudKit desligado; nos aparelhos, o container `iCloud.cashly` precisa das capabilities e da assinatura.

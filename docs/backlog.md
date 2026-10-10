@@ -4,10 +4,8 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 
 ## Antes de distribuir
 
-- **[P1] Migrar uma cópia de banco real.** O `CashlyAudit check` migra um banco V1 sintético; isso não substitui o histórico de uma versão distribuída. Roteiro em [validation.md](validation.md). Nunca apagar nem recriar o banco quando a abertura falhar.
 - **[P1] Validar CloudKit em dois aparelhos assinados:** offline e reconexão, referências que chegam em momentos diferentes, conflitos concorrentes, exclusões e troca de usuários. A resolução de conflito usa timestamp e token; um relógio adiantado pode vencer uma escolha feita depois.
 - **[P1] Modo de divisão "Quem pagou".** `TransactionAllocation` atribui zero a todos os participantes nesse modo, mas a interface promete que os outros ficam devendo. Retirar a opção da criação ou modelar pagador e dívida; não converter registros antigos em divisão igual.
-- **[P2] Política para versões antigas.** Definir se clientes antigos podem escrever depois da atualização e verificar a convivência com V2 (exclusões e campos desconhecidos), ou exigir versão mínima.
 
 ## Desempenho e dados
 
