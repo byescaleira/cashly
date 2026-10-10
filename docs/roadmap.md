@@ -1,6 +1,6 @@
 # Roadmap
 
-O que o Cashly pode ganhar depois da reestruturação, com a assinatura como eixo. A base de análise dos dados (passado, presente e previsões) está em [insights.md](insights.md). Cada item diz o que entrega e a tecnologia; tudo faz parte do Cashly Pro. Os pré-requisitos técnicos estão no [backlog.md](backlog.md).
+O que o Cashly pode ganhar depois da reestruturação, com a assinatura como eixo. O motor de análise dos dados (passado, presente e previsões) está em [analytics.md](analytics.md). Cada item diz o que entrega e a tecnologia; tudo faz parte do Cashly Pro. Os pré-requisitos técnicos estão no [backlog.md](backlog.md).
 
 ## Onde o app está
 
