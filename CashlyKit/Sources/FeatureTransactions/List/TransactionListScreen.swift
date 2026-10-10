@@ -12,9 +12,6 @@ public struct TransactionListScreen: View {
         @Bindable var list = list
         List(selection: $list.selection) {
             TransactionBalanceSection()
-            EmptyCategoriesSection()
-            EmptyBudgetsSection()
-            EmptyUsersSection()
             DataStatusSection()
             ForEach(list.days) { TransactionDaySection(day: $0) }
             LoadMoreRow()
@@ -26,6 +23,7 @@ public struct TransactionListScreen: View {
                     get: { list.isSelecting ? .active : .inactive },
                     set: { list.isSelecting = $0 == .active }))
         #endif
+        .requires(.user, .category)
         .fontDesign(.rounded)
         .readableWidth()
         .toolbar { TransactionListToolbar() }

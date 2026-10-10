@@ -11,10 +11,7 @@ public struct HomeScreen: View {
 
     public var body: some View {
         AdaptiveList {
-            EmptyUsersSection()
             DataStatusSection()
-            EmptyCategoriesSection()
-            EmptyBudgetsSection()
             SpendingSummarySection()
             ScoreSection()
             AvailableSection()
@@ -25,6 +22,7 @@ public struct HomeScreen: View {
             ForecastSection()
             TrainingPromptSection()
         }
+        .requires(.user, .category, .budget)
         .fontDesign(.rounded)
         .toolbar {
             ToolbarItem(placement: .leading) { UserMenu() }

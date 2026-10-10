@@ -20,7 +20,13 @@
     "Adicionar orçamento" : {
 
     },
+    "Adicionar tag" : {
+
+    },
     "Adicionar usuário" : {
+
+    },
+    "Adicione um usuário para começar a organizar as finanças." : {
 
     },
     "Atualizar dados" : {
@@ -32,10 +38,7 @@
     "Categorias" : {
 
     },
-    "Categorias mostram para onde vai o seu dinheiro. Crie a primeira para organizar os gastos." : {
-
-    },
-    "Com usuários, você compartilha e organiza as finanças em equipe. Adicione o primeiro para começar." : {
+    "Categorias mostram para onde vai o seu dinheiro." : {
 
     },
     "Conflitos de orçamento" : {
@@ -45,6 +48,9 @@
 
     },
     "Data" : {
+
+    },
+    "Defina quanto quer gastar em cada categoria para acompanhar o mês." : {
 
     },
     "Editar usuário" : {
@@ -71,7 +77,7 @@
     "Limpar filtros" : {
 
     },
-    "Nenhum orçamento ainda" : {
+    "Nenhum orçamento neste período" : {
 
     },
     "Nenhum usuário ainda" : {
@@ -80,16 +86,13 @@
     "Nenhuma categoria ainda" : {
 
     },
+    "Nenhuma tag ainda" : {
+
+    },
     "Não foi possível concluir" : {
 
     },
     "OK" : {
-
-    },
-    "Orçamentos" : {
-
-    },
-    "Orçamentos ajudam a controlar os gastos. Defina um valor para cada categoria e acompanhe o mês." : {
 
     },
     "Participantes" : {
@@ -104,10 +107,10 @@
     "Tags" : {
 
     },
-    "Usuário" : {
+    "Tags agrupam os gastos de uma viagem, evento ou projeto." : {
 
     },
-    "Usuários" : {
+    "Usuário" : {
 
     },
     "Valor" : {

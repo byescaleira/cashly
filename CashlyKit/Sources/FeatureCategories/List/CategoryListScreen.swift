@@ -13,13 +13,11 @@ public struct CategoryListScreen: View {
     public var body: some View {
         AdaptiveList {
             CategoryBalanceSection()
-            EmptyCategoriesSection()
-            EmptyBudgetsSection()
-            EmptyUsersSection()
             DataStatusSection()
             UnbudgetedCategoriesSection()
             BudgetedCategoriesSection()
         }
+        .requires(.user, .category)
         .lineLimit(2)
         .font(.callout)
         .fontDesign(.rounded)
