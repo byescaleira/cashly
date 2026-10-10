@@ -1,3 +1,4 @@
+import FeatureCore
 import SwiftUI
 
 struct SearchStatusView: View {
@@ -5,11 +6,13 @@ struct SearchStatusView: View {
 
     var body: some View {
         if search.term.isEmpty {
-            ContentUnavailableView(
-                "Buscar no Cashly", systemImage: "magnifyingglass",
-                description: Text("Procure por descrição, categoria ou tag em todos os períodos."))
+            EmptyStateView(
+                image: .illustrationSearch, title: "Buscar no Cashly",
+                description: "Procure por descrição, categoria ou tag em todos os períodos.")
         } else if !search.hasResults && !search.isSearching {
-            ContentUnavailableView.search(text: search.term)
+            EmptyStateView(
+                image: .illustrationSearch, title: "Nada encontrado para “\(search.term)”",
+                description: "Confira a grafia ou tente outra palavra.")
         }
     }
 }

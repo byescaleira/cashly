@@ -6,12 +6,12 @@ public struct EmptyStateView: View {
     private let image: CashlyResourceImage
     private let title: LocalizedStringKey
     private let description: LocalizedStringKey
-    private let actionTitle: LocalizedStringKey
-    private let action: () -> Void
+    private let actionTitle: LocalizedStringKey?
+    private let action: (() -> Void)?
 
     public init(
         image: CashlyResourceImage, title: LocalizedStringKey, description: LocalizedStringKey,
-        actionTitle: LocalizedStringKey, action: @escaping () -> Void
+        actionTitle: LocalizedStringKey? = nil, action: (() -> Void)? = nil
     ) {
         self.image = image
         self.title = title
@@ -34,12 +34,14 @@ public struct EmptyStateView: View {
         } description: {
             Text(description)
         } actions: {
-            Button(action: action) {
-                Text(actionTitle).font(.headline.weight(.bold)).frame(maxWidth: .infinity)
+            if let actionTitle, let action {
+                Button(action: action) {
+                    Text(actionTitle).font(.headline.weight(.bold)).frame(maxWidth: .infinity)
+                }
+                .prominentButton()
+                .controlSize(.large)
+                .fontDesign(.rounded)
             }
-            .prominentButton()
-            .controlSize(.large)
-            .fontDesign(.rounded)
         }
     }
 }

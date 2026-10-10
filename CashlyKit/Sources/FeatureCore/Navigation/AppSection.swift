@@ -18,8 +18,8 @@ public enum AppSection: String, CaseIterable, Identifiable {
     public var systemImage: String {
         switch self {
         case .home: "house"
-        case .transaction: "arrow.left.arrow.right"
-        case .planning: "chart.pie"
+        case .transaction: "creditcard"
+        case .planning: "calendar.badge.clock"
         case .settings: "gearshape"
         case .search: "magnifyingglass"
         }

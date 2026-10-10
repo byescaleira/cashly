@@ -8,7 +8,7 @@ struct WelcomeStep: View {
             message:
                 "Organize gastos, orçamentos e metas num só lugar, com seus dados guardados no aparelho."
         ) {
-            CashlyResourceImage.illustrationPeople.image.resizable().scaledToFit()
+            CashlyResourceImage.illustrationWelcome.image.resizable().scaledToFit()
         } content: {
             EmptyView()
         }
