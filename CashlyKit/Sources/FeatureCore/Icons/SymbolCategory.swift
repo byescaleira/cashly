@@ -91,10 +91,6 @@ public enum SymbolCategory: Int, Hashable, CaseIterable, Identifiable, Sendable 
         }
     }
 
-    public static var random: SymbolCategory {
-        allCases.randomElement() ?? .other
-    }
-
     public static func containing(_ symbol: String) -> SymbolCategory? {
         allCases.first { $0.symbols.contains(symbol) }
     }

@@ -7,7 +7,6 @@ import SwiftUI
 @MainActor @Observable
 public final class CategoryEditorModel {
     public var draft: CategoryDraft
-    public var symbolCategory: SymbolCategory = .food
     public let status = EditorStatus()
     @ObservationIgnored private let repositories: Repositories
 
@@ -31,7 +30,6 @@ public final class CategoryEditorModel {
             }
             try Task.checkCancellation()
             draft.apply(record, currentUser: currentUser)
-            symbolCategory = SymbolCategory.containing(draft.icon) ?? symbolCategory
         }
     }
 

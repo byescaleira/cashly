@@ -7,7 +7,6 @@ import SwiftUI
 @MainActor @Observable
 public final class TagEditorModel {
     public var draft: TagDraft
-    public var symbolCategory: SymbolCategory = .random
     public let status = EditorStatus()
     @ObservationIgnored private let repositories: Repositories
 
@@ -31,7 +30,6 @@ public final class TagEditorModel {
             }
             try Task.checkCancellation()
             draft.apply(record, currentUser: currentUser)
-            symbolCategory = SymbolCategory.containing(draft.icon) ?? symbolCategory
         }
     }
 

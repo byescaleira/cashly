@@ -34,7 +34,7 @@ struct CategoryEditorTests {
         let editor = CategoryEditorModel(draft: .edit(id: market.id), repositories: repositories)
         await editor.load()
         #expect(editor.draft.color == "0099FF")
-        #expect(editor.symbolCategory == .groceries)
+        #expect(SymbolCategory.containing(editor.draft.icon) == .groceries)
         #expect(editor.canRemove)
         editor.draft.color = "FF0000"
         await editor.save()

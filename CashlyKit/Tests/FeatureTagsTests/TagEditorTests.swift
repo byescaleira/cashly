@@ -45,7 +45,7 @@ struct TagEditorTests {
         let editor = TagEditorModel(draft: .edit(id: "market"), repositories: repositories)
         await editor.load()
         #expect(editor.draft.name == "Mercado")
-        #expect(editor.symbolCategory == .groceries)
+        #expect(SymbolCategory.containing(editor.draft.icon) == .groceries)
         #expect(editor.canRemove)
     }
 

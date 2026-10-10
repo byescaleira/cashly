@@ -12,8 +12,7 @@ public struct TagEditorScreen: View {
             TagIconHeader()
             TagNameSection()
             ColorSection(hex: $model.draft.color)
-            IconSection(
-                icon: $model.draft.icon, category: $model.symbolCategory, color: model.color)
+            IconSection(icon: $model.draft.icon, color: model.color)
         }
         .fontDesign(.rounded)
         .toolbar {
