@@ -3,6 +3,8 @@ import FeatureCore
 import SwiftUI
 
 struct TopSpendingSection: View {
+    @Environment(\.appTint) private var appTint
+
     @Environment(FinanceModel.self) private var finance
     @Environment(DashboardModel.self) private var dashboard
 
@@ -50,7 +52,7 @@ struct TopSpendingSection: View {
                                 .frame(width: 8, height: 8)
                                 .foregroundStyle(
                                     index == dashboard.highlightedTransaction
-                                        ? Color.accentColor : Color.primary.opacity(0.1))
+                                        ? appTint : Color.primary.opacity(0.1))
                         }
                     }
                     .padding(.vertical, 8)

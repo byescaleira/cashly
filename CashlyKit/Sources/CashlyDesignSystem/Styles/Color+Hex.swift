@@ -13,10 +13,4 @@ extension Color {
             green: Double((rgba >> 16) & 255) / 255,
             blue: Double((rgba >> 8) & 255) / 255, opacity: Double(rgba & 255) / 255)
     }
-    public var hex: String {
-        let color = resolve(in: EnvironmentValues())
-        return [color.red, color.green, color.blue, color.opacity]
-            .map { String(format: "%02X", Int((min(max($0, 0), 1) * 255).rounded())) }
-            .joined()
-    }
 }

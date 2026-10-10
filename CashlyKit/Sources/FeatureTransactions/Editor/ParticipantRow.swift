@@ -53,6 +53,8 @@ private struct StatusMenu: View {
 }
 
 private struct ShareValue: View {
+    @Environment(\.appTint) private var appTint
+
     @Binding var participant: Participant
     let amount: Double
 
@@ -87,13 +89,13 @@ private struct ShareValue: View {
                         Image(systemName: "chevron.up.chevron.down").font(
                             .caption.weight(.semibold))
                     }
-                    .foregroundStyle(Color.accentColor)
+                    .foregroundStyle(appTint)
                 }
             }
         case .payerBased:
             Image(systemName: "checkmark.seal.text.page.fill")
                 .font(.system(size: 30, weight: .semibold))
-                .foregroundStyle(Color.accentColor.opacity(0.75))
+                .foregroundStyle(appTint.opacity(0.75))
                 .accessibilityLabel("Quem pagou")
         }
     }

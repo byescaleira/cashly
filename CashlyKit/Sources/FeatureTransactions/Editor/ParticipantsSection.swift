@@ -4,6 +4,8 @@ import FeatureCore
 import SwiftUI
 
 struct ParticipantsSection: View {
+    @Environment(\.appTint) private var appTint
+
     @Environment(TransactionEditorModel.self) private var model
 
     var body: some View {
@@ -23,11 +25,11 @@ struct ParticipantsSection: View {
                     } label: {
                         Text(model.draft.splitMode?.summary.uppercased() ?? "")
                             .font(.caption.weight(.semibold))
-                            .foregroundStyle(Color.accentColor)
+                            .foregroundStyle(appTint)
                             .padding(.vertical, 8)
                             .padding(.horizontal, 12)
                             .surface(
-                                tint: .accentColor.opacity(0.2), in: .capsule, interactive: true)
+                                tint: appTint.opacity(0.2), in: .capsule, interactive: true)
                     }
                 }
             } header: {

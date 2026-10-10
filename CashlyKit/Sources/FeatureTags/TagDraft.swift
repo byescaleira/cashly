@@ -1,4 +1,5 @@
 import CashlyDomain
+import FeatureCore
 import Foundation
 
 public struct TagDraft: Hashable {
@@ -18,7 +19,7 @@ public struct TagDraft: Hashable {
         id: String = UUID().uuidString,
         user: User? = nil,
         name: String = "",
-        color: String = "",
+        color: String = RetroColor.default.hex,
         icon: String = "",
         isNew: Bool = true,
     ) {

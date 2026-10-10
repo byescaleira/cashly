@@ -1,4 +1,5 @@
 import CashlyDomain
+import FeatureCore
 import Foundation
 import Testing
 
@@ -30,6 +31,16 @@ struct SettingsModelTests {
         #expect(
             SettingsModel(defaults: defaults, cloudContainer: nil, currencySetting: currency)
                 .appearance == .dark)
+    }
+
+    @Test func tintStartsBurntOrangeAndIsSaved() {
+        let settings = SettingsModel(
+            defaults: defaults, cloudContainer: nil, currencySetting: currency)
+        #expect(RetroColor(hex: settings.tint) == .burntOrange)
+        settings.tint = RetroColor.teal.hex
+        #expect(
+            SettingsModel(defaults: defaults, cloudContainer: nil, currencySetting: currency)
+                .tint == RetroColor.teal.hex)
     }
 
     @Test func cloudSyncChangeWaitsForTheNextLaunch() {

@@ -2,6 +2,8 @@ import CashlyDesignSystem
 import SwiftUI
 
 public struct PeriodSummaryHeader: View {
+    @Environment(\.appTint) private var appTint
+
     public struct Item: Identifiable {
         public let id: String
         public let name: String
@@ -31,7 +33,7 @@ public struct PeriodSummaryHeader: View {
         Section {
         } header: {
             VStack(spacing: 16) {
-                let badge = badge ?? (session.filter.periodTitle, Color.accentColor)
+                let badge = badge ?? (session.filter.periodTitle, appTint)
                 Text(badge.title.uppercased())
                     .font(.caption.weight(.bold))
                     .foregroundStyle(badge.color)

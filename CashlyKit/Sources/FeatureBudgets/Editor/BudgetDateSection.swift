@@ -11,7 +11,6 @@ struct BudgetDateSection: View {
                 .datePickerStyle(.graphical)
                 .labelsHidden()
                 .padding(.vertical, -16)
-                .tint(.accentColor)
         } header: {
             Text("Data").sectionTitle()
         }

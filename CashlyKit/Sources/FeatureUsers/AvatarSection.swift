@@ -27,6 +27,8 @@ struct AvatarSection: View {
 }
 
 private struct AvatarGrid: View {
+    @Environment(\.appTint) private var appTint
+
     let photos: [String]
     @Binding var selection: String?
 
@@ -42,7 +44,7 @@ private struct AvatarGrid: View {
                         .frame(width: 70, height: 70)
                         .overlay {
                             if selection == photo {
-                                Circle().stroke(Color.accentColor, lineWidth: 4).padding(-4)
+                                Circle().stroke(appTint, lineWidth: 4).padding(-4)
                             }
                         }
                 }

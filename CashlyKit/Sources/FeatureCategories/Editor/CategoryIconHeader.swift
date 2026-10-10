@@ -5,7 +5,6 @@ struct CategoryIconHeader: View {
     @Environment(CategoryEditorModel.self) private var model
 
     var body: some View {
-        @Bindable var model = model
         Section {
         } header: {
             Image(systemName: model.draft.icon)
@@ -16,12 +15,7 @@ struct CategoryIconHeader: View {
                 .frame(width: 120, height: 120)
                 .background(model.color.opacity(0.2), in: .circle)
                 .overlay { Circle().stroke(model.color, lineWidth: 5).padding(-8) }
-                .overlay(alignment: .bottomTrailing) {
-                    ColorPicker("Cor", selection: $model.draft.color.hexColor)
-                        .labelsHidden()
-                        .scaleEffect(1.5)
-                        .padding(.trailing, 24)
-                }
+                .animation(.default, value: model.draft.color)
                 .frame(maxWidth: .infinity)
                 .contentTransition(.symbolEffect(.replace))
                 .padding(.top, 16)

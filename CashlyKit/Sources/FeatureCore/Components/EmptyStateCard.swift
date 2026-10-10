@@ -38,7 +38,6 @@ public struct EmptyStateCard: View {
             }
             .prominentButton()
             .controlSize(.large)
-            .tint(.accentColor)
         }
         .fontDesign(.rounded)
         .frame(maxWidth: .infinity)

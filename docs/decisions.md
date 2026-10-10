@@ -112,3 +112,9 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Relatórios voltam para o Início** (planejado × gasto, tags, previsão e treino), dentro do `FeatureDashboard`; o target `FeatureReports` deixou de existir. A aba liberada virou **Ajustes**, que sai do menu do avatar.
 - **Paleta retrô** em `Color+Retro`: mostarda, laranja queimado, ferrugem, oliva, petróleo, jeans, ameixa e marrom, cada uma com variante clara e escura. As cores semânticas (`positive`, `negative`, `warning`, `info`), estados de orçamento, saúde, status de transação, gráficos e interruptores usam a paleta. O `AccentColor` do app é o laranja queimado.
 - **Ilustrações** trocaram o verde da Apple pela mostarda. As cores que a pessoa escolhe para categorias e tags não mudam.
+
+## 10/10/2026: seletor de cores
+
+- **Um seletor só** (`RetroColorPicker`, grade de bolinhas no padrão do seletor de ícones) para a cor de destaque do app, categorias e tags. São 26 cores retrô com nome (`RetroColor`), em ordem de matiz. O seletor de cores do sistema saiu dos editores.
+- **Cores guardadas em hex**, como antes: registros com cor fora da paleta continuam funcionando e aparecem como "Personalizada". Categorias e tags novas começam em Laranja queimado.
+- **Cor de destaque** em Ajustes > Aparência, salva no aparelho. Ela vira o `.tint` do app e o `\.appTint` do ambiente, que as views usam no lugar de `Color.accentColor`, e também pinta a janela do UIKit (alertas e menus). O `AccentColor` do catálogo continua como valor inicial.

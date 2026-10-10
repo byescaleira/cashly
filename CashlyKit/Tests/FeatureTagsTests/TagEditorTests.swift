@@ -26,6 +26,7 @@ struct TagEditorTests {
         let saved = try await repositories.tags.tag(id: editor.draft.id)
         #expect(saved?.name == "Viagem")
         #expect(saved?.user == owner)
+        #expect(RetroColor(hex: saved?.color ?? "") == .default)
     }
 
     @Test func shortNameCannotBeSaved() async throws {

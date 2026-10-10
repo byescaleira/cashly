@@ -5,7 +5,6 @@ struct TagIconHeader: View {
     @Environment(TagEditorModel.self) private var model
 
     var body: some View {
-        @Bindable var model = model
         Section {
         } header: {
             Image(systemName: model.draft.icon)
@@ -19,11 +18,7 @@ struct TagIconHeader: View {
                         .foregroundStyle(model.color.opacity(0.3))
                 }
                 .frame(width: 140, height: 140)
-                .overlay(alignment: .bottom) {
-                    ColorPicker("Cor", selection: $model.draft.color.hexColor)
-                        .labelsHidden()
-                        .scaleEffect(1.5)
-                }
+                .animation(.default, value: model.draft.color)
                 .frame(maxWidth: .infinity)
                 .contentTransition(.symbolEffect(.replace))
                 .padding(.top, 16)

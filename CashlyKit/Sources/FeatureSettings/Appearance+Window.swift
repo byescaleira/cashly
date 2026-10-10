@@ -1,3 +1,5 @@
+import SwiftUI
+
 #if canImport(UIKit)
     import UIKit
 #else
@@ -12,6 +14,14 @@ extension Appearance {
             }
         #else
             NSApp.appearance = appearance
+        #endif
+    }
+
+    @MainActor static func applyTint(_ color: Color) {
+        #if canImport(UIKit)
+            for case let scene as UIWindowScene in UIApplication.shared.connectedScenes {
+                for window in scene.windows { window.tintColor = UIColor(color) }
+            }
         #endif
     }
 

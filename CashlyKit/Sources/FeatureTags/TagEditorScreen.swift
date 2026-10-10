@@ -11,6 +11,7 @@ public struct TagEditorScreen: View {
         Form {
             TagIconHeader()
             TagNameSection()
+            ColorSection(hex: $model.draft.color)
             IconSection(
                 icon: $model.draft.icon, category: $model.symbolCategory, color: model.color)
         }

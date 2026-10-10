@@ -12,7 +12,6 @@ struct TransactionDateSection: View {
                 displayedComponents: [.date, .hourAndMinute]
             )
             .datePickerStyle(.compact)
-            .tint(.accentColor)
         } header: {
             Text("Data").sectionTitle()
         }

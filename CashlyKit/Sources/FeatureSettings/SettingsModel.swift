@@ -9,6 +9,9 @@ public final class SettingsModel {
     public var appearance: Appearance {
         didSet { defaults.set(appearance.rawValue, forKey: Key.appearance) }
     }
+    public var tint: String {
+        didSet { defaults.set(tint, forKey: Key.tint) }
+    }
     public var currency: String {
         didSet {
             defaults.set(currency, forKey: Key.currency)
@@ -53,6 +56,7 @@ public final class SettingsModel {
         self.currency = currency
         appearance =
             defaults.string(forKey: Key.appearance).flatMap(Appearance.init(rawValue:)) ?? .system
+        tint = defaults.string(forKey: Key.tint) ?? RetroColor.default.hex
         let syncs = defaults.object(forKey: Key.cloudSync) as? Bool ?? true
         syncsWithICloud = syncs
         syncsAtLaunch = cloudContainer != nil && syncs
@@ -130,5 +134,6 @@ public final class SettingsModel {
         static let cloudSync = "cashly.settings.cloudSync"
         static let currency = "cashly.settings.currency"
         static let lastSync = "cashly.settings.lastSync"
+        static let tint = "cashly.settings.tint"
     }
 }

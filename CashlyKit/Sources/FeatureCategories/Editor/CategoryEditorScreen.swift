@@ -11,6 +11,7 @@ public struct CategoryEditorScreen: View {
         Form {
             CategoryIconHeader()
             CategoryNameSection()
+            ColorSection(hex: $model.draft.color)
             IconSection(
                 icon: $model.draft.icon, category: $model.symbolCategory, color: model.color,
                 layout: .grid)

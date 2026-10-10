@@ -3,6 +3,8 @@ import FeatureCore
 import SwiftUI
 
 struct VarianceSection: View {
+    @Environment(\.appTint) private var appTint
+
     @Environment(FinanceModel.self) private var finance
     @Environment(ReportsModel.self) private var reports
 
@@ -33,7 +35,7 @@ struct VarianceSection: View {
                                 .foregroundStyle(Color.secondary)
                             Text("Gasto")
                                 .font(.callout.weight(.semibold))
-                                .foregroundStyle(Color.accentColor)
+                                .foregroundStyle(appTint)
                         }
                     }
                 }

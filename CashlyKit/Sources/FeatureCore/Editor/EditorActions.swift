@@ -2,6 +2,8 @@ import CashlyDesignSystem
 import SwiftUI
 
 public struct EditorActions: ToolbarContent {
+    @Environment(\.appTint) private var appTint
+
     private let canSave: Bool
     private let canRemove: Bool
     private let save: @MainActor () async -> Void
@@ -26,7 +28,7 @@ public struct EditorActions: ToolbarContent {
             Button("Salvar", systemImage: "checkmark") { Task { await save() } }
                 .prominentButton()
                 .disabled(!canSave)
-                .tint(canSave ? .accentColor : .disabled)
+                .tint(canSave ? appTint : .disabled)
         }
     }
 }

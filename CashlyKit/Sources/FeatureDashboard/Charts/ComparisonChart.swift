@@ -3,6 +3,8 @@ import Charts
 import SwiftUI
 
 struct ComparisonChart: View {
+    @Environment(\.appTint) private var appTint
+
     let data: [ComparisonPoint]
     var visibleCount: Double = 4.5
     @ScaledMetric(relativeTo: .caption) private var height = 120.0
@@ -26,7 +28,7 @@ struct ComparisonChart: View {
         .chartYScale(domain: 0...((data.map { max($0.planned, $0.spent) }.max() ?? 0) + 10))
         .chartLegend(.hidden)
         .chartScrolling(visible: visibleCount, count: data.count)
-        .chartForegroundStyleScale(["budget": Color.retroDenim, "transaction": Color.accentColor])
+        .chartForegroundStyleScale(["budget": Color.retroDenim, "transaction": appTint])
         .frame(height: height)
         .padding(.bottom, 16)
     }

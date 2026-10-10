@@ -9,6 +9,7 @@ struct AppearanceSection: View {
             Picker("Tema", selection: $settings.appearance) {
                 ForEach(Appearance.allCases) { Text($0.title).tag($0) }
             }
+            TintRow()
             if settings.supportsAppIcons { AppIconSection() }
         }
         .alert("Ícone", isPresented: $settings.isShowingIconError) {
