@@ -6,6 +6,7 @@ Planejamento financeiro pessoal em SwiftUI para iOS, iPadOS, macOS e visionOS 27
 - [Decisões](docs/decisions.md): o que foi decidido e por quê.
 - [Backlog](docs/backlog.md): riscos, pendências e próximas features.
 - [Roadmap](docs/roadmap.md): assinatura, integrações com o sistema e novas features, por fase.
+- [Dados e análises](docs/insights.md): como gerar informações sobre passado, presente e futuro a partir dos dados.
 - [Entradas, saídas e orçamento por período](docs/financial-flows.md): regras financeiras.
 - [Validação](docs/validation.md): verificações automáticas, diagnóstico e roteiro antes de distribuir.
 
