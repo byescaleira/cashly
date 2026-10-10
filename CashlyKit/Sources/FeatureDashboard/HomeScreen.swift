@@ -22,7 +22,6 @@ public struct HomeScreen: View {
             ForecastSection()
             TrainingPromptSection()
         }
-        .requires(.user, .category, .budget)
         .fontDesign(.rounded)
         .toolbar {
             ToolbarItem(placement: .leading) { UserMenu() }

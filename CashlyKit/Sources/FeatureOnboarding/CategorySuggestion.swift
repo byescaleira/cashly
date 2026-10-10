@@ -1,0 +1,63 @@
+import CashlyDomain
+import FeatureCore
+import Foundation
+
+public enum CategorySuggestion: String, CaseIterable, Identifiable, Sendable {
+    case groceries, restaurants, transport, home, bills, health, leisure, education, shopping, pets
+
+    public static let defaults: Set<CategorySuggestion> = [
+        .groceries, .restaurants, .transport, .home, .bills, .health,
+    ]
+
+    public var id: String { rawValue }
+
+    public var name: String {
+        switch self {
+        case .groceries: "Mercado"
+        case .restaurants: "Restaurantes"
+        case .transport: "Transporte"
+        case .home: "Casa"
+        case .bills: "Contas"
+        case .health: "Saúde"
+        case .leisure: "Lazer"
+        case .education: "Educação"
+        case .shopping: "Compras"
+        case .pets: "Pets"
+        }
+    }
+
+    public var icon: String {
+        switch self {
+        case .groceries: "cart.fill"
+        case .restaurants: "fork.knife"
+        case .transport: "car.fill"
+        case .home: "house.fill"
+        case .bills: "bolt.fill"
+        case .health: "heart.fill"
+        case .leisure: "gamecontroller.fill"
+        case .education: "graduationcap.fill"
+        case .shopping: "bag.fill"
+        case .pets: "pawprint.fill"
+        }
+    }
+
+    public var color: RetroColor {
+        switch self {
+        case .groceries: .olive
+        case .restaurants: .burntOrange
+        case .transport: .denim
+        case .home: .terracotta
+        case .bills: .mustard
+        case .health: .cherry
+        case .leisure: .plum
+        case .education: .teal
+        case .shopping: .dustyRose
+        case .pets: .caramel
+        }
+    }
+
+    func category(for user: User) -> CashlyDomain.Category {
+        CashlyDomain.Category(
+            id: UUID().uuidString, user: user, name: name, color: color.hex, icon: icon)
+    }
+}

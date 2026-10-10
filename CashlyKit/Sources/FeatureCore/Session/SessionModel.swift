@@ -6,6 +6,7 @@ public final class SessionModel {
     public private(set) var users: [User] = []
     public private(set) var user: User?
     public private(set) var generation = 0
+    public private(set) var hasLoadedUsers = false
     public var filter = TransactionFilter()
     public var error: CashlyError?
     @ObservationIgnored private let provider: any RepositoryProvider
@@ -52,12 +53,14 @@ public final class SessionModel {
             }
             users = directory
             user = directory.first { $0.id == selectedID } ?? directory.first
+            hasLoadedUsers = true
         } catch is CancellationError {} catch {
             self.error = error as? CashlyError ?? .onFetch
         }
     }
 
     public var otherUsers: [User] { users.filter { $0.id != user?.id } }
+    public var needsOnboarding: Bool { hasLoadedUsers && users.isEmpty }
 
     public var userSelection: User? {
         get { user }

@@ -127,4 +127,5 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 ## 10/10/2026: estados vazios
 
 - **Um padrão só** (`EmptyStateView`, sobre o `ContentUnavailableView`, como na busca): centralizado, com a ilustração colorida, título, descrição e o botão no estilo dos antigos cards (negrito, arredondado, grande). Os cards grandes de usuário, categoria e orçamento no meio das listas saíram.
-- **A tela inteira mostra o que falta**, na ordem usuário → categoria → orçamento (`.requires(...)`): o Início pede os três; Transações e Planejamento pedem usuário e categoria (transação não depende de orçamento). Tags no Início e a categoria nos editores usam o mesmo componente dentro da seção.
+- **Estado vazio de acordo com a tela** (`.emptyState(_:when:)`): Transações mostra "Nenhuma transação neste período", Planejamento mostra "Nenhuma categoria ainda", e o editor só pede categoria onde ela é necessária. O Início não bloqueia por falta de categoria ou orçamento.
+- **Onboarding no lugar do estado vazio de usuário** (`FeatureOnboarding`): na primeira abertura, uma folha pequena de vidro no estilo da configuração dos AirPods, que se ajusta ao conteúdo de cada passo: boas-vindas → perfil (nome e avatar) → categorias sugeridas com a paleta retrô → pronto. Não fecha arrastando; dá para voltar e pular as categorias.

@@ -23,7 +23,7 @@ public struct TransactionListScreen: View {
                     get: { list.isSelecting ? .active : .inactive },
                     set: { list.isSelecting = $0 == .active }))
         #endif
-        .requires(.user, .category)
+        .emptyState(.transaction, when: list.days.isEmpty && !list.isLoading)
         .fontDesign(.rounded)
         .readableWidth()
         .toolbar { TransactionListToolbar() }

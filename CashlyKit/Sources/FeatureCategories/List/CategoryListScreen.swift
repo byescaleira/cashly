@@ -17,7 +17,7 @@ public struct CategoryListScreen: View {
             UnbudgetedCategoriesSection()
             BudgetedCategoriesSection()
         }
-        .requires(.user, .category)
+        .emptyState(.category, when: finance.categories.isEmpty && !finance.isLoading)
         .lineLimit(2)
         .font(.callout)
         .fontDesign(.rounded)

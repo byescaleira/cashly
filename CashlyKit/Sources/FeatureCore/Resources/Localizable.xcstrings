@@ -17,16 +17,13 @@
     "Adicionar categoria" : {
 
     },
-    "Adicionar orçamento" : {
-
-    },
     "Adicionar tag" : {
 
     },
-    "Adicionar usuário" : {
+    "Adicionar transação" : {
 
     },
-    "Adicione um usuário para começar a organizar as finanças." : {
+    "Adicionar usuário" : {
 
     },
     "Atualizar dados" : {
@@ -48,9 +45,6 @@
 
     },
     "Data" : {
-
-    },
-    "Defina quanto quer gastar em cada categoria para acompanhar o mês." : {
 
     },
     "Editar usuário" : {
@@ -77,16 +71,13 @@
     "Limpar filtros" : {
 
     },
-    "Nenhum orçamento neste período" : {
-
-    },
-    "Nenhum usuário ainda" : {
-
-    },
     "Nenhuma categoria ainda" : {
 
     },
     "Nenhuma tag ainda" : {
+
+    },
+    "Nenhuma transação neste período" : {
 
     },
     "Não foi possível concluir" : {
@@ -96,6 +87,9 @@
 
     },
     "Participantes" : {
+
+    },
+    "Registre entradas e saídas para acompanhar o mês." : {
 
     },
     "Salvar" : {

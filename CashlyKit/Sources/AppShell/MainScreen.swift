@@ -1,6 +1,7 @@
 import CashlyDesignSystem
 import CashlyDomain
 import FeatureCore
+import FeatureOnboarding
 import SwiftUI
 
 public struct MainScreen: View {
@@ -28,6 +29,12 @@ public struct MainScreen: View {
             }
         }
         .tabViewStyle(.sidebarAdaptable)
+        .sheet(isPresented: $navigation.isOnboarding) {
+            ModelHost(OnboardingModel(session: session)) { OnboardingScreen() }
+        }
+        .onChange(of: session.needsOnboarding, initial: true) { _, needs in
+            if needs { navigation.isOnboarding = true }
+        }
         .routeInspector(isPresented: navigation.isInspecting) {
             if let inspector = navigation.inspector {
                 InspectorScreen(inspector: inspector)

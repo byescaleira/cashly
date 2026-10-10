@@ -7,6 +7,7 @@ public final class CashlyNavigation {
     public var paths: [AppSection: [Route]] = [:]
     public var inspector: Inspector?
     public var inspectorPath: [Route] = []
+    public var isOnboarding = false
     public init() {}
 
     public struct Inspector: Identifiable, Equatable {
