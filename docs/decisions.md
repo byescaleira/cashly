@@ -126,5 +126,5 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 
 ## 10/10/2026: estados vazios
 
-- **Um padrão só** (`EmptyStateView`, sobre o `ContentUnavailableView`, como na busca): centralizado, com a ilustração em cinza (`.secondary`), título, descrição e um botão. Os cards grandes de usuário, categoria e orçamento no meio das listas saíram.
+- **Um padrão só** (`EmptyStateView`, sobre o `ContentUnavailableView`, como na busca): centralizado, com a ilustração colorida, título, descrição e o botão no estilo dos antigos cards (negrito, arredondado, grande). Os cards grandes de usuário, categoria e orçamento no meio das listas saíram.
 - **A tela inteira mostra o que falta**, na ordem usuário → categoria → orçamento (`.requires(...)`): o Início pede os três; Transações e Planejamento pedem usuário e categoria (transação não depende de orçamento). Tags no Início e a categoria nos editores usam o mesmo componente dentro da seção.

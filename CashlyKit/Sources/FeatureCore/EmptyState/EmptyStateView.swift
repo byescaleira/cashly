@@ -26,18 +26,20 @@ public struct EmptyStateView: View {
                 Text(title)
             } icon: {
                 image.image
-                    .renderingMode(.template)
                     .resizable()
                     .scaledToFit()
                     .frame(height: 110)
-                    .foregroundStyle(.secondary)
                     .accessibilityHidden(true)
             }
         } description: {
             Text(description)
         } actions: {
-            Button(actionTitle, action: action)
-                .prominentButton()
+            Button(action: action) {
+                Text(actionTitle).font(.headline.weight(.bold)).frame(maxWidth: .infinity)
+            }
+            .prominentButton()
+            .controlSize(.large)
+            .fontDesign(.rounded)
         }
     }
 }
