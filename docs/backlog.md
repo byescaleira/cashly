@@ -37,7 +37,9 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 
 - iPhone em paisagem e app no Mac: só builds conferidos.
 - Campo de valor muito grande (13 dígitos) corta o "R$" na borda.
-- iPad de 11" em retrato: a barra de abas tem largura limitada pelo sistema; conferir se as quatro abas cabem com Ajustes no lugar de Relatórios. Na lista de transações, "Adicionar" fica no menu "…".
+- iPad de 11" em retrato: a barra de abas tem largura limitada pelo sistema; com Ajustes, a Buscar fica atrás da seta de rolagem.
+- Primeiro toque logo depois de abrir o app às vezes é ignorado (visto no iPhone e no iPad do simulador).
+- Folha lateral na horizontal: conferida com a posição forçada; falta girar um iPad de verdade. Na lista de transações, "Adicionar" fica no menu "…".
 
 ## Qualidade de código
 

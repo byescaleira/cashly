@@ -21,7 +21,7 @@ struct InspectorScreen: View {
             \.close,
             CloseAction { navigation.close(in: inspector.section, inspecting: true) }
         )
-        #if !os(visionOS)
+        #if os(macOS)
             .inspectorColumnWidth(min: 320, ideal: 400, max: 480)
         #endif
     }

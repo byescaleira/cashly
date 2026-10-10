@@ -13,8 +13,7 @@ public struct CategoryEditorScreen: View {
             CategoryNameSection()
             ColorSection(hex: $model.draft.color)
             IconSection(
-                icon: $model.draft.icon, category: $model.symbolCategory, color: model.color,
-                layout: .grid)
+                icon: $model.draft.icon, category: $model.symbolCategory, color: model.color)
         }
         .fontDesign(.rounded)
         .toolbar {

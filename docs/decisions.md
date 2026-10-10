@@ -118,3 +118,8 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Um seletor só** (`RetroColorPicker`, grade de bolinhas no padrão do seletor de ícones) para a cor de destaque do app, categorias e tags. São 26 cores retrô com nome (`RetroColor`), em ordem de matiz. O seletor de cores do sistema saiu dos editores.
 - **Cores guardadas em hex**, como antes: registros com cor fora da paleta continuam funcionando e aparecem como "Personalizada". Categorias e tags novas começam em Laranja queimado.
 - **Cor de destaque** em Ajustes > Aparência, salva no aparelho. Ela vira o `.tint` do app e o `\.appTint` do ambiente, que as views usam no lugar de `Color.accentColor`, e também pinta a janela do UIKit (alertas e menus). O `AccentColor` do catálogo continua como valor inicial.
+
+## 10/10/2026: folha lateral e ícones
+
+- **Folha lateral no lugar do inspector** no iPhone e iPad (iOS 27, `presentationPlacement`). Na horizontal fica presa à direita; na vertical, centralizada. Abre grande e pode recolher até a barra de ações, com o conteúdo de trás usável. O Mac continua com o inspector nativo, e o visionOS com sheet, porque lá a posição não existe.
+- **Seletor de ícones no padrão do seletor de cores:** fichas de categoria roláveis e grade de bolinhas. A paleta foi refeita em 18 categorias pensadas para finanças (Alimentação, Mercado, Transporte, Viagem, Casa, Contas e serviços, Finanças, Saúde, Esportes, Compras e estilo, Cuidados pessoais, Família e pets, Lazer, Educação, Trabalho, Tecnologia, Presentes e festas, Outros), com 333 símbolos conferidos no sistema e sem repetição dentro de cada categoria. Ícones salvos que saíram da paleta continuam aparecendo.

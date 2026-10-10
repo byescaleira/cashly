@@ -27,7 +27,7 @@ flowchart TD
 | `FeatureCore` | Estado compartilhado (`SessionModel`, `FinanceModel`, `IntelligenceModel`, `EditorStatus`, `TransactionFilter`), navegação (`Route`, `AppSection`, `CashlyNavigation`, `\.open`, `\.close`), componentes usados por mais de uma feature (como `RetroColorPicker` e `ColorSection`, com as 26 cores nomeadas de `RetroColor`), textos de exibição | Domain, DesignSystem, Resource |
 | `Feature*` | Uma área do app: model, telas e seções | Domain, DesignSystem, FeatureCore |
 | `FeatureSettings` | Ajustes do app (`SettingsModel`, `DataModel`, `AppInfo`), um por processo e não por janela | Domain, FeatureCore |
-| `AppShell` | `CashlyWindow`, `MainScreen`, `SectionStack`, `RouteScreen`, inspector, folha de ajustes | todas as features |
+| `AppShell` | `CashlyWindow`, `MainScreen`, `SectionStack`, `RouteScreen`, folha lateral (`routeInspector`) | todas as features |
 | `CashlyMock` | `SampleData` e `SampleDatabase` em memória | Domain, Data |
 | `CashlyPreview` | Previews por feature sobre o `SampleDatabase` | AppShell, features, Mock |
 | `CashlyAudit` | Diagnóstico e validação automatizada (migração, integridade, volume) | Domain, Data, Mock |
@@ -64,7 +64,7 @@ Regras de dependência:
 ## Navegação
 
 - `TabView` em `sidebarAdaptable` com uma `NavigationStack` por aba (`SectionStack`): Início, Transações, Planejamento, Ajustes e Buscar (`TabRole.search` com papel proeminente, em bolha separada no fim da barra). O app abre no Início.
-- Telas pedem navegação por `@Environment(\.open)` com uma `Route`; o `AppShell` decide como apresentar: em largura regular, no `.inspector` da janela (sheet no visionOS); em largura compacta, por push.
+- Telas pedem navegação por `@Environment(\.open)` com uma `Route`; o `AppShell` decide como apresentar: em largura regular, numa folha de vidro com alturas recolhida, média e grande e o fundo usável, presa à lateral direita quando a janela está na horizontal (`presentationPlacement(.trailing)`) e centralizada na vertical; no Mac, no `.inspector`; no visionOS, em sheet; em largura compacta, por push.
 - `@Environment(\.close)` fecha a rota no contexto certo (inspector, pilha do inspector ou pilha da aba).
 - Ajustes são uma aba em todas as plataformas; no Mac também abrem na janela de Ajustes do sistema (cena `Settings`, ⌘,). O menu do avatar só troca, edita e adiciona usuários.
 - Ícones alternativos são pastas `.icon` em `Cashly/Cashly` (`CashlyIconDark`, `CashlyIconOrange`, `CashlyIconGraphite`), incluídas por `ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS`. Para um novo, crie a pasta e acrescente um `case` em `AppIcon`.
