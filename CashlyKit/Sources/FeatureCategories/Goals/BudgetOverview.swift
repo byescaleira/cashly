@@ -66,6 +66,13 @@ public struct BudgetOverview: Sendable {
     public var ratio: Double { planned > 0 ? spent / planned : 0 }
     public var unbudgeted: Double { max(totalSpent - spent, 0) }
 
+    public var status: String {
+        if spent <= 0 { return "Sem gastos ainda" }
+        if ratio > 1 { return "Passou do limite" }
+        if ratio >= 0.8 { return "Perto do limite" }
+        return "No caminho"
+    }
+
     public var groups: [(group: BudgetProgress.Group, items: [BudgetProgress])] {
         BudgetProgress.Group.allCases.compactMap { group in
             let items = items.filter { $0.group == group }.sorted { $0.ratio > $1.ratio }
