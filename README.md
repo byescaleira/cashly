@@ -7,6 +7,7 @@ Planejamento financeiro pessoal em SwiftUI para iOS, iPadOS, macOS e visionOS 27
 - [Backlog](docs/backlog.md): riscos, pendências e próximas features.
 - [Roadmap](docs/roadmap.md): assinatura, integrações com o sistema e novas features, por fase.
 - [Motor de análise](docs/analytics.md): matemática financeira, modelos e LLM para análises de passado, presente e futuro.
+- [Social e MCP](docs/social.md): compartilhar gastos, progresso de amigos sem valores e MCP para o Claude Code.
 - [Entradas, saídas e orçamento por período](docs/financial-flows.md): regras financeiras.
 - [Validação](docs/validation.md): verificações automáticas, diagnóstico e roteiro antes de distribuir.
 
