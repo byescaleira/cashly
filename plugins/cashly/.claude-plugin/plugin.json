@@ -1,8 +1,15 @@
 {
   "name": "cashly",
-  "version": "1.0.0",
-  "description": "Conecta o Claude Code ao Cashly no Mac: consulta resumo, orçamentos, transações e análises, e importa extratos (Open Finance, OFX, CSV, PDF) com conferência no app.",
-  "author": { "name": "Rafael Escaleira" },
+  "version": "1.1.0",
+  "description": "Conecta o Claude Code ao Cashly em qualquer aparelho: consulta resumo, orçamentos, transações e análises, e importa extratos (Open Finance, OFX, CSV, XLS de agregadores, PDF) com conferência no app.",
+  "author": {
+    "name": "Rafael Escaleira"
+  },
   "homepage": "https://github.com/byescaleira/cashly",
-  "keywords": ["finanças", "open finance", "importação", "mcp"]
+  "keywords": [
+    "finanças",
+    "open finance",
+    "importação",
+    "mcp"
+  ]
 }

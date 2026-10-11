@@ -10,7 +10,7 @@ O Cashly recebe transações pela ferramenta `import_transactions` do servidor M
 ## Antes de começar
 
 1. Chame `get_catalog` e guarde a moeda, a data de hoje e os nomes exatos das categorias e tags.
-2. Se o servidor não responder, peça para a pessoa abrir o Cashly no Mac e ligar **Ajustes › Claude Code**.
+2. Se o servidor não responder, peça para a pessoa abrir o Cashly (Mac, iPhone ou iPad) e ligar **Ajustes › Claude Code**. No iPhone e no iPad o app precisa ficar aberto; na primeira conexão o app pede aprovação.
 
 ## Ler o extrato
 
@@ -18,6 +18,34 @@ O Cashly recebe transações pela ferramenta `import_transactions` do servidor M
 - Para cada linha, extraia data, descrição, valor e sentido (entrada ou saída).
 - Valores em `import_transactions` são **sempre positivos**; o sentido vai em `kind` (`expense` ou `income`).
 - Datas no formato `AAAA-MM-DD`. Em fatura de cartão, use a data da compra.
+
+## Exportação de agregador (uma aba por conta e por cartão)
+
+Arquivos como `movimentacoes_<nome>_<AAAAMMDD>_<AAAAMMDD>.xls` trazem uma aba por conta ("Conta Nubank") e por cartão ("Cartão Sicredi"). Colunas: `Data` (DD.MM.AAAA), `Descrição`, `Categoria`, `Valor` (negativo é saída), `Tags`, `Informações adicionais`; nas abas de cartão há também `Fatura` (mês da fatura). Use os scripts desta skill, que não têm dependências:
+
+```bash
+python3 -I scripts/read_xls.py arquivo.xls > abas.json
+python3 -I scripts/prepare.py arquivo.xls > candidatos.json
+```
+
+`prepare.py` devolve `ready` (linhas prontas, ainda com a descrição crua em `raw` e a categoria do banco em `bank_category`) e `skipped` (contagem e total por motivo). Opções: `--holder="Nome Sobrenome"` (o padrão vem do nome do arquivo) e `--itemize-investments` (lança cada provento em vez de agrupar). O que ele já faz:
+
+- **Linhas de fatura:** "Fatura Outubro 2026" (total da fatura, sem categoria) e "Pagamento de fatura" / "CardBankslip" ficam de fora, porque as compras do cartão já entram.
+- **Parcelas:** cada mês traz uma linha `k/N` (no Sicredi também o prefixo `PARC=1NN`). As linhas de uma mesma compra viram **uma** transação com o valor total, `installments: N` e a data da 1ª parcela, calculada voltando `k−1` meses quando a 1ª não está no arquivo (`note` avisa). Compras iguais com parcelas paralelas são separadas pela sequência.
+- **Transferências entre contas da pessoa:** linhas com o nome do titular e pares de mesmo valor (saída numa conta, entrada em outra, até 3 dias) ficam de fora.
+- **Investimentos:** aplicações e resgates (RDB, CDB, integralização de capital) ficam de fora. Proventos (dividendos, JCP, rendimentos de FII, aluguel de ações) e custos (IR, corretagem, custódia) viram **um lançamento por mês** na categoria Investimentos, porque centenas de centavos poluem o histórico.
+- **Pix no crédito:** a entrada "Valor adicionado para PIX no Crédito" fica de fora; o Pix pago a quem recebeu continua como gasto.
+
+Regras aprendidas com extratos reais:
+
+- **Nunca apague linhas idênticas do mesmo extrato.** Duas compras iguais no mesmo dia acontecem (dois cafés). Para conferir, some as linhas de cada `Fatura` e compare com a linha "Fatura <Mês>": a soma tem que bater.
+- **Entrada interna categorizada como Salário** (`skipped.transfer_labeled_as_salary`; por exemplo "Tef" numa conta recebendo de "ENVIO TRANSFERÊNCIA" de outra conta do mesmo titular): pergunte se é renda ou transferência antes de lançar.
+- **Parcelas que começaram antes do período** criam também as parcelas anteriores no app. Avise e confirme se elas ainda não existem.
+- **Categorias:** a coluna `Categoria` é a classificação que a pessoa já usa. Pergunte uma vez se quer manter essas categorias (o app cria as que faltarem) ou mapear para as de `get_catalog`.
+
+### Limpar descrições em lote
+
+Com muitas descrições únicas (mais de 100), delegue a limpeza a um subagente com o modelo **Haiku**: entregue um JSON com `raw`, `bank_category`, `kind` e `count` de cada descrição única e peça de volta `{raw: {name, category_issue}}`, seguindo as regras de "Limpar e normalizar". O subagente não muda categorias, só sinaliza as erradas ("Hotel" em Casa). Confira uma amostra e as sinalizações antes de usar, e mostre à pessoa as categorias que você corrigir.
 
 ## Limpar e normalizar
 
@@ -42,7 +70,7 @@ Para cada mês do extrato, chame `list_transactions` com `month` e compare data,
 ## Confirmar e enviar
 
 1. Mostre um resumo antes de enviar: período, quantidade, total de saídas e entradas, categorias novas, o que ficou de fora e por quê.
-2. Envie em lotes de até 500 com `source` descrevendo a origem ("Nubank conta — outubro 2026").
+2. Envie em lotes de até 500 com `source` descrevendo a origem ("Nubank conta — outubro 2026"). Cada item: `date`, `description` (limpa), `amount` (positivo), `kind` (`expense` ou `income`), `category`, `status` (`paid`, `to_pay` ou `to_receive`) e, quando houver, `installments` e `tags`.
 3. Leia a resposta: se a pessoa recusou ou a conferência ainda está aberta, não reenvie; pergunte o que ajustar.
 
 Nunca invente transações nem valores. Se uma linha estiver ambígua, pergunte.
