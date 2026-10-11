@@ -1,44 +1,64 @@
-import CashlyDesignSystem
 import FeatureCore
 import SwiftUI
 
 public struct OnboardingScreen: View {
     @Environment(OnboardingModel.self) private var model
-    @State private var height: CGFloat = 560
+    @Environment(\.dismiss) private var dismiss
 
     public init() {}
 
     public var body: some View {
         @Bindable var model = model
-        VStack(spacing: 24) {
-            OnboardingTopBar()
-            Group {
-                switch model.step {
-                case .welcome: WelcomeStep()
-                case .profile: ProfileStep()
-                case .categories: CategoriesStep()
-                case .done: DoneStep()
-                }
-            }
-            .id(model.step)
-            .transition(
-                .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
-                    .combined(with: .opacity))
-            OnboardingActions()
+        GuideSheet(
+            index: model.step.rawValue, count: OnboardingStep.allCases.count,
+            isWorking: model.isSaving, back: back, primary: primary, secondary: secondary
+        ) {
+            OnboardingPage(step: model.step)
         }
-        .padding([.horizontal, .bottom], 24)
-        .padding(.top, 16)
-        .fontDesign(.rounded)
-        .animation(.smooth, value: model.step)
-        .fixedSize(horizontal: false, vertical: true)
-        .onGeometryChange(for: CGFloat.self) {
-            $0.size.height
-        } action: {
-            height = $0
-        }
-        .presentationDetents([.height(height)])
-        .presentationDragIndicator(.hidden)
         .interactiveDismissDisabled()
         .errorAlert($model.error)
+    }
+
+    private var back: (() -> Void)? {
+        guard model.canGoBack else { return nil }
+        return { model.back() }
+    }
+
+    private var primary: GuideAction {
+        GuideAction(primaryTitle, isEnabled: model.canContinue) {
+            if model.step == .done {
+                dismiss()
+            } else {
+                Task { await model.advance() }
+            }
+        }
+    }
+
+    private var secondary: GuideAction? {
+        guard model.step == .categories else { return nil }
+        return GuideAction("Pular por enquanto") { Task { await model.skipCategories() } }
+    }
+
+    private var primaryTitle: LocalizedStringKey {
+        switch model.step {
+        case .welcome: "Começar"
+        case .profile: "Continuar"
+        case .categories:
+            model.suggestions.isEmpty ? "Continuar" : "Criar \(model.suggestions.count) categorias"
+        case .done: "Começar a usar"
+        }
+    }
+}
+
+private struct OnboardingPage: View {
+    let step: OnboardingStep
+
+    var body: some View {
+        switch step {
+        case .welcome: WelcomeStep()
+        case .profile: ProfileStep()
+        case .categories: CategoriesStep()
+        case .done: DoneStep()
+        }
     }
 }

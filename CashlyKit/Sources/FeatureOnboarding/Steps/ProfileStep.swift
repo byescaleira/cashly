@@ -1,5 +1,6 @@
 import CashlyDesignSystem
 import CashlyResource
+import FeatureCore
 import SwiftUI
 
 struct ProfileStep: View {
@@ -7,7 +8,7 @@ struct ProfileStep: View {
 
     var body: some View {
         @Bindable var model = model
-        StepLayout(
+        GuidePage(
             title: "Como podemos te chamar?",
             message: "Seu perfil separa as suas finanças das de outras pessoas da casa."
         ) {

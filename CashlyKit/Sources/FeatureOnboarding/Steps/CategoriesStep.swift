@@ -1,18 +1,16 @@
 import CashlyDesignSystem
+import FeatureCore
 import SwiftUI
 
 struct CategoriesStep: View {
     @Environment(OnboardingModel.self) private var model
 
     var body: some View {
-        StepLayout(
+        GuidePage(
             title: "Escolha suas categorias",
             message: "Comece com estas e crie outras quando precisar."
         ) {
-            Image(systemName: "square.grid.2x2.fill")
-                .font(.system(size: 88))
-                .foregroundStyle(.tint)
-                .symbolEffect(.bounce, options: .nonRepeating)
+            GuideSymbol("square.grid.2x2.fill")
         } content: {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 64), spacing: 8)], spacing: 16) {
                 ForEach(CategorySuggestion.allCases) { suggestion in
