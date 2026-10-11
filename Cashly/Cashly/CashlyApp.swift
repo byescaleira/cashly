@@ -88,7 +88,7 @@ private struct CashlyRootView: View {
                     Button("Tentar novamente") { attempt += 1 }
                 }
             } else {
-                ProgressView("Abrindo Cashly")
+                LaunchView()
             }
         }
         .task(id: attempt) {

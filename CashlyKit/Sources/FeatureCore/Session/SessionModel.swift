@@ -61,6 +61,9 @@ public final class SessionModel {
 
     public var otherUsers: [User] { users.filter { $0.id != user?.id } }
     public var needsOnboarding: Bool { hasLoadedUsers && users.isEmpty }
+    public func isReady(_ finance: FinanceModel) -> Bool {
+        hasLoadedUsers && (users.isEmpty || finance.hasLoaded)
+    }
 
     public var userSelection: User? {
         get { user }

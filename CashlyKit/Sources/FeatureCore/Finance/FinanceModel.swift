@@ -4,6 +4,7 @@ import Observation
 @MainActor @Observable
 public final class FinanceModel {
     public private(set) var isLoading = false
+    public private(set) var hasLoaded = false
     public private(set) var allCategories: [CashlyDomain.Category] = []
     public private(set) var categories: [CashlyDomain.Category] = []
     public private(set) var tags: [Tag] = []
@@ -32,11 +33,17 @@ public final class FinanceModel {
         let key = session.loadKey
         guard session.user != nil else {
             reset()
+            hasLoaded = true
             return
         }
         isLoading = true
         error = nil
-        defer { if current == request { isLoading = false } }
+        defer {
+            if current == request {
+                isLoading = false
+                hasLoaded = true
+            }
+        }
         do {
             let state = try await session.repositories.dashboard.load(query: key.query)
             try Task.checkCancellation()

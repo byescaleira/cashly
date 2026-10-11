@@ -31,14 +31,12 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 - **[P3] Acessibilidade e restauração.** Dynamic Type conferido no iPhone até o tamanho de acessibilidade AX3; falta VoiceOver, principalmente gráficos e seletores de ícones. Rotas pequenas permitem deep links e restauração.
 - **Datas seguem o idioma do aparelho.** Com o aparelho em inglês, meses e dias da semana aparecem em inglês, enquanto o resto da interface está em português.
 - **Ações de retry** nos editores quando a carga inicial falha (hoje é preciso fechar e abrir).
-- **Estado vazio na abertura.** Antes de carregar os usuários, o Início mostra "Nenhum usuário ainda" por um instante; mostrar carregamento até a primeira leitura (vale para o `requires`).
 
 ## Verificação visual pendente
 
 - iPhone em paisagem e app no Mac: só builds conferidos.
 - Campo de valor muito grande (13 dígitos) corta o "R$" na borda.
 - iPad de 11" em retrato: a barra de abas tem largura limitada pelo sistema; com Ajustes, a Buscar fica atrás da seta de rolagem.
-- Primeiro toque logo depois de abrir o app às vezes é ignorado (visto no iPhone e no iPad do simulador).
 - Folha lateral na horizontal: conferida com a posição forçada; falta girar um iPad de verdade. Na lista de transações, "Adicionar" fica no menu "…".
 
 ## Qualidade de código

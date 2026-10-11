@@ -8,8 +8,8 @@ public enum AppSection: String, CaseIterable, Identifiable {
     public var title: String {
         switch self {
         case .home: "Início"
-        case .transaction: "Transações"
-        case .planning: "Planejamento"
+        case .transaction: "Histórico"
+        case .planning: "Metas"
         case .settings: "Ajustes"
         case .search: "Buscar"
         }
@@ -18,7 +18,7 @@ public enum AppSection: String, CaseIterable, Identifiable {
     public var systemImage: String {
         switch self {
         case .home: "house"
-        case .transaction: "creditcard"
+        case .transaction: "list.bullet.rectangle"
         case .planning: "calendar.badge.clock"
         case .settings: "gearshape"
         case .search: "magnifyingglass"

@@ -29,10 +29,17 @@ public struct MainScreen: View {
             }
         }
         .tabViewStyle(.sidebarAdaptable)
+        .overlay {
+            if !session.isReady(finance) {
+                LaunchView().transition(.opacity)
+            }
+        }
+        .animation(.easeOut(duration: 0.25), value: session.isReady(finance))
         .sheet(isPresented: $navigation.isOnboarding) {
             ModelHost(OnboardingModel(session: session)) { OnboardingScreen() }
         }
-        .onChange(of: session.needsOnboarding, initial: true) { _, needs in
+        .onChange(of: session.needsOnboarding && session.isReady(finance), initial: true) {
+            _, needs in
             if needs { navigation.isOnboarding = true }
         }
         .routeInspector(isPresented: navigation.isInspecting) {
