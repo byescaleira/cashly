@@ -50,7 +50,7 @@ Com muitas descrições únicas (mais de 100), delegue a limpeza a um subagente 
 ## Limpar e normalizar
 
 - **Descrição legível:** troque "PAG*IFOOD 0923 SAO PAULO" por "iFood". Tire códigos, cidades e números de autorização. Mantenha o estabelecimento.
-- **Parcelas:** "LOJA X PARC 03/10" vira uma transação "Loja X" com `installments: 10` e a data da **primeira** parcela, só uma vez. Se o extrato só mostra a parcela atual, pergunte à pessoa se as anteriores já estão no app antes de criar.
+- **Parcelas:** "LOJA X PARC 03/10" vira uma transação "Loja X" com `installments: 10`, a data da **primeira** parcela e `amount` igual ao **total da compra** (valor da parcela × 10), só uma vez. O app divide e lança uma parcela por mês. Se o extrato só mostra a parcela atual, pergunte à pessoa se as anteriores já estão no app antes de criar.
 - **Não conte duas vezes:**
   - Pagamento de fatura do cartão na conta corrente **não** é gasto quando as compras do cartão também estão sendo importadas.
   - Transferências entre contas da própria pessoa, aplicações e resgates de investimento não são gasto nem receita. Deixe de fora e cite no resumo.

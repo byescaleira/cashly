@@ -18,12 +18,15 @@ struct ImportTool: MCPTool {
                         "date": Schema.string("Data AAAA-MM-DD."),
                         "description": Schema.string(
                             "Descrição curta e legível, sem códigos do banco."),
-                        "amount": Schema.number("Valor positivo, com centavos."),
+                        "amount": Schema.number(
+                            "Valor positivo, com centavos. Em compra parcelada, o total da compra."),
                         "kind": ["type": "string", "enum": ["expense", "income"]],
                         "category": Schema.string(
                             "Nome da categoria. Prefira as existentes em get_catalog."),
                         "status": ["type": "string", "enum": ["paid", "to_pay", "to_receive"]],
-                        "installments": Schema.integer("Número de parcelas, 1 a 120. Padrão 1."),
+                        "installments": Schema.integer(
+                            "Número de parcelas, 1 a 120. Padrão 1. O app divide o total e lança uma parcela por mês a partir de date."
+                        ),
                         "tags": ["type": "array", "items": ["type": "string"]],
                     ], required: ["date", "description", "amount", "kind", "category"]),
             ],
