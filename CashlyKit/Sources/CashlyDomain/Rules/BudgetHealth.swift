@@ -11,6 +11,8 @@ public struct BudgetHealth: Equatable, Sendable {
             }
         }
 
+        public var maximumUsage: Double { BudgetHealth.usage(for: scores.lowerBound) }
+
         public func progress(for score: Int) -> Double {
             let span = Double(scores.upperBound - scores.lowerBound)
             return min(max(Double(score - scores.lowerBound) / span, 0), 1)
@@ -18,6 +20,11 @@ public struct BudgetHealth: Equatable, Sendable {
     }
 
     public static let maximumScore = 1000
+    public static let fullScoreUsage = 0.85
+
+    public static func usage(for score: Int) -> Double {
+        fullScoreUsage + Double(maximumScore - score) / (800 / 1.15)
+    }
 
     public let score: Int
 

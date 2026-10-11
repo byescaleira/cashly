@@ -73,7 +73,7 @@ extension Guide {
                         "Marque cada participante como pago ou a receber para saber quem ainda deve."
                 ),
             ]
-        case .importSpreadsheet: []
+        case .importSpreadsheet, .score: []
         }
     }
 }

@@ -13,6 +13,8 @@ public struct GuideScreen: View {
         switch guide {
         case .importSpreadsheet:
             ModelHost(SpreadsheetImportModel(session: session)) { SpreadsheetImportScreen() }
+        case .score:
+            ScoreGuideScreen()
         case .tour, .budgets, .sharing:
             TutorialScreen(pages: guide.pages)
         }

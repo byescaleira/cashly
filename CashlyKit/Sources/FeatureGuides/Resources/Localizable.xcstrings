@@ -4,6 +4,16 @@
     "%@" : {
 
     },
+    "%@ · %@–%@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$@–%3$@"
+          }
+        }
+      }
+    },
     "%lld transações foram adicionadas ao Cashly." : {
 
     },
@@ -37,7 +47,16 @@
     "Categorias e orçamentos. Defina quanto quer gastar em cada uma e acompanhe o ritmo." : {
 
     },
+    "Com os orçamentos e gastos do filtro atual." : {
+
+    },
     "Como dividir" : {
+
+    },
+    "Como funciona" : {
+
+    },
+    "Como subir a pontuação" : {
 
     },
     "Concluir" : {
@@ -64,6 +83,9 @@
     "Encontre qualquer transação, categoria ou tag, de qualquer mês." : {
 
     },
+    "Entendi" : {
+
+    },
     "Entrada ou Saída" : {
 
     },
@@ -74,6 +96,12 @@
 
     },
     "Escolher outro arquivo" : {
+
+    },
+    "Fica em 1.000 enquanto o gasto não passa de 85% do planejado. Depois disso, cai aos poucos." : {
+
+    },
+    "Gasto" : {
 
     },
     "Importar %lld transações" : {
@@ -112,7 +140,16 @@
     "Participantes" : {
 
     },
+    "Pequenos ajustes ao longo do mês fazem mais diferença que um corte no fim." : {
+
+    },
+    "Planejado" : {
+
+    },
     "Planejamento" : {
+
+    },
+    "Pontuação" : {
 
     },
     "Pontuação de saúde" : {
@@ -125,6 +162,9 @@
 
     },
     "Salve a planilha como CSV, separada por ponto e vírgula ou vírgula, e escolha o arquivo no app Arquivos. A planilha exportada pelo Cashly também funciona." : {
+
+    },
+    "Seu período agora" : {
 
     },
     "Situação" : {
@@ -140,6 +180,9 @@
 
     },
     "Transações" : {
+
+    },
+    "Um número de 200 a 1.000 que compara o que você gastou com o que planejou para o período. Quanto mais o gasto passa do planejado, menor ela fica." : {
 
     },
     "Um orçamento por categoria" : {

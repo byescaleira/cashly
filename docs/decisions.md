@@ -148,3 +148,10 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Importar planilha** em quatro passos: como montar (colunas, exemplo e modelo para baixar), escolher o arquivo, conferir (válidas, totais, categorias e tags que serão criadas, linhas com problema) e concluído. Aceita a planilha exportada pelo Cashly. A leitura (`SpreadsheetParser`) fica no domínio e é testada.
 - **Importar backup** segue o mesmo padrão: explicação, conferência com as contagens e concluído.
 - **Abertura:** o "Abrindo Cashly" fica até usuários e o primeiro resumo carregarem (`SessionModel.isReady`), sem o Início aparecer vazio e depois com zeros. A demora longa em branco vista no simulador era do simulador com vários aparelhos ligados.
+
+## 10/10/2026: aba Metas e guia da pontuação
+
+- **Metas separa orçamentos e categorias.** No topo, o **Resumo do mês**: planejado, gasto e disponível, a barra de uso, quanto dá para gastar por dia até o fim do mês, o fechamento projetado no ritmo atual e quanto foi gasto em categorias sem orçamento. Depois, os **orçamentos agrupados pela situação**, em linguagem simples: Passaram do limite, Perto do limite (80% ou mais), No caminho e Sem gastos ainda, os piores primeiro, cada um com barra, "Sobram"/"Passou" e gasto de planejado. Por fim, **Categorias** numa seção, com a quantidade e o total de orçamentos e o gasto do período.
+- **Menu de contexto** em orçamentos (Editar, Ver categoria, Apagar) e em categorias (Editar, Novo orçamento, Apagar), com confirmação antes de apagar. O "+" da barra oferece nova categoria ou novo orçamento.
+- **O cálculo fica em `BudgetOverview` e `BudgetProgress`**, testados; o `GoalsModel` só junta os dados e apaga.
+- **Guia da pontuação:** tocar no cartão da Pontuação (ou no ⓘ) abre um guia: o que é, as faixas com o limite de gasto de cada uma, os números do período atual (quanto ainda pode gastar mantendo 1.000 e Saudável) e como subir. As faixas vêm da mesma fórmula da pontuação (`BudgetHealth.usage(for:)`).

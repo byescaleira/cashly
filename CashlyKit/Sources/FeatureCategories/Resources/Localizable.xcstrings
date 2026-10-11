@@ -1,7 +1,23 @@
 {
   "sourceLanguage" : "pt-BR",
   "strings" : {
-    "Adicionar categoria" : {
+    "%@ de %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ de %2$@"
+          }
+        }
+      }
+    },
+    "Adicionar" : {
+
+    },
+    "Apagar" : {
+
+    },
+    "Categorias" : {
 
     },
     "Definir orçamento de %@" : {
@@ -10,19 +26,49 @@
     "Digite o nome da categoria" : {
 
     },
+    "Disponível" : {
+
+    },
+    "Editar" : {
+
+    },
     "Estas categorias ainda não têm orçamento. Toque em uma para definir o valor do mês." : {
+
+    },
+    "Gasto" : {
+
+    },
+    "Metas" : {
 
     },
     "Nome" : {
 
     },
+    "Nova categoria" : {
+
+    },
+    "Novo orçamento" : {
+
+    },
+    "O valor à direita é o gasto no período." : {
+
+    },
     "Orçamentos" : {
 
     },
-    "Planejamento" : {
+    "Passou" : {
+
+    },
+    "Planejado" : {
 
     },
     "Quer mais controle?" : {
+
+    },
+    "Resumo do mês" : {
+
+    },
+    "Ver categoria" : {
 
     }
   },
