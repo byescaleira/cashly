@@ -1,7 +1,7 @@
 import Foundation
 
 public enum AppIcon: String, CaseIterable, Identifiable, Sendable {
-    case standard, dark, orange, graphite
+    case standard, dark, orange, graphite, blood, bat, skull, frankenstein
 
     public var id: String { rawValue }
 
@@ -15,15 +15,23 @@ public enum AppIcon: String, CaseIterable, Identifiable, Sendable {
         case .dark: "CashlyIconDark"
         case .orange: "CashlyIconOrange"
         case .graphite: "CashlyIconGraphite"
+        case .blood: "CashlyIconBlood"
+        case .bat: "CashlyIconBat"
+        case .skull: "CashlyIconSkull"
+        case .frankenstein: "CashlyIconFrankenstein"
         }
     }
 
     var title: String {
         switch self {
-        case .standard: "Verde"
-        case .dark: "Escuro"
-        case .orange: "Laranja"
-        case .graphite: "Grafite"
+        case .standard: "Clássico"
+        case .dark: "Noturno"
+        case .orange: "Mostarda"
+        case .graphite: "Petróleo"
+        case .blood: "Sangue"
+        case .bat: "Morcego"
+        case .skull: "Caveira"
+        case .frankenstein: "Frankenstein"
         }
     }
 }

@@ -134,3 +134,8 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 
 - **Ilustrações de objeto no estilo mid-century:** formas planas sem contorno, estrela atômica mostarda, bumerangue oliva, círculos e pontos, na paleta retrô. Cinco artes vetoriais: busca (recibo e lupa), categorias (blocos com ícones), tags (etiquetas), transações (cartão e moedas) e boas-vindas (carteira). Pessoas saíram das ilustrações.
 - **A busca usa o mesmo `EmptyStateView`**, sem botão, para "Buscar no Cashly" e "Nada encontrado".
+
+## 10/10/2026: ícone retrô
+
+- **Ícone no Icon Composer com vidro**, na paleta retrô: fundo creme (ou noturno), cartão de vidro colorido, "$" creme e bolso creme. A estrela atômica mostarda sai por trás do cartão. O cartão e o bolso têm cantos concêntricos com o ícone (raio do ícone menos a margem), com margem de 100 e 80 pt.
+- **Variações:** Clássico (laranja queimado), Noturno, Mostarda e Petróleo. Para outubro: Sangue, Morcego, Caveira e Frankenstein.

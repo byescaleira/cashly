@@ -1,0 +1,193 @@
+{
+  "fill-specializations": [
+    {
+      "value": {
+        "linear-gradient": [
+          "srgb:0.22745,0.13725,0.25098,1.00000",
+          "srgb:0.11765,0.07843,0.14118,1.00000"
+        ]
+      }
+    },
+    {
+      "appearance": "dark",
+      "value": {
+        "linear-gradient": [
+          "srgb:0.22745,0.13725,0.25098,1.00000",
+          "srgb:0.11765,0.07843,0.14118,1.00000"
+        ]
+      }
+    }
+  ],
+  "groups": [
+    {
+      "layers": [
+        {
+          "name": "Bat",
+          "image-name": "Bat.svg",
+          "glass": false,
+          "opacity": 1,
+          "fill-specializations": [
+            {
+              "value": {
+                "solid": "srgb:0.07059,0.04706,0.07843,1.00000"
+              }
+            }
+          ],
+          "position": {
+            "scale": 2.2,
+            "translation-in-points": [
+              -90,
+              -300
+            ]
+          }
+        },
+        {
+          "name": "Bat 2",
+          "image-name": "Bat.svg",
+          "glass": false,
+          "opacity": 1,
+          "fill-specializations": [
+            {
+              "value": {
+                "solid": "srgb:0.07059,0.04706,0.07843,1.00000"
+              }
+            }
+          ],
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              190,
+              -360
+            ]
+          }
+        },
+        {
+          "name": "Moon",
+          "image-name": "Moon.svg",
+          "glass": false,
+          "opacity": 1,
+          "fill-specializations": [
+            {
+              "value": {
+                "solid": "srgb:0.89020,0.69020,0.29412,1.00000"
+              }
+            }
+          ],
+          "position": {
+            "scale": 0.55,
+            "translation-in-points": [
+              250,
+              -250
+            ]
+          }
+        }
+      ],
+      "name": "Group",
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": false,
+        "value": 0.5
+      }
+    },
+    {
+      "layers": [
+        {
+          "fill-specializations": [
+            {
+              "value": {
+                "linear-gradient": [
+                  "srgb:0.16863,0.10588,0.18039,1.00000",
+                  "srgb:0.11765,0.07843,0.14118,1.00000"
+                ]
+              }
+            },
+            {
+              "appearance": "tinted",
+              "value": {
+                "solid": "srgb:0.87843,0.47059,0.18039,1.00000"
+              }
+            }
+          ],
+          "image-name": "Rectangle 4.svg",
+          "name": "Rectangle 4",
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              232.0
+            ]
+          }
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": false,
+        "value": 0.5
+      }
+    },
+    {
+      "layers": [
+        {
+          "blend-mode": "normal",
+          "fill-specializations": [
+            {
+              "value": {
+                "solid": "srgb:0.95294,0.90196,0.80000,1.00000"
+              }
+            }
+          ],
+          "glass": false,
+          "image-name": "Vector.svg",
+          "name": "Vector",
+          "opacity": 0.95,
+          "position": {
+            "scale": 1.85,
+            "translation-in-points": [
+              0,
+              -60
+            ]
+          }
+        },
+        {
+          "fill-specializations": [
+            {
+              "value": {
+                "solid": "srgb:0.87843,0.47059,0.18039,1.00000"
+              }
+            }
+          ],
+          "glass": true,
+          "image-name": "Rectangle 2.svg",
+          "name": "Rectangle 2",
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": true,
+        "value": 0.5
+      }
+    }
+  ],
+  "supported-platforms": {
+    "circles": [
+      "watchOS"
+    ],
+    "squares": "shared"
+  }
+}

@@ -1,11 +1,21 @@
 {
   "fill-specializations": [
     {
-      "value": "automatic"
+      "value": {
+        "linear-gradient": [
+          "srgb:0.96471,0.92157,0.82745,1.00000",
+          "srgb:0.92157,0.85098,0.71373,1.00000"
+        ]
+      }
     },
     {
       "appearance": "dark",
-      "value": "automatic"
+      "value": {
+        "linear-gradient": [
+          "srgb:0.16471,0.12549,0.10588,1.00000",
+          "srgb:0.10980,0.08235,0.07059,1.00000"
+        ]
+      }
     }
   ],
   "groups": [
@@ -28,8 +38,8 @@
             {
               "value": {
                 "linear-gradient": [
-                  "display-p3:0.94727,0.94629,0.94824,1.00000",
-                  "display-p3:0.92480,0.92627,0.92627,1.00000"
+                  "srgb:0.98431,0.95686,0.90196,1.00000",
+                  "srgb:0.94510,0.89020,0.77647,1.00000"
                 ]
               }
             },
@@ -37,25 +47,25 @@
               "appearance": "dark",
               "value": {
                 "linear-gradient": [
-                  "display-p3:0.13098,0.13013,0.12988,1.00000",
-                  "display-p3:0.07892,0.07983,0.07812,1.00000"
+                  "srgb:0.23137,0.18039,0.15294,1.00000",
+                  "srgb:0.18039,0.14118,0.12157,1.00000"
                 ]
               }
             },
             {
               "appearance": "tinted",
               "value": {
-                "solid": "srgb:0.55686,0.55686,0.57647,1.00000"
+                "solid": "srgb:0.78431,0.39216,0.16863,1.00000"
               }
             }
           ],
           "image-name": "Rectangle 4.svg",
           "name": "Rectangle 4",
           "position": {
-            "scale": 1.08,
+            "scale": 1,
             "translation-in-points": [
               0,
-              236.10548948697726
+              232.0
             ]
           }
         }
@@ -76,28 +86,25 @@
           "fill-specializations": [
             {
               "value": {
-                "linear-gradient": [
-                  "display-p3:0.99414,0.99365,0.99219,1.00000",
-                  "display-p3:0.97021,0.97363,0.97266,1.00000"
-                ]
+                "solid": "srgb:0.98431,0.95686,0.90196,1.00000"
               }
             },
             {
               "appearance": "dark",
               "value": {
-                "solid": "display-p3:0.18018,0.18042,0.17920,1.00000"
+                "solid": "srgb:0.95294,0.90196,0.80000,1.00000"
               }
             }
           ],
           "glass": false,
           "image-name": "Vector.svg",
           "name": "Vector",
-          "opacity": 0.8,
+          "opacity": 0.95,
           "position": {
-            "scale": 2,
+            "scale": 1.85,
             "translation-in-points": [
               0,
-              -65.76211939734782
+              -60
             ]
           }
         },
@@ -105,13 +112,13 @@
           "fill-specializations": [
             {
               "value": {
-                "solid": "srgb:0.22745,0.22745,0.23529,1.00000"
+                "solid": "srgb:0.18039,0.49020,0.45490,1.00000"
               }
             },
             {
               "appearance": "dark",
               "value": {
-                "solid": "srgb:0.55686,0.55686,0.57647,1.00000"
+                "solid": "srgb:0.24314,0.57647,0.53725,1.00000"
               }
             }
           ],
@@ -119,7 +126,7 @@
           "image-name": "Rectangle 2.svg",
           "name": "Rectangle 2",
           "position": {
-            "scale": 1.25,
+            "scale": 1,
             "translation-in-points": [
               0,
               0
@@ -133,6 +140,45 @@
       },
       "translucency": {
         "enabled": true,
+        "value": 0.5
+      }
+    },
+    {
+      "layers": [
+        {
+          "name": "Star",
+          "image-name": "Star.svg",
+          "glass": false,
+          "opacity": 1,
+          "fill-specializations": [
+            {
+              "value": {
+                "solid": "srgb:0.83922,0.61961,0.18039,1.00000"
+              }
+            },
+            {
+              "appearance": "dark",
+              "value": {
+                "solid": "srgb:0.78824,0.58824,0.16863,1.00000"
+              }
+            }
+          ],
+          "position": {
+            "scale": 0.62,
+            "translation-in-points": [
+              210,
+              -220
+            ]
+          }
+        }
+      ],
+      "name": "Star",
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.3
+      },
+      "translucency": {
+        "enabled": false,
         "value": 0.5
       }
     }
