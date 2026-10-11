@@ -7,7 +7,7 @@ struct CategoriesStep: View {
 
     var body: some View {
         GuidePage(
-            .illustrationEmpty, title: "Escolha suas categorias",
+            title: "Escolha suas categorias",
             message: "Comece com estas e crie outras quando precisar."
         ) {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 64), spacing: 8)], spacing: 16) {

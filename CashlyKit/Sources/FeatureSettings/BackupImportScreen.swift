@@ -13,19 +13,30 @@ struct BackupImportScreen: View {
             switch data.backupStep {
             case .intro:
                 GuidePage(
-                    .illustrationBackup, title: "Importar backup",
+                    title: "Importar backup",
                     message:
                         "Escolha um arquivo de backup do Cashly (.json). Os registros do arquivo são somados aos que já estão no aparelho; nada é apagado."
-                )
+                ) {
+                    ExampleFile(
+                        "Cashly-backup.json",
+                        detail: "Usuários, categorias, orçamentos e transações",
+                        kind: "JSON")
+                }
             case .review:
                 GuidePage(
-                    .illustrationReview, title: "Confira o backup",
+                    title: "Confira o backup",
                     message: LocalizedStringKey(
-                        data.pendingRestore.map(data.description(of:)) ?? ""))
+                        data.pendingRestore.map(data.description(of:)) ?? "")
+                ) {
+                    ExampleFile(
+                        "Cashly-backup.json", detail: "Pronto para importar", kind: "JSON")
+                }
             case .done:
                 GuidePage(
-                    .illustrationDone, title: "Backup importado",
-                    message: "Os registros já aparecem no app.")
+                    title: "Backup importado", message: "Os registros já aparecem no app."
+                ) {
+                    ExampleDone(value: "Backup", detail: "registros somados aos do aparelho")
+                }
             }
         }
         .fileImporter(isPresented: $data.isImporting, allowedContentTypes: [.json]) {

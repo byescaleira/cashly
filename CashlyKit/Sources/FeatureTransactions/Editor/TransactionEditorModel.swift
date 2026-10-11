@@ -10,6 +10,8 @@ public final class TransactionEditorModel {
     @ObservationIgnored private let repositories: Repositories
     @ObservationIgnored private var original: CashlyDomain.Transaction?
     private var predictsCategory: Bool?
+    @ObservationIgnored private var keptTagIDs: Set<String>?
+    @ObservationIgnored private var dismissedTagIDs: Set<String> = []
 
     public init(draft: TransactionDraft = .new(), repositories: Repositories) {
         self.draft = draft
@@ -31,6 +33,18 @@ public final class TransactionEditorModel {
     public var participantUsers: Set<User> {
         get { Set(draft.participants.map(\.user)) }
         set { selectParticipants(newValue) }
+    }
+
+    public var kind: TransactionKind {
+        get { draft.kind }
+        set {
+            guard newValue != draft.kind else { return }
+            draft.kind = newValue
+            if draft.status == .pendingToPay || draft.status == .pendingToReceive {
+                draft.status = draft.status.reverse
+            }
+            if newValue == .income { selectParticipants([]) }
+        }
     }
 
     public var splitStatus: TransactionStatus {
@@ -97,16 +111,17 @@ public final class TransactionEditorModel {
         draft.category = category
     }
 
-    public func isTagSelected(_ tag: Tag) -> Bool {
-        draft.selectedTagIDs.contains(tag.id)
+    public func matchTags() {
+        let kept = keptTagIDs ?? draft.selectedTagIDs
+        keptTagIDs = kept
+        let matched = draft.matchedTagIDs
+        dismissedTagIDs.formIntersection(matched.union(kept))
+        draft.selectedTagIDs = kept.union(matched).subtracting(dismissedTagIDs)
     }
 
-    public func setTag(_ tag: Tag, selected: Bool) {
-        if selected {
-            draft.selectedTagIDs.insert(tag.id)
-        } else {
-            draft.selectedTagIDs.remove(tag.id)
-        }
+    public func dismissTag(_ tag: Tag) {
+        dismissedTagIDs.insert(tag.id)
+        draft.selectedTagIDs.remove(tag.id)
     }
 
     public func removeParticipant(id: String) {

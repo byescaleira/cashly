@@ -11,20 +11,6 @@ struct TransactionAmountHeader: View {
         Section {
         } header: {
             VStack(spacing: 8) {
-                Menu {
-                    Picker(selection: $model.draft.status) {
-                        ForEach(TransactionStatus.allCases) { Text($0.summary).tag($0) }
-                    } label: {
-                        EmptyView()
-                    }
-                } label: {
-                    Pill(model.draft.status.summary.uppercased(), color: model.draft.status.color)
-                        .font(.caption.weight(.bold))
-                        .surface(
-                            tint: model.draft.status.color.opacity(0.2), in: .capsule,
-                            interactive: true)
-                }
-                .accessibilityLabel("Status: \(model.draft.status.summary)")
                 if !model.draft.participants.isEmpty {
                     Pill(
                         model.draft.splitValue?.formatted(.appCurrency) ?? "",

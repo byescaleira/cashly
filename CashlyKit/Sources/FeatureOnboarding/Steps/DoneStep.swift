@@ -6,8 +6,11 @@ struct DoneStep: View {
 
     var body: some View {
         GuidePage(
-            .illustrationDone, title: "Tudo pronto, \(model.firstName)!",
+            title: "Tudo pronto, \(model.firstName)!",
             message: "Registre a primeira transação ou defina orçamentos em Metas."
-        )
+        ) {
+            ExampleDone(
+                value: model.suggestions.count.formatted(), detail: "categorias prontas para usar")
+        }
     }
 }

@@ -1,4 +1,3 @@
-import CashlyResource
 import SwiftUI
 
 public struct GuidePage<Artwork: View, Content: View>: View {
@@ -29,24 +28,5 @@ public struct GuidePage<Artwork: View, Content: View>: View {
             content
         }
         .frame(maxWidth: .infinity)
-    }
-}
-
-extension GuidePage where Artwork == GuideIllustration {
-    public init(
-        _ image: CashlyResourceImage, title: LocalizedStringKey, message: LocalizedStringKey,
-        @ViewBuilder content: () -> Content = { EmptyView() }
-    ) {
-        self.init(
-            title: title, message: message, artwork: { GuideIllustration(image: image) },
-            content: content)
-    }
-}
-
-public struct GuideIllustration: View {
-    let image: CashlyResourceImage
-
-    public var body: some View {
-        image.image.resizable().scaledToFit().frame(height: 150)
     }
 }

@@ -10,7 +10,7 @@ struct ScoreScale: View {
             ForEach(BudgetHealth.Level.allCases, id: \.self) { level in
                 let isOn = score.map(level.scores.contains) ?? true
                 VStack(spacing: 6) {
-                    Capsule().fill(level.color.opacity(isOn ? 1 : 0.25)).frame(height: 12)
+                    Capsule().fill(level.color.opacity(isOn ? 1 : 0.25)).frame(height: 10)
                     Text(
                         "\(level.scores.lowerBound.formatted())–\(level.scores.upperBound.formatted())"
                     )
@@ -19,7 +19,6 @@ struct ScoreScale: View {
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
                 }
-                .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity)
             }
         }
@@ -32,22 +31,39 @@ struct ScoreScaleExample: View {
     }
 }
 
-struct ScoreBadgeExample: View {
+struct ScoreCardExample: View {
+    let score: Int
+
+    var body: some View {
+        let level = BudgetHealth.Level.allCases.first { $0.scores.contains(score) } ?? .critical
+        GuideExample {
+            HStack(alignment: .firstTextBaseline) {
+                Text(score.formatted()).font(.system(.largeTitle, weight: .black))
+                Text("de 1.000").font(.subheadline).foregroundStyle(.secondary)
+                Spacer()
+                ExampleChip(level.title.uppercased(), color: level.color)
+            }
+            ScoreScale(score: score)
+        }
+    }
+}
+
+struct CurrentScoreExample: View {
     @Environment(FinanceModel.self) private var finance
 
     var body: some View {
-        let health = finance.health
+        ScoreCardExample(score: finance.health.score)
+    }
+}
+
+struct DailyAllowanceExample: View {
+    var body: some View {
         GuideExample {
-            VStack(spacing: 2) {
-                Text(health.score.formatted())
-                    .font(.system(.largeTitle, design: .rounded, weight: .bold))
-                    .foregroundStyle(health.level.color)
-                Text(health.level.title)
-                    .font(.headline)
-                    .foregroundStyle(health.level.color)
-            }
-            .frame(maxWidth: .infinity)
-            ScoreScale(score: health.score)
+            ExampleHeadline(
+                value: 85.0.formatted(.appCurrency), detail: "por dia até o fim do mês")
+            Divider()
+            ExampleBar("Mercado", ratio: 0.62, color: .positive)
+            ExampleBar("Lazer", ratio: 0.81, color: .warning)
         }
     }
 }

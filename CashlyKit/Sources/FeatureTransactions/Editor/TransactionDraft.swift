@@ -40,10 +40,8 @@ public struct TransactionDraft: Hashable {
     }
 
     public var summaryTags: [Tag] { tags.filter { selectedTagIDs.contains($0.id) } }
-    public var suggestedTags: [Tag] {
-        tags.filter {
-            !selectedTagIDs.contains($0.id) && TagSuggestion.matches($0.name, in: summary)
-        }
+    public var matchedTagIDs: Set<String> {
+        Set(tags.filter { TagSuggestion.matches($0.name, in: summary) }.map(\.id))
     }
     private init(
         categories: [CashlyDomain.Category] = [],

@@ -24,13 +24,8 @@ private struct TutorialPageView: View {
     let page: TutorialPage
 
     var body: some View {
-        switch page.artwork {
-        case .illustration(let image):
-            GuidePage(image, title: page.title, message: page.message)
-        case .example(let example):
-            GuidePage(title: page.title, message: page.message) {
-                TutorialExampleView(example: example)
-            }
+        GuidePage(title: page.title, message: page.message) {
+            TutorialExampleView(example: page.example)
         }
     }
 }

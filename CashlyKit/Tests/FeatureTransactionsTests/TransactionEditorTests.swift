@@ -87,4 +87,37 @@ struct TransactionEditorTests {
         #expect(form.draft.participants.isEmpty)
         #expect(form.draft.splitMode == nil)
     }
+
+    @Test func tagsFollowTheDescription() async throws {
+        let fixture = try await TransactionFixture()
+        let trip = Tag(
+            id: "trip", user: fixture.owner, name: "Viagem", color: "C2602A", icon: "tag")
+        try await fixture.repositories.tags.save(trip)
+        let form = TransactionEditorModel(repositories: fixture.repositories)
+        await form.load()
+        form.draft.summary = "Hotel da viagem"
+        form.matchTags()
+        #expect(form.draft.selectedTagIDs == ["trip"])
+        form.dismissTag(trip)
+        form.draft.summary = "Hotel da viagem a Lisboa"
+        form.matchTags()
+        #expect(form.draft.selectedTagIDs.isEmpty)
+        form.draft.summary = "Hotel"
+        form.matchTags()
+        form.draft.summary = "Hotel da viagem"
+        form.matchTags()
+        #expect(form.draft.selectedTagIDs == ["trip"])
+    }
+
+    @Test func switchingToIncomeClearsParticipantsAndFlipsPending() async throws {
+        let fixture = try await TransactionFixture()
+        let form = TransactionEditorModel(repositories: fixture.repositories)
+        await form.load()
+        form.draft.status = .pendingToPay
+        form.participantUsers = [fixture.friend]
+        #expect(!form.draft.participants.isEmpty)
+        form.kind = .income
+        #expect(form.draft.participants.isEmpty)
+        #expect(form.draft.status == .pendingToReceive)
+    }
 }

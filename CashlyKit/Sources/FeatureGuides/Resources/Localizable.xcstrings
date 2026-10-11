@@ -17,9 +17,6 @@
     "%lld transações foram adicionadas ao Cashly." : {
 
     },
-    "A receber" : {
-
-    },
     "Acompanhe o ritmo" : {
 
     },
@@ -54,6 +51,12 @@
 
     },
     "Continuar" : {
+
+    },
+    "Data" : {
+
+    },
+    "Descrição" : {
 
     },
     "Em Metas, toque em + e escolha a categoria, o mês e o valor." : {
@@ -92,9 +95,6 @@
     "Início" : {
 
     },
-    "Jantar" : {
-
-    },
     "Marque cada participante como pago ou a receber para saber quem ainda deve." : {
 
     },
@@ -114,9 +114,6 @@
 
     },
     "Orçamentos e categorias. Defina quanto quer gastar e acompanhe o ritmo do mês." : {
-
-    },
-    "Pago" : {
 
     },
     "Participantes" : {
@@ -153,6 +150,15 @@
 
     },
     "Uma linha por transação. Data, Descrição e Valor são obrigatórias." : {
+
+    },
+    "Valor" : {
+
+    },
+    "de 1.000" : {
+
+    },
+    "mercado" : {
 
     }
   },

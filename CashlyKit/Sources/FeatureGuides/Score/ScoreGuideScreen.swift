@@ -19,10 +19,12 @@ struct ScoreGuideScreen: View {
             switch index {
             case 0:
                 GuidePage(
-                    .illustrationScore, title: "Pontuação de saúde",
+                    title: "Pontuação de saúde",
                     message:
                         "Um número de 200 a 1.000 que compara o que você gastou com o que planejou para o período."
-                )
+                ) {
+                    ScoreCardExample(score: 920)
+                }
             case 1:
                 GuidePage(
                     title: "As faixas",
@@ -43,16 +45,18 @@ struct ScoreGuideScreen: View {
                     title: "Seu período agora",
                     message: "Com os orçamentos e gastos do filtro atual."
                 ) {
-                    ScoreBadgeExample()
+                    CurrentScoreExample()
                 } content: {
                     CurrentScore()
                 }
             default:
                 GuidePage(
-                    .illustrationGrowth, title: "Como subir",
+                    title: "Como subir",
                     message:
                         "Pequenos ajustes ao longo do mês fazem mais diferença que um corte no fim."
                 ) {
+                    DailyAllowanceExample()
+                } content: {
                     GuideFeatureList {
                         GuideFeature(
                             title: "Olhe o que está perto do limite",

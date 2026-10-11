@@ -20,7 +20,7 @@ public struct BudgetEditorScreen: View {
         .toolbar {
             if model.canSuggestAmount(with: intelligence) {
                 ToolbarItem {
-                    Button("Sugerir valor", systemImage: "bolt.fill") {
+                    Button("Sugerir valor", systemImage: "bolt") {
                         Task { await model.suggestAmount(with: intelligence) }
                     }
                     .tint(.retroMustard)

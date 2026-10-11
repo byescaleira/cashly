@@ -4,9 +4,6 @@
     "%lldx" : {
 
     },
-    "Adicionar %@" : {
-
-    },
     "Adicionar transação" : {
 
     },
@@ -76,16 +73,22 @@
     "Selecionar carregadas" : {
 
     },
+    "Situação" : {
+
+    },
     "Status: %@" : {
 
     },
     "Sugerir categoria" : {
 
     },
-    "Sugestões pela descrição" : {
+    "Tag %@" : {
 
     },
-    "Tags" : {
+    "Tipo" : {
+
+    },
+    "Toque para remover" : {
 
     },
     "Transações" : {

@@ -62,9 +62,11 @@ struct SpreadsheetImportScreen: View {
 private struct FormatStep: View {
     var body: some View {
         GuidePage(
-            .illustrationSpreadsheet, title: "Monte sua planilha",
+            title: "Monte sua planilha",
             message: "Uma linha por transação. Data, Descrição e Valor são obrigatórias."
         ) {
+            SpreadsheetExample()
+        } content: {
             GuideValueList([
                 GuideValue("Data", value: "05/10/2026"),
                 GuideValue("Descrição", value: "Supermercado"),
@@ -84,10 +86,12 @@ private struct FormatStep: View {
 private struct FileStep: View {
     var body: some View {
         GuidePage(
-            .illustrationSearch, title: "Escolha o arquivo",
+            title: "Escolha o arquivo",
             message:
                 "Salve a planilha como CSV, separada por ponto e vírgula ou vírgula, e escolha o arquivo no app Arquivos. A planilha exportada pelo Cashly também funciona."
-        )
+        ) {
+            ExampleFile("extrato-outubro.csv", detail: "Separado por ponto e vírgula", kind: "CSV")
+        }
     }
 }
 
@@ -97,7 +101,20 @@ private struct ReviewStep: View {
     var body: some View {
         let preview = model.preview
         let issues = preview?.issues ?? []
-        GuidePage(.illustrationReview, title: "Confira os dados", message: "\(model.fileName)") {
+        GuidePage(title: "Confira os dados", message: "\(model.fileName)") {
+            if let rows = preview?.rows.prefix(3), !rows.isEmpty {
+                GuideExample {
+                    ForEach(rows, id: \.self) { row in
+                        ExampleRow(
+                            row.summary,
+                            detail:
+                                "\(row.category) · \(row.date.formatted(date: .abbreviated, time: .omitted))",
+                            value: row.money.doubleValue.formatted(.appCurrency),
+                            valueColor: row.kind == .income ? .positive : .primary)
+                    }
+                }
+            }
+        } content: {
             if let preview {
                 GuideValueList([
                     GuideValue("Transações prontas", value: preview.rows.count.formatted()),
@@ -140,8 +157,41 @@ private struct DoneStep: View {
 
     var body: some View {
         GuidePage(
-            .illustrationDone, title: "Importação concluída",
-            message: "\(model.imported) transações foram adicionadas ao Cashly.")
+            title: "Importação concluída",
+            message: "\(model.imported) transações foram adicionadas ao Cashly."
+        ) {
+            ExampleDone(value: model.imported.formatted(), detail: "transações importadas")
+        }
+    }
+}
+
+private struct SpreadsheetExample: View {
+    private let rows: [(String, String, String)] = [
+        ("05/10", "Mercado", "312,40"), ("06/10", "Corrida", "24,90"),
+        ("07/10", "Salário", "6.500,00"),
+    ]
+
+    var body: some View {
+        GuideExample {
+            Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 8) {
+                GridRow {
+                    Text("Data")
+                    Text("Descrição")
+                    Text("Valor").gridColumnAlignment(.trailing)
+                }
+                .font(.caption.weight(.bold))
+                .foregroundStyle(Color.retroTeal)
+                Divider()
+                ForEach(rows, id: \.0) { date, summary, value in
+                    GridRow {
+                        Text(date).foregroundStyle(.secondary)
+                        Text(summary)
+                        Text(value).fontWeight(.semibold)
+                    }
+                    .font(.subheadline.monospacedDigit())
+                }
+            }
+        }
     }
 }
 

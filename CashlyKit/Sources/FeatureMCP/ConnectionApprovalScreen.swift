@@ -17,10 +17,20 @@ public struct ConnectionApprovalScreen: View {
             secondary: GuideAction("Recusar") { mcp.answer(request.id, allow: false) }
         ) {
             GuidePage(
-                .illustrationConnect, title: "Conectar o Claude Code?",
+                title: "Conectar o Claude Code?",
                 message:
                     "\(request.client.name) \(request.client.version) em \(request.client.address) quer ler seus dados do Cashly e enviar transações. Cada envio ainda passa pela sua conferência."
-            )
+            ) {
+                GuideExample {
+                    ExampleRow(
+                        request.client.name, detail: request.client.address,
+                        value: request.client.version)
+                    HStack(spacing: 6) {
+                        ExampleChip("Ler dados", color: .retroTeal)
+                        ExampleChip("Enviar transações", color: .retroOrange)
+                    }
+                }
+            }
         }
         .interactiveDismissDisabled()
         .onDisappear { mcp.answer(request.id, allow: false) }

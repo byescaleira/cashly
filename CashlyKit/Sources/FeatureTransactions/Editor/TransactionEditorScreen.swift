@@ -16,7 +16,6 @@ public struct TransactionEditorScreen: View {
             TransactionAmountHeader()
             TransactionSummarySection()
             BudgetConflictLink()
-            TransactionTagsSection()
             TransactionCategorySection()
             TransactionDateSection()
             InstallmentSection()
@@ -25,14 +24,24 @@ public struct TransactionEditorScreen: View {
         .fontDesign(.rounded)
         .toolbar {
             ToolbarItemGroup {
+                Menu {
+                    Picker("Tipo", selection: $model.kind) {
+                        ForEach(TransactionKind.allCases) {
+                            Label($0.title, systemImage: $0.icon).tag($0)
+                        }
+                    }
+                } label: {
+                    Label(model.kind.title, systemImage: model.kind.icon)
+                }
+                .tint(Color.primary)
                 if model.canEnablePrediction(with: intelligence) {
-                    Button("Sugerir categoria", systemImage: "bolt.fill") {
+                    Button("Sugerir categoria", systemImage: "bolt") {
                         model.enablePrediction()
                     }
                 }
-                if !session.otherUsers.isEmpty {
+                if !session.otherUsers.isEmpty && model.draft.kind == .expense {
                     MultiSelectMenu(
-                        "Participantes", systemImage: "person.2.badge.plus.fill",
+                        "Participantes", systemImage: "person.2.badge.plus",
                         items: session.otherUsers, selection: $model.participantUsers,
                         showsCount: false
                     ) { Text($0.name.capitalized) }
@@ -45,6 +54,7 @@ public struct TransactionEditorScreen: View {
                 await model.remove()
             }
         }
+        .onChange(of: model.draft.summary) { model.matchTags() }
         .onChange(of: model.draft.participants) { model.updateShares() }
         .onChange(of: model.draft.amount) { model.updateShares() }
         .onChange(of: model.draft.splitMode) { model.changeSplitMode() }
