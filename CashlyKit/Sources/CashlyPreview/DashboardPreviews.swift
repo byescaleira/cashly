@@ -10,7 +10,9 @@
                     ModelHost(
                         ReportsModel(session: session, finance: finance, intelligence: intelligence)
                     ) {
-                        HomeScreen()
+                        ModelHost(InsightsModel(session: session, finance: finance)) {
+                            HomeScreen()
+                        }
                     }
                 }
             }

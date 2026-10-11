@@ -44,6 +44,13 @@ public struct Metric: Hashable, Sendable, Codable {
 public struct SeriesPoint: Hashable, Sendable, Codable {
     public let label: String
     public let value: Double
+    public let reference: Double?
+
+    public init(label: String, value: Double, reference: Double? = nil) {
+        self.label = label
+        self.value = value
+        self.reference = reference
+    }
 }
 
 public struct AnalysisResult: Sendable, Codable, Identifiable {

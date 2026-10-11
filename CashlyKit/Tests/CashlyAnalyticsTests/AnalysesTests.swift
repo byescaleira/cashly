@@ -78,7 +78,33 @@ struct AnalysesTests {
         let snapshot = ledger([transaction("a", 10_000, day: 2)], budget: 50_000)
         let all = await engine.runAll(on: snapshot)
         #expect(Set(all.map(\.id)) == ["month-pace", "daily-allowance"])
-        #expect(engine.catalog.count == 3)
+        #expect(engine.catalog.count == 5)
         #expect(await engine.run("unknown", on: snapshot) == nil)
+    }
+
+    @Test func samePointComparesWithPreviousMonths() throws {
+        let result = try #require(
+            SamePointComparison().run(
+                ledger([
+                    transaction("jul", 30_000, day: 5, month: 7),
+                    transaction("aug", 50_000, day: 8, month: 8),
+                    transaction("aug-late", 90_000, day: 25, month: 8),
+                    transaction("sep", 40_000, day: 3, month: 9),
+                    transaction("oct", 20_000, day: 4),
+                ])))
+        #expect(result.metric("average")?.value == 400)
+        #expect(result.metric("difference")?.value == -200)
+        #expect(result.series.map(\.value) == [300, 500, 400, 200])
+    }
+
+    @Test func unusualCategoryNeedsHistoryAndAClearGap() throws {
+        let history = (4...9).map { transaction("m\($0)", 10_000, day: 2, month: $0) }
+        #expect(
+            UnusualCategories().run(ledger(history + [transaction("now", 12_000, day: 3)])) == nil)
+        let result = try #require(
+            UnusualCategories().run(ledger(history + [transaction("now", 40_000, day: 3)])))
+        #expect(result.series.first?.label == "Mercado")
+        #expect(result.series.first?.value == 400)
+        #expect(result.series.first?.reference == 100)
     }
 }

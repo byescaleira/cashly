@@ -198,6 +198,7 @@ FeatureInsights/          destaques, detalhe com "Como calculamos", assistente
 | --- | --- |
 | A. Fundação | `CashlyAnalytics` com dataset, séries, matemática, motor e origem; `LedgerSource` no `CashlyData`; personas sintéticas; `CashlyAudit analytics`; três análises certas (parcelas, ritmo, quanto posso gastar) |
 | B. Previsão | Forecasters, backtest, seleção automática e intervalos; substitui a previsão atual e o botão "Treinar" |
+| A+. Início (feito) | Comparação no mesmo ponto do mês e categorias fora do padrão; seções Este mês, Comparado aos outros meses, Fora do padrão e Próximos meses no Início |
 | C. Detecção | Atípicos, mudança de patamar, recorrências e assinaturas, embeddings de descrição |
 | D. Matemática aplicada | CET, plano de dívidas, Monte Carlo, metas, orçamento sugerido |
 | E. ML | Modelo global com boosted trees, classificador pré-treinado, personalização |

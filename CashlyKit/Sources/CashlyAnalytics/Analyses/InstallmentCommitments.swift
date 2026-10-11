@@ -31,7 +31,7 @@ public struct InstallmentCommitments: Analysis {
                     unit: .count),
             ],
             series: months.map {
-                SeriesPoint(label: Formatting.month($0), value: Double(series[$0]) / 100)
+                SeriesPoint(label: Formatting.shortMonth($0), value: Double(series[$0]) / 100)
             },
             method: "Soma das parcelas e lançamentos futuros já registrados", confidence: .certain,
             evidence: Array(Set(future.map(\.transactionID))).sorted())

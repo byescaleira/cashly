@@ -185,3 +185,15 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Tags na descrição:** a tela de transação não tem mais a lista de tags com interruptores. As tags cujo nome aparece na descrição entram sozinhas como chips (texto na cor da tag, fundo da cor a 20%, cantos arredondados); tocar no chip tira a tag até a palavra sair e voltar ao texto.
 - **Tipo e situação:** Entrada ou Saída fica num menu na barra (Saída por padrão); a Situação passou de cima do valor para a seção Descrição. Trocar para Entrada tira os participantes e inverte "A pagar" e "A receber".
 - **Barra sem `.fill`:** símbolos da barra de ferramentas sempre na versão sem preenchimento.
+
+## 11/10/2026: análises no Início
+
+- **Passado, presente e futuro no Início**, em seções com linguagem simples e números grandes:
+  - **Este mês:** em quanto o mês fecha no ritmo atual, a diferença para o planejado, o gasto até hoje e quanto dá para gastar por dia (`MonthPace` e `DailyAllowance`).
+  - **Comparado aos outros meses:** quanto se gastou a mais ou a menos que a média dos três meses anteriores **até o mesmo dia**, com barras por mês (`SamePointComparison`, nova).
+  - **Fora do padrão:** categorias com gasto até hoje bem acima da mediana dos últimos meses no mesmo ponto (1,5× e R$ 50 a mais, z-score robusto), ou novas no mês (`UnusualCategories`, nova).
+  - **Próximos meses:** total já comprometido em parcelas e contas futuras, com barras por mês (`InstallmentCommitments`).
+- **`InsightsModel`** (FeatureDashboard) lê o livro pelo `RepositoriesLedgerSource`, roda o `AnalysisEngine` (cache por revisão) e entrega estruturas prontas para a tela. Cada seção só aparece quando a análise tem dados.
+- **Guias com fundo próprio:** a folha dos guias usa fundo branco no claro e preto no escuro (`sheetBackground`), com cartões em cinza (`sheetCard`). No visionOS continua o vidro do sistema.
+- **Folhas do MCP em fila:** a aprovação de conexão e a conferência de importação passam por um único apresentador, que só abre a próxima depois que a anterior fecha. Antes, uma importação logo após a aprovação era descartada pelo sistema e contava como recusa.
+

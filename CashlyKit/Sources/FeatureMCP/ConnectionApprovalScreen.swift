@@ -24,7 +24,7 @@ public struct ConnectionApprovalScreen: View {
                 GuideExample {
                     ExampleRow(
                         request.client.name, detail: request.client.address,
-                        value: request.client.version)
+                        value: "versão \(request.client.version)")
                     HStack(spacing: 6) {
                         ExampleChip("Ler dados", color: .retroTeal)
                         ExampleChip("Enviar transações", color: .retroOrange)

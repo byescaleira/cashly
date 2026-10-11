@@ -9,6 +9,7 @@ public actor AnalysisEngine {
 
     public static let standard: [any Analysis.Type] = [
         InstallmentCommitments.self, MonthPace.self, DailyAllowance.self,
+        SamePointComparison.self, UnusualCategories.self,
     ]
 
     private let analyses: [any Analysis.Type]

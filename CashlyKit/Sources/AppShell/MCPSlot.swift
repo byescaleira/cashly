@@ -16,22 +16,39 @@ public struct MCPSettingsSlot: View {
 
 struct MCPImportPresenter: ViewModifier {
     @Environment(MCPModel.self) private var mcp: MCPModel?
+    @State private var shown: MCPModel.Prompt?
+    @State private var isVisible = false
 
     func body(content: Content) -> some View {
         content
-            .sheet(
-                item: Binding(
-                    get: { mcp?.connection }, set: { if $0 == nil { mcp?.connection = nil } })
-            ) {
-                request in
-                if let mcp { ConnectionApprovalScreen(request: request).environment(mcp) }
-            }
-            .sheet(
-                item: Binding(get: { mcp?.pending }, set: { if $0 == nil { mcp?.pending = nil } })
-            ) { request in
-                ExternalImportScreen(preview: request.preview, source: request.source) { imported in
-                    mcp?.finish(request.id, imported: imported)
+            .sheet(item: $shown, onDismiss: dismissed) { prompt in
+                if let mcp {
+                    switch prompt {
+                    case .connection(let request):
+                        ConnectionApprovalScreen(request: request).environment(mcp)
+                    case .importing(let request):
+                        ExternalImportScreen(preview: request.preview, source: request.source) {
+                            mcp.finish(request.id, imported: $0)
+                        }
+                    }
                 }
             }
+            .onChange(of: mcp?.prompt?.id, initial: true) { present() }
+    }
+
+    private func dismissed() {
+        isVisible = false
+        Task { present() }
+    }
+
+    private func present() {
+        let prompt = mcp?.prompt
+        if isVisible {
+            if prompt?.id != shown?.id { shown = nil }
+            return
+        }
+        guard let prompt else { return }
+        shown = prompt
+        isVisible = true
     }
 }

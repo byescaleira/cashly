@@ -12,8 +12,7 @@ public struct GuideExample<Content: View>: View {
         VStack(alignment: .leading, spacing: 12) { content }
             .padding(16)
             .frame(maxWidth: 420)
-            .background(.groupedRow, in: .rect(cornerRadius: 22))
-            .shadow(color: .black.opacity(0.06), radius: 12, y: 4)
+            .background(.sheetCard, in: .rect(cornerRadius: 22))
             .allowsHitTesting(false)
     }
 }

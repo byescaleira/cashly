@@ -19,6 +19,18 @@ public final class MCPModel {
         public let client: MCPClient
     }
 
+    public enum Prompt: Identifiable, Sendable {
+        case connection(ConnectionRequest)
+        case importing(PendingImport)
+
+        public var id: UUID {
+            switch self {
+            case .connection(let request): request.id
+            case .importing(let request): request.id
+            }
+        }
+    }
+
     public enum State: Equatable {
         case off, starting, ready
         case failed(String)
@@ -41,6 +53,10 @@ public final class MCPModel {
     public private(set) var state = State.off
     public var pending: PendingImport?
     public var connection: ConnectionRequest?
+
+    public var prompt: Prompt? {
+        connection.map(Prompt.connection) ?? pending.map(Prompt.importing)
+    }
     public let port = MCPHTTPServer.defaultPort
     @ObservationIgnored private let provider: any RepositoryProvider
     @ObservationIgnored private let defaults: UserDefaults

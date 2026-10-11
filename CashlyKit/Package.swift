@@ -25,7 +25,7 @@ let package = Package(
             resources: [.process("Resources")]),
         .target(
             name: "FeatureDashboard",
-            dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"],
+            dependencies: ["CashlyDomain", "CashlyAnalytics", "CashlyDesignSystem", "FeatureCore"],
             resources: [.process("Resources")]),
         .target(
             name: "FeatureMCP",

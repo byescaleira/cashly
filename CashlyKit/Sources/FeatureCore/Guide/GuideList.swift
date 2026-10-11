@@ -43,7 +43,7 @@ public struct GuideFeatureList<Content: View>: View {
             }
         }
         .multilineTextAlignment(.leading)
-        .background(.groupedRow, in: .rect(cornerRadius: 18))
+        .background(.sheetCard, in: .rect(cornerRadius: 18))
     }
 }
 
@@ -85,6 +85,6 @@ public struct GuideValueList: View {
                 if index < rows.count - 1 { Divider().padding(.leading, 16) }
             }
         }
-        .background(.groupedRow, in: .rect(cornerRadius: 18))
+        .background(.sheetCard, in: .rect(cornerRadius: 18))
     }
 }

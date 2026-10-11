@@ -1,7 +1,13 @@
 {
   "sourceLanguage" : "pt-BR",
   "strings" : {
+    "%@ por dia" : {
+
+    },
     "Adicionar tag" : {
+
+    },
+    "Ainda são poucos dias no mês; a estimativa melhora com o tempo." : {
 
     },
     "Categoria" : {
@@ -10,13 +16,31 @@
     "Como funciona" : {
 
     },
+    "Comparado aos outros meses" : {
+
+    },
     "Disponível" : {
+
+    },
+    "Dá para gastar" : {
+
+    },
+    "Este mês" : {
 
     },
     "Estimativa dos gastos do mês, feita no aparelho a partir do seu histórico." : {
 
     },
+    "Fora do padrão" : {
+
+    },
     "Gasto" : {
+
+    },
+    "Gasto até hoje" : {
+
+    },
+    "Gasto até hoje comparado ao que costuma sair até este dia do mês." : {
 
     },
     "Início" : {
@@ -31,7 +55,19 @@
     "Mostra como a pontuação funciona" : {
 
     },
+    "Mês" : {
+
+    },
+    "No próximo mês" : {
+
+    },
     "Orçamento" : {
+
+    },
+    "Parcelas e contas futuras que você já registrou." : {
+
+    },
+    "Planejado" : {
 
     },
     "Planejado × gasto" : {
@@ -44,6 +80,9 @@
 
     },
     "Previsão de gastos" : {
+
+    },
+    "Próximos meses" : {
 
     },
     "Série" : {
@@ -65,6 +104,9 @@
 
     },
     "de %lld" : {
+
+    },
+    "nos próximos %lld dias" : {
 
     }
   },

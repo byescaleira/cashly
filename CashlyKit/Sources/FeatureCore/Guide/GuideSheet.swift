@@ -50,6 +50,9 @@ public struct GuideSheet<Page: View>: View {
         }
         .presentationDetents([.height(height)])
         .presentationDragIndicator(.hidden)
+        #if !os(visionOS)
+            .presentationBackground(.sheetBackground)
+        #endif
         .interactiveDismissDisabled(isWorking)
     }
 }

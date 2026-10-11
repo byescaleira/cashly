@@ -26,4 +26,8 @@ extension ShapeStyle where Self == Color {
             Color(uiColor: .secondarySystemGroupedBackground)
         #endif
     }
+
+    public static var sheetBackground: Color { Color(light: 0xFFFFFF, dark: 0x000000) }
+
+    public static var sheetCard: Color { Color(light: 0xF2F2F7, dark: 0x1C1C1E) }
 }

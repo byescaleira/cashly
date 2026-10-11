@@ -6,6 +6,7 @@ public struct HomeScreen: View {
     @Environment(FinanceModel.self) private var finance
     @Environment(DashboardModel.self) private var dashboard
     @Environment(ReportsModel.self) private var reports
+    @Environment(InsightsModel.self) private var insights
 
     public init() {}
 
@@ -15,6 +16,10 @@ public struct HomeScreen: View {
             SpendingSummarySection()
             ScoreSection()
             AvailableSection()
+            OutlookSection()
+            HistorySection()
+            UnusualSection()
+            FutureSection()
             VarianceSection()
             TopSpendingSection()
             EmptyTagsSection()
@@ -32,5 +37,6 @@ public struct HomeScreen: View {
         .onChange(of: dashboard.syncKey, initial: true) { dashboard.sync() }
         .onChange(of: reports.syncKey, initial: true) { reports.sync() }
         .task(id: reports.forecastKey) { await reports.loadForecast() }
+        .task(id: insights.key) { await insights.load() }
     }
 }

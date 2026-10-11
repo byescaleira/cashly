@@ -40,6 +40,22 @@ public struct LedgerSnapshot: Sendable {
         budgets.filter { $0.month == month }.reduce(0) { $0 + $1.money.minorUnits }
     }
 
+    public func hasActivity(in month: YearMonth) -> Bool {
+        postings.contains { $0.month == month }
+    }
+
+    public func spent(in month: YearMonth, throughDay day: Int, categoryID: String? = nil)
+        -> Int64
+    {
+        let limit = min(day, month.dayCount)
+        return postings(in: month)
+            .filter {
+                $0.isExpense && (categoryID == nil || $0.categoryID == categoryID)
+                    && CashlyCalendar.current.component(.day, from: $0.date) <= limit
+            }
+            .reduce(0) { $0 + $1.minorUnits }
+    }
+
     public func category(id: String) -> CashlyDomain.Category? {
         categories.first { $0.id == id }
     }
