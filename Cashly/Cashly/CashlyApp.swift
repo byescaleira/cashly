@@ -1,6 +1,7 @@
 import AppShell
 import CashlyData
 import CashlyDomain
+import FeatureCore
 import FeatureMCP
 import FeatureSettings
 import Observation
@@ -23,13 +24,17 @@ struct CashlyApp: App {
 
     var body: some Scene {
         WindowGroup {
-            CashlyRootView().environment(bootstrap).environment(bootstrap.mcp).cashlySettings(
-                settings)
+            CashlyRootView()
+                .environment(bootstrap)
+                .environment(bootstrap.mcp)
+                .featureFlags(bootstrap.flags)
+                .cashlySettings(settings)
         }
         #if os(macOS)
             Settings {
                 NavigationStack { SettingsScreen { MCPSettingsSlot() } }
                     .environment(bootstrap.mcp)
+                    .featureFlags(bootstrap.flags)
                     .cashlySettings(settings)
             }
         #endif
@@ -41,12 +46,26 @@ private final class CashlyBootstrap {
     private(set) var database: CashlyDatabase?
     private(set) var error: String?
     private(set) var mcp: MCPModel?
+    let flags: FeatureFlags
     let intelligence = LocalIntelligenceService()
     private let settings: SettingsModel
     @ObservationIgnored private var preparation: Task<CashlyDatabase, any Error>?
 
     init(settings: SettingsModel) {
         self.settings = settings
+        #if targetEnvironment(simulator)
+            flags = FeatureFlags()
+        #else
+            flags = FeatureFlags(source: CloudKitFlagSource())
+        #endif
+    }
+
+    private static var deviceName: String {
+        #if os(macOS)
+            Host.current().localizedName ?? "Cashly"
+        #else
+            "Cashly"
+        #endif
     }
 
     func prepare() async {
@@ -68,9 +87,10 @@ private final class CashlyBootstrap {
         do {
             let database = try await task.value
             self.database = database
-            #if os(macOS)
-                mcp = MCPModel(provider: database)
-            #endif
+            Task { await flags.refresh() }
+            if flags.isOn(.mcpServer) {
+                mcp = MCPModel(provider: database, serviceName: Self.deviceName)
+            }
             let data = DataModel(backup: database.backup, intelligence: intelligence)
             settings.data = data
             Task { await data.runAutoBackupIfNeeded() }

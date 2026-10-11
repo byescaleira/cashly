@@ -19,6 +19,8 @@ public struct MCPSettingsSection: View {
             Toggle("Permitir acesso pelo Claude Code", isOn: $mcp.isEnabled)
                 .tint(.positive)
             if mcp.isEnabled {
+                Toggle("Aceitar conexões da rede local", isOn: $mcp.allowsLocalNetwork)
+                    .tint(.positive)
                 LabeledContent("Situação", value: status)
                 Button(
                     copied ? "Comando copiado" : "Copiar comando de instalação",
@@ -35,10 +37,33 @@ public struct MCPSettingsSection: View {
         } header: {
             Text("Claude Code")
         } footer: {
-            Text(
-                "Com o app aberto, o Claude Code lê seus dados e envia transações pelo endereço 127.0.0.1:\(String(mcp.port)). Toda importação passa pela tela de conferência antes de gravar. Cole o comando copiado no Terminal; um token novo desconecta quem usava o anterior."
-            )
+            Text(footer)
         }
+        if mcp.isEnabled, !mcp.trusted.isEmpty {
+            Section {
+                ForEach(mcp.trusted, id: \.self) { key in
+                    LabeledContent(key) {
+                        Button("Remover", systemImage: "xmark.circle.fill", role: .destructive) {
+                            mcp.revoke(key)
+                        }
+                        .labelStyle(.iconOnly)
+                    }
+                }
+            } header: {
+                Text("Conexões permitidas")
+            } footer: {
+                Text("Uma conexão removida precisa ser aprovada de novo no próximo acesso.")
+            }
+        }
+    }
+
+    private var footer: String {
+        let reach =
+            mcp.allowsLocalNetwork
+            ? "Computadores da mesma rede alcançam este aparelho em \(mcp.host):\(String(mcp.port))."
+            : "Só este aparelho alcança o servidor."
+        return
+            "Com o Cashly aberto, o Claude Code consulta seus dados e envia transações. \(reach) Toda conexão nova pede sua aprovação aqui, e todo envio passa pela conferência antes de gravar. Um token novo desconecta todos."
     }
 
     private var status: String {

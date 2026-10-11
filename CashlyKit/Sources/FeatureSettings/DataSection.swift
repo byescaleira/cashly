@@ -5,6 +5,7 @@ import SwiftUI
 struct DataSection: View {
     @Environment(DataModel.self) private var data
     @Environment(\.showGuide) private var showGuide
+    @Environment(\.featureFlags) private var flags
 
     var body: some View {
         @Bindable var data = data
@@ -19,7 +20,7 @@ struct DataSection: View {
                 Button("Importar backup", systemImage: "square.and.arrow.down") {
                     data.startBackupImport()
                 }
-                if let showGuide {
+                if let showGuide, flags?.isOn(.spreadsheetImport) != false {
                     Button("Importar planilha (CSV)", systemImage: "tablecells.badge.ellipsis") {
                         showGuide(.importSpreadsheet)
                     }

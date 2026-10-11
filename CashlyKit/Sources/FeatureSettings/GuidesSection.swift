@@ -4,10 +4,11 @@ import SwiftUI
 
 struct GuidesSection: View {
     @Environment(\.showGuide) private var showGuide
+    @Environment(\.featureFlags) private var flags
     @Environment(\.appTint) private var appTint
 
     var body: some View {
-        if let showGuide {
+        if let showGuide, flags?.isOn(.guides) != false {
             Section {
                 ForEach(Guide.allCases) { guide in
                     Button {

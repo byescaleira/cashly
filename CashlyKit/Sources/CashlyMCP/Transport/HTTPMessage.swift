@@ -31,6 +31,7 @@ struct HTTPRequest: Sendable {
 struct HTTPResponse: Sendable {
     let status: Int
     let body: Data?
+    var session: String?
 
     var data: Data {
         let reason =
@@ -46,6 +47,7 @@ struct HTTPResponse: Sendable {
         var head =
             "HTTP/1.1 \(status) \(reason)\r\nConnection: close\r\nContent-Length: \(body?.count ?? 0)\r\n"
         if body != nil { head += "Content-Type: application/json\r\n" }
+        if let session { head += "Mcp-Session-Id: \(session)\r\n" }
         return Data((head + "\r\n").utf8) + (body ?? Data())
     }
 }

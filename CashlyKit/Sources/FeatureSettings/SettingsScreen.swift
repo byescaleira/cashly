@@ -43,5 +43,6 @@ private struct SettingsSections<Extra: View>: View {
         extra
         if settings.info.hasHelp { HelpSection() }
         AboutSection()
+        FlagsSection()
     }
 }

@@ -1,5 +1,7 @@
 # Métricas de uso e feature flags
 
+> Decidido em 11/10/2026: métricas só com as ferramentas da Apple (MetricKit e App Store Connect), sem TelemetryDeck. As feature flags foram implementadas como descrito abaixo.
+
 Proposta para medir o uso do app e ligar ou desligar recursos sem nova versão, mantendo a promessa de privacidade: **nenhum valor, descrição ou nome financeiro sai do aparelho**. O "motor de análise" ([analytics.md](analytics.md)) é outra coisa: ele analisa as finanças da pessoa dentro do aparelho; aqui o assunto é como o produto é usado.
 
 ## Métricas de uso

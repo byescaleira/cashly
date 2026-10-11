@@ -31,36 +31,20 @@ O que um amigo vê:
 
 **Depende de:** histórico da pontuação e eventos de gamificação (ver [roadmap.md](roadmap.md)), para haver o que mostrar além do número do mês.
 
-## 3. MCP para o Claude Code
+## 3. MCP para o Claude Code (implementado)
 
-Objetivo: perguntar ao Claude Code sobre as próprias finanças ("quanto gastei com delivery este ano?", "monte um orçamento para novembro") com os números calculados pelo Cashly.
+**Onde roda:** dentro do próprio app, em qualquer aparelho (Mac, iPhone, iPad, Vision Pro), ligado em Ajustes › Claude Code. Por padrão atende só o próprio aparelho (127.0.0.1); com "Aceitar conexões da rede local", computadores da mesma rede alcançam o aparelho pelo IP mostrado no comando de instalação (e por Bonjour, `_cashly-mcp._tcp`). No iPhone e no iPad, o app precisa estar aberto.
 
-**Proposta: um executável `cashly-mcp` dentro do app do Mac**, falando MCP por stdio com o SDK oficial em Swift (`modelcontextprotocol/swift-sdk`). Instalação em uma linha:
+**Segurança em três camadas:**
+1. **Token** no cabeçalho `Authorization`, gerado pelo app e trocável a qualquer momento (trocar desconecta todos).
+2. **Aprovação da conexão no app:** quando um cliente novo chama `initialize`, o app mostra "Conectar o Claude Code?" com o nome do cliente e o endereço. Sem aprovação não há sessão (`Mcp-Session-Id`), e qualquer outra chamada é recusada. Conexões aprovadas ficam listadas nos Ajustes e podem ser removidas.
+3. **Aprovação de toda escrita:** `import_transactions` abre a conferência no padrão dos guias (totais, categorias e tags novas, problemas) com Importar ou Recusar. O Claude recebe importado, recusado ou aguardando.
 
-```sh
-claude mcp add cashly -- /Applications/Cashly.app/Contents/MacOS/cashly-mcp
-```
+**Ferramentas:** `get_catalog`, `get_summary`, `list_transactions`, `list_budgets`, `run_analysis`, `import_transactions`.
 
-**De onde vêm os dados:** o app do Mac já recebe os dados do iPhone pelo iCloud. O app grava um retrato de leitura (o mesmo `LedgerSnapshot` do motor de análise) no App Group a cada mudança; o `cashly-mcp` lê esse retrato. Assim o executável não abre o banco SwiftData ao mesmo tempo que o app e não exige mover o banco de lugar.
+**Plugin:** `plugins/cashly`, com as skills `cashly-import` e `cashly-insights` (ver README).
 
-**Ferramentas (fase 1, só leitura):**
-
-| Ferramenta | Devolve |
-| --- | --- |
-| `summary` | Resumo de um período: entradas, saídas, saldo, pontuação |
-| `transactions` | Transações filtradas por período, categoria, tag, texto e valor |
-| `budgets` | Orçamentos com planejado, gasto e situação |
-| `categories` e `tags` | Catálogo com totais |
-| `analysis` | Qualquer análise registrada no motor (previsão, assinaturas, ritmo do mês), com a origem dos números |
-
-**Fase 2, escrita:** `add_transaction`, `set_budget`. As escritas não mexem no banco direto: viram pedidos que o app aplica ao abrir (ou por App Intents), com a regra de que o Claude Code mostra o que vai criar antes.
-
-**Privacidade:**
-- O executável só lê o retrato local e não acessa a rede.
-- Pode ser desligado nos Ajustes, o que apaga o retrato.
-- O conteúdo enviado ao Claude é o que as ferramentas devolvem; a pessoa decide quando chamar.
-
-**No iPhone:** o mesmo conjunto de ferramentas vira App Intents (Siri e Atalhos) e as ferramentas do assistente com Foundation Models, porque todas leem o mesmo motor.
+**Login com Apple:** não adotado por enquanto. Sem servidor próprio, o token de identidade da Apple não teria quem o validasse; a aprovação no aparelho é que garante quem conecta. Quando a parte social chegar, a identidade vem do iCloud da pessoa (`CKContainer.userRecordID`), sem tela de login.
 
 ## Ordem sugerida
 

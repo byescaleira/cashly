@@ -14,6 +14,12 @@
 	<string></string>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_cashly-mcp._tcp</string>
+	</array>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>O Cashly usa a rede local para que o Claude Code no seu computador consulte e envie transações, sempre com a sua aprovação.</string>
 	<key>NSUbiquitousContainers</key>
 	<dict>
 		<key>iCloud.$(CFBundleIdentifier)</key>
@@ -26,13 +32,13 @@
 			<string>Any</string>
 		</dict>
 	</dict>
-	<key>UIFileSharingEnabled</key>
-	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
 		<string>processing</string>
 		<string>fetch</string>
 	</array>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 </dict>
 </plist>

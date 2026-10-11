@@ -14,7 +14,9 @@ public enum CashlyTools {
         ]
     }
 
-    public static func server(_ context: CashlyContext) -> MCPServer {
-        MCPServer(tools: all(context), instructions: instructions)
+    public static func server(_ context: CashlyContext, authorizer: MCPAuthorizer? = nil)
+        -> MCPServer
+    {
+        MCPServer(tools: all(context), instructions: instructions, authorizer: authorizer)
     }
 }

@@ -1,13 +1,68 @@
 import Foundation
 
+public struct MCPClient: Hashable, Sendable {
+    public let name: String
+    public let version: String
+    public let address: String
+
+    public init(name: String, version: String, address: String) {
+        self.name = name
+        self.version = version
+        self.address = address
+    }
+}
+
+public typealias MCPAuthorizer = @Sendable (MCPClient) async -> Bool
+
+public struct MCPReply: Sendable {
+    public let status: Int
+    public let body: Data?
+    public let session: String?
+}
+
 public actor MCPServer {
     public static let protocolVersion = "2025-06-18"
     private let tools: [any MCPTool]
     private let instructions: String
+    private let authorizer: MCPAuthorizer?
+    private var sessions: Set<String> = []
 
-    public init(tools: [any MCPTool], instructions: String) {
+    public init(tools: [any MCPTool], instructions: String, authorizer: MCPAuthorizer? = nil) {
         self.tools = tools
         self.instructions = instructions
+        self.authorizer = authorizer
+    }
+
+    public func receive(_ data: Data, session: String?, address: String) async -> MCPReply {
+        let message = try? JSONDecoder().decode(JSONValue.self, from: data)
+        if message?["method"]?.string == "initialize", let id = message?["id"] {
+            let info = message?["params"]?["clientInfo"]
+            let client = MCPClient(
+                name: info?["name"]?.string ?? "Cliente MCP",
+                version: info?["version"]?.string ?? "",
+                address: address)
+            if let authorizer, await authorizer(client) == false {
+                return MCPReply(
+                    status: 200,
+                    body: encode(error: -32001, message: "Conexão recusada no Cashly.", id: id),
+                    session: nil)
+            }
+            let created = UUID().uuidString
+            sessions.insert(created)
+            return MCPReply(status: 200, body: await handle(data), session: created)
+        }
+        if authorizer != nil {
+            guard let session else { return MCPReply(status: 400, body: nil, session: nil) }
+            guard sessions.contains(session) else {
+                return MCPReply(status: 404, body: nil, session: nil)
+            }
+        }
+        let body = await handle(data)
+        return MCPReply(status: body == nil ? 202 : 200, body: body, session: session)
+    }
+
+    public func close(session: String) {
+        sessions.remove(session)
     }
 
     public func handle(_ data: Data) async -> Data? {

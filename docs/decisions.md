@@ -168,3 +168,9 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **MCP dentro do app do Mac**, e não como executável separado: o app roda em sandbox e outro processo não leria o banco sem pedir permissão ao sistema. O servidor ouve só em 127.0.0.1, exige token, recusa origens de fora e liga nos Ajustes. Protocolo próprio e enxuto (`CashlyMCP`), sem dependência externa.
 - **Escrita pelo MCP passa pela conferência do app:** `import_transactions` valida os itens e abre a mesma tela da importação de planilha, com "Recusar". A ferramenta espera a decisão por até ~3 minutos e responde importado, recusado ou aguardando.
 - **Plugin do Claude Code** no próprio repositório (`.claude-plugin/marketplace.json`, `plugins/cashly`): configuração do MCP por variáveis de ambiente e duas skills, `cashly-import` (extratos do Open Finance, OFX, CSV, PDF: limpeza, parcelas, transferências, duplicatas) e `cashly-insights`.
+
+## 11/10/2026: feature flags e MCP em qualquer aparelho
+
+- **Feature flags** (`FeatureFlag`, `FeatureFlags` no `FeatureCore`): padrão no código, valor remoto pelo banco público do iCloud (`CloudKitFlagSource`, registro `FeatureFlag` com `name`, `isOn`, `rollout`) e ajuste manual em Ajustes › Desenvolvimento, só em builds de desenvolvimento. Lançamento gradual por um grupo estável de 0 a 99 derivado de um identificador anônimo do aparelho. Servidor MCP, rede local, guias, importação de planilha e motor de análise já nascem atrás de flags.
+- **Analytics de uso: só da Apple** (MetricKit e App Store Connect), por decisão do usuário. O TelemetryDeck fica de fora.
+- **MCP em qualquer aparelho**, com aprovação de conexão no app e sessão `Mcp-Session-Id`; escrita sempre pela conferência. Sem login com Apple: sem servidor próprio ele não acrescenta segurança ao MCP (detalhes em [social.md](social.md)).

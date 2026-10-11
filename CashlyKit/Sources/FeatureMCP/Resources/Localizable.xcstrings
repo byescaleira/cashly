@@ -1,13 +1,29 @@
 {
   "sourceLanguage" : "pt-BR",
   "strings" : {
+    "%@ %@ em %@ quer ler seus dados do Cashly e enviar transações. Cada envio ainda passa pela sua conferência." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@ em %3$@ quer ler seus dados do Cashly e enviar transações. Cada envio ainda passa pela sua conferência."
+          }
+        }
+      }
+    },
+    "Aceitar conexões da rede local" : {
+
+    },
     "Claude Code" : {
 
     },
-    "Com o app aberto, o Claude Code lê seus dados e envia transações pelo endereço 127.0.0.1:%@. Toda importação passa pela tela de conferência antes de gravar. Cole o comando copiado no Terminal; um token novo desconecta quem usava o anterior." : {
+    "Comando copiado" : {
 
     },
-    "Comando copiado" : {
+    "Conectar o Claude Code?" : {
+
+    },
+    "Conexões permitidas" : {
 
     },
     "Copiar comando de instalação" : {
@@ -16,10 +32,22 @@
     "Gerar novo token" : {
 
     },
+    "Permitir" : {
+
+    },
     "Permitir acesso pelo Claude Code" : {
 
     },
+    "Recusar" : {
+
+    },
+    "Remover" : {
+
+    },
     "Situação" : {
+
+    },
+    "Uma conexão removida precisa ser aprovada de novo no próximo acesso." : {
 
     }
   },
