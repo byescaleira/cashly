@@ -1,16 +1,6 @@
 {
   "sourceLanguage" : "pt-BR",
   "strings" : {
-    "%@ / %@" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ / %2$@"
-          }
-        }
-      }
-    },
     "%@ de %@" : {
       "localizations" : {
         "pt-BR" : {
@@ -20,19 +10,6 @@
           }
         }
       }
-    },
-    "%@ · %@" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ · %2$@"
-          }
-        }
-      }
-    },
-    "Acima do planejado" : {
-
     },
     "Adicionar" : {
 
@@ -82,6 +59,12 @@
     "Orçamentos" : {
 
     },
+    "Passou do planejado" : {
+
+    },
+    "Planejado" : {
+
+    },
     "Quer mais controle?" : {
 
     },
@@ -89,6 +72,9 @@
 
     },
     "Ver categoria" : {
+
+    },
+    "usado" : {
 
     }
   },

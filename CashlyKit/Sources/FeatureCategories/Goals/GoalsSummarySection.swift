@@ -9,22 +9,33 @@ struct GoalsSummarySection: View {
         let overview = goals.overview
         if !overview.items.isEmpty {
             Section {
-                VStack(spacing: 16) {
-                    UsageGauge(overview: overview, color: color(for: overview.ratio))
-                    Divider()
-                    VStack(spacing: 2) {
-                        Text(overview.remaining >= 0 ? "Disponível" : "Acima do planejado")
-                            .font(.caption.weight(.semibold))
-                            .textCase(.uppercase)
-                            .foregroundStyle(.secondary)
-                        Text(
-                            "\(Text(abs(overview.remaining).formatted(.appCurrency)).foregroundStyle(overview.remaining >= 0 ? Color.primary : .negative)) / \(Text(overview.planned.formatted(.appCurrency)).foregroundStyle(.secondary))"
-                        )
-                        .font(.title3.weight(.bold))
-                        .amountLine()
+                VStack(alignment: .leading, spacing: 16) {
+                    AdaptiveStack(alignment: .center, spacing: 20) {
+                        UsageRing(ratio: overview.ratio, color: color(for: overview.ratio))
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(overview.remaining >= 0 ? "Disponível" : "Passou do planejado")
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(.secondary)
+                            Text(abs(overview.remaining).formatted(.appCurrency))
+                                .font(.title.weight(.bold))
+                                .foregroundStyle(
+                                    overview.remaining >= 0 ? Color.primary : .negative
+                                )
+                                .amountLine()
+                            VStack(alignment: .leading, spacing: 2) {
+                                Legend(
+                                    color: color(for: overview.ratio), title: "Gasto",
+                                    value: overview.spent)
+                                Legend(
+                                    color: .secondary.opacity(0.35), title: "Planejado",
+                                    value: overview.planned)
+                            }
+                            .padding(.top, 4)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     Divider()
-                    VStack(alignment: .leading, spacing: 8) {
+                    VStack(alignment: .leading, spacing: 6) {
                         if let daily = overview.dailyAllowance, let days = overview.daysLeft {
                             Hint(
                                 symbol: "calendar",
@@ -48,7 +59,6 @@ struct GoalsSummarySection: View {
                             )
                         }
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .padding(.vertical, 8)
             } header: {
@@ -62,65 +72,51 @@ struct GoalsSummarySection: View {
     }
 }
 
-private struct UsageGauge: View {
-    let overview: BudgetOverview
+private struct UsageRing: View {
+    let ratio: Double
     let color: Color
-    @ScaledMetric(relativeTo: .largeTitle) private var scaledSize: CGFloat = 200
-    private let sweep = 2.0 / 3.0
-    private let lineWidth: CGFloat = 16
-
-    private var size: CGFloat { min(scaledSize, 240) }
-    private var progress: Double { min(max(overview.ratio, 0), 1) * sweep }
+    @ScaledMetric(relativeTo: .title) private var size: CGFloat = 104
 
     var body: some View {
-        VStack(spacing: 2) {
-            ZStack {
-                arc(to: sweep).stroke(.quaternary, style: stroke)
-                arc(to: progress).stroke(color, style: stroke)
-                VStack(spacing: 0) {
-                    Text("Gasto")
-                        .font(.caption.weight(.semibold))
-                        .textCase(.uppercase)
-                        .foregroundStyle(.secondary)
-                    Text(overview.spent.formatted(.appCurrency))
-                        .font(.title.weight(.bold))
-                        .contentTransition(.numericText(value: overview.spent))
-                        .amountLine()
-                    Text(
-                        "\(overview.ratio.formatted(.percent.precision(.fractionLength(0)))) · \(overview.status)"
-                    )
-                    .font(.footnote.weight(.bold))
-                    .textCase(.uppercase)
-                    .contentTransition(.numericText(value: overview.ratio))
-                    .foregroundStyle(color)
-                }
-                .padding(.horizontal, lineWidth * 2)
+        ZStack {
+            Circle().stroke(color.opacity(0.18), lineWidth: 14)
+            Circle()
+                .trim(from: 0, to: min(max(ratio, 0), 1))
+                .stroke(color, style: StrokeStyle(lineWidth: 14, lineCap: .round))
+                .rotationEffect(.degrees(-90))
+            if ratio > 1 {
+                Circle()
+                    .trim(from: 0, to: min(ratio - 1, 1))
+                    .stroke(color.opacity(0.6), style: StrokeStyle(lineWidth: 14, lineCap: .round))
+                    .rotationEffect(.degrees(-90))
             }
-            .frame(width: size, height: size)
-            .frame(height: size * 0.75 + lineWidth / 2, alignment: .top)
-            HStack {
-                Text(0.0.formatted(.percent))
-                Spacer()
-                Text(1.0.formatted(.percent))
+            VStack(spacing: 0) {
+                Text(ratio.formatted(.percent.precision(.fractionLength(0))))
+                    .font(.title3.weight(.bold))
+                    .contentTransition(.numericText(value: ratio))
+                Text("usado").font(.caption2.weight(.semibold)).foregroundStyle(.secondary)
             }
-            .font(.subheadline.weight(.semibold))
-            .foregroundStyle(.secondary)
-            .frame(width: size)
         }
-        .frame(maxWidth: .infinity)
-        .animation(.smooth, value: overview.ratio)
+        .frame(width: min(size, 112), height: min(size, 112))
+        .padding(7)
+        .animation(.smooth, value: ratio)
         .accessibilityElement(children: .combine)
     }
+}
 
-    private var stroke: StrokeStyle {
-        StrokeStyle(lineWidth: lineWidth, lineCap: .round)
-    }
+private struct Legend: View {
+    let color: Color
+    let title: LocalizedStringKey
+    let value: Double
 
-    private func arc(to end: Double) -> some Shape {
-        Circle()
-            .inset(by: lineWidth / 2)
-            .trim(from: 0, to: end)
-            .rotation(.degrees(150))
+    var body: some View {
+        HStack(spacing: 6) {
+            Circle().fill(color).frame(width: 8, height: 8)
+            Text(title).foregroundStyle(.secondary)
+            Text(value.formatted(.appCurrency)).fontWeight(.semibold)
+        }
+        .font(.footnote)
+        .amountLine()
     }
 }
 
@@ -130,9 +126,9 @@ private struct Hint: View {
 
     var body: some View {
         Label {
-            Text(text).font(.subheadline).foregroundStyle(.secondary)
+            Text(text).font(.footnote).foregroundStyle(.secondary)
         } icon: {
-            Image(systemName: symbol).font(.subheadline).foregroundStyle(.tint)
+            Image(systemName: symbol).font(.footnote).foregroundStyle(.tint)
         }
     }
 }
