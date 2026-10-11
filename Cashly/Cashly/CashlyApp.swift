@@ -1,6 +1,7 @@
 import AppShell
 import CashlyData
 import CashlyDomain
+import FeatureMCP
 import FeatureSettings
 import Observation
 import SwiftUI
@@ -21,9 +22,16 @@ struct CashlyApp: App {
     }
 
     var body: some Scene {
-        WindowGroup { CashlyRootView().environment(bootstrap).cashlySettings(settings) }
+        WindowGroup {
+            CashlyRootView().environment(bootstrap).environment(bootstrap.mcp).cashlySettings(
+                settings)
+        }
         #if os(macOS)
-            Settings { NavigationStack { SettingsScreen() }.cashlySettings(settings) }
+            Settings {
+                NavigationStack { SettingsScreen { MCPSettingsSlot() } }
+                    .environment(bootstrap.mcp)
+                    .cashlySettings(settings)
+            }
         #endif
     }
 }
@@ -32,6 +40,7 @@ struct CashlyApp: App {
 private final class CashlyBootstrap {
     private(set) var database: CashlyDatabase?
     private(set) var error: String?
+    private(set) var mcp: MCPModel?
     let intelligence = LocalIntelligenceService()
     private let settings: SettingsModel
     @ObservationIgnored private var preparation: Task<CashlyDatabase, any Error>?
@@ -59,6 +68,9 @@ private final class CashlyBootstrap {
         do {
             let database = try await task.value
             self.database = database
+            #if os(macOS)
+                mcp = MCPModel(provider: database)
+            #endif
             let data = DataModel(backup: database.backup, intelligence: intelligence)
             settings.data = data
             Task { await data.runAutoBackupIfNeeded() }

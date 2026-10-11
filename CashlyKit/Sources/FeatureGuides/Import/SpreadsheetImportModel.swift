@@ -18,6 +18,7 @@ public final class SpreadsheetImportModel {
     public private(set) var newTags: [String] = []
     public private(set) var imported = 0
     public private(set) var isWorking = false
+    public private(set) var isExternal = false
     public var error: CashlyError?
     @ObservationIgnored private let session: SessionModel
     @ObservationIgnored private var categories: [CashlyDomain.Category] = []
@@ -27,7 +28,7 @@ public final class SpreadsheetImportModel {
         self.session = session
     }
 
-    public var canGoBack: Bool { step == .file || step == .review }
+    public var canGoBack: Bool { !isExternal && (step == .file || step == .review) }
     public var canImport: Bool { !(preview?.rows.isEmpty ?? true) }
 
     public func back() {
@@ -55,11 +56,19 @@ public final class SpreadsheetImportModel {
     }
 
     public func load(_ text: String, fileName: String) async {
+        await review(SpreadsheetParser.parse(text), source: fileName)
+    }
+
+    public func reviewExternal(_ preview: SpreadsheetPreview, source: String) async {
+        isExternal = true
+        await review(preview, source: source)
+    }
+
+    private func review(_ preview: SpreadsheetPreview, source fileName: String) async {
         do {
             let snapshot = try await session.repositories.dashboard.snapshot(month: nil)
             categories = snapshot.categories
             tags = snapshot.tags
-            let preview = SpreadsheetParser.parse(text)
             self.preview = preview
             self.fileName = fileName
             newCategories = preview.newCategories(existing: categories.map(\.name))

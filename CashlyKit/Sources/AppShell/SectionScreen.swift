@@ -25,7 +25,7 @@ struct SectionScreen: View {
         case .transaction: TransactionListScreen()
         case .planning:
             ModelHost(GoalsModel(session: session, finance: finance)) { CategoryListScreen() }
-        case .settings: SettingsScreen()
+        case .settings: SettingsScreen { MCPSettingsSlot() }
         case .search: SearchScreen()
         }
     }

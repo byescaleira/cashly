@@ -8,7 +8,7 @@ let package = Package(
     products: [
         .library(
             name: "CashlyKit",
-            targets: ["CashlyDomain", "CashlyData", "FeatureSettings", "AppShell"]),
+            targets: ["CashlyDomain", "CashlyData", "FeatureSettings", "FeatureMCP", "AppShell"]),
         .library(name: "CashlyPreview", targets: ["CashlyPreview"]),
         .executable(name: "CashlyAudit", targets: ["CashlyAudit"]),
     ],
@@ -16,6 +16,7 @@ let package = Package(
         .target(name: "CashlyDomain"),
         .target(name: "CashlyData", dependencies: ["CashlyDomain"]),
         .target(name: "CashlyAnalytics", dependencies: ["CashlyDomain"]),
+        .target(name: "CashlyMCP", dependencies: ["CashlyDomain", "CashlyAnalytics"]),
         .target(name: "CashlyDesignSystem"),
         .target(name: "CashlyResource", resources: [.process("Assets")]),
         .target(
@@ -25,6 +26,12 @@ let package = Package(
         .target(
             name: "FeatureDashboard",
             dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"],
+            resources: [.process("Resources")]),
+        .target(
+            name: "FeatureMCP",
+            dependencies: [
+                "CashlyDomain", "CashlyAnalytics", "CashlyDesignSystem", "CashlyMCP", "FeatureCore",
+            ],
             resources: [.process("Resources")]),
         .target(
             name: "FeatureGuides",
@@ -66,7 +73,8 @@ let package = Package(
             name: "AppShell",
             dependencies: [
                 "CashlyDomain", "CashlyDesignSystem", "FeatureCore", "FeatureBudgets",
-                "FeatureCategories", "FeatureDashboard", "FeatureGuides", "FeatureOnboarding",
+                "FeatureCategories", "FeatureDashboard", "FeatureGuides", "FeatureMCP",
+                "FeatureOnboarding",
                 "FeatureSearch",
                 "FeatureSettings",
                 "FeatureTags", "FeatureTransactions", "FeatureUsers",
@@ -85,6 +93,8 @@ let package = Package(
             name: "CashlyAudit", dependencies: ["CashlyDomain", "CashlyData", "CashlyMock"]),
         .testTarget(name: "CashlyDomainTests", dependencies: ["CashlyDomain"]),
         .testTarget(name: "CashlyDataTests", dependencies: ["CashlyDomain", "CashlyData"]),
+        .testTarget(
+            name: "CashlyMCPTests", dependencies: ["CashlyDomain", "CashlyData", "CashlyMCP"]),
         .testTarget(
             name: "CashlyAnalyticsTests",
             dependencies: ["CashlyDomain", "CashlyData", "CashlyAnalytics"]),

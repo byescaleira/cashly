@@ -50,7 +50,10 @@ struct SpreadsheetImportScreen: View {
     private var secondary: GuideAction? {
         switch model.step {
         case .format: GuideAction("Agora não") { dismiss() }
-        case .review: GuideAction("Escolher outro arquivo") { model.isPickingFile = true }
+        case .review:
+            model.isExternal
+                ? GuideAction("Recusar") { dismiss() }
+                : GuideAction("Escolher outro arquivo") { model.isPickingFile = true }
         case .file, .done: nil
         }
     }

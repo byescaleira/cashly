@@ -10,17 +10,42 @@ public struct SpreadsheetRow: Hashable, Sendable {
     public let money: Money
     public let installments: Int
     public let tags: [String]
+
+    public init(
+        line: Int, date: Date, summary: String, category: String, kind: TransactionKind,
+        status: TransactionStatus, money: Money, installments: Int, tags: [String]
+    ) {
+        self.line = line
+        self.date = date
+        self.summary = summary
+        self.category = category
+        self.kind = kind
+        self.status = status
+        self.money = money
+        self.installments = installments
+        self.tags = tags
+    }
 }
 
 public struct SpreadsheetIssue: Hashable, Sendable, Identifiable {
     public let line: Int
     public let message: String
     public var id: Int { line }
+
+    public init(line: Int, message: String) {
+        self.line = line
+        self.message = message
+    }
 }
 
 public struct SpreadsheetPreview: Sendable {
     public let rows: [SpreadsheetRow]
     public let issues: [SpreadsheetIssue]
+
+    public init(rows: [SpreadsheetRow], issues: [SpreadsheetIssue]) {
+        self.rows = rows
+        self.issues = issues
+    }
 
     public var categories: [String] { Self.unique(rows.map(\.category)) }
     public var tags: [String] { Self.unique(rows.flatMap(\.tags)) }

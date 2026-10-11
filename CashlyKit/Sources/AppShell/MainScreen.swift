@@ -37,6 +37,7 @@ public struct MainScreen: View {
         }
         .animation(.easeOut(duration: 0.25), value: session.isReady(finance))
         .sheet(item: $navigation.guide) { GuideScreen($0) }
+        .modifier(MCPImportPresenter())
         .environment(\.showGuide, ShowGuideAction { navigation.guide = $0 })
         .sheet(isPresented: $navigation.isOnboarding) {
             ModelHost(OnboardingModel(session: session)) { OnboardingScreen() }

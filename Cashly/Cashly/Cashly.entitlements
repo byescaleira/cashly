@@ -19,6 +19,8 @@
 	<array>
 		<string>iCloud.cashly</string>
 	</array>
+	<key>com.apple.security.network.server</key>
+	<true/>
 	<key>com.apple.developer.ubiquity-kvstore-identifier</key>
 	<string>$(TeamIdentifierPrefix)$(CFBundleIdentifier)</string>
 </dict>
