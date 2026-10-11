@@ -15,6 +15,7 @@ let package = Package(
     targets: [
         .target(name: "CashlyDomain"),
         .target(name: "CashlyData", dependencies: ["CashlyDomain"]),
+        .target(name: "CashlyAnalytics", dependencies: ["CashlyDomain"]),
         .target(name: "CashlyDesignSystem"),
         .target(name: "CashlyResource", resources: [.process("Assets")]),
         .target(
@@ -84,6 +85,9 @@ let package = Package(
             name: "CashlyAudit", dependencies: ["CashlyDomain", "CashlyData", "CashlyMock"]),
         .testTarget(name: "CashlyDomainTests", dependencies: ["CashlyDomain"]),
         .testTarget(name: "CashlyDataTests", dependencies: ["CashlyDomain", "CashlyData"]),
+        .testTarget(
+            name: "CashlyAnalyticsTests",
+            dependencies: ["CashlyDomain", "CashlyData", "CashlyAnalytics"]),
         .testTarget(
             name: "FeatureBudgetsTests",
             dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureBudgets"]),

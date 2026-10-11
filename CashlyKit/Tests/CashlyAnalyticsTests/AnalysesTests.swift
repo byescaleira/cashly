@@ -1,0 +1,84 @@
+import CashlyAnalytics
+import CashlyDomain
+import Foundation
+import Testing
+
+struct AnalysesTests {
+    private let owner = User(id: "owner", name: "Ana", photo: "1")
+    private var market: CashlyDomain.Category {
+        CashlyDomain.Category(
+            id: "market", user: owner, name: "Mercado", color: "C2602A", icon: "cart.fill")
+    }
+
+    private func date(_ day: Int, month: Int = 10) -> Date {
+        CashlyCalendar.current.date(
+            from: DateComponents(year: 2026, month: month, day: day, hour: 12)) ?? .now
+    }
+
+    private func transaction(
+        _ id: String, _ amount: Int64, day: Int, month: Int = 10, plan: Int? = nil
+    ) -> Transaction {
+        Transaction(
+            id: id, participants: [], category: market, money: Money(minorUnits: amount),
+            date: date(day, month: month), summary: id, status: .settled, splitMode: nil,
+            splitValue: nil, paymentsPlan: plan)
+    }
+
+    private func ledger(_ transactions: [Transaction], budget: Int64 = 0, today: Int = 10)
+        -> LedgerSnapshot
+    {
+        let october = YearMonth(year: 2026, month: 10) ?? YearMonth(.now)
+        let budgets =
+            budget > 0
+            ? [
+                Budget(
+                    id: "b", money: Money(minorUnits: budget), category: market, month: october,
+                    summary: "")
+            ]
+            : []
+        return LedgerSnapshot(
+            transactions: transactions, categories: [market], tags: [], budgets: budgets,
+            revision: "r1", today: date(today))
+    }
+
+    @Test func installmentsInTheFutureAreCertainCommitments() throws {
+        let result = try #require(
+            InstallmentCommitments().run(ledger([transaction("tv", 300_000, day: 5, plan: 3)])))
+        #expect(result.metric("total")?.value == 2000)
+        #expect(result.metric("nextMonth")?.value == 1000)
+        #expect(result.series.count == 2)
+        #expect(result.provenance.confidence == .certain)
+        #expect(result.provenance.evidence == ["tv"])
+    }
+
+    @Test func monthPaceProjectsFromDaysElapsed() throws {
+        let result = try #require(
+            MonthPace().run(
+                ledger(
+                    [transaction("a", 10_000, day: 2), transaction("b", 20_000, day: 9)],
+                    budget: 50_000)))
+        #expect(result.metric("projected")?.value == 930)
+        #expect(result.summary.contains("passa"))
+        #expect(result.provenance.confidence == .medium)
+    }
+
+    @Test func dailyAllowanceSubtractsUpcomingBills() throws {
+        let result = try #require(
+            DailyAllowance().run(
+                ledger(
+                    [transaction("a", 20_000, day: 3), transaction("rent", 50_000, day: 20)],
+                    budget: 100_000)))
+        #expect(result.metric("free")?.value == 300)
+        #expect(result.metric("daysLeft")?.value == 22)
+        #expect(abs((result.metric("daily")?.value ?? 0) - 13.63) < 0.01)
+    }
+
+    @Test func engineCachesByRevisionAndListsTheCatalog() async {
+        let engine = AnalysisEngine()
+        let snapshot = ledger([transaction("a", 10_000, day: 2)], budget: 50_000)
+        let all = await engine.runAll(on: snapshot)
+        #expect(Set(all.map(\.id)) == ["month-pace", "daily-allowance"])
+        #expect(engine.catalog.count == 3)
+        #expect(await engine.run("unknown", on: snapshot) == nil)
+    }
+}
