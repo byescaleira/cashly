@@ -33,10 +33,10 @@ public struct CategoryListScreen: View {
             if !session.users.isEmpty {
                 ToolbarItem {
                     Menu("Adicionar", systemImage: "plus") {
-                        Button("Nova categoria", systemImage: "folder.badge.plus") {
+                        Button("Categoria", systemImage: "folder.badge.plus") {
                             open(.addCategory(id: nil), in: section)
                         }
-                        Button("Novo orçamento", systemImage: "chart.pie") {
+                        Button("Orçamento", systemImage: "chart.pie") {
                             open(
                                 .addBudget(
                                     id: nil, categoryID: nil, date: session.filter.startDate),

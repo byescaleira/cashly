@@ -4,26 +4,7 @@
     "%@" : {
 
     },
-    "%@ · %@–%@" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ · %2$@–%3$@"
-          }
-        }
-      }
-    },
     "%lld transações foram adicionadas ao Cashly." : {
-
-    },
-    "1.234,56" : {
-
-    },
-    "2026-10-05 ou 05/10/2026" : {
-
-    },
-    "3 · Viagem, Casa" : {
 
     },
     "Acompanhe o ritmo" : {
@@ -35,13 +16,13 @@
     "As bolinhas mostram o uso: verde no caminho, mostarda atenção, ferrugem acima do orçamento." : {
 
     },
+    "As faixas" : {
+
+    },
     "Baixar modelo" : {
 
     },
     "Buscar" : {
-
-    },
-    "Categoria" : {
 
     },
     "Categorias e orçamentos. Defina quanto quer gastar em cada uma e acompanhe o ritmo." : {
@@ -53,10 +34,7 @@
     "Como dividir" : {
 
     },
-    "Como funciona" : {
-
-    },
-    "Como subir a pontuação" : {
+    "Como subir" : {
 
     },
     "Concluir" : {
@@ -68,15 +46,6 @@
     "Continuar" : {
 
     },
-    "Criada se não existir" : {
-
-    },
-    "Data" : {
-
-    },
-    "Descrição" : {
-
-    },
     "Em partes iguais, por valor fixo ou por porcentagem. O Cashly calcula a parte de cada um." : {
 
     },
@@ -84,9 +53,6 @@
 
     },
     "Entendi" : {
-
-    },
-    "Entrada ou Saída" : {
 
     },
     "Escolha o arquivo" : {
@@ -98,10 +64,7 @@
     "Escolher outro arquivo" : {
 
     },
-    "Fica em 1.000 enquanto o gasto não passa de 85% do planejado. Depois disso, cai aos poucos." : {
-
-    },
-    "Gasto" : {
+    "Fica em 1.000 até 85% do planejado e cai aos poucos depois disso." : {
 
     },
     "Importar %lld transações" : {
@@ -131,25 +94,13 @@
     "O resumo do mês: quanto entrou, quanto saiu, a pontuação e quanto ainda dá para gastar." : {
 
     },
-    "Paga, A pagar ou A receber" : {
-
-    },
-    "Parcelas e Tags" : {
-
-    },
     "Participantes" : {
 
     },
     "Pequenos ajustes ao longo do mês fazem mais diferença que um corte no fim." : {
 
     },
-    "Planejado" : {
-
-    },
     "Planejamento" : {
-
-    },
-    "Pontuação" : {
 
     },
     "Pontuação de saúde" : {
@@ -170,31 +121,19 @@
     "Seu período agora" : {
 
     },
-    "Situação" : {
-
-    },
-    "Supermercado" : {
-
-    },
-    "Tipo" : {
-
-    },
     "Todas as entradas e saídas, por dia. Toque em + para registrar e deslize para editar." : {
 
     },
     "Transações" : {
 
     },
-    "Um número de 200 a 1.000 que compara o que você gastou com o que planejou para o período. Quanto mais o gasto passa do planejado, menor ela fica." : {
+    "Um número de 200 a 1.000 que compara o que você gastou com o que planejou para o período." : {
 
     },
     "Um orçamento por categoria" : {
 
     },
-    "Uma linha por transação. Data, Descrição e Valor são obrigatórias; o resto é opcional." : {
-
-    },
-    "Valor" : {
+    "Uma linha por transação. Data, Descrição e Valor são obrigatórias." : {
 
     }
   },

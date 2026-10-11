@@ -21,17 +21,24 @@ struct ScoreGuideScreen: View {
                 GuidePage(
                     .illustrationReview, title: "Pontuação de saúde",
                     message:
-                        "Um número de 200 a 1.000 que compara o que você gastou com o que planejou para o período. Quanto mais o gasto passa do planejado, menor ela fica."
+                        "Um número de 200 a 1.000 que compara o que você gastou com o que planejou para o período."
                 )
             case 1:
                 GuidePage(
-                    title: "Como funciona",
-                    message:
-                        "Fica em 1.000 enquanto o gasto não passa de 85% do planejado. Depois disso, cai aos poucos."
+                    title: "As faixas",
+                    message: "Fica em 1.000 até 85% do planejado e cai aos poucos depois disso."
                 ) {
                     GuideSymbol("gauge.with.dots.needle.67percent")
                 } content: {
-                    LevelsTable()
+                    GuideFeatureList {
+                        ForEach(BudgetHealth.Level.allCases.reversed(), id: \.self) { level in
+                            GuideFeature(
+                                "circle.fill",
+                                title:
+                                    "\(level.title) · \(level.scores.lowerBound.formatted())–\(level.scores.upperBound.formatted())",
+                                detail: Self.rule(for: level), color: level.color)
+                        }
+                    }
                 }
             case 2:
                 GuidePage(
@@ -44,62 +51,37 @@ struct ScoreGuideScreen: View {
                 }
             default:
                 GuidePage(
-                    title: "Como subir a pontuação",
+                    title: "Como subir",
                     message:
                         "Pequenos ajustes ao longo do mês fazem mais diferença que um corte no fim."
                 ) {
                     GuideSymbol("arrow.up.right.circle.fill")
                 } content: {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Tip(
-                            symbol: "exclamationmark.triangle.fill",
-                            text: "Em Metas, olhe primeiro os orçamentos “Perto do limite”.")
-                        Tip(
-                            symbol: "slider.horizontal.3",
-                            text:
-                                "Ajuste orçamentos que estouram todo mês: um planejado realista ajuda mais."
+                    GuideFeatureList {
+                        GuideFeature(
+                            "exclamationmark.triangle.fill",
+                            title: "Olhe o que está perto do limite",
+                            detail: "Em Metas, esses orçamentos aparecem primeiro.")
+                        GuideFeature(
+                            "slider.horizontal.3", title: "Planeje valores realistas",
+                            detail: "Um orçamento que estoura todo mês ajuda menos que um ajustado."
                         )
-                        Tip(
-                            symbol: "calendar",
-                            text:
-                                "Use o valor por dia do Resumo do mês para guiar os próximos gastos."
+                        GuideFeature(
+                            "calendar", title: "Siga o valor por dia",
+                            detail: "O Resumo do mês mostra quanto dá para gastar até o fim do mês."
                         )
-                    }
-                    .padding(16)
-                    .background(.subtleFill, in: .rect(cornerRadius: 20))
-                }
-            }
-        }
-    }
-}
-
-private struct LevelsTable: View {
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            ForEach(BudgetHealth.Level.allCases.reversed(), id: \.self) { level in
-                HStack(alignment: .firstTextBaseline, spacing: 10) {
-                    Circle().fill(level.color).frame(width: 10, height: 10)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(
-                            "\(level.title) · \(level.scores.lowerBound.formatted())–\(level.scores.upperBound.formatted())"
-                        )
-                        .font(.subheadline.weight(.bold))
-                        Text(rule(for: level)).font(.footnote).foregroundStyle(.secondary)
                     }
                 }
             }
         }
-        .padding(16)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.subtleFill, in: .rect(cornerRadius: 20))
     }
 
-    private func rule(for level: BudgetHealth.Level) -> String {
+    private static func rule(for level: BudgetHealth.Level) -> String {
         let limit = level.maximumUsage.formatted(.percent.precision(.fractionLength(0)))
         return switch level {
-        case .healthy: "Gasto até \(limit) do planejado; 1.000 até 85%."
+        case .healthy: "Gasto até \(limit) do planejado."
         case .overBudget, .atRisk: "Gasto até \(limit) do planejado."
-        case .critical: "Gasto acima disso; chega a 200 com o dobro do planejado."
+        case .critical: "Acima disso; chega a 200 com o dobro do planejado."
         }
     }
 }
@@ -111,74 +93,46 @@ private struct CurrentScore: View {
         let planned = finance.budgetsAmount
         let spent = finance.expensesAmount
         let health = finance.health
-        VStack(alignment: .leading, spacing: 10) {
-            if planned > 0 {
-                Row(title: "Planejado", value: planned.formatted(.appCurrency))
-                Row(
-                    title: "Gasto",
+        if planned > 0 {
+            let keepFull = planned * BudgetHealth.fullScoreUsage - spent
+            let keepHealthy = planned * BudgetHealth.Level.healthy.maximumUsage - spent
+            GuideValueList([
+                GuideValue("Planejado", value: planned.formatted(.appCurrency)),
+                GuideValue(
+                    "Gasto",
                     value:
                         "\(spent.formatted(.appCurrency)) · \((spent / planned).formatted(.percent.precision(.fractionLength(0))))"
-                )
-                Row(
-                    title: "Pontuação",
-                    value: "\(health.score.formatted()) · \(health.level.title)",
-                    color: health.level.color)
-                Divider()
-                let keepFull = planned * BudgetHealth.fullScoreUsage - spent
-                let keepHealthy = planned * BudgetHealth.Level.healthy.maximumUsage - spent
+                ),
+                GuideValue(
+                    "Pontuação", value: "\(health.score.formatted()) · \(health.level.title)",
+                    color: health.level.color),
+            ])
+            GuideFeatureList {
                 if keepFull > 0 {
-                    Tip(
-                        symbol: "checkmark.circle.fill",
-                        text:
-                            "Gastando até mais \(keepFull.formatted(.appCurrency)), a pontuação continua 1.000."
-                    )
+                    GuideFeature(
+                        "checkmark.seal.fill",
+                        title: "Mais \(keepFull.formatted(.appCurrency)) e continua 1.000",
+                        color: .positive)
                 }
                 if keepHealthy > 0 {
-                    Tip(
-                        symbol: "leaf.fill",
-                        text: "Até mais \(keepHealthy.formatted(.appCurrency)), continua Saudável.")
+                    GuideFeature(
+                        "leaf.fill",
+                        title: "Mais \(keepHealthy.formatted(.appCurrency)) e continua Saudável",
+                        color: .positive)
                 } else {
-                    Tip(
-                        symbol: "exclamationmark.triangle.fill",
-                        text:
-                            "O gasto já passou do planejado; a pontuação volta a subir no próximo período ou com um orçamento maior."
-                    )
+                    GuideFeature(
+                        "exclamationmark.triangle.fill", title: "O gasto já passou do planejado",
+                        detail:
+                            "A pontuação volta a subir no próximo período ou com um orçamento maior.",
+                        color: .warning)
                 }
-            } else {
-                Tip(
-                    symbol: "chart.pie.fill",
-                    text: "Defina orçamentos em Metas para ter uma pontuação de verdade.")
             }
-        }
-        .padding(16)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(.subtleFill, in: .rect(cornerRadius: 20))
-    }
-}
-
-private struct Row: View {
-    let title: LocalizedStringKey
-    let value: String
-    var color: Color = .primary
-
-    var body: some View {
-        HStack {
-            Text(title).font(.subheadline).foregroundStyle(.secondary)
-            Spacer()
-            Text(value).font(.subheadline.weight(.bold)).foregroundStyle(color).amountLine()
-        }
-    }
-}
-
-private struct Tip: View {
-    let symbol: String
-    let text: String
-
-    var body: some View {
-        Label {
-            Text(text).font(.footnote)
-        } icon: {
-            Image(systemName: symbol).foregroundStyle(.tint)
+        } else {
+            GuideFeatureList {
+                GuideFeature(
+                    "chart.pie.fill", title: "Defina orçamentos em Metas",
+                    detail: "Sem planejado não há com o que comparar.")
+            }
         }
     }
 }

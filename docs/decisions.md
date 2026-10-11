@@ -174,3 +174,10 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Feature flags** (`FeatureFlag`, `FeatureFlags` no `FeatureCore`): padrão no código, valor remoto pelo banco público do iCloud (`CloudKitFlagSource`, registro `FeatureFlag` com `name`, `isOn`, `rollout`) e ajuste manual em Ajustes › Desenvolvimento, só em builds de desenvolvimento. Lançamento gradual por um grupo estável de 0 a 99 derivado de um identificador anônimo do aparelho. Servidor MCP, rede local, guias, importação de planilha e motor de análise já nascem atrás de flags.
 - **Analytics de uso: só da Apple** (MetricKit e App Store Connect), por decisão do usuário. O TelemetryDeck fica de fora.
 - **MCP em qualquer aparelho**, com aprovação de conexão no app e sessão `Mcp-Session-Id`; escrita sempre pela conferência. Sem login com Apple: sem servidor próprio ele não acrescenta segurança ao MCP (detalhes em [social.md](social.md)).
+
+## 11/10/2026: valor em tempo real, mês do orçamento e guias
+
+- **`CurrencyField` como teclado de caixa:** um `TextField` invisível guarda só os dígitos e o valor aparece num `Text` formatado, com troca animada e um traço na cor do app enquanto tem foco. Cada dígito entra pela direita, apagar remove o último, e o valor é atualizado a cada toque. Reformatar o próprio texto do campo gerava um segundo `onChange` e embaralhava os dígitos.
+- **Orçamento escolhe mês e ano** (`MonthPicker` no `FeatureCore`): ano com setas e grade de meses em cápsulas, o mês atual destacado. Orçamento é mensal, então não há dia.
+- **Listas dos guias** (`GuideFeatureList` e `GuideValueList`): itens com símbolo, título e detalhe, como nas telas de novidades da Apple, e valores em linhas agrupadas com divisórias. Usadas na importação de planilha e no guia da pontuação.
+- **Resumo do mês em Metas:** anel de uso no estilo Atividade, com o disponível e a legenda de gasto e planejado ao lado, no lugar das três métricas em fila.

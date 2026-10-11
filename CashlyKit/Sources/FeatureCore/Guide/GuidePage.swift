@@ -18,13 +18,13 @@ public struct GuidePage<Artwork: View, Content: View>: View {
     }
 
     public var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 24) {
             artwork
                 .frame(height: 150)
                 .accessibilityHidden(true)
             VStack(spacing: 8) {
-                Text(title).font(.title2.weight(.bold))
-                Text(message).font(.callout).foregroundStyle(.secondary)
+                Text(title).font(.title.weight(.bold))
+                Text(message).font(.body).foregroundStyle(.secondary)
             }
             .multilineTextAlignment(.center)
             content

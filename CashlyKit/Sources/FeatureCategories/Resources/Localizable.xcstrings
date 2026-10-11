@@ -17,6 +17,9 @@
     "Apagar" : {
 
     },
+    "Categoria" : {
+
+    },
     "Categorias" : {
 
     },
@@ -44,19 +47,19 @@
     "Nome" : {
 
     },
-    "Nova categoria" : {
-
-    },
     "Novo orçamento" : {
 
     },
     "O valor à direita é o gasto no período." : {
 
     },
+    "Orçamento" : {
+
+    },
     "Orçamentos" : {
 
     },
-    "Passou" : {
+    "Passou do planejado" : {
 
     },
     "Planejado" : {
@@ -69,6 +72,9 @@
 
     },
     "Ver categoria" : {
+
+    },
+    "usado" : {
 
     }
   },

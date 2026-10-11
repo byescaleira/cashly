@@ -10,16 +10,31 @@ struct GoalsSummarySection: View {
         if !overview.items.isEmpty {
             Section {
                 VStack(alignment: .leading, spacing: 16) {
-                    HStack(alignment: .top) {
-                        Metric(title: "Planejado", value: overview.planned, color: .primary)
-                        Metric(title: "Gasto", value: overview.spent, color: .primary)
-                        Metric(
-                            title: overview.remaining >= 0 ? "Disponível" : "Passou",
-                            value: abs(overview.remaining),
-                            color: overview.remaining >= 0 ? .positive : .negative)
+                    AdaptiveStack(alignment: .center, spacing: 20) {
+                        UsageRing(ratio: overview.ratio, color: color(for: overview.ratio))
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(overview.remaining >= 0 ? "Disponível" : "Passou do planejado")
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(.secondary)
+                            Text(abs(overview.remaining).formatted(.appCurrency))
+                                .font(.title.weight(.bold))
+                                .foregroundStyle(
+                                    overview.remaining >= 0 ? Color.primary : .negative
+                                )
+                                .amountLine()
+                            VStack(alignment: .leading, spacing: 2) {
+                                Legend(
+                                    color: color(for: overview.ratio), title: "Gasto",
+                                    value: overview.spent)
+                                Legend(
+                                    color: .secondary.opacity(0.35), title: "Planejado",
+                                    value: overview.planned)
+                            }
+                            .padding(.top, 4)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    ProgressView(value: min(overview.ratio, 1))
-                        .tint(color(for: overview.ratio))
+                    Divider()
                     VStack(alignment: .leading, spacing: 6) {
                         if let daily = overview.dailyAllowance, let days = overview.daysLeft {
                             Hint(
@@ -57,20 +72,51 @@ struct GoalsSummarySection: View {
     }
 }
 
-private struct Metric: View {
-    let title: LocalizedStringKey
-    let value: Double
+private struct UsageRing: View {
+    let ratio: Double
     let color: Color
+    @ScaledMetric(relativeTo: .title) private var size: CGFloat = 104
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(title).font(.caption.weight(.semibold)).foregroundStyle(.secondary)
-            Text(value.formatted(.appCurrency))
-                .font(.headline.weight(.bold))
-                .foregroundStyle(color)
-                .amountLine()
+        ZStack {
+            Circle().stroke(color.opacity(0.18), lineWidth: 14)
+            Circle()
+                .trim(from: 0, to: min(max(ratio, 0), 1))
+                .stroke(color, style: StrokeStyle(lineWidth: 14, lineCap: .round))
+                .rotationEffect(.degrees(-90))
+            if ratio > 1 {
+                Circle()
+                    .trim(from: 0, to: min(ratio - 1, 1))
+                    .stroke(color.opacity(0.6), style: StrokeStyle(lineWidth: 14, lineCap: .round))
+                    .rotationEffect(.degrees(-90))
+            }
+            VStack(spacing: 0) {
+                Text(ratio.formatted(.percent.precision(.fractionLength(0))))
+                    .font(.title3.weight(.bold))
+                    .contentTransition(.numericText(value: ratio))
+                Text("usado").font(.caption2.weight(.semibold)).foregroundStyle(.secondary)
+            }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(width: min(size, 112), height: min(size, 112))
+        .padding(7)
+        .animation(.smooth, value: ratio)
+        .accessibilityElement(children: .combine)
+    }
+}
+
+private struct Legend: View {
+    let color: Color
+    let title: LocalizedStringKey
+    let value: Double
+
+    var body: some View {
+        HStack(spacing: 6) {
+            Circle().fill(color).frame(width: 8, height: 8)
+            Text(title).foregroundStyle(.secondary)
+            Text(value.formatted(.appCurrency)).fontWeight(.semibold)
+        }
+        .font(.footnote)
+        .amountLine()
     }
 }
 

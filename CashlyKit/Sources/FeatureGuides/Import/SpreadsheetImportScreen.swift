@@ -63,38 +63,20 @@ private struct FormatStep: View {
     var body: some View {
         GuidePage(
             .illustrationSpreadsheet, title: "Monte sua planilha",
-            message:
-                "Uma linha por transação. Data, Descrição e Valor são obrigatórias; o resto é opcional."
+            message: "Uma linha por transação. Data, Descrição e Valor são obrigatórias."
         ) {
-            VStack(alignment: .leading, spacing: 8) {
-                ColumnRow(name: "Data", detail: "2026-10-05 ou 05/10/2026")
-                ColumnRow(name: "Descrição", detail: "Supermercado")
-                ColumnRow(name: "Valor", detail: "1.234,56")
-                ColumnRow(name: "Categoria", detail: "Criada se não existir")
-                ColumnRow(name: "Tipo", detail: "Entrada ou Saída")
-                ColumnRow(name: "Situação", detail: "Paga, A pagar ou A receber")
-                ColumnRow(name: "Parcelas e Tags", detail: "3 · Viagem, Casa")
-            }
-            .padding(16)
-            .background(.subtleFill, in: .rect(cornerRadius: 20))
+            GuideValueList([
+                GuideValue("Data", value: "05/10/2026"),
+                GuideValue("Descrição", value: "Supermercado"),
+                GuideValue("Valor", value: "1.234,56"),
+                GuideValue("Categoria", value: "Opcional, criada se faltar"),
+                GuideValue("Tipo e Situação", value: "Saída · Paga"),
+                GuideValue("Parcelas e Tags", value: "3 · Viagem"),
+            ])
             ShareLink(item: TemplateFile.url) {
                 Label("Baixar modelo", systemImage: "arrow.down.doc")
-                    .font(.subheadline.weight(.semibold))
+                    .font(.body.weight(.semibold))
             }
-        }
-    }
-}
-
-private struct ColumnRow: View {
-    let name: LocalizedStringKey
-    let detail: LocalizedStringKey
-
-    var body: some View {
-        HStack(alignment: .firstTextBaseline) {
-            Text(name).font(.subheadline.weight(.bold))
-            Spacer(minLength: 12)
-            Text(detail).font(.subheadline).foregroundStyle(.secondary).multilineTextAlignment(
-                .trailing)
         }
     }
 }
@@ -114,59 +96,42 @@ private struct ReviewStep: View {
 
     var body: some View {
         let preview = model.preview
-        let valid = preview?.rows.count ?? 0
         let issues = preview?.issues ?? []
         GuidePage(.illustrationReview, title: "Confira os dados", message: "\(model.fileName)") {
-            VStack(alignment: .leading, spacing: 10) {
-                SummaryRow(
-                    symbol: "checkmark.circle.fill", color: .positive,
-                    text: "\(valid) transações prontas")
-                if let preview, valid > 0 {
-                    SummaryRow(
-                        symbol: "arrow.down.circle.fill", color: .positive,
-                        text: "Entradas: \(preview.income.doubleValue.formatted(.appCurrency))")
-                    SummaryRow(
-                        symbol: "arrow.up.circle.fill", color: .negative,
-                        text: "Saídas: \(preview.expenses.doubleValue.formatted(.appCurrency))")
-                }
-                if !model.newCategories.isEmpty {
-                    SummaryRow(
-                        symbol: "folder.badge.plus", color: .info,
-                        text: "Novas categorias: \(model.newCategories.joined(separator: ", "))")
-                }
-                if !model.newTags.isEmpty {
-                    SummaryRow(
-                        symbol: "tag.fill", color: .info,
-                        text: "Novas tags: \(model.newTags.joined(separator: ", "))")
-                }
-                ForEach(issues.prefix(3)) { issue in
-                    SummaryRow(
-                        symbol: "xmark.circle.fill", color: .negative,
-                        text: "Linha \(issue.line): \(issue.message)")
-                }
-                if issues.count > 3 {
-                    SummaryRow(
-                        symbol: "ellipsis.circle.fill", color: .negative,
-                        text: "Mais \(issues.count - 3) linhas com problema ficarão de fora.")
+            if let preview {
+                GuideValueList([
+                    GuideValue("Transações prontas", value: preview.rows.count.formatted()),
+                    GuideValue(
+                        "Entradas", value: preview.income.doubleValue.formatted(.appCurrency),
+                        color: .positive),
+                    GuideValue(
+                        "Saídas", value: preview.expenses.doubleValue.formatted(.appCurrency),
+                        color: .negative),
+                ])
+            }
+            if !model.newCategories.isEmpty || !model.newTags.isEmpty || !issues.isEmpty {
+                GuideFeatureList {
+                    if !model.newCategories.isEmpty {
+                        GuideFeature(
+                            "folder.fill.badge.plus", title: "Categorias novas",
+                            detail: model.newCategories.joined(separator: ", "))
+                    }
+                    if !model.newTags.isEmpty {
+                        GuideFeature(
+                            "tag.fill", title: "Tags novas",
+                            detail: model.newTags.joined(separator: ", "))
+                    }
+                    if !issues.isEmpty {
+                        GuideFeature(
+                            "exclamationmark.triangle.fill",
+                            title: issues.count == 1
+                                ? "1 linha fica de fora" : "\(issues.count) linhas ficam de fora",
+                            detail: issues.prefix(3).map { "Linha \($0.line): \($0.message)" }
+                                .joined(separator: "\n"),
+                            color: .warning)
+                    }
                 }
             }
-            .padding(16)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(.subtleFill, in: .rect(cornerRadius: 20))
-        }
-    }
-}
-
-private struct SummaryRow: View {
-    let symbol: String
-    let color: Color
-    let text: String
-
-    var body: some View {
-        Label {
-            Text(text).font(.subheadline)
-        } icon: {
-            Image(systemName: symbol).foregroundStyle(color)
         }
     }
 }

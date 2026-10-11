@@ -1,4 +1,6 @@
 import CashlyDesignSystem
+import CashlyDomain
+import FeatureCore
 import SwiftUI
 
 struct BudgetDateSection: View {
@@ -7,12 +9,11 @@ struct BudgetDateSection: View {
     var body: some View {
         @Bindable var model = model
         Section {
-            DatePicker("Mês", selection: $model.draft.date, displayedComponents: .date)
-                .datePickerStyle(.graphical)
-                .labelsHidden()
-                .padding(.vertical, -16)
+            MonthPicker(
+                selection: Binding(
+                    get: { YearMonth(model.draft.date) }, set: { model.draft.date = $0.startDate }))
         } header: {
-            Text("Data").sectionTitle()
+            Text("Mês").sectionTitle()
         }
     }
 }

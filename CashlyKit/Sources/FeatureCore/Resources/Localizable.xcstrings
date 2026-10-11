@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "pt-BR",
   "strings" : {
+    "" : {
+
+    },
     "%lld selecionados" : {
 
     },
@@ -24,6 +27,9 @@
 
     },
     "Adicionar usuário" : {
+
+    },
+    "Ano anterior" : {
 
     },
     "Atualizar dados" : {
@@ -87,6 +93,9 @@
 
     },
     "Participantes" : {
+
+    },
+    "Próximo ano" : {
 
     },
     "Registre entradas e saídas para acompanhar o mês." : {
