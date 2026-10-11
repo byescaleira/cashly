@@ -27,8 +27,10 @@ private struct TutorialPageView: View {
         switch page.artwork {
         case .illustration(let image):
             GuidePage(image, title: page.title, message: page.message)
-        case .symbol(let name):
-            GuidePage(title: page.title, message: page.message) { GuideSymbol(name) }
+        case .example(let example):
+            GuidePage(title: page.title, message: page.message) {
+                TutorialExampleView(example: example)
+            }
         }
     }
 }

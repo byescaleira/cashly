@@ -4,7 +4,20 @@
     "%@" : {
 
     },
+    "%@–%@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@–%2$@"
+          }
+        }
+      }
+    },
     "%lld transações foram adicionadas ao Cashly." : {
+
+    },
+    "A receber" : {
 
     },
     "Acompanhe o ritmo" : {
@@ -13,7 +26,7 @@
     "Agora não" : {
 
     },
-    "As bolinhas mostram o uso: verde no caminho, mostarda atenção, ferrugem acima do orçamento." : {
+    "As barras mostram o uso: verde no caminho, mostarda perto do limite, ferrugem acima do planejado." : {
 
     },
     "As faixas" : {
@@ -23,9 +36,6 @@
 
     },
     "Buscar" : {
-
-    },
-    "Categorias e orçamentos. Defina quanto quer gastar em cada uma e acompanhe o ritmo." : {
 
     },
     "Com os orçamentos e gastos do filtro atual." : {
@@ -44,6 +54,9 @@
 
     },
     "Continuar" : {
+
+    },
+    "Em Metas, toque em + e escolha a categoria, o mês e o valor." : {
 
     },
     "Em partes iguais, por valor fixo ou por porcentagem. O Cashly calcula a parte de cada um." : {
@@ -67,6 +80,9 @@
     "Fica em 1.000 até 85% do planejado e cai aos poucos depois disso." : {
 
     },
+    "Histórico" : {
+
+    },
     "Importar %lld transações" : {
 
     },
@@ -76,7 +92,13 @@
     "Início" : {
 
     },
+    "Jantar" : {
+
+    },
     "Marque cada participante como pago ou a receber para saber quem ainda deve." : {
+
+    },
+    "Metas" : {
 
     },
     "Monte sua planilha" : {
@@ -85,22 +107,22 @@
     "No Início, a pontuação vai de 200 a 1.000 e sobe quando os gastos ficam dentro do planejado." : {
 
     },
-    "No Planejamento, toque numa categoria e defina o valor do mês ou um valor que se repete." : {
-
-    },
     "Numa transação, adicione as pessoas que dividiram a conta com você." : {
 
     },
     "O resumo do mês: quanto entrou, quanto saiu, a pontuação e quanto ainda dá para gastar." : {
 
     },
+    "Orçamentos e categorias. Defina quanto quer gastar e acompanhe o ritmo do mês." : {
+
+    },
+    "Pago" : {
+
+    },
     "Participantes" : {
 
     },
     "Pequenos ajustes ao longo do mês fazem mais diferença que um corte no fim." : {
-
-    },
-    "Planejamento" : {
 
     },
     "Pontuação de saúde" : {
@@ -122,9 +144,6 @@
 
     },
     "Todas as entradas e saídas, por dia. Toque em + para registrar e deslize para editar." : {
-
-    },
-    "Transações" : {
 
     },
     "Um número de 200 a 1.000 que compara o que você gastou com o que planejou para o período." : {

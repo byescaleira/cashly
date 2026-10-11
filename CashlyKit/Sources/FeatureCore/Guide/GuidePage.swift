@@ -20,7 +20,6 @@ public struct GuidePage<Artwork: View, Content: View>: View {
     public var body: some View {
         VStack(spacing: 24) {
             artwork
-                .frame(height: 150)
                 .accessibilityHidden(true)
             VStack(spacing: 8) {
                 Text(title).font(.title.weight(.bold))
@@ -48,21 +47,6 @@ public struct GuideIllustration: View {
     let image: CashlyResourceImage
 
     public var body: some View {
-        image.image.resizable().scaledToFit()
-    }
-}
-
-public struct GuideSymbol: View {
-    private let name: String
-
-    public init(_ name: String) {
-        self.name = name
-    }
-
-    public var body: some View {
-        Image(systemName: name)
-            .font(.system(size: 96))
-            .foregroundStyle(.tint)
-            .symbolEffect(.bounce, options: .nonRepeating)
+        image.image.resizable().scaledToFit().frame(height: 150)
     }
 }

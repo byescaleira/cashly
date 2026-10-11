@@ -6,10 +6,8 @@ struct DoneStep: View {
 
     var body: some View {
         GuidePage(
-            title: "Tudo pronto, \(model.firstName)!",
-            message: "Registre a primeira transação ou defina orçamentos no Planejamento."
-        ) {
-            GuideSymbol("checkmark.circle.fill")
-        }
+            .illustrationDone, title: "Tudo pronto, \(model.firstName)!",
+            message: "Registre a primeira transação ou defina orçamentos em Metas."
+        )
     }
 }

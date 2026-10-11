@@ -7,11 +7,9 @@ struct CategoriesStep: View {
 
     var body: some View {
         GuidePage(
-            title: "Escolha suas categorias",
+            .illustrationEmpty, title: "Escolha suas categorias",
             message: "Comece com estas e crie outras quando precisar."
         ) {
-            GuideSymbol("square.grid.2x2.fill")
-        } content: {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 64), spacing: 8)], spacing: 16) {
                 ForEach(CategorySuggestion.allCases) { suggestion in
                     SuggestionChoice(

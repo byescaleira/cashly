@@ -5,7 +5,7 @@ import SwiftUI
 struct TutorialPage: Identifiable {
     enum Artwork {
         case illustration(CashlyResourceImage)
-        case symbol(String)
+        case example(TutorialExample)
     }
 
     let id = UUID()
@@ -25,14 +25,14 @@ extension Guide {
                         "O resumo do mês: quanto entrou, quanto saiu, a pontuação e quanto ainda dá para gastar."
                 ),
                 TutorialPage(
-                    artwork: .illustration(.illustrationTransaction), title: "Transações",
+                    artwork: .illustration(.illustrationTransaction), title: "Histórico",
                     message:
                         "Todas as entradas e saídas, por dia. Toque em + para registrar e deslize para editar."
                 ),
                 TutorialPage(
-                    artwork: .illustration(.illustrationEmpty), title: "Planejamento",
+                    artwork: .illustration(.illustrationEmpty), title: "Metas",
                     message:
-                        "Categorias e orçamentos. Defina quanto quer gastar em cada uma e acompanhe o ritmo."
+                        "Orçamentos e categorias. Defina quanto quer gastar e acompanhe o ritmo do mês."
                 ),
                 TutorialPage(
                     artwork: .illustration(.illustrationSearch), title: "Buscar",
@@ -41,18 +41,19 @@ extension Guide {
         case .budgets:
             [
                 TutorialPage(
-                    artwork: .symbol("chart.pie.fill"), title: "Um orçamento por categoria",
+                    artwork: .illustration(.illustrationBudget),
+                    title: "Um orçamento por categoria",
                     message:
-                        "No Planejamento, toque numa categoria e defina o valor do mês ou um valor que se repete."
+                        "Em Metas, toque em + e escolha a categoria, o mês e o valor."
                 ),
                 TutorialPage(
-                    artwork: .symbol("gauge.with.dots.needle.67percent"),
+                    artwork: .example(.budgetPace),
                     title: "Acompanhe o ritmo",
                     message:
-                        "As bolinhas mostram o uso: verde no caminho, mostarda atenção, ferrugem acima do orçamento."
+                        "As barras mostram o uso: verde no caminho, mostarda perto do limite, ferrugem acima do planejado."
                 ),
                 TutorialPage(
-                    artwork: .symbol("star.circle.fill"), title: "Pontuação de saúde",
+                    artwork: .illustration(.illustrationScore), title: "Pontuação de saúde",
                     message:
                         "No Início, a pontuação vai de 200 a 1.000 e sobe quando os gastos ficam dentro do planejado."
                 ),
@@ -60,15 +61,15 @@ extension Guide {
         case .sharing:
             [
                 TutorialPage(
-                    artwork: .symbol("person.2.fill"), title: "Participantes",
+                    artwork: .illustration(.illustrationSplit), title: "Participantes",
                     message: "Numa transação, adicione as pessoas que dividiram a conta com você."),
                 TutorialPage(
-                    artwork: .symbol("divide.circle.fill"), title: "Como dividir",
+                    artwork: .example(.splitModes), title: "Como dividir",
                     message:
                         "Em partes iguais, por valor fixo ou por porcentagem. O Cashly calcula a parte de cada um."
                 ),
                 TutorialPage(
-                    artwork: .symbol("checkmark.circle.fill"), title: "Quem já pagou",
+                    artwork: .example(.paid), title: "Quem já pagou",
                     message:
                         "Marque cada participante como pago ou a receber para saber quem ainda deve."
                 ),

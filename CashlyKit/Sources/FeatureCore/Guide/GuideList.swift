@@ -2,35 +2,26 @@ import CashlyDesignSystem
 import SwiftUI
 
 public struct GuideFeature: View {
-    @Environment(\.appTint) private var appTint
-    private let symbol: String
     private let title: String
     private let detail: String?
-    private let color: Color?
+    private let color: Color
 
-    public init(_ symbol: String, title: String, detail: String? = nil, color: Color? = nil) {
-        self.symbol = symbol
+    public init(title: String, detail: String? = nil, color: Color = .primary) {
         self.title = title
         self.detail = detail
         self.color = color
     }
 
     public var body: some View {
-        HStack(alignment: .top, spacing: 16) {
-            Image(systemName: symbol)
-                .font(.title2)
-                .symbolRenderingMode(.hierarchical)
-                .foregroundStyle(color ?? appTint)
-                .frame(width: 36)
-                .accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: 2) {
-                Text(title).font(.headline)
-                if let detail {
-                    Text(detail).font(.subheadline).foregroundStyle(.secondary)
-                }
+        VStack(alignment: .leading, spacing: 2) {
+            Text(title).font(.headline).foregroundStyle(color)
+            if let detail {
+                Text(detail).font(.subheadline).foregroundStyle(.secondary)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.vertical, 12)
+        .padding(.horizontal, 16)
         .accessibilityElement(children: .combine)
     }
 }
@@ -43,10 +34,16 @@ public struct GuideFeatureList<Content: View>: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 18) { content }
-            .multilineTextAlignment(.leading)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 4)
+        VStack(spacing: 0) {
+            Group(subviews: content) { subviews in
+                ForEach(subviews.indices, id: \.self) { index in
+                    subviews[index]
+                    if index < subviews.count - 1 { Divider().padding(.leading, 16) }
+                }
+            }
+        }
+        .multilineTextAlignment(.leading)
+        .background(.groupedRow, in: .rect(cornerRadius: 18))
     }
 }
 

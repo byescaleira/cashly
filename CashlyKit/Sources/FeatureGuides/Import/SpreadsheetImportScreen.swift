@@ -113,17 +113,16 @@ private struct ReviewStep: View {
                 GuideFeatureList {
                     if !model.newCategories.isEmpty {
                         GuideFeature(
-                            "folder.fill.badge.plus", title: "Categorias novas",
+                            title: "Categorias novas",
                             detail: model.newCategories.joined(separator: ", "))
                     }
                     if !model.newTags.isEmpty {
                         GuideFeature(
-                            "tag.fill", title: "Tags novas",
+                            title: "Tags novas",
                             detail: model.newTags.joined(separator: ", "))
                     }
                     if !issues.isEmpty {
                         GuideFeature(
-                            "exclamationmark.triangle.fill",
                             title: issues.count == 1
                                 ? "1 linha fica de fora" : "\(issues.count) linhas ficam de fora",
                             detail: issues.prefix(3).map { "Linha \($0.line): \($0.message)" }
@@ -141,11 +140,8 @@ private struct DoneStep: View {
 
     var body: some View {
         GuidePage(
-            title: "Importação concluída",
-            message: "\(model.imported) transações foram adicionadas ao Cashly."
-        ) {
-            GuideSymbol("checkmark.circle.fill")
-        }
+            .illustrationDone, title: "Importação concluída",
+            message: "\(model.imported) transações foram adicionadas ao Cashly.")
     }
 }
 
