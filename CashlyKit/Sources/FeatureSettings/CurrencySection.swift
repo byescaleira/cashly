@@ -7,10 +7,13 @@ struct CurrencySection: View {
     var body: some View {
         @Bindable var settings = settings
         Section {
-            Picker("Moeda", selection: $settings.currency) {
-                ForEach(CurrencySetting.supported, id: \.self) {
-                    Text(settings.currencyName($0)).tag($0)
+            LabeledContent("Moeda") {
+                Picker("Moeda", selection: $settings.currency) {
+                    ForEach(CurrencySetting.supported, id: \.self) {
+                        Text(settings.currencyName($0)).tag($0)
+                    }
                 }
+                .labelsHidden()
             }
         } footer: {
             Text(

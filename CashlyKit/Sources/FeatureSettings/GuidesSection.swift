@@ -1,8 +1,10 @@
+import CashlyDesignSystem
 import FeatureCore
 import SwiftUI
 
 struct GuidesSection: View {
     @Environment(\.showGuide) private var showGuide
+    @Environment(\.appTint) private var appTint
 
     var body: some View {
         if let showGuide {
@@ -17,9 +19,10 @@ struct GuidesSection: View {
                                 Text(guide.subtitle).font(.footnote).foregroundStyle(.secondary)
                             }
                         } icon: {
-                            Image(systemName: guide.systemImage)
+                            Image(systemName: guide.systemImage).foregroundStyle(appTint)
                         }
                     }
+                    .tint(Color.primary)
                 }
             } header: {
                 Text("Guias")

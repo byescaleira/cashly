@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import CashlyResource
 import SwiftUI
 
@@ -5,7 +6,7 @@ struct AppIconSection: View {
     @Environment(SettingsModel.self) private var settings
 
     var body: some View {
-        NavigationLink {
+        DisclosureLink {
             AppIconScreen()
         } label: {
             LabeledContent {

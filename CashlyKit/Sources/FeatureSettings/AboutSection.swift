@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import SwiftUI
 
 struct AboutSection: View {
@@ -6,7 +7,7 @@ struct AboutSection: View {
     var body: some View {
         Section {
             LabeledContent("Versão", value: settings.info.version)
-            NavigationLink {
+            DisclosureLink {
                 WhatsNewScreen()
             } label: {
                 Label("Novidades", systemImage: "sparkles")

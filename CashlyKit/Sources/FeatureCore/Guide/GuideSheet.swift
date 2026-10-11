@@ -3,6 +3,7 @@ import SwiftUI
 
 public struct GuideSheet<Page: View>: View {
     @State private var height: CGFloat = 560
+    @State private var shownIndex = 0
     private let index: Int
     private let count: Int
     private let isWorking: Bool
@@ -30,14 +31,17 @@ public struct GuideSheet<Page: View>: View {
             page
                 .id(index)
                 .transition(
-                    .asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading))
-                        .combined(with: .opacity))
+                    .asymmetric(
+                        insertion: .move(edge: index >= shownIndex ? .trailing : .leading)
+                            .combined(with: .opacity),
+                        removal: .opacity))
             GuideButtons(primary: primary, secondary: secondary, isWorking: isWorking)
         }
         .padding([.horizontal, .bottom], 24)
         .padding(.top, 16)
         .fontDesign(.rounded)
         .animation(.smooth, value: index)
+        .onChange(of: index, initial: true) { shownIndex = index }
         .fixedSize(horizontal: false, vertical: true)
         .onGeometryChange(for: CGFloat.self) {
             $0.size.height
@@ -70,6 +74,7 @@ private struct GuideTopBar: View {
                     .labelStyle(.iconOnly)
                     .buttonBorderShape(.circle)
                     .buttonStyle(.bordered)
+                    .controlSize(.large)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
         }

@@ -6,7 +6,7 @@ struct TintRow: View {
     @Environment(SettingsModel.self) private var settings
 
     var body: some View {
-        NavigationLink {
+        DisclosureLink {
             TintScreen()
         } label: {
             LabeledContent("Cor de destaque") {

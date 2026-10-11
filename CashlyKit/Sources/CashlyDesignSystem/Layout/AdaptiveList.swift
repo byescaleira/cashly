@@ -28,6 +28,7 @@ public struct AdaptiveList<Content: View>: View {
                     }
                 }
                 .background(.groupedBackground)
+                .environment(\.isGroupedColumn, true)
             } else {
                 List { content }
             }

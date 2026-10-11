@@ -155,3 +155,9 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Menu de contexto** em orçamentos (Editar, Ver categoria, Apagar) e em categorias (Editar, Novo orçamento, Apagar), com confirmação antes de apagar. O "+" da barra oferece nova categoria ou novo orçamento.
 - **O cálculo fica em `BudgetOverview` e `BudgetProgress`**, testados; o `GoalsModel` só junta os dados e apaga.
 - **Guia da pontuação:** tocar no cartão da Pontuação (ou no ⓘ) abre um guia: o que é, as faixas com o limite de gasto de cada uma, os números do período atual (quanto ainda pode gastar mantendo 1.000 e Saudável) e como subir. As faixas vêm da mesma fórmula da pontuação (`BudgetHealth.usage(for:)`).
+
+## 10/10/2026: Ajustes adaptáveis
+
+- **Ajustes usam o `AdaptiveList`** como as outras abas: uma coluna no iPhone em pé, duas ou mais no iPad e no iPhone deitado. No Mac continua o `Form` agrupado da janela de Ajustes.
+- **`DisclosureLink`** (DesignSystem) desenha a seta de navegação quando a linha está nas colunas, onde o `NavigationLink` não tem seta. Os seletores de Tema e Moeda usam `LabeledContent` para manter o rótulo fora da lista.
+- **Guias com transição no sentido certo:** avançar entra pela direita, voltar entra pela esquerda; a página que sai só esmaece.

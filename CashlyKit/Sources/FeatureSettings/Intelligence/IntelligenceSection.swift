@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import FeatureCore
 import SwiftUI
 
@@ -7,7 +8,7 @@ struct IntelligenceSection: View {
     var body: some View {
         if intelligence != nil {
             Section {
-                NavigationLink {
+                DisclosureLink {
                     IntelligenceScreen()
                 } label: {
                     Label("Inteligência", systemImage: "cpu")
