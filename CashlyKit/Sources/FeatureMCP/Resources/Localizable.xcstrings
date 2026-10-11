@@ -1,5 +1,27 @@
 {
   "sourceLanguage" : "pt-BR",
-  "strings" : {},
+  "strings" : {
+    "Claude Code" : {
+
+    },
+    "Com o app aberto, o Claude Code lê seus dados e envia transações pelo endereço 127.0.0.1:%@. Toda importação passa pela tela de conferência antes de gravar. Cole o comando copiado no Terminal; um token novo desconecta quem usava o anterior." : {
+
+    },
+    "Comando copiado" : {
+
+    },
+    "Copiar comando de instalação" : {
+
+    },
+    "Gerar novo token" : {
+
+    },
+    "Permitir acesso pelo Claude Code" : {
+
+    },
+    "Situação" : {
+
+    }
+  },
   "version" : "1.0"
 }
