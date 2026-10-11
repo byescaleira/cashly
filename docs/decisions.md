@@ -140,3 +140,11 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Ícone no Icon Composer com vidro**, na paleta retrô: fundo creme (ou noturno), cartão de vidro colorido, "$" creme e bolso creme. A estrela atômica mostarda sai por trás do cartão. O cartão e o bolso têm cantos concêntricos com o ícone (raio do ícone menos a margem), com margem de 100 e 80 pt.
 - **Variações:** Clássico (laranja queimado), Noturno, Mostarda e Petróleo. Para outubro: Sangue, Morcego, Caveira e Frankenstein.
 - **Seletor de ícone com prévia** (`AppIconScreen`): grade com a imagem real de cada ícone, exportada do Icon Composer por `scripts/icons.sh` (clara e escura) para o catálogo do `CashlyResource`. A coleção do mês aparece em destaque no topo, num cartão com o degradê do tema (em outubro, Halloween); fora do mês ela fica numa seção comum. Rode `scripts/icons.sh` sempre que um `.icon` mudar.
+
+## 10/10/2026: guias e importação
+
+- **O layout do onboarding virou o padrão oficial** para tutoriais e configurações (`GuideSheet`, `GuidePage`, `GuideAction` no `FeatureCore`): folha que se ajusta ao conteúdo, indicador de passos, ilustração ou símbolo, título, texto e botão grande da cor de destaque. Um guia novo é um caso em `Guide` com suas páginas.
+- **Ajustes > Guias** lista os guias (Conheça o Cashly, Importar planilha, Planejar o mês, Dividir despesas), abertos por `\.showGuide`. A janela de Ajustes do Mac (⌘,) não tem sessão e esconde a seção.
+- **Importar planilha** em quatro passos: como montar (colunas, exemplo e modelo para baixar), escolher o arquivo, conferir (válidas, totais, categorias e tags que serão criadas, linhas com problema) e concluído. Aceita a planilha exportada pelo Cashly. A leitura (`SpreadsheetParser`) fica no domínio e é testada.
+- **Importar backup** segue o mesmo padrão: explicação, conferência com as contagens e concluído.
+- **Abertura:** o "Abrindo Cashly" fica até usuários e o primeiro resumo carregarem (`SessionModel.isReady`), sem o Início aparecer vazio e depois com zeros. A demora longa em branco vista no simulador era do simulador com vários aparelhos ligados.

@@ -4,6 +4,9 @@
     "Abrir ajustes de notificações" : {
 
     },
+    "Agora não" : {
+
+    },
     "Ajuda" : {
 
     },
@@ -37,10 +40,19 @@
     "Backup automático" : {
 
     },
+    "Backup importado" : {
+
+    },
     "Central de ajuda" : {
 
     },
     "Compartilhar o Cashly" : {
+
+    },
+    "Concluir" : {
+
+    },
+    "Confira o backup" : {
 
     },
     "Conta" : {
@@ -58,6 +70,12 @@
     "Em destaque neste mês e disponíveis o ano todo." : {
 
     },
+    "Escolha um arquivo de backup do Cashly (.json). Os registros do arquivo são somados aos que já estão no aparelho; nada é apagado." : {
+
+    },
+    "Escolher arquivo" : {
+
+    },
     "Exportar backup" : {
 
     },
@@ -67,13 +85,16 @@
     "Fale conosco" : {
 
     },
+    "Guias" : {
+
+    },
     "Importar" : {
 
     },
     "Importar backup" : {
 
     },
-    "Importar backup?" : {
+    "Importar planilha (CSV)" : {
 
     },
     "Inteligência" : {
@@ -104,6 +125,9 @@
 
     },
     "O histórico mudou. Treine novamente para atualizar as sugestões." : {
+
+    },
+    "Os registros já aparecem no app." : {
 
     },
     "Os valores não são convertidos: trocar a moeda muda o símbolo exibido e a moeda dos novos registros." : {

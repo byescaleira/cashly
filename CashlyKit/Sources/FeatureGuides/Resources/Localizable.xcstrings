@@ -1,0 +1,156 @@
+{
+  "sourceLanguage" : "pt-BR",
+  "strings" : {
+    "%@" : {
+
+    },
+    "%lld transações foram adicionadas ao Cashly." : {
+
+    },
+    "1.234,56" : {
+
+    },
+    "2026-10-05 ou 05/10/2026" : {
+
+    },
+    "3 · Viagem, Casa" : {
+
+    },
+    "Acompanhe o ritmo" : {
+
+    },
+    "Agora não" : {
+
+    },
+    "As bolinhas mostram o uso: verde no caminho, mostarda atenção, ferrugem acima do orçamento." : {
+
+    },
+    "Baixar modelo" : {
+
+    },
+    "Buscar" : {
+
+    },
+    "Categoria" : {
+
+    },
+    "Categorias e orçamentos. Defina quanto quer gastar em cada uma e acompanhe o ritmo." : {
+
+    },
+    "Como dividir" : {
+
+    },
+    "Concluir" : {
+
+    },
+    "Confira os dados" : {
+
+    },
+    "Continuar" : {
+
+    },
+    "Criada se não existir" : {
+
+    },
+    "Data" : {
+
+    },
+    "Descrição" : {
+
+    },
+    "Em partes iguais, por valor fixo ou por porcentagem. O Cashly calcula a parte de cada um." : {
+
+    },
+    "Encontre qualquer transação, categoria ou tag, de qualquer mês." : {
+
+    },
+    "Entrada ou Saída" : {
+
+    },
+    "Escolha o arquivo" : {
+
+    },
+    "Escolher arquivo" : {
+
+    },
+    "Escolher outro arquivo" : {
+
+    },
+    "Importar %lld transações" : {
+
+    },
+    "Importação concluída" : {
+
+    },
+    "Início" : {
+
+    },
+    "Marque cada participante como pago ou a receber para saber quem ainda deve." : {
+
+    },
+    "Monte sua planilha" : {
+
+    },
+    "No Início, a pontuação vai de 200 a 1.000 e sobe quando os gastos ficam dentro do planejado." : {
+
+    },
+    "No Planejamento, toque numa categoria e defina o valor do mês ou um valor que se repete." : {
+
+    },
+    "Numa transação, adicione as pessoas que dividiram a conta com você." : {
+
+    },
+    "O resumo do mês: quanto entrou, quanto saiu, a pontuação e quanto ainda dá para gastar." : {
+
+    },
+    "Paga, A pagar ou A receber" : {
+
+    },
+    "Parcelas e Tags" : {
+
+    },
+    "Participantes" : {
+
+    },
+    "Planejamento" : {
+
+    },
+    "Pontuação de saúde" : {
+
+    },
+    "Pular" : {
+
+    },
+    "Quem já pagou" : {
+
+    },
+    "Salve a planilha como CSV, separada por ponto e vírgula ou vírgula, e escolha o arquivo no app Arquivos. A planilha exportada pelo Cashly também funciona." : {
+
+    },
+    "Situação" : {
+
+    },
+    "Supermercado" : {
+
+    },
+    "Tipo" : {
+
+    },
+    "Todas as entradas e saídas, por dia. Toque em + para registrar e deslize para editar." : {
+
+    },
+    "Transações" : {
+
+    },
+    "Um orçamento por categoria" : {
+
+    },
+    "Uma linha por transação. Data, Descrição e Valor são obrigatórias; o resto é opcional." : {
+
+    },
+    "Valor" : {
+
+    }
+  },
+  "version" : "1.0"
+}

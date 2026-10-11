@@ -8,6 +8,7 @@ public final class CashlyNavigation {
     public var inspector: Inspector?
     public var inspectorPath: [Route] = []
     public var isOnboarding = false
+    public var guide: Guide?
     public init() {}
 
     public struct Inspector: Identifiable, Equatable {

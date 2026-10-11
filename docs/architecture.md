@@ -43,6 +43,7 @@ Regras de dependência:
 | Target | Conteúdo |
 | --- | --- |
 | `FeatureDashboard` | `HomeScreen` com `DashboardModel` (resumo do período, pontuação, disponível, maiores gastos) e `ReportsModel` (planejado × gasto, gastos por tag, previsão e gráficos) |
+| `FeatureGuides` | `GuideScreen`: tutoriais (`Guide`) e importação de planilha (`SpreadsheetImportModel`) |
 | `FeatureOnboarding` | `OnboardingModel` e `OnboardingScreen`: primeira abertura, perfil e categorias sugeridas |
 | `FeatureSearch` | `SearchScreen` e `SearchModel`: transações de todos os períodos, categorias e tags |
 | `FeatureTransactions` | Lista paginada com seleção (`TransactionListModel`) e editor (`TransactionEditorModel`) |

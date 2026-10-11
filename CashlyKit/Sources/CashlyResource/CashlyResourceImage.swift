@@ -2,7 +2,7 @@ import SwiftUI
 
 public enum CashlyResourceImage: String {
     case illustrationEmpty, illustrationTransaction, illustrationTag, illustrationSearch,
-        illustrationWelcome
+        illustrationWelcome, illustrationSpreadsheet, illustrationReview
     public var image: Image { Image(rawValue, bundle: .module) }
     public static func appIcon(_ name: String) -> Image {
         Image(name, bundle: .module)

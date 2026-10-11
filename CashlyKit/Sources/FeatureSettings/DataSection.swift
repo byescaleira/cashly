@@ -1,8 +1,10 @@
 import CashlyDesignSystem
+import FeatureCore
 import SwiftUI
 
 struct DataSection: View {
     @Environment(DataModel.self) private var data
+    @Environment(\.showGuide) private var showGuide
 
     var body: some View {
         @Bindable var data = data
@@ -15,15 +17,12 @@ struct DataSection: View {
                     Task { await data.prepareExport(as: .commaSeparatedText) }
                 }
                 Button("Importar backup", systemImage: "square.and.arrow.down") {
-                    data.isImporting = true
+                    data.startBackupImport()
                 }
-                .confirmationDialog(
-                    "Importar backup?", isPresented: $data.isConfirmingRestore,
-                    titleVisibility: .visible, presenting: data.pendingRestore
-                ) { backup in
-                    Button("Importar") { Task { await data.restore(backup) } }
-                } message: { backup in
-                    Text(data.description(of: backup))
+                if let showGuide {
+                    Button("Importar planilha (CSV)", systemImage: "tablecells.badge.ellipsis") {
+                        showGuide(.importSpreadsheet)
+                    }
                 }
                 if data.isWorking { ProgressView() }
             } header: {
@@ -47,9 +46,7 @@ struct DataSection: View {
             contentType: data.exportType, defaultFilename: data.fileName,
             onCompletion: data.finishExport
         )
-        .fileImporter(
-            isPresented: $data.isImporting, allowedContentTypes: [.json], onCompletion: data.read
-        )
+        .sheet(isPresented: $data.isRestoringBackup) { BackupImportScreen().environment(data) }
         .alert("Dados", isPresented: $data.isShowingMessage) {
         } message: {
             Text(data.message ?? "")

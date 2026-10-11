@@ -28,21 +28,22 @@ struct DataModelTests {
         #expect(data.message == "Backup salvo.")
     }
 
-    @Test func readingAskForConfirmationBeforeRestoring() async throws {
+    @Test func backupImportReviewsBeforeRestoring() async throws {
         let (data, database) = try await model()
         let backup = try await database.backup.export().backup
         let url = FileManager.default.temporaryDirectory.appending(
             path: UUID().uuidString + ".json")
         try backup.encoded().write(to: url)
         _ = try await database.backup.eraseAll()
+        data.startBackupImport()
+        #expect(data.isRestoringBackup)
+        #expect(data.backupStep == .intro)
         data.read(.success(url))
-        #expect(data.isConfirmingRestore)
+        #expect(data.backupStep == .review)
         let pending = try #require(data.pendingRestore)
         #expect(data.description(of: pending).hasPrefix("1 usuário, 0 categorias"))
-        data.isConfirmingRestore = false
-        #expect(data.pendingRestore == nil)
         await data.restore(pending)
-        #expect(data.message == "Backup importado: 1 registro.")
+        #expect(data.backupStep == .done)
         #expect(try await database.repositories(for: nil).users.users() == [owner])
     }
 

@@ -13,6 +13,7 @@ public struct SettingsScreen: View {
             IntelligenceSection()
             CloudSection()
             if let data = settings.data { DataSection().environment(data) }
+            GuidesSection()
             if settings.info.hasHelp { HelpSection() }
             AboutSection()
         }

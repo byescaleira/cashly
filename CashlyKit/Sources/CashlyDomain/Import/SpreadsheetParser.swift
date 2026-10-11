@@ -67,7 +67,7 @@ public enum SpreadsheetParser {
         return SpreadsheetPreview(rows: rows, issues: issues)
     }
 
-    static func key(_ text: String) -> String {
+    public static func key(_ text: String) -> String {
         text.folding(
             options: [.caseInsensitive, .diacriticInsensitive], locale: Locale(identifier: "pt_BR")
         )

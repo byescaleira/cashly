@@ -16,6 +16,8 @@ public final class DataModel {
     public var isImporting = false
     public var isConfirmingErase = false
     public var pendingRestore: CashlyBackup?
+    public var isRestoringBackup = false
+    public var backupStep = BackupStep.intro
     private(set) var document: BackupDocument?
     private(set) var exportType: UTType = .json
     private var skipped = 0
@@ -64,9 +66,14 @@ public final class DataModel {
         set { if !newValue { error = nil } }
     }
 
-    var isConfirmingRestore: Bool {
-        get { pendingRestore != nil }
-        set { if !newValue { pendingRestore = nil } }
+    public enum BackupStep: Int, CaseIterable, Sendable {
+        case intro, review, done
+    }
+
+    func startBackupImport() {
+        pendingRestore = nil
+        backupStep = .intro
+        isRestoringBackup = true
     }
 
     func description(of backup: CashlyBackup) -> String {
@@ -129,6 +136,7 @@ public final class DataModel {
             let isScoped = url.startAccessingSecurityScopedResource()
             defer { if isScoped { url.stopAccessingSecurityScopedResource() } }
             pendingRestore = try CashlyBackup(data: Data(contentsOf: url))
+            backupStep = .review
         } catch {
             self.error = error as? CashlyError ?? .invalidInput("Não foi possível ler o arquivo.")
         }
@@ -137,8 +145,7 @@ public final class DataModel {
     func restore(_ file: CashlyBackup) async {
         await perform {
             try await backup.restore(file)
-            message =
-                "Backup importado: " + counted(file.recordCount, "registro", "registros") + "."
+            backupStep = .done
         }
     }
 
