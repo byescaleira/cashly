@@ -51,7 +51,7 @@ let package = Package(
             resources: [.process("Resources")]),
         .target(
             name: "FeatureSettings",
-            dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"],
+            dependencies: ["CashlyDomain", "CashlyDesignSystem", "CashlyResource", "FeatureCore"],
             resources: [.process("Resources")]),
         .target(
             name: "FeatureUsers",

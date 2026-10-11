@@ -98,11 +98,6 @@ public final class SettingsModel {
         set { if !newValue { iconError = nil } }
     }
 
-    var appIconSelection: AppIcon {
-        get { appIcon }
-        set { Task { await setAppIcon(newValue) } }
-    }
-
     func setAppIcon(_ icon: AppIcon) async {
         guard icon != appIcon else { return }
         do {

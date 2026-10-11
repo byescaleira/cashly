@@ -12,9 +12,5 @@ struct AppearanceSection: View {
             TintRow()
             if settings.supportsAppIcons { AppIconSection() }
         }
-        .alert("Ícone", isPresented: $settings.isShowingIconError) {
-        } message: {
-            Text(settings.iconError ?? "")
-        }
     }
 }

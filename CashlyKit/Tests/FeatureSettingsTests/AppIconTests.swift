@@ -47,4 +47,15 @@ struct AppIconTests {
         #expect(AppIcon.allCases.compactMap(\.assetName).count == AppIcon.allCases.count - 1)
         #expect(AppIcon(assetName: "desconhecido") == .standard)
     }
+
+    @Test func octoberFeaturesHalloween() throws {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = try #require(TimeZone(identifier: "America/Sao_Paulo"))
+        let october = try #require(
+            calendar.date(from: DateComponents(year: 2026, month: 10, day: 10)))
+        let march = try #require(calendar.date(from: DateComponents(year: 2026, month: 3, day: 1)))
+        #expect(AppIcon.featured(on: october, calendar: calendar) == .halloween)
+        #expect(AppIcon.featured(on: march, calendar: calendar) == nil)
+        #expect(AppIcon.Collection.halloween.icons == [.blood, .bat, .skull, .frankenstein])
+    }
 }

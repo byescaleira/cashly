@@ -139,3 +139,4 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 
 - **Ícone no Icon Composer com vidro**, na paleta retrô: fundo creme (ou noturno), cartão de vidro colorido, "$" creme e bolso creme. A estrela atômica mostarda sai por trás do cartão. O cartão e o bolso têm cantos concêntricos com o ícone (raio do ícone menos a margem), com margem de 100 e 80 pt.
 - **Variações:** Clássico (laranja queimado), Noturno, Mostarda e Petróleo. Para outubro: Sangue, Morcego, Caveira e Frankenstein.
+- **Seletor de ícone com prévia** (`AppIconScreen`): grade com a imagem real de cada ícone, exportada do Icon Composer por `scripts/icons.sh` (clara e escura) para o catálogo do `CashlyResource`. A coleção do mês aparece em destaque no topo, num cartão com o degradê do tema (em outubro, Halloween); fora do mês ela fica numa seção comum. Rode `scripts/icons.sh` sempre que um `.icon` mudar.

@@ -1,12 +1,35 @@
+import CashlyResource
 import SwiftUI
 
 struct AppIconSection: View {
     @Environment(SettingsModel.self) private var settings
 
     var body: some View {
-        @Bindable var settings = settings
-        Picker("Ícone", selection: $settings.appIconSelection) {
-            ForEach(AppIcon.allCases) { Text($0.title).tag($0) }
+        NavigationLink {
+            AppIconScreen()
+        } label: {
+            LabeledContent {
+                HStack(spacing: 8) {
+                    Text(settings.appIcon.title)
+                    AppIconImage(icon: settings.appIcon, size: 28)
+                }
+            } label: {
+                Text("Ícone")
+            }
         }
+    }
+}
+
+struct AppIconImage: View {
+    let icon: AppIcon
+    let size: CGFloat
+
+    var body: some View {
+        CashlyResourceImage.appIcon(icon.previewName)
+            .resizable()
+            .scaledToFit()
+            .frame(width: size, height: size)
+            .clipShape(.rect(cornerRadius: size * 0.2237, style: .continuous))
+            .accessibilityHidden(true)
     }
 }
