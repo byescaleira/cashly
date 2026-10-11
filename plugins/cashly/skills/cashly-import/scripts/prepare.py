@@ -11,9 +11,13 @@ from read_xls import sheets
 
 INSTALLMENT = re.compile(r"\s*(\d{1,2})/(\d{1,2})\s*$")
 INVOICE_PAYMENT = re.compile(r"pagamento de fatura|cardbankslip|pagto\.? fatura|deb\.? ?cta\.? ?fatura|fatura cart", re.I)
-INVESTMENT_MOVE = re.compile(r"resgate|aplica[cç][aã]o|\brdb\b|\bcdb\b|integralizacao de capital|tesouro", re.I)
+INVESTMENT_MOVE = re.compile(
+    r"resgate|aplica[cç][aã]o|\brdb\b|\bcdb\b|integralizacao de capital|tesouro|liq bolsa - vista bruto"
+    r"|valor (recebido de|aplicado em) investimentos|caixinha", re.I)
+CARD_PAYMENT_CODE = re.compile(r"^[A-Z]{2,3}[-\d]{12,}")
 INVESTMENT_INCOME = re.compile(r"rendimentos|dividendos|juros s/ capital|taxa remunera|restituicao de capital", re.I)
 INVESTMENT_COST = re.compile(r"^ir - |liq bolsa|corretagem|cust[oó]dia", re.I)
+BANK_SETTLEMENT = re.compile(r"^banco [\w ]+ s\.?a\.?$", re.I)
 CREDIT_PIX_FUNDING = re.compile(r"valor adicionado para pix no cr[eé]dito", re.I)
 
 
@@ -58,10 +62,16 @@ def rows(path):
             }
 
 
-def classify(entry, holder):
+def classify(entry, holder, issuers):
     raw, folded = entry["raw"], fold(entry["raw"])
+    if not entry["is_card"] and BANK_SETTLEMENT.search(raw.strip()):
+        return "investment_move"
+    if not entry["is_card"] and entry["value"] < 0 and any(name in folded for name in issuers):
+        return "invoice_payment"
     if entry["is_card"] and raw.lower().startswith("fatura ") and not entry["bank_category"]:
         return "invoice_total"
+    if entry["is_card"] and entry["value"] > 0 and CARD_PAYMENT_CODE.match(raw):
+        return "invoice_payment"
     if INVOICE_PAYMENT.search(raw):
         return "invoice_payment"
     if CREDIT_PIX_FUNDING.search(raw):
@@ -80,16 +90,18 @@ def classify(entry, holder):
 def pair_transfers(entries):
     pending = defaultdict(list)
     for entry in entries:
-        if entry["reason"] is None and not entry["is_card"]:
+        if entry["reason"] in (None, "own_transfer") and not entry["is_card"]:
             pending[round(abs(entry["value"]), 2)].append(entry)
     for group in pending.values():
         outs = [e for e in group if e["value"] < 0]
         ins = [e for e in group if e["value"] > 0]
         for out in outs:
             match = next(
-                (i for i in ins if i["account"] != out["account"] and i["reason"] is None
+                (i for i in ins if i["account"] != out["account"] and not i.get("paired")
+                 and (i["reason"] is None or out["reason"] is None)
                  and abs((i["date"] - out["date"]).days) <= 3), None)
             if match:
+                out["paired"] = match["paired"] = True
                 labeled = "Salário" in (out["bank_category"], match["bank_category"])
                 out["reason"] = match["reason"] = (
                     "transfer_labeled_as_salary" if labeled else "own_transfer")
@@ -124,6 +136,30 @@ def collapse_installments(entries):
                 other["reason"] = "installment_duplicate"
 
 
+TICKER = re.compile(r"\b([A-Z]{4}\d{1,2})\b")
+INVESTMENT_NAMES = [
+    (re.compile(r"^rendimentos", re.I), "Rendimentos"),
+    (re.compile(r"^dividendos", re.I), "Dividendos"),
+    (re.compile(r"^juros s/ capital", re.I), "JCP"),
+    (re.compile(r"^taxa remunera", re.I), "Aluguel de ações"),
+    (re.compile(r"^restituicao de capital", re.I), "Restituição de capital"),
+    (re.compile(r"^leil[aã]o de fra", re.I), "Leilão de frações"),
+    (re.compile(r"^ir - ", re.I), "IR sobre aluguel"),
+    (re.compile(r"corretagem", re.I), "Corretagem"),
+    (re.compile(r"liq bolsa - vista tx", re.I), "Taxas da B3"),
+    (re.compile(r"cust[oó]dia.*estor", re.I), "Estorno da taxa de custódia"),
+    (re.compile(r"cust[oó]dia", re.I), "Taxa de custódia"),
+]
+
+
+def investment_name(raw):
+    label = next((name for pattern, name in INVESTMENT_NAMES if pattern.search(fold(raw))), None)
+    if not label:
+        return None
+    tickers = TICKER.findall(raw)
+    return f"{label} {tickers[-1]}" if tickers and label not in ("Corretagem", "Taxas da B3") else label
+
+
 def grouped_investments(entries):
     buckets = defaultdict(float)
     for entry in entries:
@@ -148,16 +184,22 @@ def grouped_investments(entries):
 def main():
     path = sys.argv[1]
     group_investments = "--itemize-investments" not in sys.argv
+    salary_is_income = "--salary-transfers-are-income" in sys.argv
     holder_arg = next((a.split("=", 1)[1] for a in sys.argv if a.startswith("--holder=")), "")
     if not holder_arg:
         found = re.search(r"movimentacoes_([a-z-]+)_\d{8}", Path(path).name)
         holder_arg = found.group(1).replace("-", " ") if found else ""
     holder = fold(holder_arg).split()
     entries = list(rows(path))
+    issuers = {fold(e["account"]).split()[-1] for e in entries if e["is_card"]}
     for entry in entries:
-        entry["reason"] = classify(entry, holder)
+        entry["reason"] = classify(entry, holder, issuers)
         entry.setdefault("installments", 1)
     pair_transfers(entries)
+    if salary_is_income:
+        for entry in entries:
+            if entry["reason"] == "transfer_labeled_as_salary" and entry["value"] > 0:
+                entry["reason"] = None
     collapse_installments(entries)
     extra = grouped_investments(entries) if group_investments else []
     ready, skipped = [], defaultdict(lambda: {"count": 0, "total": 0.0})
@@ -176,6 +218,9 @@ def main():
             "bank_category": entry["bank_category"], "account": entry["account"],
             "installments": entry["installments"],
         }
+        if entry["reason"] in ("investment_income", "investment_cost"):
+            item["description"] = investment_name(entry["raw"]) or entry["raw"]
+            item["investment"] = True
         if entry["tags"]:
             item["tags"] = entry["tags"]
         if entry.get("estimated_start"):
