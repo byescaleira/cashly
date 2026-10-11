@@ -161,3 +161,10 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Ajustes usam o `AdaptiveList`** como as outras abas: uma coluna no iPhone em pé, duas ou mais no iPad e no iPhone deitado. No Mac continua o `Form` agrupado da janela de Ajustes.
 - **`DisclosureLink`** (DesignSystem) desenha a seta de navegação quando a linha está nas colunas, onde o `NavigationLink` não tem seta. Os seletores de Tema e Moeda usam `LabeledContent` para manter o rótulo fora da lista.
 - **Guias com transição no sentido certo:** avançar entra pela direita, voltar entra pela esquerda; a página que sai só esmaece.
+
+## 10/10/2026: motor de análise, MCP e plugin
+
+- **`CashlyAnalytics` (fase A):** retrato do livro em lançamentos por mês de parcela, séries mensais, estatística robusta, valor do dinheiro no tempo, tabelas Price e SAC e taxa efetiva de compras parceladas. O `AnalysisEngine` roda análises registradas com origem e cache por revisão. Primeiras análises: parcelas já assumidas, ritmo do mês e quanto posso gastar por dia. Modelos de linguagem: só os da Apple, por enquanto.
+- **MCP dentro do app do Mac**, e não como executável separado: o app roda em sandbox e outro processo não leria o banco sem pedir permissão ao sistema. O servidor ouve só em 127.0.0.1, exige token, recusa origens de fora e liga nos Ajustes. Protocolo próprio e enxuto (`CashlyMCP`), sem dependência externa.
+- **Escrita pelo MCP passa pela conferência do app:** `import_transactions` valida os itens e abre a mesma tela da importação de planilha, com "Recusar". A ferramenta espera a decisão por até ~3 minutos e responde importado, recusado ou aguardando.
+- **Plugin do Claude Code** no próprio repositório (`.claude-plugin/marketplace.json`, `plugins/cashly`): configuração do MCP por variáveis de ambiente e duas skills, `cashly-import` (extratos do Open Finance, OFX, CSV, PDF: limpeza, parcelas, transferências, duplicatas) e `cashly-insights`.

@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "cashly": {
+      "type": "http",
+      "url": "http://127.0.0.1:${CASHLY_MCP_PORT:-41337}/mcp",
+      "headers": {
+        "Authorization": "Bearer ${CASHLY_MCP_TOKEN}"
+      }
+    }
+  }
+}

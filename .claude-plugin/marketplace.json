@@ -1,0 +1,11 @@
+{
+  "name": "cashly",
+  "owner": { "name": "byescaleira" },
+  "plugins": [
+    {
+      "name": "cashly",
+      "source": "./plugins/cashly",
+      "description": "Conecta o Claude Code ao Cashly: consulta finanças e importa extratos com conferência no app."
+    }
+  ]
+}
