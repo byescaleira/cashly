@@ -68,7 +68,7 @@ private struct GuideTopBar: View {
                 ForEach(0..<count, id: \.self) { step in
                     Capsule()
                         .fill(step == index ? Color.accentColor : Color.secondary.opacity(0.3))
-                        .frame(width: step == index ? 18 : 6, height: 6)
+                        .frame(width: step == index ? 20 : 10, height: 10)
                 }
             }
             .accessibilityHidden(true)

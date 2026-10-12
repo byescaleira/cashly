@@ -52,23 +52,6 @@ struct BudgetPaceExample: View {
     }
 }
 
-private struct SearchExample: View {
-    var body: some View {
-        Text("mercado")
-            .font(.body)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 14)
-            .padding(.vertical, 10)
-            .background(Color.secondary.opacity(0.12), in: .capsule)
-        ExampleRow(
-            "Compra semanal", detail: "8 de outubro", value: 312.4.formatted(.appCurrency),
-            symbol: "cart.fill", color: .retroOrange)
-        ExampleRow(
-            "Feira", detail: "2 de outubro", value: 86.0.formatted(.appCurrency),
-            symbol: "cart.fill", color: .retroOrange)
-    }
-}
-
 private struct BudgetExample: View {
     var body: some View {
         ExampleHeadline(

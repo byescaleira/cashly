@@ -66,8 +66,8 @@ public struct GuideValue: View {
                 .trailing)
         }
         .font(.subheadline)
-        .padding(.vertical, 11)
-        .padding(.horizontal, 16)
+        .padding(.vertical, 16)
+        .padding(.horizontal, 22)
     }
 }
 

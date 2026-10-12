@@ -11,10 +11,14 @@ public struct MissingDataView: View {
 
     public var body: some View {
         EmptyStateView(
-            image: prerequisite.image, title: prerequisite.title,
-            description: prerequisite.description, actionTitle: prerequisite.actionTitle
+            title: prerequisite.title, description: prerequisite.description,
+            actionTitle: prerequisite.actionTitle, action: openRoute
         ) {
-            open(prerequisite.route, in: section)
+            PrerequisiteExample(prerequisite: prerequisite)
         }
+    }
+
+    private func openRoute() {
+        open(prerequisite.route, in: section)
     }
 }

@@ -1,16 +1,7 @@
-import CashlyResource
 import SwiftUI
 
 public enum Prerequisite: CaseIterable, Sendable {
     case category, transaction, tag
-
-    var image: CashlyResourceImage {
-        switch self {
-        case .category: .illustrationEmpty
-        case .transaction: .illustrationTransaction
-        case .tag: .illustrationTag
-        }
-    }
 
     var title: LocalizedStringKey {
         switch self {

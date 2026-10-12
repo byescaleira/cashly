@@ -2,9 +2,11 @@ import CashlyDesignSystem
 import SwiftUI
 
 public struct GuideExample<Content: View>: View {
+    private let background: Color
     private let content: Content
 
-    public init(@ViewBuilder content: () -> Content) {
+    public init(background: Color = .sheetCard, @ViewBuilder content: () -> Content) {
+        self.background = background
         self.content = content()
     }
 
@@ -12,7 +14,7 @@ public struct GuideExample<Content: View>: View {
         VStack(alignment: .leading, spacing: 12) { content }
             .padding(16)
             .frame(maxWidth: 420)
-            .background(.sheetCard, in: .rect(cornerRadius: 22))
+            .background(background, in: .rect(cornerRadius: 22))
             .allowsHitTesting(false)
     }
 }

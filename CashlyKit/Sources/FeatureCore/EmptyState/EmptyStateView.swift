@@ -1,35 +1,31 @@
 import CashlyDesignSystem
-import CashlyResource
 import SwiftUI
 
-public struct EmptyStateView: View {
-    private let image: CashlyResourceImage
+public struct EmptyStateView<Example: View>: View {
     private let title: LocalizedStringKey
     private let description: LocalizedStringKey
     private let actionTitle: LocalizedStringKey?
     private let action: (() -> Void)?
+    private let example: Example
 
     public init(
-        image: CashlyResourceImage, title: LocalizedStringKey, description: LocalizedStringKey,
-        actionTitle: LocalizedStringKey? = nil, action: (() -> Void)? = nil
+        title: LocalizedStringKey, description: LocalizedStringKey,
+        actionTitle: LocalizedStringKey? = nil, action: (() -> Void)? = nil,
+        @ViewBuilder example: () -> Example
     ) {
-        self.image = image
         self.title = title
         self.description = description
         self.actionTitle = actionTitle
         self.action = action
+        self.example = example()
     }
 
     public var body: some View {
         ContentUnavailableView {
-            Label {
-                Text(title)
-            } icon: {
-                image.image
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 110)
+            VStack(spacing: 20) {
+                GuideExample(background: Color.secondary.opacity(0.1)) { example }
                     .accessibilityHidden(true)
+                Text(title).font(.title2.weight(.bold))
             }
         } description: {
             Text(description)
