@@ -16,6 +16,7 @@ public struct MCPSettingsSlot: View {
 
 struct MCPImportPresenter: ViewModifier {
     @Environment(MCPModel.self) private var mcp: MCPModel?
+    @Environment(\.scenePhase) private var scenePhase
     @State private var shown: MCPModel.Prompt?
     @State private var isVisible = false
 
@@ -34,6 +35,15 @@ struct MCPImportPresenter: ViewModifier {
                 }
             }
             .onChange(of: mcp?.prompt?.id, initial: true) { present() }
+            .onChange(of: scenePhase) { _, phase in
+                switch phase {
+                case .active: mcp?.resume()
+                #if os(iOS)
+                    case .background: mcp?.suspend()
+                #endif
+                default: break
+                }
+            }
     }
 
     private func dismissed() {

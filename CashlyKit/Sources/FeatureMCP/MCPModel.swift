@@ -152,6 +152,16 @@ public final class MCPModel {
         "\(client.name) · \(client.address)"
     }
 
+    public func resume() {
+        guard isEnabled, state != .ready, state != .starting else { return }
+        restart()
+    }
+
+    public func suspend() {
+        guard isEnabled else { return }
+        stop()
+    }
+
     private func restart() {
         guard isEnabled else { return }
         stop()
@@ -191,7 +201,12 @@ public final class MCPModel {
     private func update(_ listener: NWListener.State) {
         switch listener {
         case .ready: state = .ready
-        case .failed(let error): state = .failed(error.localizedDescription)
+        case .failed(let error):
+            state = .failed(error.localizedDescription)
+            Task { [weak self] in
+                try? await Task.sleep(for: .seconds(3))
+                self?.resume()
+            }
         case .cancelled: if state != .off { state = .off }
         default: break
         }
