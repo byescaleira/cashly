@@ -38,16 +38,19 @@ struct DashboardModelTests {
         return (DashboardModel(session: session, finance: finance), finance)
     }
 
-    @Test func syncSelectsFirstItemsAndKeepsExistingChoice() async throws {
-        let (dashboard, finance) = try await dashboard()
-        dashboard.sync()
-        #expect(dashboard.availableCategory == finance.categories.first)
-        let other = try #require(finance.categories.last)
-        dashboard.availableCategory = other
+    @Test func syncResetsTheHighlight() async throws {
+        let (dashboard, _) = try await dashboard()
         dashboard.highlightedTransaction = 3
         dashboard.sync()
-        #expect(dashboard.availableCategory == other)
         #expect(dashboard.highlightedTransaction == 0)
+    }
+
+    @Test func budgetRowsSkipCategoriesWithoutBudgetAndSortByUsage() async throws {
+        let (dashboard, _) = try await dashboard()
+        let rows = dashboard.budgetRows
+        #expect(rows.allSatisfy { $0.budgeted > 0 })
+        #expect(rows.map(\.usage.ratio) == rows.map(\.usage.ratio).sorted(by: >))
+        #expect(rows.first?.available == 750)
     }
 
     @Test func availabilityUsesThePeriod() async throws {

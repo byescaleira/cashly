@@ -12,13 +12,28 @@ public final class DashboardModel {
         public let usage: BudgetUsage
     }
 
+    public struct BudgetRow: Identifiable, Equatable {
+        public let category: CashlyDomain.Category
+        public let budgeted: Double
+        public let available: Double
+        public let usage: BudgetUsage
+
+        public var id: String { category.id }
+        public var name: String { category.name.capitalized }
+        public var summary: String {
+            available >= 0
+                ? "Sobram \(available.formatted(.appCurrency))"
+                : "Passou \((-available).formatted(.appCurrency))"
+        }
+    }
+
     public struct SyncKey: Hashable {
         let categories: [String]
         let transactions: [String]
     }
 
-    public var availableCategory: CashlyDomain.Category?
     public var highlightedTransaction = 0
+    public let visibleBudgetCount = 4
     @ObservationIgnored private let session: SessionModel
     @ObservationIgnored private let finance: FinanceModel
 
@@ -34,12 +49,29 @@ public final class DashboardModel {
     }
 
     public func sync() {
-        availableCategory =
-            finance.categories.first { $0.id == availableCategory?.id } ?? finance.categories.first
         highlightedTransaction = 0
     }
 
     public var totalAvailable: Double { finance.budgetsAmount - finance.expensesAmount }
+
+    public var totalUsage: BudgetUsage {
+        BudgetUsage(spent: finance.expensesAmount, budgeted: finance.budgetsAmount)
+    }
+
+    public var budgetRows: [BudgetRow] {
+        finance.categories
+            .compactMap { category -> BudgetRow? in
+                let budgeted = finance.budgetsAmount(for: category)
+                guard budgeted > 0 else { return nil }
+                return BudgetRow(
+                    category: category, budgeted: budgeted,
+                    available: budgeted - finance.expensesAmount(for: category),
+                    usage: finance.categoryUsage(category: category))
+            }
+            .sorted { $0.usage.ratio > $1.usage.ratio }
+    }
+
+    public var hiddenBudgetCount: Int { max(budgetRows.count - visibleBudgetCount, 0) }
 
     public func availability(of category: CashlyDomain.Category) -> Availability {
         let budgeted = finance.budgetsAmount(for: category)

@@ -8,55 +8,57 @@ struct AvailableSection: View {
     @Environment(DashboardModel.self) private var dashboard
 
     var body: some View {
-        @Bindable var dashboard = dashboard
-        if !finance.budgets.isEmpty {
+        let rows = dashboard.budgetRows
+        if !rows.isEmpty {
             Section {
-                if let category = dashboard.availableCategory {
-                    let availability = dashboard.availability(of: category)
-                    Picker("Categoria", selection: $dashboard.availableCategory) {
-                        ForEach(finance.categories) { Text($0.name.capitalized).tag(Optional($0)) }
-                    }
-                    AdaptiveStack(spacing: 8) {
-                        AdaptiveStack(alignment: .firstTextBaseline, spacing: 4) {
-                            Text(availability.available.formatted(.appCurrency))
-                                .font(.title3.weight(.bold))
-                                .amountLine()
-                            Text("de \(availability.budgeted.formatted(.appCurrency))")
-                                .font(.footnote)
-                                .foregroundStyle(Color.secondary)
-                                .amountLine()
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        Text(
-                            availability.remainingRatio.formatted(
-                                .percent.precision(.fractionLength(0)))
-                        )
-                        .font(.caption2.weight(.bold))
-                        .foregroundStyle(availability.usage.stage.color)
-                        .padding(.vertical, 8)
-                        .padding(.horizontal, 12)
-                        .background(availability.usage.stage.color.opacity(0.2), in: .capsule)
-                    }
+                ForEach(rows.prefix(dashboard.visibleBudgetCount)) { row in
+                    BudgetRowView(row: row)
                 }
             } header: {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Disponível").sectionTitle().frame(
-                        maxWidth: .infinity, alignment: .leading)
-                    VStack(spacing: 4) {
-                        Text(dashboard.totalAvailable.formatted(.appCurrency))
-                            .font(.largeTitle.weight(.black))
-                            .foregroundStyle(Color.primary)
-                            .amountLine()
-                        Text(finance.budgetsAmount.formatted(.appCurrency))
-                            .font(.title3.weight(.semibold))
-                            .foregroundStyle(Color.secondary)
-                            .amountLine()
-                    }
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 24)
+                FigureHeader(
+                    title: "Disponível", value: dashboard.totalAvailable,
+                    color: dashboard.totalAvailable < 0 ? .negative : .primary
+                ) {
+                    let usage = dashboard.totalUsage
+                    Text("de \(finance.budgetsAmount.formatted(.appCurrency)) planejado")
+                        .font(.title3.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                        .amountLine()
+                    Text(
+                        "\(usage.ratio.formatted(.percent.precision(.fractionLength(0)))) usado · \(usage.stage.title)"
+                    )
+                    .font(.subheadline.weight(.bold))
+                    .foregroundStyle(usage.stage.color)
+                }
+            } footer: {
+                if dashboard.hiddenBudgetCount > 0 {
+                    Text("Mais \(dashboard.hiddenBudgetCount) categorias com orçamento em Metas.")
                 }
             }
         }
+    }
+}
+
+private struct BudgetRowView: View {
+    let row: DashboardModel.BudgetRow
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .firstTextBaseline) {
+                Text(row.name).font(.headline)
+                Spacer(minLength: 8)
+                Text(row.summary)
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(row.usage.stage.color)
+                    .amountLine()
+            }
+            ProgressView(value: min(max(row.usage.ratio, 0), 1))
+                .tint(row.usage.stage.color)
+            Text("de \(row.budgeted.formatted(.appCurrency))")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+        }
+        .padding(.vertical, 4)
+        .accessibilityElement(children: .combine)
     }
 }

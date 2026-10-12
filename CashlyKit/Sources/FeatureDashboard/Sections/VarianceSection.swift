@@ -30,9 +30,14 @@ struct VarianceSection: View {
                             .contentTransition(.numericText())
                             .animation(.bouncy, value: comparison.spent)
                         HStack(spacing: 8) {
-                            Text(comparison.ratio.formatted(.percent.precision(.fractionLength(0))))
+                            if comparison.planned > 0 {
+                                Text(
+                                    comparison.ratio.formatted(
+                                        .percent.precision(.fractionLength(0)))
+                                )
                                 .font(.footnote.weight(.bold))
                                 .foregroundStyle(Color.secondary)
+                            }
                             Text("Gasto")
                                 .font(.callout.weight(.semibold))
                                 .foregroundStyle(appTint)

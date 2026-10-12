@@ -8,16 +8,15 @@ struct FutureSection: View {
     var body: some View {
         if let commitments = insights.commitments {
             Section {
-                VStack(spacing: 8) {
-                    InsightHeadline(
-                        caption: "Já comprometido em parcelas", value: commitments.total,
-                        color: .primary)
-                    InsightBars(bars: commitments.bars)
-                }
+                InsightBars(bars: commitments.bars)
                 LabeledContent(
                     "No próximo mês", value: commitments.nextMonth.formatted(.appCurrency))
             } header: {
-                Text("Próximos meses").sectionTitle()
+                FigureHeader(title: "Próximos meses", value: commitments.total) {
+                    Text("já comprometidos em parcelas")
+                        .font(.title3.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                }
             } footer: {
                 Text("Parcelas e contas futuras que você já registrou.")
             }
