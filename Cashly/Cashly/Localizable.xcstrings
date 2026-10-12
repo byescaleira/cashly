@@ -25433,6 +25433,64 @@
         }
       }
     },
+    "Kept from an older record: you paid it all and no share is recorded for the others." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aus einem älteren Eintrag: du hast alles bezahlt und für die anderen ist kein Anteil erfasst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conservado de un registro antiguo: pagaste todo y no hay parte registrada para los demás."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conservé d’un ancien enregistrement : vous avez tout payé et aucune part n’est enregistrée pour les autres."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantenuto da un record precedente: hai pagato tutto e non c’è una quota registrata per gli altri."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以前の記録から引き継ぎ：あなたが全額を支払い、他の人の分担は記録されていません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이전 기록에서 유지됨: 내가 전액을 냈고 다른 사람의 몫은 기록되지 않았어요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantido de um registro antigo: você pagou tudo e não há parte registrada para os outros."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Из старой записи: вы заплатили всё, доли остальных не записаны."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沿用旧记录：你支付了全部，其他人没有记录份额。"
+          }
+        }
+      }
+    },
     "Language" : {
       "localizations" : {
         "de" : {
@@ -31229,64 +31287,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每周打开 App 时备份一次。"
-          }
-        }
-      }
-    },
-    "One person pays the full amount and the others owe them." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eine Person zahlt den ganzen Betrag, die anderen schulden ihr etwas."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Una persona paga el importe total y los demás le deben."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Une personne paie le montant total et les autres lui doivent leur part."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Una persona paga l’intero importo e gli altri le devono la loro parte."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "1人が全額を支払い、ほかの人がその人に支払います。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "한 사람이 전액을 내고 나머지가 그 사람에게 갚습니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Uma pessoa paga o valor inteiro e as outras ficam devendo."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Один человек платит всю сумму, а остальные ему должны."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "一人支付全部金额，其他人欠这个人的钱。"
           }
         }
       }

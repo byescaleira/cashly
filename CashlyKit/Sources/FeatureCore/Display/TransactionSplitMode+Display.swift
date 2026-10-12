@@ -16,7 +16,15 @@ extension TransactionSplitMode {
         case .fixedAmount: String(appLocalized: "Sets a fixed amount for each participant.")
         case .percentage: String(appLocalized: "Splits the total by percentage.")
         case .payerBased:
-            String(appLocalized: "One person pays the full amount and the others owe them.")
+            String(
+                appLocalized:
+                    "Kept from an older record: you paid it all and no share is recorded for the others."
+            )
         }
+    }
+
+    public static func selectable(keeping current: TransactionSplitMode?) -> [TransactionSplitMode]
+    {
+        allCases.filter { $0 != .payerBased || $0 == current }
     }
 }

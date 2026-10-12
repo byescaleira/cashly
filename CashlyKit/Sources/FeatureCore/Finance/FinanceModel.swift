@@ -1,4 +1,5 @@
 import CashlyDomain
+import Foundation
 import Observation
 
 @MainActor @Observable
@@ -16,6 +17,7 @@ public final class FinanceModel {
     public private(set) var contentGeneration = 0
     public var error: CashlyError?
     var summary = CashlyOverview()
+    @ObservationIgnored public var snapshotStore = WidgetSnapshotStore.shared
     @ObservationIgnored private let session: SessionModel
     @ObservationIgnored private var request = 0
 
@@ -63,6 +65,22 @@ public final class FinanceModel {
         return BudgetConflict.detect(in: catalog.budgets).first {
             $0.categoryID == categoryID && $0.month == month && $0.budgets.count > 1
         }
+    }
+
+    public func publishSnapshot(month: YearMonth = YearMonth(.now)) async {
+        guard let store = snapshotStore else { return }
+        guard let user = session.user else {
+            try? store.clear()
+            return
+        }
+        let repositories = session.repositories
+        guard
+            let overview = try? await repositories.dashboard.overview(
+                query: TransactionQuery(month: month))
+        else { return }
+        let snapshot = WidgetSnapshot(
+            user: user, month: month, overview: overview, currencyCode: Money.currencyCode)
+        try? store.write(snapshot)
     }
 
     public func resolveBudgetConflict(keeping id: String) async throws {

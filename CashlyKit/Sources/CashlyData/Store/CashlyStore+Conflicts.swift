@@ -15,7 +15,8 @@ extension CashlyStore {
                 }))
         guard candidates.filter({ $0.mergedIntoID.isEmpty }).count > 1 else { return }
         let token = UUID().uuidString
-        let timestamp = Date.now.timeIntervalSince1970
+        let seen = candidates.map(\.resolutionTimestamp).max() ?? 0
+        let timestamp = max(Date.now.timeIntervalSince1970, seen + 1)
         do {
             for row in candidates {
                 row.resolutionToken = token

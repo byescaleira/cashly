@@ -279,6 +279,17 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Eventos gravados pelo app:** guia concluído (tutoriais, pontuação e importação), planilha importada e backup criado (cada exportação grava um evento para cada perfil).
 - **Ajustes › Jornada** liga e desliga a aba; esconder não apaga o progresso. A flag remota `journey` também esconde a aba e a linha dos Ajustes.
 
+## 12/10/2026: base fora da janela (fase 9.1)
+
+- **App Group `group.com.byescaleira.cashly`** no entitlement do app, para widgets, intents e extensões lerem o que o app grava. O banco SwiftData não muda de lugar.
+- **Retrato do mês para widgets.** `WidgetSnapshot` (domínio, `Codable`) resume o mês corrente do perfil selecionado: planejado, gasto, receita e uma linha por orçamento (categoria, cor, símbolo, planejado, gasto). `FinanceModel.publishSnapshot()` recalcula pelo `overview` do mês corrente (não pelo filtro da tela) a cada `datasetRevision` e grava em `widget-snapshot.json` no App Group via `WidgetSnapshotStore`; sem perfil, apaga. Os vencimentos entram na 9.3, com os widgets.
+- **`CashlyServices` no `AppShell`:** abre o banco uma vez por processo (`database(cloudSync:)`) e entrega `workspace()` com os repositórios e o perfil selecionado, sem janela. O `CashlyBootstrap` do app passou a usar o mesmo serviço, então App Intents e o app compartilham um único `ModelContainer`.
+
+## 12/10/2026: pendências antes de distribuir
+
+- **"Quem pagou" saiu da criação.** O modo atribuía zero a todos e a interface prometia dívida. O seletor de divisão só mostra `payerBased` quando o registro já usa esse modo (registros antigos não são convertidos), e a descrição passou a dizer o que o modo faz de verdade: você pagou tudo e não há parte registrada para os outros. Modelar pagador e dívida fica para a fase 10 (acerto de contas com Pix).
+- **Resolução de conflito com carimbo monotônico.** `resolveBudgetConflict` grava `max(agora, maior carimbo já visto + 1)`, então quem resolve depois de ver a resolução anterior sempre vence, mesmo com o relógio atrasado; dois aparelhos que resolvem sem se ver continuam decididos por carimbo e token. Teste em `ScenarioTests`.
+
 ## 12/10/2026: dicas com TipKit (fase 8.6)
 
 - **Cinco dicas, cada uma no seu target.** Sequência em dia sem gastos e escolher um desafio (`FeatureJourney`), deslizar para excluir e dividir um gasto (`FeatureTransactions`), conectar o Claude Code (`FeatureMCP`, mostrada pelo `MCPSettingsSlot` do `AppShell`). Dicas de Siri e widgets ficam para quando esses recursos existirem (fase 9).

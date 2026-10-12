@@ -4,8 +4,7 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 
 ## Antes de distribuir
 
-- **[P1] Validar CloudKit em dois aparelhos assinados:** offline e reconexão, referências que chegam em momentos diferentes, conflitos concorrentes, exclusões e troca de usuários. A resolução de conflito usa timestamp e token; um relógio adiantado pode vencer uma escolha feita depois.
-- **[P1] Modo de divisão "Quem pagou".** `TransactionAllocation` atribui zero a todos os participantes nesse modo, mas a interface promete que os outros ficam devendo. Retirar a opção da criação ou modelar pagador e dívida; não converter registros antigos em divisão igual.
+- **[P1] Validar CloudKit em dois aparelhos assinados:** offline e reconexão, referências que chegam em momentos diferentes, conflitos concorrentes, exclusões e troca de usuários. Só dá para fazer com dois aparelhos (fica com o usuário); o lado automático está coberto: `scripts/audit.sh`, os `ScenarioTests` e, desde 12/10/2026, a resolução de conflito usa um carimbo monotônico (`max(agora, último visto + 1)`), então uma escolha feita depois de ver a anterior vence mesmo com o relógio atrasado.
 
 ## Desempenho e dados
 

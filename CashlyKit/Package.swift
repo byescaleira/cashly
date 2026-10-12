@@ -76,7 +76,7 @@ let package = Package(
         .target(
             name: "AppShell",
             dependencies: [
-                "CashlyDomain", "CashlyDesignSystem", "FeatureCore", "FeatureBudgets",
+                "CashlyDomain", "CashlyData", "CashlyDesignSystem", "FeatureCore", "FeatureBudgets",
                 "FeatureCategories", "FeatureDashboard", "FeatureGuides", "FeatureJourney",
                 "FeatureMCP",
                 "FeatureOnboarding",

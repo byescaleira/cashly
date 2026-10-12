@@ -16,7 +16,8 @@ struct ParticipantsSection: View {
                     Text("Split Mode").frame(maxWidth: .infinity, alignment: .leading)
                     Menu {
                         Picker(selection: $model.draft.splitMode) {
-                            ForEach(TransactionSplitMode.allCases) {
+                            ForEach(TransactionSplitMode.selectable(keeping: model.draft.splitMode))
+                            {
                                 Text($0.summary).tag(Optional($0))
                             }
                         } label: {

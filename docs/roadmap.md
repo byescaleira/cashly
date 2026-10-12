@@ -118,6 +118,17 @@ Fora de alcance sem servidor:
 - **Open Finance (conexão automática com bancos):** exige um agregador contratado e um backend.
 - **FinanceKit:** pelo que a documentação mostrava até agora, não cobre contas brasileiras (a confirmar).
 
+### Etapas da fase 9
+
+| Etapa | Entrega |
+| --- | --- |
+| 9.1 | Base fora da janela: App Group, `CashlyServices` (composição sem tela, com perfil e banco como parâmetros), retrato JSON do mês gravado no App Group a cada mudança — feita |
+| 9.2 | App Intents: "Adicionar gasto", "Quanto gastei este mês?", "Quanto sobra em <categoria>?", "Marcar conta como paga"; `AppEntity` de categoria, tag e perfil; `AppShortcutsProvider`; Spotlight com `IndexedEntity` |
+| 9.3 | Widgets: saldo do mês, orçamento por categoria, próximos vencimentos com "marcar como pago"; Tela Bloqueada, StandBy, Mac e visionOS |
+| 9.4 | Central de Controle e Botão de Ação ("Novo gasto"); automação do Wallet com o atalho pronto e o passo a passo |
+| 9.5 | Notificações com ação: alertas de orçamento em 80% e 100%, resumo semanal, "Marcar paga" e "Adiar 1 dia", vencimento Sensível ao Tempo |
+| 9.6 | Face ID: bloqueio opcional, modo discreto e desfoque no seletor de apps |
+
 ## 4. Features de finanças que faltam
 
 - **Recorrências:** contas fixas, salário e assinaturas geram lançamentos e vencimentos sozinhos. O app detecta assinaturas pelo padrão de gastos e mostra "Suas assinaturas: R$ X/mês".

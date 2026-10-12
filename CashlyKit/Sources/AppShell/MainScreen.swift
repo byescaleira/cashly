@@ -79,6 +79,7 @@ public struct MainScreen: View {
         .task { await store.start() }
         .task(id: session.loadKey) { await finance.load() }
         .task(id: (session.user?.id ?? "") + ":" + finance.datasetRevision) {
+            await finance.publishSnapshot()
             await intelligence.loadModels(revision: finance.datasetRevision)
         }
         .task(

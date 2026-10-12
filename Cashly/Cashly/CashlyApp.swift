@@ -55,7 +55,7 @@ private final class CashlyBootstrap {
     let flags: FeatureFlags
     let intelligence = LocalIntelligenceService()
     private let settings: SettingsModel
-    @ObservationIgnored private var preparation: Task<CashlyDatabase, any Error>?
+    @ObservationIgnored private var isListeningToSync = false
 
     init(settings: SettingsModel) {
         self.settings = settings
@@ -78,20 +78,15 @@ private final class CashlyBootstrap {
         guard database == nil else { return }
         error = nil
         let cloudSync = settings.syncsAtLaunch
-        if cloudSync && preparation == nil {
+        if cloudSync && !isListeningToSync {
+            isListeningToSync = true
             let events = CashlyDatabase.syncEvents()
             Task { [settings] in
                 for await date in events { settings.recordSync(date) }
             }
         }
-        let task =
-            preparation
-            ?? Task.detached(priority: .userInitiated) {
-                try CashlyDatabase.open(cloudSync: cloudSync)
-            }
-        preparation = task
         do {
-            let database = try await task.value
+            let database = try await CashlyServices.shared.database(cloudSync: cloudSync)
             self.database = database
             Task { await flags.refresh() }
             if flags.isOn(.mcpServer) {
@@ -110,7 +105,6 @@ private final class CashlyBootstrap {
         } catch {
             self.error = error.localizedDescription
         }
-        preparation = nil
     }
 }
 

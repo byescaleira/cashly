@@ -1,0 +1,77 @@
+import Foundation
+
+public struct WidgetSnapshot: Codable, Equatable, Sendable {
+    public struct BudgetLine: Codable, Equatable, Sendable {
+        public let id: String
+        public let categoryName: String
+        public let color: String
+        public let icon: String
+        public let plannedMinorUnits: Int64
+        public let spentMinorUnits: Int64
+
+        public init(
+            id: String, categoryName: String, color: String, icon: String,
+            plannedMinorUnits: Int64, spentMinorUnits: Int64
+        ) {
+            self.id = id
+            self.categoryName = categoryName
+            self.color = color
+            self.icon = icon
+            self.plannedMinorUnits = plannedMinorUnits
+            self.spentMinorUnits = spentMinorUnits
+        }
+
+        public var remainingMinorUnits: Int64 { plannedMinorUnits - spentMinorUnits }
+    }
+
+    public let userID: String
+    public let userName: String
+    public let year: Int
+    public let month: Int
+    public let currencyCode: String
+    public let plannedMinorUnits: Int64
+    public let spentMinorUnits: Int64
+    public let incomeMinorUnits: Int64
+    public let budgets: [BudgetLine]
+    public let generatedAt: Date
+
+    public init(
+        userID: String, userName: String, month: YearMonth, currencyCode: String,
+        plannedMinorUnits: Int64, spentMinorUnits: Int64, incomeMinorUnits: Int64,
+        budgets: [BudgetLine], generatedAt: Date = .now
+    ) {
+        self.userID = userID
+        self.userName = userName
+        year = month.year
+        self.month = month.month
+        self.currencyCode = currencyCode
+        self.plannedMinorUnits = plannedMinorUnits
+        self.spentMinorUnits = spentMinorUnits
+        self.incomeMinorUnits = incomeMinorUnits
+        self.budgets = budgets
+        self.generatedAt = generatedAt
+    }
+
+    public var yearMonth: YearMonth? { YearMonth(year: year, month: month) }
+    public var availableMinorUnits: Int64 { plannedMinorUnits - spentMinorUnits }
+}
+
+extension WidgetSnapshot {
+    public init(
+        user: User, month: YearMonth, overview: CashlyOverview, currencyCode: String,
+        generatedAt: Date = .now
+    ) {
+        let lines = overview.budgets.map { budget in
+            BudgetLine(
+                id: budget.id, categoryName: budget.category.name, color: budget.category.color,
+                icon: budget.category.icon, plannedMinorUnits: budget.money.minorUnits,
+                spentMinorUnits: overview.budgetExpenses[budget.id]?.minorUnits ?? 0)
+        }
+        self.init(
+            userID: user.id, userName: user.name, month: month, currencyCode: currencyCode,
+            plannedMinorUnits: overview.budgetsTotal.minorUnits,
+            spentMinorUnits: overview.expensesTotal.minorUnits,
+            incomeMinorUnits: overview.incomeTotal.minorUnits, budgets: lines,
+            generatedAt: generatedAt)
+    }
+}

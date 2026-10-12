@@ -71,6 +71,37 @@ struct ScenarioTests {
         #expect(resolved.budgets.map(\.id) == ["choice-b"])
     }
 
+    @Test func aLaterChoiceWinsEvenWithAClockBehind() async throws {
+        let db = try await TestDatabase()
+        try await db.repositories.budgets.save(db.budget("a", cents: 1000, month: 202_603))
+        let context = ModelContext(db.database.modelContainer)
+        let other = BudgetEntity(
+            id: "b", amount: 20, category: "category", date: 202_603, summary: "Outra")
+        other.ownerID = db.owner.id
+        other.amountMinorUnits = 2000
+        other.amountSource = 20
+        context.insert(other)
+        try context.save()
+        let rows = try context.fetch(
+            FetchDescriptor<BudgetEntity>(
+                predicate: #Predicate { $0.date == 202_603 && $0.id == "a" }))
+        let future = Date.now.timeIntervalSince1970 + 86_400 * 365
+        for row in rows {
+            row.resolutionToken = "fast-clock"
+            row.resolutionTimestamp = future
+            row.resolvedTargetID = "a"
+        }
+        try context.save()
+
+        let imported = CashlyDatabase(modelContainer: db.database.modelContainer)
+        let repositories = imported.repositories(for: db.owner.id)
+        try await repositories.budgets.resolveConflict(keeping: "b")
+        let after = try await repositories.dashboard.overview(
+            query: .init(month: db.month(202_603)))
+        #expect(after.conflicts.isEmpty)
+        #expect(after.budgets.map(\.id) == ["b"])
+    }
+
     @Test func resolvingConflictKeepsChosenBudget() async throws {
         let db = try await TestDatabase()
         try await db.repositories.budgets.save(db.budget("kept", cents: 1000, month: 202_601))
