@@ -64,6 +64,8 @@ def rows(path):
 
 def classify(entry, holder, issuers):
     raw, folded = entry["raw"], fold(entry["raw"])
+    if round(entry["value"], 2) == 0:
+        return "zero_value"
     if not entry["is_card"] and BANK_SETTLEMENT.search(raw.strip()):
         return "investment_move"
     if not entry["is_card"] and entry["value"] < 0 and any(name in folded for name in issuers):

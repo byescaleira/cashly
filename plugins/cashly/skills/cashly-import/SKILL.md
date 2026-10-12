@@ -34,6 +34,7 @@ python3 -I scripts/prepare.py arquivo.xls > candidatos.json
 - **Parcelas:** cada mês traz uma linha `k/N` (no Sicredi também o prefixo `PARC=1NN`). As linhas de uma mesma compra viram **uma** transação com o valor total, `installments: N` e a data da 1ª parcela, calculada voltando `k−1` meses quando a 1ª não está no arquivo (`note` avisa). Compras iguais com parcelas paralelas são separadas pela sequência.
 - **Transferências entre contas da pessoa:** linhas com o nome do titular e pares de mesmo valor (saída numa conta, entrada em outra, até 3 dias; um "Pix" genérico casa com a outra ponta que tem o nome do titular) ficam de fora.
 - **Investimentos:** aplicações e resgates (RDB, CDB, integralização de capital), liquidações de compra e venda de ações ("LIQ BOLSA - VISTA BRUTO") e linhas que são só o nome do banco na corretora ("Banco … S.A.") ficam de fora. Proventos (dividendos, JCP, rendimentos de FII, aluguel de ações) e custos (IR, corretagem, custódia) viram **um lançamento por mês** na categoria Investimentos, porque centenas de centavos poluem o histórico.
+- **Valores zerados** ("Encerramento de dívida") ficam de fora; o app recusa valor zero.
 - **Pix no crédito:** a entrada "Valor adicionado para PIX no Crédito" fica de fora; o Pix pago a quem recebeu continua como gasto.
 
 Regras aprendidas com extratos reais:
