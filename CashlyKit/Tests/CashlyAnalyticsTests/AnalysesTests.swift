@@ -24,9 +24,9 @@ struct AnalysesTests {
             splitValue: nil, paymentsPlan: plan)
     }
 
-    private func ledger(_ transactions: [Transaction], budget: Int64 = 0, today: Int = 10)
-        -> LedgerSnapshot
-    {
+    private func ledger(
+        _ transactions: [Transaction], budget: Int64 = 0, today: Int = 10, month: Int = 10
+    ) -> LedgerSnapshot {
         let october = YearMonth(year: 2026, month: 10) ?? YearMonth(.now)
         let budgets =
             budget > 0
@@ -38,7 +38,7 @@ struct AnalysesTests {
             : []
         return LedgerSnapshot(
             transactions: transactions, categories: [market], tags: [], budgets: budgets,
-            revision: "r1", today: date(today))
+            revision: "r1", today: date(today, month: month))
     }
 
     @Test func installmentsInTheFutureAreCertainCommitments() throws {
@@ -75,6 +75,20 @@ struct AnalysesTests {
         #expect(result.metric("spent")?.value == 150)
         #expect(result.metric("remaining")?.value == 300)
         #expect(result.metric("projected")?.value == 450)
+    }
+
+    @Test func monthPaceExpectsNothingMoreOnTheLastDayOfAShortMonth() throws {
+        let result = try #require(
+            MonthPace().run(
+                ledger(
+                    [
+                        transaction("jul", 50_000, day: 31, month: 7),
+                        transaction("aug", 50_000, day: 31, month: 8),
+                        transaction("sep", 50_000, day: 30, month: 9),
+                    ], today: 30, month: 9)))
+        #expect(result.metric("spent")?.value == 500)
+        #expect(result.metric("remaining")?.value == 0)
+        #expect(result.metric("projected")?.value == 500)
     }
 
     @Test func dailyAllowanceSubtractsUpcomingBills() throws {
@@ -121,5 +135,12 @@ struct AnalysesTests {
         #expect(result.series.first?.label == "Mercado")
         #expect(result.series.first?.value == 400)
         #expect(result.series.first?.reference == 100)
+    }
+
+    @Test func unusualCategoryIgnoresABillPaidEarlierThanUsual() {
+        let history = (4...9).map { transaction("rent\($0)", 100_000, day: 5, month: $0) }
+        #expect(
+            UnusualCategories().run(
+                ledger(history + [transaction("now", 100_000, day: 3)], today: 3)) == nil)
     }
 }

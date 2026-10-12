@@ -6,7 +6,7 @@ public struct UnusualCategories: Analysis {
     public static let title = "Fora do padrão"
     public static let detail =
         "Categorias com gasto bem acima do normal para este ponto do mês."
-    public static let version = 1
+    public static let version = 2
 
     private let minimumGap: Int64 = 5_000
 
@@ -26,6 +26,13 @@ public struct UnusualCategories: Analysis {
                 Double(current) - median >= Double(minimumGap)
             else { return nil }
             if let score = Statistics.robustZScore(Double(current), in: history), score < 2 {
+                return nil
+            }
+            if median == 0,
+                previous.contains(where: {
+                    ledger.spent(in: $0, throughDay: $0.dayCount, categoryID: category.id) > 0
+                })
+            {
                 return nil
             }
             return SeriesPoint(

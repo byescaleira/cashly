@@ -6,7 +6,7 @@ public struct MonthPace: Analysis {
     public static let title = "Previsão do mês"
     public static let detail =
         "Em quanto o mês deve fechar: o que já saiu, as contas já agendadas e o que você costuma gastar até o fim do mês."
-    public static let version = 2
+    public static let version = 3
 
     public init() {}
 
@@ -25,13 +25,15 @@ public struct MonthPace: Analysis {
                 (Double(spent) / Double(day) * Double(month.dayCount - day)).rounded())
             method = "Gasto até hoje dividido pelos dias passados, vezes os dias que faltam"
         } else {
+            let left = month.dayCount - day
             let rests = history.map {
                 Double(
                     ledger.spent(in: $0, throughDay: $0.dayCount)
-                        - ledger.spent(in: $0, throughDay: day))
+                        - ledger.spent(in: $0, throughDay: $0.dayCount - left))
             }
             typicalRest = Int64((Statistics.median(rests) ?? 0).rounded())
-            method = "Gasto até hoje + mediana do que saiu depois deste dia nos últimos meses"
+            method =
+                "Gasto até hoje + mediana do que saiu nos mesmos últimos dias dos meses anteriores"
         }
         let remaining = max(scheduled, typicalRest)
         let projected = spent + remaining

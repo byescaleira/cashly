@@ -41,7 +41,7 @@ public final class TransactionEditorModel {
             guard newValue != draft.kind else { return }
             draft.kind = newValue
             if draft.status == .pendingToPay || draft.status == .pendingToReceive {
-                draft.status = draft.status.reverse
+                draft.status = newValue == .income ? .pendingToReceive : .pendingToPay
             }
             if newValue == .income { selectParticipants([]) }
         }

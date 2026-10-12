@@ -25,8 +25,7 @@ public actor AnalysisEngine {
 
     public func run(_ id: AnalysisID, on ledger: LedgerSnapshot) -> AnalysisResult? {
         guard let analysis = analyses.first(where: { $0.id == id }) else { return nil }
-        let key =
-            "\(id.rawValue)|\(analysis.version)|\(ledger.revision)|\(ledger.currentMonth.rawValue)"
+        let key = "\(id.rawValue)|\(analysis.version)|\(ledger.fingerprint)"
         if let cached = cache[key] { return cached }
         let result = analysis.init().run(ledger)
         cache[key] = result

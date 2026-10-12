@@ -8,9 +8,8 @@ import Observation
 public final class InsightsModel {
     public struct Key: Hashable {
         let userID: String?
-        let transactions: Int
-        let expenses: Double
-        let budgets: [String]
+        let generation: Int
+        let day: Date
     }
 
     public struct Bar: Equatable, Identifiable {
@@ -64,25 +63,31 @@ public final class InsightsModel {
         public let bars: [Bar]
     }
 
-    private var results: [AnalysisID: AnalysisResult] = [:]
+    private var stored: [AnalysisID: AnalysisResult] = [:]
+    private var day = Calendar.current.startOfDay(for: .now)
     @ObservationIgnored private let session: SessionModel
-    @ObservationIgnored private let finance: FinanceModel
     @ObservationIgnored private let engine = AnalysisEngine()
 
-    public init(session: SessionModel, finance: FinanceModel) {
+    public init(session: SessionModel) {
         self.session = session
-        self.finance = finance
     }
 
     public var key: Key {
-        Key(
-            userID: session.user?.id, transactions: finance.totalTransactionCount,
-            expenses: finance.expensesAmount, budgets: finance.budgets.map(\.id))
+        Key(userID: session.user?.id, generation: session.generation, day: day)
+    }
+
+    private var results: [AnalysisID: AnalysisResult] {
+        session.filter.isCustomized ? [:] : stored
+    }
+
+    public func checkDay() {
+        let today = Calendar.current.startOfDay(for: .now)
+        if today != day { day = today }
     }
 
     public func load() async {
         guard session.user != nil else {
-            results = [:]
+            stored = [:]
             return
         }
         do {
@@ -90,9 +95,9 @@ public final class InsightsModel {
                 .ledger(today: .now)
             let all = await engine.runAll(on: ledger)
             guard !Task.isCancelled else { return }
-            results = Dictionary(all.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+            stored = Dictionary(all.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         } catch {
-            results = [:]
+            stored = [:]
         }
     }
 

@@ -32,6 +32,23 @@ public struct LedgerSnapshot: Sendable {
 
     public var currentMonth: YearMonth { YearMonth(today) }
 
+    public var fingerprint: Int {
+        var hasher = Hasher()
+        hasher.combine(revision)
+        hasher.combine(CashlyCalendar.current.startOfDay(for: today))
+        for budget in budgets.sorted(by: { $0.id < $1.id }) {
+            hasher.combine(budget.id)
+            hasher.combine(budget.category.id)
+            hasher.combine(budget.month)
+            hasher.combine(budget.money.minorUnits)
+        }
+        for category in categories.sorted(by: { $0.id < $1.id }) {
+            hasher.combine(category.id)
+            hasher.combine(category.name)
+        }
+        return hasher.finalize()
+    }
+
     public func postings(in month: YearMonth) -> [Posting] {
         postings.filter { $0.month == month }
     }

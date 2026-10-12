@@ -45,6 +45,7 @@ public struct MonthPicker: View {
         .padding(.vertical, .spaceS)
         .animation(.snappy, value: year)
         .sensoryFeedback(.selection, trigger: selection)
+        .onChange(of: selection) { _, value in year = value.year }
     }
 
     private static let symbols: [String] = {

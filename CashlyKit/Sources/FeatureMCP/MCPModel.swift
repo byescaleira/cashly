@@ -57,6 +57,13 @@ public final class MCPModel {
     public var prompt: Prompt? {
         connection.map(Prompt.connection) ?? pending.map(Prompt.importing)
     }
+
+    public func isOutstanding(_ prompt: Prompt) -> Bool {
+        switch prompt {
+        case .connection(let request): connection?.id == request.id
+        case .importing(let request): pending?.id == request.id
+        }
+    }
     public let port = MCPHTTPServer.defaultPort
     @ObservationIgnored private let provider: any RepositoryProvider
     @ObservationIgnored private let defaults: UserDefaults
@@ -137,6 +144,7 @@ public final class MCPModel {
     }
 
     func present(_ preview: SpreadsheetPreview, source: String) async -> ImportOutcome {
+        guard pending == nil else { return .waiting }
         let request = PendingImport(preview: preview, source: source)
         pending = request
         return await withCheckedContinuation { continuation in

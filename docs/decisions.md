@@ -223,3 +223,12 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Duas cores intercaladas:** a cor de destaque e o `.companion` (azul denim, o mesmo par de "Orçamento × Gasto" no Início) alternam linha a linha. "Apagar" usa `.negative`.
 - **Telas internas** com `SettingsPage` (lista adaptável no iPhone e iPad, `Form` no Mac); os títulos de seção que repetiam o título da tela saíram. "Apagar todos os dados" fica no fim de Dados e backup; ajuda e contato ficam em Sobre o Cashly. Ícones dos guias e dos modelos de inteligência passaram para as versões sem preenchimento.
 
+
+## 12/10/2026: correções da revisão de código
+
+- **Análises do Início:** o cache do `AnalysisEngine` usa a impressão digital do livro (revisão, dia, orçamentos e categorias), e a chave de recarga do `InsightsModel` passa a ser usuário + `session.generation` + dia (com `NSCalendarDayChanged`). As seções de análise só aparecem com o filtro padrão do mês atual, porque descrevem o mês inteiro.
+- **MonthPace v3:** "Ainda deve sair" compara os mesmos últimos dias de cada mês anterior, então no último dia não sobra nada. **UnusualCategories v2:** uma conta paga antes do dia de costume não vira "Novo este mês" quando a categoria teve gasto nos meses anteriores.
+- **CurrencyField:** o campo invisível não recebe toques e o cursor fica sempre no fim, então digitar e apagar mexem só nos últimos dígitos.
+- **Claude Code:** um pedido novo (conexão ou outro lote) não fecha a conferência aberta; enquanto há um lote pendente, um segundo `import_transactions` recebe "aguardando".
+- **Importação (`prepare.py`):** parcelas da mesma compra com centavo de arredondamento ficam juntas e o total é a soma das parcelas; nome do titular, nome do emissor e termos de investimento casam por palavra inteira, e investimento só vale para linhas de conta; transferências só formam par quando uma ponta tem o nome do titular ou as duas são TED/TEF/DOC/transferência.
+- **Outros:** orçamento novo sem categoria abre no mês do filtro; o `MonthPicker` acompanha a seleção carregada; trocar Saída/Entrada leva o status pendente para "A pagar"/"A receber"; a grade de categorias do onboarding volta a ser acessível e fica abaixo do título.

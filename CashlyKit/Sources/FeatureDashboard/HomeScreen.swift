@@ -34,5 +34,10 @@ public struct HomeScreen: View {
         .navigationTitle("Início")
         .onChange(of: reports.syncKey, initial: true) { reports.sync() }
         .task(id: insights.key) { await insights.load() }
+        .task {
+            for await _ in NotificationCenter.default.notifications(named: .NSCalendarDayChanged) {
+                insights.checkDay()
+            }
+        }
     }
 }

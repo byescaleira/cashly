@@ -55,6 +55,6 @@ struct RouteScreen: View {
         {
             return .new(category: category, date: date ?? session.filter.startDate)
         }
-        return .new()
+        return .new(date: date ?? session.filter.startDate)
     }
 }

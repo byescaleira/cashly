@@ -10,6 +10,8 @@ struct CategoriesStep: View {
             title: "Escolha suas categorias",
             message: "Comece com estas e crie outras quando precisar."
         ) {
+            EmptyView()
+        } content: {
             LazyVGrid(
                 columns: [GridItem(.adaptive(minimum: 64), spacing: .spaceS)], spacing: .spaceL
             ) {

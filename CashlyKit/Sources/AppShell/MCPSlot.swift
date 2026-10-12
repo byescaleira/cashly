@@ -61,12 +61,12 @@ struct MCPImportPresenter: ViewModifier {
     }
 
     private func present() {
-        let prompt = mcp?.prompt
+        guard let mcp else { return }
         if isVisible {
-            if prompt?.id != shown?.id { shown = nil }
+            if let visible = shown, !mcp.isOutstanding(visible) { shown = nil }
             return
         }
-        guard let prompt else { return }
+        guard let prompt = mcp.prompt else { return }
         shown = prompt
         isVisible = true
     }

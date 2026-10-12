@@ -41,8 +41,8 @@ public struct BudgetDraft: Hashable {
         self.isNew = isNew
     }
 
-    public static func new() -> BudgetDraft {
-        BudgetDraft()
+    public static func new(date: Date = .now) -> BudgetDraft {
+        BudgetDraft(date: date)
     }
 
     public static func new(category: CashlyDomain.Category, date: Date) -> BudgetDraft {

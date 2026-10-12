@@ -7,6 +7,7 @@ public struct CurrencyField: View {
     @Environment(\.multilineTextAlignment) private var textAlignment
     @Binding private var amount: Double
     @State private var digits = ""
+    @State private var selection: TextSelection?
     @FocusState private var isFocused: Bool
 
     public init(amount: Binding<Double>) {
@@ -15,12 +16,13 @@ public struct CurrencyField: View {
 
     public var body: some View {
         ZStack(alignment: alignment) {
-            TextField("", text: $digits)
+            TextField("", text: $digits, selection: $selection)
                 #if os(iOS)
                     .keyboardType(.numberPad)
                 #endif
                 .focused($isFocused)
                 .opacity(.opacityHidden)
+                .allowsHitTesting(false)
                 .accessibilityHidden(true)
             Text(amount.formatted(.appCurrency))
                 .contentTransition(.numericText(value: amount))
@@ -42,7 +44,9 @@ public struct CurrencyField: View {
             if clean != typed { digits = clean }
             let value = CurrencyInput.amount(typed: clean)
             if value != amount { amount = value }
+            pinCaret()
         }
+        .onChange(of: selection) { pinCaret() }
         .onChange(of: amount) { _, value in
             if CurrencyInput.amount(typed: digits) != value {
                 digits = CurrencyInput.digits(for: value)
@@ -53,6 +57,11 @@ public struct CurrencyField: View {
         .accessibilityValue(amount.formatted(.appCurrency))
         .accessibilityAddTraits(.isButton)
         .accessibilityAction { isFocused = true }
+    }
+
+    private func pinCaret() {
+        let end = TextSelection(insertionPoint: digits.endIndex)
+        if selection != end { selection = end }
     }
 
     private var alignment: Alignment {

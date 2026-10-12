@@ -18,7 +18,7 @@ struct SectionScreen: View {
                 ModelHost(
                     ReportsModel(finance: finance)
                 ) {
-                    ModelHost(InsightsModel(session: session, finance: finance)) { HomeScreen() }
+                    ModelHost(InsightsModel(session: session)) { HomeScreen() }
                 }
             }
         case .transaction: TransactionListScreen()
