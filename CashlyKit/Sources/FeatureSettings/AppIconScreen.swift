@@ -32,12 +32,12 @@ private struct FeaturedIconsSection: View {
 
     var body: some View {
         Section {
-            VStack(alignment: .leading, spacing: 16) {
-                VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: .spaceL) {
+                VStack(alignment: .leading, spacing: .space2XS) {
                     Label("Ícones do mês", systemImage: "sparkles")
-                        .font(.caption.weight(.bold))
+                        .font(.chipLabel)
                         .textCase(.uppercase)
-                        .foregroundStyle(.white.opacity(0.8))
+                        .foregroundStyle(.white.opacity(.opacityStrong))
                     Text(collection.title)
                         .font(.title2.weight(.bold))
                         .foregroundStyle(.white)
@@ -45,7 +45,7 @@ private struct FeaturedIconsSection: View {
                 IconGrid(icons: collection.icons, size: 66)
                     .foregroundStyle(.white)
             }
-            .padding(.vertical, 12)
+            .padding(.vertical, .spaceM)
             .listRowBackground(
                 LinearGradient(
                     colors: [Color(hex: "3A2340"), Color(hex: "7A1418"), Color(hex: "C8642B")],
@@ -63,7 +63,8 @@ private struct IconGrid: View {
 
     var body: some View {
         LazyVGrid(
-            columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 4), spacing: 16
+            columns: Array(repeating: GridItem(.flexible(), spacing: .spaceS), count: 4),
+            spacing: .spaceL
         ) {
             ForEach(icons) { icon in
                 IconChoice(icon: icon, size: size, isSelected: icon == settings.appIcon) {
@@ -71,7 +72,7 @@ private struct IconGrid: View {
                 }
             }
         }
-        .padding(.vertical, 8)
+        .padding(.vertical, .spaceS)
         .sensoryFeedback(.selection, trigger: settings.appIcon)
     }
 }
@@ -85,15 +86,15 @@ private struct IconChoice: View {
 
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 8) {
+            VStack(spacing: .spaceS) {
                 AppIconImage(icon: icon, size: size)
                     .overlay {
                         RoundedRectangle(cornerRadius: size * 0.2237 + 5, style: .continuous)
                             .stroke(appTint, lineWidth: 3)
-                            .padding(-5)
+                            .padding(-.space2XS)
                             .opacity(isSelected ? 1 : 0)
                     }
-                    .shadow(color: .black.opacity(0.15), radius: 4, y: 2)
+                    .shadow(color: .black.opacity(.opacityFill), radius: 4, y: 2)
                 Text(icon.title)
                     .font(.caption.weight(isSelected ? .bold : .regular))
                     .lineLimit(1)

@@ -50,9 +50,9 @@ struct BudgetProgressRow: View {
     let item: BudgetProgress
 
     var body: some View {
-        HStack(spacing: 14) {
-            CategoryBadge(category: item.budget.category)
-            VStack(alignment: .leading, spacing: 6) {
+        HStack(spacing: .spaceM) {
+            SymbolBadge(item.budget.category.icon, color: Color(hex: item.budget.category.color))
+            VStack(alignment: .leading, spacing: .spaceXS) {
                 AdaptiveStack(alignment: .firstTextBaseline) {
                     Text(item.budget.category.name)
                         .font(.callout.weight(.semibold))
@@ -71,7 +71,7 @@ struct BudgetProgressRow: View {
                 .amountLine()
             }
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, .space2XS)
     }
 
     private var remainingText: String {

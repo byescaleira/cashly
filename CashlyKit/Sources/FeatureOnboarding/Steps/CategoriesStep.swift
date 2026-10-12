@@ -10,7 +10,9 @@ struct CategoriesStep: View {
             title: "Escolha suas categorias",
             message: "Comece com estas e crie outras quando precisar."
         ) {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 64), spacing: 8)], spacing: 16) {
+            LazyVGrid(
+                columns: [GridItem(.adaptive(minimum: 64), spacing: .spaceS)], spacing: .spaceL
+            ) {
                 ForEach(CategorySuggestion.allCases) { suggestion in
                     SuggestionChoice(
                         suggestion: suggestion, isSelected: model.isSelected(suggestion)
@@ -31,13 +33,14 @@ private struct SuggestionChoice: View {
 
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 6) {
+            VStack(spacing: .spaceXS) {
                 Image(systemName: suggestion.icon)
                     .font(.system(size: 20, weight: .semibold))
                     .foregroundStyle(isSelected ? Color.white : suggestion.color.color)
                     .frame(width: 48, height: 48)
                     .background(
-                        isSelected ? suggestion.color.color : suggestion.color.color.opacity(0.15),
+                        isSelected
+                            ? suggestion.color.color : suggestion.color.color.opacity(.opacityFill),
                         in: .circle)
                 Text(suggestion.name)
                     .font(.caption.weight(.semibold))

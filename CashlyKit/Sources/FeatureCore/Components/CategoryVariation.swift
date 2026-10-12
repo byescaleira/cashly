@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import CashlyDomain
 import SwiftUI
 
@@ -16,7 +17,7 @@ public struct CategoryVariation: View {
         let usage = finance.categoryUsage(category: category, adding: amount)
         ZStack {
             if let shown, usage.ratio != .zero {
-                HStack(spacing: 4) {
+                HStack(spacing: .space2XS) {
                     ForEach(1...4, id: \.self) { index in
                         Circle().fill(shown.dotColor(at: index)).frame(width: 10, height: 10)
                     }

@@ -32,16 +32,11 @@ public struct PeriodSummaryHeader: View {
     public var body: some View {
         Section {
         } header: {
-            VStack(spacing: 16) {
+            VStack(spacing: .spaceL) {
                 let badge = badge ?? (session.filter.periodTitle, appTint)
-                Text(badge.title.uppercased())
-                    .font(.caption.weight(.bold))
-                    .foregroundStyle(badge.color)
-                    .padding(.vertical, 8)
-                    .padding(.horizontal, 12)
-                    .background(badge.color.opacity(0.2), in: .capsule)
+                Chip(badge.title.uppercased(), color: badge.color, shape: .capsule)
                 Text(amount.formatted(.appCurrency))
-                    .font(.largeTitle.weight(.black))
+                    .font(.amountHero)
                     .foregroundStyle(Color.primary)
                     .contentTransition(.numericText(value: amount))
                     .amountLine()
@@ -49,7 +44,7 @@ public struct PeriodSummaryHeader: View {
             }
             .multilineTextAlignment(.center)
             .frame(maxWidth: .infinity)
-            .padding(.top, 16)
+            .padding(.top, .spaceL)
         }
     }
 }
@@ -70,14 +65,14 @@ private struct RankedSymbols: View {
                     .frame(width: 45, height: 45)
                     .overlay(alignment: isEven ? .topLeading : .bottomLeading) {
                         Text(String(index + 1))
-                            .font(.caption.weight(.bold))
+                            .font(.chipLabel)
                             .foregroundStyle(color)
-                            .padding(8)
+                            .padding(.spaceS)
                             .clearSurface(in: .circle)
-                            .padding(-8)
+                            .padding(-.spaceS)
                             .dynamicTypeSize(...DynamicTypeSize.large)
                     }
-                    .background(color.opacity(0.2), in: .circle)
+                    .background(color.opacity(.opacityTint), in: .circle)
                     .offset(y: isFloating == isEven ? -3 : 3)
                     .animation(
                         .linear.speed(0.5).repeatCount(isFloating ? .max : 0, autoreverses: true),

@@ -26,7 +26,7 @@ public struct GuideSheet<Page: View>: View {
     }
 
     public var body: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: .spaceXL) {
             GuideTopBar(index: index, count: count, back: isWorking ? nil : back)
             page
                 .id(index)
@@ -37,8 +37,8 @@ public struct GuideSheet<Page: View>: View {
                         removal: .opacity))
             GuideButtons(primary: primary, secondary: secondary, isWorking: isWorking)
         }
-        .padding([.horizontal, .bottom], 24)
-        .padding(.top, 16)
+        .padding([.horizontal, .bottom], .spaceXL)
+        .padding(.top, .spaceL)
         .fontDesign(.rounded)
         .animation(.smooth, value: index)
         .onChange(of: index, initial: true) { shownIndex = index }
@@ -87,10 +87,13 @@ private struct GuideTopBar: View {
 
     var body: some View {
         ZStack {
-            HStack(spacing: 6) {
+            HStack(spacing: .spaceXS) {
                 ForEach(0..<count, id: \.self) { step in
                     Capsule()
-                        .fill(step == index ? Color.accentColor : Color.secondary.opacity(0.3))
+                        .fill(
+                            step == index
+                                ? Color.accentColor : Color.secondary.opacity(.opacitySoft)
+                        )
                         .frame(width: step == index ? 20 : 10, height: 10)
                 }
             }
@@ -114,7 +117,7 @@ private struct GuideButtons: View {
     let isWorking: Bool
 
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: .spaceM) {
             Button(action: primary.perform) {
                 ZStack {
                     Text(primary.title).opacity(isWorking ? 0 : 1)

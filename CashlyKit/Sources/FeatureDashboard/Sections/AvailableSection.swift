@@ -11,7 +11,7 @@ struct AvailableSection: View {
         if finance.budgetsAmount > 0 {
             let usage = dashboard.totalUsage
             Section {
-                VStack(spacing: 4) {
+                VStack(spacing: .space2XS) {
                     Text("\(finance.budgetsAmount.formatted(.appCurrency)) planejado")
                         .font(.headline)
                         .amountLine()
@@ -23,7 +23,7 @@ struct AvailableSection: View {
                 }
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 4)
+                .padding(.vertical, .space2XS)
             } header: {
                 FigureHeader(
                     title: "Disponível", value: dashboard.totalAvailable,

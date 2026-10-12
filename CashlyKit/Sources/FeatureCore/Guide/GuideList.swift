@@ -13,15 +13,15 @@ public struct GuideFeature: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: .spaceHairline) {
             Text(title).font(.headline).foregroundStyle(color)
             if let detail {
                 Text(detail).font(.subheadline).foregroundStyle(.secondary)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.vertical, 12)
-        .padding(.horizontal, 16)
+        .padding(.vertical, .spaceM)
+        .padding(.horizontal, .spaceL)
         .accessibilityElement(children: .combine)
     }
 }
@@ -38,12 +38,12 @@ public struct GuideFeatureList<Content: View>: View {
             Group(subviews: content) { subviews in
                 ForEach(subviews.indices, id: \.self) { index in
                     subviews[index]
-                    if index < subviews.count - 1 { Divider().padding(.leading, 16) }
+                    if index < subviews.count - 1 { Divider().padding(.leading, .spaceL) }
                 }
             }
         }
         .multilineTextAlignment(.leading)
-        .background(.sheetCard, in: .rect(cornerRadius: 18))
+        .background(.sheetCard, in: .rect(cornerRadius: .radiusM))
     }
 }
 
@@ -59,15 +59,15 @@ public struct GuideValue: View {
     }
 
     public var body: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 12) {
+        HStack(alignment: .firstTextBaseline, spacing: .spaceM) {
             Text(label).foregroundStyle(.secondary)
-            Spacer(minLength: 8)
+            Spacer(minLength: .spaceS)
             Text(value).fontWeight(.semibold).foregroundStyle(color).multilineTextAlignment(
                 .trailing)
         }
         .font(.subheadline)
-        .padding(.vertical, 16)
-        .padding(.horizontal, 22)
+        .padding(.vertical, .spaceL)
+        .padding(.horizontal, .spaceXL)
     }
 }
 
@@ -82,9 +82,9 @@ public struct GuideValueList: View {
         VStack(spacing: 0) {
             ForEach(rows.indices, id: \.self) { index in
                 rows[index]
-                if index < rows.count - 1 { Divider().padding(.leading, 16) }
+                if index < rows.count - 1 { Divider().padding(.leading, .spaceL) }
             }
         }
-        .background(.sheetCard, in: .rect(cornerRadius: 18))
+        .background(.sheetCard, in: .rect(cornerRadius: .radiusM))
     }
 }

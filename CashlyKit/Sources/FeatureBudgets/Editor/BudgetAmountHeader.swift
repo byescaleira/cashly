@@ -13,18 +13,18 @@ struct BudgetAmountHeader: View {
             VStack(spacing: 0) {
                 if let category = model.draft.category {
                     Text(category.name.uppercased())
-                        .font(.caption.weight(.bold))
+                        .font(.chipLabel)
                         .foregroundStyle(color)
-                        .padding(.vertical, 8)
-                        .padding(.horizontal, 12)
-                        .background(color.opacity(0.2), in: .capsule)
+                        .padding(.vertical, .spaceS)
+                        .padding(.horizontal, .spaceM)
+                        .background(color.opacity(.opacityTint), in: .capsule)
                 }
                 CurrencyField(amount: $model.draft.amount)
-                    .font(.system(size: 40, weight: .black))
+                    .font(.amountInput)
                     .foregroundStyle(Color.primary)
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity)
-                    .padding(.top, 16)
+                    .padding(.top, .spaceL)
                     .tint(.clear)
             }
         }

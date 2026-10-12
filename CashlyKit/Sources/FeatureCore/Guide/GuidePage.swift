@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import SwiftUI
 
 public struct GuidePage<Artwork: View, Content: View>: View {
@@ -17,10 +18,10 @@ public struct GuidePage<Artwork: View, Content: View>: View {
     }
 
     public var body: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: .spaceXL) {
             artwork
                 .accessibilityHidden(true)
-            VStack(spacing: 8) {
+            VStack(spacing: .spaceS) {
                 Text(title).font(.title.weight(.bold))
                 Text(message).font(.body).foregroundStyle(.secondary)
             }

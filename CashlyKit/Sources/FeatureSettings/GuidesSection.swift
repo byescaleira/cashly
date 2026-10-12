@@ -15,7 +15,7 @@ struct GuidesSection: View {
                         showGuide(guide)
                     } label: {
                         Label {
-                            VStack(alignment: .leading, spacing: 2) {
+                            VStack(alignment: .leading, spacing: .spaceHairline) {
                                 Text(guide.title).foregroundStyle(Color.primary)
                                 Text(guide.subtitle).font(.footnote).foregroundStyle(.secondary)
                             }

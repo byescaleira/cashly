@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import CashlyMCP
 import FeatureCore
 import SwiftUI
@@ -25,9 +26,9 @@ public struct ConnectionApprovalScreen: View {
                     ExampleRow(
                         request.client.name, detail: request.client.address,
                         value: "versão \(request.client.version)")
-                    HStack(spacing: 6) {
-                        ExampleChip("Ler dados", color: .retroTeal)
-                        ExampleChip("Enviar transações", color: .retroOrange)
+                    HStack(spacing: .spaceXS) {
+                        Chip("Ler dados", color: .retroTeal)
+                        Chip("Enviar transações", color: .retroOrange)
                     }
                 }
             }

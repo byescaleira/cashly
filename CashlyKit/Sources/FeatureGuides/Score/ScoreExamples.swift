@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import CashlyDomain
 import FeatureCore
 import SwiftUI
@@ -6,10 +7,10 @@ struct ScoreScale: View {
     var score: Int?
 
     var body: some View {
-        HStack(alignment: .top, spacing: 6) {
+        HStack(alignment: .top, spacing: .spaceXS) {
             ForEach(BudgetHealth.Level.allCases, id: \.self) { level in
                 let isOn = score.map(level.scores.contains) ?? true
-                VStack(spacing: 6) {
+                VStack(spacing: .spaceXS) {
                     Capsule().fill(level.color.opacity(isOn ? 1 : 0.25)).frame(height: 10)
                     Text(
                         "\(level.scores.lowerBound.formatted())–\(level.scores.upperBound.formatted())"
@@ -38,10 +39,10 @@ struct ScoreCardExample: View {
         let level = BudgetHealth.Level.allCases.first { $0.scores.contains(score) } ?? .critical
         GuideExample {
             HStack(alignment: .firstTextBaseline) {
-                Text(score.formatted()).font(.system(.largeTitle, weight: .black))
+                Text(score.formatted()).font(.amountHero)
                 Text("de 1.000").font(.subheadline).foregroundStyle(.secondary)
                 Spacer()
-                ExampleChip(level.title.uppercased(), color: level.color)
+                Chip(level.title.uppercased(), color: level.color)
             }
             ScoreScale(score: score)
         }

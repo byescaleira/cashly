@@ -15,7 +15,7 @@ struct ParticipantRow: View {
                 .scaledToFit()
                 .frame(width: 50, height: 50)
                 .overlay(alignment: .topTrailing) { StatusMenu(status: $participant.status) }
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: .space2XS) {
                 Text(participant.user.name.capitalized)
                     .font(.body.weight(.semibold))
                     .foregroundStyle(Color.primary)
@@ -44,9 +44,9 @@ private struct StatusMenu: View {
             Image(systemName: status.icon)
                 .font(.caption2.weight(.bold))
                 .foregroundStyle(.white)
-                .padding(4)
+                .padding(.space2XS)
                 .background(status.color, in: .circle)
-                .padding(-4)
+                .padding(-.space2XS)
         }
         .accessibilityLabel("Status: \(status.summary)")
     }
@@ -79,9 +79,9 @@ private struct ShareValue: View {
                     EmptyView()
                 }
             } label: {
-                VStack(alignment: .trailing, spacing: 4) {
+                VStack(alignment: .trailing, spacing: .space2XS) {
                     allocated
-                    HStack(spacing: 4) {
+                    HStack(spacing: .space2XS) {
                         Text(
                             participant.splitValue.formatted(.percent.precision(.fractionLength(0)))
                         )
@@ -95,7 +95,7 @@ private struct ShareValue: View {
         case .payerBased:
             Image(systemName: "checkmark.seal.text.page.fill")
                 .font(.system(size: 30, weight: .semibold))
-                .foregroundStyle(appTint.opacity(0.75))
+                .foregroundStyle(appTint.opacity(.opacityStrong))
                 .accessibilityLabel("Quem pagou")
         }
     }

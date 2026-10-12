@@ -50,6 +50,25 @@ custom_rules:
     excluded: '.*Package\.swift$'
     severity: error
 
+  design_token_spacing:
+    name: Design token spacing
+    message: Use os tokens de espaçamento do CashlyDesignSystem (.spaceS, .spaceM...).
+    regex: '(spacing: -?[1-9][0-9]*\b|\.padding\((\.[a-zA-Z]+, |\[[^\]]*\], )?-?[1-9][0-9]*\)|minLength: [1-9])'
+    included: '.*/Sources/(Feature|AppShell|CashlyPreview).*\.swift$'
+    severity: error
+  design_token_radius:
+    name: Design token radius
+    message: Use os tokens de raio do CashlyDesignSystem (.radiusS, .radiusM...).
+    regex: 'cornerRadius: [1-9][0-9]*\b'
+    included: '.*/Sources/(Feature|AppShell|CashlyPreview).*\.swift$'
+    severity: error
+  design_token_opacity:
+    name: Design token opacity
+    message: Use os tokens de opacidade do CashlyDesignSystem (.opacityTint, .opacityFill...).
+    regex: '\.opacity\(0\.[0-9]+\)'
+    included: '.*/Sources/(Feature|AppShell|CashlyPreview).*\.swift$'
+    severity: error
+
 file_length:
   warning: 400
   error: 400

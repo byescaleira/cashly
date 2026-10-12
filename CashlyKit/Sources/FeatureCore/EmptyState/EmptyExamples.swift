@@ -21,14 +21,14 @@ private struct CategoriesExample: View {
     ]
 
     var body: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: .spaceS) {
             ForEach(items, id: \.0) { name, symbol, color in
-                VStack(spacing: 6) {
+                VStack(spacing: .spaceXS) {
                     Image(systemName: symbol)
                         .font(.system(size: 18, weight: .semibold))
                         .foregroundStyle(color)
                         .frame(width: 44, height: 44)
-                        .background(color.opacity(0.2), in: .circle)
+                        .background(color.opacity(.opacityTint), in: .circle)
                     Text(name)
                         .font(.caption.weight(.semibold))
                         .lineLimit(1)
@@ -63,10 +63,10 @@ private struct TagsExample: View {
         ExampleRow(
             "Hotel", detail: "Lazer", value: 890.0.formatted(.appCurrency),
             symbol: "bed.double.fill", color: .retroPlum)
-        HStack(spacing: 6) {
-            ExampleChip("Viagem", color: .retroTeal)
-            ExampleChip("Aniversário", color: .retroRust)
-            ExampleChip("Reforma", color: .retroMustard)
+        HStack(spacing: .spaceXS) {
+            Chip("Viagem", color: .retroTeal)
+            Chip("Aniversário", color: .retroRust)
+            Chip("Reforma", color: .retroMustard)
         }
     }
 }
@@ -83,9 +83,9 @@ public struct SearchExample: View {
             .font(.body)
             .lineLimit(1)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, 14)
-            .padding(.vertical, 10)
-            .background(Color.secondary.opacity(0.12), in: .capsule)
+            .padding(.horizontal, .spaceM)
+            .padding(.vertical, .spaceM)
+            .background(Color.secondary.opacity(.opacityFill), in: .capsule)
         ExampleRow(
             "Feira", detail: "Mercado", value: 86.0.formatted(.appCurrency), symbol: "cart.fill",
             color: .retroOrange)

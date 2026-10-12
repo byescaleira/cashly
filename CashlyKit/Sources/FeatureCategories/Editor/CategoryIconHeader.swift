@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import FeatureCore
 import SwiftUI
 
@@ -13,12 +14,12 @@ struct CategoryIconHeader: View {
                 .symbolEffect(.bounce.byLayer, options: .repeat(.continuous).speed(0.1))
                 .foregroundStyle(model.color)
                 .frame(width: 120, height: 120)
-                .background(model.color.opacity(0.2), in: .circle)
-                .overlay { Circle().stroke(model.color, lineWidth: 5).padding(-8) }
+                .background(model.color.opacity(.opacityTint), in: .circle)
+                .overlay { Circle().stroke(model.color, lineWidth: 5).padding(-.spaceS) }
                 .animation(.default, value: model.draft.color)
                 .frame(maxWidth: .infinity)
                 .contentTransition(.symbolEffect(.replace))
-                .padding(.top, 16)
+                .padding(.top, .spaceL)
         }
     }
 }

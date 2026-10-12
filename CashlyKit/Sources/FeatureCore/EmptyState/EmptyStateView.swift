@@ -22,8 +22,8 @@ public struct EmptyStateView<Example: View>: View {
 
     public var body: some View {
         ContentUnavailableView {
-            VStack(spacing: 20) {
-                GuideExample(background: Color.secondary.opacity(0.1)) { example }
+            VStack(spacing: .spaceInset) {
+                GuideExample(background: Color.secondary.opacity(.opacityFill)) { example }
                     .accessibilityHidden(true)
                 Text(title).font(.title2.weight(.bold))
             }

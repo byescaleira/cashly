@@ -11,30 +11,11 @@ public struct GuideExample<Content: View>: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 12) { content }
-            .padding(16)
+        VStack(alignment: .leading, spacing: .spaceM) { content }
+            .padding(.spaceL)
             .frame(maxWidth: 420)
-            .background(background, in: .rect(cornerRadius: 22))
+            .background(background, in: .rect(cornerRadius: .radiusL))
             .allowsHitTesting(false)
-    }
-}
-
-public struct ExampleChip: View {
-    private let text: String
-    private let color: Color
-
-    public init(_ text: String, color: Color) {
-        self.text = text
-        self.color = color
-    }
-
-    public var body: some View {
-        Text(text)
-            .font(.caption.weight(.bold))
-            .foregroundStyle(color)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 4)
-            .background(color.opacity(0.2), in: .rect(cornerRadius: 8))
     }
 }
 
@@ -59,13 +40,9 @@ public struct ExampleRow: View {
     }
 
     public var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: .spaceM) {
             if let symbol {
-                Image(systemName: symbol)
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(color)
-                    .frame(width: 34, height: 34)
-                    .background(color.opacity(0.2), in: .circle)
+                SymbolBadge(symbol, color: color, size: .badgeM)
             }
             VStack(alignment: .leading, spacing: 0) {
                 Text(title).font(.subheadline.weight(.semibold))
@@ -74,7 +51,7 @@ public struct ExampleRow: View {
                 }
             }
             .lineLimit(1)
-            Spacer(minLength: 8)
+            Spacer(minLength: .spaceS)
             Text(value)
                 .font(.subheadline.weight(.semibold))
                 .foregroundStyle(valueColor)
@@ -97,7 +74,7 @@ public struct ExampleBar: View {
     }
 
     public var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: .spaceXS) {
             HStack(alignment: .firstTextBaseline) {
                 Text(title).font(.subheadline.weight(.semibold))
                 Spacer()
@@ -124,8 +101,8 @@ public struct ExampleHeadline: View {
     }
 
     public var body: some View {
-        VStack(spacing: 6) {
-            if let chip { ExampleChip(chip.uppercased(), color: appTint) }
+        VStack(spacing: .spaceXS) {
+            if let chip { Chip(chip.uppercased(), color: appTint) }
             Text(value)
                 .font(.system(.title, weight: .black))
                 .lineLimit(1)
@@ -165,10 +142,10 @@ public struct ExampleDone: View {
 
     public var body: some View {
         GuideExample {
-            VStack(spacing: 6) {
-                ExampleChip("CONCLUÍDO", color: .positive)
+            VStack(spacing: .spaceXS) {
+                Chip("CONCLUÍDO", color: .positive)
                 Text(value)
-                    .font(.system(.largeTitle, weight: .black))
+                    .font(.amountHero)
                     .foregroundStyle(Color.positive)
                     .lineLimit(1)
                     .minimumScaleFactor(0.6)
@@ -193,13 +170,14 @@ public struct ExampleFile: View {
 
     public var body: some View {
         GuideExample {
-            HStack(spacing: 12) {
+            HStack(spacing: .spaceM) {
                 Text(kind)
                     .font(.caption.weight(.black))
                     .foregroundStyle(Color.retroTeal)
                     .frame(width: 46, height: 56)
-                    .background(Color.retroTeal.opacity(0.2), in: .rect(cornerRadius: 10))
-                VStack(alignment: .leading, spacing: 2) {
+                    .background(
+                        Color.retroTeal.opacity(.opacityTint), in: .rect(cornerRadius: .radiusS))
+                VStack(alignment: .leading, spacing: .spaceHairline) {
                     Text(name).font(.headline).lineLimit(1)
                     Text(detail).font(.subheadline).foregroundStyle(.secondary)
                 }

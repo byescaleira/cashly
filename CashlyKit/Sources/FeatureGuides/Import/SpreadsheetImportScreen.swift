@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import CashlyDomain
 import FeatureCore
 import SwiftUI
@@ -179,7 +180,7 @@ private struct SpreadsheetExample: View {
                     Text("Descrição")
                     Text("Valor").gridColumnAlignment(.trailing)
                 }
-                .font(.caption.weight(.bold))
+                .font(.chipLabel)
                 .foregroundStyle(Color.retroTeal)
                 Divider()
                 ForEach(rows, id: \.0) { date, summary, value in

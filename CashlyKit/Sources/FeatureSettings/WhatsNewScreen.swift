@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import SwiftUI
 
 struct WhatsNewScreen: View {
@@ -6,14 +7,14 @@ struct WhatsNewScreen: View {
     var body: some View {
         List(ReleaseNote.current) { note in
             Label {
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: .space2XS) {
                     Text(note.title).font(.headline)
                     Text(note.detail).foregroundStyle(Color.secondary)
                 }
             } icon: {
                 Image(systemName: note.symbol).foregroundStyle(.tint)
             }
-            .padding(.vertical, 4)
+            .padding(.vertical, .space2XS)
         }
         #if os(visionOS)
             .navigationTitle("Novidades da versão " + settings.info.number)

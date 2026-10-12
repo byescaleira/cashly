@@ -13,8 +13,8 @@ struct VarianceSection: View {
         if !finance.categories.isEmpty, !finance.budgets.isEmpty {
             let comparison = reports.comparison
             Section {
-                AdaptiveStack(alignment: .top, spacing: 8) {
-                    VStack(alignment: .leading, spacing: 4) {
+                AdaptiveStack(alignment: .top, spacing: .spaceS) {
+                    VStack(alignment: .leading, spacing: .space2XS) {
                         Text(comparison.planned.formatted(.appCurrency))
                             .font(.title3.weight(.bold))
                             .amountLine()
@@ -23,13 +23,13 @@ struct VarianceSection: View {
                         Text("Orçamento").font(.callout.weight(.semibold)).foregroundStyle(.info)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    VStack(alignment: .leading, spacing: 4) {
+                    VStack(alignment: .leading, spacing: .space2XS) {
                         Text(comparison.spent.formatted(.appCurrency))
                             .font(.title3.weight(.bold))
                             .amountLine()
                             .contentTransition(.numericText())
                             .animation(.bouncy, value: comparison.spent)
-                        HStack(spacing: 8) {
+                        HStack(spacing: .spaceS) {
                             if comparison.planned > 0 {
                                 Text(
                                     comparison.ratio.formatted(
@@ -46,7 +46,7 @@ struct VarianceSection: View {
                 }
                 ComparisonChart(data: reports.comparisonPoints)
             } header: {
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: .spaceS) {
                     Text("Planejado × gasto").sectionTitle()
                     SymbolPicker(
                         items: finance.categories, selection: $reports.comparedCategory,

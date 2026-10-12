@@ -10,7 +10,7 @@ struct TransactionAmountHeader: View {
         @Bindable var model = model
         Section {
         } header: {
-            VStack(spacing: 8) {
+            VStack(spacing: .spaceS) {
                 if !model.draft.participants.isEmpty {
                     Pill(
                         model.draft.splitValue?.formatted(.appCurrency) ?? "",
@@ -19,11 +19,11 @@ struct TransactionAmountHeader: View {
                     .font(.headline.weight(.semibold))
                     .contentTransition(.numericText())
                     .animation(.linear, value: model.draft.splitValue)
-                    .background(model.splitStatus.color.opacity(0.2), in: .capsule)
+                    .background(model.splitStatus.color.opacity(.opacityTint), in: .capsule)
                 }
                 VStack(spacing: 0) {
                     CurrencyField(amount: $model.draft.amount)
-                        .font(.system(size: 40, weight: .black))
+                        .font(.amountInput)
                         .foregroundStyle(Color.primary)
                         .multilineTextAlignment(.center)
                         .tint(.clear)
@@ -37,7 +37,7 @@ struct TransactionAmountHeader: View {
                 }
             }
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 8)
+            .padding(.vertical, .spaceS)
         }
     }
 }
@@ -54,7 +54,7 @@ private struct Pill: View {
     var body: some View {
         Text(text)
             .foregroundStyle(color)
-            .padding(.vertical, 8)
-            .padding(.horizontal, 12)
+            .padding(.vertical, .spaceS)
+            .padding(.horizontal, .spaceM)
     }
 }

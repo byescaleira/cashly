@@ -9,11 +9,11 @@ struct FigureHeader<Detail: View>: View {
     @ViewBuilder let detail: () -> Detail
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: .spaceS) {
             Text(title).sectionTitle().frame(maxWidth: .infinity, alignment: .leading)
-            VStack(spacing: 6) {
+            VStack(spacing: .spaceXS) {
                 Text(value.formatted(.appCurrency))
-                    .font(.largeTitle.weight(.black))
+                    .font(.amountHero)
                     .foregroundStyle(color)
                     .contentTransition(.numericText(value: value))
                     .amountLine()
@@ -21,7 +21,7 @@ struct FigureHeader<Detail: View>: View {
             }
             .multilineTextAlignment(.center)
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 24)
+            .padding(.vertical, .spaceXL)
         }
     }
 }

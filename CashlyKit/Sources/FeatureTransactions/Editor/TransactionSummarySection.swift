@@ -9,11 +9,11 @@ struct TransactionSummarySection: View {
     var body: some View {
         @Bindable var model = model
         Section {
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: .spaceM) {
                 TextField("Descreva a transação", text: $model.draft.summary, axis: .vertical)
                 let tags = model.draft.summaryTags
                 if !tags.isEmpty {
-                    FlowLayout(spacing: 6) {
+                    FlowLayout(spacing: .spaceXS) {
                         ForEach(tags) { tag in
                             TagChip(tag: tag) { model.dismissTag(tag) }
                         }
@@ -39,12 +39,7 @@ private struct TagChip: View {
     var body: some View {
         let color = Color(hex: tag.color)
         Button(action: remove) {
-            Text(tag.name)
-                .font(.subheadline.weight(.semibold))
-                .foregroundStyle(color)
-                .padding(.horizontal, 10)
-                .padding(.vertical, 5)
-                .background(color.opacity(0.2), in: .rect(cornerRadius: 8))
+            Chip(tag.name, color: color, font: .subheadline.weight(.semibold))
         }
         .buttonStyle(.plain)
         .accessibilityLabel("Tag \(tag.name)")

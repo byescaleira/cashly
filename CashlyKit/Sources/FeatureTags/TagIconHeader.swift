@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import FeatureCore
 import SwiftUI
 
@@ -15,13 +16,13 @@ struct TagIconHeader: View {
                 .background {
                     Image(systemName: "tag.fill")
                         .font(.system(size: 130))
-                        .foregroundStyle(model.color.opacity(0.3))
+                        .foregroundStyle(model.color.opacity(.opacitySoft))
                 }
                 .frame(width: 140, height: 140)
                 .animation(.default, value: model.draft.color)
                 .frame(maxWidth: .infinity)
                 .contentTransition(.symbolEffect(.replace))
-                .padding(.top, 16)
+                .padding(.top, .spaceL)
         }
     }
 }

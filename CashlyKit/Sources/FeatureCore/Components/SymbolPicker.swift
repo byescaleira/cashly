@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import SwiftUI
 
 public struct SymbolPicker<Item: Identifiable & Hashable>: View {
@@ -34,20 +35,20 @@ public struct SymbolPicker<Item: Identifiable & Hashable>: View {
                                 isSelected: isSelected, bounces: bounces)
                         }
                         .buttonStyle(.plain)
-                        .padding(8)
+                        .padding(.spaceS)
                         .id(item)
                         .accessibilityLabel(name(item))
                         .accessibilityAddTraits(isSelected ? .isSelected : [])
                     }
                 }
-                .padding(.horizontal, 16)
+                .padding(.horizontal, .spaceL)
                 .task(id: selection) {
                     try? await Task.sleep(for: .milliseconds(200))
                     guard !Task.isCancelled else { return }
                     withAnimation(.bouncy.speed(0.5)) { proxy.scrollTo(selection, anchor: .center) }
                 }
             }
-            .padding(.horizontal, -16)
+            .padding(.horizontal, -.spaceL)
         }
     }
 }
@@ -63,7 +64,7 @@ private struct SymbolChoice: View {
             .font(.system(size: 20))
             .foregroundStyle(color)
             .frame(width: 45, height: 45)
-            .background(color.opacity(0.2), in: .circle)
+            .background(color.opacity(.opacityTint), in: .circle)
             .overlay { Circle().stroke(color, lineWidth: 3).frame(width: 50, height: 50) }
             .opacity(isSelected ? 1 : 0.3)
             .symbolEffect(

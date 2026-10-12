@@ -21,7 +21,7 @@ struct TransactionDaySection: View {
                 .deleteAction { Task { await list.delete(transaction) } }
             }
         } header: {
-            AdaptiveStack(spacing: 4) {
+            AdaptiveStack(spacing: .space2XS) {
                 Text(day.date.formatted(.dateTime.day().month(.wide).year()))
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Text(day.date.formatted(.dateTime.weekday(.wide)))

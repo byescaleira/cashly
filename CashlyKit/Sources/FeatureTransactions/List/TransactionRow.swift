@@ -7,7 +7,7 @@ struct TransactionRow: View {
     let transaction: CashlyDomain.Transaction
 
     var body: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: .spaceL) {
             AdaptiveRow {
                 TransactionIcon(transaction: transaction)
                 TransactionSummary(transaction: transaction)
@@ -22,7 +22,7 @@ private struct TransactionSummary: View {
     let transaction: CashlyDomain.Transaction
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: .space2XS) {
             Text(transaction.summary)
             HStack {
                 Text(transaction.date.formatted(.dateTime.hour().minute()))
@@ -42,11 +42,14 @@ private struct TransactionAmounts: View {
     let transaction: CashlyDomain.Transaction
 
     var body: some View {
-        VStack(alignment: dynamicTypeSize.isAccessibilitySize ? .leading : .trailing, spacing: 4) {
+        VStack(
+            alignment: dynamicTypeSize.isAccessibilitySize ? .leading : .trailing,
+            spacing: .space2XS
+        ) {
             if !transaction.participants.isEmpty {
                 Text(list.billing(of: transaction).formatted)
             } else if let plan = transaction.paymentsPlan {
-                HStack(spacing: 4) {
+                HStack(spacing: .space2XS) {
                     Text("\(plan)x").foregroundStyle(Color.secondary)
                     Text(list.billing(of: transaction).formatted)
                 }
@@ -70,15 +73,15 @@ private struct TransactionIcon: View {
             .font(.system(size: 18))
             .foregroundStyle(color)
             .frame(width: 40, height: 40)
-            .background(color.opacity(0.2), in: .circle)
+            .background(color.opacity(.opacityTint), in: .circle)
             .overlay(alignment: .bottomTrailing) {
                 if transaction.status != .settled {
                     Image(systemName: transaction.status.icon)
                         .font(.system(size: 10, weight: .bold))
                         .foregroundStyle(.white)
-                        .padding(4)
+                        .padding(.space2XS)
                         .background(transaction.status.color, in: .circle)
-                        .padding([.bottom, .trailing], -4)
+                        .padding([.bottom, .trailing], -.space2XS)
                         .accessibilityLabel(transaction.status.summary)
                 }
             }
@@ -95,7 +98,7 @@ private struct ParticipantDots: View {
                     Circle()
                         .fill(participant.status.color)
                         .frame(width: 10, height: 10)
-                        .padding(.trailing, 2)
+                        .padding(.trailing, .spaceHairline)
                 }
             }
             .accessibilityHidden(true)

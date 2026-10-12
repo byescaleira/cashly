@@ -15,8 +15,8 @@ public struct IconSection: View {
             NavigationLink {
                 IconPickerScreen(icon: $icon, color: color)
             } label: {
-                HStack(spacing: 12) {
-                    SymbolBadge(symbol: icon, color: color, isSelected: true)
+                HStack(spacing: .spaceM) {
+                    IconChoice(symbol: icon, color: color, isSelected: true)
                     Text(SymbolCategory.label(for: icon))
                 }
             }
@@ -75,24 +75,25 @@ private struct SymbolGrid: View {
 
     var body: some View {
         LazyVGrid(
-            columns: [GridItem(.adaptive(minimum: 44, maximum: 44), spacing: 12)], spacing: 12
+            columns: [GridItem(.adaptive(minimum: 44, maximum: 44), spacing: .spaceM)],
+            spacing: .spaceM
         ) {
             ForEach(symbols, id: \.self) { symbol in
                 Button {
                     select(symbol)
                 } label: {
-                    SymbolBadge(symbol: symbol, color: color, isSelected: symbol == selection)
+                    IconChoice(symbol: symbol, color: color, isSelected: symbol == selection)
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel(SymbolCategory.label(for: symbol))
                 .accessibilityAddTraits(symbol == selection ? .isSelected : [])
             }
         }
-        .padding(.vertical, 8)
+        .padding(.vertical, .spaceS)
     }
 }
 
-private struct SymbolBadge: View {
+private struct IconChoice: View {
     let symbol: String
     let color: Color
     let isSelected: Bool

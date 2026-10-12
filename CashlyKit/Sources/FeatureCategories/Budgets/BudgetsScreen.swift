@@ -83,7 +83,7 @@ struct UnbudgetedSection: View {
         let categories = finance.categoriesWithoutBudgets
         if !categories.isEmpty, session.filter.isFilteringByDate {
             Section {
-                FlowLayout(spacing: 8) {
+                FlowLayout(spacing: .spaceS) {
                     ForEach(categories) { category in
                         let color = Color(hex: category.color)
                         Button {
@@ -93,7 +93,7 @@ struct UnbudgetedSection: View {
                                     date: session.filter.startDate),
                                 in: section)
                         } label: {
-                            HStack(spacing: 6) {
+                            HStack(spacing: .spaceXS) {
                                 Image(systemName: "plus")
                                 Text(category.name)
                             }
@@ -101,15 +101,15 @@ struct UnbudgetedSection: View {
                             .lineLimit(1)
                             .fixedSize()
                             .foregroundStyle(color)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 8)
-                            .background(color.opacity(0.15), in: .capsule)
+                            .padding(.horizontal, .spaceM)
+                            .padding(.vertical, .spaceS)
+                            .background(color.opacity(.opacityFill), in: .capsule)
                         }
                         .buttonStyle(.plain)
                         .accessibilityLabel("Criar orçamento de \(category.name)")
                     }
                 }
-                .padding(.vertical, 4)
+                .padding(.vertical, .space2XS)
             } header: {
                 Text("Sem orçamento").sectionTitle()
             } footer: {

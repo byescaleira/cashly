@@ -14,9 +14,9 @@ struct CategoriesSection: View {
                 Button {
                     open(.addCategory(id: category.id), in: section)
                 } label: {
-                    HStack(spacing: 14) {
-                        CategoryBadge(category: category)
-                        VStack(alignment: .leading, spacing: 2) {
+                    HStack(spacing: .spaceM) {
+                        SymbolBadge(category.icon, color: Color(hex: category.color))
+                        VStack(alignment: .leading, spacing: .spaceHairline) {
                             Text(category.name).font(.body.weight(.semibold))
                             Text(goals.caption(for: category))
                                 .font(.footnote)

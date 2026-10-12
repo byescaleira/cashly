@@ -12,7 +12,7 @@ struct ParticipantsSection: View {
         @Bindable var model = model
         if !model.draft.participants.isEmpty {
             Section {
-                AdaptiveStack(spacing: 8) {
+                AdaptiveStack(spacing: .spaceS) {
                     Text("Modo de divisão").frame(maxWidth: .infinity, alignment: .leading)
                     Menu {
                         Picker(selection: $model.draft.splitMode) {
@@ -26,10 +26,11 @@ struct ParticipantsSection: View {
                         Text(model.draft.splitMode?.summary.uppercased() ?? "")
                             .font(.caption.weight(.semibold))
                             .foregroundStyle(appTint)
-                            .padding(.vertical, 8)
-                            .padding(.horizontal, 12)
+                            .padding(.vertical, .spaceS)
+                            .padding(.horizontal, .spaceM)
                             .surface(
-                                tint: appTint.opacity(0.2), in: .capsule, interactive: true)
+                                tint: appTint.opacity(.opacityTint), in: .capsule, interactive: true
+                            )
                     }
                 }
             } header: {

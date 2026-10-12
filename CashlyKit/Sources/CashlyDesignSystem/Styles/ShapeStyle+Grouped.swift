@@ -21,7 +21,7 @@ extension ShapeStyle where Self == Color {
         #if os(macOS)
             Color(nsColor: .controlBackgroundColor)
         #elseif os(visionOS)
-            Color.secondary.opacity(0.12)
+            Color.secondary.opacity(.opacityFill)
         #else
             Color(uiColor: .secondarySystemGroupedBackground)
         #endif
@@ -41,7 +41,7 @@ extension ShapeStyle where Self == Color {
         #if os(macOS)
             Color(nsColor: .controlBackgroundColor)
         #elseif os(visionOS)
-            Color.secondary.opacity(0.12)
+            Color.secondary.opacity(.opacityFill)
         #else
             Color(uiColor: .secondarySystemBackground)
         #endif

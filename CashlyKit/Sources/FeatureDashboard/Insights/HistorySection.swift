@@ -8,7 +8,7 @@ struct HistorySection: View {
     var body: some View {
         if let history = insights.history {
             Section {
-                VStack(spacing: 8) {
+                VStack(spacing: .spaceS) {
                     InsightHeadline(
                         caption: history.difference <= 0
                             ? "Você gastou a menos que o normal"
@@ -36,19 +36,19 @@ struct UnusualSection: View {
         if !unusual.isEmpty {
             Section {
                 ForEach(unusual) { item in
-                    HStack(alignment: .center, spacing: 12) {
-                        VStack(alignment: .leading, spacing: 2) {
+                    HStack(alignment: .center, spacing: .spaceM) {
+                        VStack(alignment: .leading, spacing: .spaceHairline) {
                             Text(item.name).font(.headline)
                             Text(item.reference)
                                 .font(.footnote)
                                 .foregroundStyle(.secondary)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        VStack(alignment: .trailing, spacing: 4) {
+                        VStack(alignment: .trailing, spacing: .space2XS) {
                             Text(item.current.formatted(.appCurrency))
                                 .font(.headline)
                                 .amountLine()
-                            InsightChip(text: item.badge, color: .warning)
+                            Chip(item.badge, color: .warning)
                         }
                     }
                 }

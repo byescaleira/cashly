@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import Charts
 import SwiftUI
 
@@ -22,11 +23,11 @@ struct ExpenseChart: View {
                 }
             }
         }
-        .chartPlotStyle { $0.padding(.vertical, 10) }
+        .chartPlotStyle { $0.padding(.vertical, .spaceM) }
         .chartYScale(domain: 0...((data.map(\.amount).max() ?? 0) + 10))
         .chartLegend(.hidden)
         .chartScrolling(visible: visibleCount, count: data.count)
         .frame(height: height)
-        .padding(.bottom, 16)
+        .padding(.bottom, .spaceL)
     }
 }

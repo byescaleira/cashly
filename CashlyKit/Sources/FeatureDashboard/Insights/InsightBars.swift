@@ -10,8 +10,8 @@ struct InsightBars: View {
     var body: some View {
         Chart(bars) { bar in
             BarMark(x: .value("Mês", bar.label), y: .value("Valor", bar.value), width: .ratio(0.55))
-                .foregroundStyle(bar.isCurrent ? appTint : Color.secondary.opacity(0.3))
-                .clipShape(.rect(cornerRadius: 6))
+                .foregroundStyle(bar.isCurrent ? appTint : Color.secondary.opacity(.opacitySoft))
+                .clipShape(.rect(cornerRadius: .radiusS))
         }
         .chartYAxis(.hidden)
         .chartXAxis {
@@ -24,20 +24,6 @@ struct InsightBars: View {
     }
 }
 
-struct InsightChip: View {
-    let text: String
-    let color: Color
-
-    var body: some View {
-        Text(text)
-            .font(.caption.weight(.bold))
-            .foregroundStyle(color)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 5)
-            .background(color.opacity(0.2), in: .rect(cornerRadius: 8))
-    }
-}
-
 struct InsightHeadline: View {
     let caption: String
     let value: Double
@@ -45,10 +31,10 @@ struct InsightHeadline: View {
     var detail: String?
 
     var body: some View {
-        VStack(spacing: 4) {
+        VStack(spacing: .space2XS) {
             Text(caption).font(.subheadline).foregroundStyle(.secondary)
             Text(value.formatted(.appCurrency))
-                .font(.largeTitle.weight(.black))
+                .font(.amountHero)
                 .foregroundStyle(color)
                 .contentTransition(.numericText(value: value))
                 .amountLine()
@@ -58,6 +44,6 @@ struct InsightHeadline: View {
         }
         .multilineTextAlignment(.center)
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 8)
+        .padding(.vertical, .spaceS)
     }
 }

@@ -208,3 +208,10 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Metas tem duas partes:** um cartão "Orçamentos" com o acumulado do mês (disponível, percentual usado, barra pela situação dos orçamentos e a contagem de cada situação) que leva à tela **Orçamentos**, e a lista de **Categorias** (tocar edita, deslizar apaga, + na barra cria).
 - **Tela Orçamentos** (`Route.budgets`): resumo do mês (cartão, valor por dia, gasto fora dos orçamentos), orçamentos agrupados por situação (tocar edita, deslizar ou menu apaga) e as categorias sem orçamento em cápsulas para criar um. O + da barra cria orçamento.
 - **Saíram:** a tela de detalhe da categoria (`Route.detailCategory`; a busca agora abre o editor), o resumo antigo com anel, a seção "Quer mais controle?" e a projeção linear do `BudgetOverview` (a previsão vive no Início).
+
+## 11/10/2026: design system tokenizado
+
+- **Tokens no `CashlyDesignSystem`:** espaçamento, raio, opacidade, tamanho e tipografia (ver [design-system.md](design-system.md)). As 51 telas que tinham números soltos passaram a usar os tokens; valores próximos foram unificados (10 e 14 viraram 12, 18 virou 16, badges de 34 e 40 viraram 36 e 44).
+- **Componentes únicos:** `Chip` substitui quatro chips iguais (exemplos dos guias, análises, tags da transação, selo do Início) e `SymbolBadge` substitui três badges de categoria.
+- **Lint:** `design_token_spacing`, `design_token_radius` e `design_token_opacity` acusam número solto nas features.
+

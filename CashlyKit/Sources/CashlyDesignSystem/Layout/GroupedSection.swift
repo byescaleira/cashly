@@ -1,19 +1,19 @@
 import SwiftUI
 
 enum GroupedMetrics {
-    static let margin: CGFloat = 20
-    static let columnSpacing: CGFloat = 20
-    static let sectionSpacing: CGFloat = 24
-    static let rowInset: CGFloat = 20
-    static let rowHeight: CGFloat = 44
-    static let cornerRadius: CGFloat = 26
+    static let margin: CGFloat = .spaceInset
+    static let columnSpacing: CGFloat = .spaceInset
+    static let sectionSpacing: CGFloat = .spaceXL
+    static let rowInset: CGFloat = .spaceInset
+    static let rowHeight: CGFloat = .rowHeight
+    static let cornerRadius: CGFloat = .radiusGroup
 }
 
 struct GroupedSection: View {
     let section: SectionConfiguration
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: .spaceS) {
             if !section.header.isEmpty {
                 VStack(alignment: .leading) { section.header }
                     .font(.subheadline)
@@ -25,7 +25,7 @@ struct GroupedSection: View {
                     ForEach(section.content) { row in
                         row
                             .padding(.horizontal, GroupedMetrics.rowInset)
-                            .padding(.vertical, 11)
+                            .padding(.vertical, .spaceM - 1)
                             .frame(
                                 maxWidth: .infinity, minHeight: GroupedMetrics.rowHeight,
                                 alignment: .leading)

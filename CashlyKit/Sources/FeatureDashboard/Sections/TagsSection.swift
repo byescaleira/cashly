@@ -18,13 +18,13 @@ struct TagsSection: View {
                         open(.addTag(id: tag.id), in: section)
                     } label: {
                         HStack {
-                            AdaptiveStack(spacing: 8) {
+                            AdaptiveStack(spacing: .spaceS) {
                                 Text(tag.name.uppercased())
                                     .font(.caption2.weight(.bold))
                                     .foregroundStyle(color)
-                                    .padding(.vertical, 8)
-                                    .padding(.horizontal, 12)
-                                    .background(color.opacity(0.2), in: .capsule)
+                                    .padding(.vertical, .spaceS)
+                                    .padding(.horizontal, .spaceM)
+                                    .background(color.opacity(.opacityTint), in: .capsule)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 Text(reports.selectedTagAmount.formatted(.appCurrency))
                                     .font(.title3.weight(.bold))
@@ -50,7 +50,7 @@ struct TagsSection: View {
                 }
                 .tint(Color.primary)
             } header: {
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: .spaceS) {
                     Text("Tags").sectionTitle()
                     SymbolPicker(
                         items: finance.tags, selection: $reports.selectedTag, icon: \.icon,

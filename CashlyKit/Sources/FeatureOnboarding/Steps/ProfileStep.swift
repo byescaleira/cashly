@@ -33,7 +33,7 @@ struct ProfileStep: View {
                 .onSubmit { Task { await model.advance() } }
                 .font(.title3.weight(.semibold))
                 .multilineTextAlignment(.center)
-                .padding(.vertical, 14)
+                .padding(.vertical, .spaceM)
                 .background(.subtleFill, in: .capsule)
         }
     }

@@ -11,7 +11,7 @@ struct AvatarSection: View {
         } header: {
             Text("Foto").sectionTitle()
         } footer: {
-            VStack(spacing: 32) {
+            VStack(spacing: .space2XL) {
                 Picker("Estilo", selection: $model.avatarStyle) {
                     ForEach(AvatarStyle.allCases) { Text($0.title).tag($0) }
                 }
@@ -21,7 +21,7 @@ struct AvatarSection: View {
                 AvatarGrid(
                     photos: model.avatarStyle.photos, selection: $model.draft.photo)
             }
-            .padding(.horizontal, -16)
+            .padding(.horizontal, -.spaceL)
         }
     }
 }
@@ -33,7 +33,7 @@ private struct AvatarGrid: View {
     @Binding var selection: String?
 
     var body: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 70), spacing: 14)], spacing: 14) {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 70), spacing: .spaceM)], spacing: .spaceM) {
             ForEach(photos, id: \.self) { photo in
                 Button {
                     selection = photo
@@ -44,7 +44,7 @@ private struct AvatarGrid: View {
                         .frame(width: 70, height: 70)
                         .overlay {
                             if selection == photo {
-                                Circle().stroke(appTint, lineWidth: 4).padding(-4)
+                                Circle().stroke(appTint, lineWidth: 4).padding(-.space2XS)
                             }
                         }
                 }

@@ -4,25 +4,25 @@
 
     private struct CashlyMaterialsPreview: View {
         var body: some View {
-            VStack(spacing: 24) {
+            VStack(spacing: .spaceXL) {
                 Text("Informação")
                     .font(.headline)
-                HStack(spacing: 16) {
+                HStack(spacing: .spaceL) {
                     Text("OUTUBRO")
                         .font(.caption.bold())
                         .foregroundStyle(.blue)
-                        .padding(12)
-                        .contentSurface(tint: .blue.opacity(0.2), in: .capsule)
+                        .padding(.spaceM)
+                        .contentSurface(tint: .blue.opacity(.opacityTint), in: .capsule)
                     Text("EM ABERTO")
                         .font(.caption.bold())
                         .foregroundStyle(.orange)
-                        .padding(12)
-                        .contentSurface(tint: .orange.opacity(0.2), in: .capsule)
+                        .padding(.spaceM)
+                        .contentSurface(tint: .orange.opacity(.opacityTint), in: .capsule)
                 }
                 Text("Controles")
                     .font(.headline)
-                SurfaceContainer(spacing: 8) {
-                    HStack(spacing: 16) {
+                SurfaceContainer(spacing: .spaceS) {
+                    HStack(spacing: .spaceL) {
                         control("slider.horizontal.3", title: "Opções")
                         control("checkmark", title: "Confirmar")
                         control("trash", title: "Excluir").disabled(true)
@@ -32,7 +32,7 @@
                     .prominentButton()
                     .controlSize(.large)
             }
-            .padding(32)
+            .padding(.space2XL)
             .frame(maxWidth: .infinity)
         }
 

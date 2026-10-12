@@ -24,13 +24,13 @@ struct ComparisonChart: View {
                 }
             }
         }
-        .chartPlotStyle { $0.padding(.vertical, 10) }
+        .chartPlotStyle { $0.padding(.vertical, .spaceM) }
         .chartYScale(domain: 0...((data.map { max($0.planned, $0.spent) }.max() ?? 0) + 10))
         .chartLegend(.hidden)
         .chartScrolling(visible: visibleCount, count: data.count)
         .chartForegroundStyleScale(["budget": Color.retroDenim, "transaction": appTint])
         .frame(height: height)
-        .padding(.bottom, 16)
+        .padding(.bottom, .spaceL)
     }
 
     private func bar(_ point: ComparisonPoint, value: Double, series: String) -> some ChartContent {

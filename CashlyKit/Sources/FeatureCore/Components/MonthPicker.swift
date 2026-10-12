@@ -13,7 +13,7 @@ public struct MonthPicker: View {
     }
 
     public var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: .spaceL) {
             HStack {
                 Button("Ano anterior", systemImage: "chevron.left") { year -= 1 }
                 Spacer()
@@ -27,7 +27,8 @@ public struct MonthPicker: View {
             .font(.body.weight(.semibold))
             .buttonStyle(.borderless)
             LazyVGrid(
-                columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 4), spacing: 8
+                columns: Array(repeating: GridItem(.flexible(), spacing: .spaceS), count: 4),
+                spacing: .spaceS
             ) {
                 ForEach(1...12, id: \.self) { month in
                     MonthCell(
@@ -41,7 +42,7 @@ public struct MonthPicker: View {
                 }
             }
         }
-        .padding(.vertical, 8)
+        .padding(.vertical, .spaceS)
         .animation(.snappy, value: year)
         .sensoryFeedback(.selection, trigger: selection)
     }
@@ -68,7 +69,7 @@ private struct MonthCell: View {
                 .font(.callout.weight(isSelected ? .bold : .medium))
                 .foregroundStyle(isSelected ? Color.white : isCurrent ? tint : Color.primary)
                 .frame(maxWidth: .infinity, minHeight: 40)
-                .background(isSelected ? tint : Color.secondary.opacity(0.1), in: .capsule)
+                .background(isSelected ? tint : Color.secondary.opacity(.opacityFill), in: .capsule)
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(isSelected ? .isSelected : [])

@@ -16,9 +16,9 @@ struct ScoreSection: View {
                 Button {
                     showGuide?(.score)
                 } label: {
-                    VStack(alignment: .leading, spacing: 16) {
-                        AdaptiveStack(spacing: 8) {
-                            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                    VStack(alignment: .leading, spacing: .spaceL) {
+                        AdaptiveStack(spacing: .spaceS) {
+                            HStack(alignment: .firstTextBaseline, spacing: .space2XS) {
                                 Text(health.score.formatted()).font(.title.weight(.bold))
                                 Text("de \(BudgetHealth.maximumScore)")
                                     .font(.footnote)
@@ -29,11 +29,11 @@ struct ScoreSection: View {
                             Text(level.title.uppercased())
                                 .font(.caption2.weight(.bold))
                                 .foregroundStyle(level.color)
-                                .padding(.vertical, 8)
-                                .padding(.horizontal, 12)
-                                .background(level.color.opacity(0.2), in: .capsule)
+                                .padding(.vertical, .spaceS)
+                                .padding(.horizontal, .spaceM)
+                                .background(level.color.opacity(.opacityTint), in: .capsule)
                         }
-                        HStack(spacing: 8) {
+                        HStack(spacing: .spaceS) {
                             ForEach(BudgetHealth.Level.allCases, id: \.self) { item in
                                 ProgressView(
                                     value: item == level ? item.progress(for: health.score) : 1,
@@ -47,7 +47,7 @@ struct ScoreSection: View {
                         .accessibilityHidden(true)
                         Text(level.summary).font(.callout)
                     }
-                    .padding(8)
+                    .padding(.spaceS)
                     .contentShape(.rect)
                 }
                 .buttonStyle(.plain)

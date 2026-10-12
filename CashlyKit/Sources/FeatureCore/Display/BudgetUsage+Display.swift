@@ -32,7 +32,7 @@ extension BudgetUsage.Stage {
     }
 
     public func dotColor(at index: Int) -> Color {
-        guard index <= level else { return .secondary.opacity(0.2) }
+        guard index <= level else { return .secondary.opacity(.opacityTint) }
         return [Color.retroOlive, .retroMustard, .retroOrange, .retroRust][index - 1]
     }
 }

@@ -20,7 +20,7 @@ public struct CurrencyField: View {
                     .keyboardType(.numberPad)
                 #endif
                 .focused($isFocused)
-                .opacity(0.02)
+                .opacity(.opacityHidden)
                 .accessibilityHidden(true)
             Text(amount.formatted(.appCurrency))
                 .contentTransition(.numericText(value: amount))

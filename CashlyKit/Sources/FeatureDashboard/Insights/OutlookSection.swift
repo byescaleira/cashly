@@ -9,19 +9,19 @@ struct OutlookSection: View {
         if let outlook = insights.outlook {
             let isOver = (outlook.gap ?? 0) > 0
             Section {
-                VStack(spacing: 12) {
+                VStack(spacing: .spaceM) {
                     InsightHeadline(
                         caption: "O mês deve fechar em", value: outlook.projected,
                         color: isOver ? .negative : .primary)
                     if let gap = outlook.gap {
-                        InsightChip(
-                            text: gap > 0
+                        Chip(
+                            gap > 0
                                 ? "\(gap.formatted(.appCurrency)) acima do planejado"
                                 : "\((-gap).formatted(.appCurrency)) abaixo do planejado",
                             color: gap > 0 ? .negative : .positive)
                     }
                     OutlookBar(outlook: outlook)
-                        .padding(.top, 8)
+                        .padding(.top, .spaceS)
                 }
                 OutlookRow(
                     title: "Já gasto", value: outlook.spent, marker: .solid)
@@ -72,7 +72,8 @@ private struct OutlookRow: View {
             } icon: {
                 switch marker {
                 case .solid: Capsule().fill(appTint).frame(width: 14, height: 8)
-                case .faded: Capsule().fill(appTint.opacity(0.35)).frame(width: 14, height: 8)
+                case .faded:
+                    Capsule().fill(appTint.opacity(.opacitySoft)).frame(width: 14, height: 8)
                 case .line: PlannedDot(size: 12)
                 }
             }
@@ -89,7 +90,7 @@ private struct PlannedDot: View {
             .padding(size * 0.15)
             .background(.groupedRow, in: .circle)
             .frame(width: size, height: size)
-            .shadow(color: .black.opacity(0.15), radius: 2, y: 1)
+            .shadow(color: .black.opacity(.opacityFill), radius: 2, y: 1)
     }
 }
 
@@ -103,8 +104,8 @@ private struct OutlookBar: View {
             let spent = width * min(outlook.spent / outlook.scale, 1)
             let projected = width * min(outlook.projected / outlook.scale, 1)
             ZStack(alignment: .leading) {
-                Capsule().fill(Color.secondary.opacity(0.15))
-                Capsule().fill(appTint.opacity(0.35)).frame(width: projected)
+                Capsule().fill(Color.secondary.opacity(.opacityFill))
+                Capsule().fill(appTint.opacity(.opacitySoft)).frame(width: projected)
                 Capsule().fill(appTint).frame(width: max(spent, 14))
                 if let budgeted = outlook.budgeted {
                     PlannedDot(size: 20)

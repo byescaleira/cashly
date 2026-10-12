@@ -10,7 +10,7 @@ struct TintRow: View {
             TintScreen()
         } label: {
             LabeledContent("Cor de destaque") {
-                HStack(spacing: 8) {
+                HStack(spacing: .spaceS) {
                     Text(RetroColor.name(for: settings.tint))
                     Circle().fill(Color(hex: settings.tint)).frame(width: 14, height: 14)
                 }

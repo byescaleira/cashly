@@ -70,10 +70,10 @@ private struct ParticipantsExample: View {
         ExampleRow(
             "Jantar", detail: "Restaurantes", value: 120.0.formatted(.appCurrency),
             symbol: "fork.knife", color: .retroRust)
-        HStack(spacing: 6) {
-            ExampleChip("Você", color: appTint)
-            ExampleChip("Ana", color: .retroTeal)
-            ExampleChip("Bruno", color: .retroPlum)
+        HStack(spacing: .spaceXS) {
+            Chip("Você", color: appTint)
+            Chip("Ana", color: .retroTeal)
+            Chip("Bruno", color: .retroPlum)
         }
     }
 }
@@ -82,15 +82,16 @@ private struct SplitModesExample: View {
     @Environment(\.appTint) private var appTint
 
     var body: some View {
-        HStack(spacing: 6) {
+        HStack(spacing: .spaceXS) {
             ForEach(["Iguais", "Valor", "%"], id: \.self) { mode in
                 Text(mode)
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(mode == "Iguais" ? Color.white : .secondary)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 6)
+                    .padding(.vertical, .spaceXS)
                     .background(
-                        mode == "Iguais" ? appTint : Color.secondary.opacity(0.12), in: .capsule)
+                        mode == "Iguais" ? appTint : Color.secondary.opacity(.opacityFill),
+                        in: .capsule)
             }
         }
         ForEach(["Você", "Ana", "Bruno"], id: \.self) { name in
@@ -103,11 +104,11 @@ private struct PaidExample: View {
     var body: some View {
         HStack {
             ExampleRow("Ana", detail: 40.0.formatted(.appCurrency), value: "")
-            ExampleChip("Pago", color: .positive)
+            Chip("Pago", color: .positive)
         }
         HStack {
             ExampleRow("Bruno", detail: 40.0.formatted(.appCurrency), value: "")
-            ExampleChip("A receber", color: .warning)
+            Chip("A receber", color: .warning)
         }
     }
 }

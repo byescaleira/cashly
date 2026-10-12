@@ -49,9 +49,9 @@ struct BudgetsOverviewCard: View {
     var body: some View {
         let color =
             overview.ratio > 1 ? Color.negative : overview.ratio >= 0.8 ? .warning : .positive
-        VStack(alignment: .leading, spacing: 14) {
+        VStack(alignment: .leading, spacing: .spaceM) {
             HStack(alignment: .firstTextBaseline) {
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: .spaceHairline) {
                     Text(overview.remaining >= 0 ? "Disponível" : "Acima do planejado")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
@@ -65,7 +65,7 @@ struct BudgetsOverviewCard: View {
                         .foregroundStyle(.secondary)
                         .amountLine()
                 }
-                Spacer(minLength: 8)
+                Spacer(minLength: .spaceS)
                 VStack(alignment: .trailing, spacing: 0) {
                     Text(overview.ratio.formatted(.percent.precision(.fractionLength(0))))
                         .font(.title2.weight(.bold))
@@ -74,9 +74,9 @@ struct BudgetsOverviewCard: View {
                 }
             }
             GroupBar(counts: overview.counts)
-            FlowLayout(spacing: 12) {
+            FlowLayout(spacing: .spaceM) {
                 ForEach(overview.counts, id: \.group) { entry in
-                    HStack(spacing: 6) {
+                    HStack(spacing: .spaceXS) {
                         Circle().fill(entry.group.color).frame(width: 8, height: 8)
                         Text(entry.group.summary(count: entry.count))
                     }
@@ -100,7 +100,7 @@ struct BudgetsOverviewCard: View {
                 }
             }
         }
-        .padding(.vertical, 6)
+        .padding(.vertical, .spaceXS)
         .contentShape(.rect)
         .accessibilityElement(children: .combine)
     }
@@ -113,7 +113,7 @@ private struct GroupBar: View {
         let total = max(counts.reduce(0) { $0 + $1.count }, 1)
         GeometryReader { proxy in
             let width = proxy.size.width - CGFloat(max(counts.count - 1, 0)) * 3
-            HStack(spacing: 3) {
+            HStack(spacing: .space2XS) {
                 ForEach(counts, id: \.group) { entry in
                     Capsule()
                         .fill(entry.group.color)

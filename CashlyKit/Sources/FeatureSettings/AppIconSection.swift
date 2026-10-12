@@ -10,7 +10,7 @@ struct AppIconSection: View {
             AppIconScreen()
         } label: {
             LabeledContent {
-                HStack(spacing: 8) {
+                HStack(spacing: .spaceS) {
                     Text(settings.appIcon.title)
                     AppIconImage(icon: settings.appIcon, size: 28)
                 }
