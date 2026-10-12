@@ -53,9 +53,32 @@ public struct GuideSheet<Page: View>: View {
         #if !os(visionOS)
             .presentationBackground(.sheetBackground)
         #endif
+        #if os(iOS)
+            .modifier(GuidePlacement())
+        #endif
         .interactiveDismissDisabled(isWorking)
     }
 }
+
+#if os(iOS)
+    private struct GuidePlacement: ViewModifier {
+        @Environment(\.verticalSizeClass) private var verticalSizeClass
+
+        func body(content: Content) -> some View {
+            if UIDevice.current.userInterfaceIdiom == .pad {
+                content
+                    .presentationPlacement(.center)
+                    .presentationSizing(.form.fitted(horizontal: false, vertical: true))
+            } else if verticalSizeClass == .compact {
+                content
+                    .presentationPlacement(.trailing)
+                    .presentationSizing(.form)
+            } else {
+                content
+            }
+        }
+    }
+#endif
 
 private struct GuideTopBar: View {
     let index: Int
