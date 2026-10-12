@@ -7,7 +7,7 @@ extension View {
         modifier(GlassSurface(tint: tint, shape: shape, interactive: interactive))
     }
 
-    public func clearSurface(in shape: some Shape) -> some View {
+    public func clearSurface(in shape: some InsettableShape) -> some View {
         modifier(ClearSurface(shape: shape))
     }
 
@@ -16,7 +16,7 @@ extension View {
     }
 }
 
-private struct ClearSurface<S: Shape>: ViewModifier {
+private struct ClearSurface<S: InsettableShape>: ViewModifier {
     let shape: S
 
     func body(content: Content) -> some View {
