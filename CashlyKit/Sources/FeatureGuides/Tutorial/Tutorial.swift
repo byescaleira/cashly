@@ -70,6 +70,24 @@ extension Guide {
                         "Mark each participant as paid or to receive to know who still owes."
                 ),
             ]
+        case .quickCapture:
+            [
+                TutorialPage(
+                    animation: .capture, title: "Ask Siri",
+                    message:
+                        "Say \"Add an expense in Cashly\" or \"How much did I spend this month in Cashly\". The same shortcuts appear in the Shortcuts app and in Spotlight."
+                ),
+                TutorialPage(
+                    animation: .paid, title: "Pay, and It's Recorded",
+                    message:
+                        "In Shortcuts, create an automation with the Transaction trigger: when you pay with Apple Pay, run Add Expense in Cashly with the amount and the merchant."
+                ),
+                TutorialPage(
+                    animation: .launch, title: "One Tap Away",
+                    message:
+                        "Add the New Expense control to Control Center or to the Action Button, and put the widgets on your Home Screen."
+                ),
+            ]
         case .importSpreadsheet, .score: []
         }
     }

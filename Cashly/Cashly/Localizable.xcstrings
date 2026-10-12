@@ -5719,6 +5719,64 @@
         }
       }
     },
+    "Add the New Expense control to Control Center or to the Action Button, and put the widgets on your Home Screen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Füge das Steuerelement „Neue Ausgabe“ zum Kontrollzentrum oder zur Aktionstaste hinzu und lege die Widgets auf den Home-Bildschirm."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade el control Nuevo gasto al Centro de control o al botón de Acción y pon los widgets en la pantalla de inicio."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez la commande Nouvelle dépense au centre de contrôle ou au bouton Action, et placez les widgets sur l’écran d’accueil."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi il controllo Nuova spesa al Centro di Controllo o al tasto Azione e metti i widget nella schermata Home."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「新しい支出」コントロールをコントロールセンターかアクションボタンに追加し、ウィジェットをホーム画面に置きましょう。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"새 지출\" 제어를 제어 센터나 동작 버튼에 추가하고, 위젯을 홈 화면에 놓으세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione o controle Novo gasto à Central de Controle ou ao Botão de Ação e coloque os widgets na Tela de Início."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавьте элемент «Новый расход» в Пункт управления или на кнопку действия и разместите виджеты на экране «Домой»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把「新支出」控制添加到控制中心或操作按钮，并把小组件放到主屏幕。"
+          }
+        }
+      }
+    },
     "Add these columns when you have the information. Empty cells are fine." : {
       "localizations" : {
         "de" : {
@@ -7403,6 +7461,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "阿根廷"
+          }
+        }
+      }
+    },
+    "Ask Siri" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frag Siri"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pídeselo a Siri"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demandez à Siri"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiedi a Siri"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siriに頼む"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri에게 말하기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peça à Siri"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Попросите Siri"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "问 Siri"
           }
         }
       }
@@ -24877,6 +24993,64 @@
         }
       }
     },
+    "In Shortcuts, create an automation with the Transaction trigger: when you pay with Apple Pay, run Add Expense in Cashly with the amount and the merchant." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erstelle in Kurzbefehle eine Automation mit dem Auslöser „Transaktion“: Beim Bezahlen mit Apple Pay läuft „Ausgabe in Cashly erfassen“ mit Betrag und Händler."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En Atajos, crea una automatización con el desencadenante Transacción: al pagar con Apple Pay, ejecuta Añadir gasto en Cashly con el importe y el comercio."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans Raccourcis, créez une automatisation avec le déclencheur Transaction : quand vous payez avec Apple Pay, exécutez Ajouter une dépense dans Cashly avec le montant et le commerçant."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Comandi Rapidi, crea un’automazione con il trigger Transazione: quando paghi con Apple Pay, esegui Aggiungi spesa in Cashly con importo ed esercente."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ショートカットで「取引」トリガーのオートメーションを作成：Apple Payで支払うと、金額と店名付きで「Cashlyで支出を追加」が実行されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단축어 앱에서 거래 트리거로 자동화를 만드세요. Apple Pay로 결제하면 금액과 가맹점이 담긴 \"Cashly에 지출 추가\"가 실행돼요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No app Atalhos, crie uma automação com o gatilho Transação: ao pagar com Apple Pay, rode Registrar gasto no Cashly com o valor e o estabelecimento."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В «Командах» создайте автоматизацию с триггером «Транзакция»: при оплате Apple Pay запускается «Добавить расход в Cashly» с суммой и продавцом."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在快捷指令中用「交易」触发器创建自动化：使用 Apple Pay 付款时，带金额和商户运行「在Cashly中添加支出」。"
+          }
+        }
+      }
+    },
     "In a transaction, add the people who split the bill with you." : {
       "localizations" : {
         "de" : {
@@ -32243,6 +32417,64 @@
         }
       }
     },
+    "One Tap Away" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur ein Tipp entfernt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A un toque"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À portée de main"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A un tocco"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ワンタップで"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "한 번만 누르면"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A um toque"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В одном касании"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一键直达"
+          }
+        }
+      }
+    },
     "One challenge at a time." : {
       "localizations" : {
         "de" : {
@@ -33515,6 +33747,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分期付款"
+          }
+        }
+      }
+    },
+    "Pay, and It's Recorded" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bezahlt und erfasst"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pagas y queda registrado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Payé, enregistré"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paghi e viene registrato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支払えば記録される"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "결제하면 바로 기록"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pagou, registrou"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заплатили — записано"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "付款即记录"
           }
         }
       }
@@ -35955,6 +36245,64 @@
         }
       }
     },
+    "Record in a Tap" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit einem Tipp erfassen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra con un toque"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer en un geste"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra con un tocco"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ワンタップで記録"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "한 번의 탭으로 기록"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registre num toque"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запись в одно касание"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一键记录"
+          }
+        }
+      }
+    },
     "Record money in and out to follow the month." : {
       "localizations" : {
         "de" : {
@@ -38391,6 +38739,64 @@
         }
       }
     },
+    "Say \"Add an expense in Cashly\" or \"How much did I spend this month in Cashly\". The same shortcuts appear in the Shortcuts app and in Spotlight." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sag „Ausgabe in Cashly erfassen“ oder „Wie viel habe ich diesen Monat in Cashly ausgegeben“. Dieselben Kurzbefehle erscheinen in der Kurzbefehle-App und in Spotlight."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di \"Añadir un gasto en Cashly\" o \"Cuánto gasté este mes en Cashly\". Los mismos atajos aparecen en la app Atajos y en Spotlight."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dites « Ajouter une dépense dans Cashly » ou « Combien j’ai dépensé ce mois-ci dans Cashly ». Les mêmes raccourcis apparaissent dans l’app Raccourcis et dans Spotlight."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di’ \"Aggiungi una spesa in Cashly\" o \"Quanto ho speso questo mese in Cashly\". Gli stessi comandi rapidi compaiono nell’app Comandi Rapidi e in Spotlight."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「Cashlyで支出を追加」や「Cashlyで今月いくら使った」と話しかけてください。同じショートカットがショートカットアプリとSpotlightにも表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"Cashly에 지출 추가\" 또는 \"Cashly에서 이번 달 지출\"이라고 말해 보세요. 같은 단축어가 단축어 앱과 Spotlight에도 나타나요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diga \"Registrar um gasto no Cashly\" ou \"Quanto gastei este mês no Cashly\". Os mesmos atalhos aparecem no app Atalhos e na Busca."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скажите «Добавить расход в Cashly» или «Сколько я потратил в этом месяце в Cashly». Те же команды есть в приложении «Команды» и в Spotlight."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "说「在Cashly中添加支出」或「Cashly本月花了多少」。同样的快捷指令也会出现在快捷指令 App 和聚焦搜索中。"
+          }
+        }
+      }
+    },
     "Score" : {
       "localizations" : {
         "de" : {
@@ -40363,6 +40769,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "银"
+          }
+        }
+      }
+    },
+    "Siri, Control Center, the Action Button and Wallet" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri, Kontrollzentrum, Aktionstaste und Wallet"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri, Centro de control, botón de Acción y Wallet"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri, centre de contrôle, bouton Action et Cartes"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri, Centro di Controllo, tasto Azione e Wallet"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri、コントロールセンター、アクションボタン、ウォレット"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri, 제어 센터, 동작 버튼, 지갑"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri, Central de Controle, Botão de Ação e Wallet"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri, Пункт управления, кнопка действия и Wallet"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri、控制中心、操作按钮和钱包"
           }
         }
       }

@@ -7,5 +7,8 @@ struct CashlyWidgetsBundle: WidgetBundle {
         MonthWidget()
         BudgetsWidget()
         BillsWidget()
+        #if os(iOS)
+            NewExpenseControl()
+        #endif
     }
 }

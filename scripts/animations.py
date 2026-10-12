@@ -327,12 +327,27 @@ def shop_helps():
     return [circle, mark, flake, spin]
 
 
+def capture():
+    glow = layer("tint", [group([ellipse(130), fill("tint", 14), transform(scale=pop(0))])], position=(W / 2, 90))
+    button = layer("tint", [group([ellipse(96), fill("tint"), transform(scale=pop(6, 112))])], position=(W / 2, 90))
+    plus = layer("paper", [
+        group([rect((44, 9), 4), fill("paper"), transform()]),
+        group([rect((9, 44), 4), fill("paper"), transform()]),
+    ], position=(W / 2, 90), scale=pop(22, 118))
+    coin = layer("mustard", [
+        group([ellipse(30), fill("mustard"), transform()]),
+        group([ellipse(18), stroke("cream", 3, 70), transform()]),
+    ], position=anim([(50, [W / 2 + 120, 30, 0]), (85, [W / 2 + 34, 58, 0])], SNAP), scale=pop(50, 110), opacity=anim([(50, 0), (58, 100), (100, 100), (115, 0)]))
+    return [glow, button, plus, coin]
+
+
 ANIMATIONS = {
     "launch": launch,
     "month": month, "history": history, "budgetPace": budget_pace, "journey": journey, "budget": budget,
     "score": score, "participants": participants, "splitModes": split_modes, "paid": paid, "table": table,
     "file": file_import, "done": done, "connect": connect,
     "pro": pro, "shopIcons": shop_icons, "shopColors": shop_colors, "shopHelps": shop_helps,
+    "capture": capture,
 }
 
 if __name__ == "__main__":

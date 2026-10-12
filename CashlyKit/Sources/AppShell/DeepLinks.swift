@@ -14,7 +14,7 @@ struct DeepLinks: ViewModifier {
                 guard let id = url.pathComponents.dropFirst().first else { return }
                 if pro.canWrite {
                     navigation.open(
-                        .addTransaction(id: id), in: .transaction,
+                        .addTransaction(id: id == "new" ? nil : id), in: .transaction,
                         beside: horizontalSizeClass == .regular)
                 } else {
                     navigation.isShowingPaywall = true

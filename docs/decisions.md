@@ -279,6 +279,11 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Eventos gravados pelo app:** guia concluído (tutoriais, pontuação e importação), planilha importada e backup criado (cada exportação grava um evento para cada perfil).
 - **Ajustes › Jornada** liga e desliga a aba; esconder não apaga o progresso. A flag remota `journey` também esconde a aba e a linha dos Ajustes.
 
+## 12/10/2026: Central de Controle, Botão de Ação e Wallet (fase 9.4)
+
+- **Controle "Novo gasto"** (`ControlWidget`, só iOS) na extensão de widgets: o botão roda um intent com `openAppWhenRun` que devolve `OpenURLIntent(cashly://transactions/new)`; o app abre o editor pela mesma rota dos widgets. O mesmo controle serve ao Botão de Ação, e o atalho "Registrar gasto" também pode ser atribuído a ele.
+- **Wallet sem código próprio.** A automação "Transação" do app Atalhos chama o intent `AddExpenseIntent` com valor e estabelecimento; não há API para o app criar a automação, então o guia "Registrar num toque" (três páginas: Siri, Wallet, Central de Controle/widgets; animação `capture`) explica o passo a passo e entra na lista de guias e no cômputo da conquista "Estudioso".
+
 ## 12/10/2026: widgets (fase 9.3)
 
 - **Extensão `CashlyWidgets`** no projeto (target `com.apple.product-type.app-extension`, pasta sincronizada `Cashly/CashlyWidgets`, embutida pelo app), com o produto leve `CashlyWidgetKit` do pacote (só `CashlyDomain` e `CashlyDesignSystem`, sem Lottie nem features) por causa do limite de memória dos widgets.
@@ -356,7 +361,7 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Os cartões de exemplo saíram dos guias.** Cada página mostra uma animação Lottie sem fundo, em `GuideAnimationView(_:)`, com o JSON embutido em código (`CashlyResourceAnimation.json(named:)`, gerado), porque recursos de pacote SwiftPM não entraram no bundle do app em todos os builds; os `.json` de referência ficam em `scripts/animations/`. Os estados vazios continuam com os exemplos preenchidos.
 - **Dependência nova:** `lottie-spm` (Airbnb), a primeira dependência externa do pacote, usada só pelo `FeatureCore`.
 - **As animações são geradas por `scripts/animations.py`**, que escreve o JSON do Lottie e o arquivo Swift que o embute, a partir de formas simples (barras, anéis, círculos, estrela, check). As camadas têm o nome da cor da paleta (`olive`, `mustard`, `rust`, `orange`, `teal`, `denim`, `plum`, `brown`, `tint`, `ink`, `paper`) e o app substitui as cores em tempo de execução com `ColorValueProvider`, por isso a animação acompanha o modo escuro e a cor de destaque. Com "Reduzir movimento" a animação fica parada no último quadro. Para trocar uma animação por uma de um designer, basta substituir o JSON mantendo os nomes das camadas.
-- **Animações:** `month`, `history`, `budgetPace`, `journey`, `budget`, `score`, `participants`, `splitModes`, `paid`, `table`, `file`, `done`, `connect`, `launch` e, da loja, `pro`, `shopIcons`, `shopColors` e `shopHelps`.
+- **Animações:** `month`, `history`, `budgetPace`, `journey`, `budget`, `score`, `participants`, `splitModes`, `paid`, `table`, `file`, `done`, `connect`, `launch`, da loja `pro`, `shopIcons`, `shopColors` e `shopHelps`, e `capture` (registro rápido).
 - **Tela de abertura** (`LaunchView`): a animação `launch` em loop (quadrado na cor de destaque, carteira creme e uma moeda caindo dentro) no lugar do indicador de progresso, com "Abrindo o Cashly" embaixo.
 - **Ordem das camadas no Lottie:** a primeira camada da lista fica por cima; o gerador recebe as camadas de baixo para cima e inverte ao escrever.
 - **Página curta:** título, texto, animação e no máximo três linhas de conteúdo; o que passa disso vira outra página (as faixas da pontuação e as colunas opcionais da planilha ganharam página própria). A folha nunca deve passar da altura da tela.
