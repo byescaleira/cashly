@@ -27,7 +27,23 @@ extension ShapeStyle where Self == Color {
         #endif
     }
 
-    public static var sheetBackground: Color { Color(light: 0xFFFFFF, dark: 0x000000) }
+    public static var sheetBackground: Color {
+        #if os(macOS)
+            Color(nsColor: .windowBackgroundColor)
+        #elseif os(visionOS)
+            .clear
+        #else
+            Color(uiColor: .systemBackground)
+        #endif
+    }
 
-    public static var sheetCard: Color { Color(light: 0xF2F2F7, dark: 0x1C1C1E) }
+    public static var sheetCard: Color {
+        #if os(macOS)
+            Color(nsColor: .controlBackgroundColor)
+        #elseif os(visionOS)
+            Color.secondary.opacity(0.12)
+        #else
+            Color(uiColor: .secondarySystemBackground)
+        #endif
+    }
 }

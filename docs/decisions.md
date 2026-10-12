@@ -194,6 +194,6 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
   - **Fora do padrão:** categorias com gasto até hoje bem acima da mediana dos últimos meses no mesmo ponto (1,5× e R$ 50 a mais, z-score robusto), ou novas no mês (`UnusualCategories`, nova).
   - **Próximos meses:** total já comprometido em parcelas e contas futuras, com barras por mês (`InstallmentCommitments`).
 - **`InsightsModel`** (FeatureDashboard) lê o livro pelo `RepositoriesLedgerSource`, roda o `AnalysisEngine` (cache por revisão) e entrega estruturas prontas para a tela. Cada seção só aparece quando a análise tem dados.
-- **Guias com fundo próprio:** a folha dos guias usa fundo branco no claro e preto no escuro (`sheetBackground`), com cartões em cinza (`sheetCard`). No visionOS continua o vidro do sistema.
+- **Guias com fundo próprio:** a folha dos guias usa o fundo do sistema (`sheetBackground`: branco no claro, cinza escuro elevado no escuro) e cartões em `sheetCard` (cinza claro ou cinza médio). Preto puro no escuro se misturava com a tela de trás. No visionOS continua o vidro do sistema.
 - **Folhas do MCP em fila:** a aprovação de conexão e a conferência de importação passam por um único apresentador, que só abre a próxima depois que a anterior fecha. Antes, uma importação logo após a aprovação era descartada pelo sistema e contava como recusa.
 
