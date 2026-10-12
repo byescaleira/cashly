@@ -43,6 +43,10 @@ public final class SettingsModel {
     public var developer: DeveloperModel?
     public let notifications: NotificationsModel
     public let info: AppInfo
+    public static var launchSyncPreference: Bool {
+        UserDefaults.standard.object(forKey: Key.cloudSync) as? Bool ?? true
+    }
+
     public let syncsAtLaunch: Bool
     private let cloudContainer: String?
     @ObservationIgnored private let defaults: UserDefaults

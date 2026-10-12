@@ -1,6 +1,8 @@
 import CashlyData
 import CashlyDomain
 import FeatureCore
+import FeatureSettings
+import FeatureStore
 import Foundation
 
 @MainActor
@@ -26,8 +28,25 @@ public final class CashlyServices {
         }
     }
 
+    public static var launchCloudSync: Bool {
+        #if targetEnvironment(simulator)
+            false
+        #else
+            SettingsModel.launchSyncPreference
+        #endif
+    }
+
+    public func canWrite() async -> Bool {
+        guard FeatureFlags().isOn(.pro) else { return true }
+        let plans = Set(ShopCatalog.plans.map(\.id))
+        return await StoreKitClient().currentEntitlements().contains { transaction in
+            plans.contains(transaction.productID) && transaction.revocationDate == nil
+                && (transaction.expirationDate ?? .distantFuture) > .now
+        }
+    }
+
     public func workspace(
-        cloudSync: Bool, preference: UserPreference = .standard
+        cloudSync: Bool = CashlyServices.launchCloudSync, preference: UserPreference = .standard
     ) async throws -> (Repositories, User) {
         let database = try await database(cloudSync: cloudSync)
         let users = try await database.repositories(for: nil).users.users()

@@ -80,6 +80,7 @@ public struct MainScreen: View {
         .task(id: session.loadKey) { await finance.load() }
         .task(id: (session.user?.id ?? "") + ":" + finance.datasetRevision) {
             await finance.publishSnapshot()
+            await CashlyIndexer.refresh(categories: finance.allCategories)
             await intelligence.loadModels(revision: finance.datasetRevision)
         }
         .task(

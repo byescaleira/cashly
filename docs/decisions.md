@@ -279,6 +279,13 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Eventos gravados pelo app:** guia concluído (tutoriais, pontuação e importação), planilha importada e backup criado (cada exportação grava um evento para cada perfil).
 - **Ajustes › Jornada** liga e desliga a aba; esconder não apaga o progresso. A flag remota `journey` também esconde a aba e a linha dos Ajustes.
 
+## 12/10/2026: App Intents (fase 9.2)
+
+- **Lógica fora do AppIntents.** `IntentActions` (`FeatureCore`) recebe repositórios e perfil e faz o trabalho: categorias e tags do perfil, contas pendentes, registrar gasto (categoria nomeada ou a primeira, valor positivo, data opcional), resumo do mês, saldo por categoria e marcar como paga. Testado com banco em memória; os `AppIntent`s no `AppShell` só traduzem parâmetros e diálogos.
+- **Quatro intents** (`AddExpenseIntent`, `MonthSpentIntent`, `CategoryRemainingIntent`, `MarkBillPaidIntent`) com `AppEntity` de categoria, tag, perfil e conta pendente, e `CashlyShortcuts` no app com as frases em inglês (o `AppShortcuts.xcstrings` é obrigatório e separado do catálogo principal). As categorias entram no Spotlight como `IndexedEntity` a cada revisão dos dados.
+- **Sem janela:** os intents usam `CashlyServices.workspace()` (banco único por processo, perfil selecionado, iCloud conforme a preferência de abertura) e `canWrite()`, que consulta o StoreKit e a flag `pro`; sem assinatura, registrar e marcar como paga falham com a mensagem "Registrar exige o Cashly Pro".
+- **Compartilhamento:** os intents não dividem gastos nem escolhem status; tudo entra como quitado e sem participantes, para editar no app.
+
 ## 12/10/2026: base fora da janela (fase 9.1)
 
 - **App Group `group.com.byescaleira.cashly`** no entitlement do app, para widgets, intents e extensões lerem o que o app grava. O banco SwiftData não muda de lugar.

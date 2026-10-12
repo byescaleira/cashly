@@ -1,3 +1,4 @@
+import AppIntents
 import AppShell
 import CashlyData
 import CashlyDomain
@@ -138,5 +139,39 @@ private struct CashlyRootView: View {
                 window = CashlyWindow(provider: database, intelligence: bootstrap.intelligence)
             }
         }
+    }
+}
+
+struct CashlyAppIntents: AppIntentsPackage {
+    static var includedPackages: [any AppIntentsPackage.Type] { [CashlyIntentsPackage.self] }
+}
+
+struct CashlyShortcuts: AppShortcutsProvider {
+    static var appShortcuts: [AppShortcut] {
+        AppShortcut(
+            intent: AddExpenseIntent(),
+            phrases: [
+                "Add an expense in \(.applicationName)",
+                "Record a spend in \(.applicationName)",
+            ],
+            shortTitle: "Add Expense", systemImageName: "plus.circle")
+        AppShortcut(
+            intent: MonthSpentIntent(),
+            phrases: [
+                "How much did I spend this month in \(.applicationName)",
+                "What did I spend in \(.applicationName)",
+            ],
+            shortTitle: "Spent This Month", systemImageName: "chart.bar")
+        AppShortcut(
+            intent: CategoryRemainingIntent(),
+            phrases: [
+                "How much is left in \(.applicationName)",
+                "What's left in \(\.$category) in \(.applicationName)",
+            ],
+            shortTitle: "Left in Category", systemImageName: "gauge.with.dots.needle.33percent")
+        AppShortcut(
+            intent: MarkBillPaidIntent(),
+            phrases: ["Mark a bill as paid in \(.applicationName)"],
+            shortTitle: "Mark as Paid", systemImageName: "checkmark.circle")
     }
 }
