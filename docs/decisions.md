@@ -315,6 +315,7 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Sem `SKTestSession` nos testes do pacote.** Os testes do `CashlyKit` rodam sem app hospedeiro, e o `storekitd` do simulador recusa a sessão de teste porque o processo `xctest` não é um app instalado (`kLSApplicationNotFoundErr`). Fica no backlog um alvo de testes hospedado pelo app para exercitar o `Cashly.storekit` de verdade.
 - **`Cashly.storekit`** em `Cashly/Cashly`, com os 22 produtos em BRL e o grupo Cashly Pro com 7 dias grátis, ligado ao esquema Production para compras no simulador.
 - **visionOS** usa `purchase(confirmIn:)` com a primeira cena conectada, porque `purchase()` não existe lá.
+- **Esquema Sandbox.** Igual ao Production, sem o `Cashly.storekit`: serve para testar compras na sandbox da App Store com uma conta de testador (Users and Access › Sandbox). O teste grátis dura 3 minutos e a assinatura mensal renova a cada 5 na sandbox.
 
 ## 12/10/2026: Metas no padrão do design system
 
