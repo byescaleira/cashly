@@ -21,7 +21,7 @@ struct GuidesSection: View {
                     }
                 }
             } footer: {
-                Text("Reveja quando quiser como cada parte do Cashly funciona.")
+                Text("Revisit how each part of Cashly works whenever you like.")
             }
         }
     }

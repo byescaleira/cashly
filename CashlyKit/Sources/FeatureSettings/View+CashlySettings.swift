@@ -13,6 +13,7 @@ private struct AppearanceModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .appTint(Color(hex: settings.tint))
+            .environment(\.locale, settings.locale)
             .onChange(of: settings.appearance, initial: true) { settings.appearance.apply() }
             .onChange(of: settings.tint, initial: true) {
                 Appearance.applyTint(Color(hex: settings.tint))

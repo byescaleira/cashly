@@ -2,7 +2,10 @@ import CashlyDesignSystem
 import CashlyDomain
 import FeatureCore
 import FeatureGuides
+import FeatureJourney
 import FeatureOnboarding
+import FeatureSettings
+import FeatureStore
 import SwiftUI
 
 public struct MainScreen: View {
@@ -11,7 +14,11 @@ public struct MainScreen: View {
     @Environment(IntelligenceModel.self) private var intelligence
     @Environment(CashlyNavigation.self) private var navigation
     @Environment(NotificationsModel.self) private var notifications
+    @Environment(SettingsModel.self) private var settings
+    @Environment(StoreModel.self) private var store
+    @Environment(\.featureFlags) private var flags
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.locale) private var locale
     public init() {}
 
     @ViewBuilder
@@ -20,7 +27,7 @@ public struct MainScreen: View {
         @Bindable var session = session
         @Bindable var finance = finance
         TabView(selection: $navigation.selectedSection) {
-            ForEach(AppSection.allCases) { section in
+            ForEach(sections) { section in
                 Tab(
                     section.title, systemImage: section.systemImage, value: section,
                     role: section.role
@@ -29,6 +36,7 @@ public struct MainScreen: View {
                 }
             }
         }
+        .id(locale.identifier)
         .tabViewStyle(.sidebarAdaptable)
         .overlay {
             if !session.isReady(finance) {
@@ -37,6 +45,10 @@ public struct MainScreen: View {
         }
         .animation(.easeOut(duration: 0.25), value: session.isReady(finance))
         .sheet(item: $navigation.guide) { GuideScreen($0) }
+        .sheet(item: $navigation.shopItem) { ShopItemScreen(item: $0) }
+        .environment(
+            \.shop, ShopAccess(owned: store.owned) { navigation.shopItem = $0 }
+        )
         .modifier(MCPImportPresenter())
         .environment(\.showGuide, ShowGuideAction { navigation.guide = $0 })
         .sheet(isPresented: $navigation.isOnboarding) {
@@ -53,13 +65,18 @@ public struct MainScreen: View {
         }
         .environment(
             \.open,
-            CashlyDestination { route, section in
-                navigation.open(route, in: section, beside: horizontalSizeClass == .regular)
+            CashlyDestination { [canWrite = pro.canWrite] route, section in
+                if route.requiresPro, !canWrite {
+                    navigation.isShowingPaywall = true
+                } else {
+                    navigation.open(route, in: section, beside: horizontalSizeClass == .regular)
+                }
             }
         )
         .environment(\.user, session.user)
         .environment(\.isLoading, finance.isLoading)
         .task { await session.start() }
+        .task { await store.start() }
         .task(id: session.loadKey) { await finance.load() }
         .task(id: (session.user?.id ?? "") + ":" + finance.datasetRevision) {
             await intelligence.loadModels(revision: finance.datasetRevision)
@@ -76,5 +93,44 @@ public struct MainScreen: View {
         }
         .errorAlert($finance.error)
         .errorAlert($session.error)
+        .modifier(PaywallOffer())
+        .sheet(isPresented: $navigation.isShowingPaywall) { PaywallScreen() }
+        .environment(\.pro, pro)
+    }
+
+    private var pro: ProAccess {
+        ProAccess(entitlement: store.entitlement, isEnforced: flags?.isOn(.pro) != false) {
+            navigation.isShowingPaywall = true
+        }
+    }
+
+    private var sections: [AppSection] {
+        let showsJourney = settings.showsJourney && flags?.isOn(.journey) != false
+        return AppSection.allCases.filter { $0 != .journey || showsJourney }
+    }
+}
+
+private struct PaywallOffer: ViewModifier {
+    @Environment(SessionModel.self) private var session
+    @Environment(FinanceModel.self) private var finance
+    @Environment(StoreModel.self) private var store
+    @Environment(CashlyNavigation.self) private var navigation
+    @Environment(\.pro) private var pro
+    @State private var hasOffered = false
+
+    private var isDue: Bool {
+        store.hasRefreshed && session.isReady(finance) && !session.needsOnboarding
+            && !navigation.isOnboarding && !pro.canWrite
+    }
+
+    func body(content: Content) -> some View {
+        content.onChange(of: isDue, initial: true) { _, due in
+            guard due, !hasOffered else { return }
+            hasOffered = true
+            Task {
+                try? await Task.sleep(for: .milliseconds(500))
+                navigation.isShowingPaywall = true
+            }
+        }
     }
 }

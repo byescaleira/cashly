@@ -25,7 +25,7 @@ struct DataModelTests {
         #expect(try CashlyBackup(data: document.data).users.map(\.id) == ["owner"])
         data.finishExport(.success(URL(filePath: "/tmp/backup.json")))
         #expect(data.document == nil)
-        #expect(data.message == "Backup salvo.")
+        #expect(data.message == "Backup saved.")
     }
 
     @Test func backupImportReviewsBeforeRestoring() async throws {
@@ -41,7 +41,7 @@ struct DataModelTests {
         data.read(.success(url))
         #expect(data.backupStep == .review)
         let pending = try #require(data.pendingRestore)
-        #expect(data.description(of: pending).hasPrefix("1 usuário, 0 categorias"))
+        #expect(data.description(of: pending).contains("0 categories"))
         await data.restore(pending)
         #expect(data.backupStep == .done)
         #expect(try await database.repositories(for: nil).users.users() == [owner])
@@ -54,13 +54,13 @@ struct DataModelTests {
         try Data("texto".utf8).write(to: url)
         data.read(.success(url))
         #expect(data.pendingRestore == nil)
-        #expect(data.error == .invalidInput("O arquivo não é um backup do Cashly."))
+        #expect(data.error == .invalidInput("This file isn't a Cashly backup."))
     }
 
     @Test func eraseRemovesEverything() async throws {
         let (data, database) = try await model()
         await data.eraseAll()
-        #expect(data.message == "Todos os dados foram apagados.")
+        #expect(data.message == "All data was deleted.")
         #expect(try await database.repositories(for: nil).users.users().isEmpty)
     }
 }

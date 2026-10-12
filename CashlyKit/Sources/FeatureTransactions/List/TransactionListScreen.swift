@@ -1,6 +1,7 @@
 import CashlyDesignSystem
 import FeatureCore
 import SwiftUI
+import TipKit
 
 public struct TransactionListScreen: View {
     @Environment(SessionModel.self) private var session
@@ -10,11 +11,11 @@ public struct TransactionListScreen: View {
 
     public var body: some View {
         @Bindable var list = list
-        List(selection: $list.selection) {
-            TransactionBalanceSection()
+        AdaptiveList(selection: $list.selection) {
             DataStatusSection()
+            if !list.days.isEmpty { TipView(SwipeToDeleteTip()) }
             ForEach(list.days) { TransactionDaySection(day: $0) }
-            LoadMoreRow()
+            LoadMoreSection()
         }
         #if os(iOS) || os(visionOS)
             .environment(
@@ -25,12 +26,11 @@ public struct TransactionListScreen: View {
         #endif
         .emptyState(.transaction, when: list.days.isEmpty && !list.isLoading)
         .fontDesign(.rounded)
-        .readableWidth()
         .toolbar { TransactionListToolbar() }
         .refreshable { await list.load() }
         .task(id: session.loadKey) { await list.load() }
         .onChange(of: session.user?.id) { list.endSelection() }
-        .navigationTitle("Histórico")
+        .navigationTitle("History")
         .errorAlert($list.error)
     }
 }

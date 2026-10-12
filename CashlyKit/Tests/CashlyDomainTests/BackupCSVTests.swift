@@ -24,13 +24,16 @@ struct BackupCSVTests {
             transactions: [second, first])
         let lines = backup.transactionsCSV.components(separatedBy: "\r\n")
         #expect(
-            lines[0] == "Data;Usuário;Descrição;Categoria;Tipo;Situação;Valor;Moeda;Parcelas;Tags")
+            lines[0]
+                == "Date;User;Description;Category;Type;Status;Amount;Currency;Installments;Tags")
         #expect(
             lines[1]
-                == "2026-03-05;Ana;\"Feira; \"\"semana\"\"\";Mercado;Saída;A pagar;1234,05;\(backup.currency);3;Casa"
+                == "2026-03-05;Ana;\"Feira; \"\"semana\"\"\";Mercado;Expense;To pay;\(SpreadsheetTerm.amount(123_405));\(backup.currency);3;Casa"
         )
         #expect(
-            lines[2] == "2026-03-05;Ana;Salário;Mercado;Entrada;Paga;0,07;\(backup.currency);1;")
+            lines[2]
+                == "2026-03-05;Ana;Salário;Mercado;Income;Paid;\(SpreadsheetTerm.amount(7));\(backup.currency);1;"
+        )
         #expect(lines.count == 4)
     }
 }

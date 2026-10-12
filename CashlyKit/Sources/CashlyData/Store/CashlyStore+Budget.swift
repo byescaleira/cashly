@@ -56,7 +56,10 @@ extension CashlyStore {
                 }))
         guard allowsConflict || duplicate.isEmpty else {
             throw CashlyError.invalidInput(
-                "Já existe um orçamento para essa categoria e mês. Edite o orçamento existente.")
+                String(
+                    appLocalized:
+                        "A budget already exists for this category and month. Edit the existing budget."
+                ))
         }
         let predicate: Predicate<BudgetEntity> = #Predicate { $0.id == id }
         let descriptor = FetchDescriptor<BudgetEntity>(predicate: predicate)

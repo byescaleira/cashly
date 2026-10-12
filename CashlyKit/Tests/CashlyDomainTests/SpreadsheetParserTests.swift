@@ -17,7 +17,7 @@ struct SpreadsheetParserTests {
         #expect(preview.expenses.minorUnits == 24_590 + 360_000)
         #expect(preview.rows[2].installments == 10)
         #expect(preview.rows[2].status == .pendingToPay)
-        #expect(preview.rows[0].tags == ["Casa"])
+        #expect(preview.rows[0].tags == ["Housing"])
     }
 
     @Test func readsTheExportedFormatAndQuotes() throws {
@@ -37,7 +37,7 @@ struct SpreadsheetParserTests {
         #expect(preview.rows.first?.money.minorUnits == 123_456)
         #expect(preview.rows.first?.kind == .income)
         #expect(preview.rows.first?.status == .settled)
-        #expect(preview.rows.first?.category == "Outros")
+        #expect(preview.rows.first?.category == "Other")
         #expect(calendar.component(.month, from: preview.rows.first?.date ?? .distantPast) == 10)
     }
 
@@ -57,7 +57,7 @@ struct SpreadsheetParserTests {
 
     @Test func newNamesIgnoreCaseAndAccents() {
         let preview = SpreadsheetParser.parse(SpreadsheetParser.template, calendar: calendar)
-        #expect(preview.newCategories(existing: ["mercado", "TECNOLOGIA"]) == ["Trabalho"])
-        #expect(preview.newTags(existing: ["casa"]).isEmpty)
+        #expect(preview.newCategories(existing: ["groceries", "TECHNOLOGY"]) == ["Work"])
+        #expect(preview.newTags(existing: ["housing"]).isEmpty)
     }
 }

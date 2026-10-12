@@ -88,7 +88,7 @@ private struct GuideTopBar: View {
     var body: some View {
         ZStack {
             HStack(spacing: .spaceXS) {
-                ForEach(0..<count, id: \.self) { step in
+                ForEach(0..<max(count, 0), id: \.self) { step in
                     Capsule()
                         .fill(
                             step == index
@@ -98,8 +98,9 @@ private struct GuideTopBar: View {
                 }
             }
             .accessibilityHidden(true)
+            .opacity(count > 1 ? 1 : 0)
             if let back {
-                Button("Voltar", systemImage: "chevron.left", action: back)
+                Button("Back", systemImage: "chevron.left", action: back)
                     .labelStyle(.iconOnly)
                     .buttonBorderShape(.circle)
                     .buttonStyle(.bordered)

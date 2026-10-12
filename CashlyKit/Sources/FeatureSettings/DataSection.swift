@@ -7,6 +7,7 @@ struct DataSection: View {
     @Environment(\.showGuide) private var showGuide
     @Environment(\.featureFlags) private var flags
     @Environment(\.appTint) private var appTint
+    @Environment(\.pro) private var pro
 
     var body: some View {
         @Bindable var data = data
@@ -15,41 +16,38 @@ struct DataSection: View {
                 Button {
                     Task { await data.prepareExport() }
                 } label: {
-                    IconRow("Exportar backup", symbol: "square.and.arrow.up", color: appTint)
+                    IconRow("Export Backup", symbol: "square.and.arrow.up", color: appTint)
                 }
                 Button {
                     Task { await data.prepareExport(as: .commaSeparatedText) }
                 } label: {
-                    IconRow("Exportar planilha (CSV)", symbol: "tablecells", color: .companion)
+                    IconRow("Export Spreadsheet (CSV)", symbol: "tablecells", color: .companion)
                 }
                 Button {
-                    data.startBackupImport()
+                    pro.perform { data.startBackupImport() }
                 } label: {
-                    IconRow("Importar backup", symbol: "square.and.arrow.down", color: appTint)
+                    IconRow("Import Backup", symbol: "square.and.arrow.down", color: appTint)
                 }
                 if let showGuide, flags?.isOn(.spreadsheetImport) != false {
                     Button {
-                        showGuide(.importSpreadsheet)
+                        pro.perform { showGuide(.importSpreadsheet) }
                     } label: {
                         IconRow(
-                            "Importar planilha (CSV)", symbol: "tablecells.badge.ellipsis",
+                            "Import Spreadsheet (CSV)", symbol: "tablecells.badge.ellipsis",
                             color: .companion)
                     }
                 }
                 if data.isWorking { ProgressView() }
             } header: {
-                Text("Exportar e importar")
+                Text("Export and Import")
             } footer: {
                 Text(
-                    "O backup é um arquivo com usuários, categorias, tags, orçamentos e transações. Importar adiciona os registros do arquivo aos que já estão no aparelho. A planilha traz só as transações."
+                    "A backup is a file with users, categories, tags, budgets and transactions. Importing adds the file's records to the ones already on this device. The spreadsheet has transactions only."
                 )
             }
-            Section {
-                Toggle("Backup automático", isOn: $data.autoBackupToggle)
-                    .tint(.positive)
-            } footer: {
-                Text(data.autoBackupFooter)
-            }
+            BackupScheduleSection()
+            BackupCloudSection()
+            SavedBackupsSection()
             EraseSection()
         }
         .disabled(data.isWorking)
@@ -59,13 +57,30 @@ struct DataSection: View {
             onCompletion: data.finishExport
         )
         .sheet(isPresented: $data.isRestoringBackup) { BackupImportScreen().environment(data) }
-        .alert("Dados", isPresented: $data.isShowingMessage) {
-        } message: {
-            Text(data.message ?? "")
-        }
-        .alert("Não foi possível concluir", isPresented: $data.isShowingError) {
-        } message: {
-            Text(data.error?.localizedDescription ?? "")
-        }
+        .dataAlerts()
+        .task { await data.loadBackups() }
+    }
+}
+
+struct DataAlerts: ViewModifier {
+    @Environment(DataModel.self) private var data
+
+    func body(content: Content) -> some View {
+        @Bindable var data = data
+        content
+            .alert("Data", isPresented: $data.isShowingMessage) {
+            } message: {
+                Text(data.message ?? "")
+            }
+            .alert("Couldn't complete", isPresented: $data.isShowingError) {
+            } message: {
+                Text(data.error?.localizedDescription ?? "")
+            }
+    }
+}
+
+extension View {
+    func dataAlerts() -> some View {
+        modifier(DataAlerts())
     }
 }

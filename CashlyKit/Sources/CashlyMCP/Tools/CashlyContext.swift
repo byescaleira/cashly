@@ -6,6 +6,7 @@ public enum ImportOutcome: Sendable {
     case imported(Int)
     case declined
     case waiting
+    case locked
 }
 
 public protocol TransactionImporting: Sendable {

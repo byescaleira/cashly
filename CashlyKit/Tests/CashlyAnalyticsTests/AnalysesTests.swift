@@ -58,7 +58,7 @@ struct AnalysesTests {
                     [transaction("a", 10_000, day: 2), transaction("b", 20_000, day: 9)],
                     budget: 50_000)))
         #expect(result.metric("projected")?.value == 930)
-        #expect(result.summary.contains("passa"))
+        #expect(result.summary.contains("over plan"))
         #expect(result.provenance.confidence == .medium)
     }
 

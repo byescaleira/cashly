@@ -29,6 +29,6 @@ struct TransactionFilterTests {
         var filter = TransactionFilter()
         #expect(filter.periodTitle == Date.now.formatted(.dateTime.month(.wide).year()))
         filter.isFilteringByDate = false
-        #expect(filter.periodTitle == "Todos os dados")
+        #expect(filter.periodTitle == "All data")
     }
 }

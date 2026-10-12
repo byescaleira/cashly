@@ -23,7 +23,7 @@ public final class DashboardModel {
         public let share: Double
 
         public var detail: String {
-            "\(category) · \(date.formatted(.dateTime.day().month(.abbreviated)))"
+            "\(category) · \(date.formatted(.dateTime.day().month(.abbreviated).locale(.app)))"
         }
     }
 

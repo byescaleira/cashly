@@ -18,15 +18,16 @@ public final class GoalsModel {
 
         var title: String {
             switch self {
-            case .category(let category): "Apagar \(category.name)?"
-            case .budget(let budget): "Apagar orçamento de \(budget.category.name)?"
+            case .category(let category): String(appLocalized: "Delete \(category.name)?")
+            case .budget(let budget):
+                String(appLocalized: "Delete the \(budget.category.name) budget?")
             }
         }
 
         var message: String {
             switch self {
-            case .category: "A categoria e os orçamentos dela serão apagados."
-            case .budget: "Só o orçamento é apagado; as transações continuam."
+            case .category: String(appLocalized: "The category and its budgets will be deleted.")
+            case .budget: String(appLocalized: "Only the budget is deleted; the transactions stay.")
             }
         }
     }
@@ -57,7 +58,9 @@ public final class GoalsModel {
 
     public func caption(for category: CashlyDomain.Category) -> String {
         let planned = finance.budgetsAmount(for: category)
-        return planned > 0 ? "Orçamento de \(planned.formatted(.appCurrency))" : "Sem orçamento"
+        return planned > 0
+            ? String(appLocalized: "\(planned.formatted(.appCurrency)) planned")
+            : String(appLocalized: "No budget")
     }
 
     public var isConfirmingDeletion: Bool {

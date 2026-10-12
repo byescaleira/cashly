@@ -4,7 +4,7 @@ import SwiftUI
 extension View {
     public func errorAlert(_ error: Binding<CashlyError?>) -> some View {
         alert(
-            "Não foi possível concluir",
+            "Couldn't complete",
             isPresented: Binding(
                 get: { error.wrappedValue != nil }, set: { if !$0 { error.wrappedValue = nil } })
         ) {

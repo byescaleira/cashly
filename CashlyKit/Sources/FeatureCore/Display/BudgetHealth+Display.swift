@@ -5,23 +5,30 @@ import SwiftUI
 extension BudgetHealth.Level {
     public var title: String {
         switch self {
-        case .critical: "Crítico"
-        case .atRisk: "Em risco"
-        case .overBudget: "Acima do orçamento"
-        case .healthy: "Saudável"
+        case .critical: String(appLocalized: "Critical")
+        case .atRisk: String(appLocalized: "At risk")
+        case .overBudget: String(appLocalized: "Over budget")
+        case .healthy: String(appLocalized: "Healthy")
         }
     }
 
     public var summary: String {
         switch self {
         case .critical:
-            "Os gastos estão muito acima do planejado. É preciso agir agora para retomar o controle."
+            String(appLocalized: "Spending is far above plan. Act now to get back in control.")
         case .atRisk:
-            "Os gastos passaram do orçamento. Corte despesas não essenciais e acompanhe o caixa de perto para não piorar."
+            String(
+                appLocalized:
+                    "Spending went over budget. Cut non-essential expenses and keep a close eye on your cash so it doesn't get worse."
+            )
         case .overBudget:
-            "Você ultrapassou o orçamento planejado. Ajuste os gastos e priorize o essencial para retomar o controle."
+            String(
+                appLocalized:
+                    "You went over the planned budget. Adjust spending and focus on the essentials to get back in control."
+            )
         case .healthy:
-            "Ótimo! Você está dentro do orçamento e cuidando bem das finanças."
+            String(
+                appLocalized: "Great! You're within budget and taking good care of your finances.")
         }
     }
 

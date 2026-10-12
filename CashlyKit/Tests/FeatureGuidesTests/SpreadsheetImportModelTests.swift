@@ -12,7 +12,8 @@ struct SpreadsheetImportModelTests {
         let database = try CashlyDatabase.open(inMemory: true)
         try await database.repositories(for: nil).users.save(owner)
         try await database.repositories(for: owner.id).categories.save(
-            Category(id: "market", user: owner, name: "Mercado", color: "C2602A", icon: "cart.fill")
+            Category(
+                id: "market", user: owner, name: "Groceries", color: "C2602A", icon: "cart.fill")
         )
         let session = SessionModel(provider: database, preference: .disabled)
         await session.refreshUsers()
@@ -24,8 +25,8 @@ struct SpreadsheetImportModelTests {
         await model.load(SpreadsheetParser.template, fileName: "modelo.csv")
         #expect(model.step == .review)
         #expect(model.preview?.rows.count == 3)
-        #expect(model.newCategories == ["Trabalho", "Tecnologia"])
-        #expect(model.newTags == ["Casa"])
+        #expect(model.newCategories == ["Work", "Technology"])
+        #expect(model.newTags == ["Housing"])
         #expect(model.canImport)
     }
 
@@ -36,8 +37,8 @@ struct SpreadsheetImportModelTests {
         #expect(model.step == .done)
         #expect(model.imported == 3)
         let snapshot = try await database.repositories(for: owner.id).dashboard.snapshot(month: nil)
-        #expect(Set(snapshot.categories.map(\.name)) == ["Mercado", "Trabalho", "Tecnologia"])
-        #expect(snapshot.tags.map(\.name) == ["Casa"])
+        #expect(Set(snapshot.categories.map(\.name)) == ["Groceries", "Work", "Technology"])
+        #expect(snapshot.tags.map(\.name) == ["Housing"])
         #expect(
             try await database.repositories(for: owner.id).dashboard.trainingData().transactions
                 .count == 3)

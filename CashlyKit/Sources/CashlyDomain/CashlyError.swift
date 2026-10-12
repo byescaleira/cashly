@@ -9,12 +9,12 @@ public enum CashlyError: Error, LocalizedError, Equatable, Sendable {
 
     public var errorDescription: String? {
         switch self {
-        case .onFetch: "Não foi possível carregar os dados. Tente novamente."
-        case .onSave: "Não foi possível salvar. Confira os campos e tente novamente."
-        case .onRemove: "Não foi possível excluir. Verifique os registros vinculados."
+        case .onFetch: String(appLocalized: "Couldn't load the data. Try again.")
+        case .onSave: String(appLocalized: "Couldn't save. Check the fields and try again.")
+        case .onRemove: String(appLocalized: "Couldn't delete. Check the linked records.")
         case .invalidInput(let message), .persistence(let message), .intelligence(let message):
             message
-        case .missingRecord: "O registro não existe mais. Atualize a lista."
+        case .missingRecord: String(appLocalized: "This record no longer exists. Refresh the list.")
         }
     }
 }

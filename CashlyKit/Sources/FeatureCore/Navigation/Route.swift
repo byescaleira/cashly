@@ -9,4 +9,12 @@ public enum Route: Hashable {
     case addTag(id: String?)
     case budgets
     case budgetConflict(categoryID: String, month: YearMonth)
+    case shop
+
+    public var requiresPro: Bool {
+        switch self {
+        case .addUser, .addCategory, .addBudget, .addTransaction, .addTag: true
+        case .budgets, .budgetConflict, .shop: false
+        }
+    }
 }

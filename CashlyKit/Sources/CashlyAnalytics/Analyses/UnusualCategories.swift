@@ -3,9 +3,9 @@ import Foundation
 
 public struct UnusualCategories: Analysis {
     public static let id: AnalysisID = "unusual-categories"
-    public static let title = "Fora do padrão"
+    public static let title = "Out of the ordinary"
     public static let detail =
-        "Categorias com gasto bem acima do normal para este ponto do mês."
+        "Categories with spending well above usual for this point of the month."
     public static let version = 2
 
     private let minimumGap: Int64 = 5_000
@@ -42,16 +42,17 @@ public struct UnusualCategories: Analysis {
         guard let first = points.first else { return nil }
         let summary =
             points.count == 1
-            ? "\(first.label) está acima do normal para este ponto do mês."
-            : "\(points.count) categorias estão acima do normal para este ponto do mês."
+            ? "\(first.label) is above usual for this point of the month."
+            : "\(points.count) categories are above usual for this point of the month."
         return result(
             ledger, summary: summary,
             metrics: [
                 Metric(
-                    key: "count", label: "Categorias", value: Double(points.count), unit: .count)
+                    key: "count", label: "Categories", value: Double(points.count), unit: .count)
             ],
             series: Array(points.prefix(3)),
-            method: "Gasto até hoje comparado à mediana dos últimos meses, com z-score robusto",
+            method:
+                "Spending to date compared with the median of recent months, using a robust z-score",
             confidence: previous.count >= 5 ? .high : .medium)
     }
 }

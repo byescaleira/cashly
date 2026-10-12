@@ -38,6 +38,9 @@ struct MockModifier: ViewModifier {
                     path: UUID().uuidString)
                 let intelligence = LocalIntelligenceService(directory: directory)
                 settings.data = DataModel(backup: database.backup, intelligence: intelligence)
+                settings.developer = DeveloperModel(storeURL: nil) {
+                    try await SampleDatabase.seed(database)
+                }
                 window = CashlyWindow(
                     provider: database, intelligence: intelligence, preference: .disabled)
             } catch is CancellationError {} catch { self.error = error.localizedDescription }

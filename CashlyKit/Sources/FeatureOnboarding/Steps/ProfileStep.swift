@@ -9,8 +9,8 @@ struct ProfileStep: View {
     var body: some View {
         @Bindable var model = model
         GuidePage(
-            title: "Como podemos te chamar?",
-            message: "Seu perfil separa as suas finanças das de outras pessoas da casa."
+            title: "What Should We Call You?",
+            message: "Your profile keeps your finances separate from other people at home."
         ) {
             CashlyResourceImage.avatar(id: model.photo)
                 .resizable()
@@ -18,7 +18,7 @@ struct ProfileStep: View {
                 .frame(width: 140, height: 140)
                 .background(.subtleFill, in: .circle)
                 .overlay(alignment: .bottomTrailing) {
-                    Button("Trocar foto", systemImage: "arrow.triangle.2.circlepath") {
+                    Button("Change Photo", systemImage: "arrow.triangle.2.circlepath") {
                         withAnimation(.bouncy) { model.shufflePhoto() }
                     }
                     .labelStyle(.iconOnly)
@@ -27,7 +27,7 @@ struct ProfileStep: View {
                 }
                 .contentTransition(.opacity)
         } content: {
-            TextField("Seu nome", text: $model.name)
+            TextField("Your Name", text: $model.name)
                 .textContentType(.givenName)
                 .submitLabel(.next)
                 .onSubmit { Task { await model.advance() } }

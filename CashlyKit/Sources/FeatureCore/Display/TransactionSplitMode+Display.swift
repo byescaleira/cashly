@@ -3,19 +3,20 @@ import CashlyDomain
 extension TransactionSplitMode {
     public var summary: String {
         switch self {
-        case .equal: "Igual"
-        case .fixedAmount: "Valor fixo"
-        case .percentage: "Porcentagem"
-        case .payerBased: "Quem pagou"
+        case .equal: String(appLocalized: "Equal")
+        case .fixedAmount: String(appLocalized: "Fixed amount")
+        case .percentage: String(appLocalized: "Percentage")
+        case .payerBased: String(appLocalized: "Who paid")
         }
     }
 
     public var description: String {
         switch self {
-        case .equal: "Divide o total igualmente entre todos os participantes."
-        case .fixedAmount: "Define um valor fixo para cada participante."
-        case .percentage: "Distribui o total por porcentagem."
-        case .payerBased: "Uma pessoa paga o valor inteiro e as outras ficam devendo."
+        case .equal: String(appLocalized: "Splits the total equally among all participants.")
+        case .fixedAmount: String(appLocalized: "Sets a fixed amount for each participant.")
+        case .percentage: String(appLocalized: "Splits the total by percentage.")
+        case .payerBased:
+            String(appLocalized: "One person pays the full amount and the others owe them.")
         }
     }
 }

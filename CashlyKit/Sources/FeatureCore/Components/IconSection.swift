@@ -21,7 +21,7 @@ public struct IconSection: View {
                 }
             }
         } header: {
-            Text("Ícone").sectionTitle()
+            Text("Icon").sectionTitle()
         }
     }
 }
@@ -51,13 +51,14 @@ private struct IconPickerScreen: View {
                 if results.isEmpty { ContentUnavailableView.search(text: query) }
             }
             #if os(macOS)
-                .searchable(text: $query, prompt: "Buscar ícone")
+                .searchable(text: $query, prompt: "Search icons")
             #else
                 .searchable(
                     text: $query, placement: .navigationBarDrawer(displayMode: .always),
-                    prompt: "Buscar ícone")
+                    prompt: "Search icons")
             #endif
-            .navigationTitle("Ícone")
+            .readableWidth()
+            .navigationTitle("Icon")
             .onAppear {
                 if let category = SymbolCategory.containing(icon) {
                     proxy.scrollTo(category, anchor: .center)

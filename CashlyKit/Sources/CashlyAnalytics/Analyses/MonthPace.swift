@@ -3,9 +3,9 @@ import Foundation
 
 public struct MonthPace: Analysis {
     public static let id: AnalysisID = "month-pace"
-    public static let title = "Previsão do mês"
+    public static let title = "Month forecast"
     public static let detail =
-        "Em quanto o mês deve fechar: o que já saiu, as contas já agendadas e o que você costuma gastar até o fim do mês."
+        "Where the month should close: what already went out, scheduled bills and what you usually spend until the end of the month."
     public static let version = 3
 
     public init() {}
@@ -23,7 +23,7 @@ public struct MonthPace: Analysis {
         if history.isEmpty {
             typicalRest = Int64(
                 (Double(spent) / Double(day) * Double(month.dayCount - day)).rounded())
-            method = "Gasto até hoje dividido pelos dias passados, vezes os dias que faltam"
+            method = "Spending to date divided by days elapsed, times the days left"
         } else {
             let left = month.dayCount - day
             let rests = history.map {
@@ -33,26 +33,26 @@ public struct MonthPace: Analysis {
             }
             typicalRest = Int64((Statistics.median(rests) ?? 0).rounded())
             method =
-                "Gasto até hoje + mediana do que saiu nos mesmos últimos dias dos meses anteriores"
+                "Spending to date + median of what went out in the same last days of previous months"
         }
         let remaining = max(scheduled, typicalRest)
         let projected = spent + remaining
         let budgeted = ledger.budgeted(in: month)
         var metrics: [Metric] = [
-            .money("spent", "Já gasto", minorUnits: spent),
-            .money("remaining", "Ainda deve sair", minorUnits: remaining),
-            .money("scheduled", "Contas agendadas", minorUnits: scheduled),
-            .money("projected", "Previsão do mês", minorUnits: projected),
-            Metric(key: "elapsedDays", label: "Dias passados", value: Double(day), unit: .days),
+            .money("spent", "Already spent", minorUnits: spent),
+            .money("remaining", "Still to go out", minorUnits: remaining),
+            .money("scheduled", "Scheduled bills", minorUnits: scheduled),
+            .money("projected", "Month forecast", minorUnits: projected),
+            Metric(key: "elapsedDays", label: "Days elapsed", value: Double(day), unit: .days),
         ]
-        var summary = "O mês deve fechar em \(Formatting.money(projected))."
+        var summary = "The month should close at \(Formatting.money(projected))."
         if budgeted > 0 {
-            metrics.append(.money("budgeted", "Planejado", minorUnits: budgeted))
+            metrics.append(.money("budgeted", "Planned", minorUnits: budgeted))
             let difference = projected - budgeted
             summary +=
                 difference > 0
-                ? " Isso passa \(Formatting.money(difference)) do planejado."
-                : " Ainda sobram \(Formatting.money(-difference)) do planejado."
+                ? " That's \(Formatting.money(difference)) over plan."
+                : " \(Formatting.money(-difference)) of the plan is still left."
         }
         let confidence: Provenance.Confidence =
             history.count >= 3 ? .high : history.isEmpty ? (day < 10 ? .low : .medium) : .medium

@@ -1,4 +1,5 @@
 import CashlyDesignSystem
+import CashlyDomain
 import SwiftUI
 
 struct TransactionDateSection: View {
@@ -8,7 +9,8 @@ struct TransactionDateSection: View {
         @Bindable var model = model
         Section {
             DatePicker(
-                model.draft.date.formatted(.dateTime.weekday(.wide)), selection: $model.draft.date,
+                model.draft.date.formatted(.dateTime.weekday(.wide).locale(.app)),
+                selection: $model.draft.date,
                 displayedComponents: [.date, .hourAndMinute]
             )
             .datePickerStyle(.compact)

@@ -15,7 +15,7 @@ O que o Cashly pode ganhar depois da reestruturação, com a assinatura como eix
 - **Lembretes:** de vencimento.
 - **Ajustes:** ícones alternativos e tema.
 
-**Ainda não usa:** StoreKit, App Intents, WidgetKit, ActivityKit, TipKit, Foundation Models, LocalAuthentication nem Core Spotlight.
+**Ainda não usa:** App Intents, WidgetKit, ActivityKit, Foundation Models, LocalAuthentication nem Core Spotlight. StoreKit 2 e TipKit entraram na fase 8.
 
 **Lacunas de produto:**
 - contas e cartões (com fatura);
@@ -32,6 +32,7 @@ Teste grátis e depois pago: tudo liberado no período de teste e, depois, o app
 - **Teste grátis de 7 dias:** oferta introdutória do StoreKit nos dois planos. A Apple controla a elegibilidade (uma vez por Apple ID no grupo de assinatura) e a cobrança começa sozinha no fim do teste, a menos que a pessoa cancele.
 - **Depois que expira:** os dados continuam visíveis em modo leitura, e exportar (JSON e CSV) segue liberado. Registrar, editar e os recursos avançados pedem a assinatura. Prender os dados da pessoa gera avaliação ruim e risco na revisão.
 - **Sem limite artificial durante o teste:** a pessoa vê o app inteiro, inclusive IA, widgets e relatórios.
+- **Itens da loja são à parte:** o que for comprado na loja da Jornada continua da pessoa com ou sem assinatura. Sem o Pro, a Jornada só pausa.
 
 ### Planos
 
@@ -84,10 +85,7 @@ Teste grátis e depois pago: tudo liberado no período de teste e, depois, o app
   - definir o primeiro orçamento.
   - Opção "Explorar com dados de exemplo" (o `SampleData` já existe).
   - As permissões são pedidas no momento de uso; a de notificações, por exemplo, só ao ligar um lembrete.
-- **TipKit:**
-  - dicas contextuais: deslizar para marcar como pago, usar a Siri, adicionar o widget, dividir um gasto, buscar;
-  - regras `#Rule` por evento (por exemplo, sugerir o Atalho depois da 5ª transação manual);
-  - status das dicas sincronizado pelo iCloud.
+- **TipKit** (feito na fase 8.6): dicas contextuais com regras por evento (`CashlyTips.transactionSaved`, `journeyOpened`) e parâmetros, no máximo uma por dia, estado sincronizado pelo iCloud. Dicas de Siri e widgets entram com a fase 9.
 - **Ajuda no app:** perguntas frequentes locais e a tela de Novidades, que já existe.
 
 ## 3. Integrações com o sistema
@@ -129,23 +127,9 @@ Fora de alcance sem servidor:
 - **Patrimônio:** saldos de investimentos informados à mão (sem cotação) e evolução do patrimônio líquido.
 - **Dívidas:** plano bola de neve ou avalanche, com data de quitação.
 
-## 5. Gamificação
+## 5. Jornada e loja
 
-**Pré-requisito:** eventos de negócio duráveis (backlog). Hoje o `CashlyChangeHub` só invalida a tela.
-
-- **Sequência** de dias com registro, com um "congelamento" por semana.
-- **Conquistas locais**, por exemplo:
-  - primeiro orçamento;
-  - mês inteiro dentro do orçamento;
-  - 30 dias seguidos;
-  - primeira meta concluída;
-  - reserva de emergência completa.
-- **Desafios mensais** que a pessoa escolhe (semana sem delivery, 52 semanas, teto de lazer).
-- **Evolução da pontuação de saúde** (já existe, de 200 a 1.000) com histórico e próximos passos.
-- **Celebração discreta:** efeitos de SF Symbols e `sensoryFeedback` ao fechar o mês no azul.
-- **Privacidade:**
-  - tudo fica no aparelho, e pode ser desligado nos Ajustes;
-  - Game Center não é recomendado, porque exporia hábitos financeiros.
+Gamificação (nível, sequência, conquistas, desafios e missões) e a loja de itens comprados com dinheiro real ficam na aba Jornada. Regras, catálogo, preços e construção estão em [gamification.md](gamification.md). Antecipada para a fase 8 em 12/10/2026, junto com a assinatura.
 
 ## 6. Conteúdo e investimentos
 
@@ -187,9 +171,9 @@ Pequenas surpresas que reforçam a identidade retrô sem atrapalhar o uso. Todas
 
 | Fase | Entrega | Por quê |
 | --- | --- | --- |
-| 8 | **Assinatura:** `EntitlementProviding`, `FeatureStore` com paywall e teste grátis, modo leitura após expirar, Ajustes > Cashly Pro, onboarding, TipKit | É a prioridade e vai ao ar com o primeiro lançamento |
+| 8 | **Jornada, loja e Cashly Pro:** motor de gamificação e eventos duráveis, aba Jornada, StoreKit com itens e planos, paywall com teste grátis, modo leitura após expirar, Ajustes › Cashly Pro, onboarding, TipKit (etapas em [gamification.md](gamification.md)) | É a prioridade e vai ao ar com o primeiro lançamento |
 | 9 | **Captura rápida:** App Group, composição compartilhada, App Intents, automação do Wallet, Central de Controle, widgets, notificações com ação, Face ID e modo discreto | Registrar rápido é o que mantém a pessoa no app depois do teste |
 | 10 | **Finanças essenciais:** recorrências, metas, acerto de contas com Pix | Fecha as lacunas que concorrentes já cobrem |
 | 11 | **Inteligência:** Foundation Models (texto livre, resumo, perguntas), comprovante, relatório em PDF, Live Activities | Diferencial que justifica o preço |
-| 12 | **Engajamento:** gamificação, conteúdo, calculadoras, dicas pelos dados, easter eggs | Retenção e renovação |
+| 12 | **Engajamento:** conteúdo e calculadoras (que entram na loja como itens), dicas pelos dados, easter eggs | Retenção e renovação |
 | 13 | **Expansão:** contas e cartões com fatura, orçamento compartilhado, importação OFX, Apple Watch, Mac na barra de menus | Maior esforço e risco de domínio |

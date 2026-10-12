@@ -7,9 +7,9 @@ struct BudgetSummarySection: View {
     var body: some View {
         @Bindable var model = model
         Section {
-            TextField("Descreva este orçamento", text: $model.draft.summary, axis: .vertical)
+            TextField("Describe this budget", text: $model.draft.summary, axis: .vertical)
         } header: {
-            Text("Descrição").sectionTitle()
+            Text("Description").sectionTitle()
         }
     }
 }

@@ -26,7 +26,7 @@ public struct BudgetsScreen: View {
             ToolbarItem { FilterMenu() }
             FixedToolbarSpacer()
             ToolbarItem {
-                Button("Novo orçamento", systemImage: "plus") {
+                Button("New Budget", systemImage: "plus") {
                     open(
                         .addBudget(id: nil, categoryID: nil, date: session.filter.startDate),
                         in: section)
@@ -38,7 +38,7 @@ public struct BudgetsScreen: View {
         .deletionDialog(goals)
         .errorAlert($goals.error)
         .refreshable { await finance.load() }
-        .navigationTitle("Orçamentos")
+        .navigationTitle("Budgets")
     }
 }
 
@@ -50,26 +50,47 @@ struct BudgetsSummarySection: View {
         Section {
             BudgetsOverviewCard(overview: overview)
             if let daily = overview.dailyAllowance, let days = overview.daysLeft {
-                LabeledContent {
-                    Text("\(daily.formatted(.appCurrency)) por dia")
-                        .fontWeight(.semibold)
-                        .foregroundStyle(Color.positive)
-                } label: {
-                    Text("Dá para gastar")
-                    Text("nos próximos \(days) dias")
-                }
+                SummaryRow(
+                    symbol: "calendar", color: .positive, title: "You can spend",
+                    detail: "over the next \(days) days",
+                    value: "\(daily.formatted(.appCurrency)) per day",
+                    valueColor: .positive)
             }
             if overview.unbudgeted > 0 {
-                LabeledContent {
-                    Text(overview.unbudgeted.formatted(.appCurrency)).fontWeight(.semibold)
-                } label: {
-                    Text("Fora dos orçamentos")
-                    Text("gasto em categorias sem orçamento")
-                }
+                SummaryRow(
+                    symbol: "questionmark.folder", color: .secondary, title: "Outside budgets",
+                    detail: "spent in categories without a budget",
+                    value: "\(overview.unbudgeted.formatted(.appCurrency))", valueColor: .primary)
             }
         } header: {
-            Text("Resumo do mês").sectionTitle()
+            BudgetsOverviewHeader(title: "Month Summary", overview: overview)
         }
+    }
+}
+
+private struct SummaryRow: View {
+    let symbol: String
+    let color: Color
+    let title: LocalizedStringKey
+    let detail: LocalizedStringKey
+    let value: LocalizedStringKey
+    let valueColor: Color
+
+    var body: some View {
+        HStack(spacing: .spaceM) {
+            SymbolBadge(symbol, color: color, size: .badgeM)
+            VStack(alignment: .leading, spacing: .spaceHairline) {
+                HStack(alignment: .firstTextBaseline, spacing: .spaceS) {
+                    Text(title).font(.rowTitle).frame(maxWidth: .infinity, alignment: .leading)
+                    Text(value)
+                        .font(.callout.weight(.semibold))
+                        .foregroundStyle(valueColor)
+                        .amountLine()
+                }
+                Text(detail).font(.footnote).foregroundStyle(.secondary)
+            }
+        }
+        .accessibilityElement(children: .combine)
     }
 }
 
@@ -106,14 +127,14 @@ struct UnbudgetedSection: View {
                             .background(color.opacity(.opacityFill), in: .capsule)
                         }
                         .buttonStyle(.plain)
-                        .accessibilityLabel("Criar orçamento de \(category.name)")
+                        .accessibilityLabel("Create a \(category.name) budget")
                     }
                 }
                 .padding(.vertical, .space2XS)
             } header: {
-                Text("Sem orçamento").sectionTitle()
+                Text("No Budget").sectionTitle()
             } footer: {
-                Text("Toque numa categoria para definir quanto quer gastar nela neste mês.")
+                Text("Tap a category to set how much you want to spend on it this month.")
             }
         }
     }

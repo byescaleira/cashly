@@ -60,6 +60,7 @@ public struct ExampleRow: View {
 }
 
 public struct ExampleBar: View {
+    @Environment(\.locale) private var locale
     private let title: String
     private let detail: String?
     private let ratio: Double
@@ -77,9 +78,11 @@ public struct ExampleBar: View {
             HStack(alignment: .firstTextBaseline) {
                 Text(title).font(.subheadline.weight(.semibold))
                 Spacer()
-                Text(detail ?? ratio.formatted(.percent.precision(.fractionLength(0))))
-                    .font(.subheadline.weight(.bold))
-                    .foregroundStyle(color)
+                Text(
+                    detail ?? ratio.formatted(.percent.precision(.fractionLength(0)).locale(locale))
+                )
+                .font(.subheadline.weight(.bold))
+                .foregroundStyle(color)
             }
             .lineLimit(1)
             ProgressView(value: min(ratio, 1)).tint(color)
@@ -111,61 +114,5 @@ public struct ExampleHeadline: View {
             }
         }
         .frame(maxWidth: .infinity)
-    }
-}
-
-public struct ExampleDone: View {
-    private let value: String
-    private let detail: String
-
-    public init(value: String, detail: String) {
-        self.value = value
-        self.detail = detail
-    }
-
-    public var body: some View {
-        GuideExample {
-            VStack(spacing: .spaceXS) {
-                Chip("CONCLUÍDO", color: .positive)
-                Text(value)
-                    .font(.amountHero)
-                    .foregroundStyle(Color.positive)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.6)
-                Text(detail).font(.subheadline).foregroundStyle(.secondary)
-            }
-            .multilineTextAlignment(.center)
-            .frame(maxWidth: .infinity)
-        }
-    }
-}
-
-public struct ExampleFile: View {
-    private let name: String
-    private let detail: String
-    private let kind: String
-
-    public init(_ name: String, detail: String, kind: String) {
-        self.name = name
-        self.detail = detail
-        self.kind = kind
-    }
-
-    public var body: some View {
-        GuideExample {
-            HStack(spacing: .spaceM) {
-                Text(kind)
-                    .font(.caption.weight(.black))
-                    .foregroundStyle(Color.retroTeal)
-                    .frame(width: 46, height: 56)
-                    .background(
-                        Color.retroTeal.opacity(.opacityTint), in: .rect(cornerRadius: .radiusS))
-                VStack(alignment: .leading, spacing: .spaceHairline) {
-                    Text(name).font(.headline).lineLimit(1)
-                    Text(detail).font(.subheadline).foregroundStyle(.secondary)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-            }
-        }
     }
 }

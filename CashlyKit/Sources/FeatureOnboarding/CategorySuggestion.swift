@@ -13,16 +13,16 @@ public enum CategorySuggestion: String, CaseIterable, Identifiable, Sendable {
 
     public var name: String {
         switch self {
-        case .groceries: "Mercado"
-        case .restaurants: "Restaurantes"
-        case .transport: "Transporte"
-        case .home: "Casa"
-        case .bills: "Contas"
-        case .health: "Saúde"
-        case .leisure: "Lazer"
-        case .education: "Educação"
-        case .shopping: "Compras"
-        case .pets: "Pets"
+        case .groceries: String(appLocalized: "Groceries")
+        case .restaurants: String(appLocalized: "Restaurants")
+        case .transport: String(appLocalized: "Transport")
+        case .home: String(appLocalized: "Housing")
+        case .bills: String(appLocalized: "Bills")
+        case .health: String(appLocalized: "Health")
+        case .leisure: String(appLocalized: "Leisure")
+        case .education: String(appLocalized: "Education")
+        case .shopping: String(appLocalized: "Shopping")
+        case .pets: String(appLocalized: "Pets")
         }
     }
 

@@ -46,6 +46,36 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CashlyGameTests"
+               BuildableName = "CashlyGameTests"
+               BlueprintName = "CashlyGameTests"
+               ReferencedContainer = "container:CashlyKit">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FeatureJourneyTests"
+               BuildableName = "FeatureJourneyTests"
+               BlueprintName = "FeatureJourneyTests"
+               ReferencedContainer = "container:CashlyKit">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FeatureStoreTests"
+               BuildableName = "FeatureStoreTests"
+               BlueprintName = "FeatureStoreTests"
+               ReferencedContainer = "container:CashlyKit">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "CashlyMCPTests"
                BuildableName = "CashlyMCPTests"
                BlueprintName = "CashlyMCPTests"
@@ -149,16 +179,6 @@
                BlueprintIdentifier = "FeatureSettingsTests"
                BuildableName = "FeatureSettingsTests"
                BlueprintName = "FeatureSettingsTests"
-               ReferencedContainer = "container:CashlyKit">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FeatureSearchTests"
-               BuildableName = "FeatureSearchTests"
-               BlueprintName = "FeatureSearchTests"
                ReferencedContainer = "container:CashlyKit">
             </BuildableReference>
          </TestableReference>

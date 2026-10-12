@@ -35,10 +35,10 @@ struct ComparisonChart: View {
 
     private func bar(_ point: ComparisonPoint, value: Double, series: String) -> some ChartContent {
         BarMark(
-            x: .value("Categoria", point.id), y: .value("Valor", value), width: 20,
+            x: .value("Category", point.id), y: .value("Amount", value), width: 20,
             stacking: .standard
         )
-        .foregroundStyle(by: .value("Série", series))
-        .position(by: .value("Posição", series))
+        .foregroundStyle(by: .value("Series", series))
+        .position(by: .value("Position", series))
     }
 }

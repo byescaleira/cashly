@@ -13,7 +13,7 @@ struct BudgetDateSection: View {
                 selection: Binding(
                     get: { YearMonth(model.draft.date) }, set: { model.draft.date = $0.startDate }))
         } header: {
-            Text("Mês").sectionTitle()
+            Text("Month").sectionTitle()
         }
     }
 }

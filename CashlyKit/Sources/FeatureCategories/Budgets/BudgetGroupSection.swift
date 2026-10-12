@@ -1,4 +1,5 @@
 import CashlyDesignSystem
+import CashlyDomain
 import FeatureCore
 import SwiftUI
 
@@ -6,6 +7,7 @@ struct BudgetGroupSection: View {
     @Environment(GoalsModel.self) private var goals
     @Environment(\.open) private var open
     @Environment(\.navigationSection) private var section
+    @Environment(\.pro) private var pro
     let group: BudgetProgress.Group
     let items: [BudgetProgress]
 
@@ -19,18 +21,18 @@ struct BudgetGroupSection: View {
                 }
                 .tint(Color.primary)
                 .swipeActions {
-                    Button("Apagar", systemImage: "trash", role: .destructive) {
-                        goals.deletion = .budget(item.budget)
+                    Button("Delete", systemImage: "trash", role: .destructive) {
+                        pro.perform { goals.deletion = .budget(item.budget) }
                     }
                 }
                 .contextMenu {
-                    Button("Editar", systemImage: "square.and.pencil") {
+                    Button("Edit", systemImage: "square.and.pencil") {
                         open(
                             .addBudget(id: item.budget.id, categoryID: nil, date: nil), in: section)
                     }
                     Divider()
-                    Button("Apagar", systemImage: "trash", role: .destructive) {
-                        goals.deletion = .budget(item.budget)
+                    Button("Delete", systemImage: "trash", role: .destructive) {
+                        pro.perform { goals.deletion = .budget(item.budget) }
                     }
                 }
             }
@@ -64,7 +66,7 @@ struct BudgetProgressRow: View {
                 }
                 ProgressView(value: min(item.ratio, 1)).tint(item.group.color)
                 Text(
-                    "\(item.spent.formatted(.appCurrency)) de \(item.planned.formatted(.appCurrency))"
+                    "\(item.spent.formatted(.appCurrency)) of \(item.planned.formatted(.appCurrency))"
                 )
                 .font(.footnote)
                 .foregroundStyle(.secondary)
@@ -76,8 +78,8 @@ struct BudgetProgressRow: View {
 
     private var remainingText: String {
         item.remaining >= 0
-            ? "Sobram \(item.remaining.formatted(.appCurrency))"
-            : "Passou \(abs(item.remaining).formatted(.appCurrency))"
+            ? String(appLocalized: "\(item.remaining.formatted(.appCurrency)) left")
+            : String(appLocalized: "\(abs(item.remaining).formatted(.appCurrency)) over")
     }
 }
 
@@ -102,10 +104,10 @@ extension BudgetProgress.Group {
 
     func summary(count: Int) -> String {
         switch self {
-        case .over: count == 1 ? "1 passou do limite" : "\(count) passaram do limite"
-        case .attention: "\(count) perto do limite"
-        case .onTrack: "\(count) no caminho"
-        case .untouched: count == 1 ? "1 sem gastos" : "\(count) sem gastos"
+        case .over: String(appLocalized: "\(count) over the limit")
+        case .attention: String(appLocalized: "\(count) close to the limit")
+        case .onTrack: String(appLocalized: "\(count) on track")
+        case .untouched: String(appLocalized: "\(count) with no spending")
         }
     }
 }

@@ -16,7 +16,7 @@ public struct CurrencyField: View {
 
     public var body: some View {
         ZStack(alignment: alignment) {
-            TextField("", text: $digits, selection: $selection)
+            TextField("Amount", text: $digits, selection: $selection)
                 #if os(iOS)
                     .keyboardType(.numberPad)
                 #endif
@@ -53,7 +53,7 @@ public struct CurrencyField: View {
             }
         }
         .accessibilityElement()
-        .accessibilityLabel("Valor")
+        .accessibilityLabel("Amount")
         .accessibilityValue(amount.formatted(.appCurrency))
         .accessibilityAddTraits(.isButton)
         .accessibilityAction { isFocused = true }

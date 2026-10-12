@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import FeatureCore
 import SwiftUI
 
@@ -15,6 +16,7 @@ public struct TagEditorScreen: View {
             IconSection(icon: $model.draft.icon, color: model.color)
         }
         .fontDesign(.rounded)
+        .readableWidth()
         .toolbar {
             EditorActions(canSave: model.canSave, canRemove: model.canRemove) {
                 await model.save()

@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import FeatureCore
 import SwiftUI
 
@@ -13,6 +14,7 @@ public struct UserEditorScreen: View {
             AvatarSection()
         }
         .fontDesign(.rounded)
+        .readableWidth()
         .toolbar {
             EditorActions(canSave: model.canSave, canRemove: model.canRemove) {
                 await model.save()

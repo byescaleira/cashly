@@ -6,7 +6,7 @@ import Observation
 @MainActor @Observable
 public final class SpreadsheetImportModel {
     public enum Step: Int, CaseIterable, Sendable {
-        case format, file, review, done
+        case format, columns, file, review, done
     }
 
     public var step = Step.format
@@ -28,12 +28,15 @@ public final class SpreadsheetImportModel {
         self.session = session
     }
 
-    public var canGoBack: Bool { !isExternal && (step == .file || step == .review) }
+    public var canGoBack: Bool {
+        !isExternal && (step == .columns || step == .file || step == .review)
+    }
     public var canImport: Bool { !(preview?.rows.isEmpty ?? true) }
 
     public func back() {
         switch step {
-        case .file: step = .format
+        case .columns: step = .format
+        case .file: step = .columns
         case .review: step = .file
         case .format, .done: break
         }
@@ -48,10 +51,14 @@ public final class SpreadsheetImportModel {
             guard
                 let text = String(data: data, encoding: .utf8)
                     ?? String(data: data, encoding: .isoLatin1)
-            else { throw CashlyError.invalidInput("O arquivo não é um texto CSV.") }
+            else {
+                throw CashlyError.invalidInput(String(appLocalized: "This file isn't CSV text."))
+            }
             await load(text, fileName: url.lastPathComponent)
         } catch {
-            self.error = error as? CashlyError ?? .invalidInput("Não foi possível ler o arquivo.")
+            self.error =
+                error as? CashlyError
+                ?? .invalidInput(String(appLocalized: "Couldn't read the file."))
         }
     }
 
@@ -118,6 +125,10 @@ public final class SpreadsheetImportModel {
                     kind: row.kind)
                 try await repositories.transactions.save(transaction)
                 imported += 1
+            }
+            await session.record(.spreadsheetImported)
+            if !isExternal {
+                await session.record(.guideCompleted, value: Guide.importSpreadsheet.rawValue)
             }
             session.reload()
             step = .done

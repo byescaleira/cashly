@@ -43,13 +43,13 @@ struct BackupFormatTests {
     @Test func missingReferenceIsRejected() throws {
         var backup = try sample()
         backup.users.removeAll { $0.id == "friend" }
-        #expect(throws: CashlyError.invalidInput("O backup tem referências incompletas.")) {
+        #expect(throws: CashlyError.invalidInput("The backup has incomplete references.")) {
             try backup.entities()
         }
     }
 
     @Test func otherFilesAndNewerVersionsAreRejected() throws {
-        #expect(throws: CashlyError.invalidInput("O arquivo não é um backup do Cashly.")) {
+        #expect(throws: CashlyError.invalidInput("This file isn't a Cashly backup.")) {
             try CashlyBackup(data: Data("{\"name\":\"x\"}".utf8))
         }
         var backup = try sample()

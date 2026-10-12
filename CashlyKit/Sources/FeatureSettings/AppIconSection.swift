@@ -15,7 +15,7 @@ struct AppIconSection: View {
                     AppIconImage(icon: settings.appIcon, size: 28)
                 }
             } label: {
-                Text("Ícone")
+                Text("Icon")
             }
         }
     }

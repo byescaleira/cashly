@@ -12,9 +12,11 @@ struct ModelSection: View {
             IconRow(verbatim: kind.name, symbol: kind.icon, color: kind.color)
             if let info = intelligence.info(for: kind) {
                 LabeledContent(
-                    "Última atualização",
-                    value: info.updateDate.formatted(date: .abbreviated, time: .shortened))
-                LabeledContent("Transações", value: info.sampleCount.formatted())
+                    "Last Updated",
+                    value: info.updateDate.formatted(
+                        Date.FormatStyle(date: .abbreviated, time: .shortened, locale: .app)))
+                LabeledContent(
+                    "Transactions", value: info.sampleCount.formatted(.number.locale(.app)))
             }
         } footer: {
             Text(kind.summary)

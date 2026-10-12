@@ -53,7 +53,7 @@ struct NotificationsModelTests {
         await model.setPayments(true)
         #expect(!model.remindsPayments)
         #expect(model.status == .denied)
-        #expect(model.footer.contains("desligadas"))
+        #expect(model.footer.contains("turned off"))
     }
 
     @Test func pendingTransactionsBecomeReminders() async throws {
@@ -79,7 +79,7 @@ struct NotificationsModelTests {
         await model.schedulePayments(for: owner.id, repositories: repositories)
         let reminders = try #require(await scheduler.scheduled["payment.owner."])
         #expect(reminders.count == 1)
-        #expect(reminders.first?.title == "Conta a pagar hoje")
+        #expect(reminders.first?.title == "Bill due today")
         #expect(reminders.first?.body.hasPrefix("Aluguel · ") == true)
 
         await model.schedulePayments(for: nil, repositories: repositories)

@@ -1,4 +1,5 @@
 import CashlyDesignSystem
+import CashlyDomain
 import FeatureCore
 import FeatureGuides
 import FeatureMCP
@@ -13,9 +14,10 @@ public struct MCPSettingsSlot: View {
 
     public var body: some View {
         if let mcp, flags?.isOn(.mcpServer) != false {
+            ClaudeCodeTipView(isConnected: mcp.isEnabled)
             SettingsRow(
-                "Claude Code", symbol: "terminal", color: .companion,
-                value: mcp.isEnabled ? "Ligado" : "Desligado"
+                "Claude Code", symbol: "terminal", color: RetroColor.terracotta.color,
+                value: mcp.isEnabled ? String(appLocalized: "On") : String(appLocalized: "Off")
             ) {
                 SettingsPage("Claude Code") { MCPSettingsSection() }.environment(mcp)
             }
@@ -26,6 +28,7 @@ public struct MCPSettingsSlot: View {
 struct MCPImportPresenter: ViewModifier {
     @Environment(MCPModel.self) private var mcp: MCPModel?
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.pro) private var pro
     @State private var shown: MCPModel.Prompt?
     @State private var isVisible = false
 
@@ -44,6 +47,7 @@ struct MCPImportPresenter: ViewModifier {
                 }
             }
             .onChange(of: mcp?.prompt?.id, initial: true) { present() }
+            .onChange(of: pro.canWrite, initial: true) { mcp?.canWrite = $1 }
             .onChange(of: scenePhase) { _, phase in
                 switch phase {
                 case .active: mcp?.resume()

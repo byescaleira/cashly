@@ -28,12 +28,12 @@ public struct MultiSelectMenu<Item: Identifiable & Hashable, Row: View>: View {
             }
             if !selection.isEmpty {
                 Divider()
-                Button("Limpar", systemImage: "eraser.line.dashed") { selection = [] }
+                Button("Clear", systemImage: "eraser.line.dashed") { selection = [] }
             }
         } label: {
             Label(title, systemImage: systemImage)
             if showsCount, !selection.isEmpty {
-                Text("\(selection.count) selecionados")
+                Text("\(selection.count) selected")
             }
         }
     }

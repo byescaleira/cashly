@@ -25,7 +25,7 @@ private struct TransactionSummary: View {
         VStack(alignment: .leading, spacing: .space2XS) {
             Text(transaction.summary)
             HStack {
-                Text(transaction.date.formatted(.dateTime.hour().minute()))
+                Text(transaction.date.formatted(.dateTime.hour().minute().locale(.app)))
                 ParticipantDots(participants: transaction.participants)
             }
             .foregroundStyle(Color.secondary)

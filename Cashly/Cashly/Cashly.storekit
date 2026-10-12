@@ -1,0 +1,487 @@
+{
+  "identifier" : "3A0BB1D3",
+  "nonRenewingSubscriptions" : [],
+  "products" : [
+    {
+      "displayPrice" : "11.90",
+      "familyShareable" : true,
+      "internalID" : "78EAC388",
+      "localizations" : [
+        {
+          "description" : "Fashion icon pack",
+          "displayName" : "Fashion Icons",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Pacote de ícones de moda",
+          "displayName" : "Ícones de Moda",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.icons.fashion",
+      "referenceName" : "Fashion Icons",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "11.90",
+      "familyShareable" : true,
+      "internalID" : "764276CD",
+      "localizations" : [
+        {
+          "description" : "Country icon pack",
+          "displayName" : "Country Icons",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Pacote de ícones de países",
+          "displayName" : "Ícones de Países",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.icons.countries",
+      "referenceName" : "Country Icons",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "11.90",
+      "familyShareable" : true,
+      "internalID" : "A8CB617F",
+      "localizations" : [
+        {
+          "description" : "Sports icon pack",
+          "displayName" : "Sports Icons",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Pacote de ícones de esportes",
+          "displayName" : "Ícones de Esportes",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.icons.sports",
+      "referenceName" : "Sports Icons",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "11.90",
+      "familyShareable" : true,
+      "internalID" : "D735CB0A",
+      "localizations" : [
+        {
+          "description" : "’80s icon pack",
+          "displayName" : "’80s Icons",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Pacote de ícones dos anos 80",
+          "displayName" : "Ícones Anos 80",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.icons.eighties",
+      "referenceName" : "’80s Icons",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "11.90",
+      "familyShareable" : true,
+      "internalID" : "B9EEF198",
+      "localizations" : [
+        {
+          "description" : "Summer icon pack",
+          "displayName" : "Summer Icons",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Pacote de ícones de verão",
+          "displayName" : "Ícones de Verão",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.icons.summer",
+      "referenceName" : "Summer Icons",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "11.90",
+      "familyShareable" : true,
+      "internalID" : "29C2CE76",
+      "localizations" : [
+        {
+          "description" : "Carnival icon pack",
+          "displayName" : "Carnival Icons",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Pacote de ícones de Carnaval",
+          "displayName" : "Ícones de Carnaval",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.icons.carnival",
+      "referenceName" : "Carnival Icons",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "11.90",
+      "familyShareable" : true,
+      "internalID" : "6B9E7293",
+      "localizations" : [
+        {
+          "description" : "Festa Junina icon pack",
+          "displayName" : "Festa Junina Icons",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Pacote de ícones de Festa Junina",
+          "displayName" : "Ícones de Festa Junina",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.icons.junina",
+      "referenceName" : "Festa Junina Icons",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "11.90",
+      "familyShareable" : true,
+      "internalID" : "8C5CE498",
+      "localizations" : [
+        {
+          "description" : "Halloween icon pack",
+          "displayName" : "Halloween Icons",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Pacote de ícones de Halloween",
+          "displayName" : "Ícones de Halloween",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.icons.halloween",
+      "referenceName" : "Halloween Icons",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "11.90",
+      "familyShareable" : true,
+      "internalID" : "59EEC1F2",
+      "localizations" : [
+        {
+          "description" : "Christmas icon pack",
+          "displayName" : "Christmas Icons",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Pacote de ícones de Natal",
+          "displayName" : "Ícones de Natal",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.icons.christmas",
+      "referenceName" : "Christmas Icons",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "44.90",
+      "familyShareable" : true,
+      "internalID" : "83496272",
+      "localizations" : [
+        {
+          "description" : "Every icon pack, including future ones",
+          "displayName" : "All Icons",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Todas as coleções, inclusive as futuras",
+          "displayName" : "Todos os Ícones",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.icons.all",
+      "referenceName" : "All Icons",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "11.90",
+      "familyShareable" : true,
+      "internalID" : "6344B2C7",
+      "localizations" : [
+        {
+          "description" : "Gold, silver, bronze and copper accents",
+          "displayName" : "Metallic Colors",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Destaques em ouro, prata, bronze e cobre",
+          "displayName" : "Cores Metálicas",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.accent.metallic",
+      "referenceName" : "Metallic Colors",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "11.90",
+      "familyShareable" : true,
+      "internalID" : "37C0DD5F",
+      "localizations" : [
+        {
+          "description" : "Neon accent colors",
+          "displayName" : "Neon Colors",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Cores de destaque neon",
+          "displayName" : "Cores Neon",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.accent.neon",
+      "referenceName" : "Neon Colors",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "11.90",
+      "familyShareable" : true,
+      "internalID" : "7BD46820",
+      "localizations" : [
+        {
+          "description" : "Six frames for your avatar",
+          "displayName" : "Avatar Frames",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Seis molduras para o seu avatar",
+          "displayName" : "Molduras de Avatar",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.avatar.frames",
+      "referenceName" : "Avatar Frames",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "16.90",
+      "familyShareable" : true,
+      "internalID" : "5053FB01",
+      "localizations" : [
+        {
+          "description" : "Twelve extra illustrated avatars",
+          "displayName" : "Avatar Pack",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Doze avatares ilustrados extras",
+          "displayName" : "Pacote de Avatares",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.avatar.pack",
+      "referenceName" : "Avatar Pack",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "9.90",
+      "familyShareable" : true,
+      "internalID" : "062CD8EA",
+      "localizations" : [
+        {
+          "description" : "Confetti, fireworks and coin rain",
+          "displayName" : "Celebrations",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Confete, fogos e chuva de moedas",
+          "displayName" : "Comemorações",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.celebrations",
+      "referenceName" : "Celebrations",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "7.90",
+      "familyShareable" : true,
+      "internalID" : "B0B5CA72",
+      "localizations" : [
+        {
+          "description" : "Sounds and haptics for saving and completing",
+          "displayName" : "Sounds",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Sons e vibrações ao salvar e concluir",
+          "displayName" : "Sons",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.sounds",
+      "referenceName" : "Sounds",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "6.90",
+      "familyShareable" : false,
+      "internalID" : "66396EEC",
+      "localizations" : [
+        {
+          "description" : "Three streak freezes",
+          "displayName" : "3 Streak Freezes",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Três congelamentos de sequência",
+          "displayName" : "3 Congelamentos",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.freeze.3",
+      "referenceName" : "3 Freezes",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "16.90",
+      "familyShareable" : false,
+      "internalID" : "D16EF48F",
+      "localizations" : [
+        {
+          "description" : "Ten streak freezes",
+          "displayName" : "10 Streak Freezes",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Dez congelamentos de sequência",
+          "displayName" : "10 Congelamentos",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.freeze.10",
+      "referenceName" : "10 Freezes",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "9.90",
+      "familyShareable" : false,
+      "internalID" : "40329CEB",
+      "localizations" : [
+        {
+          "description" : "Restore a streak lost in the last 48 hours",
+          "displayName" : "Streak Restore",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Recupera uma sequência perdida nas últimas 48 horas",
+          "displayName" : "Recuperar Sequência",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.streak.restore",
+      "referenceName" : "Streak Restore",
+      "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "4.90",
+      "familyShareable" : false,
+      "internalID" : "581C3EFE",
+      "localizations" : [
+        {
+          "description" : "Three challenge rerolls",
+          "displayName" : "3 Challenge Rerolls",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Três trocas de desafio",
+          "displayName" : "3 Trocas de Desafio",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.challenge.reroll",
+      "referenceName" : "Challenge Rerolls",
+      "type" : "Consumable"
+    }
+  ],
+  "settings" : {
+    "_developerTeamID" : "Q7QLR2PH2X",
+    "_failTransactionsEnabled" : false,
+    "_locale" : "pt_BR",
+    "_storefront" : "BRA"
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "087355F2",
+      "localizations" : [],
+      "name" : "Cashly Pro",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [],
+          "codeOffers" : [],
+          "displayPrice" : "14.90",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "537C1F37",
+          "introductoryOffer" : {
+            "internalID" : "CD4D5DD5",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1W"
+          },
+          "localizations" : [
+            {
+              "description" : "Full access, billed monthly",
+              "displayName" : "Cashly Pro Monthly",
+              "locale" : "en_US"
+            },
+            {
+              "description" : "Acesso completo, cobrado por mês",
+              "displayName" : "Cashly Pro Mensal",
+              "locale" : "pt_BR"
+            }
+          ],
+          "productID" : "cashly.pro.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Cashly Pro Monthly",
+          "subscriptionGroupID" : "087355F2",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : []
+        },
+        {
+          "adHocOffers" : [],
+          "codeOffers" : [],
+          "displayPrice" : "99.90",
+          "familyShareable" : false,
+          "groupNumber" : 2,
+          "internalID" : "A1DDA917",
+          "introductoryOffer" : {
+            "internalID" : "79A1A34B",
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1W"
+          },
+          "localizations" : [
+            {
+              "description" : "Full access, billed yearly",
+              "displayName" : "Cashly Pro Yearly",
+              "locale" : "en_US"
+            },
+            {
+              "description" : "Acesso completo, cobrado por ano",
+              "displayName" : "Cashly Pro Anual",
+              "locale" : "pt_BR"
+            }
+          ],
+          "productID" : "cashly.pro.yearly",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Cashly Pro Yearly",
+          "subscriptionGroupID" : "087355F2",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : []
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}

@@ -12,11 +12,11 @@ struct AvailableSection: View {
             let usage = dashboard.totalUsage
             Section {
                 VStack(spacing: .space2XS) {
-                    Text("\(finance.budgetsAmount.formatted(.appCurrency)) planejado")
+                    Text("\(finance.budgetsAmount.formatted(.appCurrency)) planned")
                         .font(.headline)
                         .amountLine()
                     Text(
-                        "\(usage.ratio.formatted(.percent.precision(.fractionLength(0)))) usado · \(usage.stage.title)"
+                        "\(usage.ratio.formatted(.percent.precision(.fractionLength(0)).locale(.app))) used · \(usage.stage.title)"
                     )
                     .font(.subheadline.weight(.bold))
                     .foregroundStyle(usage.stage.color)
@@ -26,7 +26,7 @@ struct AvailableSection: View {
                 .padding(.vertical, .space2XS)
             } header: {
                 FigureHeader(
-                    title: "Disponível", amount: dashboard.totalAvailable,
+                    title: "Available", amount: dashboard.totalAvailable,
                     color: dashboard.totalAvailable < 0 ? .negative : .primary)
             }
         }

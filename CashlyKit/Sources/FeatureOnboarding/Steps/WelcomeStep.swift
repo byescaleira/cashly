@@ -4,11 +4,11 @@ import SwiftUI
 struct WelcomeStep: View {
     var body: some View {
         GuidePage(
-            title: "Boas-vindas ao Cashly",
+            title: "Welcome to Cashly",
             message:
-                "Organize gastos, orçamentos e metas num só lugar, com seus dados guardados no aparelho."
+                "Organize spending, budgets and goals in one place, with your data kept on your device."
         ) {
-            ExampleMonthSummary()
+            CashlyAnimationView(.month)
         }
     }
 }

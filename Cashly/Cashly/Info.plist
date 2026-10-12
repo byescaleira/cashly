@@ -19,15 +19,15 @@
 		<string>_cashly-mcp._tcp</string>
 	</array>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>O Cashly usa a rede local para que o Claude Code no seu computador consulte e envie transações, sempre com a sua aprovação.</string>
+	<string>Cashly uses the local network so Claude Code on your computer can read and send transactions, always with your approval.</string>
 	<key>NSUbiquitousContainers</key>
 	<dict>
-		<key>iCloud.$(CFBundleIdentifier)</key>
+		<key>iCloud.cashly</key>
 		<dict>
 			<key>NSUbiquitousContainerIsDocumentScopePublic</key>
 			<true/>
 			<key>NSUbiquitousContainerName</key>
-			<string>NomeDoSeuApp</string>
+			<string>Cashly</string>
 			<key>NSUbiquitousContainerSupportedFolderLevels</key>
 			<string>Any</string>
 		</dict>

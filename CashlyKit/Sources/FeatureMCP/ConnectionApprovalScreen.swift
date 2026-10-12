@@ -1,4 +1,5 @@
 import CashlyDesignSystem
+import CashlyDomain
 import CashlyMCP
 import FeatureCore
 import SwiftUI
@@ -14,22 +15,25 @@ public struct ConnectionApprovalScreen: View {
     public var body: some View {
         GuideSheet(
             index: 0, count: 1,
-            primary: GuideAction("Permitir") { mcp.answer(request.id, allow: true) },
-            secondary: GuideAction("Recusar") { mcp.answer(request.id, allow: false) }
+            primary: GuideAction("Allow") { mcp.answer(request.id, allow: true) },
+            secondary: GuideAction("Decline") { mcp.answer(request.id, allow: false) }
         ) {
             GuidePage(
-                title: "Conectar o Claude Code?",
+                title: "Connect Claude Code?",
                 message:
-                    "\(request.client.name) \(request.client.version) em \(request.client.address) quer ler seus dados do Cashly e enviar transações. Cada envio ainda passa pela sua conferência."
+                    "\(request.client.name) \(request.client.version) at \(request.client.address) wants to read your Cashly data and send transactions. You still review every submission."
             ) {
-                GuideExample {
-                    ExampleRow(
-                        request.client.name, detail: request.client.address,
-                        value: "versão \(request.client.version)")
-                    HStack(spacing: .spaceXS) {
-                        Chip("Ler dados", color: .retroTeal)
-                        Chip("Enviar transações", color: .retroOrange)
-                    }
+                CashlyAnimationView(.connect)
+            } content: {
+                GuideFeatureList {
+                    GuideFeature(
+                        title: request.client.name,
+                        detail: request.client.address + " · "
+                            + String(appLocalized: "version \(request.client.version)"))
+                    GuideFeature(
+                        title: String(appLocalized: "Read Data"), color: .retroTeal)
+                    GuideFeature(
+                        title: String(appLocalized: "Send Transactions"), color: .retroOrange)
                 }
             }
         }

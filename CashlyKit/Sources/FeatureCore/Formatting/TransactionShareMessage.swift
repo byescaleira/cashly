@@ -24,15 +24,22 @@ public enum TransactionShareMessage {
             let net = try income.subtracting(expenses)
             let lines = try records.map { transaction in
                 let date = (month.flatMap { transaction.billingDate(in: $0) } ?? transaction.date)
-                    .formatted(.dateTime.day().month(.wide).year().hour().minute())
+                    .formatted(.dateTime.day().month(.wide).year().hour().minute().locale(.app))
                 return
                     " \(transaction.kind.title): \(try share(transaction).formatted)\n 🗓 \(date)\n 🏷️ \(transaction.category.name.capitalized) - \(transaction.summary)\n"
             }.joined(separator: "\n")
-            return "💸 Resumo financeiro\n\n" + lines
-                + "\n📊 Registros: \(records.count)\nEntradas: \(income.formatted)\nSaídas: \(expenses.formatted)\nResultado: \(net.formatted)"
+            let totals = [
+                String(appLocalized: "📊 Records: \(records.count)"),
+                String(appLocalized: "Money in: \(income.formatted)"),
+                String(appLocalized: "Money out: \(expenses.formatted)"),
+                String(appLocalized: "Balance: \(net.formatted)"),
+            ]
+            return String(appLocalized: "💸 Financial summary") + "\n\n" + lines + "\n"
+                + totals.joined(separator: "\n")
         } catch {
-            return
-                "Não foi possível gerar o resumo: o total excede o intervalo monetário permitido."
+            return String(
+                appLocalized:
+                    "Couldn't create the summary: the total exceeds the allowed amount range.")
         }
     }
 }

@@ -22,10 +22,10 @@ public struct EditorActions: ToolbarContent {
     public var body: some ToolbarContent {
         ToolbarItemGroup {
             if canRemove {
-                Button("Excluir", systemImage: "trash") { Task { await remove() } }
+                Button("Delete", systemImage: "trash") { Task { await remove() } }
                     .tint(Color.primary)
             }
-            Button("Salvar", systemImage: "checkmark") { Task { await save() } }
+            Button("Save", systemImage: "checkmark") { Task { await save() } }
                 .prominentButton()
                 .disabled(!canSave)
                 .tint(canSave ? appTint : .disabled)

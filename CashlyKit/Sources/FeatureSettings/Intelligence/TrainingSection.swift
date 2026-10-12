@@ -13,20 +13,20 @@ struct TrainingSection: View {
             Button {
                 Task { await intelligence.train() }
             } label: {
-                IconRow("Treinar modelos", symbol: "brain", color: appTint)
+                IconRow("Train Models", symbol: "brain", color: appTint)
             }
             .disabled(!intelligence.canTrain(with: session, finance: finance))
             Button(role: .destructive) {
                 Task { await intelligence.clean() }
             } label: {
                 IconRow(
-                    "Apagar modelos", symbol: "trash", color: .negative, titleColor: .negative)
+                    "Delete Models", symbol: "trash", color: .negative, titleColor: .negative)
             }
             .disabled(session.user == nil || intelligence.isTraining)
-            if intelligence.isTraining { ProgressView("Treinando") }
+            if intelligence.isTraining { ProgressView("Training") }
         } footer: {
             Text(
-                "As estimativas usam os gastos mensais recentes. A categorização aprende com as descrições das suas transações. Todo o processamento fica neste aparelho."
+                "Estimates use your recent monthly spending. Categorization learns from your transaction descriptions. All processing stays on this device."
             )
         }
     }

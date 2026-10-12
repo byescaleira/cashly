@@ -123,7 +123,10 @@ public struct TransactionDraft: Hashable {
     public mutating func applyOptions(categories: [CashlyDomain.Category], tags: [Tag]) throws {
         guard selectedTagIDs.isSubset(of: Set(tags.map(\.id))) else {
             throw CashlyError.persistence(
-                "Uma tag selecionada está indisponível. Aguarde a sincronização ou remova a seleção."
+                String(
+                    appLocalized:
+                        "A selected tag isn't available. Wait for sync to finish or remove it from the selection."
+                )
             )
         }
         if let selected = category {

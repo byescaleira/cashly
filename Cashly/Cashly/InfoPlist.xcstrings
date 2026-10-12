@@ -1,0 +1,72 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "NSLocalNetworkUsageDescription" : {
+      "comment" : "Privacy - Local Network Usage Description",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly uses the local network so Claude Code on your computer can read and send transactions, always with your approval."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Cashly usa a rede local para que o Claude Code no seu computador consulte e envie transações, sempre com a sua aprovação."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly usa la red local para que Claude Code en tu ordenador pueda leer y enviar transacciones, siempre con tu aprobación."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly nutzt das lokale Netzwerk, damit Claude Code auf deinem Computer Transaktionen lesen und senden kann – immer mit deiner Zustimmung."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly utilise le réseau local pour que Claude Code sur votre ordinateur puisse lire et envoyer des transactions, toujours avec votre accord."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly usa la rete locale affinché Claude Code sul tuo computer possa leggere e inviare transazioni, sempre con la tua approvazione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashlyはローカルネットワークを使い、コンピュータ上のClaude Codeが取引を読み取り・送信できるようにします。必ずあなたの承認が必要です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly는 로컬 네트워크를 사용해 컴퓨터의 Claude Code가 거래를 읽고 보낼 수 있게 합니다. 항상 사용자의 승인이 필요합니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly 使用本地网络，让你电脑上的 Claude Code 读取和发送交易，并始终需要你的批准。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly использует локальную сеть, чтобы Claude Code на вашем компьютере мог читать и отправлять операции — всегда с вашего одобрения."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

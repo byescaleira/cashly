@@ -33,7 +33,8 @@ public struct TransactionAllocation: Sendable {
             }
             let sum = ratios.reduce(Decimal.zero, +)
             guard sum <= 1 else {
-                throw CashlyError.invalidInput("A soma dos percentuais excede 100%.")
+                throw CashlyError.invalidInput(
+                    String(appLocalized: "The percentages add up to more than 100%."))
             }
             let exact = ([1 - sum] + ratios).map { Decimal(total.minorUnits) * $0 }
             var values = exact.map { amount -> Int64 in
@@ -80,14 +81,15 @@ public struct TransactionAllocation: Sendable {
                 share = Money(minorUnits: NSDecimalNumber(decimal: rounded).int64Value)
             case .equal:
                 throw CashlyError.invalidInput(
-                    "A divisão igual deve ser aplicada a todos os participantes.")
+                    String(appLocalized: "An equal split must apply to every participant."))
             }
             guard share.minorUnits >= 0 else { throw CashlyError.onSave }
             shares[participant.id] = share
             sum = try sum.adding(share)
         }
         guard sum <= total else {
-            throw CashlyError.invalidInput("A soma das participações excede o valor da transação.")
+            throw CashlyError.invalidInput(
+                String(appLocalized: "The shares add up to more than the transaction amount."))
         }
         return Self(owner: try total.subtracting(sum), participants: shares)
     }

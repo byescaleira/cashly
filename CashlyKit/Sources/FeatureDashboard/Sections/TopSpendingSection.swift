@@ -1,4 +1,5 @@
 import CashlyDesignSystem
+import CashlyDomain
 import FeatureCore
 import SwiftUI
 
@@ -20,7 +21,7 @@ struct TopSpendingSection: View {
                 }
                 .padding(.vertical, .spaceXS)
             } header: {
-                Text("Maiores gastos").sectionTitle()
+                Text("Top Spending").sectionTitle()
             }
         }
     }
@@ -52,8 +53,8 @@ private struct ShareBar: View {
             .frame(height: 12)
             Text(
                 share >= 0.995
-                    ? "São todas as saídas do período."
-                    : "Juntos, somam \(share.formatted(.percent.precision(.fractionLength(0)))) das saídas do período."
+                    ? "That's all the money out in the period."
+                    : "Together, they add up to \(share.formatted(.percent.precision(.fractionLength(0)).locale(.app))) of the money out in the period."
             )
             .font(.footnote)
             .foregroundStyle(.secondary)
@@ -77,7 +78,7 @@ private struct HeroTile: View {
                     SymbolBadge(
                         item.icon, color: Color(hex: item.color), size: .badgeM, style: .filled)
                     Spacer()
-                    Text(item.share.formatted(.percent.precision(.fractionLength(0))))
+                    Text(item.share.formatted(.percent.precision(.fractionLength(0)).locale(.app)))
                         .font(.subheadline.weight(.bold))
                         .foregroundStyle(color)
                         .padding(.horizontal, .spaceM)
@@ -107,7 +108,7 @@ private struct HeroTile: View {
         }
         .buttonStyle(.plain)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("Maior gasto: \(item.summary), \(item.amount.formatted(.appCurrency))")
+        .accessibilityLabel("Top expense: \(item.summary), \(item.amount.formatted(.appCurrency))")
     }
 }
 
@@ -126,7 +127,7 @@ private struct SmallTile: View {
                     SymbolBadge(
                         item.icon, color: Color(hex: item.color), size: .badgeS, style: .filled)
                     Spacer()
-                    Text(item.share.formatted(.percent.precision(.fractionLength(0))))
+                    Text(item.share.formatted(.percent.precision(.fractionLength(0)).locale(.app)))
                         .font(.chipLabel)
                         .foregroundStyle(color)
                 }

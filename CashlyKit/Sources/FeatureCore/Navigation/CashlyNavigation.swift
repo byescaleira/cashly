@@ -1,3 +1,4 @@
+import CashlyDomain
 import Observation
 import SwiftUI
 
@@ -9,6 +10,8 @@ public final class CashlyNavigation {
     public var inspectorPath: [Route] = []
     public var isOnboarding = false
     public var guide: Guide?
+    public var shopItem: ShopItem?
+    public var isShowingPaywall = false
     public init() {}
 
     public struct Inspector: Identifiable, Equatable {

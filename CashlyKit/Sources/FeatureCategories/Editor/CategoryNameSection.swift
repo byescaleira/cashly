@@ -7,9 +7,9 @@ struct CategoryNameSection: View {
     var body: some View {
         @Bindable var model = model
         Section {
-            TextField("Digite o nome da categoria", text: $model.draft.name)
+            TextField("Enter the category name", text: $model.draft.name)
         } header: {
-            Text("Nome").sectionTitle()
+            Text("Name").sectionTitle()
         }
     }
 }

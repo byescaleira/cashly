@@ -1,3 +1,4 @@
+import CashlyDomain
 import CloudKit
 
 public enum CloudAccount: Equatable {
@@ -15,12 +16,12 @@ public enum CloudAccount: Equatable {
 
     var title: String {
         switch self {
-        case .unavailable: "Indisponível"
-        case .checking: "Verificando"
-        case .available: "Conectada"
-        case .noAccount: "Sem conta"
-        case .restricted: "Restrita"
-        case .temporarilyUnavailable: "Temporariamente indisponível"
+        case .unavailable: String(appLocalized: "Unavailable")
+        case .checking: String(appLocalized: "Checking")
+        case .available: String(appLocalized: "Connected")
+        case .noAccount: String(appLocalized: "No account")
+        case .restricted: String(appLocalized: "Restricted")
+        case .temporarilyUnavailable: String(appLocalized: "Temporarily unavailable")
         }
     }
 }

@@ -26,11 +26,11 @@ public struct UserMenu: View {
                 Divider()
             }
             if let user = session.user {
-                Button("Editar usuário", systemImage: "pencil") {
+                Button("Edit User", systemImage: "pencil") {
                     open(.addUser(id: user.id), in: section)
                 }
             }
-            Button("Adicionar usuário", systemImage: "plus") {
+            Button("Add User", systemImage: "plus") {
                 open(.addUser(id: nil), in: section)
             }
         } label: {
@@ -38,7 +38,7 @@ public struct UserMenu: View {
         }
         .menuStyle(.button)
         .buttonStyle(.plain)
-        .accessibilityLabel("Usuário")
+        .accessibilityLabel("User")
     }
 
     private func avatar(_ photo: String?) -> some View {

@@ -1,4 +1,5 @@
 import CashlyDesignSystem
+import CashlyDomain
 import FeatureCore
 import SwiftUI
 
@@ -11,18 +12,22 @@ struct HistorySection: View {
                 VStack(spacing: .spaceS) {
                     FigureBlock(
                         caption: history.difference <= 0
-                            ? "Você gastou a menos que o normal"
-                            : "Você gastou a mais que o normal",
+                            ? String(appLocalized: "You spent less than usual")
+                            : String(appLocalized: "You spent more than usual"),
                         amount: abs(history.difference),
                         color: history.difference <= 0 ? .positive : .negative,
                         detail: history.months == 1
-                            ? "Comparado ao mês passado, até o dia \(history.day)."
-                            : "Comparado à média dos últimos \(history.months) meses, até o dia \(history.day)."
+                            ? String(
+                                appLocalized: "Compared with last month, up to day \(history.day).")
+                            : String(
+                                appLocalized:
+                                    "Compared with the average of the last \(history.months) months, up to day \(history.day)."
+                            )
                     )
                     InsightBars(bars: history.bars)
                 }
             } header: {
-                Text("Comparado aos outros meses").sectionTitle()
+                Text("Compared with Other Months").sectionTitle()
             }
         }
     }
@@ -53,9 +58,10 @@ struct UnusualSection: View {
                     }
                 }
             } header: {
-                Text("Fora do padrão").sectionTitle()
+                Text("Out of the Ordinary").sectionTitle()
             } footer: {
-                Text("Gasto até hoje comparado ao que costuma sair até este dia do mês.")
+                Text(
+                    "Spending so far compared with what usually goes out by this day of the month.")
             }
         }
     }

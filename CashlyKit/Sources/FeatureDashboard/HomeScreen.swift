@@ -31,7 +31,7 @@ public struct HomeScreen: View {
             ToolbarItem { FilterMenu() }
         }
         .refreshable { await finance.load() }
-        .navigationTitle("Início")
+        .navigationTitle("Home")
         .onChange(of: reports.syncKey, initial: true) { reports.sync() }
         .task(id: insights.key) { await insights.load() }
         .task {

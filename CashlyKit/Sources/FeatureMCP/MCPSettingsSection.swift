@@ -1,4 +1,5 @@
 import CashlyDesignSystem
+import CashlyDomain
 import SwiftUI
 
 #if canImport(UIKit)
@@ -17,18 +18,18 @@ public struct MCPSettingsSection: View {
     public var body: some View {
         @Bindable var mcp = mcp
         Section {
-            Toggle("Permitir acesso pelo Claude Code", isOn: $mcp.isEnabled)
+            Toggle("Allow Access from Claude Code", isOn: $mcp.isEnabled)
                 .tint(.positive)
             if mcp.isEnabled {
-                Toggle("Aceitar conexões da rede local", isOn: $mcp.allowsLocalNetwork)
+                Toggle("Accept Local Network Connections", isOn: $mcp.allowsLocalNetwork)
                     .tint(.positive)
-                LabeledContent("Situação", value: status)
+                LabeledContent("Status", value: status)
                 Button {
                     copy(mcp.command)
                     copied = true
                 } label: {
                     IconRow(
-                        copied ? "Comando copiado" : "Copiar comando de instalação",
+                        copied ? "Command Copied" : "Copy Install Command",
                         symbol: copied ? "checkmark" : "doc.on.doc", color: appTint)
                 }
                 Button {
@@ -36,7 +37,7 @@ public struct MCPSettingsSection: View {
                     copied = false
                 } label: {
                     IconRow(
-                        "Gerar novo token", symbol: "arrow.triangle.2.circlepath",
+                        "Generate New Token", symbol: "arrow.triangle.2.circlepath",
                         color: .companion)
                 }
             }
@@ -49,16 +50,16 @@ public struct MCPSettingsSection: View {
             Section {
                 ForEach(mcp.trusted, id: \.self) { key in
                     LabeledContent(key) {
-                        Button("Remover", systemImage: "xmark.circle", role: .destructive) {
+                        Button("Remove", systemImage: "xmark.circle", role: .destructive) {
                             mcp.revoke(key)
                         }
                         .labelStyle(.iconOnly)
                     }
                 }
             } header: {
-                Text("Conexões permitidas")
+                Text("Allowed Connections")
             } footer: {
-                Text("Uma conexão removida precisa ser aprovada de novo no próximo acesso.")
+                Text("A removed connection needs to be approved again the next time it connects.")
             }
         }
     }
@@ -66,18 +67,24 @@ public struct MCPSettingsSection: View {
     private var footer: String {
         let reach =
             mcp.allowsLocalNetwork
-            ? "Computadores da mesma rede alcançam este aparelho em \(mcp.host):\(String(mcp.port))."
-            : "Só este aparelho alcança o servidor."
+            ? String(
+                appLocalized:
+                    "Computers on the same network reach this device at \(mcp.host):\(String(mcp.port))."
+            )
+            : String(appLocalized: "Only this device can reach the server.")
         return
-            "Com o Cashly aberto, o Claude Code consulta seus dados e envia transações. \(reach) Toda conexão nova pede sua aprovação aqui, e todo envio passa pela conferência antes de gravar. Um token novo desconecta todos."
+            String(
+                appLocalized:
+                    "While Cashly is open, Claude Code reads your data and sends transactions. \(reach) Every new connection asks for your approval here, and every submission is reviewed before it's saved. A new token disconnects everyone."
+            )
     }
 
     private var status: String {
         switch mcp.state {
-        case .off: "Desligado"
-        case .starting: "Iniciando"
-        case .ready: "Pronto"
-        case .failed(let message): "Erro: \(message)"
+        case .off: String(appLocalized: "Off")
+        case .starting: String(appLocalized: "Starting")
+        case .ready: String(appLocalized: "Ready")
+        case .failed(let message): String(appLocalized: "Error: \(message)")
         }
     }
 

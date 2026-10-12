@@ -2,7 +2,7 @@
 
 O `CashlyDesignSystem` é o único lugar com valores visuais: espaçamentos, raios, opacidades, tamanhos, tipografia, cores e componentes sem regra de negócio. As features usam só os tokens. Número solto de espaçamento, raio, opacidade ou tamanho de fonte fora do design system é erro de lint (`design_token_*` em `.swiftlint.yml`).
 
-O pacote não depende de nenhum outro módulo do app. Componentes que precisam de dados ou de formatação do app (moeda, categoria) ficam no `FeatureCore` e montam os do design system. Por exemplo, `FigureHeader(title:amount:)` e `FigureBlock(caption:amount:)` são atalhos do `FeatureCore` que formatam o valor em moeda, e `ExampleMonthSummary` fica no `FeatureCore` porque mostra valores em moeda.
+O pacote não depende de nenhum outro módulo do app. Componentes que precisam de dados ou de formatação do app (moeda, categoria) ficam no `FeatureCore` e montam os do design system. Por exemplo, `FigureHeader(title:amount:)` e `FigureBlock(caption:amount:)` são atalhos do `FeatureCore` que formatam o valor em moeda.
 
 ## Tokens
 
@@ -99,14 +99,17 @@ Símbolos com tamanho fixo usam `.font(.icon(_:weight:))`, nunca `.system(size:)
 | `FigureHeader(title:value:numeric:color:detail:)` | Cabeçalho de seção com o número grande fora do grupo |
 | `FigureBlock(caption:value:numeric:color:detail:)` | Número grande com legenda dentro de um cartão |
 | `FigureValue(_:numeric:color:)` | Só o número, com troca animada |
+| `SegmentedBar(count:value:color:)` | Barra em segmentos iguais; `value` vai de 0 a `count` e preenche os segmentos em ordem (pontuação do Dashboard, títulos da Jornada) |
 | `GuideExample` | Cartão dos exemplos preenchidos (guias e estados vazios) |
-| `ExampleRow`, `ExampleBar`, `ExampleHeadline`, `ExampleDone`, `ExampleFile` | Peças dos exemplos |
+| `ExampleRow`, `ExampleBar`, `ExampleHeadline` | Peças dos exemplos dos estados vazios |
 | `surface(tint:in:interactive:)` | Vidro regular (Liquid Glass) |
 | `clearSurface(in:)` | Vidro transparente, para elementos sobre conteúdo |
 | `contentSurface(tint:in:)` | Fundo neutro sem vidro |
 | `prominentButton()` | Botão principal em vidro |
 | `amountLine()` | Valor em uma linha, encolhendo até a metade |
 | `AdaptiveList`, `AdaptiveStack`, `AdaptiveRow` | Layout que vira colunas no iPad e no iPhone deitado |
+| `readableWidth(_:)` | Coluna central de até 560 pt para formulários |
+| `SelectionMark(isSelected:)` | Marcador de seleção nas colunas |
 | `FlowLayout` | Itens que quebram linha (chips, cápsulas) |
 | `DisclosureLink`, `SurfaceContainer`, `FixedToolbarSpacer` | Navegação e barra |
 
@@ -115,4 +118,4 @@ Símbolos com tamanho fixo usam `.font(.icon(_:weight:))`, nunca `.system(size:)
 - Valores visuais novos entram primeiro como token; a feature usa o token.
 - Componente usado em mais de uma feature e sem regra de negócio vai para o design system.
 - Barra de ferramentas sempre com símbolos sem `.fill`.
-- Guias e estados vazios mostram exemplos preenchidos da feature, sem ilustração.
+- Estados vazios mostram exemplos preenchidos da feature. Guias mostram uma animação Lottie sem fundo (`GuideAnimationView` no `FeatureCore`), tingida com a paleta retrô e a cor de destaque.

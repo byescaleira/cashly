@@ -19,8 +19,9 @@ struct ScoreSection: View {
                     VStack(alignment: .leading, spacing: .spaceL) {
                         AdaptiveStack(spacing: .spaceS) {
                             HStack(alignment: .firstTextBaseline, spacing: .space2XS) {
-                                Text(health.score.formatted()).font(.amountTitle)
-                                Text("de \(BudgetHealth.maximumScore)")
+                                Text(health.score.formatted(.number.locale(.app))).font(
+                                    .amountTitle)
+                                Text("of \(BudgetHealth.maximumScore)")
                                     .font(.footnote)
                                     .foregroundStyle(Color.secondary)
                             }
@@ -33,31 +34,24 @@ struct ScoreSection: View {
                                 .padding(.horizontal, .spaceM)
                                 .background(level.color.opacity(.opacityTint), in: .capsule)
                         }
-                        HStack(spacing: .spaceS) {
-                            ForEach(BudgetHealth.Level.allCases, id: \.self) { item in
-                                ProgressView(
-                                    value: item == level ? item.progress(for: health.score) : 1,
-                                    total: 1
-                                )
-                                .tint(
-                                    health.score > item.scores.upperBound || item == level
-                                        ? level.color : .clear)
-                            }
-                        }
-                        .accessibilityHidden(true)
+                        SegmentedBar(
+                            count: BudgetHealth.Level.allCases.count,
+                            value: Double(BudgetHealth.Level.allCases.firstIndex(of: level) ?? 0)
+                                + level.progress(for: health.score),
+                            color: level.color)
                         Text(level.summary).font(.callout)
                     }
                     .padding(.spaceS)
                     .contentShape(.rect)
                 }
                 .buttonStyle(.plain)
-                .accessibilityHint("Mostra como a pontuação funciona")
+                .accessibilityHint("Shows how the score works")
             } header: {
                 HStack {
-                    Text("Pontuação").sectionTitle()
+                    Text("Score").sectionTitle()
                     Spacer()
                     if showGuide != nil {
-                        Button("Como funciona", systemImage: "info.circle") { showGuide?(.score) }
+                        Button("How It Works", systemImage: "info.circle") { showGuide?(.score) }
                             .labelStyle(.iconOnly)
                             .font(.title3)
                     }

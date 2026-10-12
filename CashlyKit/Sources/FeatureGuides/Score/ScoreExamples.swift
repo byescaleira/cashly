@@ -13,7 +13,7 @@ struct ScoreScale: View {
                 VStack(spacing: .spaceXS) {
                     Capsule().fill(level.color.opacity(isOn ? 1 : 0.25)).frame(height: 10)
                     Text(
-                        "\(level.scores.lowerBound.formatted())–\(level.scores.upperBound.formatted())"
+                        "\(level.scores.lowerBound.formatted(.number.locale(.app)))–\(level.scores.upperBound.formatted(.number.locale(.app)))"
                     )
                     .font(.caption.weight(.semibold))
                     .foregroundStyle(isOn ? level.color : .secondary)
@@ -22,49 +22,6 @@ struct ScoreScale: View {
                 }
                 .frame(maxWidth: .infinity)
             }
-        }
-    }
-}
-
-struct ScoreScaleExample: View {
-    var body: some View {
-        GuideExample { ScoreScale() }
-    }
-}
-
-struct ScoreCardExample: View {
-    let score: Int
-
-    var body: some View {
-        let level = BudgetHealth.Level.allCases.first { $0.scores.contains(score) } ?? .critical
-        GuideExample {
-            HStack(alignment: .firstTextBaseline) {
-                Text(score.formatted()).font(.amountHero)
-                Text("de 1.000").font(.subheadline).foregroundStyle(.secondary)
-                Spacer()
-                Chip(level.title.uppercased(), color: level.color)
-            }
-            ScoreScale(score: score)
-        }
-    }
-}
-
-struct CurrentScoreExample: View {
-    @Environment(FinanceModel.self) private var finance
-
-    var body: some View {
-        ScoreCardExample(score: finance.health.score)
-    }
-}
-
-struct DailyAllowanceExample: View {
-    var body: some View {
-        GuideExample {
-            ExampleHeadline(
-                value: 85.0.formatted(.appCurrency), detail: "por dia até o fim do mês")
-            Divider()
-            ExampleBar("Mercado", ratio: 0.62, color: .positive)
-            ExampleBar("Lazer", ratio: 0.81, color: .warning)
         }
     }
 }

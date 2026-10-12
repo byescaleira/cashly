@@ -5,10 +5,10 @@ import SwiftUI
 extension TransactionStatus {
     public var summary: String {
         switch self {
-        case .pendingToReceive: "A receber"
-        case .pendingToPay: "A pagar"
-        case .settled: "Pago"
-        case .canceled: "Cancelado"
+        case .pendingToReceive: String(appLocalized: "To receive")
+        case .pendingToPay: String(appLocalized: "To pay")
+        case .settled: String(appLocalized: "Paid")
+        case .canceled: String(appLocalized: "Canceled")
         }
     }
 

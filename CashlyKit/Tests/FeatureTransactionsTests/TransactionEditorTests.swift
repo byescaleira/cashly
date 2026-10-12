@@ -60,7 +60,7 @@ struct TransactionEditorTests {
         #expect(form.installmentDescription == nil)
         form.draft.installmentIsOn = true
         form.draft.installmentPlan = 3
-        #expect(form.installmentDescription?.hasPrefix("3x de") == true)
+        #expect(form.installmentDescription?.hasPrefix("3× ") == true)
     }
 
     @Test func choosingCategoryStopsPrediction() async throws {

@@ -1,0 +1,10 @@
+{
+  "images" : [
+    { "filename" : "CashlyIconParasol.png", "idiom" : "universal" },
+    {
+      "appearances" : [ { "appearance" : "luminosity", "value" : "dark" } ],
+      "filename" : "CashlyIconParasol-dark.png", "idiom" : "universal"
+    }
+  ],
+  "info" : { "author" : "xcode", "version" : 1 }
+}

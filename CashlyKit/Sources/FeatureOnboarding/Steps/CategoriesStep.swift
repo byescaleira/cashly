@@ -7,8 +7,8 @@ struct CategoriesStep: View {
 
     var body: some View {
         GuidePage(
-            title: "Escolha suas categorias",
-            message: "Comece com estas e crie outras quando precisar."
+            title: "Choose Your Categories",
+            message: "Start with these and create others when you need them."
         ) {
             EmptyView()
         } content: {

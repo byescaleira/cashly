@@ -1,4 +1,5 @@
 import CashlyDesignSystem
+import CashlyDomain
 import SwiftUI
 
 public enum RetroColor: String, CaseIterable, Identifiable, Sendable {
@@ -56,36 +57,37 @@ public enum RetroColor: String, CaseIterable, Identifiable, Sendable {
 
     public var name: String {
         switch self {
-        case .cherry: "Cereja"
-        case .rust: "Ferrugem"
-        case .terracotta: "Terracota"
-        case .dustyRose: "Rosa antigo"
-        case .salmon: "Salmão"
-        case .burntOrange: "Laranja queimado"
-        case .tangerine: "Tangerina"
-        case .caramel: "Caramelo"
-        case .mustard: "Mostarda"
-        case .sunflower: "Girassol"
-        case .avocado: "Abacate"
-        case .olive: "Oliva"
-        case .moss: "Musgo"
-        case .sage: "Sálvia"
-        case .mint: "Menta"
-        case .teal: "Petróleo"
-        case .turquoise: "Turquesa"
-        case .denim: "Jeans"
-        case .sky: "Céu"
-        case .indigo: "Anil"
-        case .plum: "Ameixa"
-        case .lavender: "Lavanda"
-        case .eggplant: "Berinjela"
-        case .coffee: "Café"
-        case .sand: "Areia"
-        case .slate: "Grafite"
+        case .cherry: String(appLocalized: "Cherry")
+        case .rust: String(appLocalized: "Rust")
+        case .terracotta: String(appLocalized: "Terracotta")
+        case .dustyRose: String(appLocalized: "Dusty Rose")
+        case .salmon: String(appLocalized: "Salmon")
+        case .burntOrange: String(appLocalized: "Burnt Orange")
+        case .tangerine: String(appLocalized: "Tangerine")
+        case .caramel: String(appLocalized: "Caramel")
+        case .mustard: String(appLocalized: "Mustard")
+        case .sunflower: String(appLocalized: "Sunflower")
+        case .avocado: String(appLocalized: "Avocado")
+        case .olive: String(appLocalized: "Olive")
+        case .moss: String(appLocalized: "Moss")
+        case .sage: String(appLocalized: "Sage")
+        case .mint: String(appLocalized: "Mint")
+        case .teal: String(appLocalized: "Teal")
+        case .turquoise: String(appLocalized: "Turquoise")
+        case .denim: String(appLocalized: "Denim")
+        case .sky: String(appLocalized: "Sky")
+        case .indigo: String(appLocalized: "Indigo")
+        case .plum: String(appLocalized: "Plum")
+        case .lavender: String(appLocalized: "Lavender")
+        case .eggplant: String(appLocalized: "Eggplant")
+        case .coffee: String(appLocalized: "Coffee")
+        case .sand: String(appLocalized: "Sand")
+        case .slate: String(appLocalized: "Graphite")
         }
     }
 
     public static func name(for hex: String) -> String {
-        RetroColor(hex: hex)?.name ?? "Personalizada"
+        RetroColor(hex: hex)?.name ?? PremiumColor(hex: hex)?.name
+            ?? String(appLocalized: "Custom")
     }
 }

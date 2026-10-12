@@ -7,6 +7,10 @@ import FeatureSettings
 import Observation
 import SwiftUI
 
+#if DEBUG
+    import CashlyMock
+#endif
+
 @main
 struct CashlyApp: App {
     @State private var settings: SettingsModel
@@ -15,8 +19,10 @@ struct CashlyApp: App {
     init() {
         #if targetEnvironment(simulator)
             let settings = SettingsModel(cloudContainer: nil)
+            CashlyTips.configure(cloudContainer: nil)
         #else
             let settings = SettingsModel(cloudContainer: CashlyDatabase.cloudContainer)
+            CashlyTips.configure(cloudContainer: CashlyDatabase.cloudContainer)
         #endif
         _settings = State(initialValue: settings)
         _bootstrap = State(initialValue: CashlyBootstrap(settings: settings))
@@ -91,8 +97,15 @@ private final class CashlyBootstrap {
             if flags.isOn(.mcpServer) {
                 mcp = MCPModel(provider: database, serviceName: Self.deviceName)
             }
-            let data = DataModel(backup: database.backup, intelligence: intelligence)
+            let data = DataModel(
+                backup: database.backup, intelligence: intelligence,
+                cloud: .container(CashlyDatabase.cloudContainer))
             settings.data = data
+            #if DEBUG
+                settings.developer = DeveloperModel(
+                    storeURL: database.storeURL
+                ) { try await SampleDatabase.seed(database) }
+            #endif
             Task { await data.runAutoBackupIfNeeded() }
         } catch {
             self.error = error.localizedDescription
@@ -112,12 +125,12 @@ private struct CashlyRootView: View {
             } else if let error = bootstrap.error {
                 ContentUnavailableView {
                     Label(
-                        "Não foi possível abrir o Cashly",
+                        "Couldn't open Cashly",
                         systemImage: "externaldrive.badge.exclamationmark")
                 } description: {
                     Text(error)
                 } actions: {
-                    Button("Tentar novamente") { attempt += 1 }
+                    Button("Try Again") { attempt += 1 }
                 }
             } else {
                 LaunchView()

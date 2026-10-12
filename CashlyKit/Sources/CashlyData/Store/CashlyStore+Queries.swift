@@ -104,7 +104,10 @@ extension CashlyStore {
         let result = try mapTransactions(rows, userID: userID, catalog: catalog)
         guard result.pending == 0 else {
             throw CashlyError.persistence(
-                "As referências desta transação ainda estão incompletas. Aguarde a sincronização.")
+                String(
+                    appLocalized:
+                        "This transaction's references are still incomplete. Wait for sync to finish."
+                ))
         }
         return result.items.first
     }
@@ -226,7 +229,7 @@ extension CashlyStore {
         let catalog = try catalog(userID: userID)
         guard catalog.pendingReferences == 0 else {
             throw CashlyError.intelligence(
-                "Aguarde a sincronização completa antes de treinar os modelos.")
+                String(appLocalized: "Wait for sync to finish before training the models."))
         }
         var items: [CashlyDomain.Transaction] = []
         var cursor: TransactionCursor?
@@ -238,7 +241,7 @@ extension CashlyStore {
             let mapped = try mapTransactions(rows, userID: userID, catalog: catalog)
             guard mapped.pending == 0 else {
                 throw CashlyError.intelligence(
-                    "Aguarde a sincronização completa antes de treinar os modelos.")
+                    String(appLocalized: "Wait for sync to finish before training the models."))
             }
             items.append(contentsOf: mapped.items)
             cursor = rows.last.map { TransactionCursor(timestamp: $0.date, id: $0.id) }

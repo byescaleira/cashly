@@ -24,7 +24,7 @@ flowchart TD
 | `CashlyData` | `CashlyDatabase`, `CashlyStore` (`@ModelActor`), schemas V1/V2 congelados e V3 atual, repositórios por agregado, backup (`CashlyDatabase.backup`), `CashlyChangeHub`, `LocalIntelligenceService` | Domain |
 | `CashlyDesignSystem` | `Styles/` (extensions de `ShapeStyle`, paleta retrô em `Color+Retro`, `Color(hex:)`, `\.appTint`), `Modifiers/` (extensions de `View`, como `.amountLine()`), `Layout/` (`AdaptiveList`, `AdaptiveStack`, `AdaptiveRow`, `SurfaceContainer`) | nada |
 | `CashlyResource` | Avatares e ilustrações | nada |
-| `FeatureCore` | Estado compartilhado (`SessionModel`, `FinanceModel`, `IntelligenceModel`, `EditorStatus`, `TransactionFilter`), navegação (`Route`, `AppSection`, `CashlyNavigation`, `\.open`, `\.close`), componentes usados por mais de uma feature (como `RetroColorPicker` e `ColorSection`, com as 26 cores nomeadas de `RetroColor`), textos de exibição | Domain, DesignSystem, Resource |
+| `FeatureCore` | Estado compartilhado (`SessionModel`, `FinanceModel`, `IntelligenceModel`, `EditorStatus`, `TransactionFilter`), navegação (`Route`, `AppSection`, `CashlyNavigation`, `\.open`, `\.close`), componentes usados por mais de uma feature (como `RetroColorPicker` e `ColorSection`, com as 26 cores nomeadas de `RetroColor`), textos de exibição, `ProAccess` e `ShopAccess` (ambiente), `CashlyTips` (configuração do TipKit e eventos compartilhados; cada feature declara as suas `Tip`s) | Domain, DesignSystem, Resource |
 | `Feature*` | Uma área do app: model, telas e seções | Domain, DesignSystem, FeatureCore |
 | `FeatureSettings` | Ajustes do app (`SettingsModel`, `DataModel`, `AppInfo`), um por processo e não por janela | Domain, FeatureCore |
 | `AppShell` | `CashlyWindow`, `MainScreen`, `SectionStack`, `RouteScreen`, folha lateral (`routeInspector`) | todas as features |
@@ -34,7 +34,7 @@ flowchart TD
 
 Regras de dependência:
 
-- Uma feature nunca importa outra. Quando duas precisam da mesma peça, ela vai para `FeatureCore`.
+- Uma feature nunca importa outra. Quando duas precisam da mesma peça, ela vai para `FeatureCore`. A única exceção é `FeatureStore`, que é um serviço (StoreKit) importado por `FeatureJourney` (loja) e `FeatureSettings` (Cashly Pro).
 - Features não conhecem `CashlyData`: falam com repositórios do domínio por `Repositories`.
 - Só o `AppShell` conhece todas as features e monta as telas.
 
@@ -46,7 +46,8 @@ Regras de dependência:
 | `FeatureMCP` | `MCPModel` (servidor MCP local no Mac, token, conferência pendente) e `MCPSettingsSection` |
 | `FeatureGuides` | `GuideScreen`: tutoriais (`Guide`) e importação de planilha (`SpreadsheetImportModel`) |
 | `FeatureOnboarding` | `OnboardingModel` e `OnboardingScreen`: primeira abertura, perfil e categorias sugeridas |
-| `FeatureSearch` | `SearchScreen` e `SearchModel`: transações de todos os períodos, categorias e tags |
+| `FeatureJourney` | `JourneyModel` e `JourneyScreen`: nível, sequência, missões, desafio, conquistas e a loja (`ShopScreen`, `ShopItemScreen`), sobre o motor `CashlyGame` e o `StoreModel` |
+| `FeatureStore` | `StoreModel` (StoreKit 2): produtos do catálogo `ShopItem`, compra, restauração, itens possuídos, `Entitlement` do Cashly Pro e crédito único de consumíveis como `GameEvent`; `PaywallScreen` com `SubscriptionStoreView` |
 | `FeatureTransactions` | Lista paginada com seleção (`TransactionListModel`) e editor (`TransactionEditorModel`) |
 | `FeatureCategories` | Lista, detalhe e editor de categoria |
 | `FeatureBudgets` | Editor de orçamento e resolução de conflito |
@@ -66,11 +67,11 @@ Regras de dependência:
 
 ## Navegação
 
-- `TabView` em `sidebarAdaptable` com uma `NavigationStack` por aba (`SectionStack`): Início, Transações, Planejamento, Ajustes e Buscar (`TabRole.search` com papel proeminente, em bolha separada no fim da barra). O app abre no Início.
+- `TabView` em `sidebarAdaptable` com uma `NavigationStack` por aba (`SectionStack`): Início, Transações, Planejamento, Ajustes e Jornada (papel proeminente, em bolha separada no fim da barra; some quando a pessoa esconde a Jornada nos Ajustes ou a flag `journey` está desligada). O app abre no Início.
 - Telas pedem navegação por `@Environment(\.open)` com uma `Route`; o `AppShell` decide como apresentar: em largura regular, numa folha de vidro com alturas recolhida, média e grande e o fundo usável, presa à lateral direita quando a janela está na horizontal (`presentationPlacement(.trailing)`) e centralizada na vertical; no Mac, no `.inspector`; no visionOS, em sheet; em largura compacta, por push.
 - `@Environment(\.close)` fecha a rota no contexto certo (inspector, pilha do inspector ou pilha da aba).
 - Ajustes são uma aba em todas as plataformas; no Mac também abrem na janela de Ajustes do sistema (cena `Settings`, ⌘,). O menu do avatar só troca, edita e adiciona usuários.
-- Ícones alternativos são pastas `.icon` em `Cashly/Cashly` (`CashlyIconDark`, `CashlyIconOrange`, `CashlyIconGraphite`), incluídas por `ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS`. Para um novo, crie a pasta e acrescente um `case` em `AppIcon`.
+- Ícones alternativos são pastas `.icon` em `Cashly/Cashly` (`CashlyIcon` + nome do `case` com inicial maiúscula, como `CashlyIconCandyCane`), incluídas por `ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS`. São 10 coleções com exatamente 4 ícones cada (Cores, Moda, Países, Esportes, Anos 80, Verão, Carnaval, Festa Junina, Halloween, Natal), regra coberta pelo `AppIconTests`. Para um novo, crie a pasta, acrescente o `case` em `AppIcon` e rode `scripts/icons.sh` para exportar a prévia.
 - Os links de ajuda e sobre vêm das chaves `CashlyAppStoreID`, `CashlySupportEmail`, `CashlyHelpURL`, `CashlyPrivacyURL` e `CashlyTermsURL` do `Info.plist`; a linha some enquanto a chave estiver vazia.
 
 ## Views
@@ -84,8 +85,14 @@ Regras de dependência:
   - linhas de lista com texto livre (transação, categoria, participante) usam `AdaptiveRow`, que empilha nos tamanhos de acessibilidade;
   - valores monetários usam `.amountLine()`: uma linha, reduzindo a fonte em vez de quebrar o número;
   - seletores usam `Picker` nativo, que já se ajusta; gráficos têm altura em `@ScaledMetric`.
-- Telas de painel usam `AdaptiveList`: com largura para uma coluna é a `List` nativa; com mais, as mesmas `Section` se distribuem em colunas de no mínimo 320 pt.
-- Textos em pt-BR, com String Catalog por target (`scripts/strings.sh` sincroniza após o build).
+- Telas de painel, o Histórico e a Busca usam `AdaptiveList`: com largura para uma coluna é a `List` nativa (com seleção opcional); com mais, as mesmas `Section` se distribuem em colunas de no mínimo 320 pt. Formulários usam `readableWidth()`, uma coluna central de até 560 pt. Nenhuma tela estica.
+- **Idiomas:** inglês é o idioma de desenvolvimento. Há traduções para português (Brasil), espanhol, alemão, francês, italiano, japonês, coreano, chinês simplificado e russo, num catálogo único (`Cashly/Cashly/Localizable.xcstrings`, mais `InfoPlist.xcstrings`). As features não têm catálogo próprio.
+  - **Telas:** usam chaves em inglês (`Text("Save")`), resolvidas pelo `\.locale` do ambiente.
+  - **Modelos e domínio:** usam `String(appLocalized:)`, que lê o idioma escolhido no `LanguageSetting`.
+  - **Formatação:** valores formatados como `String` usam `.locale(.app)`.
+  - **Contagens:** usam uma chave só com variações de plural no catálogo, nunca `count == 1 ? … : …`.
+  - **Troca de idioma:** Ajustes › Idioma muda na hora (o `MainScreen` recria as abas pelo `locale`) e grava `AppleLanguages` para os textos do sistema na próxima abertura.
+  - **Sincronização:** `scripts/strings.sh` sincroniza o catálogo com as strings extraídas de todos os módulos.
 
 ## Receita: adicionar uma feature
 
@@ -93,7 +100,7 @@ Exemplo: "Metas".
 
 1. **Domain:** `Entities/Goal.swift`, `Repositories/GoalRepository.swift` e, se houver cálculo, `Rules/GoalProgress.swift` com teste.
 2. **Data:** `@Model GoalEntity` num novo schema versionado, mapeamento no `CashlyStore`, `SwiftDataGoalRepository` e o repositório em `Repositories`.
-3. **Feature:** target `FeatureGoals` com `GoalDraft`, `GoalEditorModel` (`EditorStatus`, `canSave`, `canRemove`, `load`, `save`, `remove`), `GoalEditorScreen` curta (seções, `EditorActions`, `.editorLifecycle`) e `Resources/Localizable.xcstrings`.
+3. **Feature:** target `FeatureGoals` com `GoalDraft`, `GoalEditorModel` (`EditorStatus`, `canSave`, `canRemove`, `load`, `save`, `remove`), `GoalEditorScreen` curta (seções, `EditorActions`, `.editorLifecycle`); os textos novos, em inglês, entram no catálogo único com as traduções.
 4. **Rotas:** `case` em `Route` e o mapeamento em `AppShell/RouteScreen` com `ModelHost`; se for aba, um `case` em `AppSection`.
 5. **Testes:** regra no `CashlyDomainTests`, repositório no `CashlyDataTests` e model no target `FeatureGoalsTests`, sobre `CashlyDatabase.open(inMemory: true)`. Acrescentar o target ao scheme `CashlyKitTests`.
 6. **Preview:** um arquivo em `CashlyPreview`.
@@ -114,7 +121,7 @@ Exemplo: "Metas".
 | `scripts/build.sh Debug\|Release` | Compila o app para iOS, macOS e visionOS |
 | `scripts/test.sh` | Roda o scheme compartilhado `CashlyKitTests` no simulador do iPhone 17 com iOS 27 |
 | `scripts/audit.sh` | Compila o `CashlyAudit` e roda `check`: migração de um banco V1, seed de preview e benchmark de 1.000 registros com 27 verificações |
-| `scripts/strings.sh` | Sincroniza os String Catalogs com as strings extraídas pelo compilador |
+| `scripts/strings.sh` | Sincroniza o catálogo único com as strings extraídas pelo compilador em todos os módulos |
 
 Os testes rodam só no simulador: o `FeatureCore` usa APIs do SwiftUI 27 que o macOS do host pode não ter. O `CashlyAudit` não depende de SwiftUI e roda no Mac.
 

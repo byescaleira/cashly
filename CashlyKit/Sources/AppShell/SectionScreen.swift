@@ -1,7 +1,7 @@
 import FeatureCategories
 import FeatureCore
 import FeatureDashboard
-import FeatureSearch
+import FeatureJourney
 import FeatureSettings
 import FeatureTransactions
 import SwiftUI
@@ -24,8 +24,8 @@ struct SectionScreen: View {
         case .transaction: TransactionListScreen()
         case .planning:
             ModelHost(GoalsModel(session: session, finance: finance)) { GoalsScreen() }
+        case .journey: ModelHost(JourneyModel(session: session)) { JourneyScreen() }
         case .settings: SettingsScreen { MCPSettingsSlot() }
-        case .search: SearchScreen()
         }
     }
 }

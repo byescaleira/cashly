@@ -17,7 +17,7 @@ struct RetroColorTests {
 
     @Test func unknownHexIsCustom() {
         #expect(RetroColor(hex: "0099FF") == nil)
-        #expect(RetroColor.name(for: "0099FF") == "Personalizada")
-        #expect(RetroColor.name(for: RetroColor.mustard.hex) == "Mostarda")
+        #expect(RetroColor.name(for: "0099FF") == "Custom")
+        #expect(RetroColor.name(for: RetroColor.mustard.hex) == "Mustard")
     }
 }

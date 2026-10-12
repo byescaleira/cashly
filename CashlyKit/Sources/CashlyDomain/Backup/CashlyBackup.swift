@@ -64,13 +64,18 @@ public struct CashlyBackup: Codable, Equatable, Sendable {
         decoder.dateDecodingStrategy = .iso8601
         guard let backup = try? decoder.decode(CashlyBackup.self, from: data),
             backup.format == Self.format
-        else { throw CashlyError.invalidInput("O arquivo não é um backup do Cashly.") }
+        else {
+            throw CashlyError.invalidInput(String(appLocalized: "This file isn't a Cashly backup."))
+        }
         guard backup.version <= Self.version else {
             throw CashlyError.invalidInput(
-                "Este backup foi criado por uma versão mais nova do Cashly. Atualize o app.")
+                String(
+                    appLocalized:
+                        "This backup was made by a newer version of Cashly. Update the app."))
         }
         guard CurrencySetting.isSupported(backup.currency) else {
-            throw CashlyError.invalidInput("Este backup usa uma moeda ainda não suportada.")
+            throw CashlyError.invalidInput(
+                String(appLocalized: "This backup uses a currency that isn't supported yet."))
         }
         self = backup
     }

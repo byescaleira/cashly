@@ -3,9 +3,9 @@ import Foundation
 
 public struct SamePointComparison: Analysis {
     public static let id: AnalysisID = "same-point"
-    public static let title = "Comparado aos meses anteriores"
+    public static let title = "Compared with previous months"
     public static let detail =
-        "Quanto você gastou até hoje, comparado ao mesmo ponto dos três meses anteriores."
+        "How much you spent to date, compared with the same point in the previous three months."
     public static let version = 1
 
     public init() {}
@@ -23,23 +23,24 @@ public struct SamePointComparison: Analysis {
         let difference = spent - average
         let summary =
             difference <= 0
-            ? "Até o dia \(day), você gastou \(Formatting.money(-difference)) a menos que a média dos últimos \(history.count) meses."
-            : "Até o dia \(day), você gastou \(Formatting.money(difference)) a mais que a média dos últimos \(history.count) meses."
+            ? "Up to day \(day), you spent \(Formatting.money(-difference)) less than the average of the last \(history.count) months."
+            : "Up to day \(day), you spent \(Formatting.money(difference)) more than the average of the last \(history.count) months."
         return result(
             ledger, summary: summary,
             metrics: [
-                .money("spent", "Gasto até hoje", minorUnits: spent),
-                .money("average", "Média no mesmo ponto", minorUnits: average),
-                .money("difference", "Diferença", minorUnits: difference),
+                .money("spent", "Spent to date", minorUnits: spent),
+                .money("average", "Average at the same point", minorUnits: average),
+                .money("difference", "Difference", minorUnits: difference),
                 Metric(
-                    key: "ratio", label: "Variação",
+                    key: "ratio", label: "Change",
                     value: average > 0 ? Double(spent) / Double(average) - 1 : 0, unit: .ratio),
-                Metric(key: "day", label: "Dia do mês", value: Double(day), unit: .days),
+                Metric(key: "day", label: "Day of month", value: Double(day), unit: .days),
             ],
             series: zip(previous, history).map {
                 SeriesPoint(label: Formatting.shortMonth($0), value: Double($1) / 100)
             } + [SeriesPoint(label: Formatting.shortMonth(month), value: Double(spent) / 100)],
-            method: "Gasto até o mesmo dia do mês, comparado à média dos meses anteriores",
+            method:
+                "Spending up to the same day of the month, compared with the average of previous months",
             confidence: history.count >= 3 ? .high : .medium)
     }
 }

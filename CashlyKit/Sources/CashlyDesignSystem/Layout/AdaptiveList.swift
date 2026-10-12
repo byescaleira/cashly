@@ -1,11 +1,16 @@
 import SwiftUI
 
-public struct AdaptiveList<Content: View>: View {
+public struct AdaptiveList<SelectionValue: Hashable, Content: View>: View {
+    private let selection: Binding<Set<SelectionValue>>?
     private let columnWidth: CGFloat
     private let content: Content
     @State private var columns = 1
 
-    public init(columnWidth: CGFloat = 320, @ViewBuilder content: () -> Content) {
+    public init(
+        selection: Binding<Set<SelectionValue>>?, columnWidth: CGFloat = 320,
+        @ViewBuilder content: () -> Content
+    ) {
+        self.selection = selection
         self.columnWidth = columnWidth
         self.content = content()
     }
@@ -30,7 +35,7 @@ public struct AdaptiveList<Content: View>: View {
                 .background(.groupedBackground)
                 .environment(\.isGroupedColumn, true)
             } else {
-                List { content }
+                List(selection: selection) { content }
             }
         }
         .onGeometryChange(for: Int.self) { [columnWidth] proxy in
@@ -38,6 +43,12 @@ public struct AdaptiveList<Content: View>: View {
         } action: {
             columns = $0
         }
+    }
+}
+
+extension AdaptiveList where SelectionValue == Never {
+    public init(columnWidth: CGFloat = 320, @ViewBuilder content: () -> Content) {
+        self.init(selection: nil, columnWidth: columnWidth, content: content)
     }
 }
 

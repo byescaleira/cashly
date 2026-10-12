@@ -13,7 +13,7 @@ struct ParticipantsSection: View {
         if !model.draft.participants.isEmpty {
             Section {
                 AdaptiveStack(spacing: .spaceS) {
-                    Text("Modo de divisão").frame(maxWidth: .infinity, alignment: .leading)
+                    Text("Split Mode").frame(maxWidth: .infinity, alignment: .leading)
                     Menu {
                         Picker(selection: $model.draft.splitMode) {
                             ForEach(TransactionSplitMode.allCases) {
@@ -34,7 +34,7 @@ struct ParticipantsSection: View {
                     }
                 }
             } header: {
-                Text("Participantes").sectionTitle()
+                Text("Participants").sectionTitle()
             } footer: {
                 Text(model.draft.splitMode?.description ?? "")
             }
@@ -42,7 +42,7 @@ struct ParticipantsSection: View {
                 ForEach($model.draft.participants) { $participant in
                     ParticipantRow(participant: $participant, amount: model.draft.amount)
                         .swipeActions {
-                            Button("Remover", systemImage: "trash", role: .destructive) {
+                            Button("Remove", systemImage: "trash", role: .destructive) {
                                 model.removeParticipant(id: participant.id)
                             }
                         }

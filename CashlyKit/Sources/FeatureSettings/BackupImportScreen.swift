@@ -1,4 +1,5 @@
 import CashlyDesignSystem
+import CashlyDomain
 import FeatureCore
 import SwiftUI
 
@@ -14,29 +15,25 @@ struct BackupImportScreen: View {
             switch data.backupStep {
             case .intro:
                 GuidePage(
-                    title: "Importar backup",
+                    title: "Import Backup",
                     message:
-                        "Escolha um arquivo de backup do Cashly (.json). Os registros do arquivo são somados aos que já estão no aparelho; nada é apagado."
+                        "Choose a Cashly backup file (.json). The file's records are added to the ones already on this device; nothing is deleted."
                 ) {
-                    ExampleFile(
-                        "Cashly-backup.json",
-                        detail: "Usuários, categorias, orçamentos e transações",
-                        kind: "JSON")
+                    CashlyAnimationView(.file)
                 }
             case .review:
                 GuidePage(
-                    title: "Confira o backup",
+                    title: "Review the Backup",
                     message: LocalizedStringKey(
                         data.pendingRestore.map(data.description(of:)) ?? "")
                 ) {
-                    ExampleFile(
-                        "Cashly-backup.json", detail: "Pronto para importar", kind: "JSON")
+                    CashlyAnimationView(.file)
                 }
             case .done:
                 GuidePage(
-                    title: "Backup importado", message: "Os registros já aparecem no app."
+                    title: "Backup Imported", message: "The records already show up in the app."
                 ) {
-                    ExampleDone(value: "Backup", detail: "registros somados aos do aparelho")
+                    CashlyAnimationView(.done)
                 }
             }
         }
@@ -53,18 +50,18 @@ struct BackupImportScreen: View {
 
     private var primary: GuideAction {
         switch data.backupStep {
-        case .intro: GuideAction("Escolher arquivo") { data.isImporting = true }
+        case .intro: GuideAction("Choose File") { data.isImporting = true }
         case .review:
-            GuideAction("Importar") {
+            GuideAction("Import") {
                 guard let file = data.pendingRestore else { return }
                 Task { await data.restore(file) }
             }
-        case .done: GuideAction("Concluir") { data.isRestoringBackup = false }
+        case .done: GuideAction("Done") { data.isRestoringBackup = false }
         }
     }
 
     private var secondary: GuideAction? {
         guard data.backupStep == .intro else { return nil }
-        return GuideAction("Agora não") { data.isRestoringBackup = false }
+        return GuideAction("Not Now") { data.isRestoringBackup = false }
     }
 }

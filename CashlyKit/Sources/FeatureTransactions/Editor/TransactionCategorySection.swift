@@ -19,7 +19,7 @@ struct TransactionCategorySection: View {
             }
         } header: {
             HStack {
-                Text("Categoria").sectionTitle()
+                Text("Category").sectionTitle()
                     .frame(maxWidth: .infinity, alignment: .leading)
                 if let category = model.draft.category {
                     CategoryVariation(

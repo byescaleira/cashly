@@ -1,4 +1,5 @@
 import CashlyDesignSystem
+import CashlyDomain
 import SwiftUI
 
 struct WhatsNewScreen: View {
@@ -16,11 +17,12 @@ struct WhatsNewScreen: View {
             }
             .padding(.vertical, .space2XS)
         }
+        .readableWidth()
         #if os(visionOS)
-            .navigationTitle("Novidades da versão " + settings.info.number)
+            .navigationTitle(String(appLocalized: "What's New in Version \(settings.info.number)"))
         #else
-            .navigationTitle("Novidades")
-            .navigationSubtitle("Versão " + settings.info.number)
+            .navigationTitle("What's New")
+            .navigationSubtitle(String(appLocalized: "Version \(settings.info.number)"))
         #endif
     }
 }

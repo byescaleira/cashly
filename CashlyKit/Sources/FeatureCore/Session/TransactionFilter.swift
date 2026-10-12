@@ -41,7 +41,9 @@ public struct TransactionFilter: Equatable, Hashable {
     }
 
     public var periodTitle: String {
-        isFilteringByDate ? startDate.formatted(.dateTime.month(.wide).year()) : "Todos os dados"
+        isFilteringByDate
+            ? startDate.formatted(.dateTime.month(.wide).year().locale(.app))
+            : String(appLocalized: "All data")
     }
 
     public var isCurrentMonth: Bool { YearMonth(startDate) == YearMonth(.now) }

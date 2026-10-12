@@ -15,6 +15,7 @@ extension Color {
     public static let retroDenim = Color(light: 0x3D5F86, dark: 0x7FA0C6)
     public static let retroPlum = Color(light: 0x74415F, dark: 0xB57FA0)
     public static let retroBrown = Color(light: 0x7E5536, dark: 0xBC8A62)
+    public static let retroCream = Color(light: 0xF0E6D2, dark: 0xE6DAC2)
 
     init(light: UInt32, dark: UInt32) {
         #if canImport(UIKit)

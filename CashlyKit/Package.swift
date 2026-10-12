@@ -3,80 +3,84 @@ import PackageDescription
 
 let package = Package(
     name: "CashlyKit",
-    defaultLocalization: "pt-BR",
+    defaultLocalization: "en",
     platforms: [.iOS("27.0"), .macOS("27.0"), .visionOS("27.0")],
     products: [
         .library(
             name: "CashlyKit",
-            targets: ["CashlyDomain", "CashlyData", "FeatureSettings", "FeatureMCP", "AppShell"]),
+            targets: [
+                "CashlyDomain", "CashlyData", "FeatureSettings", "FeatureMCP", "AppShell",
+                "CashlyMock",
+            ]),
         .library(name: "CashlyPreview", targets: ["CashlyPreview"]),
         .executable(name: "CashlyAudit", targets: ["CashlyAudit"]),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/airbnb/lottie-spm.git", from: "4.5.0")
     ],
     targets: [
         .target(name: "CashlyDomain"),
         .target(name: "CashlyData", dependencies: ["CashlyDomain"]),
         .target(name: "CashlyAnalytics", dependencies: ["CashlyDomain"]),
         .target(name: "CashlyMCP", dependencies: ["CashlyDomain", "CashlyAnalytics"]),
+        .target(name: "CashlyGame", dependencies: ["CashlyDomain", "CashlyAnalytics"]),
         .target(name: "CashlyDesignSystem"),
         .target(name: "CashlyResource", resources: [.process("Assets")]),
         .target(
             name: "FeatureCore",
-            dependencies: ["CashlyDomain", "CashlyDesignSystem", "CashlyResource"],
-            resources: [.process("Resources")]),
+            dependencies: [
+                "CashlyDomain", "CashlyDesignSystem", "CashlyResource",
+                .product(name: "Lottie", package: "lottie-spm"),
+            ]),
         .target(
             name: "FeatureDashboard",
-            dependencies: ["CashlyDomain", "CashlyAnalytics", "CashlyDesignSystem", "FeatureCore"],
-            resources: [.process("Resources")]),
+            dependencies: ["CashlyDomain", "CashlyAnalytics", "CashlyDesignSystem", "FeatureCore"]),
         .target(
             name: "FeatureMCP",
             dependencies: [
                 "CashlyDomain", "CashlyAnalytics", "CashlyDesignSystem", "CashlyMCP", "FeatureCore",
-            ],
-            resources: [.process("Resources")]),
+            ]),
+        .target(name: "FeatureStore", dependencies: ["CashlyDomain", "FeatureCore"]),
+        .target(
+            name: "FeatureJourney",
+            dependencies: [
+                "CashlyDomain", "CashlyGame", "CashlyDesignSystem", "FeatureCore", "FeatureStore",
+            ]),
         .target(
             name: "FeatureGuides",
-            dependencies: ["CashlyDomain", "CashlyDesignSystem", "CashlyResource", "FeatureCore"],
-            resources: [.process("Resources")]),
+            dependencies: ["CashlyDomain", "CashlyDesignSystem", "CashlyResource", "FeatureCore"]),
         .target(
             name: "FeatureOnboarding",
-            dependencies: ["CashlyDomain", "CashlyDesignSystem", "CashlyResource", "FeatureCore"],
-            resources: [.process("Resources")]),
-        .target(
-            name: "FeatureSearch",
-            dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"],
-            resources: [.process("Resources")]),
+            dependencies: ["CashlyDomain", "CashlyDesignSystem", "CashlyResource", "FeatureCore"]),
         .target(
             name: "FeatureTags",
-            dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"],
-            resources: [.process("Resources")]),
+            dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"]),
         .target(
             name: "FeatureBudgets",
-            dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"],
-            resources: [.process("Resources")]),
+            dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"]),
         .target(
             name: "FeatureCategories",
-            dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"],
-            resources: [.process("Resources")]),
+            dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"]),
         .target(
             name: "FeatureTransactions",
-            dependencies: ["CashlyDomain", "CashlyDesignSystem", "CashlyResource", "FeatureCore"],
-            resources: [.process("Resources")]),
+            dependencies: ["CashlyDomain", "CashlyDesignSystem", "CashlyResource", "FeatureCore"]),
         .target(
             name: "FeatureSettings",
-            dependencies: ["CashlyDomain", "CashlyDesignSystem", "CashlyResource", "FeatureCore"],
-            resources: [.process("Resources")]),
+            dependencies: [
+                "CashlyDomain", "CashlyDesignSystem", "CashlyResource", "FeatureCore",
+                "FeatureStore",
+            ]),
         .target(
             name: "FeatureUsers",
-            dependencies: ["CashlyDomain", "CashlyDesignSystem", "CashlyResource", "FeatureCore"],
-            resources: [.process("Resources")]),
+            dependencies: ["CashlyDomain", "CashlyDesignSystem", "CashlyResource", "FeatureCore"]),
         .target(
             name: "AppShell",
             dependencies: [
                 "CashlyDomain", "CashlyDesignSystem", "FeatureCore", "FeatureBudgets",
-                "FeatureCategories", "FeatureDashboard", "FeatureGuides", "FeatureMCP",
+                "FeatureCategories", "FeatureDashboard", "FeatureGuides", "FeatureJourney",
+                "FeatureMCP",
                 "FeatureOnboarding",
-                "FeatureSearch",
-                "FeatureSettings",
+                "FeatureSettings", "FeatureStore",
                 "FeatureTags", "FeatureTransactions", "FeatureUsers",
             ]),
         .target(
@@ -85,13 +89,16 @@ let package = Package(
             name: "CashlyPreview",
             dependencies: [
                 "AppShell", "CashlyMock", "FeatureBudgets", "FeatureCategories", "FeatureCore",
-                "FeatureDashboard", "FeatureSearch", "FeatureSettings",
+                "FeatureDashboard", "FeatureJourney", "FeatureSettings",
                 "FeatureTags",
                 "FeatureTransactions", "FeatureUsers",
             ]),
         .executableTarget(
             name: "CashlyAudit", dependencies: ["CashlyDomain", "CashlyData", "CashlyMock"]),
         .testTarget(name: "CashlyDomainTests", dependencies: ["CashlyDomain"]),
+        .testTarget(
+            name: "CashlyGameTests",
+            dependencies: ["CashlyDomain", "CashlyAnalytics", "CashlyGame"]),
         .testTarget(name: "CashlyDataTests", dependencies: ["CashlyDomain", "CashlyData"]),
         .testTarget(
             name: "CashlyMCPTests", dependencies: ["CashlyDomain", "CashlyData", "CashlyMCP"]),
@@ -105,14 +112,19 @@ let package = Package(
             name: "FeatureDashboardTests",
             dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureDashboard"]),
         .testTarget(
+            name: "FeatureStoreTests",
+            dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureStore"]),
+        .testTarget(
+            name: "FeatureJourneyTests",
+            dependencies: [
+                "CashlyDomain", "CashlyData", "CashlyGame", "FeatureCore", "FeatureJourney",
+            ]),
+        .testTarget(
             name: "FeatureGuidesTests",
             dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureGuides"]),
         .testTarget(
             name: "FeatureOnboardingTests",
             dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureOnboarding"]),
-        .testTarget(
-            name: "FeatureSearchTests",
-            dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureSearch"]),
         .testTarget(
             name: "FeatureCategoriesTests",
             dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureCategories"]),

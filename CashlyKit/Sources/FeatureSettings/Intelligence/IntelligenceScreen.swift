@@ -7,10 +7,10 @@ struct IntelligenceScreen: View {
 
     var body: some View {
         @Bindable var intelligence = intelligence
-        SettingsPage("Inteligência") {
+        SettingsPage("Intelligence") {
             DeviceSection()
             if intelligence.isStale {
-                Text("O histórico mudou. Treine novamente para atualizar as sugestões.")
+                Text("Your history changed. Train again to update the suggestions.")
                     .foregroundStyle(Color.secondary)
             }
             ForEach(CashlyIntelligence.allCases) { ModelSection(kind: $0) }

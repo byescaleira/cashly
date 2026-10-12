@@ -3,9 +3,9 @@ import Foundation
 
 public struct InstallmentCommitments: Analysis {
     public static let id: AnalysisID = "installment-commitments"
-    public static let title = "Parcelas já assumidas"
+    public static let title = "Committed installments"
     public static let detail =
-        "Quanto das parcelas e contas futuras já está comprometido, mês a mês."
+        "How much of the installments and future bills is already committed, month by month."
     public static let version = 1
 
     public init() {}
@@ -22,18 +22,18 @@ public struct InstallmentCommitments: Analysis {
         return result(
             ledger,
             summary:
-                "Você já tem \(Formatting.money(total)) comprometidos até \(Formatting.month(last)); \(Formatting.money(next)) caem no próximo mês.",
+                "You already have \(Formatting.money(total)) committed through \(Formatting.month(last)); \(Formatting.money(next)) is due next month.",
             metrics: [
-                .money("total", "Total comprometido", minorUnits: total),
-                .money("nextMonth", "Próximo mês", minorUnits: next),
+                .money("total", "Total committed", minorUnits: total),
+                .money("nextMonth", "Next month", minorUnits: next),
                 Metric(
-                    key: "months", label: "Meses com parcelas", value: Double(months.count),
+                    key: "months", label: "Months with installments", value: Double(months.count),
                     unit: .count),
             ],
             series: months.map {
                 SeriesPoint(label: Formatting.shortMonth($0), value: Double(series[$0]) / 100)
             },
-            method: "Soma das parcelas e lançamentos futuros já registrados", confidence: .certain,
+            method: "Sum of installments and future entries already recorded", confidence: .certain,
             evidence: Array(Set(future.map(\.transactionID))).sorted())
     }
 }

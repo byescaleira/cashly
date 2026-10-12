@@ -20,7 +20,7 @@ struct SettingsModelTests {
         let next = SettingsModel(defaults: defaults, cloudContainer: nil, currencySetting: other)
         #expect(next.currency == "USD")
         #expect(other.code == "USD")
-        #expect(next.currencyName("BRL") == "Real brasileiro")
+        #expect(next.currencyName("BRL").lowercased().contains("real"))
     }
 
     @Test func appearanceIsSavedForTheNextLaunch() {
@@ -51,7 +51,7 @@ struct SettingsModelTests {
         #expect(settings.cloudAccount == .checking)
         settings.syncsWithICloud = false
         #expect(settings.needsRestart)
-        #expect(settings.cloudFooter == "A mudança vale na próxima vez que o Cashly abrir.")
+        #expect(settings.cloudFooter == "The change applies the next time Cashly opens.")
         settings.syncsWithICloud = true
         #expect(!settings.needsRestart)
         let next = SettingsModel(
@@ -64,7 +64,7 @@ struct SettingsModelTests {
         let settings = SettingsModel(
             defaults: defaults, cloudContainer: "iCloud.test", currencySetting: currency)
         #expect(!settings.syncsAtLaunch)
-        #expect(settings.cloudFooter == "Seus dados ficam só neste aparelho.")
+        #expect(settings.cloudFooter == "Your data stays on this device only.")
     }
 
     @Test func withoutContainerCloudIsUnavailable() async {
@@ -84,7 +84,7 @@ struct LastSyncTests {
     @Test func keepsTheNewestSyncDate() {
         let defaults = UserDefaults(suiteName: UUID().uuidString) ?? .standard
         let settings = SettingsModel(defaults: defaults, cloudContainer: "iCloud.test")
-        #expect(settings.lastSyncText == "Ainda não")
+        #expect(settings.lastSyncText == "Not yet")
         let date = Date(timeIntervalSince1970: 1_800_000_000)
         settings.recordSync(date)
         settings.recordSync(date.addingTimeInterval(-60))

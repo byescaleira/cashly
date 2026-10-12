@@ -9,7 +9,7 @@ struct ExpenseChart: View {
 
     var body: some View {
         Chart(data) { point in
-            LineMark(x: .value("Item", point.id), y: .value("Valor", point.amount))
+            LineMark(x: .value("Item", point.id), y: .value("Amount", point.amount))
                 .interpolationMethod(.monotone)
                 .symbol(.circle)
         }

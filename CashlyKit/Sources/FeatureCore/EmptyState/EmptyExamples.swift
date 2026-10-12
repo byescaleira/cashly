@@ -1,4 +1,5 @@
 import CashlyDesignSystem
+import CashlyDomain
 import SwiftUI
 
 struct PrerequisiteExample: View {
@@ -16,8 +17,10 @@ struct PrerequisiteExample: View {
 
 private struct CategoriesExample: View {
     private let items: [(String, String, Color)] = [
-        ("Mercado", "cart.fill", .retroOrange), ("Casa", "house.fill", .retroTeal),
-        ("Transporte", "car.fill", .retroDenim), ("Lazer", "gamecontroller.fill", .retroPlum),
+        (String(appLocalized: "Groceries"), "cart.fill", .retroOrange),
+        (String(appLocalized: "Housing"), "house.fill", .retroTeal),
+        (String(appLocalized: "Transport"), "car.fill", .retroDenim),
+        (String(appLocalized: "Leisure"), "gamecontroller.fill", .retroPlum),
     ]
 
     var body: some View {
@@ -43,51 +46,33 @@ private struct CategoriesExample: View {
 private struct TransactionsExample: View {
     var body: some View {
         ExampleRow(
-            "Feira", detail: "Mercado", value: 86.0.formatted(.appCurrency), symbol: "cart.fill",
+            String(appLocalized: "Market"), detail: String(appLocalized: "Groceries"),
+            value: 86.0.formatted(.appCurrency), symbol: "cart.fill",
             color: .retroOrange)
         ExampleRow(
-            "Salário", detail: "Renda", value: 6_500.0.formatted(.appCurrency),
+            String(appLocalized: "Salary"), detail: String(appLocalized: "Earnings"),
+            value: 6_500.0.formatted(.appCurrency),
             valueColor: .positive, symbol: "briefcase.fill", color: .retroOlive)
     }
 }
 
 private struct BudgetsExample: View {
     var body: some View {
-        ExampleBar("Mercado", ratio: 0.45, color: .positive)
-        ExampleBar("Lazer", ratio: 0.86, color: .warning)
+        ExampleBar(String(appLocalized: "Groceries"), ratio: 0.45, color: .positive)
+        ExampleBar(String(appLocalized: "Leisure"), ratio: 0.86, color: .warning)
     }
 }
 
 private struct TagsExample: View {
     var body: some View {
         ExampleRow(
-            "Hotel", detail: "Lazer", value: 890.0.formatted(.appCurrency),
+            String(appLocalized: "Hotel"), detail: String(appLocalized: "Leisure"),
+            value: 890.0.formatted(.appCurrency),
             symbol: "bed.double.fill", color: .retroPlum)
         HStack(spacing: .spaceXS) {
-            Chip("Viagem", color: .retroTeal)
-            Chip("Aniversário", color: .retroRust)
-            Chip("Reforma", color: .retroMustard)
+            Chip("Trip", color: .retroTeal)
+            Chip("Birthday", color: .retroRust)
+            Chip("Renovation", color: .retroMustard)
         }
-    }
-}
-
-public struct SearchExample: View {
-    private let term: String
-
-    public init(term: String = "mercado") {
-        self.term = term
-    }
-
-    public var body: some View {
-        Text(term)
-            .font(.body)
-            .lineLimit(1)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, .spaceM)
-            .padding(.vertical, .spaceM)
-            .background(Color.secondary.opacity(.opacityFill), in: .capsule)
-        ExampleRow(
-            "Feira", detail: "Mercado", value: 86.0.formatted(.appCurrency), symbol: "cart.fill",
-            color: .retroOrange)
     }
 }

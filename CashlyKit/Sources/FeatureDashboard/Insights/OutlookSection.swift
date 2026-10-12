@@ -1,4 +1,5 @@
 import CashlyDesignSystem
+import CashlyDomain
 import FeatureCore
 import SwiftUI
 
@@ -11,42 +12,43 @@ struct OutlookSection: View {
             Section {
                 VStack(spacing: .spaceM) {
                     FigureBlock(
-                        caption: "O mês deve fechar em", amount: outlook.projected,
+                        caption: String(appLocalized: "The month should close at"),
+                        amount: outlook.projected,
                         color: isOver ? .negative : .primary)
                     if let gap = outlook.gap {
                         Chip(
                             gap > 0
-                                ? "\(gap.formatted(.appCurrency)) acima do planejado"
-                                : "\((-gap).formatted(.appCurrency)) abaixo do planejado",
+                                ? "\(gap.formatted(.appCurrency)) over plan"
+                                : "\((-gap).formatted(.appCurrency)) under plan",
                             color: gap > 0 ? .negative : .positive)
                     }
                     OutlookBar(outlook: outlook)
                         .padding(.top, .spaceS)
                 }
                 OutlookRow(
-                    title: "Já gasto", value: outlook.spent, marker: .solid)
+                    title: "Already spent", value: outlook.spent, marker: .solid)
                 OutlookRow(
-                    title: "Ainda deve sair", value: outlook.remaining, marker: .faded)
+                    title: "Still to go out", value: outlook.remaining, marker: .faded)
                 if let budgeted = outlook.budgeted {
-                    OutlookRow(title: "Planejado", value: budgeted, marker: .line)
+                    OutlookRow(title: "Planned", value: budgeted, marker: .line)
                 }
                 if let daily = outlook.daily, let days = outlook.daysLeft {
                     LabeledContent {
-                        Text("\(daily.formatted(.appCurrency)) por dia")
+                        Text("\(daily.formatted(.appCurrency)) per day")
                             .fontWeight(.semibold)
                             .foregroundStyle(daily > 0 ? Color.positive : .negative)
                     } label: {
-                        Text("Dá para gastar")
-                        Text("nos próximos \(days) dias, sem passar do planejado")
+                        Text("You can spend")
+                        Text("over the next \(days) days without going over plan")
                     }
                 }
             } header: {
-                Text("Previsão do mês").sectionTitle()
+                Text("Month Forecast").sectionTitle()
             } footer: {
                 Text(
                     outlook.isUncertain
-                        ? "Ainda são poucos dias e pouco histórico; a previsão melhora com o tempo."
-                        : "Soma o que já saiu, as contas agendadas e o que você costuma gastar até o fim do mês."
+                        ? "There are still few days and little history; the forecast improves over time."
+                        : "Adds what already went out, scheduled bills and what you usually spend until the end of the month."
                 )
             }
         }

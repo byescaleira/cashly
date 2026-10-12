@@ -43,7 +43,7 @@ struct TagsSection: View {
                     open(.addTag(id: nil), in: section)
                 } label: {
                     HStack {
-                        Text("Adicionar tag")
+                        Text("Add Tag")
                         Spacer()
                         Image(systemName: "chevron.forward").foregroundStyle(.disabled)
                     }

@@ -1,0 +1,216 @@
+{
+  "fill-specializations": [
+    {
+      "value": {
+        "linear-gradient": [
+          "srgb:0.96471,0.92157,0.82745,1.00000",
+          "srgb:0.92157,0.85098,0.71373,1.00000"
+        ]
+      }
+    },
+    {
+      "appearance": "dark",
+      "value": {
+        "linear-gradient": [
+          "srgb:0.16471,0.12549,0.10588,1.00000",
+          "srgb:0.10980,0.08235,0.07059,1.00000"
+        ]
+      }
+    }
+  ],
+  "groups": [
+    {
+      "layers": [],
+      "name": "Group",
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": false,
+        "value": 0.5
+      }
+    },
+    {
+      "layers": [
+        {
+          "name": "Rectangle 4",
+          "image-name": "Rectangle 4.svg",
+          "glass": false,
+          "opacity": 1,
+          "fill-specializations": [
+            {
+              "value": {
+                "linear-gradient": [
+                  "srgb:0.98431,0.95686,0.90196,1.00000",
+                  "srgb:0.94510,0.89020,0.77647,1.00000"
+                ]
+              }
+            },
+            {
+              "appearance": "dark",
+              "value": {
+                "linear-gradient": [
+                  "srgb:0.23137,0.18039,0.15294,1.00000",
+                  "srgb:0.18039,0.14118,0.12157,1.00000"
+                ]
+              }
+            },
+            {
+              "appearance": "tinted",
+              "value": {
+                "solid": "srgb:0.78431,0.39216,0.16863,1.00000"
+              }
+            }
+          ],
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              232
+            ]
+          }
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": false,
+        "value": 0.5
+      }
+    },
+    {
+      "layers": [
+        {
+          "name": "Vector",
+          "image-name": "Vector.svg",
+          "glass": false,
+          "opacity": 0.95,
+          "fill-specializations": [
+            {
+              "value": {
+                "solid": "srgb:0.98431,0.95686,0.90196,1.00000"
+              }
+            },
+            {
+              "appearance": "dark",
+              "value": {
+                "solid": "srgb:0.95294,0.90196,0.80000,1.00000"
+              }
+            }
+          ],
+          "position": {
+            "scale": 1.85,
+            "translation-in-points": [
+              0,
+              -60
+            ]
+          },
+          "blend-mode": "normal"
+        },
+        {
+          "name": "Wedge0",
+          "image-name": "Wedge0.svg",
+          "glass": false,
+          "opacity": 1,
+          "fill-specializations": [
+            {
+              "value": {
+                "solid": "srgb:0.78431,0.22353,0.18039,1.00000"
+              }
+            }
+          ],
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Wedge1",
+          "image-name": "Wedge1.svg",
+          "glass": false,
+          "opacity": 1,
+          "fill-specializations": [
+            {
+              "value": {
+                "solid": "srgb:0.84706,0.58824,0.16471,1.00000"
+              }
+            }
+          ],
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Wedge2",
+          "image-name": "Wedge2.svg",
+          "glass": false,
+          "opacity": 1,
+          "fill-specializations": [
+            {
+              "value": {
+                "solid": "srgb:0.18039,0.54510,0.34118,1.00000"
+              }
+            }
+          ],
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Rectangle 2",
+          "image-name": "Rectangle 2.svg",
+          "glass": true,
+          "opacity": 1,
+          "fill-specializations": [
+            {
+              "value": {
+                "solid": "srgb:0.24706,0.43529,0.69020,1.00000"
+              }
+            },
+            {
+              "appearance": "dark",
+              "value": {
+                "solid": "srgb:0.27843,0.47451,0.74510,1.00000"
+              }
+            }
+          ],
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": true,
+        "value": 0.5
+      }
+    }
+  ],
+  "supported-platforms": {
+    "circles": [
+      "watchOS"
+    ],
+    "squares": "shared"
+  }
+}

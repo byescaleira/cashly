@@ -1,3 +1,5 @@
+import CashlyDomain
+
 public enum AvatarStyle: Int, CaseIterable, Identifiable, Sendable {
     case masculine, feminine
 
@@ -5,8 +7,8 @@ public enum AvatarStyle: Int, CaseIterable, Identifiable, Sendable {
 
     public var title: String {
         switch self {
-        case .masculine: "Masculino"
-        case .feminine: "Feminino"
+        case .masculine: String(appLocalized: "Masculine")
+        case .feminine: String(appLocalized: "Feminine")
         }
     }
 

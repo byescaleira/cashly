@@ -1,4 +1,5 @@
 import CashlyDesignSystem
+import CashlyDomain
 import SwiftUI
 
 public struct DataStatusSection: View {
@@ -12,18 +13,15 @@ public struct DataStatusSection: View {
         if finance.pendingReferences > 0 {
             Section {
                 Label(
-                    "Há registros incompletos aguardando sincronização. Os totais exibidos consideram apenas os registros disponíveis.",
+                    "Some records are still waiting to sync. Totals only include the records available.",
                     systemImage: "icloud.and.arrow.down"
                 )
                 .foregroundStyle(.warning)
-                Button("Atualizar dados") { session.reload() }
+                Button("Refresh Data") { session.reload() }
             }
         }
         if !finance.conflicts.isEmpty {
-            Section("Conflitos de orçamento") {
-                Text(
-                    "Valores planejados em conflito ficam fora dos totais até você escolher o orçamento que deve prevalecer."
-                )
+            Section {
                 ForEach(finance.conflicts) { conflict in
                     Button {
                         open(
@@ -32,10 +30,16 @@ public struct DataStatusSection: View {
                     } label: {
                         Label(
                             finance.allCategories.first { $0.id == conflict.categoryID }?.name
-                                ?? "Orçamento",
+                                ?? String(appLocalized: "Budget"),
                             systemImage: "exclamationmark.triangle")
                     }
                 }
+            } header: {
+                Text("Budget conflicts").sectionTitle()
+            } footer: {
+                Text(
+                    "Conflicting planned amounts stay out of the totals until you choose which budget to keep."
+                )
             }
         }
     }

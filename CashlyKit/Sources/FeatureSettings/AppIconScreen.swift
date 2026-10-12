@@ -1,4 +1,5 @@
 import CashlyDesignSystem
+import FeatureCore
 import SwiftUI
 
 struct AppIconScreen: View {
@@ -19,8 +20,9 @@ struct AppIconScreen: View {
             }
         }
         .formStyle(.grouped)
-        .navigationTitle("Ícone")
-        .alert("Ícone", isPresented: $settings.isShowingIconError) {
+        .readableWidth()
+        .navigationTitle("Icon")
+        .alert("Icon", isPresented: $settings.isShowingIconError) {
         } message: {
             Text(settings.iconError ?? "")
         }
@@ -34,7 +36,7 @@ private struct FeaturedIconsSection: View {
         Section {
             VStack(alignment: .leading, spacing: .spaceL) {
                 VStack(alignment: .leading, spacing: .space2XS) {
-                    Label("Ícones do mês", systemImage: "sparkles")
+                    Label("Icons of the Month", systemImage: "sparkles")
                         .font(.chipLabel)
                         .textCase(.uppercase)
                         .foregroundStyle(.white.opacity(.opacityStrong))
@@ -51,13 +53,14 @@ private struct FeaturedIconsSection: View {
                     colors: [Color(hex: "3A2340"), Color(hex: "7A1418"), Color(hex: "C8642B")],
                     startPoint: .topLeading, endPoint: .bottomTrailing))
         } footer: {
-            Text("Em destaque neste mês e disponíveis o ano todo.")
+            Text("Featured this month and available all year.")
         }
     }
 }
 
 private struct IconGrid: View {
     @Environment(SettingsModel.self) private var settings
+    @Environment(\.shop) private var shop
     let icons: [AppIcon]
     let size: CGFloat
 
@@ -67,8 +70,16 @@ private struct IconGrid: View {
             spacing: .spaceL
         ) {
             ForEach(icons) { icon in
-                IconChoice(icon: icon, size: size, isSelected: icon == settings.appIcon) {
-                    Task { await settings.setAppIcon(icon) }
+                let lock = icon.shopItem.flatMap { shop.owns($0) ? nil : $0 }
+                IconChoice(
+                    icon: icon, size: size, isSelected: icon == settings.appIcon,
+                    isLocked: lock != nil
+                ) {
+                    if let lock {
+                        shop.open(lock)
+                    } else {
+                        Task { await settings.setAppIcon(icon) }
+                    }
                 }
             }
         }
@@ -82,6 +93,7 @@ private struct IconChoice: View {
     let icon: AppIcon
     let size: CGFloat
     let isSelected: Bool
+    let isLocked: Bool
     let action: () -> Void
 
     var body: some View {
@@ -94,6 +106,16 @@ private struct IconChoice: View {
                             .padding(-.space2XS)
                             .opacity(isSelected ? 1 : 0)
                     }
+                    .overlay(alignment: .bottomTrailing) {
+                        if isLocked {
+                            Image(systemName: "lock.fill")
+                                .font(.caption2.weight(.bold))
+                                .foregroundStyle(.white)
+                                .padding(.spaceXS)
+                                .background(.black.opacity(.opacityStrong), in: .circle)
+                                .offset(x: .spaceXS, y: .spaceXS)
+                        }
+                    }
                     .shadow(color: .black.opacity(.opacityFill), radius: 4, y: 2)
                 Text(icon.title)
                     .font(.caption.weight(isSelected ? .bold : .regular))
@@ -103,6 +125,7 @@ private struct IconChoice: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(icon.title)
+        .accessibilityValue(isLocked ? Text("Locked") : Text(verbatim: ""))
         .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }

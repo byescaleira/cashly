@@ -10,7 +10,7 @@ struct TransactionSummarySection: View {
         @Bindable var model = model
         Section {
             VStack(alignment: .leading, spacing: .spaceM) {
-                TextField("Descreva a transação", text: $model.draft.summary, axis: .vertical)
+                TextField("Describe the transaction", text: $model.draft.summary, axis: .vertical)
                 let tags = model.draft.summaryTags
                 if !tags.isEmpty {
                     FlowLayout(spacing: .spaceXS) {
@@ -22,12 +22,12 @@ struct TransactionSummarySection: View {
                 }
             }
             .animation(.snappy, value: model.draft.selectedTagIDs)
-            Picker("Situação", selection: $model.draft.status) {
+            Picker("Status", selection: $model.draft.status) {
                 ForEach(TransactionStatus.allCases) { Text($0.summary).tag($0) }
             }
             .tint(model.draft.status.color)
         } header: {
-            Text("Descrição").sectionTitle()
+            Text("Description").sectionTitle()
         }
     }
 }
@@ -43,6 +43,6 @@ private struct TagChip: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel("Tag \(tag.name)")
-        .accessibilityHint("Toque para remover")
+        .accessibilityHint("Tap to remove")
     }
 }

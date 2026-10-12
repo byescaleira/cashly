@@ -24,6 +24,10 @@ extension CashlyStore {
             transactions += mapped.items
             skipped += mapped.pending
         }
+        for user in users {
+            insertGameEvent(GameEvent(kind: .backupCreated), ownerID: user.id)
+        }
+        try? commit()
         return BackupExport(
             backup: CashlyBackup(
                 users: users, categories: categories, tags: tags, budgets: budgets,
@@ -42,13 +46,16 @@ extension CashlyStore {
                 try upsert(budget, userID: budget.user.id, allowsConflict: true)
             }
             for transaction in entities.transactions {
-                try upsert(transaction, userID: transaction.ownerID)
+                try upsert(transaction, userID: transaction.ownerID, recordsEvent: false)
             }
             try commit()
         } catch {
             modelContext.rollback()
             throw CashlyError.invalidInput(
-                "O backup tem registros incompatíveis com os dados deste aparelho. Nada foi alterado."
+                String(
+                    appLocalized:
+                        "The backup has records that conflict with the data on this device. Nothing was changed."
+                )
             )
         }
     }
@@ -56,6 +63,7 @@ extension CashlyStore {
     public func eraseAll() throws -> [String] {
         let userIDs = try getUsers().map(\.id)
         do {
+            try deleteAll(GameEventEntity.self)
             try deleteAll(ParticipantEntity.self)
             try deleteAll(TransactionEntity.self)
             try deleteAll(BudgetEntity.self)

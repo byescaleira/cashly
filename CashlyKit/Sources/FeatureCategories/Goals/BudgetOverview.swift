@@ -1,4 +1,5 @@
 import CashlyDomain
+import FeatureCore
 import Foundation
 
 public struct BudgetProgress: Identifiable, Hashable, Sendable {
@@ -7,19 +8,19 @@ public struct BudgetProgress: Identifiable, Hashable, Sendable {
 
         var title: String {
             switch self {
-            case .over: "Passaram do limite"
-            case .attention: "Perto do limite"
-            case .onTrack: "No caminho"
-            case .untouched: "Sem gastos ainda"
+            case .over: String(appLocalized: "Over the limit")
+            case .attention: String(appLocalized: "Close to the limit")
+            case .onTrack: String(appLocalized: "On track")
+            case .untouched: String(appLocalized: "No spending yet")
             }
         }
 
         var detail: String {
             switch self {
-            case .over: "O gasto já é maior que o planejado."
-            case .attention: "Já usaram 80% ou mais do planejado."
-            case .onTrack: "O gasto está dentro do planejado."
-            case .untouched: "Nenhum gasto registrado neste período."
+            case .over: String(appLocalized: "Spending is already higher than planned.")
+            case .attention: String(appLocalized: "Already used 80% or more of the plan.")
+            case .onTrack: String(appLocalized: "Spending is within plan.")
+            case .untouched: String(appLocalized: "No spending recorded in this period.")
             }
         }
     }
@@ -65,6 +66,25 @@ public struct BudgetOverview: Sendable {
     public var remaining: Double { planned - spent }
     public var ratio: Double { planned > 0 ? spent / planned : 0 }
     public var unbudgeted: Double { max(totalSpent - spent, 0) }
+
+    public var remainingAmount: Double { abs(remaining) }
+
+    public var headline: String {
+        let planned = planned.formatted(.appCurrency)
+        return remaining >= 0
+            ? String(appLocalized: "available of \(planned) planned")
+            : String(appLocalized: "over the \(planned) planned")
+    }
+
+    public var usageTitle: String {
+        String(
+            appLocalized:
+                "\(ratio.formatted(.percent.precision(.fractionLength(0)).locale(.app))) used")
+    }
+
+    public var linkTitle: String {
+        String(appLocalized: "See the \(items.count) budgets")
+    }
 
     public var counts: [(group: BudgetProgress.Group, count: Int)] {
         groups.map { ($0.group, $0.items.count) }

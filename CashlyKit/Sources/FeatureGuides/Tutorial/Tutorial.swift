@@ -3,7 +3,7 @@ import SwiftUI
 
 struct TutorialPage: Identifiable {
     let id = UUID()
-    let example: TutorialExample
+    let animation: CashlyAnimation
     let title: LocalizedStringKey
     let message: LocalizedStringKey
 }
@@ -14,58 +14,60 @@ extension Guide {
         case .tour:
             [
                 TutorialPage(
-                    example: .month, title: "Início",
+                    animation: .month, title: "Home",
                     message:
-                        "O resumo do mês: quanto entrou, quanto saiu, a pontuação e quanto ainda dá para gastar."
+                        "The month at a glance: money in, money out, your score and how much you can still spend."
                 ),
                 TutorialPage(
-                    example: .history, title: "Histórico",
+                    animation: .history, title: "History",
                     message:
-                        "Todas as entradas e saídas, por dia. Toque em + para registrar e deslize para editar."
+                        "All money in and out, by day. Tap + to add a transaction and swipe to edit."
                 ),
                 TutorialPage(
-                    example: .budgetPace, title: "Metas",
+                    animation: .budgetPace, title: "Goals",
                     message:
-                        "Orçamentos e categorias. Defina quanto quer gastar e acompanhe o ritmo do mês."
+                        "Budgets and categories. Set how much you want to spend and follow the month's pace."
                 ),
                 TutorialPage(
-                    example: .search, title: "Buscar",
-                    message: "Encontre qualquer transação, categoria ou tag, de qualquer mês."),
+                    animation: .journey, title: "Journey",
+                    message:
+                        "Levels, a streak, weekly missions and challenges that reward following your money, never spending more."
+                ),
             ]
         case .budgets:
             [
                 TutorialPage(
-                    example: .budget,
-                    title: "Um orçamento por categoria",
+                    animation: .budget,
+                    title: "One Budget per Category",
                     message:
-                        "Em Metas, toque em + e escolha a categoria, o mês e o valor."
+                        "In Goals, tap + and choose the category, month and amount."
                 ),
                 TutorialPage(
-                    example: .budgetPace,
-                    title: "Acompanhe o ritmo",
+                    animation: .budgetPace,
+                    title: "Follow the Pace",
                     message:
-                        "As barras mostram o uso: verde no caminho, mostarda perto do limite, ferrugem acima do planejado."
+                        "The bars show usage: green on track, mustard close to the limit, rust over plan."
                 ),
                 TutorialPage(
-                    example: .score, title: "Pontuação de saúde",
+                    animation: .score, title: "Health Score",
                     message:
-                        "No Início, a pontuação vai de 200 a 1.000 e sobe quando os gastos ficam dentro do planejado."
+                        "On Home, the score goes from 200 to 1,000 and rises when spending stays within plan."
                 ),
             ]
         case .sharing:
             [
                 TutorialPage(
-                    example: .participants, title: "Participantes",
-                    message: "Numa transação, adicione as pessoas que dividiram a conta com você."),
+                    animation: .participants, title: "Participants",
+                    message: "In a transaction, add the people who split the bill with you."),
                 TutorialPage(
-                    example: .splitModes, title: "Como dividir",
+                    animation: .splitModes, title: "How to Split",
                     message:
-                        "Em partes iguais, por valor fixo ou por porcentagem. O Cashly calcula a parte de cada um."
+                        "Equally, by fixed amount or by percentage. Cashly works out each person's share."
                 ),
                 TutorialPage(
-                    example: .paid, title: "Quem já pagou",
+                    animation: .paid, title: "Who Already Paid",
                     message:
-                        "Marque cada participante como pago ou a receber para saber quem ainda deve."
+                        "Mark each participant as paid or to receive to know who still owes."
                 ),
             ]
         case .importSpreadsheet, .score: []

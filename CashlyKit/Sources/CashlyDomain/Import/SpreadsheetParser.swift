@@ -1,26 +1,35 @@
 import Foundation
 
 public enum SpreadsheetParser {
-    public static let template =
-        "Data;Descrição;Categoria;Tipo;Situação;Valor;Parcelas;Tags\r\n"
-        + "2026-10-05;Supermercado;Mercado;Saída;Paga;245,90;1;Casa\r\n"
-        + "2026-10-05;Salário;Trabalho;Entrada;Paga;5.000,00;1;\r\n"
-        + "2026-10-12;Notebook;Tecnologia;Saída;A pagar;3.600,00;10;\r\n"
-
     private enum Column: CaseIterable {
         case date, summary, category, kind, status, amount, installments, tags
 
-        var names: [String] {
+        var term: SpreadsheetTerm {
             switch self {
-            case .date: ["data"]
-            case .summary: ["descricao", "historico"]
-            case .category: ["categoria"]
-            case .kind: ["tipo"]
-            case .status: ["situacao", "status"]
-            case .amount: ["valor"]
-            case .installments: ["parcelas"]
-            case .tags: ["tags", "tag"]
+            case .date: .date
+            case .summary: .summary
+            case .category: .category
+            case .kind: .kind
+            case .status: .status
+            case .amount: .amount
+            case .installments: .installments
+            case .tags: .tags
             }
+        }
+
+        var names: Set<String> {
+            let aliases: [String] =
+                switch self {
+                case .date: ["data", "date"]
+                case .summary: ["descricao", "historico", "description"]
+                case .category: ["categoria", "category"]
+                case .kind: ["tipo", "type"]
+                case .status: ["situacao", "status"]
+                case .amount: ["valor", "amount"]
+                case .installments: ["parcelas", "installments"]
+                case .tags: ["tags", "tag"]
+                }
+            return Set(aliases).union(term.translations.map(key))
         }
     }
 
@@ -29,11 +38,16 @@ public enum SpreadsheetParser {
         let lines = records(text, separator: separator)
         guard let header = lines.first else {
             return SpreadsheetPreview(
-                rows: [], issues: [SpreadsheetIssue(line: 1, message: "O arquivo está vazio.")])
+                rows: [],
+                issues: [
+                    SpreadsheetIssue(line: 1, message: String(appLocalized: "The file is empty."))
+                ])
         }
         var index: [Column: Int] = [:]
+        let names = Dictionary(uniqueKeysWithValues: Column.allCases.map { ($0, $0.names) })
         for (position, name) in header.enumerated() {
-            if let column = Column.allCases.first(where: { $0.names.contains(key(name)) }) {
+            if let column = Column.allCases.first(where: { names[$0]?.contains(key(name)) == true })
+            {
                 index[column] = position
             }
         }
@@ -43,7 +57,11 @@ public enum SpreadsheetParser {
                 rows: [],
                 issues: [
                     SpreadsheetIssue(
-                        line: 1, message: "Faltam as colunas Data, Descrição e Valor no cabeçalho.")
+                        line: 1,
+                        message: String(
+                            appLocalized:
+                                "The header is missing the \(SpreadsheetTerm.date.title), \(SpreadsheetTerm.summary.title) and \(SpreadsheetTerm.amount.title) columns."
+                        ))
                 ])
         }
         var rows: [SpreadsheetRow] = []
@@ -61,7 +79,8 @@ public enum SpreadsheetParser {
             } catch let error as SpreadsheetIssue {
                 issues.append(error)
             } catch {
-                issues.append(SpreadsheetIssue(line: line, message: "Linha inválida."))
+                issues.append(
+                    SpreadsheetIssue(line: line, message: String(appLocalized: "Invalid row.")))
             }
         }
         return SpreadsheetPreview(rows: rows, issues: issues)
@@ -80,30 +99,41 @@ public enum SpreadsheetParser {
         guard let date = date(value(.date), calendar: calendar) else {
             throw SpreadsheetIssue(
                 line: line,
-                message: "Data \"\(value(.date))\" não reconhecida. Use 2026-10-05 ou 05/10/2026.")
+                message: String(
+                    appLocalized:
+                        "Date \"\(value(.date))\" not recognized. Use 2026-10-05 or 05/10/2026."))
         }
         let summary = value(.summary)
         guard summary.count >= 2 else {
-            throw SpreadsheetIssue(line: line, message: "Descrição vazia.")
+            throw SpreadsheetIssue(
+                line: line, message: String(appLocalized: "Empty description."))
         }
         guard let minorUnits = amount(value(.amount)), minorUnits != 0 else {
             throw SpreadsheetIssue(
-                line: line, message: "Valor \"\(value(.amount))\" não reconhecido. Use 1.234,56.")
+                line: line,
+                message: String(
+                    appLocalized:
+                        "Amount \"\(value(.amount))\" not recognized. Use \(SpreadsheetTerm.amount(123_456))."
+                ))
         }
         let kindText = key(value(.kind))
+        let incomeWords =
+            ["entrada", "receita", "income"] + SpreadsheetTerm.income.translations.map(key)
         let kind: TransactionKind =
-            kindText.hasPrefix("entrada") || kindText.hasPrefix("receita")
+            incomeWords.contains { kindText.hasPrefix($0) }
             ? .income
             : kindText.isEmpty && minorUnits > 0 && value(.amount).hasPrefix("+")
                 ? .income : .expense
         let installments = Int(value(.installments)) ?? 1
         guard (1...120).contains(installments) else {
-            throw SpreadsheetIssue(line: line, message: "Parcelas devem ficar entre 1 e 120.")
+            throw SpreadsheetIssue(
+                line: line,
+                message: String(appLocalized: "Installments must be between 1 and 120."))
         }
         let category = value(.category)
         return SpreadsheetRow(
             line: line, date: date, summary: summary,
-            category: category.isEmpty ? "Outros" : category, kind: kind,
+            category: category.isEmpty ? String(appLocalized: "Other") : category, kind: kind,
             status: status(value(.status), kind: kind), money: Money(minorUnits: abs(minorUnits)),
             installments: installments,
             tags: value(.tags).split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
@@ -116,6 +146,10 @@ public enum SpreadsheetParser {
         var components = DateComponents()
         if text.contains("-") && parts[0] > 31 {
             (components.year, components.month, components.day) = (parts[0], parts[1], parts[2])
+        } else if parts[1] > 12 && parts[0] <= 12 {
+            (components.month, components.day, components.year) = (
+                parts[0], parts[1], parts[2] < 100 ? 2000 + parts[2] : parts[2]
+            )
         } else {
             (components.day, components.month, components.year) = (
                 parts[0], parts[1], parts[2] < 100 ? 2000 + parts[2] : parts[2]
@@ -149,9 +183,13 @@ public enum SpreadsheetParser {
 
     private static func status(_ text: String, kind: TransactionKind) -> TransactionStatus {
         let value = key(text)
-        if value.contains("cancel") { return .canceled }
-        if value.contains("receber") { return .pendingToReceive }
-        if value.contains("pagar") || value.contains("pendente") {
+        func matches(_ words: [String], _ label: SpreadsheetTerm) -> Bool {
+            let terms = words + label.translations.map(key)
+            return terms.contains { value.contains($0) }
+        }
+        if matches(["cancel"], .canceled) { return .canceled }
+        if matches(["receber", "receive"], .toReceive) { return .pendingToReceive }
+        if matches(["pagar", "pendente", "pending", "to pay"], .toPay) {
             return kind == .income ? .pendingToReceive : .pendingToPay
         }
         return .settled

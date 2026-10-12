@@ -9,10 +9,10 @@ struct AvatarSection: View {
         @Bindable var model = model
         Section {
         } header: {
-            Text("Foto").sectionTitle()
+            Text("Photo").sectionTitle()
         } footer: {
             VStack(spacing: .space2XL) {
-                Picker("Estilo", selection: $model.avatarStyle) {
+                Picker("Style", selection: $model.avatarStyle) {
                     ForEach(AvatarStyle.allCases) { Text($0.title).tag($0) }
                 }
                 .pickerStyle(.segmented)
@@ -49,7 +49,7 @@ private struct AvatarGrid: View {
                         }
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel("Foto \(photo)")
+                .accessibilityLabel("Photo \(photo)")
                 .accessibilityAddTraits(selection == photo ? .isSelected : [])
             }
         }

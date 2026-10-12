@@ -1,3 +1,4 @@
+import CashlyDomain
 import Foundation
 
 struct DeviceStatus {
@@ -16,11 +17,11 @@ struct DeviceStatus {
 
     private static func title(for state: ProcessInfo.ThermalState) -> String {
         switch state {
-        case .nominal: "Normal"
-        case .fair: "Moderado"
-        case .serious: "Alto"
-        case .critical: "Crítico"
-        @unknown default: "Desconhecido"
+        case .nominal: String(appLocalized: "Normal")
+        case .fair: String(appLocalized: "Moderate")
+        case .serious: String(appLocalized: "High")
+        case .critical: String(appLocalized: "Critical")
+        @unknown default: String(appLocalized: "Unknown")
         }
     }
 }

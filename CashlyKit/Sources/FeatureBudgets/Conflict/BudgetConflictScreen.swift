@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import CashlyDomain
 import FeatureCore
 import SwiftUI
@@ -11,32 +12,74 @@ public struct BudgetConflictScreen: View {
 
     public var body: some View {
         @Bindable var model = model
-        List {
-            Section {
-                Text(
-                    "Escolha o valor planejado que deve prevalecer. As transações serão reunidas nesse orçamento; os outros registros serão preservados como histórico do conflito."
-                )
-            }
-            if let conflict = model.conflict {
-                ForEach(conflict.budgets) { budget in
-                    Section {
-                        LabeledContent("Valor", value: budget.money.formatted)
-                        Text(budget.summary)
-                        Button("Manter este orçamento") {
-                            Task { if await model.keep(budget) { close() } }
+        AdaptiveList {
+            if let conflict = model.conflict, let first = conflict.budgets.first {
+                Section {
+                    HStack(spacing: .spaceM) {
+                        SymbolBadge(first.category.icon, color: Color(hex: first.category.color))
+                        VStack(alignment: .leading, spacing: .spaceHairline) {
+                            Text(first.category.name).font(.rowTitle)
+                            Text(
+                                first.month.startDate.formatted(
+                                    .dateTime.month(.wide).year().locale(.app))
+                            )
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
                         }
                     }
+                    .accessibilityElement(children: .combine)
+                } header: {
+                    Text("Resolve Budget").sectionTitle()
+                } footer: {
+                    Text(
+                        "Choose the planned amount to keep. Transactions will be grouped under that budget; the other records are kept as the conflict's history."
+                    )
+                }
+                ForEach(Array(conflict.budgets.enumerated()), id: \.element.id) { index, budget in
+                    ConflictOptionSection(budget: budget, number: index + 1)
                 }
             } else if model.isLoading {
-                ProgressView()
+                Section { ProgressView().frame(maxWidth: .infinity) }
             } else {
-                Text("Este conflito já foi resolvido. Atualize os dados para continuar.")
+                Section {
+                    Text("This conflict was already resolved. Refresh the data to continue.")
+                }
             }
         }
-        .navigationTitle("Resolver orçamento")
+        .fontDesign(.rounded)
+        .navigationTitle("Resolve Budget")
         .task(id: finance.contentGeneration) { await model.load() }
         .disabled(model.isLocked)
         .interactiveDismissDisabled(model.isSaving)
         .errorAlert($model.error)
+    }
+}
+
+private struct ConflictOptionSection: View {
+    @Environment(BudgetConflictModel.self) private var model
+    @Environment(\.close) private var close
+    @Environment(\.pro) private var pro
+    let budget: Budget
+    let number: Int
+
+    var body: some View {
+        Section {
+            VStack(alignment: .leading, spacing: .spaceHairline) {
+                Text(budget.money.doubleValue.formatted(.appCurrency))
+                    .font(.amountRow)
+                    .amountLine()
+                if !budget.summary.isEmpty {
+                    Text(budget.summary).font(.footnote).foregroundStyle(.secondary)
+                }
+            }
+            .padding(.vertical, .space2XS)
+            .accessibilityElement(children: .combine)
+            Button("Keep This Budget", systemImage: "checkmark.circle") {
+                pro.perform { Task { if await model.keep(budget) { close() } } }
+            }
+            .font(.buttonLabel)
+        } header: {
+            Text("Option \(number)").sectionTitle()
+        }
     }
 }

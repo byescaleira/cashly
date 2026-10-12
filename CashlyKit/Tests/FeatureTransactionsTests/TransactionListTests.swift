@@ -48,7 +48,7 @@ struct TransactionListTests {
         list.isSelecting = true
         list.toggleSelectAll()
         #expect(list.isAllSelected)
-        #expect(list.shareMessage(participants: []).contains("Registros: 2"))
+        #expect(list.shareMessage(participants: []).contains("Records: 2"))
         list.toggleSelectAll()
         #expect(list.selection.isEmpty)
         list.selection = [try #require(list.items.first { $0.id == "a" })]

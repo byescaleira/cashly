@@ -59,7 +59,8 @@ extension CashlyBackup {
     private func index<Value: Identifiable>(_ values: [Value]) throws -> [String: Value]
     where Value.ID == String {
         try Dictionary(values.map { ($0.id, $0) }) { _, _ in
-            throw CashlyError.invalidInput("O backup tem registros repetidos.")
+            throw CashlyError.invalidInput(
+                String(appLocalized: "The backup has duplicate records."))
         }
     }
 }
@@ -106,7 +107,8 @@ extension CashlyBackup.TransactionRecord {
 
 private func require<Value>(_ value: Value?) throws -> Value {
     guard let value else {
-        throw CashlyError.invalidInput("O backup tem referências incompletas.")
+        throw CashlyError.invalidInput(
+            String(appLocalized: "The backup has incomplete references."))
     }
     return value
 }

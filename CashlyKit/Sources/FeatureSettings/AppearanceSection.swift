@@ -6,8 +6,8 @@ struct AppearanceSection: View {
     var body: some View {
         @Bindable var settings = settings
         Section {
-            LabeledContent("Tema") {
-                Picker("Tema", selection: $settings.appearance) {
+            LabeledContent("Theme") {
+                Picker("Theme", selection: $settings.appearance) {
                     ForEach(Appearance.allCases) { Text($0.title).tag($0) }
                 }
                 .labelsHidden()

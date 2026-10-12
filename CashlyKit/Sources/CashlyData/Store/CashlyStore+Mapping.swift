@@ -8,7 +8,7 @@ extension CashlyStore {
     {
         guard CurrencySetting.isSupported(currencyCode) else {
             throw CashlyError.persistence(
-                "Este registro usa uma moeda ainda não suportada pelo Cashly.")
+                String(appLocalized: "This record uses a currency Cashly doesn't support yet."))
         }
         let value = try minorUnits.map(Money.init(minorUnits:)) ?? Money(validating: legacy)
         guard value.minorUnits >= 0 else { throw CashlyError.onFetch }
@@ -66,7 +66,9 @@ extension CashlyStore {
         let identities = try modelContext.fetch(identityQuery)
         guard identities.count == recordIDs.count else {
             throw CashlyError.persistence(
-                "Existem transações com IDs conflitantes no armazenamento. Os registros foram preservados."
+                String(
+                    appLocalized:
+                        "Some transactions in storage have conflicting IDs. The records were kept.")
             )
         }
         let users = try uniqueIndex(catalog.users)
@@ -130,7 +132,9 @@ extension CashlyStore {
         for value in values {
             guard output.updateValue(value, forKey: value.id) == nil else {
                 throw CashlyError.persistence(
-                    "Existem IDs conflitantes no armazenamento. Atualize a sincronização antes de continuar."
+                    String(
+                        appLocalized:
+                            "Storage has conflicting IDs. Let sync finish before continuing.")
                 )
             }
         }

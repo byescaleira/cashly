@@ -1,0 +1,209 @@
+{
+  "fill-specializations": [
+    {
+      "value": {
+        "linear-gradient": [
+          "srgb:0.96471,0.92157,0.82745,1.00000",
+          "srgb:0.92157,0.85098,0.71373,1.00000"
+        ]
+      }
+    },
+    {
+      "appearance": "dark",
+      "value": {
+        "linear-gradient": [
+          "srgb:0.16471,0.12549,0.10588,1.00000",
+          "srgb:0.10980,0.08235,0.07059,1.00000"
+        ]
+      }
+    }
+  ],
+  "groups": [
+    {
+      "layers": [
+        {
+          "name": "Glare",
+          "image-name": "Glare.svg",
+          "glass": false,
+          "opacity": 0.85,
+          "fill-specializations": [
+            {
+              "value": {
+                "solid": "srgb:0.94902,0.75686,0.30588,1.00000"
+              }
+            }
+          ],
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              232
+            ]
+          }
+        }
+      ],
+      "name": "Group",
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": false,
+        "value": 0.5
+      }
+    },
+    {
+      "layers": [
+        {
+          "name": "Rectangle 4",
+          "image-name": "Rectangle 4.svg",
+          "glass": false,
+          "opacity": 1,
+          "fill-specializations": [
+            {
+              "value": {
+                "linear-gradient": [
+                  "srgb:0.17255,0.35294,0.47843,1.00000",
+                  "srgb:0.12157,0.24706,0.35294,1.00000"
+                ]
+              }
+            },
+            {
+              "appearance": "dark",
+              "value": {
+                "linear-gradient": [
+                  "srgb:0.15686,0.32549,0.43922,1.00000",
+                  "srgb:0.10588,0.21961,0.31373,1.00000"
+                ]
+              }
+            },
+            {
+              "appearance": "tinted",
+              "value": {
+                "solid": "srgb:0.78431,0.39216,0.16863,1.00000"
+              }
+            }
+          ],
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              232
+            ]
+          }
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": false,
+        "value": 0.5
+      }
+    },
+    {
+      "layers": [
+        {
+          "name": "Vector",
+          "image-name": "Vector.svg",
+          "glass": false,
+          "opacity": 0.95,
+          "fill-specializations": [
+            {
+              "value": {
+                "solid": "srgb:0.29020,0.12157,0.23922,1.00000"
+              }
+            },
+            {
+              "appearance": "dark",
+              "value": {
+                "solid": "srgb:0.29020,0.12157,0.23922,1.00000"
+              }
+            }
+          ],
+          "position": {
+            "scale": 1.85,
+            "translation-in-points": [
+              0,
+              -60
+            ]
+          },
+          "blend-mode": "normal"
+        },
+        {
+          "name": "Sun",
+          "image-name": "Sun.svg",
+          "glass": false,
+          "opacity": 1,
+          "fill-specializations": [
+            {
+              "value": {
+                "solid": "srgb:0.94902,0.75686,0.30588,1.00000"
+              }
+            },
+            {
+              "appearance": "dark",
+              "value": {
+                "solid": "srgb:0.95686,0.78431,0.35294,1.00000"
+              }
+            }
+          ],
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "name": "Rectangle 2",
+          "image-name": "Rectangle 2.svg",
+          "glass": true,
+          "opacity": 1,
+          "fill-specializations": [
+            {
+              "value": {
+                "linear-gradient": [
+                  "srgb:0.87843,0.43922,0.22745,1.00000",
+                  "srgb:0.72157,0.27059,0.41569,1.00000"
+                ]
+              }
+            },
+            {
+              "appearance": "dark",
+              "value": {
+                "linear-gradient": [
+                  "srgb:0.89804,0.47843,0.26667,1.00000",
+                  "srgb:0.75294,0.30980,0.45098,1.00000"
+                ]
+              }
+            }
+          ],
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": true,
+        "value": 0.5
+      }
+    }
+  ],
+  "supported-platforms": {
+    "circles": [
+      "watchOS"
+    ],
+    "squares": "shared"
+  }
+}

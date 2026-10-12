@@ -17,10 +17,11 @@ public struct BudgetEditorScreen: View {
             BudgetDateSection()
         }
         .fontDesign(.rounded)
+        .readableWidth()
         .toolbar {
             if model.canSuggestAmount(with: intelligence) {
                 ToolbarItem {
-                    Button("Sugerir valor", systemImage: "bolt") {
+                    Button("Suggest Amount", systemImage: "bolt") {
                         Task { await model.suggestAmount(with: intelligence) }
                     }
                     .tint(.retroMustard)

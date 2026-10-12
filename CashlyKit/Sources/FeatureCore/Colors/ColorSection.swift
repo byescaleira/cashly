@@ -15,7 +15,7 @@ public struct ColorSection: View {
             RetroColorPicker(hex: $hex)
         } header: {
             HStack(alignment: .firstTextBaseline) {
-                Text("Cor").sectionTitle()
+                Text("Color").sectionTitle()
                 Spacer()
                 Text(RetroColor.name(for: hex))
                     .font(.subheadline.weight(.semibold))

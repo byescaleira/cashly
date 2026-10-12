@@ -5,20 +5,25 @@ import SwiftUI
 extension CashlyIntelligence {
     public var name: String {
         switch self {
-        case .budgetValue: "Orçamento inteligente"
-        case .categoryName: "Categorização automática"
-        case .tagValue: "Previsão por tag"
+        case .budgetValue: String(appLocalized: "Smart Budget")
+        case .categoryName: String(appLocalized: "Auto Categorization")
+        case .tagValue: String(appLocalized: "Tag Forecast")
         }
     }
 
     public var summary: String {
         switch self {
         case .budgetValue:
-            "Estima o gasto mensal de cada categoria pela média de até seis meses registrados."
+            String(
+                appLocalized:
+                    "Estimates each category's monthly spending from the average of up to six recorded months."
+            )
         case .categoryName:
-            "Sugere a categoria a partir das palavras de transações já registradas."
+            String(
+                appLocalized:
+                    "Suggests a category from the words in transactions you've already recorded.")
         case .tagValue:
-            "Prevê o gasto esperado de cada tag em um mês a partir do histórico."
+            String(appLocalized: "Predicts each tag's expected monthly spending from your history.")
         }
     }
 

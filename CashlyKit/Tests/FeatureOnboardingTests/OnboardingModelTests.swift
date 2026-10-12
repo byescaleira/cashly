@@ -42,7 +42,7 @@ struct OnboardingModelTests {
         let categories = try await database.repositories(for: user.id).dashboard.snapshot(
             month: nil
         ).categories
-        #expect(Set(categories.map(\.name)) == ["Mercado", "Pets"])
+        #expect(Set(categories.map(\.name)) == ["Groceries", "Pets"])
         #expect(categories.allSatisfy { RetroColor(hex: $0.color) != nil })
     }
 

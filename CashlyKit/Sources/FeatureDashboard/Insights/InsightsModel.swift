@@ -46,14 +46,16 @@ public final class InsightsModel {
         public var id: String { name }
 
         public var badge: String {
-            guard typical > 0 else { return "Novo este mês" }
-            let times = (current / typical).formatted(.number.precision(.fractionLength(1)))
-            return "\(times)× o normal"
+            guard typical > 0 else { return String(appLocalized: "New this month") }
+            let times = (current / typical).formatted(
+                .number.precision(.fractionLength(1)).locale(.app))
+            return String(appLocalized: "\(times)× usual")
         }
 
         public var reference: String {
             typical > 0
-                ? "O normal é \(typical.formatted(.appCurrency))" : "Sem gastos nos outros meses"
+                ? String(appLocalized: "Usually \(typical.formatted(.appCurrency))")
+                : String(appLocalized: "No spending in other months")
         }
     }
 

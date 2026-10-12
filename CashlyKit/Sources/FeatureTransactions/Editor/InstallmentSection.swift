@@ -7,15 +7,15 @@ struct InstallmentSection: View {
     var body: some View {
         @Bindable var model = model
         Section {
-            Toggle("Parcelar", isOn: $model.draft.installmentIsOn)
+            Toggle("Pay in Installments", isOn: $model.draft.installmentIsOn)
                 .tint(.positive)
             if model.draft.installmentIsOn {
-                Picker("Número de parcelas", selection: $model.draft.installmentPlan) {
+                Picker("Number of Installments", selection: $model.draft.installmentPlan) {
                     ForEach(1...21, id: \.self) { Text("\($0)x").tag($0) }
                 }
             }
         } header: {
-            Text("Parcelamento").sectionTitle()
+            Text("Installments").sectionTitle()
         }
     }
 }

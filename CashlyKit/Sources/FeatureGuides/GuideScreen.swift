@@ -14,9 +14,13 @@ public struct GuideScreen: View {
         case .importSpreadsheet:
             ModelHost(SpreadsheetImportModel(session: session)) { SpreadsheetImportScreen() }
         case .score:
-            ScoreGuideScreen()
+            ScoreGuideScreen(onFinish: complete)
         case .tour, .budgets, .sharing:
-            TutorialScreen(pages: guide.pages)
+            TutorialScreen(pages: guide.pages, onFinish: complete)
         }
+    }
+
+    private func complete() {
+        Task { [session, guide] in await session.record(.guideCompleted, value: guide.rawValue) }
     }
 }

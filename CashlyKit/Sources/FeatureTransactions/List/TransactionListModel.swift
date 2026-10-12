@@ -47,6 +47,14 @@ public final class TransactionListModel {
             transactions: selection, participants: participants, month: loadedKey?.query.month)
     }
 
+    public func isSelected(_ transaction: CashlyDomain.Transaction) -> Bool {
+        selection.contains(transaction)
+    }
+
+    public func toggleSelection(of transaction: CashlyDomain.Transaction) {
+        if selection.remove(transaction) == nil { selection.insert(transaction) }
+    }
+
     public func toggleSelectAll() {
         selection = isAllSelected ? [] : Set(items)
     }

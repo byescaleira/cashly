@@ -71,7 +71,8 @@ private struct ShareValue: View {
                 Picker(selection: $participant.splitValue) {
                     ForEach(1...100, id: \.self) { value in
                         Text(
-                            (Double(value) / 100).formatted(.percent.precision(.fractionLength(0)))
+                            (Double(value) / 100).formatted(
+                                .percent.precision(.fractionLength(0)).locale(.app))
                         )
                         .tag(Double(value) / 100)
                     }
@@ -83,7 +84,8 @@ private struct ShareValue: View {
                     allocated
                     HStack(spacing: .space2XS) {
                         Text(
-                            participant.splitValue.formatted(.percent.precision(.fractionLength(0)))
+                            participant.splitValue.formatted(
+                                .percent.precision(.fractionLength(0)).locale(.app))
                         )
                         .font(.buttonLabel)
                         Image(systemName: "chevron.up.chevron.down").font(
@@ -96,7 +98,7 @@ private struct ShareValue: View {
             Image(systemName: "checkmark.seal.text.page.fill")
                 .font(.icon(.l, weight: .semibold))
                 .foregroundStyle(appTint.opacity(.opacityStrong))
-                .accessibilityLabel("Quem pagou")
+                .accessibilityLabel("Who paid")
         }
     }
 

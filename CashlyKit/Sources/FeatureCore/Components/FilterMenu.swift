@@ -15,7 +15,7 @@ public struct FilterMenu: View {
                 Divider()
                 if !finance.allCategories.isEmpty {
                     MultiSelectMenu(
-                        "Categorias", systemImage: "swatchpalette", items: finance.allCategories,
+                        "Categories", systemImage: "swatchpalette", items: finance.allCategories,
                         selection: $session.filter.categories
                     ) { Text($0.name.capitalized) }
                 }
@@ -33,18 +33,18 @@ public struct FilterMenu: View {
                 }
                 if !session.users.isEmpty, finance.hasTransactions {
                     MultiSelectMenu(
-                        "Participantes", systemImage: "person.2", items: session.users,
+                        "Participants", systemImage: "person.2", items: session.users,
                         selection: $session.filter.participants
                     ) { Text($0.name) }
                 }
                 if session.filter.isCustomized {
                     Divider()
-                    Button("Limpar filtros", systemImage: "eraser.line.dashed") {
+                    Button("Clear Filters", systemImage: "eraser.line.dashed") {
                         session.filter.reset()
                     }
                 }
             } label: {
-                Label("Filtros", systemImage: "line.3.horizontal.decrease")
+                Label("Filters", systemImage: "line.3.horizontal.decrease")
                     .labelStyle(.iconOnly)
                     .foregroundStyle(Color.primary)
             }
@@ -60,7 +60,7 @@ private struct DateFilterMenu: View {
 
     var body: some View {
         Menu {
-            Toggle("Filtrar por data", isOn: $filter.isFilteringByDate)
+            Toggle("Filter by Date", isOn: $filter.isFilteringByDate)
             if filter.isFilteringByDate {
                 Divider()
                 Menu {
@@ -74,7 +74,8 @@ private struct DateFilterMenu: View {
                         EmptyView()
                     }
                 } label: {
-                    Text(filter.startDate.formatted(.dateTime.month(.wide)).capitalized)
+                    Text(
+                        filter.startDate.formatted(.dateTime.month(.wide).locale(.app)).capitalized)
                 }
                 Menu {
                     Picker(selection: $filter.year) {
@@ -85,15 +86,15 @@ private struct DateFilterMenu: View {
                         EmptyView()
                     }
                 } label: {
-                    Text(filter.startDate.formatted(.dateTime.year()))
+                    Text(filter.startDate.formatted(.dateTime.year().locale(.app)))
                 }
                 if !filter.isCurrentMonth {
                     Divider()
-                    Button("Hoje", systemImage: "location") { filter.startDate = .now }
+                    Button("Today", systemImage: "location") { filter.startDate = .now }
                 }
             }
         } label: {
-            Label("Data", systemImage: "calendar")
+            Label("Date", systemImage: "calendar")
         }
     }
 }

@@ -29,7 +29,8 @@ public actor CashlyStore {
         descriptor.fetchLimit = 2
         let values = try modelContext.fetch(descriptor)
         guard values.count <= 1 else {
-            throw CashlyError.persistence("Existem usuários com IDs conflitantes no armazenamento.")
+            throw CashlyError.persistence(
+                String(appLocalized: "Some users in storage have conflicting IDs."))
         }
         return values.first.map { User(id: $0.id, name: $0.name, photo: $0.photo) }
     }
@@ -55,7 +56,7 @@ public actor CashlyStore {
             target = row.mergedIntoID
         }
         throw CashlyError.persistence(
-            "Existem referências circulares entre orçamentos. Os dados foram preservados.")
+            String(appLocalized: "Some budgets reference each other in a loop. The data was kept."))
     }
     func requireTag(id: String, userID: String) throws -> TagEntity {
         var descriptor = FetchDescriptor<TagEntity>(

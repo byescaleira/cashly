@@ -46,10 +46,13 @@ public final class NotificationsModel {
 
     public var footer: String {
         if status == .denied {
-            return "As notificações do Cashly estão desligadas nos ajustes do sistema."
+            return String(appLocalized: "Cashly notifications are turned off in system settings.")
         }
         return
-            "Os avisos chegam às 9h no dia de cada conta pendente e no primeiro dia de cada mês."
+            String(
+                appLocalized:
+                    "Reminders arrive at 9 AM on the day each bill is due and on the first day of each month."
+            )
     }
 
     public func paymentsKey(userID: String?, generation: Int) -> String {
@@ -102,8 +105,8 @@ public final class NotificationsModel {
 
     private var planningReminder: Reminder {
         Reminder(
-            id: Prefix.planning, title: "Planejamento do mês",
-            body: "Comece o mês revisando os orçamentos no Cashly.",
+            id: Prefix.planning, title: String(appLocalized: "Plan your month"),
+            body: String(appLocalized: "Start the month by reviewing your budgets in Cashly."),
             components: DateComponents(day: 1, hour: 9, minute: 0), repeats: true)
     }
 

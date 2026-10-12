@@ -7,6 +7,7 @@ struct CategoriesSection: View {
     @Environment(FinanceModel.self) private var finance
     @Environment(\.open) private var open
     @Environment(\.navigationSection) private var section
+    @Environment(\.pro) private var pro
 
     var body: some View {
         Section {
@@ -21,6 +22,8 @@ struct CategoriesSection: View {
                             Text(goals.caption(for: category))
                                 .font(.footnote)
                                 .foregroundStyle(.secondary)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.8)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         Text(finance.expensesAmount(for: category).formatted(.appCurrency))
@@ -31,27 +34,27 @@ struct CategoriesSection: View {
                 }
                 .tint(Color.primary)
                 .swipeActions {
-                    Button("Apagar", systemImage: "trash", role: .destructive) {
-                        goals.deletion = .category(category)
+                    Button("Delete", systemImage: "trash", role: .destructive) {
+                        pro.perform { goals.deletion = .category(category) }
                     }
-                    Button("Editar", systemImage: "square.and.pencil") {
+                    Button("Edit", systemImage: "square.and.pencil") {
                         open(.addCategory(id: category.id), in: section)
                     }
                 }
                 .contextMenu {
-                    Button("Editar", systemImage: "square.and.pencil") {
+                    Button("Edit", systemImage: "square.and.pencil") {
                         open(.addCategory(id: category.id), in: section)
                     }
                     Divider()
-                    Button("Apagar", systemImage: "trash", role: .destructive) {
-                        goals.deletion = .category(category)
+                    Button("Delete", systemImage: "trash", role: .destructive) {
+                        pro.perform { goals.deletion = .category(category) }
                     }
                 }
             }
         } header: {
-            Text("Categorias").sectionTitle()
+            Text("Categories").sectionTitle()
         } footer: {
-            Text("Toque para editar e deslize para apagar. O valor é o gasto no período.")
+            Text("Tap to edit and swipe to delete. The amount is the spending in the period.")
         }
     }
 }

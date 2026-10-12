@@ -28,6 +28,9 @@ extension CashlyStore {
         }
         let descriptor = FetchDescriptor<UserEntity>(predicate: predicate)
         guard let entity = try modelContext.fetch(descriptor).first else { return }
+        let events = try modelContext.fetch(
+            FetchDescriptor<GameEventEntity>(predicate: #Predicate { $0.ownerID == id }))
+        for event in events { modelContext.delete(event) }
         modelContext.delete(entity)
         try commit()
     }

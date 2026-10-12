@@ -1,3 +1,4 @@
+import CashlyDomain
 import Foundation
 
 public enum SymbolCategory: Int, Hashable, CaseIterable, Identifiable, Sendable {
@@ -24,24 +25,24 @@ public enum SymbolCategory: Int, Hashable, CaseIterable, Identifiable, Sendable 
 
     public var name: String {
         switch self {
-        case .food: "Alimentação"
-        case .groceries: "Mercado"
-        case .transport: "Transporte"
-        case .travel: "Viagem"
-        case .housing: "Casa"
-        case .bills: "Contas e serviços"
-        case .finance: "Finanças"
-        case .health: "Saúde"
-        case .sports: "Esportes"
-        case .shopping: "Compras e estilo"
-        case .care: "Cuidados pessoais"
-        case .family: "Família e pets"
-        case .leisure: "Lazer"
-        case .education: "Educação"
-        case .work: "Trabalho"
-        case .technology: "Tecnologia"
-        case .gifts: "Presentes e festas"
-        case .other: "Outros"
+        case .food: String(appLocalized: "Food")
+        case .groceries: String(appLocalized: "Groceries")
+        case .transport: String(appLocalized: "Transport")
+        case .travel: String(appLocalized: "Travel")
+        case .housing: String(appLocalized: "Housing")
+        case .bills: String(appLocalized: "Bills and Services")
+        case .finance: String(appLocalized: "Finance")
+        case .health: String(appLocalized: "Health")
+        case .sports: String(appLocalized: "Sports")
+        case .shopping: String(appLocalized: "Shopping and Style")
+        case .care: String(appLocalized: "Personal Care")
+        case .family: String(appLocalized: "Family and Pets")
+        case .leisure: String(appLocalized: "Leisure")
+        case .education: String(appLocalized: "Education")
+        case .work: String(appLocalized: "Work")
+        case .technology: String(appLocalized: "Technology")
+        case .gifts: String(appLocalized: "Gifts and Parties")
+        case .other: String(appLocalized: "Other")
         }
     }
 

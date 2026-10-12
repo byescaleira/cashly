@@ -1,21 +1,26 @@
+import CashlyDomain
+
 public enum FeatureFlag: String, CaseIterable, Identifiable, Sendable {
-    case mcpServer, mcpLocalNetwork, spreadsheetImport, guides, analytics
+    case mcpServer, mcpLocalNetwork, spreadsheetImport, guides, analytics, journey, pro
 
     public var id: String { rawValue }
 
     public var title: String {
         switch self {
-        case .mcpServer: "Servidor MCP"
-        case .mcpLocalNetwork: "MCP na rede local"
-        case .spreadsheetImport: "Importar planilha"
-        case .guides: "Guias"
-        case .analytics: "Motor de análise"
+        case .mcpServer: String(appLocalized: "MCP server")
+        case .mcpLocalNetwork: String(appLocalized: "MCP on the local network")
+        case .spreadsheetImport: String(appLocalized: "Spreadsheet import")
+        case .guides: String(appLocalized: "Guides")
+        case .analytics: String(appLocalized: "Analytics engine")
+        case .journey: String(appLocalized: "Journey")
+        case .pro: String(appLocalized: "Cashly Pro paywall")
         }
     }
 
     public var defaultValue: Bool {
         switch self {
-        case .mcpServer, .mcpLocalNetwork, .spreadsheetImport, .guides, .analytics: true
+        case .mcpServer, .mcpLocalNetwork, .spreadsheetImport, .guides, .analytics, .journey, .pro:
+            true
         }
     }
 }

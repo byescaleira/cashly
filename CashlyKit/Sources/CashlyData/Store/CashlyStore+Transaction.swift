@@ -41,7 +41,9 @@ extension CashlyStore {
         }
     }
 
-    func upsert(_ transaction: CashlyDomain.Transaction, userID: String) throws {
+    func upsert(
+        _ transaction: CashlyDomain.Transaction, userID: String, recordsEvent: Bool = true
+    ) throws {
         let id = transaction.id
         let participants = transaction.participants
         let categoryID = transaction.category.id
@@ -112,8 +114,13 @@ extension CashlyStore {
         }
         let predicate: Predicate<TransactionEntity> = #Predicate { $0.id == id }
         let descriptor = FetchDescriptor<TransactionEntity>(predicate: predicate)
+        let existing = try modelContext.fetch(descriptor).first
+        if existing == nil && recordsEvent {
+            insertGameEvent(
+                GameEvent(kind: .transactionRecorded, value: id), ownerID: userID)
+        }
         let entity =
-            try modelContext.fetch(descriptor).first
+            existing
             ?? TransactionEntity(
                 id: id,
                 participants: participants.map(\.id),

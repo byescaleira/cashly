@@ -59,8 +59,8 @@ public final class TransactionEditorModel {
         let first = money.installment(at: 0, count: plan)
         let last = money.installment(at: plan - 1, count: plan)
         return first == last
-            ? "\(plan)x de \(first.formatted)"
-            : "\(plan)x de \(last.formatted) a \(first.formatted)"
+            ? String(appLocalized: "\(plan)× \(first.formatted)")
+            : String(appLocalized: "\(plan)× from \(last.formatted) to \(first.formatted)")
     }
 
     public func budgetImpact(in month: YearMonth?) -> Double {
@@ -79,8 +79,12 @@ public final class TransactionEditorModel {
             finance.categoryRemainingAmount(category: category) - budgetImpact(in: month)
         let name = category.name.capitalized
         return remaining < .zero
-            ? "Você passou do orçamento de \(name) em \((-remaining).formatted(.appCurrency))."
-            : "Faltam \(remaining.formatted(.appCurrency)) para atingir o orçamento de \(name)."
+            ? String(
+                appLocalized:
+                    "You went over the \(name) budget by \((-remaining).formatted(.appCurrency)).")
+            : String(
+                appLocalized:
+                    "\(remaining.formatted(.appCurrency)) left before reaching the \(name) budget.")
     }
 
     public func conflictedBudget(in finance: FinanceModel) -> Budget? {
@@ -149,6 +153,7 @@ public final class TransactionEditorModel {
 
     public func save() async {
         await status.save { try await repositories.transactions.save(draft.makeTransaction()) }
+        if status.isSaved { await CashlyTips.record(CashlyTips.transactionSaved) }
     }
 
     public func remove() async {

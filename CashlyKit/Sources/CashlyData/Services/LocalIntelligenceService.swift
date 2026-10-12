@@ -42,7 +42,7 @@ public actor LocalIntelligenceService: IntelligenceService {
         }
         guard records.count >= 2 else {
             throw CashlyError.intelligence(
-                "São necessárias pelo menos duas transações para criar estimativas.")
+                String(appLocalized: "At least two transactions are needed to create estimates."))
         }
         var model = Model(info: [], budgets: [:], tags: [:], labels: [:], tokens: [:])
         for record in records {
@@ -75,7 +75,10 @@ public actor LocalIntelligenceService: IntelligenceService {
         }
         guard !eligible.isEmpty else {
             throw CashlyError.intelligence(
-                "Histórico insuficiente: use pelo menos duas categorias com descrições ou dois meses registrados."
+                String(
+                    appLocalized:
+                        "Not enough history: use at least two categories with descriptions or two months of records."
+                )
             )
         }
         model.info = eligible.map {

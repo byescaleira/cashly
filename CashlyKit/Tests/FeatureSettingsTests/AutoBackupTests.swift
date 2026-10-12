@@ -41,17 +41,17 @@ struct AutoBackupTests {
         #expect(files.first?.lastPathComponent == name)
         let saved = try CashlyBackup(data: Data(contentsOf: try #require(files.first)))
         #expect(saved.users.map(\.id) == ["owner"])
-        #expect(data.autoBackupFooter.contains("Última:"))
+        #expect(data.autoBackupFooter.contains("Last:"))
     }
 
     @Test func spreadsheetExportUsesCSV() async throws {
         let data = try await model()
         await data.prepareExport(as: .commaSeparatedText)
         #expect(data.exportType == .commaSeparatedText)
-        #expect(data.fileName.hasPrefix("Cashly transações"))
+        #expect(data.fileName.hasPrefix("Cashly transactions"))
         let text = String(decoding: try #require(data.document).data, as: UTF8.self)
-        #expect(text.hasPrefix("Data;Usuário;"))
+        #expect(text.hasPrefix("Date;User;"))
         data.finishExport(.success(URL(filePath: "/tmp/a.csv")))
-        #expect(data.message == "Planilha salva.")
+        #expect(data.message == "Spreadsheet saved.")
     }
 }

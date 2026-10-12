@@ -5,10 +5,13 @@ extension PaymentDue {
     func reminder(userID: String) -> Reminder {
         let record = transaction
         let title =
-            record.status == .pendingToReceive ? "Valor a receber hoje" : "Conta a pagar hoje"
+            record.status == .pendingToReceive
+            ? String(appLocalized: "Money to receive today")
+            : String(appLocalized: "Bill due today")
         let part =
             record.installmentCount > 1
-            ? " · parcela \(installment) de \(record.installmentCount)" : ""
+            ? String(appLocalized: " · installment \(installment) of \(record.installmentCount)")
+            : ""
         return Reminder(
             id: "payment.\(userID).\(record.id).\(month.rawValue)", title: title,
             body: "\(record.summary) · \(money.formatted)\(part)",

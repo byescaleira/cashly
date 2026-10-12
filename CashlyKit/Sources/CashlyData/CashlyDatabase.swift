@@ -15,7 +15,7 @@ public struct CashlyDatabase: RepositoryProvider {
     public static func open(inMemory: Bool = false, cloudSync: Bool = true, storeURL: URL? = nil)
         throws -> CashlyDatabase
     {
-        let schema = Schema(versionedSchema: CashlySchemaV3.self)
+        let schema = Schema(versionedSchema: CashlySchemaV4.self)
         let database: ModelConfiguration.CloudKitDatabase =
             inMemory || !cloudSync ? .none : .private(cloudContainer)
         let configuration =
@@ -33,6 +33,8 @@ public struct CashlyDatabase: RepositoryProvider {
         }
     }
 
+    public var storeURL: URL? { modelContainer.configurations.first?.url }
+
     public var changes: any StorageChangeFeed { store.changeHub }
 
     public var backup: any BackupRepository { SwiftDataBackupRepository(store: store) }
@@ -46,6 +48,7 @@ public struct CashlyDatabase: RepositoryProvider {
             tags: SwiftDataTagRepository(scope: scope),
             budgets: SwiftDataBudgetRepository(scope: scope),
             transactions: SwiftDataTransactionRepository(scope: scope),
-            dashboard: SwiftDataDashboardRepository(scope: scope))
+            dashboard: SwiftDataDashboardRepository(scope: scope),
+            game: SwiftDataGameRepository(scope: scope))
     }
 }

@@ -16,7 +16,7 @@ struct BudgetCategorySection: View {
                     color: { Color(hex: $0.color) }, name: \.name)
             }
         } header: {
-            Text("Categoria").sectionTitle()
+            Text("Category").sectionTitle()
         }
     }
 }

@@ -11,17 +11,17 @@ struct EraseSection: View {
                 data.isConfirmingErase = true
             } label: {
                 IconRow(
-                    "Apagar todos os dados", symbol: "trash", color: .negative,
+                    "Delete All Data", symbol: "trash", color: .negative,
                     titleColor: .negative)
             }
             .confirmationDialog(
-                "Apagar todos os dados?", isPresented: $data.isConfirmingErase,
+                "Delete All Data?", isPresented: $data.isConfirmingErase,
                 titleVisibility: .visible
             ) {
-                Button("Apagar tudo", role: .destructive) { Task { await data.eraseAll() } }
+                Button("Delete All", role: .destructive) { Task { await data.eraseAll() } }
             } message: {
                 Text(
-                    "Usuários, categorias, tags, orçamentos, transações e modelos de inteligência serão apagados. Com o iCloud ligado, os dados também saem dos seus outros aparelhos. Não é possível desfazer."
+                    "Users, categories, tags, budgets, transactions and intelligence models will be deleted. With iCloud on, the data also leaves your other devices. This can't be undone."
                 )
             }
         }

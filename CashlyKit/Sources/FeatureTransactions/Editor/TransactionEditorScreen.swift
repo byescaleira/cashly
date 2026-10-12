@@ -1,6 +1,8 @@
+import CashlyDesignSystem
 import CashlyDomain
 import FeatureCore
 import SwiftUI
+import TipKit
 
 public struct TransactionEditorScreen: View {
     @Environment(TransactionEditorModel.self) private var model
@@ -22,10 +24,11 @@ public struct TransactionEditorScreen: View {
             ParticipantsSection()
         }
         .fontDesign(.rounded)
+        .readableWidth()
         .toolbar {
             ToolbarItemGroup {
                 Menu {
-                    Picker("Tipo", selection: $model.kind) {
+                    Picker("Type", selection: $model.kind) {
                         ForEach(TransactionKind.allCases) {
                             Label($0.title, systemImage: $0.icon).tag($0)
                         }
@@ -35,17 +38,18 @@ public struct TransactionEditorScreen: View {
                 }
                 .tint(Color.primary)
                 if model.canEnablePrediction(with: intelligence) {
-                    Button("Sugerir categoria", systemImage: "bolt") {
+                    Button("Suggest Category", systemImage: "bolt") {
                         model.enablePrediction()
                     }
                 }
                 if !session.otherUsers.isEmpty && model.draft.kind == .expense {
                     MultiSelectMenu(
-                        "Participantes", systemImage: "person.2.badge.plus",
+                        "Participants", systemImage: "person.2.badge.plus",
                         items: session.otherUsers, selection: $model.participantUsers,
                         showsCount: false
                     ) { Text($0.name.capitalized) }
                     .tint(Color.primary)
+                    .popoverTip(SplitTip())
                 }
             }
             EditorActions(canSave: model.canSave, canRemove: model.canRemove) {

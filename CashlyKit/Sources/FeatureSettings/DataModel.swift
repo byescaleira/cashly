@@ -18,28 +18,37 @@ public final class DataModel {
     public var pendingRestore: CashlyBackup?
     public var isRestoringBackup = false
     public var backupStep = BackupStep.intro
+    public internal(set) var place: BackupPlace
+    public internal(set) var cloudState = CloudDriveState.checking
+    public internal(set) var savedBackups: [SavedBackup] = []
     private(set) var document: BackupDocument?
     private(set) var exportType: UTType = .json
     private var skipped = 0
     @ObservationIgnored private let backup: any BackupRepository
     @ObservationIgnored private let intelligence: any IntelligenceService
-    @ObservationIgnored private let defaults: UserDefaults
-    @ObservationIgnored private let folder: BackupFolder
+    @ObservationIgnored let defaults: UserDefaults
+    @ObservationIgnored let folder: BackupFolder
+    @ObservationIgnored let cloud: BackupCloud
+    @ObservationIgnored var cloudFolder: BackupFolder?
 
     public init(
         backup: any BackupRepository, intelligence: any IntelligenceService,
-        defaults: UserDefaults = .standard, folder: BackupFolder = .standard
+        defaults: UserDefaults = .standard, folder: BackupFolder = .standard,
+        cloud: BackupCloud = .unavailable
     ) {
         self.backup = backup
         self.intelligence = intelligence
         self.defaults = defaults
         self.folder = folder
+        self.cloud = cloud
         autoBackup = defaults.bool(forKey: Key.autoBackup)
         lastAutoBackup = defaults.object(forKey: Key.lastAutoBackup) as? Date
+        place = defaults.string(forKey: Key.place).flatMap(BackupPlace.init(rawValue:)) ?? .device
     }
 
     var fileName: String {
-        let name = exportType == .json ? "Cashly " : "Cashly transações "
+        let name =
+            exportType == .json ? "Cashly " : String(appLocalized: "Cashly transactions") + " "
         return name + Date.now.formatted(.iso8601.year().month().day())
     }
 
@@ -49,11 +58,12 @@ public final class DataModel {
     }
 
     var autoBackupFooter: String {
-        let place =
-            "Uma cópia por semana, ao abrir o app. As 5 mais recentes ficam em Arquivos, na pasta Cashly › Backups."
-        guard autoBackup, let lastAutoBackup else { return place }
-        return place + " Última: "
-            + lastAutoBackup.formatted(date: .abbreviated, time: .shortened) + "."
+        let text =
+            String(appLocalized: "One copy a week, when you open the app.") + " " + placeDescription
+        guard autoBackup, let lastAutoBackup else { return text }
+        let date = lastAutoBackup.formatted(
+            Date.FormatStyle(date: .abbreviated, time: .shortened, locale: .app))
+        return text + " " + String(appLocalized: "Last: \(date).")
     }
 
     var isShowingMessage: Bool {
@@ -78,14 +88,16 @@ public final class DataModel {
 
     func description(of backup: CashlyBackup) -> String {
         let counts = [
-            counted(backup.users.count, "usuário", "usuários"),
-            counted(backup.categories.count, "categoria", "categorias"),
-            counted(backup.tags.count, "tag", "tags"),
-            counted(backup.budgets.count, "orçamento", "orçamentos"),
-        ].joined(separator: ", ")
-        let transactions = counted(backup.transactions.count, "transação", "transações")
-        return counts + " e " + transactions
-            + ". Registros com o mesmo identificador são substituídos pelos do arquivo."
+            String(appLocalized: "\(backup.users.count) users"),
+            String(appLocalized: "\(backup.categories.count) categories"),
+            String(appLocalized: "\(backup.tags.count) tags"),
+            String(appLocalized: "\(backup.budgets.count) budgets"),
+            String(appLocalized: "\(backup.transactions.count) transactions"),
+        ]
+        return counts.formatted(.list(type: .and).locale(.app)) + ". "
+            + String(
+                appLocalized:
+                    "Records with the same identifier are replaced by the ones in the file.")
     }
 
     func prepareExport(as type: UTType = .json) async {
@@ -106,12 +118,33 @@ public final class DataModel {
         if let lastAutoBackup, now.timeIntervalSince(lastAutoBackup) < Self.autoBackupInterval {
             return
         }
+        await resolveCloud()
         await perform {
-            let export = try await backup.export()
-            try folder.save(export.backup.encoded(), on: now)
+            _ = try await saveCopy(on: now)
             lastAutoBackup = now
             defaults.set(now, forKey: Key.lastAutoBackup)
         }
+        await refreshSavedBackups()
+    }
+
+    func backUpNow(now: Date = .now) async {
+        await resolveCloud()
+        await perform {
+            let skipped = try await saveCopy(on: now)
+            let saved =
+                isUsingCloud
+                ? String(appLocalized: "Backup saved to iCloud Drive.")
+                : String(appLocalized: "Backup saved on this device.")
+            message = skipped == 0 ? saved : saved + " " + Self.skippedNote(skipped)
+        }
+        await refreshSavedBackups()
+    }
+
+    func resetAutoBackupSchedule() {
+        lastAutoBackup = nil
+        defaults.removeObject(forKey: Key.lastAutoBackup)
+        message = String(
+            appLocalized: "The next automatic backup happens the next time Cashly opens.")
     }
 
     func setAutoBackup(_ isOn: Bool) async {
@@ -123,11 +156,10 @@ public final class DataModel {
     func finishExport(_ result: Result<URL, any Error>) {
         document = nil
         guard case .success = result else { return }
-        let saved = exportType == .json ? "Backup salvo." : "Planilha salva."
-        message =
-            skipped == 0
-            ? saved
-            : saved + " Transações aguardando sincronização ficaram de fora: \(skipped)."
+        let saved =
+            exportType == .json
+            ? String(appLocalized: "Backup saved.") : String(appLocalized: "Spreadsheet saved.")
+        message = skipped == 0 ? saved : saved + " " + Self.skippedNote(skipped)
     }
 
     func read(_ result: Result<URL, any Error>) {
@@ -138,7 +170,9 @@ public final class DataModel {
             pendingRestore = try CashlyBackup(data: Data(contentsOf: url))
             backupStep = .review
         } catch {
-            self.error = error as? CashlyError ?? .invalidInput("Não foi possível ler o arquivo.")
+            self.error =
+                error as? CashlyError
+                ?? .invalidInput(String(appLocalized: "Couldn't read the file."))
         }
     }
 
@@ -154,20 +188,31 @@ public final class DataModel {
             for userID in try await backup.eraseAll() {
                 try? await intelligence.clean(userID: userID)
             }
-            message = "Todos os dados foram apagados."
+            message = String(appLocalized: "All data was deleted.")
         }
     }
 
-    private enum Key {
+    enum Key {
         static let autoBackup = "cashly.data.autoBackup"
         static let lastAutoBackup = "cashly.data.lastAutoBackup"
+        static let place = "cashly.data.backupPlace"
     }
 
-    private func counted(_ count: Int, _ singular: String, _ plural: String) -> String {
-        "\(count) " + (count == 1 ? singular : plural)
+    private func saveCopy(on date: Date) async throws -> Int {
+        let export = try await backup.export()
+        let data = try export.backup.encoded()
+        let destination = activeFolder
+        try await Task.detached(priority: .utility) {
+            try destination.save(data, on: date)
+        }.value
+        return export.skipped
     }
 
-    private func perform(_ operation: () async throws -> Void) async {
+    private static func skippedNote(_ count: Int) -> String {
+        String(appLocalized: "Transactions waiting for sync were left out: \(count).")
+    }
+
+    func perform(_ operation: () async throws -> Void) async {
         guard !isWorking else { return }
         isWorking = true
         defer { isWorking = false }

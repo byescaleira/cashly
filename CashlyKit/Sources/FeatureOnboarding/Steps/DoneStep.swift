@@ -1,4 +1,5 @@
 import CashlyDesignSystem
+import CashlyDomain
 import FeatureCore
 import SwiftUI
 
@@ -7,11 +8,17 @@ struct DoneStep: View {
 
     var body: some View {
         GuidePage(
-            title: "Tudo pronto, \(model.firstName)!",
-            message: "Registre a primeira transação ou defina orçamentos em Metas."
+            title: "All Set, \(model.firstName)!",
+            message: "Add your first transaction or set budgets in Goals."
         ) {
-            ExampleDone(
-                value: model.suggestions.count.formatted(), detail: "categorias prontas para usar")
+            CashlyAnimationView(.done)
+        } content: {
+            GuideFeatureList {
+                GuideFeature(
+                    title: String(
+                        appLocalized: "\(model.suggestions.count) categories ready to use"),
+                    color: .positive)
+            }
         }
     }
 }

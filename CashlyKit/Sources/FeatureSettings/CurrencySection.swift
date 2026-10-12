@@ -7,7 +7,7 @@ struct CurrencySection: View {
     var body: some View {
         @Bindable var settings = settings
         Section {
-            Picker("Moeda", selection: $settings.currency) {
+            Picker("Currency", selection: $settings.currency) {
                 ForEach(CurrencySetting.supported, id: \.self) {
                     Text(settings.currencyName($0)).tag($0)
                 }
@@ -16,7 +16,7 @@ struct CurrencySection: View {
             .pickerStyle(.inline)
         } footer: {
             Text(
-                "Os valores não são convertidos: trocar a moeda muda o símbolo exibido e a moeda dos novos registros."
+                "Amounts aren't converted: changing the currency changes the symbol shown and the currency of new records."
             )
         }
     }

@@ -15,13 +15,13 @@ public struct MonthPicker: View {
     public var body: some View {
         VStack(spacing: .spaceL) {
             HStack {
-                Button("Ano anterior", systemImage: "chevron.left") { year -= 1 }
+                Button("Previous Year", systemImage: "chevron.left") { year -= 1 }
                 Spacer()
                 Text(String(year))
                     .font(.amountRow)
                     .contentTransition(.numericText(value: Double(year)))
                 Spacer()
-                Button("Próximo ano", systemImage: "chevron.right") { year += 1 }
+                Button("Next Year", systemImage: "chevron.right") { year += 1 }
             }
             .labelStyle(.iconOnly)
             .font(.buttonLabel)
@@ -50,7 +50,7 @@ public struct MonthPicker: View {
 
     private static let symbols: [String] = {
         var calendar = Calendar(identifier: .gregorian)
-        calendar.locale = Locale(identifier: "pt_BR")
+        calendar.locale = .app
         return calendar.shortStandaloneMonthSymbols.map {
             $0.replacingOccurrences(of: ".", with: "").capitalized
         }

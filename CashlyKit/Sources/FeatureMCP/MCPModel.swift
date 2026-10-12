@@ -52,6 +52,7 @@ public final class MCPModel {
     public private(set) var trusted: [String]
     public private(set) var state = State.off
     public var pending: PendingImport?
+    public var canWrite = true
     public var connection: ConnectionRequest?
 
     public var prompt: Prompt? {
@@ -227,7 +228,7 @@ public final class MCPModel {
         let selected = UserPreference.standard.selectedUserID
         guard let user = users.first(where: { $0.id == selected }) ?? users.first else {
             throw MCPToolError(
-                "Nenhum perfil criado no Cashly ainda. Abra o app e conclua o início.")
+                "No profile in Cashly yet. Open the app and finish setup.")
         }
         return (provider.repositories(for: user.id), user)
     }
@@ -250,6 +251,7 @@ private struct Importer: TransactionImporting {
 
     func requestImport(_ preview: SpreadsheetPreview, source: String) async -> ImportOutcome {
         guard let model else { return .declined }
+        guard await model.canWrite else { return .locked }
         return await model.present(preview, source: source)
     }
 }

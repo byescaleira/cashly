@@ -14,7 +14,8 @@ public struct Money: Hashable, Comparable, Sendable {
         guard amount.isFinite, abs(amount) <= 9_000_000_000_000,
             let decimal = Decimal(string: String(amount), locale: Locale(identifier: "en_US_POSIX"))
         else {
-            throw CashlyError.invalidInput("O valor informado está fora do intervalo permitido.")
+            throw CashlyError.invalidInput(
+                String(appLocalized: "The amount is outside the allowed range."))
         }
         var scaled = decimal * 100
         var rounded = Decimal()
@@ -29,7 +30,8 @@ public struct Money: Hashable, Comparable, Sendable {
     public func adding(_ other: Money) throws -> Money {
         let (value, overflow) = minorUnits.addingReportingOverflow(other.minorUnits)
         guard !overflow else {
-            throw CashlyError.invalidInput("O total excede o intervalo monetário permitido.")
+            throw CashlyError.invalidInput(
+                String(appLocalized: "The total exceeds the allowed amount range."))
         }
         return Money(minorUnits: value)
     }
@@ -37,7 +39,8 @@ public struct Money: Hashable, Comparable, Sendable {
     public func subtracting(_ other: Money) throws -> Money {
         let (value, overflow) = minorUnits.subtractingReportingOverflow(other.minorUnits)
         guard !overflow else {
-            throw CashlyError.invalidInput("O total excede o intervalo monetário permitido.")
+            throw CashlyError.invalidInput(
+                String(appLocalized: "The total exceeds the allowed amount range."))
         }
         return Money(minorUnits: value)
     }

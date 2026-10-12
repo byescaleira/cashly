@@ -26,7 +26,7 @@ public struct GoalsScreen: View {
             FixedToolbarSpacer()
             if !session.users.isEmpty {
                 ToolbarItem {
-                    Button("Nova categoria", systemImage: "plus") {
+                    Button("New Category", systemImage: "plus") {
                         open(.addCategory(id: nil), in: section)
                     }
                     .tint(Color.primary)
@@ -37,7 +37,7 @@ public struct GoalsScreen: View {
         .deletionDialog(goals)
         .errorAlert($goals.error)
         .refreshable { await finance.load() }
-        .navigationTitle("Metas")
+        .navigationTitle("Goals")
     }
 }
 
@@ -48,7 +48,7 @@ extension View {
             goals.deletion?.title ?? "", isPresented: $goals.isConfirmingDeletion,
             titleVisibility: .visible, presenting: goals.deletion
         ) { _ in
-            Button("Apagar", role: .destructive) { Task { await goals.confirmDeletion() } }
+            Button("Delete", role: .destructive) { Task { await goals.confirmDeletion() } }
         } message: { deletion in
             Text(deletion.message)
         }

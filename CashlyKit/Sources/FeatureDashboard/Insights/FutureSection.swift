@@ -10,15 +10,15 @@ struct FutureSection: View {
             Section {
                 InsightBars(bars: commitments.bars)
                 LabeledContent(
-                    "No próximo mês", value: commitments.nextMonth.formatted(.appCurrency))
+                    "Next Month", value: commitments.nextMonth.formatted(.appCurrency))
             } header: {
-                FigureHeader(title: "Próximos meses", amount: commitments.total) {
-                    Text("já comprometidos em parcelas")
+                FigureHeader(title: "Coming Months", amount: commitments.total) {
+                    Text("already committed to installments")
                         .font(.title3.weight(.semibold))
                         .foregroundStyle(.secondary)
                 }
             } footer: {
-                Text("Parcelas e contas futuras que você já registrou.")
+                Text("Installments and future bills you've already recorded.")
             }
         }
     }

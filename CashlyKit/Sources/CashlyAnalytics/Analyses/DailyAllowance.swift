@@ -3,9 +3,9 @@ import Foundation
 
 public struct DailyAllowance: Analysis {
     public static let id: AnalysisID = "daily-allowance"
-    public static let title = "Quanto posso gastar por dia"
+    public static let title = "How much can I spend per day"
     public static let detail =
-        "O que sobra do planejado, menos as contas que ainda vão cair, dividido pelos dias restantes."
+        "What's left of the plan, minus bills still to come, divided by the remaining days."
     public static let version = 1
 
     public init() {}
@@ -23,18 +23,18 @@ public struct DailyAllowance: Analysis {
         let daily = free > 0 ? free / Int64(daysLeft) : 0
         let summary =
             free > 0
-            ? "Dá para gastar \(Formatting.money(daily)) por dia nos próximos \(daysLeft) dias."
-            : "O planejado do mês já foi usado, contando as contas que ainda vão cair."
+            ? "You can spend \(Formatting.money(daily)) per day over the next \(daysLeft) days."
+            : "The month's plan is already used up, counting bills still to come."
         return result(
             ledger, summary: summary,
             metrics: [
-                .money("daily", "Por dia", minorUnits: daily),
-                .money("free", "Livre no mês", minorUnits: free),
-                .money("upcoming", "Contas por vir", minorUnits: upcoming),
+                .money("daily", "Per day", minorUnits: daily),
+                .money("free", "Free this month", minorUnits: free),
+                .money("upcoming", "Upcoming bills", minorUnits: upcoming),
                 Metric(
-                    key: "daysLeft", label: "Dias restantes", value: Double(daysLeft), unit: .days),
+                    key: "daysLeft", label: "Days left", value: Double(daysLeft), unit: .days),
             ],
-            method: "(Planejado − gasto − contas futuras do mês) ÷ dias restantes",
+            method: "(Planned − spent − upcoming bills this month) ÷ days left",
             confidence: .certain)
     }
 }

@@ -43,12 +43,12 @@ public struct IconRow: View {
             VStack(alignment: .leading, spacing: .spaceHairline) {
                 title.foregroundStyle(titleColor)
                 if let detail {
-                    detail.font(.footnote).foregroundStyle(.secondary)
+                    detail.font(.footnote).foregroundStyle(Color.secondary)
                 }
             }
             Spacer(minLength: .spaceS)
             if let value {
-                Text(value).foregroundStyle(.secondary).lineLimit(1)
+                Text(value).foregroundStyle(Color.secondary).lineLimit(1)
             }
         }
         .contentShape(.rect)

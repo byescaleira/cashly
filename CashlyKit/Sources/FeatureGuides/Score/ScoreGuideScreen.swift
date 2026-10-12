@@ -6,31 +6,48 @@ import SwiftUI
 struct ScoreGuideScreen: View {
     @Environment(\.dismiss) private var dismiss
     @State private var index = 0
-    private let count = 4
+    private let count = 5
+    var onFinish: () -> Void = {}
 
     var body: some View {
         let isLast = index == count - 1
         GuideSheet(
             index: index, count: count, back: index > 0 ? { index -= 1 } : nil,
-            primary: GuideAction(isLast ? "Entendi" : "Continuar") {
-                if isLast { dismiss() } else { index += 1 }
+            primary: GuideAction(isLast ? "Got It" : "Continue") {
+                if isLast {
+                    onFinish()
+                    dismiss()
+                } else {
+                    index += 1
+                }
             }
         ) {
             switch index {
             case 0:
                 GuidePage(
-                    title: "Pontuação de saúde",
+                    title: "Health Score",
                     message:
-                        "Um número de 200 a 1.000 que compara o que você gastou com o que planejou para o período."
+                        "A number from 200 to 1,000 that compares what you spent with what you planned for the period."
                 ) {
-                    ScoreCardExample(score: 920)
+                    CashlyAnimationView(.score)
                 }
             case 1:
                 GuidePage(
-                    title: "As faixas",
-                    message: "Fica em 1.000 até 85% do planejado e cai aos poucos depois disso."
+                    title: "The Ranges",
+                    message:
+                        "It stays at 1,000 up to 85% of the plan and drops gradually after that."
                 ) {
-                    ScoreScaleExample()
+                    CashlyAnimationView(.budgetPace)
+                } content: {
+                    ScoreScale()
+                        .padding(.horizontal, .spaceL)
+                }
+            case 2:
+                GuidePage(
+                    title: "Each Range",
+                    message: "The range depends on how much of the plan was spent."
+                ) {
+                    CashlyAnimationView(.budget)
                 } content: {
                     GuideFeatureList {
                         ForEach(BudgetHealth.Level.allCases.reversed(), id: \.self) { level in
@@ -40,34 +57,40 @@ struct ScoreGuideScreen: View {
                         }
                     }
                 }
-            case 2:
+            case 3:
                 GuidePage(
-                    title: "Seu período agora",
-                    message: "Com os orçamentos e gastos do filtro atual."
+                    title: "Your Period Now",
+                    message: "With the budgets and spending in the current filter."
                 ) {
-                    CurrentScoreExample()
+                    CashlyAnimationView(.score)
                 } content: {
                     CurrentScore()
                 }
             default:
                 GuidePage(
-                    title: "Como subir",
+                    title: "How to Raise It",
                     message:
-                        "Pequenos ajustes ao longo do mês fazem mais diferença que um corte no fim."
+                        "Small adjustments during the month make more difference than one cut at the end."
                 ) {
-                    DailyAllowanceExample()
+                    CashlyAnimationView(.budget)
                 } content: {
                     GuideFeatureList {
                         GuideFeature(
-                            title: "Olhe o que está perto do limite",
-                            detail: "Em Metas, esses orçamentos aparecem primeiro.")
+                            title: String(appLocalized: "Look at what's close to the limit"),
+                            detail: String(appLocalized: "In Goals, these budgets show up first."))
                         GuideFeature(
-                            title: "Planeje valores realistas",
-                            detail: "Um orçamento que estoura todo mês ajuda menos que um ajustado."
+                            title: String(appLocalized: "Plan realistic amounts"),
+                            detail: String(
+                                appLocalized:
+                                    "A budget that goes over every month helps less than an adjusted one."
+                            )
                         )
                         GuideFeature(
-                            title: "Siga o valor por dia",
-                            detail: "O Resumo do mês mostra quanto dá para gastar até o fim do mês."
+                            title: String(appLocalized: "Follow the daily amount"),
+                            detail: String(
+                                appLocalized:
+                                    "The month summary shows how much you can spend until the end of the month."
+                            )
                         )
                     }
                 }
@@ -76,11 +99,12 @@ struct ScoreGuideScreen: View {
     }
 
     private static func rule(for level: BudgetHealth.Level) -> String {
-        let limit = level.maximumUsage.formatted(.percent.precision(.fractionLength(0)))
+        let limit = level.maximumUsage.formatted(
+            .percent.precision(.fractionLength(0)).locale(.app))
         return switch level {
-        case .healthy: "Gasto até \(limit) do planejado."
-        case .overBudget, .atRisk: "Gasto até \(limit) do planejado."
-        case .critical: "Acima disso; chega a 200 com o dobro do planejado."
+        case .healthy: String(appLocalized: "Spending up to \(limit) of plan.")
+        case .overBudget, .atRisk: String(appLocalized: "Spending up to \(limit) of plan.")
+        case .critical: String(appLocalized: "Above that; it reaches 200 at twice the plan.")
         }
     }
 }
@@ -95,36 +119,43 @@ private struct CurrentScore: View {
             let keepFull = planned * BudgetHealth.fullScoreUsage - spent
             let keepHealthy = planned * BudgetHealth.Level.healthy.maximumUsage - spent
             GuideValueList([
-                GuideValue("Planejado", value: planned.formatted(.appCurrency)),
+                GuideValue(String(appLocalized: "Planned"), value: planned.formatted(.appCurrency)),
                 GuideValue(
-                    "Gasto",
+                    String(appLocalized: "Spent"),
                     value:
-                        "\(spent.formatted(.appCurrency)) · \((spent / planned).formatted(.percent.precision(.fractionLength(0))))"
+                        "\(spent.formatted(.appCurrency)) · \((spent / planned).formatted(.percent.precision(.fractionLength(0)).locale(.app)))"
                 ),
             ])
             GuideFeatureList {
                 if keepFull > 0 {
                     GuideFeature(
-                        title: "Mais \(keepFull.formatted(.appCurrency)) e continua 1.000",
+                        title: String(
+                            appLocalized:
+                                "\(keepFull.formatted(.appCurrency)) more and it stays at 1,000"),
                         color: .positive)
                 }
                 if keepHealthy > 0 {
                     GuideFeature(
-                        title: "Mais \(keepHealthy.formatted(.appCurrency)) e continua Saudável",
+                        title: String(
+                            appLocalized:
+                                "\(keepHealthy.formatted(.appCurrency)) more and it stays Healthy"),
                         color: .positive)
                 } else {
                     GuideFeature(
-                        title: "O gasto já passou do planejado",
+                        title: String(appLocalized: "Spending is already over plan"),
                         detail:
-                            "A pontuação volta a subir no próximo período ou com um orçamento maior.",
+                            String(
+                                appLocalized:
+                                    "The score rises again next period or with a bigger budget."),
                         color: .warning)
                 }
             }
         } else {
             GuideFeatureList {
                 GuideFeature(
-                    title: "Defina orçamentos em Metas",
-                    detail: "Sem planejado não há com o que comparar.")
+                    title: String(appLocalized: "Set budgets in Goals"),
+                    detail: String(
+                        appLocalized: "Without a plan there's nothing to compare against."))
             }
         }
     }

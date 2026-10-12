@@ -10,7 +10,7 @@ struct BudgetConflictLink: View {
     var body: some View {
         if let budget = model.conflictedBudget(in: finance) {
             Section {
-                Button("Resolver conflito de orçamento") {
+                Button("Resolve Budget Conflict") {
                     open(
                         .budgetConflict(categoryID: budget.category.id, month: budget.month),
                         in: section)

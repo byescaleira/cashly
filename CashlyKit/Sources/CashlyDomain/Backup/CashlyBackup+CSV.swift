@@ -6,9 +6,9 @@ extension CashlyBackup {
         let categories = Dictionary(uniqueKeysWithValues: categories.map { ($0.id, $0) })
         let tags = Dictionary(uniqueKeysWithValues: tags.map { ($0.id, $0.name) })
         let header = [
-            "Data", "Usuário", "Descrição", "Categoria", "Tipo", "Situação", "Valor", "Moeda",
-            "Parcelas", "Tags",
-        ]
+            SpreadsheetTerm.date, .user, .summary, .category, .kind, .status, .amount, .currency,
+            .installments, .tags,
+        ].map(\.title)
         let rows = transactions.sorted { ($0.date, $0.id) < ($1.date, $1.id) }.map { record in
             let category = categories[record.categoryID]
             return [
@@ -17,9 +17,10 @@ extension CashlyBackup {
                 category.flatMap { users[$0.userID] } ?? "",
                 record.summary,
                 category?.name ?? "",
-                TransactionKind(rawValue: record.kind) == .income ? "Entrada" : "Saída",
+                (TransactionKind(rawValue: record.kind) == .income
+                    ? SpreadsheetTerm.income : .expense).title,
                 Self.status(record.status),
-                Self.amount(record.amount),
+                SpreadsheetTerm.amount(record.amount),
                 currency,
                 String(max(record.paymentsPlan ?? 1, 1)),
                 record.tagIDs.compactMap { tags[$0] }.sorted().joined(separator: ", "),
@@ -29,20 +30,12 @@ extension CashlyBackup {
             .joined(separator: "\r\n") + "\r\n"
     }
 
-    private static func amount(_ minorUnits: Int64) -> String {
-        let sign = minorUnits < 0 ? "-" : ""
-        let value = minorUnits.magnitude
-        let cents = String(value % 100)
-        return sign + String(value / 100) + "," + String(repeating: "0", count: 2 - cents.count)
-            + cents
-    }
-
     private static func status(_ rawValue: Int) -> String {
         switch TransactionStatus(rawValue: rawValue) {
-        case .pendingToPay: "A pagar"
-        case .pendingToReceive: "A receber"
-        case .canceled: "Cancelada"
-        default: "Paga"
+        case .pendingToPay: SpreadsheetTerm.toPay.title
+        case .pendingToReceive: SpreadsheetTerm.toReceive.title
+        case .canceled: SpreadsheetTerm.canceled.title
+        default: SpreadsheetTerm.paid.title
         }
     }
 

@@ -19,12 +19,12 @@ struct FlagsSection: View {
                         for flag in FeatureFlag.allCases { flags.override(flag, nil) }
                     } label: {
                         IconRow(
-                            "Voltar aos valores padrão", symbol: "arrow.uturn.backward",
+                            "Restore Defaults", symbol: "arrow.uturn.backward",
                             color: .companion)
                     }
                 } footer: {
                     Text(
-                        "Grupo de lançamento deste aparelho: \(flags.bucket). Só aparece em versões de desenvolvimento."
+                        "This device's rollout group: \(flags.bucket). Only shown in development builds."
                     )
                 }
             }

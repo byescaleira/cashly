@@ -61,6 +61,27 @@ struct AppIconTests {
         let december = calendar.date(from: DateComponents(year: 2026, month: 12, day: 15)) ?? .now
         #expect(AppIcon.featured(on: june, calendar: calendar) == .junina)
         #expect(AppIcon.featured(on: december, calendar: calendar) == .christmas)
-        #expect(AppIcon.Collection.fashion.icons == [.jeans, .tailoring, .leather])
+        #expect(AppIcon.Collection.fashion.icons == [.jeans, .tailoring, .leather, .polkaDot])
+    }
+
+    @Test func everyCollectionHasFourIcons() {
+        for collection in AppIcon.Collection.allCases {
+            #expect(collection.icons.count == 4)
+        }
+        #expect(AppIcon.allCases.count == AppIcon.Collection.allCases.count * 4)
+        #expect(Set(AppIcon.allCases.compactMap(\.assetName)).count == AppIcon.allCases.count - 1)
+        #expect(AppIcon.candyCane.assetName == "CashlyIconCandyCane")
+    }
+
+    @Test func summerAndCarnivalAreFeatured() throws {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = try #require(TimeZone(identifier: "America/Sao_Paulo"))
+        let january = try #require(
+            calendar.date(from: DateComponents(year: 2027, month: 1, day: 10)))
+        let february = try #require(
+            calendar.date(from: DateComponents(year: 2027, month: 2, day: 10)))
+        #expect(AppIcon.featured(on: january, calendar: calendar) == .summer)
+        #expect(AppIcon.featured(on: february, calendar: calendar) == .carnival)
+        #expect(AppIcon.Collection.carnival.icons == [.confetti, .streamer, .frevo, .sequin])
     }
 }

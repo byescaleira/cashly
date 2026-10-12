@@ -1,4 +1,5 @@
 import CashlyDesignSystem
+import CashlyDomain
 import FeatureCore
 import SwiftUI
 
@@ -20,7 +21,7 @@ struct VarianceSection: View {
                             .amountLine()
                             .contentTransition(.numericText())
                             .animation(.bouncy, value: comparison.planned)
-                        Text("Orçamento").font(.callout.weight(.semibold)).foregroundStyle(.info)
+                        Text("Budget").font(.callout.weight(.semibold)).foregroundStyle(.info)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     VStack(alignment: .leading, spacing: .space2XS) {
@@ -33,12 +34,12 @@ struct VarianceSection: View {
                             if comparison.planned > 0 {
                                 Text(
                                     comparison.ratio.formatted(
-                                        .percent.precision(.fractionLength(0)))
+                                        .percent.precision(.fractionLength(0)).locale(.app))
                                 )
                                 .font(.footnote.weight(.bold))
                                 .foregroundStyle(Color.secondary)
                             }
-                            Text("Gasto")
+                            Text("Spent")
                                 .font(.callout.weight(.semibold))
                                 .foregroundStyle(appTint)
                         }
@@ -47,7 +48,7 @@ struct VarianceSection: View {
                 ComparisonChart(data: reports.comparisonPoints)
             } header: {
                 VStack(alignment: .leading, spacing: .spaceS) {
-                    Text("Planejado × gasto").sectionTitle()
+                    Text("Planned × Spent").sectionTitle()
                     SymbolPicker(
                         items: finance.categories, selection: $reports.comparedCategory,
                         icon: \.icon, color: { Color(hex: $0.color) }, name: \.name, bounces: true)

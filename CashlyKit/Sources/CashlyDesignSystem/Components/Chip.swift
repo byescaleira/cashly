@@ -5,12 +5,25 @@ public struct Chip: View {
         case capsule, tag
     }
 
-    private let text: String
+    private let text: Text
     private let color: Color
     private let shape: Shape
     private let font: Font
 
-    public init(_ text: String, color: Color, shape: Shape = .tag, font: Font = .chipLabel) {
+    public init(
+        _ key: LocalizedStringKey, color: Color, shape: Shape = .tag, font: Font = .chipLabel
+    ) {
+        self.init(text: Text(key), color: color, shape: shape, font: font)
+    }
+
+    @_disfavoredOverload
+    public init<S: StringProtocol>(
+        _ text: S, color: Color, shape: Shape = .tag, font: Font = .chipLabel
+    ) {
+        self.init(text: Text(text), color: color, shape: shape, font: font)
+    }
+
+    private init(text: Text, color: Color, shape: Shape, font: Font) {
         self.text = text
         self.color = color
         self.shape = shape
@@ -18,7 +31,8 @@ public struct Chip: View {
     }
 
     public var body: some View {
-        let label = Text(text)
+        let label =
+            text
             .font(font)
             .foregroundStyle(color)
             .lineLimit(1)

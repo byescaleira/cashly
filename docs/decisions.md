@@ -23,14 +23,15 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Repositórios por agregado** atrás de protocolos do domínio; `CashlyStore` é um único `@ModelActor`.
 - **Models `@Observable` pelo ambiente.** Views leem models por `@Environment` e criam `@Bindable` no `body`; dados e ações ficam nos models.
 - **Sem comentários no código.** A intenção fica nos nomes e na estrutura; o lint bloqueia comentários.
-- **UI só em pt-BR**, com String Catalog por target.
+- **UI só em pt-BR**, com String Catalog por target. Substituída em 12/10/2026 pela localização em dez idiomas (ver abaixo).
 - **`CashlyAudit` como ferramenta de diagnóstico e validação automatizada** (comando `check`), separada dos testes.
 
 ## 08/10/2026: visual
 
 - **Visual nativo mantido.** Duas propostas de identidade nova foram testadas e rejeitadas (inspirada no Claude e o design system byescaleira). O app segue com `List`/`Form`, vidro e cores do sistema.
 - **Diretrizes da Apple acima de qualquer design system.** Um design system só veste componentes nativos (cor, fontes, conteúdo); navegação, títulos, formulários e folhas ficam como o sistema define.
-- **`AdaptiveList`.** As telas de painel recebem as mesmas `Section` de uma `List` e se dividem em colunas quando a largura permite (iPad, iPhone em paisagem, dobrável). Transações continua `List` por causa de swipe e seleção.
+- **`AdaptiveList`.** As telas de painel recebem as mesmas `Section` de uma `List` e se dividem em colunas quando a largura permite (iPad, iPhone em paisagem, dobrável). O Histórico também usa o `AdaptiveList` (12/10/2026): na `List` mantém deslizar e seleção nativa; nas colunas, excluir fica no menu de toque longo e a seleção usa o `SelectionMark`.
+- **Nenhuma tela estica (12/10/2026).** Painéis, Histórico e Busca viram colunas; formulários (editores, conflito de orçamento, ícone, novidades) ficam numa coluna central de até 560 pt com `readableWidth()`.
 - **Inspector para rotas em largura regular**, preso à janela: preso a cada aba, ele empurrava a barra da tela para baixo da barra de abas.
 
 ## 08/10/2026: correções de comportamento
@@ -232,3 +233,104 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Claude Code:** um pedido novo (conexão ou outro lote) não fecha a conferência aberta; enquanto há um lote pendente, um segundo `import_transactions` recebe "aguardando".
 - **Importação (`prepare.py`):** parcelas da mesma compra com centavo de arredondamento ficam juntas e o total é a soma das parcelas; nome do titular, nome do emissor e termos de investimento casam por palavra inteira, e investimento só vale para linhas de conta; transferências só formam par quando uma ponta tem o nome do titular ou as duas são TED/TEF/DOC/transferência.
 - **Outros:** orçamento novo sem categoria abre no mês do filtro; o `MonthPicker` acompanha a seleção carregada; trocar Saída/Entrada leva o status pendente para "A pagar"/"A receber"; a grade de categorias do onboarding volta a ser acessível e fica abaixo do título.
+
+## 12/10/2026: backup no iCloud Drive, Inteligência oculta e ferramentas de desenvolvimento
+
+- **Backup no iCloud Drive.** Em Dados e backup, "Salvar backups no iCloud Drive" manda o backup automático e o "Fazer backup agora" para `Documents/Backups` do container `iCloud.cashly`, que aparece no app Arquivos em iCloud Drive › Cashly › Backups (`NSUbiquitousContainers` no `Info.plist`, com o nome Cashly). Leitura e escrita passam por `NSFileCoordinator`, e arquivos ainda não baixados (`.icloud`) entram na lista e são baixados ao abrir. Sem iCloud Drive, o backup continua no aparelho e a tela diz por quê. "Backups salvos" lista as cópias do destino atual e abre a conferência antes de importar.
+- **Inteligência fora dos Ajustes por enquanto.** A linha saiu da tela principal; o código continua no `FeatureSettings` para a próxima etapa.
+- **Desenvolvimento** (só em DEBUG) reúne, além dos recursos: dados de exemplo (`SampleDatabase.seed`, por isso `CashlyMock` entrou no produto `CashlyKit`), recarregar dados, abrir as boas-vindas, notificação de teste, backup agora, reiniciar a agenda do backup automático, apagar preferências (`cashly.*`), apagar todos os dados e informações do app (versão, identificador, container, conta, caminhos do banco e dos backups). As ações ficam no `DeveloperModel`.
+
+## 12/10/2026: quatro ícones por coleção e três coleções novas
+
+- **Toda coleção tem 4 ícones.** Entraram Poá (Moda), Japão (Países), Vôlei (Esportes), Fogueira e Milho (Festa Junina), Pisca-pisca e Bengala (Natal).
+- **Coleções novas:** Anos 80 (Neon, Fita K7, Fliperama, Portátil), Verão (Pôr do sol, Calçadão, Guarda-sol, Melancia; em destaque em janeiro) e Carnaval (Confete, Serpentina, Frevo, Paetê; em destaque em fevereiro).
+- Cada ícone reaproveita o cartão, o bolso e o "$" do clássico (e a estrela quando cabe), com camadas temáticas em SVG recortadas no contorno do bolso ou do cartão, versões clara, escura e tingida. O nome do asset passou a sair do `rawValue` (`CashlyIcon` + nome com inicial maiúscula).
+
+## 12/10/2026: inglês como idioma principal e dez idiomas
+
+- **Inglês é o idioma de desenvolvimento** (pacote e projeto em `en`); o português virou tradução.
+- **Idiomas traduzidos:** português (Brasil), espanhol (Espanha), alemão (Alemanha), francês (França), italiano, japonês, coreano, chinês simplificado e russo. Todas as traduções estão marcadas como prontas.
+- **Catálogo único no app.** Os catálogos por feature nunca eram lidos, porque `Text("…")` num pacote procura no bundle principal. Agora todas as chaves ficam em `Cashly/Cashly/Localizable.xcstrings`.
+- **Troca na hora, pelos Ajustes.** Ajustes › Idioma tem "Sistema" e os dez idiomas com o nome no próprio idioma.
+  - O `LanguageSetting` (domínio) guarda o idioma, o `Locale` e o bundle `.lproj` resolvidos.
+  - As telas leem o `\.locale` do ambiente; os modelos usam `String(appLocalized:)`.
+  - O `MainScreen` recria as abas quando o idioma muda, para os títulos da barra acompanharem.
+  - A escolha também grava `AppleLanguages`, e o iOS usa esse idioma nos textos do sistema a partir da próxima abertura.
+- **Plurais pelo catálogo.** As contagens viraram uma chave com variações (o russo tem `one`, `few` e `many`), no lugar de ternários com o número 1.
+- **Planilha CSV:**
+  - A exportação sai com cabeçalhos e valores no idioma do app.
+  - A importação aceita cabeçalhos, tipos e situações em qualquer idioma suportado (mais os apelidos antigos em português) e reconhece datas no formato mês/dia.
+- **Busca de ícones:** as palavras-chave têm base em inglês e tradução por idioma; a busca considera o idioma do app e o inglês.
+- **Fora da tradução:** textos que só o Claude lê. As narrativas do motor de análise passaram para o inglês; as descrições das ferramentas do `CashlyMCP` continuam em português por enquanto. O `CashlyAudit` e os dados de exemplo, ferramentas internas, também ficam em português.
+
+## 12/10/2026: motor da Jornada (fase 8.1)
+
+- **`CashlyGame` recalcula tudo dos dados.** XP, nível, sequência, conquistas, missões e desafios saem de um `GameSnapshot` (o retrato do `CashlyAnalytics` mais os eventos). Nada de saldo de XP guardado: apagar uma transação tira o XP dela e dois aparelhos chegam ao mesmo número.
+- **Eventos duráveis no schema V4.** `GameEventEntity` guarda só o que não está nos dados: "hoje não gastei", guia concluído, desafio escolhido ou abandonado, congelamento creditado, sequência recuperada, backup e importação. Transação nova grava `transactionRecorded` na mesma gravação; restaurar um backup não grava. Créditos e recuperações têm chave única, para uma compra não valer duas vezes.
+- **"Mês no azul" é o nível saudável da saúde do orçamento** (pontuação ≥ 895, dentro do orçado). O 850 da primeira versão do plano deixava passar meses até 6,6% acima do orçado.
+- **Missões sorteadas sem servidor:** gerador congruente semeado pela semana e pelo perfil, com semanas de segunda a segunda. Missões irmãs (5 e 10 registros, 4 e 6 dias) não saem juntas.
+- **Desafios por código** (`tipo|categoria|limite`) no valor do evento. Começar outro desafio abandona o atual; o que já tinha falhado continua como falha.
+
+## 12/10/2026: aba Jornada (fase 8.2) e fim da Busca
+
+- **A Jornada ocupa o lugar da Busca** como aba proeminente. A `FeatureSearch` saiu do app, com testes, prévias e textos; o tour mostra a Jornada no lugar da página de busca.
+- **`FeatureJourney`:** `JourneyModel` monta o `GameSnapshot` pelo `RepositoriesGameSource` e recarrega com a sessão. Seções: nível (anel de XP), sequência com "Hoje não gastei", missões da semana, desafio (escolher, trocar, desistir) e grade de conquistas com detalhe; as secretas aparecem como "?".
+- **Comemorações sem repetir:** o modelo guarda por perfil, no `UserDefaults`, o último nível e as conquistas já vistas. A primeira abertura só registra o estado; depois, cada nível ou conquista nova vira uma folha curta com efeito de símbolo e vibração, em fila.
+- **Eventos gravados pelo app:** guia concluído (tutoriais, pontuação e importação), planilha importada e backup criado (cada exportação grava um evento para cada perfil).
+- **Ajustes › Jornada** liga e desliga a aba; esconder não apaga o progresso. A flag remota `journey` também esconde a aba e a linha dos Ajustes.
+
+## 12/10/2026: dicas com TipKit (fase 8.6)
+
+- **Cinco dicas, cada uma no seu target.** Sequência em dia sem gastos e escolher um desafio (`FeatureJourney`), deslizar para excluir e dividir um gasto (`FeatureTransactions`), conectar o Claude Code (`FeatureMCP`, mostrada pelo `MCPSettingsSlot` do `AppShell`). Dicas de Siri e widgets ficam para quando esses recursos existirem (fase 9).
+- **Regras por evento e parâmetro.** `CashlyTips` no `FeatureCore` guarda os eventos compartilhados: `transactionSaved` (doado pelo editor depois de salvar) e `journeyOpened` (doado ao abrir a aba). As dicas aparecem depois de 2 a 10 doações, e as de desafio e Claude Code somem quando já há desafio ou servidor ligado (`@Parameter` com tipo explícito, exigido pela macro).
+- **Discrição.** `Tips.configure` com uma dica por dia e, fora do simulador, o estado no contêiner `iCloud.cashly`, para a dica fechada num aparelho não voltar no outro. `TipView` nas listas com fundo transparente; a de dividir é um `popoverTip` no botão de participantes da toolbar.
+- **Desenvolvedor › "Mostrar todas as dicas na próxima abertura"** grava uma flag; na abertura seguinte o app zera o armazenamento e liga `showAllTipsForTesting` antes do `Tips.configure`, porque as duas chamadas só valem antes da configuração.
+
+## 12/10/2026: Cashly Pro (fase 8.5)
+
+- **Um só portão: `ProAccess` no ambiente (`\.pro`).** A `MainScreen` monta o valor com o `Entitlement` do `StoreModel` e a flag `pro`; `canWrite` é verdadeiro no teste grátis, na assinatura ativa ou com a flag desligada. As ações de escrita chamam `pro.perform { }`, que executa ou abre o paywall. As rotas de editor (`Route.requiresPro`) são barradas no `CashlyDestination`, então toolbar, linhas, menus e o menu de perfil ficam cobertos sem tocar em cada tela.
+- **Modo leitura de verdade.** Sem assinatura ficam bloqueados: criar e editar transações, categorias, orçamentos, tags e perfis; excluir (deslizar, menu e seleção); resolver conflito de orçamento; importar backup e planilha; e as ações da Jornada. Continuam livres: ler tudo, exportar JSON e CSV, backups automáticos, apagar tudo, loja e Ajustes.
+- **Claude Code respeita o bloqueio.** `MCPModel.canWrite` acompanha o ambiente; sem assinatura o importador devolve `ImportOutcome.locked` e a ferramenta `import_transactions` explica que precisa do Cashly Pro, sem abrir a folha de conferência.
+- **Paywall nativo.** `PaywallScreen` usa `SubscriptionStoreView(productIDs:)` com os dois planos (o teste grátis vem da oferta introdutória), cabeçalho com coroa e três benefícios, botões de restaurar e cancelar, resgate de código no iOS/visionOS e links de termos e privacidade quando `CashlyTermsURL`/`CashlyPrivacyURL` estiverem no `Info.plist`. Toque no plano da loja abre o paywall; a folha de item ficou só para itens.
+- **Quando aparece.** Uma vez por abertura, depois que o StoreKit respondeu e os dados carregaram, se não há assinatura: isso cobre o fim do onboarding (a folha abre meio segundo depois de fechar o onboarding) e a abertura sem assinatura. Além disso, sempre que uma ação bloqueada é tocada.
+- **Ajustes › Cashly Pro** é a primeira linha dos Ajustes, com o estado (sem assinatura, teste grátis, ativa, expirada e a data), "Começar teste grátis"/"Assinar", gerenciar assinatura (folha nativa no iOS/visionOS, link no macOS), resgatar código e restaurar compras.
+- **A Jornada pausa.** Sem assinatura a aba mostra "Jornada pausada" no topo e as ações abrem o paywall; XP e conquistas não mudam porque nada é registrado. A sequência ainda conta os dias perdidos durante a pausa — congelar o relógio da sequência fica no backlog.
+- **Flag `pro`** (`Cashly Pro paywall`) desliga o portão por controle remoto ou pelo Desenvolvedor em DEBUG, para testar sem assinatura e para emergências na revisão.
+
+## 12/10/2026: loja na Jornada e itens bloqueados (fase 8.4)
+
+- **A loja mora na Jornada.** A seção "Loja" mostra os dois planos, o destaque do mês (coleção de ícones da estação: Carnaval, Festa Junina, Halloween, Natal, senão Verão) e "Ver a loja", que abre a `ShopScreen` agrupada (planos, ícones, personalização, ajudas) com "Restaurar compras" no fim. Cada item abre uma folha (`ShopItemScreen`) com símbolo, descrição, preço e o botão de compra; os planos mostram "7 dias grátis" e "Começar teste grátis".
+- **A folha do item é um guia.** `ShopItemScreen` usa `GuideSheet` de uma página (sem os pontinhos, que o `GuideTopBar` esconde quando há só uma) com `GuidePage(verbatim:)`, a animação do grupo (`shopIcons`, `shopColors`, `shopHelps`, `pro`), as linhas "Preço" e "Depois da compra" e os botões "Comprar por X" / "Agora não"; comprado vira "Concluído". Pedido do usuário em 12/10/2026: a primeira versão com símbolo e botão estava feia.
+- **`ShopAccess` no ambiente.** `MainScreen` injeta `\.shop` com os itens possuídos do `StoreModel` e um `open(_:)` que preenche `CashlyNavigation.shopItem`, apresentado como folha em qualquer aba. As features não dependem da `FeatureStore`: só do `ShopItem` do domínio.
+- **Cadeados nos Ajustes.** Cada coleção de ícones carrega o seu `ShopItem`; a grade mostra o cadeado e, no toque, abre o item em vez de trocar o ícone. As cores metálicas e neon (`PremiumColor`, seção própria no seletor de cor) seguem a mesma regra. "Todos os ícones" conta como posse de todas as coleções.
+- **Ajudas com regra no motor.** `Streak.restorable` guarda o tamanho da última sequência perdida por até 48 h, e o botão "Recuperar a sequência de n dias" só aparece nesse prazo. O primeiro desafio do mês é grátis; cada começo a mais consome uma troca (`GameProgress.rerolls` = créditos − usos), e sem troca o botão de trocar mostra cadeado e abre o item.
+- **Itens sem conteúdo ficam escondidos.** Molduras, avatares extras, comemorações e sons têm `isAvailable = false` até existirem; não aparecem na loja nem nos destaques, mas continuam no catálogo e no App Store Connect.
+
+## 12/10/2026: StoreKit (fase 8.3)
+
+- **Catálogo no domínio.** `ShopItem` é um enum com o identificador de produto como `rawValue`, o grupo (planos, ícones, personalização, ajudas) e o tipo (assinatura, não consumível, consumível). As ajudas carregam um `ShopCredit` (congelamentos, recuperação de sequência, trocas de desafio). `Entitlement` (nenhum, teste, ativo, expirado) é o que as features consultam; `EntitlementProviding` e `PurchaseProviding` escondem o StoreKit delas.
+- **`StoreModel` sem servidor.** Carrega os produtos, lê `Transaction.currentEntitlements` (itens possuídos e o plano com a maior validade) e escuta `Transaction.updates` desde a abertura do app, pela `MainScreen`. Teste grátis vem de `transaction.offer?.paymentMode == .freeTrial`; sem assinatura ativa, a validade mais recente entre os planos vira `expired`.
+- **Consumíveis viram eventos da Jornada.** Cada compra grava um `GameEvent` com o `transaction.id` como chave, no perfil atual, antes de `finish()`; o `CashlyStore` ignora chaves repetidas. Sem perfil escolhido a transação fica sem terminar e é creditada na próxima entrega. Recuperar sequência aplica na hora da compra.
+- **StoreKit atrás de um `StoreClient`.** O `StoreModel` fala com um protocolo pequeno (produtos, compra, direitos atuais, última transação, pendentes, concluir, sincronizar) e o `StoreKitClient` (actor) faz a ponte com o StoreKit 2, guardando as transações verificadas para o `finish()`. Os testes usam um cliente falso: compra, pendente e cancelada, reembolso, crédito único com quantidade, compra sem perfil, teste → ativo → expirado e restauração.
+- **Sem `SKTestSession` nos testes do pacote.** Os testes do `CashlyKit` rodam sem app hospedeiro, e o `storekitd` do simulador recusa a sessão de teste porque o processo `xctest` não é um app instalado (`kLSApplicationNotFoundErr`). Fica no backlog um alvo de testes hospedado pelo app para exercitar o `Cashly.storekit` de verdade.
+- **`Cashly.storekit`** em `Cashly/Cashly`, com os 22 produtos em BRL e o grupo Cashly Pro com 7 dias grátis, ligado ao esquema Production para compras no simulador.
+- **visionOS** usa `purchase(confirmIn:)` com a primeira cena conectada, porque `purchase()` não existe lá.
+
+## 12/10/2026: Metas no padrão do design system
+
+- **O cartão "Orçamentos" em Metas ficou compacto:** sem o número gigante fora do grupo (ele continua só na tela Orçamentos, como "Resumo do mês"). Dentro do grupo: disponível em `amountRow` com a legenda "disponível de X planejado", chip com o percentual usado, barra de uso na cor da situação e a contagem de cada situação como chips. A linha "Ver os n orçamentos" é uma linha própria com chevron, e o rodapé diz quanto dá para gastar por dia até o fim do mês.
+- **A barra empilhada por situação e a legenda de pontinhos saíram:** a barra de uso e os chips dizem a mesma coisa no padrão das outras telas.
+- **Resumo do mês (tela Orçamentos):** o cartão reaproveita o mesmo componente sem o valor (o número grande já está no cabeçalho) e as linhas "Você pode gastar" e "Fora dos orçamentos" viraram linhas com badge, título, valor à direita e detalhe embaixo, sem `LabeledContent` empilhando.
+- **Conflito de orçamento:** a tela usa `AdaptiveList`, mostra a categoria e o mês no topo, uma seção "Opção n" por orçamento (valor em `amountRow`, descrição e o botão "Manter este orçamento") e a explicação no rodapé. A seção "Conflitos de orçamento" nas listas usa `sectionTitle()` e a explicação no rodapé.
+- **Legenda das categorias:** "R$ X planejado" em uma linha, encolhendo antes de quebrar.
+
+## 12/10/2026: guias com animações Lottie
+
+- **Título e texto no topo da página do guia** (`GuidePage`): primeiro o título e a mensagem, depois a animação, depois o conteúdo. Vale para tutoriais, guia da pontuação, importação de planilha e de backup, onboarding e aprovação do MCP.
+- **Os cartões de exemplo saíram dos guias.** Cada página mostra uma animação Lottie sem fundo, em `GuideAnimationView(_:)`, com o JSON embutido em código (`CashlyResourceAnimation.json(named:)`, gerado), porque recursos de pacote SwiftPM não entraram no bundle do app em todos os builds; os `.json` de referência ficam em `scripts/animations/`. Os estados vazios continuam com os exemplos preenchidos.
+- **Dependência nova:** `lottie-spm` (Airbnb), a primeira dependência externa do pacote, usada só pelo `FeatureCore`.
+- **As animações são geradas por `scripts/animations.py`**, que escreve o JSON do Lottie e o arquivo Swift que o embute, a partir de formas simples (barras, anéis, círculos, estrela, check). As camadas têm o nome da cor da paleta (`olive`, `mustard`, `rust`, `orange`, `teal`, `denim`, `plum`, `brown`, `tint`, `ink`, `paper`) e o app substitui as cores em tempo de execução com `ColorValueProvider`, por isso a animação acompanha o modo escuro e a cor de destaque. Com "Reduzir movimento" a animação fica parada no último quadro. Para trocar uma animação por uma de um designer, basta substituir o JSON mantendo os nomes das camadas.
+- **Animações:** `month`, `history`, `budgetPace`, `journey`, `budget`, `score`, `participants`, `splitModes`, `paid`, `table`, `file`, `done`, `connect`, `launch` e, da loja, `pro`, `shopIcons`, `shopColors` e `shopHelps`.
+- **Tela de abertura** (`LaunchView`): a animação `launch` em loop (quadrado na cor de destaque, carteira creme e uma moeda caindo dentro) no lugar do indicador de progresso, com "Abrindo o Cashly" embaixo.
+- **Ordem das camadas no Lottie:** a primeira camada da lista fica por cima; o gerador recebe as camadas de baixo para cima e inverte ao escrever.
+- **Página curta:** título, texto, animação e no máximo três linhas de conteúdo; o que passa disso vira outra página (as faixas da pontuação e as colunas opcionais da planilha ganharam página própria). A folha nunca deve passar da altura da tela.

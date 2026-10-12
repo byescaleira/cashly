@@ -9,9 +9,11 @@ struct InsightBars: View {
 
     var body: some View {
         Chart(bars) { bar in
-            BarMark(x: .value("Mês", bar.label), y: .value("Valor", bar.value), width: .ratio(0.55))
-                .foregroundStyle(bar.isCurrent ? appTint : Color.secondary.opacity(.opacitySoft))
-                .clipShape(.rect(cornerRadius: .radiusS))
+            BarMark(
+                x: .value("Month", bar.label), y: .value("Amount", bar.value), width: .ratio(0.55)
+            )
+            .foregroundStyle(bar.isCurrent ? appTint : Color.secondary.opacity(.opacitySoft))
+            .clipShape(.rect(cornerRadius: .radiusS))
         }
         .chartYAxis(.hidden)
         .chartXAxis {

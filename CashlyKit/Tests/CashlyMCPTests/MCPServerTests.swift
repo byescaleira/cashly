@@ -115,6 +115,25 @@ struct MCPServerTests {
         #expect(preview.issues.count == 1)
     }
 
+    @Test func importIsRefusedWithoutCashlyPro() async throws {
+        let importer = FakeImporter(outcome: .locked)
+        let server = try await server(importer)
+        let response = try await call(
+            server, "tools/call",
+            [
+                "name": "import_transactions",
+                "arguments": [
+                    "transactions": [
+                        [
+                            "date": "2026-10-05", "description": "Padaria", "amount": 18.9,
+                            "kind": "expense", "category": "Mercado",
+                        ]
+                    ]
+                ],
+            ])
+        #expect(text(response).contains("Cashly Pro"))
+    }
+
     @Test func httpRequiresTheTokenAndThePath() async throws {
         let http = try MCPHTTPServer(server: try await server(), token: "secret", port: 0)
         let ping: JSONValue = ["jsonrpc": "2.0", "id": 1, "method": "ping"]

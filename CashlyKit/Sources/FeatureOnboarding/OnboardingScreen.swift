@@ -36,16 +36,16 @@ public struct OnboardingScreen: View {
 
     private var secondary: GuideAction? {
         guard model.step == .categories else { return nil }
-        return GuideAction("Pular por enquanto") { Task { await model.skipCategories() } }
+        return GuideAction("Skip for Now") { Task { await model.skipCategories() } }
     }
 
     private var primaryTitle: LocalizedStringKey {
         switch model.step {
-        case .welcome: "Começar"
-        case .profile: "Continuar"
+        case .welcome: "Get Started"
+        case .profile: "Continue"
         case .categories:
-            model.suggestions.isEmpty ? "Continuar" : "Criar \(model.suggestions.count) categorias"
-        case .done: "Começar a usar"
+            model.suggestions.isEmpty ? "Continue" : "Create \(model.suggestions.count) Categories"
+        case .done: "Start Using Cashly"
         }
     }
 }

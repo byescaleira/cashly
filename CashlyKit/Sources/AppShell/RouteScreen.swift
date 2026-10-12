@@ -2,6 +2,7 @@ import CashlyDomain
 import FeatureBudgets
 import FeatureCategories
 import FeatureCore
+import FeatureJourney
 import FeatureTags
 import FeatureTransactions
 import FeatureUsers
@@ -41,6 +42,7 @@ struct RouteScreen: View {
             ) { TagEditorScreen() }
         case .budgets:
             ModelHost(GoalsModel(session: session, finance: finance)) { BudgetsScreen() }
+        case .shop: ShopScreen()
         case .budgetConflict(let categoryID, let month):
             ModelHost(
                 BudgetConflictModel(finance: finance, categoryID: categoryID, month: month)
