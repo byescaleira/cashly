@@ -57,5 +57,10 @@ struct AppIconTests {
         #expect(AppIcon.featured(on: october, calendar: calendar) == .halloween)
         #expect(AppIcon.featured(on: march, calendar: calendar) == nil)
         #expect(AppIcon.Collection.halloween.icons == [.blood, .bat, .skull, .frankenstein])
+        let june = calendar.date(from: DateComponents(year: 2026, month: 6, day: 15)) ?? .now
+        let december = calendar.date(from: DateComponents(year: 2026, month: 12, day: 15)) ?? .now
+        #expect(AppIcon.featured(on: june, calendar: calendar) == .junina)
+        #expect(AppIcon.featured(on: december, calendar: calendar) == .christmas)
+        #expect(AppIcon.Collection.fashion.icons == [.jeans, .tailoring, .leather])
     }
 }

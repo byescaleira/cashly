@@ -1,0 +1,10 @@
+{
+  "images" : [
+    { "filename" : "CashlyIconPlaid.png", "idiom" : "universal" },
+    {
+      "appearances" : [ { "appearance" : "luminosity", "value" : "dark" } ],
+      "filename" : "CashlyIconPlaid-dark.png", "idiom" : "universal"
+    }
+  ],
+  "info" : { "author" : "xcode", "version" : 1 }
+}

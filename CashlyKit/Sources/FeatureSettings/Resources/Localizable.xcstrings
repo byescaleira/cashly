@@ -67,9 +67,6 @@
     "Dados" : {
 
     },
-    "Desenvolvimento" : {
-
-    },
     "Em destaque neste mês e disponíveis o ano todo." : {
 
     },
@@ -88,10 +85,16 @@
     "Fale conosco" : {
 
     },
-    "Grupo de lançamento deste aparelho: %lld. Só aparece em versões de desenvolvimento." : {
+    "Guias" : {
 
     },
-    "Guias" : {
+    "iCloud" : {
+
+    },
+    "Ícone" : {
+
+    },
+    "Ícones do mês" : {
 
     },
     "Importar" : {
@@ -115,19 +118,19 @@
     "Moeda" : {
 
     },
+    "Não foi possível concluir" : {
+
+    },
     "Notificações" : {
 
     },
     "Novidades" : {
 
     },
-    "Não foi possível concluir" : {
+    "O backup é um arquivo com usuários, categorias, tags, orçamentos e transações. Importar adiciona os registros do arquivo aos que já estão no aparelho. A planilha traz só as transações." : {
 
     },
     "O Cashly não tem servidores próprios. Seus dados ficam neste aparelho e, com a sincronização ligada, na sua conta do iCloud. As sugestões são calculadas no próprio aparelho." : {
-
-    },
-    "O backup é um arquivo com usuários, categorias, tags, orçamentos e transações. Importar adiciona os registros do arquivo aos que já estão no aparelho. A planilha traz só as transações." : {
 
     },
     "O histórico mudou. Treine novamente para atualizar as sugestões." : {
@@ -172,28 +175,16 @@
     "Treinar modelos" : {
 
     },
-    "Usuários, categorias, tags, orçamentos, transações e modelos de inteligência serão apagados. Com o iCloud ligado, os dados também saem dos seus outros aparelhos. Não é possível desfazer." : {
-
-    },
-    "Versão" : {
-
-    },
-    "Voltar aos valores padrão" : {
-
-    },
-    "iCloud" : {
-
-    },
-    "Ícone" : {
-
-    },
-    "Ícones do mês" : {
-
-    },
     "Última atualização" : {
 
     },
     "Última sincronização" : {
+
+    },
+    "Usuários, categorias, tags, orçamentos, transações e modelos de inteligência serão apagados. Com o iCloud ligado, os dados também saem dos seus outros aparelhos. Não é possível desfazer." : {
+
+    },
+    "Versão" : {
 
     }
   },
