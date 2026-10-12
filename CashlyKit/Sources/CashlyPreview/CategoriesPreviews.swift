@@ -3,7 +3,14 @@
     import FeatureCore
     import SwiftUI
 
-    #Preview("Categorias") { NavigationStack { CategoryListScreen() }.cashlyPreview() }
+    #Preview("Metas") {
+        NavigationStack {
+            WithSession { session, finance, _ in
+                ModelHost(GoalsModel(session: session, finance: finance)) { GoalsScreen() }
+            }
+        }
+        .cashlyPreview()
+    }
 
     #Preview("Nova categoria") {
         NavigationStack {

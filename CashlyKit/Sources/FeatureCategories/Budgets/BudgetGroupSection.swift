@@ -18,13 +18,15 @@ struct BudgetGroupSection: View {
                     BudgetProgressRow(item: item)
                 }
                 .tint(Color.primary)
+                .swipeActions {
+                    Button("Apagar", systemImage: "trash", role: .destructive) {
+                        goals.deletion = .budget(item.budget)
+                    }
+                }
                 .contextMenu {
                     Button("Editar", systemImage: "square.and.pencil") {
                         open(
                             .addBudget(id: item.budget.id, categoryID: nil, date: nil), in: section)
-                    }
-                    Button("Ver categoria", systemImage: "folder") {
-                        open(.detailCategory(id: item.budget.category.id), in: section)
                     }
                     Divider()
                     Button("Apagar", systemImage: "trash", role: .destructive) {
@@ -95,6 +97,15 @@ extension BudgetProgress.Group {
         case .attention: "exclamationmark.triangle.fill"
         case .onTrack: "checkmark.circle.fill"
         case .untouched: "moon.zzz.fill"
+        }
+    }
+
+    func summary(count: Int) -> String {
+        switch self {
+        case .over: count == 1 ? "1 passou do limite" : "\(count) passaram do limite"
+        case .attention: "\(count) perto do limite"
+        case .onTrack: "\(count) no caminho"
+        case .untouched: count == 1 ? "1 sem gastos" : "\(count) sem gastos"
         }
     }
 }

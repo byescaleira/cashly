@@ -9,6 +9,7 @@ struct PrerequisiteExample: View {
         case .category: CategoriesExample()
         case .transaction: TransactionsExample()
         case .tag: TagsExample()
+        case .budget: BudgetsExample()
         }
     }
 }
@@ -47,6 +48,13 @@ private struct TransactionsExample: View {
         ExampleRow(
             "Salário", detail: "Renda", value: 6_500.0.formatted(.appCurrency),
             valueColor: .positive, symbol: "briefcase.fill", color: .retroOlive)
+    }
+}
+
+private struct BudgetsExample: View {
+    var body: some View {
+        ExampleBar("Mercado", ratio: 0.45, color: .positive)
+        ExampleBar("Lazer", ratio: 0.86, color: .warning)
     }
 }
 

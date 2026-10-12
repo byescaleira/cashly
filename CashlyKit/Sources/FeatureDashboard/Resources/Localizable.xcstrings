@@ -17,16 +17,6 @@
         }
       }
     },
-    "%@ · %@" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$@ · %2$@"
-          }
-        }
-      }
-    },
     "Adicionar tag" : {
 
     },
@@ -51,16 +41,6 @@
     "Dá para gastar" : {
 
     },
-    "Estes %lld gastos somam %@ das saídas do período." : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Estes %1$lld gastos somam %2$@ das saídas do período."
-          }
-        }
-      }
-    },
     "Fora do padrão" : {
 
     },
@@ -76,8 +56,21 @@
     "Item" : {
 
     },
+    "Juntos, somam %@ das saídas do período." : {
+
+    },
     "Já gasto" : {
 
+    },
+    "Maior gasto: %@, %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Maior gasto: %1$@, %2$@"
+          }
+        }
+      }
     },
     "Maiores gastos" : {
 
@@ -116,6 +109,9 @@
 
     },
     "Soma o que já saiu, as contas agendadas e o que você costuma gastar até o fim do mês." : {
+
+    },
+    "São todas as saídas do período." : {
 
     },
     "Série" : {

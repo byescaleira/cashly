@@ -16,7 +16,6 @@ public struct TagEditorScreen: View {
         }
         .fontDesign(.rounded)
         .toolbar {
-            ToolbarItem { UserMenu() }
             EditorActions(canSave: model.canSave, canRemove: model.canRemove) {
                 await model.save()
             } remove: {

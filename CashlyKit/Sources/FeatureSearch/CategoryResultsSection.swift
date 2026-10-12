@@ -12,7 +12,7 @@ struct CategoryResultsSection: View {
             Section("Categorias") {
                 ForEach(search.categories) { category in
                     Button {
-                        open(.detailCategory(id: category.id), in: section)
+                        open(.addCategory(id: category.id), in: section)
                     } label: {
                         Label {
                             Text(category.name.capitalized).foregroundStyle(Color.primary)

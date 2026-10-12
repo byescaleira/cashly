@@ -66,6 +66,10 @@ public struct BudgetOverview: Sendable {
     public var ratio: Double { planned > 0 ? spent / planned : 0 }
     public var unbudgeted: Double { max(totalSpent - spent, 0) }
 
+    public var counts: [(group: BudgetProgress.Group, count: Int)] {
+        groups.map { ($0.group, $0.items.count) }
+    }
+
     public var groups: [(group: BudgetProgress.Group, items: [BudgetProgress])] {
         BudgetProgress.Group.allCases.compactMap { group in
             let items = items.filter { $0.group == group }.sorted { $0.ratio > $1.ratio }
@@ -82,11 +86,5 @@ public struct BudgetOverview: Sendable {
     public var dailyAllowance: Double? {
         guard let daysLeft, daysLeft > 0, remaining > 0 else { return nil }
         return remaining / Double(daysLeft)
-    }
-
-    public var projectedSpent: Double? {
-        guard let month, let daysLeft, spent > 0 else { return nil }
-        let elapsed = Double(month.dayCount - daysLeft + 1)
-        return spent / elapsed * Double(month.dayCount)
     }
 }

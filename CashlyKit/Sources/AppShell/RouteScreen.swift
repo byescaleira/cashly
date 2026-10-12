@@ -39,7 +39,8 @@ struct RouteScreen: View {
             ModelHost(
                 TagEditorModel(draft: id.map(TagDraft.edit) ?? .new(), repositories: repositories)
             ) { TagEditorScreen() }
-        case .detailCategory(let id): CategoryDetailScreen(categoryID: id)
+        case .budgets:
+            ModelHost(GoalsModel(session: session, finance: finance)) { BudgetsScreen() }
         case .budgetConflict(let categoryID, let month):
             ModelHost(
                 BudgetConflictModel(finance: finance, categoryID: categoryID, month: month)

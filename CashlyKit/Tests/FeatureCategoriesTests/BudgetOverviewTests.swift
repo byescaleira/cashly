@@ -29,7 +29,7 @@ struct BudgetOverviewTests {
         #expect(overview.remaining == 115)
     }
 
-    @Test func currentMonthHasDailyAllowanceAndProjection() throws {
+    @Test func currentMonthHasDailyAllowance() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = .current
         let today = try #require(
@@ -40,7 +40,6 @@ struct BudgetOverviewTests {
             today: today)
         #expect(overview.daysLeft == 21)
         #expect(abs((overview.dailyAllowance ?? 0) - 2000 / 21) < 0.01)
-        #expect(abs((overview.projectedSpent ?? 0) - 3100) < 0.01)
         let past = BudgetOverview(
             items: overview.items, totalSpent: 1100, month: october.adding(months: -1), today: today
         )

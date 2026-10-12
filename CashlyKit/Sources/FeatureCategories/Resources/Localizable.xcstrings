@@ -11,19 +11,25 @@
         }
       }
     },
-    "Adicionar" : {
+    "%@ por dia" : {
+
+    },
+    "Acima do planejado" : {
 
     },
     "Apagar" : {
 
     },
-    "Categoria" : {
-
-    },
     "Categorias" : {
 
     },
-    "Definir orçamento de %@" : {
+    "Criar orçamento" : {
+
+    },
+    "Criar orçamento de %@" : {
+
+    },
+    "Defina quanto quer gastar em cada categoria neste mês." : {
 
     },
     "Digite o nome da categoria" : {
@@ -32,13 +38,13 @@
     "Disponível" : {
 
     },
+    "Dá para gastar" : {
+
+    },
     "Editar" : {
 
     },
-    "Estas categorias ainda não têm orçamento. Toque em uma para definir o valor do mês." : {
-
-    },
-    "Gasto" : {
+    "Fora dos orçamentos" : {
 
     },
     "Metas" : {
@@ -47,31 +53,40 @@
     "Nome" : {
 
     },
+    "Nova categoria" : {
+
+    },
     "Novo orçamento" : {
-
-    },
-    "O valor à direita é o gasto no período." : {
-
-    },
-    "Orçamento" : {
 
     },
     "Orçamentos" : {
 
     },
-    "Passou do planejado" : {
-
-    },
-    "Planejado" : {
-
-    },
-    "Quer mais controle?" : {
-
-    },
     "Resumo do mês" : {
 
     },
-    "Ver categoria" : {
+    "Sem orçamento" : {
+
+    },
+    "Toque numa categoria para definir quanto quer gastar nela neste mês." : {
+
+    },
+    "Toque para editar e deslize para apagar. O valor é o gasto no período." : {
+
+    },
+    "Ver o orçamento" : {
+
+    },
+    "Ver os %lld orçamentos" : {
+
+    },
+    "de %@ planejado" : {
+
+    },
+    "gasto em categorias sem orçamento" : {
+
+    },
+    "nos próximos %lld dias" : {
 
     },
     "usado" : {

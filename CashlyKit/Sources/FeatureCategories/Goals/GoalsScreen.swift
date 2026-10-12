@@ -2,7 +2,7 @@ import CashlyDesignSystem
 import FeatureCore
 import SwiftUI
 
-public struct CategoryListScreen: View {
+public struct GoalsScreen: View {
     @Environment(SessionModel.self) private var session
     @Environment(FinanceModel.self) private var finance
     @Environment(GoalsModel.self) private var goals
@@ -15,16 +15,10 @@ public struct CategoryListScreen: View {
         @Bindable var goals = goals
         AdaptiveList {
             DataStatusSection()
-            GoalsSummarySection()
-            ForEach(goals.overview.groups, id: \.group) { entry in
-                BudgetGroupSection(group: entry.group, items: entry.items)
-            }
-            UnbudgetedCategoriesSection()
+            BudgetsOverviewSection()
             CategoriesSection()
         }
         .emptyState(.category, when: finance.categories.isEmpty && !finance.isLoading)
-        .lineLimit(2)
-        .font(.callout)
         .fontDesign(.rounded)
         .toolbar {
             ToolbarItem(placement: .leading) { UserMenu() }
@@ -32,24 +26,25 @@ public struct CategoryListScreen: View {
             FixedToolbarSpacer()
             if !session.users.isEmpty {
                 ToolbarItem {
-                    Menu("Adicionar", systemImage: "plus") {
-                        Button("Categoria", systemImage: "folder.badge.plus") {
-                            open(.addCategory(id: nil), in: section)
-                        }
-                        Button("Orçamento", systemImage: "chart.pie") {
-                            open(
-                                .addBudget(
-                                    id: nil, categoryID: nil, date: session.filter.startDate),
-                                in: section)
-                        }
-                        .disabled(finance.categories.isEmpty)
+                    Button("Nova categoria", systemImage: "plus") {
+                        open(.addCategory(id: nil), in: section)
                     }
                     .tint(Color.primary)
                     .disabled(finance.isLoading)
                 }
             }
         }
-        .confirmationDialog(
+        .deletionDialog(goals)
+        .errorAlert($goals.error)
+        .refreshable { await finance.load() }
+        .navigationTitle("Metas")
+    }
+}
+
+extension View {
+    func deletionDialog(_ goals: GoalsModel) -> some View {
+        @Bindable var goals = goals
+        return confirmationDialog(
             goals.deletion?.title ?? "", isPresented: $goals.isConfirmingDeletion,
             titleVisibility: .visible, presenting: goals.deletion
         ) { _ in
@@ -57,8 +52,5 @@ public struct CategoryListScreen: View {
         } message: { deletion in
             Text(deletion.message)
         }
-        .errorAlert($goals.error)
-        .refreshable { await finance.load() }
-        .navigationTitle("Metas")
     }
 }

@@ -55,8 +55,9 @@ public final class GoalsModel {
         finance.categories.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
 
-    public func budgets(for category: CashlyDomain.Category) -> [Budget] {
-        finance.budgets(for: category)
+    public func caption(for category: CashlyDomain.Category) -> String {
+        let planned = finance.budgetsAmount(for: category)
+        return planned > 0 ? "Orçamento de \(planned.formatted(.appCurrency))" : "Sem orçamento"
     }
 
     public var isConfirmingDeletion: Bool {

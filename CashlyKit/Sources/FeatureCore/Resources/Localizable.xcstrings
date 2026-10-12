@@ -50,7 +50,13 @@
     "Cor" : {
 
     },
+    "Criar orçamento" : {
+
+    },
     "Data" : {
+
+    },
+    "Diga quanto quer gastar em cada categoria e acompanhe o ritmo do mês." : {
 
     },
     "Editar usuário" : {
@@ -75,6 +81,9 @@
 
     },
     "Limpar filtros" : {
+
+    },
+    "Nenhum orçamento neste mês" : {
 
     },
     "Nenhuma categoria ainda" : {
