@@ -45,14 +45,6 @@ struct DashboardModelTests {
         #expect(dashboard.highlightedTransaction == 0)
     }
 
-    @Test func budgetRowsSkipCategoriesWithoutBudgetAndSortByUsage() async throws {
-        let (dashboard, _) = try await dashboard()
-        let rows = dashboard.budgetRows
-        #expect(rows.allSatisfy { $0.budgeted > 0 })
-        #expect(rows.map(\.usage.ratio) == rows.map(\.usage.ratio).sorted(by: >))
-        #expect(rows.first?.available == 750)
-    }
-
     @Test func availabilityUsesThePeriod() async throws {
         let (dashboard, finance) = try await dashboard()
         let market = try #require(finance.categories.first { $0.id == "market" })

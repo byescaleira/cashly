@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "pt-BR",
   "strings" : {
+    "%@ planejado" : {
+
+    },
     "%@ por dia" : {
 
     },
@@ -62,9 +65,6 @@
     "Maiores gastos" : {
 
     },
-    "Mais %lld categorias com orçamento em Metas." : {
-
-    },
     "Mostra como a pontuação funciona" : {
 
     },
@@ -111,12 +111,6 @@
 
     },
     "Valor" : {
-
-    },
-    "de %@" : {
-
-    },
-    "de %@ planejado" : {
 
     },
     "de %lld" : {
