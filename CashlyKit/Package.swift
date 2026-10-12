@@ -6,6 +6,7 @@ let package = Package(
     defaultLocalization: "en",
     platforms: [.iOS("27.0"), .macOS("27.0"), .visionOS("27.0")],
     products: [
+        .library(name: "CashlyWidgetKit", targets: ["CashlyDomain", "CashlyDesignSystem"]),
         .library(
             name: "CashlyKit",
             targets: [

@@ -279,6 +279,13 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Eventos gravados pelo app:** guia concluído (tutoriais, pontuação e importação), planilha importada e backup criado (cada exportação grava um evento para cada perfil).
 - **Ajustes › Jornada** liga e desliga a aba; esconder não apaga o progresso. A flag remota `journey` também esconde a aba e a linha dos Ajustes.
 
+## 12/10/2026: widgets (fase 9.3)
+
+- **Extensão `CashlyWidgets`** no projeto (target `com.apple.product-type.app-extension`, pasta sincronizada `Cashly/CashlyWidgets`, embutida pelo app), com o produto leve `CashlyWidgetKit` do pacote (só `CashlyDomain` e `CashlyDesignSystem`, sem Lottie nem features) por causa do limite de memória dos widgets.
+- **Três widgets, só leitura:** "Este mês" (pequeno, médio e, no iOS, Tela Bloqueada circular/retangular/inline), "Orçamentos" (médio e grande, uma barra por categoria) e "Próximas contas" (médio e grande). Todos leem o `widget-snapshot.json` do App Group e pedem atualização a cada hora; sem retrato, mostram "Abra o Cashly".
+- **Marcar como paga ficou para o app.** O banco não está no App Group, então um botão interativo no widget não teria como gravar; a linha da conta é um `Link` `cashly://transactions/<id>` que abre o editor (respeitando o Cashly Pro). O URL scheme `cashly://` também cobre `home` e `budgets`; `DeepLinks` no `AppShell` trata.
+- **Strings da extensão** ficam em `Cashly/CashlyWidgets/Localizable.xcstrings` (a extensão tem o próprio bundle); `scripts/strings.sh` sincroniza os dois catálogos.
+
 ## 12/10/2026: App Intents (fase 9.2)
 
 - **Lógica fora do AppIntents.** `IntentActions` (`FeatureCore`) recebe repositórios e perfil e faz o trabalho: categorias e tags do perfil, contas pendentes, registrar gasto (categoria nomeada ou a primeira, valor positivo, data opcional), resumo do mês, saldo por categoria e marcar como paga. Testado com banco em memória; os `AppIntent`s no `AppShell` só traduzem parâmetros e diálogos.

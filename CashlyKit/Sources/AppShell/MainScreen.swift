@@ -96,6 +96,7 @@ public struct MainScreen: View {
         .errorAlert($finance.error)
         .errorAlert($session.error)
         .modifier(PaywallOffer())
+        .modifier(DeepLinks())
         .sheet(isPresented: $navigation.isShowingPaywall) { PaywallScreen() }
         .environment(\.pro, pro)
     }

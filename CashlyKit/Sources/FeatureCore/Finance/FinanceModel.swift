@@ -78,8 +78,14 @@ public final class FinanceModel {
             let overview = try? await repositories.dashboard.overview(
                 query: TransactionQuery(month: month))
         else { return }
+        let pending =
+            (try? await repositories.dashboard.page(
+                query: TransactionQuery(statuses: [.pendingToPay], kinds: [.expense]), after: nil,
+                limit: 50
+            ).items) ?? []
         let snapshot = WidgetSnapshot(
-            user: user, month: month, overview: overview, currencyCode: Money.currencyCode)
+            user: user, month: month, overview: overview, pending: pending,
+            currencyCode: Money.currencyCode)
         try? store.write(snapshot)
     }
 
