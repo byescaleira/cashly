@@ -12,12 +12,17 @@ public final class DashboardModel {
         public let usage: BudgetUsage
     }
 
-    public struct SyncKey: Hashable {
-        let categories: [String]
-        let transactions: [String]
+    public struct TopSpending: Identifiable, Equatable {
+        public let id: String
+        public let summary: String
+        public let category: String
+        public let icon: String
+        public let color: String
+        public let date: Date
+        public let amount: Double
+        public let share: Double
     }
 
-    public var highlightedTransaction = 0
     @ObservationIgnored private let session: SessionModel
     @ObservationIgnored private let finance: FinanceModel
 
@@ -26,14 +31,22 @@ public final class DashboardModel {
         self.finance = finance
     }
 
-    public var syncKey: SyncKey {
-        SyncKey(
-            categories: finance.categories.map(\.id),
-            transactions: finance.biggestTransactions.map(\.id))
+    public var topSpending: [TopSpending] {
+        let total = finance.expensesAmount
+        return finance.biggestTransactions.map { transaction in
+            let amount = billing(of: transaction).doubleValue
+            return TopSpending(
+                id: transaction.id, summary: transaction.summary,
+                category: transaction.category.name.capitalized, icon: transaction.category.icon,
+                color: transaction.category.color, date: transaction.date, amount: amount,
+                share: total > 0 ? amount / total : 0)
+        }
     }
 
-    public func sync() {
-        highlightedTransaction = 0
+    public var topSpendingShare: Double? {
+        let items = topSpending
+        let share = items.reduce(0) { $0 + $1.share }
+        return items.count > 1 && share < 0.95 ? share : nil
     }
 
     public var totalAvailable: Double { finance.budgetsAmount - finance.expensesAmount }

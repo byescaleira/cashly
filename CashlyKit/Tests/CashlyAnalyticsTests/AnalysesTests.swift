@@ -51,7 +51,7 @@ struct AnalysesTests {
         #expect(result.provenance.evidence == ["tv"])
     }
 
-    @Test func monthPaceProjectsFromDaysElapsed() throws {
+    @Test func monthPaceProjectsFromDaysElapsedWithoutHistory() throws {
         let result = try #require(
             MonthPace().run(
                 ledger(
@@ -60,6 +60,21 @@ struct AnalysesTests {
         #expect(result.metric("projected")?.value == 930)
         #expect(result.summary.contains("passa"))
         #expect(result.provenance.confidence == .medium)
+    }
+
+    @Test func monthPaceUsesWhatUsuallyLeavesAfterToday() throws {
+        let result = try #require(
+            MonthPace().run(
+                ledger([
+                    transaction("aug-early", 10_000, day: 3, month: 8),
+                    transaction("aug-late", 40_000, day: 25, month: 8),
+                    transaction("sep-early", 12_000, day: 4, month: 9),
+                    transaction("sep-late", 20_000, day: 28, month: 9),
+                    transaction("oct", 15_000, day: 5),
+                ])))
+        #expect(result.metric("spent")?.value == 150)
+        #expect(result.metric("remaining")?.value == 300)
+        #expect(result.metric("projected")?.value == 450)
     }
 
     @Test func dailyAllowanceSubtractsUpcomingBills() throws {

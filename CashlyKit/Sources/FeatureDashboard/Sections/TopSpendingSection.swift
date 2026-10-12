@@ -3,64 +3,76 @@ import FeatureCore
 import SwiftUI
 
 struct TopSpendingSection: View {
-    @Environment(\.appTint) private var appTint
-
-    @Environment(FinanceModel.self) private var finance
     @Environment(DashboardModel.self) private var dashboard
+    @Environment(\.open) private var open
+    @Environment(\.navigationSection) private var section
 
     var body: some View {
-        @Bindable var dashboard = dashboard
-        let transactions = finance.biggestTransactions
-        if !transactions.isEmpty {
+        let items = dashboard.topSpending
+        if !items.isEmpty {
             Section {
-                TabView(selection: $dashboard.highlightedTransaction) {
-                    ForEach(transactions.enumerated(), id: \.offset) { index, transaction in
-                        let color = Color(hex: transaction.category.color)
-                        VStack(spacing: 8) {
-                            Spacer()
-                            Text(transaction.category.name.uppercased())
-                                .font(.caption2.weight(.bold))
-                                .foregroundStyle(color)
-                                .padding(.vertical, 8)
-                                .padding(.horizontal, 12)
-                                .background(color.opacity(0.2), in: .capsule)
-                            Text(dashboard.billing(of: transaction).formatted)
-                                .font(.title.weight(.bold))
-                                .foregroundStyle(Color.primary)
-                                .amountLine()
-                            Text(transaction.summary).foregroundStyle(Color.secondary)
-                            Spacer()
-                        }
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 50)
-                        .tag(index)
+                ForEach(items) { item in
+                    Button {
+                        open(.addTransaction(id: item.id), in: section)
+                    } label: {
+                        TopSpendingRow(item: item)
                     }
+                    .buttonStyle(.plain)
                 }
-                .frame(minHeight: 170)
-                .padding(.horizontal, -20)
-                .animation(.bouncy, value: dashboard.highlightedTransaction)
-                #if os(iOS)
-                    .tabViewStyle(.page(indexDisplayMode: .never))
-                #endif
             } header: {
-                HStack {
-                    Text("Maiores gastos").sectionTitle()
-                    Spacer()
-                    HStack(spacing: 4) {
-                        ForEach(transactions.indices, id: \.self) { index in
-                            Circle()
-                                .frame(width: 8, height: 8)
-                                .foregroundStyle(
-                                    index == dashboard.highlightedTransaction
-                                        ? appTint : Color.primary.opacity(0.1))
-                        }
-                    }
-                    .padding(.vertical, 8)
-                    .padding(.horizontal, 12)
-                    .background(Color.secondary.opacity(0.2), in: .capsule)
-                    .accessibilityHidden(true)
+                Text("Maiores gastos").sectionTitle()
+            } footer: {
+                if let share = dashboard.topSpendingShare {
+                    Text(
+                        "Estes \(items.count) gastos somam \(share.formatted(.percent.precision(.fractionLength(0)))) das saídas do período."
+                    )
                 }
             }
         }
+    }
+}
+
+private struct TopSpendingRow: View {
+    let item: DashboardModel.TopSpending
+
+    var body: some View {
+        let color = Color(hex: item.color)
+        HStack(spacing: 12) {
+            Image(systemName: item.icon)
+                .font(.body.weight(.semibold))
+                .foregroundStyle(color)
+                .frame(width: 40, height: 40)
+                .background(color.opacity(0.2), in: .circle)
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(alignment: .firstTextBaseline) {
+                    Text(item.summary).font(.headline).lineLimit(1)
+                    Spacer(minLength: 8)
+                    Text(item.amount.formatted(.appCurrency))
+                        .font(.headline)
+                        .amountLine()
+                }
+                HStack(spacing: 8) {
+                    Text(
+                        "\(item.category) · \(item.date.formatted(.dateTime.day().month(.abbreviated)))"
+                    )
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+                    Spacer(minLength: 8)
+                    Text(item.share.formatted(.percent.precision(.fractionLength(0))))
+                        .font(.footnote.weight(.semibold))
+                        .foregroundStyle(color)
+                }
+                GeometryReader { proxy in
+                    Capsule()
+                        .fill(color)
+                        .frame(width: max(proxy.size.width * min(item.share, 1), 6))
+                }
+                .frame(height: 5)
+            }
+        }
+        .padding(.vertical, 4)
+        .contentShape(.rect)
+        .accessibilityElement(children: .combine)
     }
 }

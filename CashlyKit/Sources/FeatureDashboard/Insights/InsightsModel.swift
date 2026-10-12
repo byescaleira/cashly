@@ -22,6 +22,7 @@ public final class InsightsModel {
 
     public struct Outlook: Equatable {
         public let spent: Double
+        public let remaining: Double
         public let projected: Double
         public let budgeted: Double?
         public let daily: Double?
@@ -29,6 +30,7 @@ public final class InsightsModel {
         public let isUncertain: Bool
 
         public var gap: Double? { budgeted.map { projected - $0 } }
+        public var scale: Double { max(projected, budgeted ?? 0, 1) }
     }
 
     public struct History: Equatable {
@@ -99,9 +101,11 @@ public final class InsightsModel {
             let spent = pace.metric("spent")?.value,
             let projected = pace.metric("projected")?.value
         else { return nil }
+        let remaining = pace.metric("remaining")?.value ?? max(projected - spent, 0)
         let allowance = results[DailyAllowance.id]
         return Outlook(
-            spent: spent, projected: projected, budgeted: pace.metric("budgeted")?.value,
+            spent: spent, remaining: remaining, projected: projected,
+            budgeted: pace.metric("budgeted")?.value,
             daily: allowance?.metric("daily")?.value,
             daysLeft: allowance?.metric("daysLeft").map { Int($0.value) },
             isUncertain: pace.provenance.confidence == .low)

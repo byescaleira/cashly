@@ -35,14 +35,7 @@ struct ReportsModelTests {
         session.filter.startDate = month.startDate
         let finance = FinanceModel(session: session)
         await finance.load()
-        let intelligence = IntelligenceModel(
-            service: LocalIntelligenceService(
-                directory: FileManager.default.temporaryDirectory.appending(path: UUID().uuidString)
-            ),
-            session: session)
-        return (
-            ReportsModel(session: session, finance: finance, intelligence: intelligence), finance
-        )
+        return (ReportsModel(finance: finance), finance)
     }
 
     @Test func syncSelectsFirstItemsAndKeepsExistingChoice() async throws {
@@ -72,13 +65,5 @@ struct ReportsModelTests {
         #expect([point.id, point.label] == ["trip", "Viagem"])
         #expect(point.amount == 250)
         #expect(reports.selectedTagAmount == 250)
-    }
-
-    @Test func forecastNeedsATrainedModel() async throws {
-        let (reports, _) = try await reports()
-        #expect(!reports.showsForecast)
-        #expect(!reports.suggestsTraining)
-        await reports.loadForecast()
-        #expect(reports.forecast == 0)
     }
 }

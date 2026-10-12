@@ -17,10 +17,23 @@
         }
       }
     },
+    "%@ · %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ · %2$@"
+          }
+        }
+      }
+    },
     "Adicionar tag" : {
 
     },
-    "Ainda são poucos dias no mês; a estimativa melhora com o tempo." : {
+    "Ainda deve sair" : {
+
+    },
+    "Ainda são poucos dias e pouco histórico; a previsão melhora com o tempo." : {
 
     },
     "Categoria" : {
@@ -38,19 +51,20 @@
     "Dá para gastar" : {
 
     },
-    "Este mês" : {
-
-    },
-    "Estimativa dos gastos do mês, feita no aparelho a partir do seu histórico." : {
-
+    "Estes %lld gastos somam %@ das saídas do período." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Estes %1$lld gastos somam %2$@ das saídas do período."
+          }
+        }
+      }
     },
     "Fora do padrão" : {
 
     },
     "Gasto" : {
-
-    },
-    "Gasto até hoje" : {
 
     },
     "Gasto até hoje comparado ao que costuma sair até este dia do mês." : {
@@ -60,6 +74,9 @@
 
     },
     "Item" : {
+
+    },
+    "Já gasto" : {
 
     },
     "Maiores gastos" : {
@@ -92,22 +109,19 @@
     "Posição" : {
 
     },
-    "Previsão de gastos" : {
+    "Previsão do mês" : {
 
     },
     "Próximos meses" : {
+
+    },
+    "Soma o que já saiu, as contas agendadas e o que você costuma gastar até o fim do mês." : {
 
     },
     "Série" : {
 
     },
     "Tags" : {
-
-    },
-    "Treinar modelos" : {
-
-    },
-    "Treine os modelos para ver a estimativa de gastos do mês. Tudo é calculado neste aparelho, com o seu histórico." : {
 
     },
     "Valor" : {
@@ -119,7 +133,7 @@
     "já comprometidos em parcelas" : {
 
     },
-    "nos próximos %lld dias" : {
+    "nos próximos %lld dias, sem passar do planejado" : {
 
     }
   },

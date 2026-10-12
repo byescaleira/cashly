@@ -5,10 +5,10 @@
 
     #Preview("Início") {
         NavigationStack {
-            WithSession { session, finance, intelligence in
+            WithSession { session, finance, _ in
                 ModelHost(DashboardModel(session: session, finance: finance)) {
                     ModelHost(
-                        ReportsModel(session: session, finance: finance, intelligence: intelligence)
+                        ReportsModel(finance: finance)
                     ) {
                         ModelHost(InsightsModel(session: session, finance: finance)) {
                             HomeScreen()

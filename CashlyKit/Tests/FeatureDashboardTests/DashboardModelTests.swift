@@ -38,11 +38,13 @@ struct DashboardModelTests {
         return (DashboardModel(session: session, finance: finance), finance)
     }
 
-    @Test func syncResetsTheHighlight() async throws {
+    @Test func topSpendingCarriesShareOfExpenses() async throws {
         let (dashboard, _) = try await dashboard()
-        dashboard.highlightedTransaction = 3
-        dashboard.sync()
-        #expect(dashboard.highlightedTransaction == 0)
+        let item = try #require(dashboard.topSpending.first)
+        #expect(item.summary == "Feira")
+        #expect(item.amount == 250)
+        #expect(item.share == 1)
+        #expect(dashboard.topSpendingShare == nil)
     }
 
     @Test func availabilityUsesThePeriod() async throws {

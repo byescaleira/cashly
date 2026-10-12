@@ -16,25 +16,12 @@ public final class ReportsModel {
         let tags: [String]
     }
 
-    public struct ForecastKey: Hashable {
-        let userID: String?
-        let month: YearMonth?
-        let categoryIDs: [String]
-        let revision: String
-        let modelDates: [Date]
-    }
-
     public var selectedTag: Tag?
     public var comparedCategory: CashlyDomain.Category?
-    public private(set) var forecast = 0.0
-    @ObservationIgnored private let session: SessionModel
     @ObservationIgnored private let finance: FinanceModel
-    @ObservationIgnored private let intelligence: IntelligenceModel
 
-    public init(session: SessionModel, finance: FinanceModel, intelligence: IntelligenceModel) {
-        self.session = session
+    public init(finance: FinanceModel) {
         self.finance = finance
-        self.intelligence = intelligence
     }
 
     public var syncKey: SyncKey {
@@ -72,39 +59,5 @@ public final class ReportsModel {
 
     public var selectedTagAmount: Double {
         selectedTag.map { finance.expensesAmount(for: $0) } ?? .zero
-    }
-
-    public var showsForecast: Bool {
-        session.user != nil && intelligence.hasModel(.budgetValue)
-    }
-
-    public var suggestsTraining: Bool {
-        session.user != nil && !intelligence.hasModel(.budgetValue)
-            && finance.totalTransactionCount >= 2
-    }
-
-    public var isTraining: Bool { intelligence.isTraining }
-
-    public func train() async {
-        await intelligence.train()
-    }
-
-    public var forecastKey: ForecastKey {
-        ForecastKey(
-            userID: session.user?.id, month: session.filter.month,
-            categoryIDs: Set(finance.budgets.map(\.category.id)).sorted(),
-            revision: intelligence.datasetRevision,
-            modelDates: intelligence.models.map(\.updateDate))
-    }
-
-    public func loadForecast() async {
-        forecast = 0
-        guard session.user != nil, let month = session.filter.month,
-            intelligence.hasModel(.budgetValue)
-        else { return }
-        let prediction = await intelligence.predictExpenses(
-            month: month, categoryIDs: forecastKey.categoryIDs)
-        guard !Task.isCancelled else { return }
-        forecast = prediction
     }
 }
