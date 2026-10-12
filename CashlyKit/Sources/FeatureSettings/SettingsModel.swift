@@ -32,6 +32,12 @@ public final class SettingsModel {
     public var showsJourney: Bool {
         didSet { defaults.set(showsJourney, forKey: Key.journey) }
     }
+    public var locksApp: Bool {
+        didSet { defaults.set(locksApp, forKey: Key.lock) }
+    }
+    public var isDiscreet: Bool {
+        didSet { defaults.set(isDiscreet, forKey: Key.discreet) }
+    }
     public var syncsWithICloud: Bool {
         didSet { defaults.set(syncsWithICloud, forKey: Key.cloudSync) }
     }
@@ -83,6 +89,8 @@ public final class SettingsModel {
             defaults.string(forKey: Key.appearance).flatMap(Appearance.init(rawValue:)) ?? .system
         tint = defaults.string(forKey: Key.tint) ?? RetroColor.default.hex
         showsJourney = defaults.object(forKey: Key.journey) as? Bool ?? true
+        locksApp = defaults.bool(forKey: Key.lock)
+        isDiscreet = defaults.bool(forKey: Key.discreet)
         let syncs = defaults.object(forKey: Key.cloudSync) as? Bool ?? true
         syncsWithICloud = syncs
         syncsAtLaunch = cloudContainer != nil && syncs
@@ -169,6 +177,8 @@ public final class SettingsModel {
         static let currency = "cashly.settings.currency"
         static let language = "cashly.settings.language"
         static let journey = "cashly.settings.journey"
+        static let lock = "cashly.settings.lock"
+        static let discreet = "cashly.settings.discreet"
         static let systemLanguages = "AppleLanguages"
         static let lastSync = "cashly.settings.lastSync"
         static let tint = "cashly.settings.tint"

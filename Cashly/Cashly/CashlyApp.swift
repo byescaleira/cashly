@@ -16,6 +16,7 @@ import SwiftUI
 struct CashlyApp: App {
     @State private var settings: SettingsModel
     @State private var bootstrap: CashlyBootstrap
+    @State private var lock: AppLockModel
 
     init() {
         #if targetEnvironment(simulator)
@@ -27,12 +28,15 @@ struct CashlyApp: App {
         #endif
         _settings = State(initialValue: settings)
         _bootstrap = State(initialValue: CashlyBootstrap(settings: settings))
+        _lock = State(initialValue: AppLockModel(isEnabled: settings.locksApp))
+        NotificationResponder.install()
     }
 
     var body: some Scene {
         WindowGroup {
             CashlyRootView()
                 .environment(bootstrap)
+                .environment(lock)
                 .environment(bootstrap.mcp)
                 .featureFlags(bootstrap.flags)
                 .cashlySettings(settings)

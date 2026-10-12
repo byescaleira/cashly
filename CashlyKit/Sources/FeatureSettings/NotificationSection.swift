@@ -10,6 +10,8 @@ struct NotificationSection: View {
         Section {
             Group {
                 Toggle("Bills to Pay and Receive", isOn: $notifications.paymentsToggle)
+                Toggle("Budget Alerts", isOn: $notifications.budgetsToggle)
+                Toggle("Weekly Summary", isOn: $notifications.weeklyToggle)
                 Toggle("Month Planning", isOn: $notifications.planningToggle)
             }
             .tint(.positive)

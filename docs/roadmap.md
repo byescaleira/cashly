@@ -126,8 +126,8 @@ Fora de alcance sem servidor:
 | 9.2 | App Intents: "Adicionar gasto", "Quanto gastei este mês?", "Quanto sobra em <categoria>?", "Marcar conta como paga"; `AppEntity` de categoria, tag e perfil; `AppShortcutsProvider`; Spotlight com `IndexedEntity` — feita |
 | 9.3 | Widgets: saldo do mês, orçamento por categoria, próximos vencimentos (toque abre a conta no app); Tela Bloqueada, StandBy, Mac e visionOS — feita |
 | 9.4 | Central de Controle e Botão de Ação ("Novo gasto"); automação do Wallet com o atalho pronto e o passo a passo — feita |
-| 9.5 | Notificações com ação: alertas de orçamento em 80% e 100%, resumo semanal, "Marcar paga" e "Adiar 1 dia", vencimento Sensível ao Tempo |
-| 9.6 | Face ID: bloqueio opcional, modo discreto e desfoque no seletor de apps |
+| 9.5 | Notificações com ação: alertas de orçamento em 80% e 100%, resumo semanal, "Marcar paga" e "Adiar 1 dia", vencimento Sensível ao Tempo — feita |
+| 9.6 | Face ID: bloqueio opcional, modo discreto e desfoque no seletor de apps — feita |
 
 ## 4. Features de finanças que faltam
 

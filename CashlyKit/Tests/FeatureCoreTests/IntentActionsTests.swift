@@ -72,6 +72,8 @@ struct IntentActionsTests {
         pending.status = .pendingToPay
         try await repositories.transactions.save(pending)
         #expect(try await actions.pendingBills().map(\.id) == [bill.id])
+        let later = try await actions.postpone(transactionID: bill.id)
+        #expect(later.date == today.addingTimeInterval(86_400))
         let paid = try await actions.markPaid(transactionID: bill.id)
         #expect(paid.status == .settled)
         #expect(try await actions.pendingBills().isEmpty)

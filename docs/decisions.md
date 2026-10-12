@@ -279,6 +279,19 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Eventos gravados pelo app:** guia concluído (tutoriais, pontuação e importação), planilha importada e backup criado (cada exportação grava um evento para cada perfil).
 - **Ajustes › Jornada** liga e desliga a aba; esconder não apaga o progresso. A flag remota `journey` também esconde a aba e a linha dos Ajustes.
 
+## 12/10/2026: bloqueio e modo discreto (fase 9.6)
+
+- **`AppLockModel`** (`FeatureCore`) sobre `LocalAuthentication` com a política `deviceOwnerAuthentication` (Face ID, Touch ID, Optic ID ou código); o `Authenticating` é injetável para testes. Nasce bloqueado quando a preferência está ligada; `PrivacyShield` na `MainScreen` bloqueia ao ir para o fundo, cobre a tela sempre que a cena não está ativa (seletor de apps) e tenta desbloquear ao voltar, com o botão "Desbloquear" para repetir.
+- **Modo discreto** usa `redacted(reason: .privacy)` na raiz e `privacySensitive()` dentro de `amountLine()`, então todo valor que usa o modificador de valores fica borrado; texto comum continua legível.
+- **Ajustes › Privacidade** com "Bloquear com Face ID" (o título segue a biometria do aparelho) e "Modo discreto"; as duas preferências ficam no `SettingsModel`.
+
+## 12/10/2026: notificações com ação (fase 9.5)
+
+- **Categorias registradas na abertura** (`SystemNotifications.registerCategories`): `cashly.bill` com "Marcar como paga" e "Adiar 1 dia" (exigem desbloqueio), `cashly.budget` e `cashly.weekly`. O `NotificationResponder` (`AppShell`) é o delegate: executa as ações pelo `IntentActions` (respeitando o Cashly Pro) e, no toque, guarda `cashly://transactions/<id>` em `CashlyServices.pendingURL`, que o `DeepLinks` da `MainScreen` consome.
+- **Vencimentos são Sensíveis ao Tempo** (entitlement `usernotifications.time-sensitive` e `interruptionLevel`), com o id da transação no `userInfo`.
+- **Alertas de orçamento em 80% e 100%**, uma vez por orçamento, mês e patamar (chave no `UserDefaults`), entregues na hora em que o retrato do mês muda (`NotificationsModel.review(_:)` roda junto com o `publishSnapshot`). **Resumo semanal** reagendado a cada mudança para o próximo domingo às 18h com os totais atuais, porque uma notificação repetida não pode mudar o texto.
+- **Ajustes › Notificações** ganhou "Alertas de orçamento" e "Resumo semanal"; o rodapé explica os quatro tipos. O `Reminder` carrega categoria, `userInfo` e sensibilidade; o `NotificationScheduling` ganhou `deliver(_:)` para entrega imediata.
+
 ## 12/10/2026: Central de Controle, Botão de Ação e Wallet (fase 9.4)
 
 - **Controle "Novo gasto"** (`ControlWidget`, só iOS) na extensão de widgets: o botão roda um intent com `openAppWhenRun` que devolve `OpenURLIntent(cashly://transactions/new)`; o app abre o editor pela mesma rota dos widgets. O mesmo controle serve ao Botão de Ação, e o atalho "Registrar gasto" também pode ser atribuído a ele.

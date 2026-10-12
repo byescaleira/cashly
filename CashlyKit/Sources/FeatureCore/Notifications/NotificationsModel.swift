@@ -10,6 +10,8 @@ import Observation
 public final class NotificationsModel {
     public private(set) var remindsPayments: Bool
     public private(set) var remindsPlanning: Bool
+    public private(set) var remindsBudgets: Bool
+    public private(set) var remindsWeekly: Bool
     public private(set) var status: NotificationStatus = .notDetermined
     @ObservationIgnored private let defaults: UserDefaults
     @ObservationIgnored private let scheduler: any NotificationScheduling
@@ -22,9 +24,23 @@ public final class NotificationsModel {
         self.scheduler = scheduler
         remindsPayments = defaults.bool(forKey: Key.payments)
         remindsPlanning = defaults.bool(forKey: Key.planning)
+        remindsBudgets = defaults.bool(forKey: Key.budgets)
+        remindsWeekly = defaults.bool(forKey: Key.weekly)
     }
 
-    public var isAnyOn: Bool { remindsPayments || remindsPlanning }
+    public var isAnyOn: Bool {
+        remindsPayments || remindsPlanning || remindsBudgets || remindsWeekly
+    }
+
+    public var budgetsToggle: Bool {
+        get { remindsBudgets }
+        set { Task { await setBudgets(newValue) } }
+    }
+
+    public var weeklyToggle: Bool {
+        get { remindsWeekly }
+        set { Task { await setWeekly(newValue) } }
+    }
 
     public var paymentsToggle: Bool {
         get { remindsPayments }
@@ -51,7 +67,7 @@ public final class NotificationsModel {
         return
             String(
                 appLocalized:
-                    "Reminders arrive at 9 AM on the day each bill is due and on the first day of each month."
+                    "Bills remind you at 9 AM on the due day with Mark as Paid and Postpone actions. Budget alerts arrive at 80% and 100%, the summary on Sunday evening and planning on the first day of the month."
             )
     }
 
@@ -75,6 +91,75 @@ public final class NotificationsModel {
         remindsPlanning = isOn
         defaults.set(isOn, forKey: Key.planning)
         await scheduler.replace(prefix: Prefix.planning, with: isOn ? [planningReminder] : [])
+    }
+
+    public func setBudgets(_ isOn: Bool) async {
+        guard await allows(isOn) else { return }
+        remindsBudgets = isOn
+        defaults.set(isOn, forKey: Key.budgets)
+    }
+
+    public func setWeekly(_ isOn: Bool) async {
+        guard await allows(isOn) else { return }
+        remindsWeekly = isOn
+        defaults.set(isOn, forKey: Key.weekly)
+        if !isOn { await scheduler.replace(prefix: Prefix.weekly, with: []) }
+    }
+
+    public func review(_ snapshot: WidgetSnapshot, now: Date = .now) async {
+        if remindsBudgets { await alertBudgets(snapshot) }
+        if remindsWeekly { await scheduleWeekly(snapshot, now: now) }
+    }
+
+    private func alertBudgets(_ snapshot: WidgetSnapshot) async {
+        for line in snapshot.budgets where line.plannedMinorUnits > 0 {
+            let used = Double(line.spentMinorUnits) / Double(line.plannedMinorUnits)
+            for threshold in [100, 80] where used >= Double(threshold) / 100 {
+                let key =
+                    "\(Key.budgetAlert).\(line.id).\(snapshot.year)-\(snapshot.month).\(threshold)"
+                guard !defaults.bool(forKey: key) else { break }
+                defaults.set(true, forKey: key)
+                let money = Money(minorUnits: abs(line.remainingMinorUnits)).formatted
+                await scheduler.deliver(
+                    Reminder(
+                        id: key,
+                        title: threshold == 100
+                            ? String(appLocalized: "\(line.categoryName) is over budget")
+                            : String(appLocalized: "\(line.categoryName) at 80% of the budget"),
+                        body: threshold == 100
+                            ? String(appLocalized: "\(money) over what you planned this month.")
+                            : String(appLocalized: "\(money) left for the rest of the month."),
+                        components: DateComponents(), category: NotificationCategory.budget))
+                break
+            }
+        }
+    }
+
+    private func scheduleWeekly(_ snapshot: WidgetSnapshot, now: Date) async {
+        let calendar = CashlyCalendar.current
+        guard
+            let sunday = calendar.nextDate(
+                after: now, matching: DateComponents(hour: 18, minute: 0, weekday: 1),
+                matchingPolicy: .nextTime)
+        else { return }
+        let spent = Money(minorUnits: snapshot.spentMinorUnits).formatted
+        let available = Money(minorUnits: snapshot.availableMinorUnits).formatted
+        await scheduler.replace(
+            prefix: Prefix.weekly,
+            with: [
+                Reminder(
+                    id: Prefix.weekly, title: String(appLocalized: "Your week in Cashly"),
+                    body: snapshot.plannedMinorUnits > 0
+                        ? String(
+                            appLocalized:
+                                "\(spent) spent this month and \(available) still available. See what changed this week."
+                        )
+                        : String(
+                            appLocalized: "\(spent) spent this month. See what changed this week."),
+                    components: calendar.dateComponents(
+                        [.year, .month, .day, .hour, .minute], from: sunday),
+                    category: NotificationCategory.weekly)
+            ])
     }
 
     public func schedulePayments(for userID: String?, repositories: Repositories) async {
@@ -107,16 +192,21 @@ public final class NotificationsModel {
         Reminder(
             id: Prefix.planning, title: String(appLocalized: "Plan your month"),
             body: String(appLocalized: "Start the month by reviewing your budgets in Cashly."),
-            components: DateComponents(day: 1, hour: 9, minute: 0), repeats: true)
+            components: DateComponents(day: 1, hour: 9, minute: 0), repeats: true,
+            category: NotificationCategory.budget)
     }
 
     private enum Key {
         static let payments = "cashly.notifications.payments"
         static let planning = "cashly.notifications.planning"
+        static let budgets = "cashly.notifications.budgets"
+        static let weekly = "cashly.notifications.weekly"
+        static let budgetAlert = "cashly.notifications.budgetAlert"
     }
 
     private enum Prefix {
         static let payment = "payment."
         static let planning = "planning"
+        static let weekly = "weekly"
     }
 }

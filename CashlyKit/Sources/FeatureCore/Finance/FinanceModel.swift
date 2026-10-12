@@ -67,17 +67,17 @@ public final class FinanceModel {
         }
     }
 
-    public func publishSnapshot(month: YearMonth = YearMonth(.now)) async {
-        guard let store = snapshotStore else { return }
+    @discardableResult
+    public func publishSnapshot(month: YearMonth = YearMonth(.now)) async -> WidgetSnapshot? {
         guard let user = session.user else {
-            try? store.clear()
-            return
+            try? snapshotStore?.clear()
+            return nil
         }
         let repositories = session.repositories
         guard
             let overview = try? await repositories.dashboard.overview(
                 query: TransactionQuery(month: month))
-        else { return }
+        else { return nil }
         let pending =
             (try? await repositories.dashboard.page(
                 query: TransactionQuery(statuses: [.pendingToPay], kinds: [.expense]), after: nil,
@@ -86,7 +86,8 @@ public final class FinanceModel {
         let snapshot = WidgetSnapshot(
             user: user, month: month, overview: overview, pending: pending,
             currencyCode: Money.currencyCode)
-        try? store.write(snapshot)
+        try? snapshotStore?.write(snapshot)
+        return snapshot
     }
 
     public func resolveBudgetConflict(keeping id: String) async throws {

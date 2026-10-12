@@ -6,4 +6,5 @@ public protocol NotificationScheduling: Sendable {
     func status() async -> NotificationStatus
     func requestAuthorization() async -> Bool
     func replace(prefix: String, with reminders: [Reminder]) async
+    func deliver(_ reminder: Reminder) async
 }

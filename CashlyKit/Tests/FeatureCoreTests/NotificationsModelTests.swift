@@ -9,6 +9,7 @@ private actor FakeScheduler: NotificationScheduling {
     var grants: Bool
     var requests = 0
     var scheduled: [String: [Reminder]] = [:]
+    var delivered: [Reminder] = []
 
     init(status: NotificationStatus, grants: Bool = true) {
         current = status
@@ -25,6 +26,10 @@ private actor FakeScheduler: NotificationScheduling {
 
     func replace(prefix: String, with reminders: [Reminder]) {
         scheduled[prefix] = reminders
+    }
+
+    func deliver(_ reminder: Reminder) {
+        delivered.append(reminder)
     }
 }
 
@@ -54,6 +59,50 @@ struct NotificationsModelTests {
         #expect(!model.remindsPayments)
         #expect(model.status == .denied)
         #expect(model.footer.contains("turned off"))
+    }
+
+    @Test func budgetAlertsFireOncePerThresholdAndMonth() async throws {
+        let scheduler = FakeScheduler(status: .allowed)
+        let model = NotificationsModel(defaults: defaults, scheduler: scheduler)
+        await model.setBudgets(true)
+        let month = try #require(YearMonth(year: 2026, month: 10))
+        func snapshot(spent: Int64) -> WidgetSnapshot {
+            WidgetSnapshot(
+                userID: "u", userName: "Ana", month: month, currencyCode: "BRL",
+                plannedMinorUnits: 1000, spentMinorUnits: spent, incomeMinorUnits: 0,
+                budgets: [
+                    WidgetSnapshot.BudgetLine(
+                        id: "b", categoryName: "Mercado", color: "000000", icon: "cart",
+                        plannedMinorUnits: 1000, spentMinorUnits: spent)
+                ])
+        }
+        await model.review(snapshot(spent: 500))
+        #expect(await scheduler.delivered.isEmpty)
+        await model.review(snapshot(spent: 850))
+        await model.review(snapshot(spent: 900))
+        #expect(await scheduler.delivered.count == 1)
+        #expect(await scheduler.delivered.first?.title.contains("80%") == true)
+        await model.review(snapshot(spent: 1200))
+        await model.review(snapshot(spent: 1300))
+        #expect(await scheduler.delivered.count == 2)
+        #expect(await scheduler.delivered.last?.category == NotificationCategory.budget)
+    }
+
+    @Test func weeklySummaryLandsOnSundayEvening() async throws {
+        let scheduler = FakeScheduler(status: .allowed)
+        let model = NotificationsModel(defaults: defaults, scheduler: scheduler)
+        await model.setWeekly(true)
+        let month = try #require(YearMonth(year: 2026, month: 10))
+        let snapshot = WidgetSnapshot(
+            userID: "u", userName: "Ana", month: month, currencyCode: "BRL",
+            plannedMinorUnits: 50_000, spentMinorUnits: 12_000, incomeMinorUnits: 0, budgets: [])
+        await model.review(snapshot, now: Date(timeIntervalSince1970: 1_791_000_000))
+        let weekly = try #require(await scheduler.scheduled["weekly"]?.first)
+        #expect(weekly.components.hour == 18)
+        let date = try #require(CashlyCalendar.current.date(from: weekly.components))
+        #expect(CashlyCalendar.current.component(.weekday, from: date) == 1)
+        await model.setWeekly(false)
+        #expect(await scheduler.scheduled["weekly"]?.isEmpty == true)
     }
 
     @Test func pendingTransactionsBecomeReminders() async throws {

@@ -66,6 +66,13 @@ private struct SettingsSections<Extra: View>: View {
             ) {
                 SettingsPage("Notifications") { NotificationSection() }
             }
+            SettingsRow(
+                "Privacy", symbol: "lock", color: RetroColor.plum.color,
+                value: settings.locksApp || settings.isDiscreet
+                    ? String(appLocalized: "On") : String(appLocalized: "Off")
+            ) {
+                SettingsPage("Privacy") { PrivacySection() }
+            }
             if flags?.isOn(.journey) != false {
                 SettingsRow(
                     "Journey", symbol: "trophy", color: RetroColor.mustard.color,

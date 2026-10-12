@@ -79,7 +79,9 @@ public struct MainScreen: View {
         .task { await store.start() }
         .task(id: session.loadKey) { await finance.load() }
         .task(id: (session.user?.id ?? "") + ":" + finance.datasetRevision) {
-            await finance.publishSnapshot()
+            if let snapshot = await finance.publishSnapshot() {
+                await notifications.review(snapshot)
+            }
             await CashlyIndexer.refresh(categories: finance.allCategories)
             await intelligence.loadModels(revision: finance.datasetRevision)
         }
@@ -97,6 +99,7 @@ public struct MainScreen: View {
         .errorAlert($session.error)
         .modifier(PaywallOffer())
         .modifier(DeepLinks())
+        .modifier(PrivacyShield())
         .sheet(isPresented: $navigation.isShowingPaywall) { PaywallScreen() }
         .environment(\.pro, pro)
     }

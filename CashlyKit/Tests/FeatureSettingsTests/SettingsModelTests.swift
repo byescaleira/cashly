@@ -23,6 +23,18 @@ struct SettingsModelTests {
         #expect(next.currencyName("BRL").lowercased().contains("real"))
     }
 
+    @Test func privacyPreferencesAreSaved() {
+        let settings = SettingsModel(
+            defaults: defaults, cloudContainer: nil, currencySetting: currency)
+        #expect(!settings.locksApp)
+        #expect(!settings.isDiscreet)
+        settings.locksApp = true
+        settings.isDiscreet = true
+        let next = SettingsModel(defaults: defaults, cloudContainer: nil, currencySetting: currency)
+        #expect(next.locksApp)
+        #expect(next.isDiscreet)
+    }
+
     @Test func appearanceIsSavedForTheNextLaunch() {
         let settings = SettingsModel(
             defaults: defaults, cloudContainer: nil, currencySetting: currency)

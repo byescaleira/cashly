@@ -23,6 +23,8 @@ private actor FakeScheduler: NotificationScheduling {
     func replace(prefix: String, with reminders: [Reminder]) {
         scheduled[prefix] = reminders
     }
+
+    func deliver(_ reminder: Reminder) {}
 }
 
 private actor Counter {

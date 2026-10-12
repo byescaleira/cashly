@@ -97,6 +97,16 @@ public struct IntentActions: Sendable {
                 ? nil : Money(minorUnits: planned.map(\.minorUnits).reduce(0, +)))
     }
 
+    public func postpone(transactionID: String, days: Int = 1) async throws -> Transaction {
+        guard var transaction = try await repositories.transactions.transaction(id: transactionID),
+            let date = CashlyCalendar.current.date(
+                byAdding: .day, value: days, to: transaction.date)
+        else { throw CashlyError.missingRecord }
+        transaction.date = date
+        try await repositories.transactions.save(transaction)
+        return transaction
+    }
+
     public func markPaid(transactionID: String) async throws -> Transaction {
         guard var transaction = try await repositories.transactions.transaction(id: transactionID)
         else { throw CashlyError.missingRecord }

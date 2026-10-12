@@ -4,11 +4,13 @@ import FeatureCore
 import FeatureSettings
 import FeatureStore
 import Foundation
+import Observation
 
-@MainActor
+@MainActor @Observable
 public final class CashlyServices {
     public static let shared = CashlyServices()
-    private var opening: Task<CashlyDatabase, any Error>?
+    public var pendingURL: URL?
+    @ObservationIgnored private var opening: Task<CashlyDatabase, any Error>?
 
     private init() {}
 

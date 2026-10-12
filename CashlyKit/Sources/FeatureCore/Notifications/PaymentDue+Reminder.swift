@@ -16,6 +16,8 @@ extension PaymentDue {
             id: "payment.\(userID).\(record.id).\(month.rawValue)", title: title,
             body: "\(record.summary) · \(money.formatted)\(part)",
             components: CashlyCalendar.current.dateComponents(
-                [.year, .month, .day, .hour, .minute], from: date))
+                [.year, .month, .day, .hour, .minute], from: date),
+            category: NotificationCategory.bill,
+            userInfo: [NotificationCategory.transactionKey: record.id], isTimeSensitive: true)
     }
 }
