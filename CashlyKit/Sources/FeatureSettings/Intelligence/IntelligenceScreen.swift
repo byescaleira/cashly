@@ -7,7 +7,7 @@ struct IntelligenceScreen: View {
 
     var body: some View {
         @Bindable var intelligence = intelligence
-        Form {
+        SettingsPage("Inteligência") {
             DeviceSection()
             if intelligence.isStale {
                 Text("O histórico mudou. Treine novamente para atualizar as sugestões.")
@@ -16,8 +16,6 @@ struct IntelligenceScreen: View {
             ForEach(CashlyIntelligence.allCases) { ModelSection(kind: $0) }
             TrainingSection()
         }
-        .formStyle(.grouped)
-        .navigationTitle("Inteligência")
         .errorAlert($intelligence.error)
     }
 }

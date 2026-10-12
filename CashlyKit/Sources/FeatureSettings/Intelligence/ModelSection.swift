@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import CashlyDomain
 import FeatureCore
 import SwiftUI
@@ -8,7 +9,7 @@ struct ModelSection: View {
 
     var body: some View {
         Section {
-            Label(kind.name, systemImage: kind.icon).foregroundStyle(kind.color)
+            IconRow(verbatim: kind.name, symbol: kind.icon, color: kind.color)
             if let info = intelligence.info(for: kind) {
                 LabeledContent(
                     "Última atualização",

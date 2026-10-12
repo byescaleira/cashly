@@ -16,8 +16,6 @@ struct CloudSection: View {
                     LabeledContent("Última sincronização", value: settings.lastSyncText)
                 }
             }
-        } header: {
-            Text("iCloud")
         } footer: {
             Text(settings.cloudFooter)
         }

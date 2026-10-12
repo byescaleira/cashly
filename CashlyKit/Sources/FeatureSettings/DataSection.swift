@@ -6,28 +6,39 @@ struct DataSection: View {
     @Environment(DataModel.self) private var data
     @Environment(\.showGuide) private var showGuide
     @Environment(\.featureFlags) private var flags
+    @Environment(\.appTint) private var appTint
 
     var body: some View {
         @Bindable var data = data
         Group {
             Section {
-                Button("Exportar backup", systemImage: "square.and.arrow.up") {
+                Button {
                     Task { await data.prepareExport() }
+                } label: {
+                    IconRow("Exportar backup", symbol: "square.and.arrow.up", color: appTint)
                 }
-                Button("Exportar planilha (CSV)", systemImage: "tablecells") {
+                Button {
                     Task { await data.prepareExport(as: .commaSeparatedText) }
+                } label: {
+                    IconRow("Exportar planilha (CSV)", symbol: "tablecells", color: .companion)
                 }
-                Button("Importar backup", systemImage: "square.and.arrow.down") {
+                Button {
                     data.startBackupImport()
+                } label: {
+                    IconRow("Importar backup", symbol: "square.and.arrow.down", color: appTint)
                 }
                 if let showGuide, flags?.isOn(.spreadsheetImport) != false {
-                    Button("Importar planilha (CSV)", systemImage: "tablecells.badge.ellipsis") {
+                    Button {
                         showGuide(.importSpreadsheet)
+                    } label: {
+                        IconRow(
+                            "Importar planilha (CSV)", symbol: "tablecells.badge.ellipsis",
+                            color: .companion)
                     }
                 }
                 if data.isWorking { ProgressView() }
             } header: {
-                Text("Dados")
+                Text("Exportar e importar")
             } footer: {
                 Text(
                     "O backup é um arquivo com usuários, categorias, tags, orçamentos e transações. Importar adiciona os registros do arquivo aos que já estão no aparelho. A planilha traz só as transações."

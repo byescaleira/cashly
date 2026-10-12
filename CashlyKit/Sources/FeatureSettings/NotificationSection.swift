@@ -16,8 +16,6 @@ struct NotificationSection: View {
             if notifications.status == .denied, let url = notifications.systemSettingsURL {
                 Link("Abrir ajustes de notificações", destination: url)
             }
-        } header: {
-            Text("Notificações")
         } footer: {
             Text(notifications.footer)
         }

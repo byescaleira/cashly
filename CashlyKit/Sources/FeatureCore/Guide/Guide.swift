@@ -30,8 +30,8 @@ public enum Guide: String, CaseIterable, Identifiable, Sendable {
         case .tour: "sparkles"
         case .score: "gauge.with.dots.needle.67percent"
         case .importSpreadsheet: "tablecells"
-        case .budgets: "chart.pie.fill"
-        case .sharing: "person.2.fill"
+        case .budgets: "chart.pie"
+        case .sharing: "person.2"
         }
     }
 }

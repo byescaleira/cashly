@@ -216,3 +216,10 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Lint:** `design_token_spacing`, `design_token_radius`, `design_token_opacity` e `design_token_font` acusam número solto nas features.
 - **Segunda etapa:** escala `IconSize` com `.font(.icon(_:weight:))` para os 13 ícones de tamanho fixo; fontes por papel (`.amountRow`, `.amountTitle`, `.titleLarge`, `.titleMedium`, `.rowTitle`, `.buttonLabel`); `FigureHeader`, `FigureBlock` e os cartões de exemplo dos guias foram para o design system, recebendo texto, com atalhos de moeda no `FeatureCore`.
 
+## 11/10/2026: Ajustes reorganizados
+
+- **Tela principal no estilo dos Ajustes do iPhone:** três grupos (Geral: Aparência, Moeda, Notificações; Dados: iCloud, Dados e backup, Inteligência, Claude Code; Ajuda: Guias, Sobre o Cashly) e Desenvolvimento só nas versões de desenvolvimento. Cada linha mostra o valor atual (tema, moeda, ligado ou desligado, versão) e abre a sua tela.
+- **`IconRow`** (design system): símbolo sem preenchimento num quadrado tingido, título, detalhe e valor. Usado nas linhas da tela principal e em todas as ações e links das telas internas.
+- **Duas cores intercaladas:** a cor de destaque e o `.companion` (azul denim, o mesmo par de "Orçamento × Gasto" no Início) alternam linha a linha. "Apagar" usa `.negative`.
+- **Telas internas** com `SettingsPage` (lista adaptável no iPhone e iPad, `Form` no Mac); os títulos de seção que repetiam o título da tela saíram. "Apagar todos os dados" fica no fim de Dados e backup; ajuda e contato ficam em Sobre o Cashly. Ícones dos guias e dos modelos de inteligência passaram para as versões sem preenchimento.
+

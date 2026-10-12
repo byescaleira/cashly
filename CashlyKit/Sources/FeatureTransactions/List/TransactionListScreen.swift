@@ -30,7 +30,7 @@ public struct TransactionListScreen: View {
         .refreshable { await list.load() }
         .task(id: session.loadKey) { await list.load() }
         .onChange(of: session.user?.id) { list.endSelection() }
-        .navigationTitle("Transações")
+        .navigationTitle("Histórico")
         .errorAlert($list.error)
     }
 }

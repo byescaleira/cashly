@@ -7,10 +7,13 @@ struct EraseSection: View {
     var body: some View {
         @Bindable var data = data
         Section {
-            Button("Apagar todos os dados", systemImage: "trash", role: .destructive) {
+            Button(role: .destructive) {
                 data.isConfirmingErase = true
+            } label: {
+                IconRow(
+                    "Apagar todos os dados", symbol: "trash", color: .negative,
+                    titleColor: .negative)
             }
-            .foregroundStyle(.negative)
             .confirmationDialog(
                 "Apagar todos os dados?", isPresented: $data.isConfirmingErase,
                 titleVisibility: .visible

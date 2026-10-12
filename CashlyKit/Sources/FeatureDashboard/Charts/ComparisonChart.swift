@@ -28,7 +28,7 @@ struct ComparisonChart: View {
         .chartYScale(domain: 0...((data.map { max($0.planned, $0.spent) }.max() ?? 0) + 10))
         .chartLegend(.hidden)
         .chartScrolling(visible: visibleCount, count: data.count)
-        .chartForegroundStyleScale(["budget": Color.retroDenim, "transaction": appTint])
+        .chartForegroundStyleScale(["budget": Color.companion, "transaction": appTint])
         .frame(height: height)
         .padding(.bottom, .spaceL)
     }

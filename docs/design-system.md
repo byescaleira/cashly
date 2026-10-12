@@ -84,6 +84,7 @@ Símbolos com tamanho fixo usam `.font(.icon(_:weight:))`, nunca `.system(size:)
 
 - **Paleta retrô:** `.retroMustard`, `.retroOrange`, `.retroRust`, `.retroOlive`, `.retroTeal`, `.retroDenim`, `.retroPlum`, `.retroBrown`, cada uma com versão clara e escura.
 - **Semânticas:** `.positive`, `.negative`, `.warning`, `.info`, `.disabled`, `.subtleFill`, `.rowFill`.
+- **Par de cores:** a cor de destaque (`appTint`) e `.companion` (denim) se alternam em listas de ícones e em gráficos de duas séries.
 - **Superfícies:** `.groupedBackground`, `.groupedRow`, `.sheetBackground`, `.sheetCard`.
 - **Destaque do app:** `@Environment(\.appTint)` e `.appTint(_:)`.
 
@@ -94,6 +95,7 @@ Símbolos com tamanho fixo usam `.font(.icon(_:weight:))`, nunca `.system(size:)
 | `Chip(_:color:shape:font:)` | Texto na cor com fundo `.opacityTint`; `.tag` (raio 8) ou `.capsule` |
 | `SymbolBadge(_:color:size:style:)` | Símbolo num círculo, `.tinted` ou `.filled` |
 | `tintedCard(_:radius:)` | Fundo `.opacityFill` na cor, para blocos |
+| `IconRow(_:detail:symbol:color:value:titleColor:)` | Linha de ajustes e ações: símbolo sem preenchimento num quadrado tingido, título, detalhe e valor |
 | `FigureHeader(title:value:numeric:color:detail:)` | Cabeçalho de seção com o número grande fora do grupo |
 | `FigureBlock(caption:value:numeric:color:detail:)` | Número grande com legenda dentro de um cartão |
 | `FigureValue(_:numeric:color:)` | Só o número, com troca animada |

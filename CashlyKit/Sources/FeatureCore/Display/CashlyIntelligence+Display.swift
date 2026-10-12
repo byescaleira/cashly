@@ -24,9 +24,9 @@ extension CashlyIntelligence {
 
     public var icon: String {
         switch self {
-        case .budgetValue: "dollarsign.bank.building.fill"
-        case .categoryName: "swatchpalette.fill"
-        case .tagValue: "tag.fill"
+        case .budgetValue: "dollarsign.bank.building"
+        case .categoryName: "swatchpalette"
+        case .tagValue: "tag"
         }
     }
 

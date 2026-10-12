@@ -24,6 +24,8 @@ public final class NotificationsModel {
         remindsPlanning = defaults.bool(forKey: Key.planning)
     }
 
+    public var isAnyOn: Bool { remindsPayments || remindsPlanning }
+
     public var paymentsToggle: Bool {
         get { remindsPayments }
         set { Task { await setPayments(newValue) } }

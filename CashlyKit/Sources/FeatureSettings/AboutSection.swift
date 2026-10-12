@@ -3,6 +3,7 @@ import SwiftUI
 
 struct AboutSection: View {
     @Environment(SettingsModel.self) private var settings
+    @Environment(\.appTint) private var appTint
 
     var body: some View {
         Section {
@@ -10,23 +11,24 @@ struct AboutSection: View {
             DisclosureLink {
                 WhatsNewScreen()
             } label: {
-                Label("Novidades", systemImage: "sparkles")
+                IconRow("Novidades", symbol: "sparkles", color: appTint)
             }
             if let url = settings.info.privacyURL {
                 Link(destination: url) {
-                    Label("Política de privacidade", systemImage: "hand.raised")
+                    IconRow("Política de privacidade", symbol: "hand.raised", color: .companion)
                 }
             }
             if let url = settings.info.termsURL {
-                Link(destination: url) { Label("Termos de uso", systemImage: "doc.text") }
+                Link(destination: url) {
+                    IconRow("Termos de uso", symbol: "doc.text", color: appTint)
+                }
             }
             if let url = settings.info.appStoreURL {
                 ShareLink(item: url) {
-                    Label("Compartilhar o Cashly", systemImage: "square.and.arrow.up")
+                    IconRow(
+                        "Compartilhar o Cashly", symbol: "square.and.arrow.up", color: .companion)
                 }
             }
-        } header: {
-            Text("Sobre")
         } footer: {
             Text(
                 "O Cashly não tem servidores próprios. Seus dados ficam neste aparelho e, com a sincronização ligada, na sua conta do iCloud. As sugestões são calculadas no próprio aparelho."

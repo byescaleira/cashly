@@ -9,6 +9,7 @@ import SwiftUI
 
 public struct MCPSettingsSection: View {
     @Environment(MCPModel.self) private var mcp
+    @Environment(\.appTint) private var appTint
     @State private var copied = false
 
     public init() {}
@@ -22,16 +23,21 @@ public struct MCPSettingsSection: View {
                 Toggle("Aceitar conexões da rede local", isOn: $mcp.allowsLocalNetwork)
                     .tint(.positive)
                 LabeledContent("Situação", value: status)
-                Button(
-                    copied ? "Comando copiado" : "Copiar comando de instalação",
-                    systemImage: copied ? "checkmark" : "doc.on.doc"
-                ) {
+                Button {
                     copy(mcp.command)
                     copied = true
+                } label: {
+                    IconRow(
+                        copied ? "Comando copiado" : "Copiar comando de instalação",
+                        symbol: copied ? "checkmark" : "doc.on.doc", color: appTint)
                 }
-                Button("Gerar novo token", systemImage: "arrow.triangle.2.circlepath") {
+                Button {
                     mcp.regenerateToken()
                     copied = false
+                } label: {
+                    IconRow(
+                        "Gerar novo token", symbol: "arrow.triangle.2.circlepath",
+                        color: .companion)
                 }
             }
         } header: {
@@ -43,7 +49,7 @@ public struct MCPSettingsSection: View {
             Section {
                 ForEach(mcp.trusted, id: \.self) { key in
                     LabeledContent(key) {
-                        Button("Remover", systemImage: "xmark.circle.fill", role: .destructive) {
+                        Button("Remover", systemImage: "xmark.circle", role: .destructive) {
                             mcp.revoke(key)
                         }
                         .labelStyle(.iconOnly)

@@ -1,6 +1,8 @@
+import CashlyDesignSystem
 import FeatureCore
 import FeatureGuides
 import FeatureMCP
+import FeatureSettings
 import SwiftUI
 
 public struct MCPSettingsSlot: View {
@@ -10,7 +12,14 @@ public struct MCPSettingsSlot: View {
     public init() {}
 
     public var body: some View {
-        if let mcp, flags?.isOn(.mcpServer) != false { MCPSettingsSection().environment(mcp) }
+        if let mcp, flags?.isOn(.mcpServer) != false {
+            SettingsRow(
+                "Claude Code", symbol: "terminal", color: .companion,
+                value: mcp.isEnabled ? "Ligado" : "Desligado"
+            ) {
+                SettingsPage("Claude Code") { MCPSettingsSection() }.environment(mcp)
+            }
+        }
     }
 }
 

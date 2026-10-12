@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import FeatureCore
 import SwiftUI
 
@@ -14,11 +15,13 @@ struct FlagsSection: View {
                             isOn: Binding(
                                 get: { flags.isOn(flag) }, set: { flags.override(flag, $0) }))
                     }
-                    Button("Voltar aos valores padrão", systemImage: "arrow.uturn.backward") {
+                    Button {
                         for flag in FeatureFlag.allCases { flags.override(flag, nil) }
+                    } label: {
+                        IconRow(
+                            "Voltar aos valores padrão", symbol: "arrow.uturn.backward",
+                            color: .companion)
                     }
-                } header: {
-                    Text("Desenvolvimento")
                 } footer: {
                     Text(
                         "Grupo de lançamento deste aparelho: \(flags.bucket). Só aparece em versões de desenvolvimento."

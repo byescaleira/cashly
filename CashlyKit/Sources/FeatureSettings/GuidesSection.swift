@@ -10,23 +10,18 @@ struct GuidesSection: View {
     var body: some View {
         if let showGuide, flags?.isOn(.guides) != false {
             Section {
-                ForEach(Guide.allCases) { guide in
+                ForEach(Array(Guide.allCases.enumerated()), id: \.element) { index, guide in
                     Button {
                         showGuide(guide)
                     } label: {
-                        Label {
-                            VStack(alignment: .leading, spacing: .spaceHairline) {
-                                Text(guide.title).foregroundStyle(Color.primary)
-                                Text(guide.subtitle).font(.footnote).foregroundStyle(.secondary)
-                            }
-                        } icon: {
-                            Image(systemName: guide.systemImage).foregroundStyle(appTint)
-                        }
+                        IconRow(
+                            verbatim: guide.title, detail: guide.subtitle,
+                            symbol: guide.systemImage,
+                            color: index.isMultiple(of: 2) ? appTint : .companion)
                     }
-                    .tint(Color.primary)
                 }
-            } header: {
-                Text("Guias")
+            } footer: {
+                Text("Reveja quando quiser como cada parte do Cashly funciona.")
             }
         }
     }

@@ -25,9 +25,6 @@
     "Apagar tudo" : {
 
     },
-    "Aparelho" : {
-
-    },
     "Aparência" : {
 
     },
@@ -67,6 +64,9 @@
     "Dados" : {
 
     },
+    "Dados e backup" : {
+
+    },
     "Desenvolvimento" : {
 
     },
@@ -79,13 +79,22 @@
     "Escolher arquivo" : {
 
     },
+    "Este aparelho" : {
+
+    },
     "Exportar backup" : {
+
+    },
+    "Exportar e importar" : {
 
     },
     "Exportar planilha (CSV)" : {
 
     },
     "Fale conosco" : {
+
+    },
+    "Geral" : {
 
     },
     "Grupo de lançamento deste aparelho: %lld. Só aparece em versões de desenvolvimento." : {
@@ -107,9 +116,6 @@
 
     },
     "Memória" : {
-
-    },
-    "Modelos treinados no aparelho para previsões e sugestões de categoria." : {
 
     },
     "Moeda" : {
@@ -148,10 +154,13 @@
     "Processadores" : {
 
     },
+    "Reveja quando quiser como cada parte do Cashly funciona." : {
+
+    },
     "Sincronizar com o iCloud" : {
 
     },
-    "Sobre" : {
+    "Sobre o Cashly" : {
 
     },
     "Tema" : {

@@ -7,14 +7,13 @@ struct CurrencySection: View {
     var body: some View {
         @Bindable var settings = settings
         Section {
-            LabeledContent("Moeda") {
-                Picker("Moeda", selection: $settings.currency) {
-                    ForEach(CurrencySetting.supported, id: \.self) {
-                        Text(settings.currencyName($0)).tag($0)
-                    }
+            Picker("Moeda", selection: $settings.currency) {
+                ForEach(CurrencySetting.supported, id: \.self) {
+                    Text(settings.currencyName($0)).tag($0)
                 }
-                .labelsHidden()
             }
+            .labelsHidden()
+            .pickerStyle(.inline)
         } footer: {
             Text(
                 "Os valores não são convertidos: trocar a moeda muda o símbolo exibido e a moeda dos novos registros."
