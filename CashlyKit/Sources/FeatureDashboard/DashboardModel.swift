@@ -21,6 +21,10 @@ public final class DashboardModel {
         public let date: Date
         public let amount: Double
         public let share: Double
+
+        public var detail: String {
+            "\(category) · \(date.formatted(.dateTime.day().month(.abbreviated)))"
+        }
     }
 
     @ObservationIgnored private let session: SessionModel
@@ -43,10 +47,8 @@ public final class DashboardModel {
         }
     }
 
-    public var topSpendingShare: Double? {
-        let items = topSpending
-        let share = items.reduce(0) { $0 + $1.share }
-        return items.count > 1 && share < 0.95 ? share : nil
+    public var topSpendingShare: Double {
+        min(topSpending.reduce(0) { $0 + $1.share }, 1)
     }
 
     public var totalAvailable: Double { finance.budgetsAmount - finance.expensesAmount }

@@ -44,7 +44,7 @@ struct DashboardModelTests {
         #expect(item.summary == "Feira")
         #expect(item.amount == 250)
         #expect(item.share == 1)
-        #expect(dashboard.topSpendingShare == nil)
+        #expect(dashboard.topSpendingShare == 1)
     }
 
     @Test func availabilityUsesThePeriod() async throws {

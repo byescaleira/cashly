@@ -171,6 +171,18 @@ Fora de alcance sem servidor:
   - **Investigar antes:** se o SwiftData já expõe o banco compartilhado. Se não, a parte compartilhada usa `NSPersistentCloudKitContainer` ou `CKSyncEngine`. É o item de maior risco desta lista.
 - **Exportação para o contador:** o CSV já existe; falta filtrar por período e categoria.
 
+## 8. Easter eggs
+
+Pequenas surpresas que reforçam a identidade retrô sem atrapalhar o uso. Todas ficam no aparelho, não afetam dados e não aparecem em fluxos de conferência ou importação.
+
+- **Ícones secretos:** um ícone extra no seletor que só aparece depois de algo raro, como fechar três meses seguidos dentro do orçamento ou tocar sete vezes no ícone atual em Ajustes › Ícone.
+- **Pontuação 1.000:** ao atingir a pontuação máxima, o número brilha com um efeito de SF Symbols e uma vibração curta, uma vez por mês.
+- **Datas:** confete no primeiro dia do ano, morcegos passando no Início no dia 31 de outubro, neve discreta no dia 25 de dezembro.
+- **Valores curiosos:** registrar exatamente R$ 42,00 ou R$ 1.234,56 mostra uma mensagem divertida no rodapé da transação.
+- **Cifrão do ícone:** segurar o cifrão na tela de boas-vindas faz ele girar como uma moeda.
+- **Créditos escondidos:** puxar a tela "Sobre" além do fim revela os créditos no estilo de fim de filme.
+- **Regras:** respeitar "Reduzir movimento" e "Reduzir transparência", nunca bloquear uma ação, aparecer no máximo uma vez por sessão e ter um interruptor em Ajustes › Desenvolvimento para testar.
+
 ## Ordem sugerida
 
 | Fase | Entrega | Por quê |
@@ -179,5 +191,5 @@ Fora de alcance sem servidor:
 | 9 | **Captura rápida:** App Group, composição compartilhada, App Intents, automação do Wallet, Central de Controle, widgets, notificações com ação, Face ID e modo discreto | Registrar rápido é o que mantém a pessoa no app depois do teste |
 | 10 | **Finanças essenciais:** recorrências, metas, acerto de contas com Pix | Fecha as lacunas que concorrentes já cobrem |
 | 11 | **Inteligência:** Foundation Models (texto livre, resumo, perguntas), comprovante, relatório em PDF, Live Activities | Diferencial que justifica o preço |
-| 12 | **Engajamento:** gamificação, conteúdo, calculadoras, dicas pelos dados | Retenção e renovação |
+| 12 | **Engajamento:** gamificação, conteúdo, calculadoras, dicas pelos dados, easter eggs | Retenção e renovação |
 | 13 | **Expansão:** contas e cartões com fatura, orçamento compartilhado, importação OFX, Apple Watch, Mac na barra de menus | Maior esforço e risco de domínio |
