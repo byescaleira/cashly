@@ -12,7 +12,7 @@ struct FutureSection: View {
                 LabeledContent(
                     "No próximo mês", value: commitments.nextMonth.formatted(.appCurrency))
             } header: {
-                FigureHeader(title: "Próximos meses", value: commitments.total) {
+                FigureHeader(title: "Próximos meses", amount: commitments.total) {
                     Text("já comprometidos em parcelas")
                         .font(.title3.weight(.semibold))
                         .foregroundStyle(.secondary)

@@ -18,13 +18,13 @@ public struct MonthPicker: View {
                 Button("Ano anterior", systemImage: "chevron.left") { year -= 1 }
                 Spacer()
                 Text(String(year))
-                    .font(.title3.weight(.bold))
+                    .font(.amountRow)
                     .contentTransition(.numericText(value: Double(year)))
                 Spacer()
                 Button("Próximo ano", systemImage: "chevron.right") { year += 1 }
             }
             .labelStyle(.iconOnly)
-            .font(.body.weight(.semibold))
+            .font(.buttonLabel)
             .buttonStyle(.borderless)
             LazyVGrid(
                 columns: Array(repeating: GridItem(.flexible(), spacing: .spaceS), count: 4),

@@ -68,6 +68,12 @@ custom_rules:
     regex: '\.opacity\(0\.[0-9]+\)'
     included: '.*/Sources/(Feature|AppShell|CashlyPreview).*\.swift$'
     severity: error
+  design_token_font:
+    name: Design token font
+    message: Use .icon(_:weight:) ou os tokens de tipografia do CashlyDesignSystem.
+    regex: '\.system\(size: [0-9]'
+    included: '.*/Sources/(Feature|AppShell|CashlyPreview).*\.swift$'
+    severity: error
 
 file_length:
   warning: 400

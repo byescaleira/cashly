@@ -19,7 +19,7 @@ struct ScoreSection: View {
                     VStack(alignment: .leading, spacing: .spaceL) {
                         AdaptiveStack(spacing: .spaceS) {
                             HStack(alignment: .firstTextBaseline, spacing: .space2XS) {
-                                Text(health.score.formatted()).font(.title.weight(.bold))
+                                Text(health.score.formatted()).font(.amountTitle)
                                 Text("de \(BudgetHealth.maximumScore)")
                                     .font(.footnote)
                                     .foregroundStyle(Color.secondary)

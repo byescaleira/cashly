@@ -26,11 +26,8 @@ struct AvailableSection: View {
                 .padding(.vertical, .space2XS)
             } header: {
                 FigureHeader(
-                    title: "Disponível", value: dashboard.totalAvailable,
-                    color: dashboard.totalAvailable < 0 ? .negative : .primary
-                ) {
-                    EmptyView()
-                }
+                    title: "Disponível", amount: dashboard.totalAvailable,
+                    color: dashboard.totalAvailable < 0 ? .negative : .primary)
             }
         }
     }

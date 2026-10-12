@@ -10,12 +10,12 @@ struct TagIconHeader: View {
         } header: {
             Image(systemName: model.draft.icon)
                 .symbolRenderingMode(.hierarchical)
-                .font(.system(size: 50))
+                .font(.icon(.xl))
                 .symbolEffect(.bounce.byLayer, options: .repeat(.continuous).speed(0.1))
                 .foregroundStyle(model.color)
                 .background {
                     Image(systemName: "tag.fill")
-                        .font(.system(size: 130))
+                        .font(.icon(.hero))
                         .foregroundStyle(model.color.opacity(.opacitySoft))
                 }
                 .frame(width: 140, height: 140)

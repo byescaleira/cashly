@@ -131,7 +131,7 @@ private struct SmallTile: View {
                         .foregroundStyle(color)
                 }
                 Text(item.amount.formatted(.appCurrency))
-                    .font(.title3.weight(.bold))
+                    .font(.amountRow)
                     .amountLine()
                 Text(item.summary)
                     .font(.footnote)

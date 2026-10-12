@@ -17,7 +17,7 @@ struct CategoriesSection: View {
                     HStack(spacing: .spaceM) {
                         SymbolBadge(category.icon, color: Color(hex: category.color))
                         VStack(alignment: .leading, spacing: .spaceHairline) {
-                            Text(category.name).font(.body.weight(.semibold))
+                            Text(category.name).font(.rowTitle)
                             Text(goals.caption(for: category))
                                 .font(.footnote)
                                 .foregroundStyle(.secondary)

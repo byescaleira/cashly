@@ -17,7 +17,7 @@ struct UserPhotoHeader: View {
                 .overlay(alignment: .bottomTrailing) {
                     Button("Sortear foto", systemImage: "repeat") { model.shufflePhoto() }
                         .labelStyle(.iconOnly)
-                        .font(.system(size: 20, weight: .bold))
+                        .font(.icon(.m, weight: .bold))
                         .prominentButton()
                 }
                 .frame(maxWidth: .infinity)

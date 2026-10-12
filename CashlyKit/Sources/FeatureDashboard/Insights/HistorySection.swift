@@ -9,11 +9,11 @@ struct HistorySection: View {
         if let history = insights.history {
             Section {
                 VStack(spacing: .spaceS) {
-                    InsightHeadline(
+                    FigureBlock(
                         caption: history.difference <= 0
                             ? "Você gastou a menos que o normal"
                             : "Você gastou a mais que o normal",
-                        value: abs(history.difference),
+                        amount: abs(history.difference),
                         color: history.difference <= 0 ? .positive : .negative,
                         detail: history.months == 1
                             ? "Comparado ao mês passado, até o dia \(history.day)."

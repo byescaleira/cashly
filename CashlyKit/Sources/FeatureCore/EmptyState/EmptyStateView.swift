@@ -25,7 +25,7 @@ public struct EmptyStateView<Example: View>: View {
             VStack(spacing: .spaceInset) {
                 GuideExample(background: Color.secondary.opacity(.opacityFill)) { example }
                     .accessibilityHidden(true)
-                Text(title).font(.title2.weight(.bold))
+                Text(title).font(.titleMedium)
             }
         } description: {
             Text(description)

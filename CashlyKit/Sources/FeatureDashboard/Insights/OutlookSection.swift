@@ -10,8 +10,8 @@ struct OutlookSection: View {
             let isOver = (outlook.gap ?? 0) > 0
             Section {
                 VStack(spacing: .spaceM) {
-                    InsightHeadline(
-                        caption: "O mês deve fechar em", value: outlook.projected,
+                    FigureBlock(
+                        caption: "O mês deve fechar em", amount: outlook.projected,
                         color: isOver ? .negative : .primary)
                     if let gap = outlook.gap {
                         Chip(

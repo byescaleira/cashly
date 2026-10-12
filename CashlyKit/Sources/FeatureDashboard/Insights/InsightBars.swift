@@ -23,27 +23,3 @@ struct InsightBars: View {
         .accessibilityElement(children: .combine)
     }
 }
-
-struct InsightHeadline: View {
-    let caption: String
-    let value: Double
-    let color: Color
-    var detail: String?
-
-    var body: some View {
-        VStack(spacing: .space2XS) {
-            Text(caption).font(.subheadline).foregroundStyle(.secondary)
-            Text(value.formatted(.appCurrency))
-                .font(.amountHero)
-                .foregroundStyle(color)
-                .contentTransition(.numericText(value: value))
-                .amountLine()
-            if let detail {
-                Text(detail).font(.subheadline).foregroundStyle(.secondary)
-            }
-        }
-        .multilineTextAlignment(.center)
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, .spaceS)
-    }
-}

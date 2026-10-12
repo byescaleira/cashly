@@ -10,7 +10,7 @@ struct CategoryIconHeader: View {
         } header: {
             Image(systemName: model.draft.icon)
                 .symbolRenderingMode(.hierarchical)
-                .font(.system(size: 50))
+                .font(.icon(.xl))
                 .symbolEffect(.bounce.byLayer, options: .repeat(.continuous).speed(0.1))
                 .foregroundStyle(model.color)
                 .frame(width: 120, height: 120)

@@ -22,7 +22,7 @@ public struct GuidePage<Artwork: View, Content: View>: View {
             artwork
                 .accessibilityHidden(true)
             VStack(spacing: .spaceS) {
-                Text(title).font(.title.weight(.bold))
+                Text(title).font(.titleLarge)
                 Text(message).font(.body).foregroundStyle(.secondary)
             }
             .multilineTextAlignment(.center)

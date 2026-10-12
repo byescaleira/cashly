@@ -213,5 +213,6 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 
 - **Tokens no `CashlyDesignSystem`:** espaçamento, raio, opacidade, tamanho e tipografia (ver [design-system.md](design-system.md)). As 51 telas que tinham números soltos passaram a usar os tokens; valores próximos foram unificados (10 e 14 viraram 12, 18 virou 16, badges de 34 e 40 viraram 36 e 44).
 - **Componentes únicos:** `Chip` substitui quatro chips iguais (exemplos dos guias, análises, tags da transação, selo do Início) e `SymbolBadge` substitui três badges de categoria.
-- **Lint:** `design_token_spacing`, `design_token_radius` e `design_token_opacity` acusam número solto nas features.
+- **Lint:** `design_token_spacing`, `design_token_radius`, `design_token_opacity` e `design_token_font` acusam número solto nas features.
+- **Segunda etapa:** escala `IconSize` com `.font(.icon(_:weight:))` para os 13 ícones de tamanho fixo; fontes por papel (`.amountRow`, `.amountTitle`, `.titleLarge`, `.titleMedium`, `.rowTitle`, `.buttonLabel`); `FigureHeader`, `FigureBlock` e os cartões de exemplo dos guias foram para o design system, recebendo texto, com atalhos de moeda no `FeatureCore`.
 

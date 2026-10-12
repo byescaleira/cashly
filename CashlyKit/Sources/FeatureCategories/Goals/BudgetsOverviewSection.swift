@@ -20,7 +20,7 @@ struct BudgetsOverviewSection: View {
                             in: section)
                     } label: {
                         Label("Criar orçamento", systemImage: "plus.circle.fill")
-                            .font(.body.weight(.semibold))
+                            .font(.buttonLabel)
                     }
                 } else {
                     Button {
@@ -56,7 +56,7 @@ struct BudgetsOverviewCard: View {
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                     Text(abs(overview.remaining).formatted(.appCurrency))
-                        .font(.title.weight(.bold))
+                        .font(.amountTitle)
                         .foregroundStyle(overview.remaining >= 0 ? Color.primary : .negative)
                         .contentTransition(.numericText(value: overview.remaining))
                         .amountLine()
@@ -68,7 +68,7 @@ struct BudgetsOverviewCard: View {
                 Spacer(minLength: .spaceS)
                 VStack(alignment: .trailing, spacing: 0) {
                     Text(overview.ratio.formatted(.percent.precision(.fractionLength(0))))
-                        .font(.title2.weight(.bold))
+                        .font(.titleMedium)
                         .foregroundStyle(color)
                     Text("usado").font(.caption).foregroundStyle(.secondary)
                 }

@@ -100,7 +100,7 @@ private struct IconChoice: View {
 
     var body: some View {
         Image(systemName: symbol)
-            .font(.system(size: 18, weight: .medium))
+            .font(.icon(.s, weight: .medium))
             .foregroundStyle(isSelected ? Color.white : Color.secondary)
             .frame(width: 40, height: 40)
             .background(isSelected ? color : .clear, in: .circle)

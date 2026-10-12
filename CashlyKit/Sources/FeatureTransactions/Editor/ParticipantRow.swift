@@ -17,7 +17,7 @@ struct ParticipantRow: View {
                 .overlay(alignment: .topTrailing) { StatusMenu(status: $participant.status) }
             VStack(alignment: .leading, spacing: .space2XS) {
                 Text(participant.user.name.capitalized)
-                    .font(.body.weight(.semibold))
+                    .font(.rowTitle)
                     .foregroundStyle(Color.primary)
                 Text(participant.status.summary).foregroundStyle(Color.secondary)
             }
@@ -64,7 +64,7 @@ private struct ShareValue: View {
             allocated
         case .fixedAmount:
             CurrencyField(amount: $participant.splitValue)
-                .font(.body.weight(.semibold))
+                .font(.rowTitle)
                 .multilineTextAlignment(.trailing)
         case .percentage:
             Menu {
@@ -85,7 +85,7 @@ private struct ShareValue: View {
                         Text(
                             participant.splitValue.formatted(.percent.precision(.fractionLength(0)))
                         )
-                        .font(.body.weight(.semibold))
+                        .font(.buttonLabel)
                         Image(systemName: "chevron.up.chevron.down").font(
                             .caption.weight(.semibold))
                     }
@@ -94,7 +94,7 @@ private struct ShareValue: View {
             }
         case .payerBased:
             Image(systemName: "checkmark.seal.text.page.fill")
-                .font(.system(size: 30, weight: .semibold))
+                .font(.icon(.l, weight: .semibold))
                 .foregroundStyle(appTint.opacity(.opacityStrong))
                 .accessibilityLabel("Quem pagou")
         }

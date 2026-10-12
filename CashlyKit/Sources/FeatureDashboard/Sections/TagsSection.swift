@@ -27,7 +27,7 @@ struct TagsSection: View {
                                     .background(color.opacity(.opacityTint), in: .capsule)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 Text(reports.selectedTagAmount.formatted(.appCurrency))
-                                    .font(.title3.weight(.bold))
+                                    .font(.amountRow)
                                     .foregroundStyle(Color.primary)
                                     .contentTransition(.numericText())
                                     .amountLine()

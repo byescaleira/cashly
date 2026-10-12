@@ -39,7 +39,7 @@ private struct FeaturedIconsSection: View {
                         .textCase(.uppercase)
                         .foregroundStyle(.white.opacity(.opacityStrong))
                     Text(collection.title)
-                        .font(.title2.weight(.bold))
+                        .font(.titleMedium)
                         .foregroundStyle(.white)
                 }
                 IconGrid(icons: collection.icons, size: 66)

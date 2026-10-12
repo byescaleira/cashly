@@ -16,7 +16,7 @@ struct VarianceSection: View {
                 AdaptiveStack(alignment: .top, spacing: .spaceS) {
                     VStack(alignment: .leading, spacing: .space2XS) {
                         Text(comparison.planned.formatted(.appCurrency))
-                            .font(.title3.weight(.bold))
+                            .font(.amountRow)
                             .amountLine()
                             .contentTransition(.numericText())
                             .animation(.bouncy, value: comparison.planned)
@@ -25,7 +25,7 @@ struct VarianceSection: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     VStack(alignment: .leading, spacing: .space2XS) {
                         Text(comparison.spent.formatted(.appCurrency))
-                            .font(.title3.weight(.bold))
+                            .font(.amountRow)
                             .amountLine()
                             .contentTransition(.numericText())
                             .animation(.bouncy, value: comparison.spent)

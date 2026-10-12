@@ -60,7 +60,7 @@ private struct RankedSymbols: View {
                 let isEven = index.isMultiple(of: 2)
                 let color = item.color
                 Image(systemName: item.icon)
-                    .font(.system(size: 18))
+                    .font(.icon(.s))
                     .foregroundStyle(color)
                     .frame(width: 45, height: 45)
                     .overlay(alignment: isEven ? .topLeading : .bottomLeading) {

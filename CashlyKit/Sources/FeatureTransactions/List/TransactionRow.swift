@@ -70,14 +70,14 @@ private struct TransactionIcon: View {
     var body: some View {
         let color = Color(hex: transaction.category.color)
         Image(systemName: transaction.category.icon)
-            .font(.system(size: 18))
+            .font(.icon(.s))
             .foregroundStyle(color)
             .frame(width: 40, height: 40)
             .background(color.opacity(.opacityTint), in: .circle)
             .overlay(alignment: .bottomTrailing) {
                 if transaction.status != .settled {
                     Image(systemName: transaction.status.icon)
-                        .font(.system(size: 10, weight: .bold))
+                        .font(.icon(.xs, weight: .bold))
                         .foregroundStyle(.white)
                         .padding(.space2XS)
                         .background(transaction.status.color, in: .circle)

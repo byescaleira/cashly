@@ -1,8 +1,8 @@
 # Design system
 
-O `CashlyDesignSystem` é o único lugar com valores visuais: espaçamentos, raios, opacidades, tamanhos, tipografia, cores e componentes sem regra de negócio. As features usam só os tokens. Número solto de espaçamento, raio ou opacidade fora do design system é erro de lint (`design_token_*` em `.swiftlint.yml`).
+O `CashlyDesignSystem` é o único lugar com valores visuais: espaçamentos, raios, opacidades, tamanhos, tipografia, cores e componentes sem regra de negócio. As features usam só os tokens. Número solto de espaçamento, raio, opacidade ou tamanho de fonte fora do design system é erro de lint (`design_token_*` em `.swiftlint.yml`).
 
-O pacote não depende de nenhum outro módulo do app. Componentes que precisam de dados ou de formatação do app (moeda, categoria) ficam no `FeatureCore` e montam os do design system.
+O pacote não depende de nenhum outro módulo do app. Componentes que precisam de dados ou de formatação do app (moeda, categoria) ficam no `FeatureCore` e montam os do design system. Por exemplo, `FigureHeader(title:amount:)` e `FigureBlock(caption:amount:)` são atalhos do `FeatureCore` que formatam o valor em moeda, e `ExampleMonthSummary` fica no `FeatureCore` porque mostra valores em moeda.
 
 ## Tokens
 
@@ -60,9 +60,25 @@ Os estilos de texto do sistema (`.headline`, `.subheadline`, `.footnote`…) con
 | `.amountRow` | `title3` bold | Valor em blocos e linhas fortes |
 | `.amountInput` | 40 pt black | Campo de valor dos editores |
 | `.chipLabel` | `caption` bold | Texto de chip |
-| `.rowTitle` | `body` semibold | Título de linha |
+| `.rowTitle` | `body` semibold | Nome numa linha de lista |
+| `.buttonLabel` | `body` semibold | Rótulo de botão e de menu |
+| `.titleLarge` | `title` bold | Título de página dos guias |
+| `.titleMedium` | `title2` bold | Título de estado vazio e de bloco |
 
 `sectionTitle()` define o título das seções.
+
+### Ícones (`IconSize`)
+
+Símbolos com tamanho fixo usam `.font(.icon(_:weight:))`, nunca `.system(size:)`:
+
+| Caso | Valor | Uso |
+| --- | --- | --- |
+| `.xs` | 10 | Indicador dentro de outro símbolo |
+| `.s` | 18 | Ícone de linha |
+| `.m` | 20 | Ícone de escolha (categorias, avatar) |
+| `.l` | 30 | Ícone de destaque numa linha |
+| `.xl` | 50 | Ícone do editor |
+| `.hero` | 130 | Ícone de fundo do editor de tag |
 
 ### Cores
 
@@ -78,6 +94,11 @@ Os estilos de texto do sistema (`.headline`, `.subheadline`, `.footnote`…) con
 | `Chip(_:color:shape:font:)` | Texto na cor com fundo `.opacityTint`; `.tag` (raio 8) ou `.capsule` |
 | `SymbolBadge(_:color:size:style:)` | Símbolo num círculo, `.tinted` ou `.filled` |
 | `tintedCard(_:radius:)` | Fundo `.opacityFill` na cor, para blocos |
+| `FigureHeader(title:value:numeric:color:detail:)` | Cabeçalho de seção com o número grande fora do grupo |
+| `FigureBlock(caption:value:numeric:color:detail:)` | Número grande com legenda dentro de um cartão |
+| `FigureValue(_:numeric:color:)` | Só o número, com troca animada |
+| `GuideExample` | Cartão dos exemplos preenchidos (guias e estados vazios) |
+| `ExampleRow`, `ExampleBar`, `ExampleHeadline`, `ExampleDone`, `ExampleFile` | Peças dos exemplos |
 | `surface(tint:in:interactive:)` | Vidro regular (Liquid Glass) |
 | `clearSurface(in:)` | Vidro transparente, para elementos sobre conteúdo |
 | `contentSurface(tint:in:)` | Fundo neutro sem vidro |

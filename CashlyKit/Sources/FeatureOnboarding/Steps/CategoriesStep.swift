@@ -35,7 +35,7 @@ private struct SuggestionChoice: View {
         Button(action: action) {
             VStack(spacing: .spaceXS) {
                 Image(systemName: suggestion.icon)
-                    .font(.system(size: 20, weight: .semibold))
+                    .font(.icon(.m, weight: .semibold))
                     .foregroundStyle(isSelected ? Color.white : suggestion.color.color)
                     .frame(width: 48, height: 48)
                     .background(

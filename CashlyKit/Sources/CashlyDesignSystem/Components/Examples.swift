@@ -1,4 +1,3 @@
-import CashlyDesignSystem
 import SwiftUI
 
 public struct GuideExample<Content: View>: View {
@@ -104,7 +103,7 @@ public struct ExampleHeadline: View {
         VStack(spacing: .spaceXS) {
             if let chip { Chip(chip.uppercased(), color: appTint) }
             Text(value)
-                .font(.system(.title, weight: .black))
+                .font(.title.weight(.black))
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)
             if let detail {
@@ -112,22 +111,6 @@ public struct ExampleHeadline: View {
             }
         }
         .frame(maxWidth: .infinity)
-    }
-}
-
-public struct ExampleMonthSummary: View {
-    public init() {}
-
-    public var body: some View {
-        GuideExample {
-            ExampleHeadline(
-                chip: Date.now.formatted(.dateTime.month(.wide)),
-                value: 3_240.0.formatted(.appCurrency), detail: "disponível no mês")
-            Divider()
-            ExampleRow(
-                "Entradas", value: 6_500.0.formatted(.appCurrency), valueColor: .positive)
-            ExampleRow("Saídas", value: 3_260.0.formatted(.appCurrency), valueColor: .negative)
-        }
     }
 }
 

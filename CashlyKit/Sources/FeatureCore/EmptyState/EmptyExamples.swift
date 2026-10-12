@@ -25,7 +25,7 @@ private struct CategoriesExample: View {
             ForEach(items, id: \.0) { name, symbol, color in
                 VStack(spacing: .spaceXS) {
                     Image(systemName: symbol)
-                        .font(.system(size: 18, weight: .semibold))
+                        .font(.icon(.s, weight: .semibold))
                         .foregroundStyle(color)
                         .frame(width: 44, height: 44)
                         .background(color.opacity(.opacityTint), in: .circle)

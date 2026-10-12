@@ -78,7 +78,7 @@ private struct FormatStep: View {
             ])
             ShareLink(item: TemplateFile.url) {
                 Label("Baixar modelo", systemImage: "arrow.down.doc")
-                    .font(.body.weight(.semibold))
+                    .font(.buttonLabel)
             }
         }
     }

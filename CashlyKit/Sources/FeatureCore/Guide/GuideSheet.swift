@@ -131,7 +131,7 @@ private struct GuideButtons: View {
             .disabled(!primary.isEnabled || isWorking)
             if let secondary {
                 Button(secondary.title, action: secondary.perform)
-                    .font(.body.weight(.semibold))
+                    .font(.buttonLabel)
                     .buttonStyle(.borderless)
                     .disabled(!secondary.isEnabled || isWorking)
             }

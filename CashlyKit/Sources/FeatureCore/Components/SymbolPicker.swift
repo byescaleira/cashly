@@ -61,7 +61,7 @@ private struct SymbolChoice: View {
 
     var body: some View {
         Image(systemName: icon)
-            .font(.system(size: 20))
+            .font(.icon(.m))
             .foregroundStyle(color)
             .frame(width: 45, height: 45)
             .background(color.opacity(.opacityTint), in: .circle)
