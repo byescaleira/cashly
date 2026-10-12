@@ -7,8 +7,24 @@ extension View {
         modifier(GlassSurface(tint: tint, shape: shape, interactive: interactive))
     }
 
+    public func clearSurface(in shape: some Shape) -> some View {
+        modifier(ClearSurface(shape: shape))
+    }
+
     public func contentSurface(tint: Color? = nil, in shape: some Shape) -> some View {
         background(tint ?? .subtleFill, in: shape)
+    }
+}
+
+private struct ClearSurface<S: Shape>: ViewModifier {
+    let shape: S
+
+    func body(content: Content) -> some View {
+        #if os(visionOS)
+            content.glassBackgroundEffect(in: shape)
+        #else
+            content.glassEffect(.clear, in: shape)
+        #endif
     }
 }
 

@@ -73,10 +73,23 @@ private struct OutlookRow: View {
                 switch marker {
                 case .solid: Capsule().fill(appTint).frame(width: 14, height: 8)
                 case .faded: Capsule().fill(appTint.opacity(0.35)).frame(width: 14, height: 8)
-                case .line: Capsule().fill(Color.primary).frame(width: 3, height: 14)
+                case .line: PlannedDot(size: 12)
                 }
             }
         }
+    }
+}
+
+private struct PlannedDot: View {
+    let size: CGFloat
+
+    var body: some View {
+        Circle()
+            .fill(Color.primary)
+            .padding(size * 0.15)
+            .background(.groupedRow, in: .circle)
+            .frame(width: size, height: size)
+            .shadow(color: .black.opacity(0.15), radius: 2, y: 1)
     }
 }
 
@@ -94,10 +107,8 @@ private struct OutlookBar: View {
                 Capsule().fill(appTint.opacity(0.35)).frame(width: projected)
                 Capsule().fill(appTint).frame(width: max(spent, 14))
                 if let budgeted = outlook.budgeted {
-                    Capsule()
-                        .fill(Color.primary)
-                        .frame(width: 3, height: 26)
-                        .offset(x: min(width * budgeted / outlook.scale, width) - 1.5)
+                    PlannedDot(size: 20)
+                        .offset(x: min(max(width * budgeted / outlook.scale, 10), width - 10) - 10)
                 }
             }
         }

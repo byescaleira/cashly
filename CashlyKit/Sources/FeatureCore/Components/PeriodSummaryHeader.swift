@@ -73,7 +73,7 @@ private struct RankedSymbols: View {
                             .font(.caption.weight(.bold))
                             .foregroundStyle(color)
                             .padding(8)
-                            .background(Color(white: 0.95), in: .circle)
+                            .clearSurface(in: .circle)
                             .padding(-8)
                             .dynamicTypeSize(...DynamicTypeSize.large)
                     }
