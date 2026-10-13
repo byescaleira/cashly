@@ -11,7 +11,8 @@
             "value" : "Cashly"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "CFBundleName" : {
       "comment" : "Bundle name",
@@ -23,7 +24,8 @@
             "value" : "Cashly"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "NSFaceIDUsageDescription" : {
       "comment" : "Privacy - Face ID Usage Description",
