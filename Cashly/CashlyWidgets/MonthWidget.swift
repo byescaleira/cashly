@@ -78,13 +78,13 @@ private struct SmallMonth: View {
             VStack(alignment: .leading, spacing: .spaceHairline) {
                 WidgetLabel("Spent")
                 Text(snapshot.money(figures.spent))
-                    .font(.widgetTitle)
+                    .font(.widgetAmount)
                     .fontDesign(.rounded)
                     .foregroundStyle(figures.color)
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
                 Text(snapshot.money(figures.planned))
-                    .font(.widgetTitle)
+                    .font(.widgetSecondary)
                     .fontDesign(.rounded)
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)
@@ -126,12 +126,10 @@ private struct SpendHeader: View {
         let snapshot = figures.snapshot
         HStack(alignment: .top, spacing: .spaceS) {
             VStack(alignment: .leading, spacing: .spaceHairline) {
-                WidgetTitle(
-                    snapshot: snapshot, ratio: figures.ratio, font: .system(size: 18, weight: .bold)
-                )
+                WidgetTitle(snapshot: snapshot, ratio: figures.ratio)
                 HStack(spacing: .spaceXS) {
                     Text(snapshot.money(figures.planned))
-                        .font(.footnote.weight(.bold))
+                        .font(.widgetSecondary)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                     if let line = figures.line {
@@ -146,12 +144,14 @@ private struct SpendHeader: View {
                         Tag("\(snapshot.transactionCount)", color: figures.color)
                     }
                     Text(snapshot.money(figures.spent))
-                        .font(.footnote.weight(.bold))
+                        .font(.widgetAmount)
+                        .fontDesign(.rounded)
+                        .foregroundStyle(figures.color)
                         .lineLimit(1)
-                        .minimumScaleFactor(0.7)
+                        .minimumScaleFactor(0.6)
                     Spacer(minLength: 0)
                     Text(figures.ratio.percentLabel)
-                        .font(.footnote.weight(.bold))
+                        .font(.widgetSecondary)
                         .foregroundStyle(.secondary)
                 }
                 UsageBar(ratio: figures.ratio)

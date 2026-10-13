@@ -29,7 +29,7 @@ private struct BillsView: View {
                 }
                 WidgetLabel("Pending")
                 Text(snapshot.money(snapshot.pendingMinorUnits))
-                    .font(.widgetTitle)
+                    .font(.widgetAmount)
                     .fontDesign(.rounded)
                     .lineLimit(1)
                     .minimumScaleFactor(0.5)

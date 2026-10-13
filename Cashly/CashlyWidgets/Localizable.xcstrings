@@ -60,6 +60,7 @@
       }
     },
     "%@ of %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -124,6 +125,7 @@
       }
     },
     "%@ used" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -185,6 +187,7 @@
       "shouldTranslate" : false
     },
     "Available" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -243,6 +246,7 @@
       }
     },
     "Available %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1058,6 +1062,7 @@
       }
     },
     "Planned" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

@@ -74,9 +74,11 @@ extension Double {
 }
 
 extension Font {
-    static let widgetTitle = Font.title3.weight(.bold)
+    static let widgetTitle = Font.subheadline.weight(.bold)
+    static let widgetAmount = Font.title2.weight(.bold)
+    static let widgetSecondary = Font.headline
     static let widgetLabel = Font.system(size: 8, weight: .bold)
-    static let widgetValue = Font.system(size: 12, weight: .bold)
+    static let widgetValue = Font.system(size: 13, weight: .bold)
     static let widgetRow = Font.system(size: 10)
 }
 
