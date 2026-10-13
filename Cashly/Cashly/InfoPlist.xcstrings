@@ -1,32 +1,84 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "NSFaceIDUsageDescription" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly verwendet Face ID, um die App zu entsperren."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly usa Face ID para desbloquear la app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly utilise Face ID pour déverrouiller l’app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly usa Face ID per sbloccare l’app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashlyはアプリのロック解除にFace IDを使用します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly는 앱 잠금 해제에 Face ID를 사용해요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Cashly usa o Face ID para desbloquear o app."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly использует Face ID для разблокировки приложения."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly 使用面容 ID 解锁 App。"
+          }
+        }
+      }
+    },
     "NSLocalNetworkUsageDescription" : {
       "comment" : "Privacy - Local Network Usage Description",
       "extractionState" : "manual",
       "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly nutzt das lokale Netzwerk, damit Claude Code auf deinem Computer Transaktionen lesen und senden kann – immer mit deiner Zustimmung."
+          }
+        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cashly uses the local network so Claude Code on your computer can read and send transactions, always with your approval."
           }
         },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Cashly usa a rede local para que o Claude Code no seu computador consulte e envie transações, sempre com a sua aprovação."
-          }
-        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cashly usa la red local para que Claude Code en tu ordenador pueda leer y enviar transacciones, siempre con tu aprobación."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cashly nutzt das lokale Netzwerk, damit Claude Code auf deinem Computer Transaktionen lesen und senden kann – immer mit deiner Zustimmung."
           }
         },
         "fr" : {
@@ -53,16 +105,22 @@
             "value" : "Cashly는 로컬 네트워크를 사용해 컴퓨터의 Claude Code가 거래를 읽고 보낼 수 있게 합니다. 항상 사용자의 승인이 필요합니다."
           }
         },
-        "zh-Hans" : {
+        "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cashly 使用本地网络，让你电脑上的 Claude Code 读取和发送交易，并始终需要你的批准。"
+            "value" : "O Cashly usa a rede local para que o Claude Code no seu computador consulte e envie transações, sempre com a sua aprovação."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cashly использует локальную сеть, чтобы Claude Code на вашем компьютере мог читать и отправлять операции — всегда с вашего одобрения."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly 使用本地网络，让你电脑上的 Claude Code 读取和发送交易，并始终需要你的批准。"
           }
         }
       }

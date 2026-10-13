@@ -3,7 +3,7 @@ import Foundation
 public struct AppInfo: Sendable {
     public static let main = AppInfo(info: Bundle.main.infoDictionary ?? [:])
 
-    let version: String
+    public let version: String
     let number: String
     let appStoreURL: URL?
     let reviewURL: URL?

@@ -1,6 +1,7 @@
 import CashlyDomain
 import Foundation
 import Observation
+import WidgetKit
 
 @MainActor @Observable
 public final class FinanceModel {
@@ -87,6 +88,7 @@ public final class FinanceModel {
             user: user, month: month, overview: overview, pending: pending,
             currencyCode: Money.currencyCode)
         try? snapshotStore?.write(snapshot)
+        WidgetCenter.shared.reloadAllTimelines()
         return snapshot
     }
 

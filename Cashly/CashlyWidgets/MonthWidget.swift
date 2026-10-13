@@ -5,9 +5,11 @@ import WidgetKit
 
 struct MonthWidget: Widget {
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: "cashly.month", provider: SnapshotProvider()) { entry in
+        AppIntentConfiguration(
+            kind: "cashly.month.category", intent: CategoryFilterIntent.self, provider: MonthProvider()
+        ) { entry in
             MonthView(entry: entry)
-                .containerBackground(.fill.tertiary, for: .widget)
+                .containerBackground(.background, for: .widget)
                 .widgetURL(URL(string: "cashly://home"))
         }
         .configurationDisplayName("This Month")
@@ -17,9 +19,12 @@ struct MonthWidget: Widget {
 
     private var families: [WidgetFamily] {
         #if os(iOS)
-            [.systemSmall, .systemMedium, .accessoryCircular, .accessoryRectangular, .accessoryInline]
+            [
+                .systemSmall, .systemMedium, .systemLarge, .accessoryCircular,
+                .accessoryRectangular, .accessoryInline,
+            ]
         #else
-            [.systemSmall, .systemMedium]
+            [.systemSmall, .systemMedium, .systemLarge]
         #endif
     }
 }
@@ -30,28 +35,18 @@ private struct MonthView: View {
 
     var body: some View {
         if let snapshot = entry.snapshot {
+            let figures = snapshot.figures(entry.categoryID)
             switch family {
             #if os(iOS)
-            case .accessoryCircular:
-                Gauge(value: snapshot.progress) {
-                    Image(systemName: "creditcard")
-                } currentValueLabel: {
-                    Text(snapshot.progress.formatted(.percent.precision(.fractionLength(0))))
-                }
-                .gaugeStyle(.accessoryCircular)
-            case .accessoryInline:
-                Text("Available \(snapshot.money(snapshot.availableMinorUnits))")
-            case .accessoryRectangular:
-                VStack(alignment: .leading, spacing: .space2XS) {
-                    Text("Available").font(.caption).foregroundStyle(.secondary)
-                    Text(snapshot.money(snapshot.availableMinorUnits)).font(.headline)
-                    Gauge(value: snapshot.progress) { EmptyView() }.gaugeStyle(.accessoryLinear)
-                }
+            case .accessoryCircular, .accessoryRectangular, .accessoryInline:
+                LockScreenMonth(figures: figures, family: family)
             #endif
             case .systemMedium:
-                MediumMonth(snapshot: snapshot)
+                MediumMonth(figures: figures)
+            case .systemLarge:
+                LargeMonth(figures: figures)
             default:
-                SmallMonth(snapshot: snapshot)
+                SmallMonth(figures: figures)
             }
         } else {
             EmptyMonth()
@@ -60,74 +55,181 @@ private struct MonthView: View {
 }
 
 private struct SmallMonth: View {
-    let snapshot: WidgetSnapshot
+    let figures: MonthFigures
 
     var body: some View {
+        let snapshot = figures.snapshot
         VStack(alignment: .leading, spacing: .spaceXS) {
-            Text("Available").font(.caption).foregroundStyle(.secondary)
-            Text(snapshot.money(snapshot.availableMinorUnits))
-                .font(.title2.weight(.bold))
-                .minimumScaleFactor(0.6)
-                .lineLimit(1)
-                .foregroundStyle(snapshot.availableMinorUnits < 0 ? Color.negative : Color.primary)
+            WidgetTitle(snapshot: snapshot, ratio: figures.ratio)
             Spacer(minLength: 0)
-            Gauge(value: snapshot.progress) { EmptyView() }
-                .gaugeStyle(.accessoryLinearCapacity)
-                .tint(snapshot.progress < 1 ? Color.accentColor : Color.negative)
-            Text("\(snapshot.money(snapshot.spentMinorUnits)) of \(snapshot.money(snapshot.plannedMinorUnits))")
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-                .lineLimit(1)
-                .minimumScaleFactor(0.7)
+            VStack(alignment: .leading, spacing: .spaceHairline) {
+                WidgetLabel("Spent")
+                Text(snapshot.money(figures.spent))
+                    .font(.widgetTitle)
+                    .fontDesign(.rounded)
+                    .foregroundStyle(figures.color)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                Text(snapshot.money(figures.planned))
+                    .font(.widgetTitle)
+                    .fontDesign(.rounded)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                if let line = figures.line {
+                    Tag(line.categoryName.uppercased(), color: .primary)
+                } else {
+                    WidgetLabel("Total planned")
+                }
+            }
+            Spacer(minLength: 0)
+            RemainingRow(figures: figures)
+        }
+    }
+}
+
+private struct RemainingRow: View {
+    let figures: MonthFigures
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: .space2XS) {
+            WidgetLabel("Remaining")
+            HStack {
+                Text(figures.snapshot.money(figures.remaining))
+                    .font(.widgetValue)
+                    .foregroundStyle(figures.color)
+                Spacer(minLength: 0)
+                Text((1 - figures.ratio).percentLabel).font(.widgetValue)
+            }
+            .lineLimit(1)
+            UsageBar(ratio: figures.ratio)
+        }
+    }
+}
+
+private struct SpendHeader: View {
+    let figures: MonthFigures
+
+    var body: some View {
+        let snapshot = figures.snapshot
+        HStack(alignment: .top, spacing: .spaceS) {
+            VStack(alignment: .leading, spacing: .spaceHairline) {
+                WidgetTitle(
+                    snapshot: snapshot, ratio: figures.ratio, font: .system(size: 18, weight: .bold)
+                )
+                HStack(spacing: .spaceXS) {
+                    Text(snapshot.money(figures.planned))
+                        .font(.footnote.weight(.bold))
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                    if let line = figures.line {
+                        Tag(line.categoryName.uppercased(), color: .primary)
+                    }
+                }
+            }
+            .frame(width: 130, alignment: .leading)
+            VStack(spacing: .space2XS) {
+                HStack(spacing: .spaceXS) {
+                    if figures.line == nil {
+                        Tag("\(snapshot.transactionCount)", color: figures.color)
+                    }
+                    Text(snapshot.money(figures.spent))
+                        .font(.footnote.weight(.bold))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                    Spacer(minLength: 0)
+                    Text(figures.ratio.percentLabel)
+                        .font(.footnote.weight(.bold))
+                        .foregroundStyle(.secondary)
+                }
+                UsageBar(ratio: figures.ratio)
+            }
+            .padding(.top, .space2XS)
         }
     }
 }
 
 private struct MediumMonth: View {
-    let snapshot: WidgetSnapshot
+    let figures: MonthFigures
 
     var body: some View {
         VStack(alignment: .leading, spacing: .spaceS) {
-            HStack(alignment: .top) {
-                MonthFigure(title: "Spent", value: snapshot.money(snapshot.spentMinorUnits))
-                Spacer()
-                MonthFigure(title: "Planned", value: snapshot.money(snapshot.plannedMinorUnits))
-                Spacer()
-                MonthFigure(
-                    title: "Available", value: snapshot.money(snapshot.availableMinorUnits),
-                    color: snapshot.availableMinorUnits < 0 ? .negative : .positive)
+            SpendHeader(figures: figures)
+            CategoryChart(snapshot: figures.snapshot, ratio: figures.ratio)
+        }
+    }
+}
+
+private struct LargeMonth: View {
+    let figures: MonthFigures
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: .spaceM) {
+            SpendHeader(figures: figures)
+            LazyVGrid(
+                columns: [GridItem(.flexible(), spacing: .spaceM), GridItem(.flexible())],
+                spacing: .spaceS
+            ) {
+                ForEach(figures.snapshot.budgets.prefix(6), id: \.id) { BudgetCell(line: $0) }
             }
-            Gauge(value: snapshot.progress) { EmptyView() }
-                .gaugeStyle(.accessoryLinearCapacity)
-                .tint(snapshot.progress < 1 ? Color.accentColor : Color.negative)
-            Text("\(snapshot.progress.formatted(.percent.precision(.fractionLength(0)))) used")
-                .font(.caption2)
-                .foregroundStyle(.secondary)
+            CategoryChart(snapshot: figures.snapshot, ratio: figures.ratio, height: 140)
+            Spacer(minLength: 0)
         }
     }
 }
 
-private struct MonthFigure: View {
-    let title: LocalizedStringKey
-    let value: String
-    var color: Color = .primary
+#if os(iOS)
+    private struct LockScreenMonth: View {
+        let figures: MonthFigures
+        let family: WidgetFamily
 
-    var body: some View {
-        VStack(alignment: .leading, spacing: .space2XS) {
-            Text(title).font(.caption).foregroundStyle(.secondary)
-            Text(value).font(.headline).foregroundStyle(color).lineLimit(1).minimumScaleFactor(0.7)
+        var body: some View {
+            let snapshot = figures.snapshot
+            switch family {
+            case .accessoryCircular:
+                Gauge(value: min(max(figures.ratio, 0), 1)) {
+                    Image(systemName: figures.line?.icon ?? "creditcard")
+                } currentValueLabel: {
+                    Text((1 - figures.ratio).percentLabel).bold()
+                }
+                .gaugeStyle(.accessoryCircular)
+            case .accessoryInline:
+                Text("\(snapshot.money(figures.remaining)) left")
+            default:
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(figures.line?.categoryName.uppercased() ?? snapshot.monthName.uppercased())
+                        .font(.footnote)
+                    Spacer(minLength: 0)
+                    Text(snapshot.money(figures.remaining))
+                        .font(.system(size: 25, weight: .bold))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                    Spacer(minLength: 0)
+                    HStack(spacing: .spaceS) {
+                        Gauge(value: min(max(figures.ratio, 0), 1)) { EmptyView() }
+                            .gaugeStyle(.accessoryLinear)
+                        Text((1 - figures.ratio).percentLabel).font(.footnote)
+                    }
+                }
+            }
         }
     }
+#endif
+
+#Preview("Small", as: .systemSmall) {
+    MonthWidget()
+} timeline: {
+    SnapshotEntry(date: .now, snapshot: .sample)
+    SnapshotEntry(date: .now, snapshot: .sample, categoryID: "transport")
 }
 
-struct EmptyMonth: View {
-    var body: some View {
-        VStack(spacing: .spaceXS) {
-            Image(systemName: "creditcard").font(.title2).foregroundStyle(.secondary)
-            Text("Open Cashly to see your month")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-        }
-    }
+#Preview("Medium", as: .systemMedium) {
+    MonthWidget()
+} timeline: {
+    SnapshotEntry(date: .now, snapshot: .sample)
+}
+
+#Preview("Large", as: .systemLarge) {
+    MonthWidget()
+} timeline: {
+    SnapshotEntry(date: .now, snapshot: .sample)
 }

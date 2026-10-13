@@ -7,6 +7,7 @@ import FeatureOnboarding
 import FeatureSettings
 import FeatureStore
 import SwiftUI
+import WidgetKit
 
 public struct MainScreen: View {
     @Environment(SessionModel.self) private var session
@@ -16,9 +17,11 @@ public struct MainScreen: View {
     @Environment(NotificationsModel.self) private var notifications
     @Environment(SettingsModel.self) private var settings
     @Environment(StoreModel.self) private var store
+    @Environment(LaunchProgress.self) private var launch
     @Environment(\.featureFlags) private var flags
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.locale) private var locale
+    @Environment(\.scenePhase) private var scenePhase
     public init() {}
 
     @ViewBuilder
@@ -39,11 +42,12 @@ public struct MainScreen: View {
         .id(locale.identifier)
         .tabViewStyle(.sidebarAdaptable)
         .overlay {
-            if !session.isReady(finance) {
-                LaunchView().transition(.opacity)
+            if !launch.isDismissed {
+                SplashScreen(progress: launch.fraction, status: launch.status)
+                    .transition(.opacity)
             }
         }
-        .animation(.easeOut(duration: 0.25), value: session.isReady(finance))
+        .animation(.easeOut(duration: 0.4), value: launch.isDismissed)
         .sheet(item: $navigation.guide) { GuideScreen($0) }
         .sheet(item: $navigation.shopItem) { ShopItemScreen(item: $0) }
         .environment(
@@ -54,7 +58,7 @@ public struct MainScreen: View {
         .sheet(isPresented: $navigation.isOnboarding) {
             ModelHost(OnboardingModel(session: session)) { OnboardingScreen() }
         }
-        .onChange(of: session.needsOnboarding && session.isReady(finance), initial: true) {
+        .onChange(of: session.needsOnboarding && launch.isDismissed, initial: true) {
             _, needs in
             if needs { navigation.isOnboarding = true }
         }
@@ -78,18 +82,36 @@ public struct MainScreen: View {
         .task { await session.start() }
         .task { await store.start() }
         .task(id: session.loadKey) { await finance.load() }
-        .task(id: (session.user?.id ?? "") + ":" + finance.datasetRevision) {
+        .onChange(of: session.isReady(finance), initial: true) {
+            if session.isReady(finance) { launch.finish(.month) }
+        }
+        .task(id: extrasKey) {
             if let snapshot = await finance.publishSnapshot() {
                 await notifications.review(snapshot)
             }
             await CashlyIndexer.refresh(categories: finance.allCategories)
             await intelligence.loadModels(revision: finance.datasetRevision)
+            if session.isReady(finance) { launch.finish(.extras) }
+        }
+        .onChange(of: session.hasLoadedUsers, initial: true) {
+            if session.hasLoadedUsers { launch.finish(.profiles) }
+        }
+        .onChange(of: store.hasRefreshed, initial: true) {
+            if store.hasRefreshed { launch.finish(.pro) }
+        }
+        .task(id: launch.isComplete) {
+            guard launch.isComplete else { return }
+            try? await Task.sleep(for: .milliseconds(600))
+            launch.dismiss()
         }
         .task(
             id: notifications.paymentsKey(userID: session.user?.id, generation: session.generation)
         ) {
             await notifications.schedulePayments(
                 for: session.user?.id, repositories: session.repositories)
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .background { WidgetCenter.shared.reloadAllTimelines() }
         }
         .onChange(of: navigation.selectedSection) { navigation.closeInspectorOutsideSelection() }
         .onChange(of: session.user?.id) { old, new in
@@ -102,6 +124,10 @@ public struct MainScreen: View {
         .modifier(PrivacyShield())
         .sheet(isPresented: $navigation.isShowingPaywall) { PaywallScreen() }
         .environment(\.pro, pro)
+    }
+
+    private var extrasKey: String {
+        "\(session.user?.id ?? ""):\(finance.datasetRevision):\(session.isReady(finance))"
     }
 
     private var pro: ProAccess {

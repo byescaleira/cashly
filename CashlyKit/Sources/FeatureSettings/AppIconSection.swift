@@ -21,11 +21,16 @@ struct AppIconSection: View {
     }
 }
 
-struct AppIconImage: View {
-    let icon: AppIcon
-    let size: CGFloat
+public struct AppIconImage: View {
+    private let icon: AppIcon
+    private let size: CGFloat
 
-    var body: some View {
+    public init(icon: AppIcon, size: CGFloat) {
+        self.icon = icon
+        self.size = size
+    }
+
+    public var body: some View {
         CashlyResourceImage.appIcon(icon.previewName)
             .resizable()
             .scaledToFit()

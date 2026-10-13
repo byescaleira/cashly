@@ -29,12 +29,19 @@ public struct WidgetSnapshot: Codable, Equatable, Sendable {
         public let summary: String
         public let amountMinorUnits: Int64
         public let date: Date
+        public let icon: String
+        public let color: String
 
-        public init(id: String, summary: String, amountMinorUnits: Int64, date: Date) {
+        public init(
+            id: String, summary: String, amountMinorUnits: Int64, date: Date, icon: String,
+            color: String
+        ) {
             self.id = id
             self.summary = summary
             self.amountMinorUnits = amountMinorUnits
             self.date = date
+            self.icon = icon
+            self.color = color
         }
     }
 
@@ -46,6 +53,7 @@ public struct WidgetSnapshot: Codable, Equatable, Sendable {
     public let plannedMinorUnits: Int64
     public let spentMinorUnits: Int64
     public let incomeMinorUnits: Int64
+    public let transactionCount: Int
     public let budgets: [BudgetLine]
     public var bills: [Bill]
     public let generatedAt: Date
@@ -53,7 +61,8 @@ public struct WidgetSnapshot: Codable, Equatable, Sendable {
     public init(
         userID: String, userName: String, month: YearMonth, currencyCode: String,
         plannedMinorUnits: Int64, spentMinorUnits: Int64, incomeMinorUnits: Int64,
-        budgets: [BudgetLine], bills: [Bill] = [], generatedAt: Date = .now
+        transactionCount: Int = 0, budgets: [BudgetLine], bills: [Bill] = [],
+        generatedAt: Date = .now
     ) {
         self.userID = userID
         self.userName = userName
@@ -63,6 +72,7 @@ public struct WidgetSnapshot: Codable, Equatable, Sendable {
         self.plannedMinorUnits = plannedMinorUnits
         self.spentMinorUnits = spentMinorUnits
         self.incomeMinorUnits = incomeMinorUnits
+        self.transactionCount = transactionCount
         self.budgets = budgets
         self.bills = bills
         self.generatedAt = generatedAt
@@ -87,11 +97,13 @@ extension WidgetSnapshot {
             userID: user.id, userName: user.name, month: month, currencyCode: currencyCode,
             plannedMinorUnits: overview.budgetsTotal.minorUnits,
             spentMinorUnits: overview.expensesTotal.minorUnits,
-            incomeMinorUnits: overview.incomeTotal.minorUnits, budgets: lines,
+            incomeMinorUnits: overview.incomeTotal.minorUnits,
+            transactionCount: overview.transactionCount, budgets: lines,
             bills: pending.sorted { $0.date < $1.date }.prefix(5).map {
                 Bill(
                     id: $0.id, summary: $0.summary.isEmpty ? $0.category.name : $0.summary,
-                    amountMinorUnits: $0.money.minorUnits, date: $0.date)
+                    amountMinorUnits: $0.money.minorUnits, date: $0.date, icon: $0.category.icon,
+                    color: $0.category.color)
             }, generatedAt: generatedAt)
     }
 }

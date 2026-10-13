@@ -93,6 +93,11 @@ private final class CashlyBootstrap {
         do {
             let database = try await CashlyServices.shared.database(cloudSync: cloudSync)
             self.database = database
+            try? AppGroup.publish(
+                AppGroup.Manifest(
+                    app: AppGroup.app, bundleIdentifier: Bundle.main.bundleIdentifier ?? "",
+                    version: settings.info.version, urlScheme: "cashly",
+                    files: [WidgetSnapshotStore.fileName]))
             Task { await flags.refresh() }
             if flags.isOn(.mcpServer) {
                 mcp = MCPModel(provider: database, serviceName: Self.deviceName)
@@ -116,11 +121,12 @@ private final class CashlyBootstrap {
 private struct CashlyRootView: View {
     @Environment(CashlyBootstrap.self) private var bootstrap
     @State private var window: CashlyWindow?
+    @State private var launch = LaunchProgress()
     @State private var attempt = 0
     var body: some View {
         Group {
             if let window {
-                MainScreen().cashlyWindow(window)
+                MainScreen().cashlyWindow(window).environment(launch)
             } else if let error = bootstrap.error {
                 ContentUnavailableView {
                     Label(
@@ -132,7 +138,7 @@ private struct CashlyRootView: View {
                     Button("Try Again") { attempt += 1 }
                 }
             } else {
-                LaunchView()
+                SplashScreen(progress: launch.fraction, status: launch.status)
             }
         }
         .task(id: attempt) {
@@ -141,6 +147,7 @@ private struct CashlyRootView: View {
             guard !Task.isCancelled else { return }
             if let database = bootstrap.database {
                 window = CashlyWindow(provider: database, intelligence: bootstrap.intelligence)
+                launch.finish(.database)
             }
         }
     }

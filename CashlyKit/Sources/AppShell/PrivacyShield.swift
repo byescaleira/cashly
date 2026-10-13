@@ -32,8 +32,7 @@ private struct LockedView: View {
     @Environment(AppLockModel.self) private var lock
 
     var body: some View {
-        VStack(spacing: .spaceL) {
-            CashlyAnimationView(.launch, loops: true).frame(maxWidth: 220)
+        SplashScreen {
             if lock.isLocked {
                 Button {
                     Task { await lock.unlock() }
@@ -45,8 +44,5 @@ private struct LockedView: View {
                 .disabled(lock.isAuthenticating)
             }
         }
-        .fontDesign(.rounded)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.groupedBackground)
     }
 }

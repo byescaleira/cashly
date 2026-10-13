@@ -1,22 +1,16 @@
 import Foundation
 
-public enum CashlyAppGroup {
-    public static let identifier = "group.com.byescaleira.cashly"
-
-    public static var containerURL: URL? {
-        FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: identifier)
-    }
-}
-
 public struct WidgetSnapshotStore: Sendable {
+    public static let fileName = "widget-snapshot.json"
+
     public static var shared: WidgetSnapshotStore? {
-        CashlyAppGroup.containerURL.map(WidgetSnapshotStore.init)
+        AppGroup.directory().map(WidgetSnapshotStore.init)
     }
 
     private let fileURL: URL
 
     public init(directory: URL) {
-        fileURL = directory.appending(path: "widget-snapshot.json")
+        fileURL = directory.appending(path: Self.fileName)
     }
 
     public func write(_ snapshot: WidgetSnapshot) throws {

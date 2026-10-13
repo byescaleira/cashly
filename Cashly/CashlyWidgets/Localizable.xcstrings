@@ -1,6 +1,67 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@" : {
+      "shouldTranslate" : false
+    },
+    "%@ left" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ übrig"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quedan %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ restants"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ rimanenti"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "残り%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ 남음"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restam %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Осталось %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩余 %@"
+          }
+        }
+      }
+    },
     "%@ of %@" : {
       "localizations" : {
         "de" : {
@@ -122,6 +183,9 @@
           }
         }
       }
+    },
+    "Amount" : {
+      "shouldTranslate" : false
     },
     "Available" : {
       "localizations" : {
@@ -297,12 +361,131 @@
         }
       }
     },
+    "Cashly" : {
+      "shouldTranslate" : false
+    },
+    "Category" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategorie"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categoría"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Catégorie"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categoria"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カテゴリ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카테고리"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categoria"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Категория"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "类别"
+          }
+        }
+      }
+    },
+    "Choose a Category" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategorie wählen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elegir una categoría"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisir une catégorie"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli una categoria"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カテゴリを選択"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카테고리 선택"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolher uma categoria"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите категорию"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择类别"
+          }
+        }
+      }
+    },
     "How much is left in each budget this month." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Wie viel diesen Monat in jedem Budget übrig ist."
+            "value" : "Wie viel in jedem Budget diesen Monat übrig ist."
           }
         },
         "es" : {
@@ -314,7 +497,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ce qu’il reste dans chaque budget ce mois-ci."
+            "value" : "Ce qu'il reste dans chaque budget ce mois-ci."
           }
         },
         "it" : {
@@ -326,19 +509,19 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "今月の各予算の残り。"
+            "value" : "今月の各予算の残額。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이번 달 예산별 남은 금액."
+            "value" : "이번 달 각 예산의 남은 금액."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quanto sobra em cada orçamento neste mês."
+            "value" : "Quanto resta em cada orçamento neste mês."
           }
         },
         "ru" : {
@@ -350,7 +533,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "本月每个预算还剩多少。"
+            "value" : "本月每个预算的剩余金额。"
           }
         }
       }
@@ -396,7 +579,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Novo gasto"
+            "value" : "Nova despesa"
           }
         },
         "ru" : {
@@ -418,7 +601,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Keine Budgets diesen Monat"
+            "value" : "Keine Budgets in diesem Monat"
           }
         },
         "es" : {
@@ -430,7 +613,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pas de budget ce mois-ci"
+            "value" : "Aucun budget ce mois-ci"
           }
         },
         "it" : {
@@ -454,13 +637,13 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sem orçamentos neste mês"
+            "value" : "Nenhum orçamento neste mês"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В этом месяце нет бюджетов"
+            "value" : "Нет бюджетов в этом месяце"
           }
         },
         "zh-Hans" : {
@@ -482,7 +665,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sin cuentas pendientes"
+            "value" : "Sin facturas pendientes"
           }
         },
         "fr" : {
@@ -494,7 +677,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nessun conto in sospeso"
+            "value" : "Nessuna bolletta in sospeso"
           }
         },
         "ja" : {
@@ -506,7 +689,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "미결제 청구 없음"
+            "value" : "미결 청구서 없음"
           }
         },
         "pt-BR" : {
@@ -564,13 +747,13 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cashly를 열어 이번 달을 확인하세요"
+            "value" : "Cashly를 열어 이번 달 확인"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abra o Cashly para ver o seu mês"
+            "value" : "Abra o Cashly para ver seu mês"
           }
         },
         "ru" : {
@@ -616,19 +799,19 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cashlyを新しい支出画面で開きます。"
+            "value" : "Cashlyを新しい支出で開きます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cashly를 새 지출 화면으로 열어요."
+            "value" : "Cashly를 새 지출로 엽니다."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abre o Cashly em um novo gasto."
+            "value" : "Abre o Cashly em uma nova despesa."
           }
         },
         "ru" : {
@@ -640,7 +823,65 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "打开 Cashly 并新建支出。"
+            "value" : "在 Cashly 中打开新支出。"
+          }
+        }
+      }
+    },
+    "Pending" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausstehend"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pendiente"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En attente"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In sospeso"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未払い"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "미결"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pendente"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ожидает"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "待付"
           }
         }
       }
@@ -650,37 +891,37 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Offene Rechnungen nach Fälligkeit; antippen öffnet sie in Cashly."
+            "value" : "Offene Rechnungen nach Fälligkeit; tippe auf eine, um sie in Cashly zu öffnen."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cuentas pendientes por vencimiento; toca una para abrirla en Cashly."
+            "value" : "Facturas pendientes por vencimiento; toca una para abrirla en Cashly."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Factures en attente par échéance ; touchez-en une pour l’ouvrir dans Cashly."
+            "value" : "Factures en attente par échéance ; touchez-en une pour l'ouvrir dans Cashly."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Conti in sospeso per scadenza; tocca per aprire in Cashly."
+            "value" : "Bollette in sospeso per scadenza; toccane una per aprirla in Cashly."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "期限順の未払い請求。タップでCashlyで開きます。"
+            "value" : "期日順の未払い請求。タップでCashlyで開きます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "만기일순 미결제 청구서. 누르면 Cashly에서 열려요."
+            "value" : "기한순 미결 청구서. 탭하면 Cashly에서 열립니다."
           }
         },
         "pt-BR" : {
@@ -692,13 +933,13 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Неоплаченные счета по сроку; нажмите, чтобы открыть в Cashly."
+            "value" : "Неоплаченные счета по сроку; коснитесь, чтобы открыть в Cashly."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "按到期日排列的待付账单；点按可在 Cashly 中打开。"
+            "value" : "按到期日排列的待付账单；点按即可在 Cashly 中打开。"
           }
         }
       }
@@ -761,6 +1002,125 @@
         }
       }
     },
+    "Remaining" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbleibend"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restante"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restant"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rimanente"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "残り"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "남음"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restante"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Осталось"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩余"
+          }
+        }
+      }
+    },
+    "Series" : {
+      "shouldTranslate" : false
+    },
+    "Shows one budget instead of the whole month." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zeigt ein Budget statt des ganzen Monats."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra un presupuesto en lugar de todo el mes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Affiche un budget au lieu du mois entier."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra un budget invece dell'intero mese."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "月全体ではなく1つの予算を表示します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "전체 달 대신 예산 하나를 표시합니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra um orçamento em vez do mês inteiro."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Показывает один бюджет вместо всего месяца."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "显示单个预算而非整月。"
+          }
+        }
+      }
+    },
     "Spent" : {
       "localizations" : {
         "de" : {
@@ -814,7 +1174,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已花"
+            "value" : "已花费"
           }
         }
       }
@@ -824,31 +1184,31 @@
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ausgegeben, geplant und was noch übrig ist."
+            "value" : "Ausgegeben, geplant und was noch verfügbar ist."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gastado, planificado y lo que aún queda."
+            "value" : "Gastado, planificado y lo que aún queda disponible."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dépensé, prévu et ce qu’il reste."
+            "value" : "Dépensé, prévu et ce qui reste disponible."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Speso, pianificato e quanto resta."
+            "value" : "Speso, pianificato e quanto resta disponibile."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "支出、予算、残りの金額。"
+            "value" : "支出、予算、残りの利用可能額。"
           }
         },
         "ko" : {
@@ -860,7 +1220,7 @@
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gasto, planejado e o que ainda dá para gastar."
+            "value" : "Gasto, planejado e o que ainda está disponível."
           }
         },
         "ru" : {
@@ -872,7 +1232,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "已花、计划和剩余。"
+            "value" : "已花费、计划和仍可用的金额。"
           }
         }
       }
@@ -935,6 +1295,64 @@
         }
       }
     },
+    "Total planned" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gesamt geplant"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total planificado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total prévu"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Totale pianificato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "予算合計"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "계획 합계"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total planejado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Всего запланировано"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "计划总额"
+          }
+        }
+      }
+    },
     "Upcoming Bills" : {
       "localizations" : {
         "de" : {
@@ -946,7 +1364,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Próximas cuentas"
+            "value" : "Próximas facturas"
           }
         },
         "fr" : {
@@ -958,7 +1376,7 @@
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prossimi conti"
+            "value" : "Prossime bollette"
           }
         },
         "ja" : {
@@ -970,7 +1388,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "다가오는 청구"
+            "value" : "다가오는 청구서"
           }
         },
         "pt-BR" : {
@@ -982,7 +1400,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ближайшие счета"
+            "value" : "Предстоящие счета"
           }
         },
         "zh-Hans" : {

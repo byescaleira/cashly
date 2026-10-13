@@ -31,7 +31,7 @@ flowchart TD
 | `CashlyMock` | `SampleData` e `SampleDatabase` em memória | Domain, Data |
 | `CashlyPreview` | Previews por feature sobre o `SampleDatabase` | AppShell, features, Mock |
 | `CashlyAudit` | Diagnóstico e validação automatizada (migração, integridade, volume) | Domain, Data, Mock |
-| `CashlyWidgets` (app) | Extensão WidgetKit: lê o `WidgetSnapshot` do App Group; produto `CashlyWidgetKit` | Domain, DesignSystem |
+| `CashlyWidgets` (app) | Extensão WidgetKit: lê o `WidgetSnapshot` da pasta `cashly/` no App Group `group.com.byescaleira` (`AppGroup` e `manifest.json` no domínio); produto `CashlyWidgetKit` | Domain, DesignSystem |
 
 Regras de dependência:
 

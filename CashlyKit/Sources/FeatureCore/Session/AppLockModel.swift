@@ -16,14 +16,14 @@ public enum BiometryKind: Sendable {
 }
 
 public protocol Authenticating: Sendable {
-    func biometry() -> BiometryKind
+    func biometry() async -> BiometryKind
     func authenticate(reason: String) async -> Bool
 }
 
 public struct DeviceAuthentication: Authenticating {
     public init() {}
 
-    public func biometry() -> BiometryKind {
+    public func biometry() async -> BiometryKind {
         let context = LAContext()
         guard context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil) else {
             return .none
@@ -51,13 +51,13 @@ public struct DeviceAuthentication: Authenticating {
 public final class AppLockModel {
     public private(set) var isLocked: Bool
     public private(set) var isAuthenticating = false
-    public let biometry: BiometryKind
+    public private(set) var biometry = BiometryKind.none
     @ObservationIgnored private let authenticator: any Authenticating
 
     public init(isEnabled: Bool, authenticator: any Authenticating = DeviceAuthentication()) {
         self.authenticator = authenticator
-        biometry = authenticator.biometry()
         isLocked = isEnabled
+        Task { biometry = await authenticator.biometry() }
     }
 
     public func lock() {

@@ -6,11 +6,11 @@ import WidgetKit
 struct BillsWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: "cashly.bills", provider: SnapshotProvider()) { entry in
-            BillsView(entry: entry).containerBackground(.fill.tertiary, for: .widget)
+            BillsView(entry: entry).containerBackground(.background, for: .widget)
         }
         .configurationDisplayName("Upcoming Bills")
         .description("Pending bills by due date; tap one to open it in Cashly.")
-        .supportedFamilies([.systemMedium, .systemLarge])
+        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }
 
@@ -19,22 +19,41 @@ private struct BillsView: View {
     let entry: SnapshotEntry
 
     var body: some View {
-        if let snapshot = entry.snapshot, !snapshot.bills.isEmpty {
-            VStack(alignment: .leading, spacing: .spaceS) {
-                ForEach(snapshot.bills.prefix(family == .systemLarge ? 5 : 3), id: \.id) { bill in
-                    Link(destination: URL(string: "cashly://transactions/\(bill.id)") ?? URL(filePath: "/")) {
-                        BillRow(bill: bill, snapshot: snapshot)
+        if let snapshot = entry.snapshot {
+            let limit = family == .systemLarge ? 8 : 3
+            VStack(alignment: .leading, spacing: .spaceXS) {
+                HStack {
+                    WidgetTitle(snapshot: snapshot, ratio: snapshot.figures(nil).ratio)
+                    Spacer(minLength: 0)
+                    Tag("\(snapshot.bills.count)", color: .accentColor)
+                }
+                WidgetLabel("Pending")
+                Text(snapshot.money(snapshot.pendingMinorUnits))
+                    .font(.widgetTitle)
+                    .fontDesign(.rounded)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                Spacer(minLength: 0)
+                if snapshot.bills.isEmpty {
+                    HStack(spacing: .spaceXS) {
+                        SymbolBadge("checkmark", color: .positive, size: 18)
+                        Text("No pending bills").font(.widgetRow).foregroundStyle(.secondary)
+                    }
+                } else {
+                    ForEach(Array(snapshot.bills.prefix(limit).enumerated()), id: \.element.id) {
+                        index, bill in
+                        if index > 0 { Divider().padding(.leading, 18 + .spaceXS) }
+                        Link(
+                            destination: URL(string: "cashly://transactions/\(bill.id)")
+                                ?? URL(filePath: "/")
+                        ) {
+                            BillRow(bill: bill, snapshot: snapshot, compact: family == .systemSmall)
+                        }
                     }
                 }
-                Spacer(minLength: 0)
             }
-        } else if entry.snapshot == nil {
-            EmptyMonth()
         } else {
-            VStack(spacing: .spaceXS) {
-                Image(systemName: "checkmark.circle").font(.title2).foregroundStyle(Color.positive)
-                Text("No pending bills").font(.caption).foregroundStyle(.secondary)
-            }
+            EmptyMonth()
         }
     }
 }
@@ -42,20 +61,36 @@ private struct BillsView: View {
 private struct BillRow: View {
     let bill: WidgetSnapshot.Bill
     let snapshot: WidgetSnapshot
+    let compact: Bool
 
     var body: some View {
         let overdue = bill.date < Calendar.current.startOfDay(for: .now)
-        HStack(spacing: .spaceS) {
-            VStack(alignment: .leading, spacing: .space2XS) {
-                Text(bill.summary).font(.caption.weight(.semibold)).lineLimit(1)
+        HStack(spacing: .spaceXS) {
+            SymbolBadge(bill.icon, color: Color(hex: bill.color), size: 18)
+            Text(bill.summary).font(.widgetRow).foregroundStyle(.secondary).lineLimit(1)
+            Spacer(minLength: 0)
+            if !compact {
                 Text(bill.date.formatted(.dateTime.day().month(.abbreviated)))
-                    .font(.caption2)
+                    .font(.widgetRow)
                     .foregroundStyle(overdue ? Color.negative : Color.secondary)
+                    .lineLimit(1)
             }
-            Spacer()
             Text(snapshot.money(bill.amountMinorUnits))
-                .font(.caption.monospacedDigit())
-                .foregroundStyle(.primary)
+                .font(.widgetRow.weight(.semibold))
+                .foregroundStyle(overdue && compact ? Color.negative : Color.primary)
+                .lineLimit(1)
         }
     }
+}
+
+#Preview("Small", as: .systemSmall) {
+    BillsWidget()
+} timeline: {
+    SnapshotEntry(date: .now, snapshot: .sample)
+}
+
+#Preview("Medium", as: .systemMedium) {
+    BillsWidget()
+} timeline: {
+    SnapshotEntry(date: .now, snapshot: .sample)
 }
