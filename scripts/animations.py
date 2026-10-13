@@ -369,6 +369,22 @@ def pro():
     return [orbit, crown] + sparks
 
 
+def paywall():
+    center = (160, 78)
+    crown = icon("crown.fill", "mustard", 72, move([(0, (160, 118)), (26, (160, 70)), (40, center)]), delay=0)
+    crown["ks"]["s"] = anim([(0, [60, 60, 100]), (24, [106, 106, 100]), (36, [100, 100, 100]), (92, [103, 103, 100]), (132, [100, 100, 100]), (END, [100, 100, 100])])
+    sparks = [symbol("sparkles", "tint", size, position=(x, y), flip=flip)
+              for size, x, y, flip in [(22, 0, -52, False), (18, 45, 26, True), (16, -45, 26, False)]]
+    orbit = layer("tint", sparks, position=center, rotation=anim([(22, 0), (138, 360)]), opacity=fade(22, 12))
+    card = icon("creditcard.fill", "denim", 42, (52, 92), delay=44, rotation=settle(44, [-8, 3]))
+    card["ks"]["s"] = appear(44, overshoot=110, start=40)
+    chart = icon("chart.bar.fill", "olive", 42, (268, 92), delay=56)
+    chart["ks"]["s"] = appear(56, overshoot=110, start=40)
+    cloud = icon("icloud.fill", "teal", 30, (160, 158), delay=68)
+    cloud["ks"]["s"] = appear(68, overshoot=110, start=40)
+    return [card, chart, cloud, orbit, crown]
+
+
 def shop_icons():
     layers = []
     for index, name in enumerate(["tint", "mustard", "teal", "plum"]):
@@ -419,7 +435,7 @@ ANIMATIONS = {
     "month": month, "history": history, "budgetPace": budget_pace, "journey": journey, "budget": budget,
     "score": score, "participants": participants, "splitModes": split_modes, "paid": paid, "table": table,
     "file": file_import, "done": done, "connect": connect,
-    "pro": pro, "shopIcons": shop_icons, "shopColors": shop_colors, "shopHelps": shop_helps,
+    "pro": pro, "paywall": paywall, "shopIcons": shop_icons, "shopColors": shop_colors, "shopHelps": shop_helps,
     "capture": capture,
 }
 
