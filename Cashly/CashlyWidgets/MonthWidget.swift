@@ -5,28 +5,41 @@ import WidgetKit
 
 struct MonthWidget: Widget {
     var body: some WidgetConfiguration {
-        AppIntentConfiguration(
-            kind: "cashly.month.budget", intent: CategoryFilterIntent.self, provider: MonthProvider()
-        ) { entry in
+        StaticConfiguration(kind: "cashly.month", provider: SnapshotProvider()) { entry in
             MonthView(entry: entry)
                 .containerBackground(.background, for: .widget)
                 .widgetURL(URL(string: "cashly://home"))
         }
         .configurationDisplayName("This Month")
         .description("Spent, planned and what is still available.")
-        .supportedFamilies(families)
+        .supportedFamilies(monthFamilies)
     }
+}
 
-    private var families: [WidgetFamily] {
-        #if os(iOS)
-            [
-                .systemSmall, .systemMedium, .systemLarge, .accessoryCircular,
-                .accessoryRectangular, .accessoryInline,
-            ]
-        #else
-            [.systemSmall, .systemMedium, .systemLarge]
-        #endif
+struct BudgetWidget: Widget {
+    var body: some WidgetConfiguration {
+        AppIntentConfiguration(
+            kind: "cashly.budget", intent: CategoryFilterIntent.self, provider: MonthProvider()
+        ) { entry in
+            MonthView(entry: entry)
+                .containerBackground(.background, for: .widget)
+                .widgetURL(URL(string: "cashly://budgets"))
+        }
+        .configurationDisplayName("One Budget")
+        .description("Pick a category and follow its budget this month.")
+        .supportedFamilies(monthFamilies)
     }
+}
+
+private var monthFamilies: [WidgetFamily] {
+    #if os(iOS)
+        [
+            .systemSmall, .systemMedium, .systemLarge, .accessoryCircular,
+            .accessoryRectangular, .accessoryInline,
+        ]
+    #else
+        [.systemSmall, .systemMedium, .systemLarge]
+    #endif
 }
 
 private struct MonthView: View {
@@ -219,6 +232,11 @@ private struct LargeMonth: View {
     MonthWidget()
 } timeline: {
     SnapshotEntry(date: .now, snapshot: .sample)
+}
+
+#Preview("Budget", as: .systemSmall) {
+    BudgetWidget()
+} timeline: {
     SnapshotEntry(date: .now, snapshot: .sample, category: "Transporte")
 }
 
