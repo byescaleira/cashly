@@ -7,41 +7,15 @@ struct CategoryFilterIntent: WidgetConfigurationIntent {
     static let title: LocalizedStringResource = "Choose a Category"
     static let description = IntentDescription("Shows one budget instead of the whole month.")
 
-    @Parameter(title: "Category")
-    var category: SnapshotCategoryEntity?
+    @Parameter(title: "Category", optionsProvider: CategoryOptions())
+    var category: String?
 
     init() {}
 }
 
-struct SnapshotCategoryEntity: AppEntity {
-    static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "Category")
-    static let defaultQuery = SnapshotCategoryQuery()
-
-    let id: String
-    let name: String
-    let icon: String
-
-    init(_ line: WidgetSnapshot.BudgetLine) {
-        id = line.id
-        name = line.categoryName
-        icon = line.icon
-    }
-
-    var displayRepresentation: DisplayRepresentation {
-        DisplayRepresentation(title: "\(name)", image: .init(systemName: icon))
-    }
-}
-
-struct SnapshotCategoryQuery: EntityQuery {
-    init() {}
-
-    func entities(for identifiers: [String]) async throws -> [SnapshotCategoryEntity] {
-        (WidgetSnapshot.current()?.budgets ?? []).filter { identifiers.contains($0.id) }
-            .map(SnapshotCategoryEntity.init)
-    }
-
-    func suggestedEntities() async throws -> [SnapshotCategoryEntity] {
-        (WidgetSnapshot.current()?.budgets ?? []).map(SnapshotCategoryEntity.init)
+struct CategoryOptions: DynamicOptionsProvider {
+    func results() async throws -> [String] {
+        (WidgetSnapshot.current()?.budgets ?? []).map(\.categoryName)
     }
 }
 
@@ -55,7 +29,7 @@ nonisolated struct MonthProvider: AppIntentTimelineProvider {
     {
         SnapshotEntry(
             date: .now, snapshot: context.isPreview ? .sample : .current(),
-            categoryID: configuration.category?.id)
+            category: configuration.category)
     }
 
     func timeline(for configuration: CategoryFilterIntent, in context: Context) async
@@ -64,7 +38,7 @@ nonisolated struct MonthProvider: AppIntentTimelineProvider {
         let refresh = Calendar.current.date(byAdding: .hour, value: 1, to: .now) ?? .now
         return Timeline(
             entries: [
-                SnapshotEntry(date: .now, snapshot: .current(), categoryID: configuration.category?.id)
+                SnapshotEntry(date: .now, snapshot: .current(), category: configuration.category)
             ], policy: .after(refresh))
     }
 }

@@ -6,7 +6,7 @@ import WidgetKit
 struct MonthWidget: Widget {
     var body: some WidgetConfiguration {
         AppIntentConfiguration(
-            kind: "cashly.month.category", intent: CategoryFilterIntent.self, provider: MonthProvider()
+            kind: "cashly.month.budget", intent: CategoryFilterIntent.self, provider: MonthProvider()
         ) { entry in
             MonthView(entry: entry)
                 .containerBackground(.background, for: .widget)
@@ -35,7 +35,7 @@ private struct MonthView: View {
 
     var body: some View {
         if let snapshot = entry.snapshot {
-            let figures = snapshot.figures(entry.categoryID)
+            let figures = snapshot.figures(entry.category)
             switch family {
             #if os(iOS)
             case .accessoryCircular, .accessoryRectangular, .accessoryInline:
@@ -219,7 +219,7 @@ private struct LargeMonth: View {
     MonthWidget()
 } timeline: {
     SnapshotEntry(date: .now, snapshot: .sample)
-    SnapshotEntry(date: .now, snapshot: .sample, categoryID: "transport")
+    SnapshotEntry(date: .now, snapshot: .sample, category: "Transporte")
 }
 
 #Preview("Medium", as: .systemMedium) {

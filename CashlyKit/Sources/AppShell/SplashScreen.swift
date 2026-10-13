@@ -14,7 +14,7 @@ public final class LaunchProgress {
             case .profiles: "Loading your profiles"
             case .month: "Loading your month"
             case .pro: "Checking Cashly Pro"
-            case .extras: "Updating widgets and Siri"
+            case .extras: "Updating widgets"
             }
         }
     }

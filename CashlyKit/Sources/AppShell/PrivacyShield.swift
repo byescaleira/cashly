@@ -32,17 +32,39 @@ private struct LockedView: View {
     @Environment(AppLockModel.self) private var lock
 
     var body: some View {
-        SplashScreen {
+        VStack(spacing: .spaceXL) {
+            Spacer(minLength: 0)
+            GuidePage(
+                title: "Cashly is locked",
+                message: "Your finances stay hidden until you unlock."
+            ) {
+                CashlyAnimationView(.launch, loops: true)
+            }
+            Spacer(minLength: 0)
             if lock.isLocked {
                 Button {
                     Task { await lock.unlock() }
                 } label: {
-                    Label("Unlock", systemImage: "lock.open").frame(maxWidth: .infinity)
+                    ZStack {
+                        Text(unlockTitle).opacity(lock.isAuthenticating ? 0 : 1)
+                        if lock.isAuthenticating { ProgressView() }
+                    }
+                    .font(.headline.weight(.bold))
+                    .frame(maxWidth: .infinity)
                 }
                 .prominentButton()
-                .frame(maxWidth: 220)
+                .controlSize(.large)
                 .disabled(lock.isAuthenticating)
             }
         }
+        .frame(maxWidth: 440)
+        .padding(.spaceXL)
+        .fontDesign(.rounded)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(.groupedBackground)
+    }
+
+    private var unlockTitle: LocalizedStringKey {
+        lock.biometry == .none ? "Unlock with Passcode" : "Unlock with \(lock.biometry.title)"
     }
 }

@@ -86,12 +86,11 @@ public struct MainScreen: View {
             if session.isReady(finance) { launch.finish(.month) }
         }
         .task(id: extrasKey) {
-            if let snapshot = await finance.publishSnapshot() {
-                await notifications.review(snapshot)
-            }
+            let snapshot = await finance.publishSnapshot()
+            if session.isReady(finance) { launch.finish(.extras) }
+            if let snapshot { await notifications.review(snapshot) }
             await CashlyIndexer.refresh(categories: finance.allCategories)
             await intelligence.loadModels(revision: finance.datasetRevision)
-            if session.isReady(finance) { launch.finish(.extras) }
         }
         .onChange(of: session.hasLoadedUsers, initial: true) {
             if session.hasLoadedUsers { launch.finish(.profiles) }
@@ -100,8 +99,7 @@ public struct MainScreen: View {
             if store.hasRefreshed { launch.finish(.pro) }
         }
         .task(id: launch.isComplete) {
-            guard launch.isComplete else { return }
-            try? await Task.sleep(for: .milliseconds(600))
+            try? await Task.sleep(for: launch.isComplete ? .milliseconds(600) : .seconds(8))
             launch.dismiss()
         }
         .task(

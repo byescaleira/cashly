@@ -8,7 +8,7 @@ import WidgetKit
 nonisolated struct SnapshotEntry: TimelineEntry {
     let date: Date
     let snapshot: WidgetSnapshot?
-    var categoryID: String?
+    var category: String?
 }
 
 extension WidgetSnapshot {
@@ -31,12 +31,12 @@ extension WidgetSnapshot {
         return date.formatted(.dateTime.month(.wide).year()).capitalized
     }
 
-    nonisolated func line(_ id: String?) -> BudgetLine? {
-        budgets.first { $0.id == id }
+    nonisolated func line(_ category: String?) -> BudgetLine? {
+        budgets.first { $0.categoryName == category }
     }
 
-    nonisolated func figures(_ id: String?) -> MonthFigures {
-        MonthFigures(snapshot: self, line: line(id))
+    nonisolated func figures(_ category: String?) -> MonthFigures {
+        MonthFigures(snapshot: self, line: line(category))
     }
 
     nonisolated var pendingMinorUnits: Int64 {

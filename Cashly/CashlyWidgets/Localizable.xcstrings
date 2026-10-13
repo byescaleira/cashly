@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%@" : {
-      "shouldTranslate" : false
-    },
     "%@ left" : {
       "localizations" : {
         "de" : {
