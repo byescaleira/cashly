@@ -32,7 +32,7 @@ func fitted(_ path: CGPath) -> [UInt8] {
 
 func systemMask(_ name: String) -> [UInt8]? {
     let configuration = NSImage.SymbolConfiguration(pointSize: 200, weight: .regular)
-        .applying(.init(paletteColors: [.black]))
+        .applying(.preferringMonochrome())
     guard
         let image = NSImage(systemSymbolName: name, accessibilityDescription: nil)?
             .withSymbolConfiguration(configuration)
