@@ -7,4 +7,6 @@ public protocol NotificationScheduling: Sendable {
     func requestAuthorization() async -> Bool
     func replace(prefix: String, with reminders: [Reminder]) async
     func deliver(_ reminder: Reminder) async
+    func registerCaptureActions(_ groups: [CaptureActionGroup]) async
+    func setBadge(_ count: Int) async
 }

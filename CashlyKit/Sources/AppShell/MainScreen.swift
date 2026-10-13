@@ -90,6 +90,9 @@ public struct MainScreen: View {
             if session.isReady(finance) { launch.finish(.extras) }
             if let snapshot { await notifications.review(snapshot) }
             await CashlyIndexer.refresh(categories: finance.allCategories)
+            await notifications.reviewCaptures(
+                for: session.user, repositories: session.repositories,
+                categories: finance.allCategories)
             await intelligence.loadModels(revision: finance.datasetRevision)
         }
         .onChange(of: session.hasLoadedUsers, initial: true) {

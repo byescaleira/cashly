@@ -7,12 +7,13 @@ public struct Repositories: Sendable {
     public let transactions: any TransactionRepository
     public let dashboard: any DashboardRepository
     public let game: any GameRepository
+    public let captures: any CaptureRepository
 
     public init(
         userID: String?, users: any UserRepository, categories: any CategoryRepository,
         tags: any TagRepository, budgets: any BudgetRepository,
         transactions: any TransactionRepository, dashboard: any DashboardRepository,
-        game: any GameRepository
+        game: any GameRepository, captures: any CaptureRepository
     ) {
         self.userID = userID
         self.users = users
@@ -22,5 +23,6 @@ public struct Repositories: Sendable {
         self.transactions = transactions
         self.dashboard = dashboard
         self.game = game
+        self.captures = captures
     }
 }

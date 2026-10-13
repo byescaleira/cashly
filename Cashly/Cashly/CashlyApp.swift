@@ -184,5 +184,9 @@ struct CashlyShortcuts: AppShortcutsProvider {
             intent: MarkBillPaidIntent(),
             phrases: ["Mark a bill as paid in \(.applicationName)"],
             shortTitle: "Mark as Paid", systemImageName: "checkmark.circle")
+        AppShortcut(
+            intent: CaptureTransactionIntent(),
+            phrases: ["Capture a payment in \(.applicationName)"],
+            shortTitle: "Capture Payment", systemImageName: "tray.and.arrow.down")
     }
 }

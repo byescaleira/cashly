@@ -8,14 +8,18 @@ public final class TransactionEditorModel {
     public var draft: TransactionDraft
     public let status = EditorStatus()
     @ObservationIgnored private let repositories: Repositories
+    @ObservationIgnored private let capture: Capture?
     @ObservationIgnored private var original: CashlyDomain.Transaction?
     private var predictsCategory: Bool?
     @ObservationIgnored private var keptTagIDs: Set<String>?
     @ObservationIgnored private var dismissedTagIDs: Set<String> = []
 
-    public init(draft: TransactionDraft = .new(), repositories: Repositories) {
+    public init(
+        draft: TransactionDraft = .new(), repositories: Repositories, capture: Capture? = nil
+    ) {
         self.draft = draft
         self.repositories = repositories
+        self.capture = capture
     }
 
     public var canSave: Bool { status.isLoaded && !status.isLocked && draft.canSave }
@@ -153,7 +157,12 @@ public final class TransactionEditorModel {
 
     public func save() async {
         await status.save { try await repositories.transactions.save(draft.makeTransaction()) }
-        if status.isSaved { await CashlyTips.record(CashlyTips.transactionSaved) }
+        guard status.isSaved else { return }
+        await CashlyTips.record(CashlyTips.transactionSaved)
+        if let capture, let user = draft.user, let transaction = draft.preview {
+            try? await CaptureActions(repositories: repositories, user: user)
+                .link(captureID: capture.id, to: transaction)
+        }
     }
 
     public func remove() async {

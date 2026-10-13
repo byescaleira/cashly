@@ -3,6 +3,7 @@ import SwiftUI
 
 struct DeepLinks: ViewModifier {
     @Environment(CashlyNavigation.self) private var navigation
+    @Environment(SessionModel.self) private var session
     @Environment(\.pro) private var pro
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
@@ -21,17 +22,27 @@ struct DeepLinks: ViewModifier {
         switch url.host() {
         case "transactions":
             guard let id = url.pathComponents.dropFirst().first else { return }
-            if pro.canWrite {
-                navigation.open(
-                    .addTransaction(id: id == "new" ? nil : id), in: .transaction,
-                    beside: horizontalSizeClass == .regular)
-            } else {
-                navigation.isShowingPaywall = true
+            open(.addTransaction(id: id == "new" ? nil : id), in: .transaction)
+        case "captures":
+            guard let id = url.pathComponents.dropFirst().first else { return }
+            Task {
+                guard let capture = try? await session.repositories.captures.capture(id: id),
+                    capture.status == .pending
+                else { return }
+                open(.classifyCapture(capture), in: .transaction)
             }
         case "budgets":
             navigation.open(.budgets, in: .planning, beside: horizontalSizeClass == .regular)
         default:
             navigation.selectedSection = .home
+        }
+    }
+
+    private func open(_ route: Route, in section: AppSection) {
+        if pro.canWrite {
+            navigation.open(route, in: section, beside: horizontalSizeClass == .regular)
+        } else {
+            navigation.isShowingPaywall = true
         }
     }
 }

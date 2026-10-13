@@ -3,14 +3,14 @@ import UserNotifications
 public struct SystemNotifications: NotificationScheduling {
     public init() {}
 
-    public static func registerCategories() {
+    public static func registerCategories(captures: [CaptureActionGroup] = []) {
         let paid = UNNotificationAction(
             identifier: NotificationCategory.markPaid,
             title: String(appLocalized: "Mark as Paid"), options: [.authenticationRequired])
         let postpone = UNNotificationAction(
             identifier: NotificationCategory.postpone,
             title: String(appLocalized: "Postpone 1 Day"), options: [.authenticationRequired])
-        UNUserNotificationCenter.current().setNotificationCategories([
+        let fixed = [
             UNNotificationCategory(
                 identifier: NotificationCategory.bill, actions: [paid, postpone],
                 intentIdentifiers: []),
@@ -18,7 +18,32 @@ public struct SystemNotifications: NotificationScheduling {
                 identifier: NotificationCategory.budget, actions: [], intentIdentifiers: []),
             UNNotificationCategory(
                 identifier: NotificationCategory.weekly, actions: [], intentIdentifiers: []),
-        ])
+        ]
+        UNUserNotificationCenter.current().setNotificationCategories(
+            Set(fixed + captures.map(Self.category)))
+    }
+
+    private static func category(for group: CaptureActionGroup) -> UNNotificationCategory {
+        let suggested = group.suggested.map {
+            UNNotificationAction(
+                identifier: NotificationCategory.capturePick + $0.id, title: "\($0.name) ✓",
+                options: [.authenticationRequired])
+        }
+        let frequent = group.frequent.map {
+            UNNotificationAction(
+                identifier: NotificationCategory.capturePick + $0.id, title: $0.name,
+                options: [.authenticationRequired])
+        }
+        let other = UNNotificationAction(
+            identifier: NotificationCategory.captureOther, title: String(appLocalized: "Other…"),
+            options: [.foreground])
+        let ignore = UNNotificationAction(
+            identifier: NotificationCategory.captureIgnore, title: String(appLocalized: "Ignore"),
+            options: [.authenticationRequired])
+        return UNNotificationCategory(
+            identifier: group.identifier,
+            actions: [suggested].compactMap { $0 } + frequent + [other, ignore],
+            intentIdentifiers: [])
     }
 
     public func status() async -> NotificationStatus {
@@ -55,6 +80,14 @@ public struct SystemNotifications: NotificationScheduling {
         try? await UNUserNotificationCenter.current().add(
             UNNotificationRequest(
                 identifier: reminder.id, content: Self.content(for: reminder), trigger: nil))
+    }
+
+    public func registerCaptureActions(_ groups: [CaptureActionGroup]) async {
+        Self.registerCategories(captures: groups)
+    }
+
+    public func setBadge(_ count: Int) async {
+        try? await UNUserNotificationCenter.current().setBadgeCount(count)
     }
 
     private static func content(for reminder: Reminder) -> UNMutableNotificationContent {

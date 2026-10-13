@@ -57,7 +57,7 @@ Extensão que recebe texto e imagens de qualquer app (comprovante do banco, capt
 
 | Etapa | Entrega |
 | --- | --- |
-| 9.2a | Domínio `Capture` + `MerchantMemory`, schema V5, repositório e testes; `CaptureTransactionIntent`; notificação por captura com ações; ícone com contador |
+| 9.2a | Domínio `Capture` + `MerchantMemory`, schema V5, repositório e testes; `CaptureTransactionIntent`; notificação por captura com ações; ícone com contador — feita em 13/10/2026 |
 | 9.2b | "Para classificar": cartão na tela inicial, seção em Transações, `CaptureReviewScreen` com deslizar, "aceitar todas" e modo uma por vez; editor preenchido a partir da captura |
 | 9.2c | Guia "Registrar num toque" refeito, Ajustes › Captura, frases novas da Siri; `CashlyShare` (folha de compartilhamento) com leitura de texto e OCR |
 | 9.2d | Ferramenta MCP para listar/aceitar capturas; widget "Para classificar"; exploração do Open Finance (fase futura) |
