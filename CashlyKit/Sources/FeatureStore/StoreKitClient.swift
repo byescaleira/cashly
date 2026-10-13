@@ -22,7 +22,13 @@ public actor StoreKitClient: StoreClient {
     public func products(for ids: [String]) async throws -> [StoreProduct] {
         let loaded = try await Product.products(for: ids)
         for product in loaded { products[product.id] = product }
-        return loaded.map { StoreProduct(id: $0.id, displayPrice: $0.displayPrice) }
+        return loaded.map(StoreProduct.init)
+    }
+
+    public func isEligibleForIntroOffer(_ id: String) async -> Bool {
+        if products[id] == nil { _ = try? await products(for: [id]) }
+        guard let subscription = products[id]?.subscription else { return false }
+        return await subscription.isEligibleForIntroOffer
     }
 
     public func purchase(_ id: String) async throws -> StorePurchase {
@@ -83,6 +89,39 @@ public actor StoreKitClient: StoreClient {
         #else
             return try await product.purchase()
         #endif
+    }
+}
+
+extension StoreProduct {
+    fileprivate init(_ product: Product) {
+        let offer = product.subscription?.introductoryOffer
+        self.init(
+            id: product.id, displayPrice: product.displayPrice, price: product.price,
+            priceStyle: product.priceFormatStyle,
+            period: product.subscription.flatMap { Period($0.subscriptionPeriod) },
+            trialDays: offer?.paymentMode == .freeTrial ? offer.map { $0.period.days } : nil)
+    }
+}
+
+extension StoreProduct.Period {
+    fileprivate init?(_ period: Product.SubscriptionPeriod) {
+        switch (period.unit, period.value) {
+        case (.month, 1): self = .month
+        case (.year, 1): self = .year
+        default: return nil
+        }
+    }
+}
+
+extension Product.SubscriptionPeriod {
+    fileprivate var days: Int {
+        switch unit {
+        case .day: value
+        case .week: value * 7
+        case .month: value * 30
+        case .year: value * 365
+        @unknown default: value
+        }
     }
 }
 

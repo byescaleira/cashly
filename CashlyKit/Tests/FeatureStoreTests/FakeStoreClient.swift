@@ -6,6 +6,7 @@ import Foundation
 @MainActor
 final class FakeStoreClient: StoreClient, @unchecked Sendable {
     var catalog = ShopItem.allCases.map { StoreProduct(id: $0.id, displayPrice: "R$ 9,90") }
+    var eligible: Set<String> = []
     var entitlements: [StoreTransaction] = []
     var latestByProduct: [String: StoreTransaction] = [:]
     var waiting: [StoreTransaction] = []
@@ -29,6 +30,8 @@ final class FakeStoreClient: StoreClient, @unchecked Sendable {
     func products(for ids: [String]) async throws -> [StoreProduct] {
         catalog.filter { ids.contains($0.id) }
     }
+
+    func isEligibleForIntroOffer(_ id: String) async -> Bool { eligible.contains(id) }
 
     func purchase(_ id: String) async throws -> StorePurchase {
         if case .success(let transaction) = next { deliver(transaction) }

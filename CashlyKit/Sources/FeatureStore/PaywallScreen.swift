@@ -7,125 +7,139 @@ import SwiftUI
 public struct PaywallScreen: View {
     @Environment(StoreModel.self) private var store
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.locale) private var locale
-    @Environment(\.appTint) private var appTint
 
     public init() {}
 
     public var body: some View {
         @Bindable var store = store
-        SubscriptionStoreView(productIDs: ShopCatalog.plans.map(\.id)) {
-            PaywallHeader()
-                .environment(\.locale, locale)
-                .appTint(appTint)
-        }
-        .subscriptionStoreButtonLabel(.multiline)
-        .storeButton(.visible, for: .restorePurchases)
-        .storeButton(.visible, for: .cancellation)
-        .modifier(PaywallExtras())
-        .onInAppPurchaseCompletion { _, result in
-            if case .success(.success) = result {
-                await store.refresh()
-                dismiss()
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: .spaceXL) {
+                    PaywallHero()
+                    PaywallComparison()
+                    if let days = store.trialDays { PaywallTimeline(days: days) }
+                    PaywallPlans()
+                }
+                .padding(.horizontal, .spaceInset)
+                .padding(.bottom, .spaceXL)
+            }
+            .readableWidth()
+            .safeAreaBar(edge: .bottom) { PaywallBar() }
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button("Close", systemImage: "xmark") { dismiss() }
+                }
             }
         }
         .fontDesign(.rounded)
+        .interactiveDismissDisabled(store.isBuying)
         .errorAlert($store.error)
+        #if os(macOS)
+            .frame(minWidth: 520, minHeight: 720)
+        #endif
     }
 }
 
-private struct PaywallExtras: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .modifier(PaywallPolicy(kind: .termsOfService, url: StorePolicy.terms))
-            .modifier(PaywallPolicy(kind: .privacyPolicy, url: StorePolicy.privacy))
-            #if os(visionOS)
-                .storeButton(.visible, for: .redeemCode)
-            #else
-                .subscriptionStoreControlStyle(.prominentPicker)
-                .storeButton(.visible, for: .redeemCode)
-            #endif
-    }
-}
+private struct PaywallHero: View {
+    @Environment(StoreModel.self) private var store
 
-private struct PaywallPolicy: ViewModifier {
-    let kind: SubscriptionStorePolicyKind
-    let url: URL?
-
-    func body(content: Content) -> some View {
-        if let url {
-            content.subscriptionStorePolicyDestination(url: url, for: kind)
-        } else {
-            content
-        }
-    }
-}
-
-private struct PaywallHeader: View {
     var body: some View {
-        VStack(spacing: .spaceXL) {
-            VStack(spacing: .spaceM) {
-                CashlyAnimationView(.pro).frame(maxWidth: 220)
-                Text("Cashly Pro").font(.titleLarge)
-                Chip("Try everything free for 7 days", color: .retroMustard, shape: .capsule)
+        VStack(spacing: .spaceM) {
+            CashlyAnimationView(.paywall).frame(maxWidth: 260)
+            Text("Cashly Pro").font(.titleLarge)
+            Text("Your whole month, without limits").font(.body).foregroundStyle(.secondary)
+            if let days = store.trialDays {
+                Chip("\(days) days free, cancel anytime", color: .retroMustard, shape: .capsule)
             }
-            .multilineTextAlignment(.center)
-            VStack(spacing: .spaceS) {
-                PaywallBenefit(
-                    "Record and edit without limits",
-                    detail: "Transactions, categories, tags and budgets.",
-                    symbol: "pencil.and.list.clipboard", color: .retroOrange)
-                PaywallBenefit(
-                    "Analysis of your money",
-                    detail: "Insights, forecasts and the pace of your month.",
-                    symbol: "chart.bar.xaxis", color: .retroTeal)
-                PaywallBenefit(
-                    "The Journey", detail: "Level, streaks, achievements and challenges.",
-                    symbol: "trophy.fill", color: .retroMustard)
-                PaywallBenefit(
-                    "Backups, iCloud and Claude Code",
-                    detail: "Your data on every device, always with your approval.",
-                    symbol: "icloud.and.arrow.up", color: .retroDenim)
-            }
-            Text(
-                "Without Cashly Pro your data stays visible and exportable, but recording and editing are locked."
-            )
-            .font(.footnote)
-            .foregroundStyle(.secondary)
-            .multilineTextAlignment(.center)
         }
-        .padding(.horizontal, .spaceXL)
+        .multilineTextAlignment(.center)
+        .frame(maxWidth: .infinity)
+    }
+}
+
+private struct PaywallBar: View {
+    @Environment(StoreModel.self) private var store
+    @Environment(\.dismiss) private var dismiss
+    @State private var isShowingNothingToRestore = false
+
+    var body: some View {
+        VStack(spacing: .spaceS) {
+            Button {
+                Task { if await store.subscribe() { dismiss() } }
+            } label: {
+                ZStack {
+                    Text(title).opacity(store.isBuying ? 0 : 1)
+                    if store.isBuying { ProgressView() }
+                }
+                .font(.headline.weight(.bold))
+                .frame(maxWidth: .infinity)
+            }
+            .prominentButton()
+            .controlSize(.large)
+            .disabled(store.selected == nil || store.isBuying)
+            if let plan = store.selected {
+                Text(store.trialDays == nil ? plan.billing : plan.billingAfterTrial)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+            if store.isPending {
+                Text("Waiting for approval from your family organizer.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+            PaywallLinks(restore: restore)
+        }
+        .multilineTextAlignment(.center)
+        .padding(.horizontal, .spaceInset)
         .padding(.top, .spaceS)
+        .padding(.bottom, .spaceM)
+        .alert("Restore Purchases", isPresented: $isShowingNothingToRestore) {
+        } message: {
+            Text("No purchases to restore on this Apple Account.")
+        }
+    }
+
+    private var title: LocalizedStringKey {
+        if let days = store.trialDays { "Start \(days)-day free trial" } else { "Subscribe" }
+    }
+
+    private func restore() async {
+        if await store.restoreSubscription() {
+            dismiss()
+        } else if store.error == nil {
+            isShowingNothingToRestore = true
+        }
     }
 }
 
-private struct PaywallBenefit: View {
-    private let title: LocalizedStringKey
-    private let detail: LocalizedStringKey
-    private let symbol: String
-    private let color: Color
-
-    init(_ title: LocalizedStringKey, detail: LocalizedStringKey, symbol: String, color: Color) {
-        self.title = title
-        self.detail = detail
-        self.symbol = symbol
-        self.color = color
-    }
+private struct PaywallLinks: View {
+    @Environment(StoreModel.self) private var store
+    @State private var isRedeeming = false
+    let restore: () async -> Void
 
     var body: some View {
-        HStack(spacing: .spaceM) {
-            SymbolBadge(symbol, color: color, size: .badgeM)
-            VStack(alignment: .leading, spacing: .spaceHairline) {
-                Text(title).font(.rowTitle)
-                Text(detail).font(.rowDetail).foregroundStyle(.secondary)
+        HStack(spacing: .spaceS) {
+            Button("Restore") { Task { await restore() } }
+            #if os(iOS) || os(visionOS)
+                Text(verbatim: "·")
+                Button("Redeem Code") { isRedeeming = true }
+                    .offerCodeRedemption(options: [], isPresented: $isRedeeming) { _ in
+                        Task { await store.refresh() }
+                    }
+            #endif
+            if let url = StorePolicy.terms {
+                Text(verbatim: "·")
+                Link("Terms", destination: url)
             }
-            .multilineTextAlignment(.leading)
-            .fixedSize(horizontal: false, vertical: true)
-            Spacer(minLength: 0)
+            if let url = StorePolicy.privacy {
+                Text(verbatim: "·")
+                Link("Privacy", destination: url)
+            }
         }
-        .padding(.spaceM)
-        .tintedCard(color)
-        .accessibilityElement(children: .combine)
+        .font(.caption)
+        .buttonStyle(.plain)
+        .foregroundStyle(.secondary)
+        .disabled(store.isBuying)
     }
 }
 

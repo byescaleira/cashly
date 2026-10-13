@@ -10,6 +10,10 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
     public var entitlement: Entitlement { simulation?.entitlement ?? storeEntitlement }
     public private(set) var hasLoaded = false
     public private(set) var hasRefreshed = false
+    public private(set) var introEligible: Set<ShopItem> = []
+    public private(set) var isBuying = false
+    public private(set) var isPending = false
+    public var selectedPlan = ShopItem.proYearly
     public var error: CashlyError?
     var simulation: StoreSimulation?
     private(set) var storeOwned: Set<ShopItem> = []
@@ -17,14 +21,17 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
     @ObservationIgnored let defaults: UserDefaults
     @ObservationIgnored private let session: SessionModel
     @ObservationIgnored private let client: any StoreClient
+    @ObservationIgnored private let scheduler: any NotificationScheduling
 
     public init(
         session: SessionModel, client: any StoreClient = StoreKitClient(),
-        defaults: UserDefaults = .standard
+        defaults: UserDefaults = .standard,
+        scheduler: any NotificationScheduling = SystemNotifications()
     ) {
         self.session = session
         self.client = client
         self.defaults = defaults
+        self.scheduler = scheduler
         simulation = .stored(in: defaults)
     }
 
@@ -49,6 +56,7 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
         } catch {
             self.error = .persistence(error.localizedDescription)
         }
+        await refreshEligibility()
     }
 
     public func refresh() async {
@@ -92,6 +100,21 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
         }
     }
 
+    public func subscribe() async -> Bool {
+        isBuying = true
+        defer { isBuying = false }
+        do {
+            switch try await purchase(selectedPlan) {
+            case .purchased: return true
+            case .pending: isPending = true
+            case .cancelled: break
+            }
+        } catch {
+            self.error = error as? CashlyError
+        }
+        return false
+    }
+
     public func restore() async throws {
         do {
             try await client.sync()
@@ -99,14 +122,35 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
             throw CashlyError.persistence(error.localizedDescription)
         }
         await refresh()
+        await refreshEligibility()
+    }
+
+    public func restoreSubscription() async -> Bool {
+        isBuying = true
+        defer { isBuying = false }
+        do {
+            try await restore()
+        } catch {
+            self.error = error as? CashlyError
+        }
+        return entitlement.isActive
     }
 
     func handle(_ transaction: StoreTransaction) async {
         if let credit = ShopItem(rawValue: transaction.productID)?.credit {
             guard await apply(credit, from: transaction) else { return }
         }
+        await remindBeforeTrialEnds(transaction)
         await client.finish(transaction)
         await refresh()
+    }
+
+    private func refreshEligibility() async {
+        var eligible: Set<ShopItem> = []
+        for plan in ShopCatalog.plans {
+            if await client.isEligibleForIntroOffer(plan.id) { eligible.insert(plan) }
+        }
+        introEligible = eligible
     }
 
     private func apply(_ credit: ShopCredit, from transaction: StoreTransaction) async -> Bool {
@@ -123,6 +167,19 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
         }
     }
 
+    private func remindBeforeTrialEnds(_ transaction: StoreTransaction) async {
+        guard transaction.isFreeTrial, let ends = transaction.expirationDate,
+            ShopItem(rawValue: transaction.productID)?.kind == .subscription
+        else { return }
+        let fires = ends.addingTimeInterval(-TrialReminder.lead)
+        guard fires > .now else { return }
+        if await scheduler.status() == .notDetermined {
+            _ = await scheduler.requestAuthorization()
+        }
+        guard await scheduler.status() == .allowed else { return }
+        await scheduler.replace(prefix: TrialReminder.id, with: [TrialReminder.reminder(at: fires)])
+    }
+
     private func lapsed() async -> Entitlement {
         var latest: Date?
         for plan in ShopCatalog.plans {
@@ -130,6 +187,22 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
             latest = max(latest ?? .distantPast, transaction.expiration)
         }
         return latest.map(Entitlement.expired) ?? .none
+    }
+}
+
+enum TrialReminder {
+    static let id = "trial"
+    static let lead: TimeInterval = 2 * 86_400
+
+    static func reminder(at date: Date) -> Reminder {
+        Reminder(
+            id: id, title: String(appLocalized: "Your Cashly Pro trial ends in 2 days"),
+            body: String(
+                appLocalized:
+                    "Keep recording without a pause, or cancel in your Apple Account before the charge."
+            ),
+            components: CashlyCalendar.current.dateComponents(
+                [.year, .month, .day, .hour, .minute], from: date))
     }
 }
 

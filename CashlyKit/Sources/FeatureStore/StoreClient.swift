@@ -1,12 +1,39 @@
 import Foundation
 
 public struct StoreProduct: Hashable, Identifiable, Sendable {
+    public enum Period: Sendable {
+        case month, year
+
+        public var months: Int {
+            switch self {
+            case .month: 1
+            case .year: 12
+            }
+        }
+    }
+
     public let id: String
     public let displayPrice: String
+    public let price: Decimal
+    public let priceStyle: Decimal.FormatStyle.Currency?
+    public let period: Period?
+    public let trialDays: Int?
 
-    public init(id: String, displayPrice: String) {
+    public init(
+        id: String, displayPrice: String, price: Decimal = 0,
+        priceStyle: Decimal.FormatStyle.Currency? = nil, period: Period? = nil,
+        trialDays: Int? = nil
+    ) {
         self.id = id
         self.displayPrice = displayPrice
+        self.price = price
+        self.priceStyle = priceStyle
+        self.period = period
+        self.trialDays = trialDays
+    }
+
+    public func formatted(_ amount: Decimal) -> String {
+        priceStyle?.format(amount) ?? displayPrice
     }
 }
 
@@ -44,6 +71,7 @@ public enum StorePurchase: Sendable {
 public protocol StoreClient: Sendable {
     var updates: AsyncStream<StoreTransaction> { get }
     func products(for ids: [String]) async throws -> [StoreProduct]
+    func isEligibleForIntroOffer(_ id: String) async -> Bool
     func purchase(_ id: String) async throws -> StorePurchase
     func currentEntitlements() async -> [StoreTransaction]
     func latest(for id: String) async -> StoreTransaction?
