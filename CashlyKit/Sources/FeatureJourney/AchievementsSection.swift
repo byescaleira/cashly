@@ -142,7 +142,7 @@ struct AchievementDetailScreen: View {
                     color: state.achievement.tier.color, shape: .capsule)
             }
             Button("Done") { dismiss() }
-                .prominentButton()
+                .primaryButton()
         }
         .padding(.spaceXL)
         .frame(maxWidth: .infinity)

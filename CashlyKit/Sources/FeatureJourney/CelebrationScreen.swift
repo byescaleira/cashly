@@ -26,7 +26,7 @@ struct CelebrationScreen: View {
                 Chip("+\(achievement.xp) XP", color: celebration.color, shape: .capsule)
             }
             Button("Continue") { dismiss() }
-                .prominentButton()
+                .primaryButton()
         }
         .padding(.spaceXL)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)

@@ -182,6 +182,7 @@
       }
     },
     "Choose a Category" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -878,6 +879,7 @@
       }
     },
     "Pick a category and follow its budget this month." : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -997,6 +999,7 @@
       "shouldTranslate" : false
     },
     "Shows one budget instead of the whole month." : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

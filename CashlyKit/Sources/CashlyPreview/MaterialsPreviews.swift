@@ -29,8 +29,7 @@
                     }
                 }
                 Button("Salvar") {}
-                    .prominentButton()
-                    .controlSize(.large)
+                    .primaryButton()
             }
             .padding(.space2XL)
             .frame(maxWidth: .infinity)

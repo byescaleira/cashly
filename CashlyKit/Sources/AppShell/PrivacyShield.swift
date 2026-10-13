@@ -49,11 +49,8 @@ private struct LockedView: View {
                         Text(unlockTitle).opacity(lock.isAuthenticating ? 0 : 1)
                         if lock.isAuthenticating { ProgressView() }
                     }
-                    .font(.headline.weight(.bold))
-                    .frame(maxWidth: .infinity)
                 }
-                .prominentButton()
-                .controlSize(.large)
+                .primaryButton()
                 .disabled(lock.isAuthenticating)
             }
         }

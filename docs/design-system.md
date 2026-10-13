@@ -105,7 +105,8 @@ Símbolos com tamanho fixo usam `.font(.icon(_:weight:))`, nunca `.system(size:)
 | `surface(tint:in:interactive:)` | Vidro regular (Liquid Glass) |
 | `clearSurface(in:)` | Vidro transparente, para elementos sobre conteúdo |
 | `contentSurface(tint:in:)` | Fundo neutro sem vidro |
-| `prominentButton()` | Botão principal em vidro |
+| `prominentButton()` | Botão em vidro, compacto: barra de ferramentas e ícones |
+| `primaryButton()` | Botão principal de tela: vidro, `controlSize(.large)`, largura flexível, `headline` bold arredondada. É o único estilo para a ação principal (guias, paywall, estados vazios, bloqueio, celebrações) |
 | `amountLine()` | Valor em uma linha, encolhendo até a metade |
 | `AdaptiveList`, `AdaptiveStack`, `AdaptiveRow` | Layout que vira colunas no iPad e no iPhone deitado |
 | `readableWidth(_:)` | Coluna central de até 560 pt para formulários |

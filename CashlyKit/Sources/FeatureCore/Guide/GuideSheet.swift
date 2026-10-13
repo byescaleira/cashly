@@ -124,11 +124,8 @@ private struct GuideButtons: View {
                     Text(primary.title).opacity(isWorking ? 0 : 1)
                     if isWorking { ProgressView() }
                 }
-                .font(.headline.weight(.bold))
-                .frame(maxWidth: .infinity)
             }
-            .prominentButton()
-            .controlSize(.large)
+            .primaryButton()
             .disabled(!primary.isEnabled || isWorking)
             if let secondary {
                 Button(secondary.title, action: secondary.perform)

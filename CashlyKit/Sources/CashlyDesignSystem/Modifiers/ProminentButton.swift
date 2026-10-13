@@ -8,4 +8,12 @@ extension View {
             buttonStyle(.glassProminent)
         #endif
     }
+
+    public func primaryButton() -> some View {
+        prominentButton()
+            .controlSize(.large)
+            .buttonSizing(.flexible)
+            .font(.headline.weight(.bold))
+            .fontDesign(.rounded)
+    }
 }

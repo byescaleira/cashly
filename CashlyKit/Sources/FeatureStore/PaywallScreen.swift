@@ -71,11 +71,8 @@ private struct PaywallBar: View {
                     Text(title).opacity(store.isBuying ? 0 : 1)
                     if store.isBuying { ProgressView() }
                 }
-                .font(.headline.weight(.bold))
-                .frame(maxWidth: .infinity)
             }
-            .prominentButton()
-            .controlSize(.large)
+            .primaryButton()
             .disabled(store.selected == nil || store.isBuying)
             if let plan = store.selected {
                 Text(store.trialDays == nil ? plan.billing : plan.billingAfterTrial)

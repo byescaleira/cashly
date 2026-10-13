@@ -31,12 +31,7 @@ public struct EmptyStateView<Example: View>: View {
             Text(description)
         } actions: {
             if let actionTitle, let action {
-                Button(action: action) {
-                    Text(actionTitle).font(.headline.weight(.bold)).frame(maxWidth: .infinity)
-                }
-                .prominentButton()
-                .controlSize(.large)
-                .fontDesign(.rounded)
+                Button(actionTitle, action: action).primaryButton()
             }
         }
     }
