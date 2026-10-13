@@ -10,6 +10,8 @@ private actor FakeScheduler: NotificationScheduling {
     var requests = 0
     var scheduled: [String: [Reminder]] = [:]
     var delivered: [Reminder] = []
+    var captureGroups: [CaptureActionGroup] = []
+    var badge = -1
 
     init(status: NotificationStatus, grants: Bool = true) {
         current = status
@@ -30,6 +32,14 @@ private actor FakeScheduler: NotificationScheduling {
 
     func deliver(_ reminder: Reminder) {
         delivered.append(reminder)
+    }
+
+    func registerCaptureActions(_ groups: [CaptureActionGroup]) {
+        captureGroups = groups
+    }
+
+    func setBadge(_ count: Int) {
+        badge = count
     }
 }
 
@@ -133,5 +143,33 @@ struct NotificationsModelTests {
 
         await model.schedulePayments(for: nil, repositories: repositories)
         #expect(await scheduler.scheduled["payment."]?.isEmpty == true)
+    }
+
+    @Test func reviewsCapturesWithCategoriesAndBadge() async throws {
+        let scheduler = FakeScheduler(status: .allowed)
+        let model = NotificationsModel(defaults: defaults, scheduler: scheduler)
+        let database = try CashlyDatabase.open(inMemory: true)
+        let owner = User(id: "owner", name: "Ana", photo: "1")
+        try await database.repositories(for: nil).users.save(owner)
+        let repositories = database.repositories(for: owner.id)
+        let food = CashlyDomain.Category(
+            id: "food", user: owner, name: "Comida", color: "C2602A", icon: "cart")
+        try await repositories.categories.save(food)
+        let capture = try await repositories.captures.save(
+            Capture(
+                ownerID: owner.id, money: Money(minorUnits: 3290), merchant: "iFood",
+                date: .now, source: .wallet, suggestedCategoryID: food.id))
+        await model.reviewCaptures(for: owner, repositories: repositories, categories: [food])
+        let groups = await scheduler.captureGroups
+        #expect(groups.map(\.identifier) == ["cashly.capture", "cashly.capture.food"])
+        #expect(groups.first?.frequent.map(\.id) == ["food"])
+        #expect(groups.last?.frequent.isEmpty == true)
+        #expect(await scheduler.badge == 1)
+        let reminder = capture.reminder(categories: [food])
+        #expect(reminder.category == "cashly.capture.food")
+        #expect(reminder.userInfo[NotificationCategory.captureKey] == capture.id)
+        #expect(capture.reminder(categories: []).category == "cashly.capture")
+        await model.reviewCaptures(for: nil, repositories: repositories, categories: [])
+        #expect(await scheduler.badge == 0)
     }
 }

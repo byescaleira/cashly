@@ -7,6 +7,15 @@ public enum NotificationCategory {
     public static let markPaid = "cashly.bill.paid"
     public static let postpone = "cashly.bill.postpone"
     public static let transactionKey = "transactionID"
+    public static let capture = "cashly.capture"
+    public static let captureOther = "cashly.capture.other"
+    public static let captureIgnore = "cashly.capture.ignore"
+    public static let capturePick = "cashly.capture.pick."
+    public static let captureKey = "captureID"
+
+    public static func capture(suggesting categoryID: String?) -> String {
+        categoryID.map { "\(capture).\($0)" } ?? capture
+    }
 }
 
 public struct Reminder: Hashable, Sendable {

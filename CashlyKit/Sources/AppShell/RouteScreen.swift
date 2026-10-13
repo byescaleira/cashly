@@ -36,6 +36,16 @@ struct RouteScreen: View {
                 TransactionEditorModel(
                     draft: id.map(TransactionDraft.edit) ?? .new(), repositories: repositories)
             ) { TransactionEditorScreen() }
+        case .classifyCapture(let capture):
+            ModelHost(
+                TransactionEditorModel(
+                    draft: .new(
+                        capture: capture,
+                        category: finance.allCategories.first {
+                            $0.id == capture.suggestedCategoryID
+                        }),
+                    repositories: repositories, capture: capture)
+            ) { TransactionEditorScreen() }
         case .addTag(let id):
             ModelHost(
                 TagEditorModel(draft: id.map(TagDraft.edit) ?? .new(), repositories: repositories)

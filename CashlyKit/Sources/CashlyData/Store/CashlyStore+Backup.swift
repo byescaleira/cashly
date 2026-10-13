@@ -63,6 +63,8 @@ extension CashlyStore {
     public func eraseAll() throws -> [String] {
         let userIDs = try getUsers().map(\.id)
         do {
+            try deleteAll(CaptureEntity.self)
+            try deleteAll(MerchantMemoryEntity.self)
             try deleteAll(GameEventEntity.self)
             try deleteAll(ParticipantEntity.self)
             try deleteAll(TransactionEntity.self)

@@ -85,6 +85,14 @@ public struct TransactionDraft: Hashable {
         TransactionDraft(category: category, date: date)
     }
 
+    public static func new(capture: Capture, category: CashlyDomain.Category?)
+        -> TransactionDraft
+    {
+        TransactionDraft(
+            category: category, amount: capture.money.doubleValue, date: capture.date,
+            summary: capture.suggestedSummary.isEmpty ? capture.merchant : capture.suggestedSummary)
+    }
+
     public static func edit(id: String) -> TransactionDraft {
         TransactionDraft(id: id, isNew: false)
     }

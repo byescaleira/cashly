@@ -162,6 +162,21 @@ public final class NotificationsModel {
             ])
     }
 
+    public func reviewCaptures(
+        for user: User?, repositories: Repositories, categories: [CashlyDomain.Category]
+    ) async {
+        let notifier = CaptureNotifier(scheduler: scheduler)
+        guard let user else {
+            await notifier.updateBadge(pending: 0)
+            return
+        }
+        let actions = CaptureActions(repositories: repositories, user: user)
+        await notifier.register(
+            categories: categories.filter { $0.user.id == user.id },
+            frequent: (try? await actions.frequentCategories()) ?? [])
+        await notifier.updateBadge(pending: (try? await actions.pending().count) ?? 0)
+    }
+
     public func schedulePayments(for userID: String?, repositories: Repositories) async {
         guard remindsPayments else { return }
         guard let userID else {

@@ -25,6 +25,10 @@ private actor FakeScheduler: NotificationScheduling {
     }
 
     func deliver(_ reminder: Reminder) {}
+
+    func registerCaptureActions(_ groups: [CaptureActionGroup]) {}
+
+    func setBadge(_ count: Int) {}
 }
 
 private actor Counter {
