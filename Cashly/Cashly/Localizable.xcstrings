@@ -7483,60 +7483,60 @@
         }
       }
     },
-    "Analysis and the Journey" : {
+    "Analysis of your money" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Analysen und die Reise"
+            "value" : "Analyse deines Geldes"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Análisis y la Trayectoria"
+            "value" : "Análisis de tu dinero"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Analyses et le Parcours"
+            "value" : "Analyse de votre argent"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Analisi e il Percorso"
+            "value" : "Analisi dei tuoi soldi"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "分析とジャーニー"
+            "value" : "お金の分析"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "분석과 여정"
+            "value" : "내 돈 분석"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Análises e a Jornada"
+            "value" : "Análise do seu dinheiro"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Аналитика и «Путь»"
+            "value" : "Анализ ваших денег"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "分析与旅程"
+            "value" : "你的资金分析"
           }
         }
       }
@@ -26348,60 +26348,60 @@
         }
       }
     },
-    "Insights, score, streaks and challenges." : {
+    "Insights, forecasts and the pace of your month." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Insights, Score, Serien und Challenges."
+            "value" : "Insights, Prognosen und das Tempo deines Monats."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Insights, puntuación, rachas y retos."
+            "value" : "Insights, previsiones y el ritmo de tu mes."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Insights, score, séries et défis."
+            "value" : "Insights, prévisions et rythme de votre mois."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Insight, punteggio, serie e sfide."
+            "value" : "Insight, previsioni e il ritmo del tuo mese."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "インサイト、スコア、連続記録、チャレンジ。"
+            "value" : "インサイト、予測、今月のペース。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "인사이트, 점수, 연속 기록, 챌린지."
+            "value" : "인사이트, 예측, 이번 달의 흐름."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Insights, pontuação, sequências e desafios."
+            "value" : "Insights, previsões e o ritmo do seu mês."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Инсайты, счёт, серии и челленджи."
+            "value" : "Инсайты, прогнозы и темп вашего месяца."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "洞察、评分、连续记录和挑战。"
+            "value" : "洞察、预测和本月节奏。"
           }
         }
       }
@@ -28316,6 +28316,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "等级、连续记录、任务、挑战和成就。隐藏此标签页不会丢失进度。"
+          }
+        }
+      }
+    },
+    "Level, streaks, achievements and challenges." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Level, Serien, Erfolge und Herausforderungen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nivel, rachas, logros y desafíos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niveau, séries, succès et défis."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Livello, serie, traguardi e sfide."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "レベル、連続記録、実績、チャレンジ。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "레벨, 연속 기록, 업적, 도전."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nível, sequências, conquistas e desafios."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уровень, серии, достижения и испытания."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等级、连续记录、成就和挑战。"
           }
         }
       }
@@ -48744,6 +48802,64 @@
         }
       }
     },
+    "The Journey" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Reise"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La Trayectoria"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le Parcours"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il Percorso"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ジャーニー"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "여정"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A Jornada"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Путь"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "旅程"
+          }
+        }
+      }
+    },
     "The One Budget widget follows the category you pick here, for every copy of it on your Home Screen." : {
       "localizations" : {
         "de" : {
@@ -52520,60 +52636,60 @@
         }
       }
     },
-    "Try everything free for 7 days." : {
+    "Try everything free for 7 days" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "7 Tage lang alles kostenlos testen."
+            "value" : "7 Tage lang alles kostenlos testen"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prueba todo gratis durante 7 días."
+            "value" : "Prueba todo gratis durante 7 días"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Essayez tout gratuitement pendant 7 jours."
+            "value" : "Essayez tout gratuitement pendant 7 jours"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prova tutto gratis per 7 giorni."
+            "value" : "Prova tutto gratis per 7 giorni"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "7日間すべて無料でお試しください。"
+            "value" : "7日間すべて無料でお試しください"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "7일 동안 모든 기능을 무료로 써 보세요."
+            "value" : "7일 동안 모든 기능을 무료로 써 보세요"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Experimente tudo grátis por 7 dias."
+            "value" : "Experimente tudo grátis por 7 dias"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Попробуйте всё бесплатно 7 дней."
+            "value" : "Попробуйте всё бесплатно 7 дней"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "免费试用全部功能 7 天。"
+            "value" : "免费试用全部功能 7 天"
           }
         }
       }
