@@ -1,6 +1,7 @@
 import CashlyDesignSystem
 import CashlyDomain
 import FeatureCore
+import FeatureStore
 import SwiftUI
 
 struct DeveloperSections: View {
@@ -8,6 +9,9 @@ struct DeveloperSections: View {
 
     var body: some View {
         FlagsSection()
+        #if DEBUG
+            DeveloperStoreSection()
+        #endif
         if let developer = settings.developer {
             DeveloperToolsSections().environment(developer)
         }
@@ -191,6 +195,69 @@ private struct DeveloperInfoSection: View {
         }
     }
 }
+
+#if DEBUG
+    private struct DeveloperStoreSection: View {
+        @Environment(StoreModel.self) private var store
+        @Environment(\.appTint) private var appTint
+
+        var body: some View {
+            @Bindable var store = store
+            Section {
+                Picker("Cashly Pro", selection: $store.simulatedPlan) {
+                    ForEach(SimulatedPlan.allCases) { plan in
+                        Text(verbatim: plan.title).tag(plan)
+                    }
+                }
+                LabeledContent("Entitlement", value: store.entitlementSummary)
+                SettingsRow(
+                    "Shop Items", symbol: "bag", color: appTint, value: store.simulatedOwnedSummary
+                ) {
+                    SettingsPage("Shop Items") { DeveloperShopItemsSection() }
+                }
+                Button("Reset Simulation", role: .destructive) { store.resetSimulation() }
+                    .disabled(!store.isSimulating)
+            } header: {
+                Text("Shop")
+            } footer: {
+                VStack(alignment: .leading, spacing: .spaceXS) {
+                    Text(verbatim: store.simulationStatus)
+                    Text(
+                        "The simulation only exists in development builds and never touches StoreKit."
+                    )
+                }
+            }
+        }
+    }
+
+    private struct DeveloperShopItemsSection: View {
+        @Environment(StoreModel.self) private var store
+
+        var body: some View {
+            Section {
+                ForEach(StoreModel.simulatedItems) { item in
+                    Toggle(isOn: store.ownership(of: item)) {
+                        Text(verbatim: item.rawValue).font(.rowDetail.monospaced())
+                    }
+                }
+            } header: {
+                Text("Items")
+            } footer: {
+                Text("Owned: \(store.simulatedOwnedSummary)")
+            }
+        }
+    }
+
+    extension StoreModel {
+        fileprivate func ownership(of item: ShopItem) -> Binding<Bool> {
+            Binding {
+                self.owned.contains(item)
+            } set: {
+                self.simulate(item, owned: $0)
+            }
+        }
+    }
+#endif
 
 private struct DeveloperPath: View {
     let title: LocalizedStringKey

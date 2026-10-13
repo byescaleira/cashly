@@ -6,17 +6,26 @@ import Observation
 @MainActor @Observable
 public final class StoreModel: EntitlementProviding, PurchaseProviding {
     public private(set) var products: [ShopItem: StoreProduct] = [:]
-    public private(set) var owned: Set<ShopItem> = []
-    public private(set) var entitlement = Entitlement.none
+    public var owned: Set<ShopItem> { simulation?.owned ?? storeOwned }
+    public var entitlement: Entitlement { simulation?.entitlement ?? storeEntitlement }
     public private(set) var hasLoaded = false
     public private(set) var hasRefreshed = false
     public var error: CashlyError?
+    var simulation: StoreSimulation?
+    private(set) var storeOwned: Set<ShopItem> = []
+    private(set) var storeEntitlement = Entitlement.none
+    @ObservationIgnored let defaults: UserDefaults
     @ObservationIgnored private let session: SessionModel
     @ObservationIgnored private let client: any StoreClient
 
-    public init(session: SessionModel, client: any StoreClient = StoreKitClient()) {
+    public init(
+        session: SessionModel, client: any StoreClient = StoreKitClient(),
+        defaults: UserDefaults = .standard
+    ) {
         self.session = session
         self.client = client
+        self.defaults = defaults
+        simulation = .stored(in: defaults)
     }
 
     public func start() async {
@@ -58,8 +67,8 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
             case .consumable: break
             }
         }
-        self.owned = owned
-        entitlement = if let plan { Entitlement(plan) } else { await lapsed() }
+        storeOwned = owned
+        storeEntitlement = if let plan { Entitlement(plan) } else { await lapsed() }
         hasRefreshed = true
     }
 
