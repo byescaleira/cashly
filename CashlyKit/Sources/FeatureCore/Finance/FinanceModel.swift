@@ -69,7 +69,9 @@ public final class FinanceModel {
     }
 
     @discardableResult
-    public func publishSnapshot(month: YearMonth = YearMonth(.now)) async -> WidgetSnapshot? {
+    public func publishSnapshot(month: YearMonth = YearMonth(.now), focusCategoryID: String? = nil)
+        async -> WidgetSnapshot?
+    {
         guard let user = session.user else {
             try? snapshotStore?.clear()
             return nil
@@ -86,7 +88,7 @@ public final class FinanceModel {
             ).items) ?? []
         let snapshot = WidgetSnapshot(
             user: user, month: month, overview: overview, pending: pending,
-            currencyCode: Money.currencyCode)
+            currencyCode: Money.currencyCode, focusCategoryID: focusCategoryID)
         try? snapshotStore?.write(snapshot)
         WidgetCenter.shared.reloadAllTimelines()
         return snapshot

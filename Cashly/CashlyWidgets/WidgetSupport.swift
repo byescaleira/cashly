@@ -11,6 +11,30 @@ nonisolated struct SnapshotEntry: TimelineEntry {
     var category: String?
 }
 
+nonisolated struct SnapshotProvider: TimelineProvider {
+    func placeholder(in context: Context) -> SnapshotEntry {
+        SnapshotEntry(date: .now, snapshot: .sample)
+    }
+
+    func getSnapshot(in context: Context, completion: @escaping (SnapshotEntry) -> Void) {
+        completion(SnapshotEntry(date: .now, snapshot: context.isPreview ? .sample : .current()))
+    }
+
+    func getTimeline(in context: Context, completion: @escaping (Timeline<SnapshotEntry>) -> Void)
+    {
+        let refresh = Calendar.current.date(byAdding: .hour, value: 1, to: .now) ?? .now
+        completion(
+            Timeline(entries: [SnapshotEntry(date: .now, snapshot: .current())], policy: .after(refresh))
+        )
+    }
+}
+
+extension SnapshotEntry {
+    nonisolated var focused: SnapshotEntry {
+        SnapshotEntry(date: date, snapshot: snapshot, category: snapshot?.focusCategory ?? "")
+    }
+}
+
 extension WidgetSnapshot {
     nonisolated static func current() -> WidgetSnapshot? {
         try? WidgetSnapshotStore.shared?.read()
@@ -77,6 +101,14 @@ extension Font {
     static let widgetTitle = Font.subheadline.weight(.bold)
     static let widgetAmount = Font.title2.weight(.bold)
     static let widgetSecondary = Font.headline
+
+    static func amount(for family: WidgetFamily) -> Font {
+        family == .systemLarge ? .largeTitle.weight(.bold) : family == .systemMedium ? .title.weight(.bold) : .widgetAmount
+    }
+
+    static func secondary(for family: WidgetFamily) -> Font {
+        family == .systemSmall ? .widgetSecondary : .title3.weight(.semibold)
+    }
     static let widgetLabel = Font.system(size: 8, weight: .bold)
     static let widgetValue = Font.system(size: 13, weight: .bold)
     static let widgetRow = Font.system(size: 10)
@@ -185,7 +217,7 @@ struct CategoryChart: View {
         }
         .chartYAxis { AxisMarks(position: .trailing) }
         .chartLegend(.hidden)
-        .chartForegroundStyleScale(["planned": Color.accentColor, "spent": Color.usage(ratio)])
+        .chartForegroundStyleScale(["planned": Color.retroOrange, "spent": Color.usage(ratio)])
         .frame(height: height)
     }
 
@@ -217,7 +249,7 @@ extension WidgetSnapshot {
     nonisolated static let sample = WidgetSnapshot(
         userID: "sample", userName: "Ana", month: YearMonth(.now), currencyCode: "BRL",
         plannedMinorUnits: 420_000, spentMinorUnits: 268_500, incomeMinorUnits: 650_000,
-        transactionCount: 37,
+        transactionCount: 37, focusCategory: "Transporte",
         budgets: [
             BudgetLine(
                 id: "market", categoryName: "Mercado", color: "C2602A", icon: "cart",

@@ -54,6 +54,7 @@ public struct WidgetSnapshot: Codable, Equatable, Sendable {
     public let spentMinorUnits: Int64
     public let incomeMinorUnits: Int64
     public let transactionCount: Int
+    public let focusCategory: String?
     public let budgets: [BudgetLine]
     public var bills: [Bill]
     public let generatedAt: Date
@@ -61,8 +62,8 @@ public struct WidgetSnapshot: Codable, Equatable, Sendable {
     public init(
         userID: String, userName: String, month: YearMonth, currencyCode: String,
         plannedMinorUnits: Int64, spentMinorUnits: Int64, incomeMinorUnits: Int64,
-        transactionCount: Int = 0, budgets: [BudgetLine], bills: [Bill] = [],
-        generatedAt: Date = .now
+        transactionCount: Int = 0, focusCategory: String? = nil, budgets: [BudgetLine],
+        bills: [Bill] = [], generatedAt: Date = .now
     ) {
         self.userID = userID
         self.userName = userName
@@ -73,6 +74,7 @@ public struct WidgetSnapshot: Codable, Equatable, Sendable {
         self.spentMinorUnits = spentMinorUnits
         self.incomeMinorUnits = incomeMinorUnits
         self.transactionCount = transactionCount
+        self.focusCategory = focusCategory
         self.budgets = budgets
         self.bills = bills
         self.generatedAt = generatedAt
@@ -85,7 +87,7 @@ public struct WidgetSnapshot: Codable, Equatable, Sendable {
 extension WidgetSnapshot {
     public init(
         user: User, month: YearMonth, overview: CashlyOverview, pending: [Transaction] = [],
-        currencyCode: String, generatedAt: Date = .now
+        currencyCode: String, focusCategoryID: String? = nil, generatedAt: Date = .now
     ) {
         let lines = overview.budgets.map { budget in
             BudgetLine(
@@ -98,7 +100,10 @@ extension WidgetSnapshot {
             plannedMinorUnits: overview.budgetsTotal.minorUnits,
             spentMinorUnits: overview.expensesTotal.minorUnits,
             incomeMinorUnits: overview.incomeTotal.minorUnits,
-            transactionCount: overview.transactionCount, budgets: lines,
+            transactionCount: overview.transactionCount,
+            focusCategory: overview.budgets.first { $0.category.id == focusCategoryID }?.category
+                .name,
+            budgets: lines,
             bills: pending.sorted { $0.date < $1.date }.prefix(5).map {
                 Bill(
                     id: $0.id, summary: $0.summary.isEmpty ? $0.category.name : $0.summary,

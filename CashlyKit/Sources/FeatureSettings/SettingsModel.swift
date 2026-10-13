@@ -38,6 +38,9 @@ public final class SettingsModel {
     public var isDiscreet: Bool {
         didSet { defaults.set(isDiscreet, forKey: Key.discreet) }
     }
+    public var widgetCategoryID: String? {
+        didSet { defaults.set(widgetCategoryID, forKey: Key.widgetCategory) }
+    }
     public var syncsWithICloud: Bool {
         didSet { defaults.set(syncsWithICloud, forKey: Key.cloudSync) }
     }
@@ -91,6 +94,7 @@ public final class SettingsModel {
         showsJourney = defaults.object(forKey: Key.journey) as? Bool ?? true
         locksApp = defaults.bool(forKey: Key.lock)
         isDiscreet = defaults.bool(forKey: Key.discreet)
+        widgetCategoryID = defaults.string(forKey: Key.widgetCategory)
         let syncs = defaults.object(forKey: Key.cloudSync) as? Bool ?? true
         syncsWithICloud = syncs
         syncsAtLaunch = cloudContainer != nil && syncs
@@ -179,6 +183,7 @@ public final class SettingsModel {
         static let journey = "cashly.settings.journey"
         static let lock = "cashly.settings.lock"
         static let discreet = "cashly.settings.discreet"
+        static let widgetCategory = "cashly.settings.widgetCategory"
         static let systemLanguages = "AppleLanguages"
         static let lastSync = "cashly.settings.lastSync"
         static let tint = "cashly.settings.tint"

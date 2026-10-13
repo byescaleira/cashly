@@ -25,7 +25,7 @@ private struct BillsView: View {
                 HStack {
                     WidgetTitle(snapshot: snapshot, ratio: snapshot.figures(nil).ratio)
                     Spacer(minLength: 0)
-                    Tag("\(snapshot.bills.count)", color: .accentColor)
+                    Tag("\(snapshot.bills.count)", color: .retroOrange)
                 }
                 WidgetLabel("Pending")
                 Text(snapshot.money(snapshot.pendingMinorUnits))

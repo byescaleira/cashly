@@ -86,7 +86,7 @@ public struct MainScreen: View {
             if session.isReady(finance) { launch.finish(.month) }
         }
         .task(id: extrasKey) {
-            let snapshot = await finance.publishSnapshot()
+            let snapshot = await finance.publishSnapshot(focusCategoryID: settings.widgetCategoryID)
             if session.isReady(finance) { launch.finish(.extras) }
             if let snapshot { await notifications.review(snapshot) }
             await CashlyIndexer.refresh(categories: finance.allCategories)
@@ -128,7 +128,7 @@ public struct MainScreen: View {
     }
 
     private var extrasKey: String {
-        "\(session.user?.id ?? ""):\(finance.datasetRevision):\(session.isReady(finance))"
+        "\(session.user?.id ?? ""):\(finance.datasetRevision):\(session.isReady(finance)):\(settings.widgetCategoryID ?? "")"
     }
 
     private var pro: ProAccess {

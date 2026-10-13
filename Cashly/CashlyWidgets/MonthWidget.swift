@@ -18,15 +18,13 @@ struct MonthWidget: Widget {
 
 struct BudgetWidget: Widget {
     var body: some WidgetConfiguration {
-        AppIntentConfiguration(
-            kind: "cashly.budget", intent: CategoryFilterIntent.self, provider: MonthProvider()
-        ) { entry in
-            MonthView(entry: entry)
+        StaticConfiguration(kind: "cashly.focus", provider: SnapshotProvider()) { entry in
+            MonthView(entry: entry.focused)
                 .containerBackground(.background, for: .widget)
                 .widgetURL(URL(string: "cashly://budgets"))
         }
         .configurationDisplayName("One Budget")
-        .description("Pick a category and follow its budget this month.")
+        .description("Follows the budget you pick in Cashly › Settings › Widgets.")
         .supportedFamilies(monthFamilies)
     }
 }
@@ -49,20 +47,36 @@ private struct MonthView: View {
     var body: some View {
         if let snapshot = entry.snapshot {
             let figures = snapshot.figures(entry.category)
-            switch family {
-            #if os(iOS)
-            case .accessoryCircular, .accessoryRectangular, .accessoryInline:
-                LockScreenMonth(figures: figures, family: family)
-            #endif
-            case .systemMedium:
-                MediumMonth(figures: figures)
-            case .systemLarge:
-                LargeMonth(figures: figures)
-            default:
-                SmallMonth(figures: figures)
+            if entry.category != nil, figures.line == nil {
+                FocusEmpty()
+            } else {
+                switch family {
+                #if os(iOS)
+                case .accessoryCircular, .accessoryRectangular, .accessoryInline:
+                    LockScreenMonth(figures: figures, family: family)
+                #endif
+                case .systemMedium:
+                    MediumMonth(figures: figures)
+                case .systemLarge:
+                    LargeMonth(figures: figures)
+                default:
+                    SmallMonth(figures: figures)
+                }
             }
         } else {
             EmptyMonth()
+        }
+    }
+}
+
+private struct FocusEmpty: View {
+    var body: some View {
+        VStack(spacing: .spaceXS) {
+            SymbolBadge("square.grid.2x2", color: .secondary, size: .badgeM)
+            Text("Pick a budget in Cashly › Settings › Widgets")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
         }
     }
 }
@@ -102,16 +116,17 @@ private struct SmallMonth: View {
 
 private struct RemainingRow: View {
     let figures: MonthFigures
+    var font: Font = .widgetValue
 
     var body: some View {
         VStack(alignment: .leading, spacing: .space2XS) {
             WidgetLabel("Remaining")
             HStack {
                 Text(figures.snapshot.money(figures.remaining))
-                    .font(.widgetValue)
+                    .font(font)
                     .foregroundStyle(figures.color)
                 Spacer(minLength: 0)
-                Text((1 - figures.ratio).percentLabel).font(.widgetValue)
+                Text((1 - figures.ratio).percentLabel).font(font)
             }
             .lineLimit(1)
             UsageBar(ratio: figures.ratio)
@@ -120,43 +135,45 @@ private struct RemainingRow: View {
 }
 
 private struct SpendHeader: View {
+    @Environment(\.widgetFamily) private var family
     let figures: MonthFigures
 
     var body: some View {
         let snapshot = figures.snapshot
-        HStack(alignment: .top, spacing: .spaceS) {
-            VStack(alignment: .leading, spacing: .spaceHairline) {
+        HStack(alignment: .top, spacing: .spaceM) {
+            VStack(alignment: .leading, spacing: .space2XS) {
                 WidgetTitle(snapshot: snapshot, ratio: figures.ratio)
-                HStack(spacing: .spaceXS) {
-                    Text(snapshot.money(figures.planned))
-                        .font(.widgetSecondary)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                    if let line = figures.line {
-                        Tag(line.categoryName.uppercased(), color: .primary)
-                    }
+                WidgetLabel("Total planned")
+                Text(snapshot.money(figures.planned))
+                    .font(.secondary(for: family))
+                    .fontDesign(.rounded)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
+                if let line = figures.line {
+                    Tag(line.categoryName.uppercased(), color: .primary)
                 }
             }
-            .frame(width: 130, alignment: .leading)
-            VStack(spacing: .space2XS) {
+            .frame(maxWidth: .infinity, alignment: .leading)
+            VStack(alignment: .leading, spacing: .space2XS) {
                 HStack(spacing: .spaceXS) {
+                    WidgetLabel("Spent")
+                    Spacer(minLength: 0)
                     if figures.line == nil {
                         Tag("\(snapshot.transactionCount)", color: figures.color)
                     }
-                    Text(snapshot.money(figures.spent))
-                        .font(.widgetAmount)
-                        .fontDesign(.rounded)
-                        .foregroundStyle(figures.color)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.6)
-                    Spacer(minLength: 0)
-                    Text(figures.ratio.percentLabel)
-                        .font(.widgetSecondary)
-                        .foregroundStyle(.secondary)
                 }
+                Text(snapshot.money(figures.spent))
+                    .font(.amount(for: family))
+                    .fontDesign(.rounded)
+                    .foregroundStyle(figures.color)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.5)
+                Text(figures.ratio.percentLabel)
+                    .font(.secondary(for: family))
+                    .foregroundStyle(.secondary)
                 UsageBar(ratio: figures.ratio)
             }
-            .padding(.top, .space2XS)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 }
@@ -167,7 +184,8 @@ private struct MediumMonth: View {
     var body: some View {
         VStack(alignment: .leading, spacing: .spaceS) {
             SpendHeader(figures: figures)
-            CategoryChart(snapshot: figures.snapshot, ratio: figures.ratio)
+            Spacer(minLength: 0)
+            CategoryChart(snapshot: figures.snapshot, ratio: figures.ratio, height: 72)
         }
     }
 }
@@ -176,16 +194,18 @@ private struct LargeMonth: View {
     let figures: MonthFigures
 
     var body: some View {
+        let budgets = figures.snapshot.budgets.sorted { $0.plannedMinorUnits > $1.plannedMinorUnits }
         VStack(alignment: .leading, spacing: .spaceM) {
             SpendHeader(figures: figures)
+            RemainingRow(figures: figures, font: .widgetSecondary)
             LazyVGrid(
-                columns: [GridItem(.flexible(), spacing: .spaceM), GridItem(.flexible())],
-                spacing: .spaceS
+                columns: [GridItem(.flexible(), spacing: .spaceL), GridItem(.flexible())],
+                spacing: .spaceM
             ) {
-                ForEach(figures.snapshot.budgets.prefix(6), id: \.id) { BudgetCell(line: $0) }
+                ForEach(budgets.prefix(8), id: \.id) { BudgetCell(line: $0) }
             }
-            CategoryChart(snapshot: figures.snapshot, ratio: figures.ratio, height: 140)
-            Spacer(minLength: 0)
+            CategoryChart(snapshot: figures.snapshot, ratio: figures.ratio, height: 120)
+                .frame(maxHeight: .infinity)
         }
     }
 }
@@ -237,7 +257,7 @@ private struct LargeMonth: View {
 #Preview("Budget", as: .systemSmall) {
     BudgetWidget()
 } timeline: {
-    SnapshotEntry(date: .now, snapshot: .sample, category: "Transporte")
+    SnapshotEntry(date: .now, snapshot: .sample)
 }
 
 #Preview("Medium", as: .systemMedium) {

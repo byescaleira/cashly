@@ -33,6 +33,7 @@ extension SettingsScreen where Extra == EmptyView {
 
 private struct SettingsSections<Extra: View>: View {
     @Environment(SettingsModel.self) private var settings
+    @Environment(FinanceModel.self) private var finance
     @Environment(NotificationsModel.self) private var notifications
     @Environment(\.showGuide) private var showGuide
     @Environment(\.featureFlags) private var flags
@@ -72,6 +73,12 @@ private struct SettingsSections<Extra: View>: View {
                     ? String(appLocalized: "On") : String(appLocalized: "Off")
             ) {
                 SettingsPage("Privacy") { PrivacySection() }
+            }
+            SettingsRow(
+                "Widgets", symbol: "square.grid.2x2", color: RetroColor.denim.color,
+                value: widgetValue
+            ) {
+                SettingsPage("Widgets") { WidgetsSection() }
             }
             if flags?.isOn(.journey) != false {
                 SettingsRow(
@@ -122,6 +129,11 @@ private struct SettingsSections<Extra: View>: View {
             Text("Help")
         }
         DevelopmentRow()
+    }
+
+    private var widgetValue: String {
+        finance.budgets.first { $0.category.id == settings.widgetCategoryID }?.category.name
+            ?? String(appLocalized: "Nothing yet")
     }
 }
 
