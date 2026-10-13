@@ -7,6 +7,8 @@ import SwiftUI
 public struct PaywallScreen: View {
     @Environment(StoreModel.self) private var store
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.locale) private var locale
+    @Environment(\.appTint) private var appTint
 
     public init() {}
 
@@ -14,6 +16,8 @@ public struct PaywallScreen: View {
         @Bindable var store = store
         SubscriptionStoreView(productIDs: ShopCatalog.plans.map(\.id)) {
             PaywallHeader()
+                .environment(\.locale, locale)
+                .appTint(appTint)
         }
         .subscriptionStoreButtonLabel(.multiline)
         .storeButton(.visible, for: .restorePurchases)
@@ -59,24 +63,29 @@ private struct PaywallPolicy: ViewModifier {
 
 private struct PaywallHeader: View {
     var body: some View {
-        VStack(spacing: .spaceL) {
-            SymbolBadge("crown.fill", color: .retroMustard, size: .ring, style: .filled)
-            VStack(spacing: .spaceXS) {
+        VStack(spacing: .spaceXL) {
+            VStack(spacing: .spaceM) {
+                CashlyAnimationView(.pro).frame(maxWidth: 220)
                 Text("Cashly Pro").font(.titleLarge)
-                Text("Try everything free for 7 days.").foregroundStyle(.secondary)
+                Chip("Try everything free for 7 days", color: .retroMustard, shape: .capsule)
             }
             .multilineTextAlignment(.center)
-            GuideFeatureList {
-                GuideFeature(
-                    title: String(appLocalized: "Record and edit without limits"),
-                    detail: String(appLocalized: "Transactions, categories, tags and budgets."))
-                GuideFeature(
-                    title: String(appLocalized: "Analysis and the Journey"),
-                    detail: String(appLocalized: "Insights, score, streaks and challenges."))
-                GuideFeature(
-                    title: String(appLocalized: "Backups, iCloud and Claude Code"),
-                    detail: String(
-                        appLocalized: "Your data on every device, always with your approval."))
+            VStack(spacing: .spaceS) {
+                PaywallBenefit(
+                    "Record and edit without limits",
+                    detail: "Transactions, categories, tags and budgets.",
+                    symbol: "pencil.and.list.clipboard", color: .retroOrange)
+                PaywallBenefit(
+                    "Analysis of your money",
+                    detail: "Insights, forecasts and the pace of your month.",
+                    symbol: "chart.bar.xaxis", color: .retroTeal)
+                PaywallBenefit(
+                    "The Journey", detail: "Level, streaks, achievements and challenges.",
+                    symbol: "trophy.fill", color: .retroMustard)
+                PaywallBenefit(
+                    "Backups, iCloud and Claude Code",
+                    detail: "Your data on every device, always with your approval.",
+                    symbol: "icloud.and.arrow.up", color: .retroDenim)
             }
             Text(
                 "Without Cashly Pro your data stays visible and exportable, but recording and editing are locked."
@@ -86,7 +95,37 @@ private struct PaywallHeader: View {
             .multilineTextAlignment(.center)
         }
         .padding(.horizontal, .spaceXL)
-        .padding(.top, .spaceXL)
+        .padding(.top, .spaceS)
+    }
+}
+
+private struct PaywallBenefit: View {
+    private let title: LocalizedStringKey
+    private let detail: LocalizedStringKey
+    private let symbol: String
+    private let color: Color
+
+    init(_ title: LocalizedStringKey, detail: LocalizedStringKey, symbol: String, color: Color) {
+        self.title = title
+        self.detail = detail
+        self.symbol = symbol
+        self.color = color
+    }
+
+    var body: some View {
+        HStack(spacing: .spaceM) {
+            SymbolBadge(symbol, color: color, size: .badgeM)
+            VStack(alignment: .leading, spacing: .spaceHairline) {
+                Text(title).font(.rowTitle)
+                Text(detail).font(.rowDetail).foregroundStyle(.secondary)
+            }
+            .multilineTextAlignment(.leading)
+            .fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 0)
+        }
+        .padding(.spaceM)
+        .tintedCard(color)
+        .accessibilityElement(children: .combine)
     }
 }
 
