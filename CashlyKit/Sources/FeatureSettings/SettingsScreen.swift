@@ -113,7 +113,7 @@ private struct SettingsSections<Extra: View>: View {
         Section {
             if showGuide != nil, flags?.isOn(.guides) != false {
                 SettingsRow("Guides", symbol: "book", color: RetroColor.avocado.color) {
-                    SettingsPage("Guides") { GuidesSection() }
+                    GuidesHubScreen()
                 }
             }
             SettingsRow(

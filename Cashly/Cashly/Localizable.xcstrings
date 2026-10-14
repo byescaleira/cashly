@@ -59,6 +59,64 @@
         }
       }
     },
+    "\"How much is left in Groceries in Cashly\", \"Mark a bill as paid in Cashly\" and \"Capture a payment in Cashly\"." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„Wie viel bleibt in Lebensmittel in Cashly“, „Markiere eine Rechnung in Cashly als bezahlt“ und „Erfasse eine Zahlung in Cashly“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "«Cuánto queda en Mercado en Cashly», «Marca una cuenta como pagada en Cashly» y «Captura un pago en Cashly»."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "« Combien reste-t-il dans Courses dans Cashly », « Marque une facture comme payée dans Cashly » et « Capture un paiement dans Cashly »."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"Quanto resta in Spesa in Cashly\", \"Segna una bolletta come pagata in Cashly\" e \"Cattura un pagamento in Cashly\"."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「Cashlyの食料品の残りはいくら」「Cashlyで請求を支払い済みにして」「Cashlyで支払いを取り込んで」。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"Cashly에서 식료품 얼마 남았어\", \"Cashly에서 청구서를 결제 완료로 표시해 줘\", \"Cashly에서 결제 캡처해 줘\"."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"Quanto sobrou em Mercado no Cashly\", \"Marcar uma conta como paga no Cashly\" e \"Capturar um pagamento no Cashly\"."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "«Сколько осталось в Продуктах в Cashly», «Отметь счёт оплаченным в Cashly» и «Захвати платёж в Cashly»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“Cashly 中杂货还剩多少”、“在 Cashly 中把账单标记为已付”和“在 Cashly 中捕获一笔付款”。"
+          }
+        }
+      }
+    },
     "%@" : {
       "localizations" : {
         "de" : {
@@ -3625,6 +3683,64 @@
         }
       }
     },
+    "%lld min" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld Min."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld分"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld분"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld мин"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 分钟"
+          }
+        }
+      }
+    },
     "%lld of %lld" : {
       "localizations" : {
         "de" : {
@@ -3743,6 +3859,70 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$lld / %2$lld XP"
+          }
+        }
+      }
+    },
+    "%lld of %lld guides done" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld von %2$lld Anleitungen erledigt"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld of %2$lld guides done"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld de %2$lld guías completadas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld guides sur %2$lld terminés"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld guide su %2$lld completate"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$lld件中%1$lld件のガイドを完了"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "가이드 %2$lld개 중 %1$lld개 완료"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld de %2$lld guias concluídos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пройдено %1$lld из %2$lld руководств"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已完成 %1$lld/%2$lld 个指南"
           }
         }
       }
@@ -5933,6 +6113,64 @@
         }
       }
     },
+    "A Reminder at 9 AM" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine Erinnerung um 9 Uhr"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un aviso a las 9"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un rappel à 9 h"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un promemoria alle 9"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "午前9時にリマインド"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "오전 9시 알림"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um lembrete às 9h"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Напоминание в 9 утра"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "上午 9 点提醒"
+          }
+        }
+      }
+    },
     "A backup is a file with users, categories, tags, budgets and transactions. Importing adds the file's records to the ones already on this device. The spreadsheet has transactions only." : {
       "localizations" : {
         "de" : {
@@ -5987,6 +6225,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "备份是包含用户、类别、标签、预算和交易的文件。导入时，文件中的记录会添加到此设备上已有的记录中。电子表格只包含交易。"
+          }
+        }
+      }
+    },
+    "A backup is one file with users, categories, tags, budgets and transactions. Turn on Automatic Backup, or save copies to iCloud Drive." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Backup ist eine Datei mit Nutzern, Kategorien, Tags, Budgets und Transaktionen. Aktiviere das automatische Backup oder speichere Kopien in iCloud Drive."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una copia es un archivo con usuarios, categorías, etiquetas, presupuestos y transacciones. Activa la copia automática o guarda copias en iCloud Drive."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une sauvegarde est un fichier avec les utilisateurs, catégories, tags, budgets et transactions. Activez la sauvegarde automatique, ou enregistrez des copies dans iCloud Drive."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un backup è un file con utenti, categorie, tag, budget e transazioni. Attiva il backup automatico o salva copie su iCloud Drive."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バックアップはユーザー、カテゴリ、タグ、予算、取引を含む1つのファイルです。自動バックアップをオンにするか、iCloud Driveにコピーを保存しましょう。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "백업은 사용자, 카테고리, 태그, 예산, 거래가 담긴 파일 하나입니다. 자동 백업을 켜거나 iCloud Drive에 사본을 저장하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um backup é um arquivo com usuários, categorias, tags, orçamentos e transações. Ligue o Backup automático ou salve cópias no iCloud Drive."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Резервная копия — один файл с пользователями, категориями, тегами, бюджетами и транзакциями. Включите автоматическое резервирование или сохраняйте копии в iCloud Drive."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份是一个包含用户、分类、标签、预算和交易的文件。开启自动备份，或把副本保存到 iCloud 云盘。"
           }
         }
       }
@@ -6103,6 +6399,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每月都超支的预算不如调整过的预算有用。"
+          }
+        }
+      }
+    },
+    "A day counts when you record something or tap I Didn't Spend Today. A freeze covers a missed day; you earn one every 14 days." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Tag zählt, wenn du etwas erfasst oder „Heute nichts ausgegeben“ antippst. Ein Freeze deckt einen verpassten Tag; alle 14 Tage bekommst du einen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un día cuenta cuando registras algo o tocas Hoy no gasté. Una congelación cubre un día perdido; ganas una cada 14 días."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un jour compte quand vous enregistrez quelque chose ou touchez Je n'ai rien dépensé aujourd'hui. Un gel couvre un jour manqué ; vous en gagnez un tous les 14 jours."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un giorno conta quando registri qualcosa o tocchi Oggi non ho speso. Un congelamento copre un giorno perso; ne guadagni uno ogni 14 giorni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "何かを記録するか「今日は使わなかった」をタップした日がカウントされます。フリーズは逃した1日を補い、14日ごとに1つもらえます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "무언가를 기록하거나 오늘 안 썼어요를 탭하면 그날이 인정됩니다. 동결은 놓친 하루를 메워 주며 14일마다 하나씩 얻습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um dia conta quando você registra algo ou toca em Hoje não gastei. Um congelamento cobre um dia perdido; você ganha um a cada 14 dias."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "День засчитывается, когда вы что-то записали или нажали «Сегодня не тратил». Заморозка покрывает пропущенный день; вы получаете одну каждые 14 дней."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只要记录一笔或点按“今天没花钱”，这一天就算数。冻结可补上错过的一天，每 14 天得一个。"
           }
         }
       }
@@ -6397,6 +6751,64 @@
         }
       }
     },
+    "About %lld min left" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Noch etwa %lld Min."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quedan unos %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Environ %lld min restantes"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Circa %lld min rimanenti"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "残り約%lld分"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "약 %lld분 남음"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faltam cerca de %lld min"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Осталось около %lld мин"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剩余约 %lld 分钟"
+          }
+        }
+      }
+    },
     "About Cashly" : {
       "localizations" : {
         "de" : {
@@ -6625,6 +7037,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "接受本地网络连接"
+          }
+        }
+      }
+    },
+    "Accept a suggestion once and the next payment at that merchant arrives ready. Capturing never needs Cashly Pro; turning it into a transaction does, like any edit." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nimm einen Vorschlag einmal an, und die nächste Zahlung bei diesem Händler kommt fertig an. Erfassen braucht nie Cashly Pro; daraus eine Transaktion zu machen schon, wie jede Bearbeitung."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acepta una sugerencia una vez y el siguiente pago en ese comercio llega listo. Capturar nunca requiere Cashly Pro; convertirlo en transacción sí, como cualquier edición."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acceptez une suggestion une fois et le prochain paiement chez ce commerçant arrive prêt. Capturer ne demande jamais Cashly Pro ; en faire une transaction, oui, comme toute modification."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accetta un suggerimento una volta e il prossimo pagamento in quel negozio arriva pronto. Catturare non richiede mai Cashly Pro; trasformarlo in transazione sì, come ogni modifica."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提案を一度受け入れると、同じ店の次の支払いは準備済みで届きます。取り込みにCashly Proは不要ですが、取引にするには他の編集と同じく必要です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "추천을 한 번 수락하면 그 가맹점의 다음 결제는 준비된 채로 옵니다. 캡처에는 Cashly Pro가 필요 없지만, 거래로 바꾸는 데는 다른 편집처럼 필요합니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aceite uma sugestão uma vez e o próximo pagamento naquele lugar chega pronto. Capturar nunca exige Cashly Pro; transformar em transação exige, como qualquer edição."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Примите предложение один раз, и следующий платёж у этого продавца придёт уже готовым. Захват никогда не требует Cashly Pro; превращение в транзакцию — требует, как любое изменение."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "接受一次建议，该商家的下一笔付款就会准备就绪地送达。捕获不需要 Cashly Pro；把它变成交易则需要，和任何编辑一样。"
           }
         }
       }
@@ -7325,6 +7795,64 @@
         }
       }
     },
+    "Add the New Expense control to Control Center or to the Action Button. It opens Cashly straight on a new expense." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Füge das Steuerelement „Neue Ausgabe“ zum Kontrollzentrum oder zur Aktionstaste hinzu. Es öffnet Cashly direkt bei einer neuen Ausgabe."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade el control Gasto nuevo al Centro de control o al botón de Acción. Abre Cashly directamente en un gasto nuevo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez la commande Nouvelle dépense au centre de contrôle ou au bouton Action. Elle ouvre Cashly directement sur une nouvelle dépense."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi il controllo Nuova spesa al Centro di Controllo o al tasto Azione. Apre Cashly direttamente su una nuova spesa."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「新しい支出」コントロールをコントロールセンターかアクションボタンに追加。Cashlyが新しい支出の画面で直接開きます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새 지출 컨트롤을 제어 센터나 동작 버튼에 추가하세요. Cashly가 바로 새 지출 화면으로 열립니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione o controle Novo gasto à Central de Controle ou ao botão de Ação. Ele abre o Cashly direto num gasto novo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавьте элемент «Новый расход» в Пункт управления или на кнопку действия. Он открывает Cashly сразу на новом расходе."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把“新增支出”控件添加到控制中心或操作按钮。它会直接打开 Cashly 的新支出页面。"
+          }
+        }
+      }
+    },
     "Add these columns when you have the information. Empty cells are fine." : {
       "localizations" : {
         "de" : {
@@ -7621,6 +8149,64 @@
         }
       }
     },
+    "Alerts at 80% and 100%" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hinweise bei 80 % und 100 %"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avisos al 80 % y al 100 %"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alertes à 80 % et 100 %"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avvisi all'80% e al 100%"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "80%と100%で通知"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "80%와 100%에서 알림"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alertas aos 80% e 100%"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оповещения на 80 % и 100 %"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "80% 和 100% 时提醒"
+          }
+        }
+      }
+    },
     "Alerts on the day bills are due or money is expected, and at the start of each month." : {
       "localizations" : {
         "de" : {
@@ -7907,6 +8493,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "所有数据已删除。"
+          }
+        }
+      }
+    },
+    "All done" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles erledigt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo hecho"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout est fait"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutto fatto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべて完了"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모두 완료"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tudo feito"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Всё пройдено"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "全部完成"
           }
         }
       }
@@ -8549,6 +9193,64 @@
         }
       }
     },
+    "Analysis" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyse"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Análisis"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyse"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analisi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分析"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "분석"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Análise"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Анализ"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分析"
+          }
+        }
+      }
+    },
     "Analytics engine" : {
       "localizations" : {
         "de" : {
@@ -8893,6 +9595,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "外观、货币、通知、备份、功能和 MCP 服务器将恢复默认设置。你的数据不会被删除。"
+          }
+        }
+      }
+    },
+    "Apple Pay to Cashly, one tap to confirm" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Von Apple Pay zu Cashly, ein Tipp zum Bestätigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De Apple Pay a Cashly, un toque para confirmar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "D'Apple Pay à Cashly, un tap pour confirmer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Da Apple Pay a Cashly, un tocco per confermare"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple PayからCashlyへ、1タップで確定"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Pay에서 Cashly로, 한 번 탭해 확인"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do Apple Pay ao Cashly, um toque para confirmar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Из Apple Pay в Cashly, одно касание для подтверждения"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从 Apple Pay 到 Cashly，一键确认"
           }
         }
       }
@@ -9357,6 +10117,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "自动备份"
+          }
+        }
+      }
+    },
+    "Automation" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatisierung"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatización"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatisation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automazione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自動化"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자동화"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automação"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматизация"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动化"
           }
         }
       }
@@ -10115,6 +10933,64 @@
         }
       }
     },
+    "Backups" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backups"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copias de seguridad"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sauvegardes"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backup"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バックアップ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "백업"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backups"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Резервные копии"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份"
+          }
+        }
+      }
+    },
     "Backups go to iCloud Drive and show up in the Files app on your other devices." : {
       "localizations" : {
         "de" : {
@@ -10343,6 +11219,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "备份只保存在此设备上。打开后可在 iCloud 云盘中保留一份副本。"
+          }
+        }
+      }
+    },
+    "Backups, iCloud and Claude Code" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backups, iCloud und Claude Code"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copias, iCloud y Claude Code"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sauvegardes, iCloud et Claude Code"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backup, iCloud e Claude Code"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バックアップ、iCloud、Claude Code"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "백업, iCloud 및 Claude Code"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backups, iCloud e Claude Code"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Резервные копии, iCloud и Claude Code"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份、iCloud 与 Claude Code"
           }
         }
       }
@@ -12033,6 +12967,122 @@
         }
       }
     },
+    "Budgets That Work" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budgets, die funktionieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Presupuestos que funcionan"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Des budgets qui marchent"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budget che funzionano"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "うまくいく予算"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "효과적인 예산"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orçamentos que funcionam"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бюджеты, которые работают"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "行之有效的预算"
+          }
+        }
+      }
+    },
+    "Budgets and Goals" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budgets und Ziele"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Presupuestos y metas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budgets et objectifs"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budget e obiettivi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "予算と目標"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "예산과 목표"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orçamentos e metas"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бюджеты и цели"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预算与目标"
+          }
+        }
+      }
+    },
     "Budgets and categories. Set how much you want to spend and follow the month's pace." : {
       "localizations" : {
         "de" : {
@@ -12841,6 +13891,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "捕获付款"
+          }
+        }
+      }
+    },
+    "Capture Payments Automatically" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zahlungen automatisch erfassen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capturar pagos automáticamente"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capturer les paiements automatiquement"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Catturare i pagamenti in automatico"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支払いを自動で取り込む"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "결제 자동으로 캡처하기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capturar pagamentos automaticamente"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автоматически захватывать платежи"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自动捕获付款"
           }
         }
       }
@@ -13718,6 +14826,64 @@
         }
       }
     },
+    "Cashly projects where the month will land from your pace so far and the bills you have already recorded. It updates every time you record." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly rechnet aus deinem bisherigen Tempo und den bereits erfassten Rechnungen hoch, wo der Monat landet. Mit jeder Erfassung aktualisiert es sich."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly proyecta dónde acabará el mes a partir de tu ritmo y de las cuentas ya registradas. Se actualiza cada vez que registras."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly projette où le mois va atterrir à partir de votre rythme et des factures déjà enregistrées. Ça se met à jour à chaque enregistrement."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly proietta dove finirà il mese dal tuo ritmo finora e dalle bollette già registrate. Si aggiorna ogni volta che registri."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "これまでのペースと記録済みの請求から、月末の着地を予測します。記録するたびに更新されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금까지의 속도와 이미 기록한 청구서로 이번 달의 결과를 예측합니다. 기록할 때마다 갱신됩니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Cashly projeta onde o mês vai terminar a partir do seu ritmo até aqui e das contas já registradas. Atualiza a cada registro."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly прогнозирует итог месяца по вашему темпу и уже записанным счетам. Прогноз обновляется при каждой записи."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly 根据目前的节奏和已记录的账单预测本月结果。每次记录都会更新。"
+          }
+        }
+      }
+    },
     "Cashly transactions" : {
       "localizations" : {
         "de" : {
@@ -14004,6 +15170,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分类"
+          }
+        }
+      }
+    },
+    "Category and Description" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategorie und Beschreibung"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categoría y descripción"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Catégorie et description"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categoria e descrizione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カテゴリと説明"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카테고리와 설명"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categoria e descrição"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Категория и описание"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分类与描述"
           }
         }
       }
@@ -15052,6 +16276,64 @@
         }
       }
     },
+    "Choose who paid, then mark each share as paid or to receive. History shows what is still owed." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle, wer bezahlt hat, und markiere jeden Anteil als bezahlt oder ausstehend. Der Verlauf zeigt, was noch offen ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige quién pagó y marca cada parte como pagada o por recibir. El Historial muestra lo que aún se debe."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez qui a payé, puis marquez chaque part comme payée ou à recevoir. L'Historique montre ce qui reste dû."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli chi ha pagato, poi segna ogni quota come pagata o da ricevere. La Cronologia mostra quanto manca."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "誰が払ったかを選び、各人の分を支払い済みか受け取り待ちにします。履歴に未精算分が表示されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "누가 결제했는지 고른 뒤, 각 몫을 결제 완료 또는 받을 예정으로 표시하세요. 기록에 아직 받을 금액이 보입니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha quem pagou e marque cada parte como paga ou a receber. O Histórico mostra o que ainda falta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, кто платил, и отметьте каждую долю как оплаченную или ожидающую. История показывает, сколько ещё должны."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择付款人，然后把每份标记为已付或待收。历史会显示还欠多少。"
+          }
+        }
+      }
+    },
     "Choose who shares this expense and Cashly divides the amount for you." : {
       "localizations" : {
         "de" : {
@@ -16038,6 +17320,64 @@
         }
       }
     },
+    "Come back whenever you want a refresher." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Komm zurück, wann immer du etwas auffrischen willst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vuelve cuando quieras repasar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revenez quand vous voulez un rappel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Torna quando vuoi un ripasso."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "復習したくなったらいつでもどうぞ。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다시 보고 싶을 때 언제든 돌아오세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volte sempre que quiser relembrar."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Возвращайтесь, когда захотите освежить память."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "想温习时随时回来。"
+          }
+        }
+      }
+    },
     "Coming Months" : {
       "localizations" : {
         "de" : {
@@ -16730,6 +18070,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "彩纸、烟花和金币雨。"
+          }
+        }
+      }
+    },
+    "Confirm from the Notification" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In der Mitteilung bestätigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirma desde la notificación"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirmez depuis la notification"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conferma dalla notifica"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知から確定"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알림에서 확인"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirme pela notificação"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подтвердите из уведомления"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在通知中确认"
           }
         }
       }
@@ -18884,6 +20282,64 @@
         }
       }
     },
+    "Data and Privacy" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daten und Datenschutz"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Datos y privacidad"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Données et confidentialité"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dati e privacy"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "データとプライバシー"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "데이터와 개인정보 보호"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dados e privacidade"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Данные и конфиденциальность"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据与隐私"
+          }
+        }
+      }
+    },
     "Database" : {
       "localizations" : {
         "de" : {
@@ -20282,6 +21738,64 @@
         }
       }
     },
+    "Discreet Mode blurs every amount until you turn it off. Handy on the train or when you show the app to someone." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der diskrete Modus verwischt jeden Betrag, bis du ihn ausschaltest. Praktisch in der Bahn oder wenn du jemandem die App zeigst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El modo discreto difumina todos los importes hasta que lo desactives. Útil en el tren o al enseñarle la app a alguien."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le mode discret floute tous les montants jusqu'à ce que vous le désactiviez. Pratique dans le train ou quand vous montrez l'app à quelqu'un."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La modalità discreta sfoca ogni importo finché non la disattivi. Utile in treno o quando mostri l'app a qualcuno."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "控えめモードはオフにするまですべての金額をぼかします。電車の中や、誰かにアプリを見せるときに便利です。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "신중 모드는 끌 때까지 모든 금액을 흐리게 합니다. 지하철에서나 누군가에게 앱을 보여 줄 때 유용합니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Modo discreto desfoca todos os valores até você desligar. Útil no trem ou quando mostra o app a alguém."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скрытный режим размывает все суммы, пока вы его не выключите. Удобно в поезде или когда показываете приложение кому-то."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "低调模式会模糊所有金额，直到你关闭它。在地铁上或给别人看应用时很实用。"
+          }
+        }
+      }
+    },
     "Done" : {
       "localizations" : {
         "de" : {
@@ -20568,6 +22082,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每张冻结卡自动抵消一天的中断。"
+          }
+        }
+      }
+    },
+    "Each payment arrives as a notification with a suggested category. Tap to confirm, pick another, or ignore. The app icon counts what is waiting." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jede Zahlung kommt als Mitteilung mit Kategorievorschlag. Tippe zum Bestätigen, wähle eine andere oder ignoriere sie. Das App-Icon zählt, was noch wartet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada pago llega como notificación con una categoría sugerida. Toca para confirmar, elige otra o ignóralo. El icono de la app cuenta lo que espera."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque paiement arrive en notification avec une catégorie suggérée. Touchez pour confirmer, choisissez-en une autre ou ignorez. L'icône de l'app compte ce qui attend."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ogni pagamento arriva come notifica con una categoria suggerita. Tocca per confermare, scegline un'altra o ignora. L'icona dell'app conta cosa è in attesa."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支払いごとにおすすめカテゴリ付きの通知が届きます。タップして確定、別のカテゴリを選ぶ、または無視。アプリアイコンに待ち件数が出ます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "각 결제는 추천 카테고리가 담긴 알림으로 옵니다. 탭해서 확인하거나 다른 것을 고르거나 무시하세요. 앱 아이콘이 대기 중인 수를 보여 줍니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada pagamento chega como notificação com uma categoria sugerida. Toque para confirmar, escolha outra ou ignore. O ícone do app conta o que está esperando."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Каждый платёж приходит уведомлением с предложенной категорией. Нажмите, чтобы подтвердить, выберите другую или пропустите. Значок приложения показывает, сколько ждёт."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每笔付款都会以带有建议分类的通知送达。点按确认、换一个分类或忽略。应用图标会显示等待处理的数量。"
           }
         }
       }
@@ -21674,6 +23246,64 @@
         }
       }
     },
+    "Every guide done" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alle Anleitungen erledigt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas las guías completadas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tous les guides terminés"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutte le guide completate"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべてのガイドを完了"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모든 가이드 완료"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos os guias concluídos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Все руководства пройдены"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "所有指南已完成"
+          }
+        }
+      }
+    },
     "Every icon pack, including the ones still to come." : {
       "localizations" : {
         "de" : {
@@ -22018,6 +23648,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cashly 全部功能，按年计费。"
+          }
+        }
+      }
+    },
+    "Everything lives on your device and in your iCloud. No account, no servers, no third parties. Export a backup anytime." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alles liegt auf deinem Gerät und in deiner iCloud. Kein Konto, keine Server, keine Dritten. Exportiere jederzeit ein Backup."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo vive en tu dispositivo y en tu iCloud. Sin cuenta, sin servidores, sin terceros. Exporta una copia cuando quieras."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout reste sur votre appareil et dans votre iCloud. Pas de compte, pas de serveurs, pas de tiers. Exportez une sauvegarde quand vous voulez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutto vive sul tuo dispositivo e nel tuo iCloud. Nessun account, nessun server, nessuna terza parte. Esporta un backup quando vuoi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべてはあなたのデバイスとiCloudの中に。アカウントもサーバーも第三者もなし。バックアップはいつでも書き出せます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모든 것은 내 기기와 내 iCloud에 있습니다. 계정도, 서버도, 제3자도 없습니다. 언제든 백업을 내보내세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tudo fica no seu aparelho e no seu iCloud. Sem conta, sem servidores, sem terceiros. Exporte um backup quando quiser."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Всё хранится на вашем устройстве и в вашем iCloud. Без учётной записи, серверов и третьих сторон. Экспортируйте резервную копию в любой момент."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一切都在你的设备和 iCloud 中。没有账户、没有服务器、没有第三方。随时可以导出备份。"
           }
         }
       }
@@ -22482,6 +24170,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "导出和导入数据、生成交易电子表格，并开启每周自动备份。"
+          }
+        }
+      }
+    },
+    "Face ID lock, discreet mode and where data lives" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Face ID-Sperre, diskreter Modus und wo Daten liegen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloqueo con Face ID, modo discreto y dónde viven los datos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verrouillage Face ID, mode discret et où vivent les données"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocco con Face ID, modalità discreta e dove stanno i dati"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Face IDロック、控えめモード、データの保存先"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Face ID 잠금, 신중 모드, 데이터 보관 위치"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloqueio com Face ID, modo discreto e onde ficam os dados"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Блокировка Face ID, скрытный режим и где хранятся данные"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Face ID 锁定、低调模式与数据存放位置"
           }
         }
       }
@@ -23062,6 +24808,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "金融"
+          }
+        }
+      }
+    },
+    "Finish every guide to earn the Studious achievement." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schließe alle Anleitungen ab, um die Errungenschaft „Fleißig“ zu erhalten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Completa todas las guías para ganar el logro Estudioso."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terminez tous les guides pour obtenir le succès Studieux."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Completa tutte le guide per ottenere il traguardo Studioso."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべてのガイドを終えると「勉強家」の実績が手に入ります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모든 가이드를 마치면 '학구파' 업적을 얻습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conclua todos os guias para ganhar a conquista Estudioso."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пройдите все руководства, чтобы получить достижение «Прилежный»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成所有指南即可获得“勤学”成就。"
           }
         }
       }
@@ -24106,6 +25910,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "餐饮"
+          }
+        }
+      }
+    },
+    "Four Widgets" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vier Widgets"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuatro widgets"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quatre widgets"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quattro widget"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4つのウィジェット"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "네 가지 위젯"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quatro widgets"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Четыре виджета"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "四个小组件"
           }
         }
       }
@@ -26546,6 +28408,64 @@
         }
       }
     },
+    "Home opens with how much you can still spend per day without going over plan. Installments already committed are taken out first." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start zeigt zuerst, wie viel du pro Tag noch ausgeben kannst, ohne den Plan zu sprengen. Bereits zugesagte Raten werden vorher abgezogen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicio abre con cuánto puedes gastar al día sin pasarte del plan. Las cuotas ya comprometidas se descuentan primero."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'Accueil s'ouvre sur ce que vous pouvez encore dépenser par jour sans dépasser le plan. Les échéances déjà engagées sont retirées d'abord."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La Home si apre con quanto puoi ancora spendere al giorno senza superare il piano. Le rate già impegnate vengono tolte prima."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホームには計画内で1日に使える残り額が表示されます。確定済みの分割払いは先に差し引かれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "홈은 계획을 넘지 않고 하루에 더 쓸 수 있는 금액으로 시작합니다. 이미 확정된 할부는 먼저 빠집니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A Início abre com quanto você ainda pode gastar por dia sem passar do plano. As parcelas já assumidas saem primeiro."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Главная открывается суммой, которую ещё можно тратить в день, не выходя за план. Уже запланированные платежи вычитаются заранее."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主页首先显示在不超出计划的前提下每天还能花多少。已承诺的分期会先扣除。"
+          }
+        }
+      }
+    },
     "Hotel" : {
       "localizations" : {
         "de" : {
@@ -27296,6 +29216,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "本月图标"
+          }
+        }
+      }
+    },
+    "Icons, colors, streak helps and challenge packs. Items are yours for good. Every guide you finish is worth 20 XP." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icons, Farben, Serien-Hilfen und Herausforderungspakete. Was du kaufst, gehört dir für immer. Jede abgeschlossene Anleitung bringt 20 XP."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iconos, colores, ayudas de racha y packs de desafíos. Los artículos son tuyos para siempre. Cada guía terminada vale 20 XP."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icônes, couleurs, aides de série et packs de défis. Les articles sont à vous pour de bon. Chaque guide terminé vaut 20 XP."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icone, colori, aiuti per la serie e pacchetti di sfide. Gli articoli sono tuoi per sempre. Ogni guida completata vale 20 XP."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アイコン、カラー、ストリークの助け、チャレンジパック。買ったものはずっとあなたのもの。ガイドを1つ終えるごとに20XP。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아이콘, 색상, 스트릭 도움, 챌린지 팩. 아이템은 영원히 내 것. 가이드를 하나 마칠 때마다 20 XP."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ícones, cores, ajudas de sequência e pacotes de desafios. Os itens são seus para sempre. Cada guia concluído vale 20 XP."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Значки, цвета, помощь для серии и наборы испытаний. Покупки остаются вашими навсегда. Каждое пройденное руководство даёт 20 XP."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图标、颜色、连续记录助力和挑战包。物品永久归你。每完成一个指南可得 20 XP。"
           }
         }
       }
@@ -28058,6 +30036,64 @@
         }
       }
     },
+    "In Goals, tap + and choose the category, month and amount. Start with the three categories you spend most on." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippe in Ziele auf + und wähle Kategorie, Monat und Betrag. Fang mit den drei Kategorien an, für die du am meisten ausgibst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En Metas, toca + y elige categoría, mes e importe. Empieza por las tres categorías en las que más gastas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans Objectifs, touchez + et choisissez la catégorie, le mois et le montant. Commencez par les trois catégories où vous dépensez le plus."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Obiettivi, tocca + e scegli categoria, mese e importo. Inizia dalle tre categorie in cui spendi di più."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目標で＋をタップし、カテゴリ、月、金額を選びます。まずは支出が多い3つのカテゴリから。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "목표에서 +를 탭하고 카테고리, 월, 금액을 고르세요. 가장 많이 쓰는 세 카테고리부터 시작하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em Metas, toque em + e escolha a categoria, o mês e o valor. Comece pelas três categorias em que você mais gasta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В Целях нажмите + и выберите категорию, месяц и сумму. Начните с трёх категорий, на которые уходит больше всего."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在目标中点按 +，选择分类、月份和金额。先从花费最多的三个分类开始。"
+          }
+        }
+      }
+    },
     "In Goals, these budgets show up first." : {
       "localizations" : {
         "de" : {
@@ -28116,6 +30152,64 @@
         }
       }
     },
+    "In History, tap +. The amount comes first, big and ready to type, so a coffee takes three taps." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tippe im Verlauf auf +. Der Betrag kommt zuerst, groß und bereit zum Tippen – ein Kaffee braucht drei Tipps."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En Historial, toca +. El importe va primero, grande y listo para escribir: un café son tres toques."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans Historique, touchez +. Le montant vient en premier, en grand et prêt à saisir : un café, c'est trois taps."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Cronologia, tocca +. L'importo viene per primo, grande e pronto da digitare: un caffè sono tre tocchi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "履歴で＋をタップ。金額が最初に大きく表示され、すぐ入力できます。コーヒー1杯なら3タップ。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기록에서 +를 탭하세요. 금액이 먼저 크게 나타나 바로 입력할 수 있어, 커피 한 잔은 세 번만 탭하면 됩니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Histórico, toque em +. O valor vem primeiro, grande e pronto para digitar: um café são três toques."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В Истории нажмите +. Сумма идёт первой, крупно и готова к вводу: кофе — это три касания."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在历史中点按 +。金额排在最前，大字显示、随时可输入，记一杯咖啡只需三下。"
+          }
+        }
+      }
+    },
     "In Sequence" : {
       "localizations" : {
         "de" : {
@@ -28170,6 +30264,180 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "按顺序"
+          }
+        }
+      }
+    },
+    "In Settings › Claude Code, allow access and connect from your Mac. Claude can read your months and send transactions, always with your approval." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erlaube in Einstellungen › Claude Code den Zugriff und verbinde dich vom Mac aus. Claude kann deine Monate lesen und Transaktionen senden – immer mit deiner Zustimmung."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En Ajustes › Claude Code, permite el acceso y conéctate desde tu Mac. Claude puede leer tus meses y enviar transacciones, siempre con tu aprobación."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans Réglages › Claude Code, autorisez l'accès et connectez-vous depuis votre Mac. Claude peut lire vos mois et envoyer des transactions, toujours avec votre accord."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Impostazioni › Claude Code, consenti l'accesso e collegati dal Mac. Claude può leggere i tuoi mesi e inviare transazioni, sempre con la tua approvazione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定 › Claude Codeでアクセスを許可し、Macから接続します。Claudeはあなたの承認のもとで月を読み、取引を送れます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정 › Claude Code에서 접근을 허용하고 Mac에서 연결하세요. Claude는 항상 내 승인 하에 달을 읽고 거래를 보낼 수 있습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em Ajustes › Claude Code, permita o acesso e conecte pelo Mac. O Claude pode ler seus meses e enviar transações, sempre com a sua aprovação."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В Настройках › Claude Code разрешите доступ и подключитесь с Mac. Claude может читать ваши месяцы и отправлять транзакции — всегда с вашего одобрения."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在设置 › Claude Code 中允许访问并从 Mac 连接。Claude 可以读取你的月份并发送交易，但始终需要你的批准。"
+          }
+        }
+      }
+    },
+    "In Shortcuts" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Kurzbefehle"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En Atajos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans Raccourcis"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Comandi Rapidi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ショートカットで"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단축어에서"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Atalhos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В Быстрых командах"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在快捷指令中"
+          }
+        }
+      }
+    },
+    "In Shortcuts, create an automation with the Transaction trigger, set to run immediately. Choose Capture a Payment in Cashly and pass the amount, merchant, card and date." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erstelle in Kurzbefehle eine Automation mit dem Auslöser „Transaktion“, die sofort ausgeführt wird. Wähle „Zahlung in Cashly erfassen“ und übergib Betrag, Händler, Karte und Datum."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En Atajos, crea una automatización con el desencadenante Transacción, configurada para ejecutarse de inmediato. Elige Capturar un pago en Cashly y pásale importe, comercio, tarjeta y fecha."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans Raccourcis, créez une automatisation avec le déclencheur Transaction, réglée pour s'exécuter immédiatement. Choisissez Capturer un paiement dans Cashly et transmettez le montant, le commerçant, la carte et la date."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In Comandi Rapidi, crea un'automazione con il trigger Transazione, impostata per eseguire subito. Scegli Cattura un pagamento in Cashly e passa importo, esercente, carta e data."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ショートカットで「取引」トリガーのオートメーションを作り、すぐに実行する設定にします。「Cashlyで支払いを取り込む」を選び、金額、店名、カード、日付を渡します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단축어에서 거래 트리거로 자동화를 만들고 즉시 실행으로 설정하세요. Cashly에서 결제 캡처를 고르고 금액, 가맹점, 카드, 날짜를 넘기세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Atalhos, crie uma automação com o gatilho Transação, configurada para executar imediatamente. Escolha Capturar um pagamento no Cashly e passe valor, estabelecimento, cartão e data."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В «Быстрых командах» создайте автоматизацию с триггером «Транзакция» и немедленным запуском. Выберите «Захватить платёж в Cashly» и передайте сумму, продавца, карту и дату."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在快捷指令中创建一个以“交易”为触发条件、立即运行的自动化。选择“在 Cashly 中捕获付款”，并传入金额、商家、卡片和日期。"
           }
         }
       }
@@ -29044,6 +31312,64 @@
         }
       }
     },
+    "It Learns Your Places" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es lernt deine Orte"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aprende tus lugares"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il apprend vos habitudes"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impara i tuoi posti"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "お店を覚える"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자주 가는 곳을 기억합니다"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ele aprende os seus lugares"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Он запоминает ваши места"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "它会记住你常去的地方"
+          }
+        }
+      }
+    },
     "It stays at 1,000 up to 85% of the plan and drops gradually after that." : {
       "localizations" : {
         "de" : {
@@ -29740,6 +32066,64 @@
         }
       }
     },
+    "Keep the Streak" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Serie halten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantén la racha"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gardez la série"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantieni la serie"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ストリークを続ける"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "스트릭 이어가기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantenha a sequência"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Держите серию"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持连续记录"
+          }
+        }
+      }
+    },
     "Keep using Cashly to find out." : {
       "localizations" : {
         "de" : {
@@ -29794,6 +32178,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "继续使用 Cashly 即可揭晓。"
+          }
+        }
+      }
+    },
+    "Keep your data safe and use it from your Mac" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Daten sichern und vom Mac aus nutzen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Protege tus datos y úsalos desde tu Mac"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Protégez vos données et utilisez-les depuis votre Mac"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proteggi i tuoi dati e usali dal Mac"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "データを安全に保ち、Macから使う"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "데이터를 안전하게 지키고 Mac에서 사용하기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantenha seus dados seguros e use-os no Mac"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Храните данные надёжно и используйте их с Mac"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保护数据并在 Mac 上使用"
           }
         }
       }
@@ -30610,6 +33052,64 @@
         }
       }
     },
+    "Level Up" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Level aufsteigen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sube de nivel"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monter de niveau"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sali di livello"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "レベルアップ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "레벨 업"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suba de nível"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повышайте уровень"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "升级"
+          }
+        }
+      }
+    },
     "Level, streak, missions, challenges and achievements. Hiding the tab keeps your progress." : {
       "localizations" : {
         "de" : {
@@ -30780,6 +33280,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "等级、连续记录、每周任务和挑战，奖励的是关注你的钱，而不是多花钱。"
+          }
+        }
+      }
+    },
+    "Levels, streaks, challenges and the shop" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Level, Serien, Herausforderungen und der Shop"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niveles, rachas, desafíos y la tienda"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Niveaux, séries, défis et la boutique"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Livelli, serie, sfide e il negozio"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "レベル、ストリーク、チャレンジ、ショップ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "레벨, 스트릭, 챌린지, 상점"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Níveis, sequências, desafios e a loja"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уровни, серии, испытания и магазин"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "等级、连续记录、挑战与商店"
           }
         }
       }
@@ -31186,6 +33744,122 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "正在加载你的档案"
+          }
+        }
+      }
+    },
+    "Lock Cashly" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly sperren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloquea Cashly"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verrouillez Cashly"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocca Cashly"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashlyをロック"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly 잠그기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloqueie o Cashly"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Заблокируйте Cashly"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "锁定 Cashly"
+          }
+        }
+      }
+    },
+    "Lock Screen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sperrbildschirm"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pantalla bloqueada"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écran verrouillé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schermata di blocco"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ロック画面"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "잠금 화면"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tela Bloqueada"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Экран блокировки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "锁定屏幕"
           }
         }
       }
@@ -32234,6 +34908,64 @@
         }
       }
     },
+    "Mark it from the notification, from the transaction, or say \"Mark a bill as paid in Cashly\" to Siri." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markiere sie in der Mitteilung, in der Transaktion oder sag Siri „Markiere eine Rechnung in Cashly als bezahlt“."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Márcala desde la notificación, desde la transacción o dile a Siri «Marca una cuenta como pagada en Cashly»."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marquez-la depuis la notification, depuis la transaction, ou dites à Siri « Marque une facture comme payée dans Cashly »."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Segnala dalla notifica, dalla transazione o di' a Siri \"Segna una bolletta come pagata in Cashly\"."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通知から、取引から、または Siri に「Cashlyで請求を支払い済みにして」と話しかけて。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알림에서, 거래에서, 또는 Siri에게 \"Cashly에서 청구서를 결제 완료로 표시해 줘\"라고 말하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marque pela notificação, pela transação ou diga à Siri \"Marcar uma conta como paga no Cashly\"."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отметьте из уведомления, из транзакции или скажите Siri: «Отметь счёт оплаченным в Cashly»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在通知里、在交易里标记，或对 Siri 说“在 Cashly 中把账单标记为已付”。"
+          }
+        }
+      }
+    },
     "Market" : {
       "localizations" : {
         "de" : {
@@ -32868,6 +35600,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "未记录"
+          }
+        }
+      }
+    },
+    "Missions and Challenges" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Missionen und Herausforderungen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Misiones y desafíos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Missions et défis"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Missioni e sfide"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ミッションとチャレンジ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "미션과 챌린지"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Missões e desafios"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Миссии и испытания"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "任务与挑战"
           }
         }
       }
@@ -33564,6 +36354,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "按月"
+          }
+        }
+      }
+    },
+    "More Phrases" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Weitere Sätze"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Más frases"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "D'autres phrases"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Altre frasi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ほかのフレーズ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "더 많은 문장"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mais frases"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ещё фразы"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "更多语句"
           }
         }
       }
@@ -34666,6 +37514,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "下一年"
+          }
+        }
+      }
+    },
+    "Next for you" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Als Nächstes"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siguiente para ti"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À suivre pour vous"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il prossimo per te"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次のおすすめ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다음 추천"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Próximo para você"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Следующее для вас"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "接下来"
           }
         }
       }
@@ -36468,6 +39374,64 @@
         }
       }
     },
+    "On the due day, a notification arrives at 9 AM with Mark as Paid and Postpone. Turn it on in Settings › Notifications." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Am Fälligkeitstag kommt um 9 Uhr eine Mitteilung mit „Als bezahlt markieren“ und „Verschieben“. Aktiviere sie in Einstellungen › Mitteilungen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El día del vencimiento llega una notificación a las 9 con Marcar como pagada y Posponer. Actívala en Ajustes › Notificaciones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le jour de l'échéance, une notification arrive à 9 h avec Marquer comme payée et Reporter. Activez-la dans Réglages › Notifications."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il giorno della scadenza arriva una notifica alle 9 con Segna come pagata e Rimanda. Attivala in Impostazioni › Notifiche."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "期日の午前9時に「支払い済みにする」と「延期」付きの通知が届きます。設定 › 通知でオンにしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "마감일 오전 9시에 결제 완료로 표시와 연기 동작이 있는 알림이 옵니다. 설정 › 알림에서 켜세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No dia do vencimento, uma notificação chega às 9h com Marcar como paga e Adiar. Ative em Ajustes › Notificações."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В день оплаты в 9 утра приходит уведомление с действиями «Отметить оплаченным» и «Отложить». Включите его в Настройках › Уведомления."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "到期当天上午 9 点会收到通知，带有“标记为已付”和“推迟”。在设置 › 通知中开启。"
+          }
+        }
+      }
+    },
     "On track" : {
       "localizations" : {
         "de" : {
@@ -36754,6 +39718,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一键直达"
+          }
+        }
+      }
+    },
+    "One Tap to a New Expense" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Tipp zur neuen Ausgabe"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un toque para un gasto nuevo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un tap vers une nouvelle dépense"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un tocco per una nuova spesa"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1タップで新しい支出"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "한 번 탭으로 새 지출"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um toque para um gasto novo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Одно касание — новый расход"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一键新增支出"
           }
         }
       }
@@ -38266,6 +41288,64 @@
         }
       }
     },
+    "Participants, split modes and who paid" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teilnehmer, Aufteilung und wer bezahlt hat"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Participantes, modos de división y quién pagó"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Participants, modes de partage et qui a payé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partecipanti, modalità di divisione e chi ha pagato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "参加者、分け方、誰が払ったか"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "참여자, 분할 방식, 결제한 사람"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Participantes, modos de divisão e quem pagou"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Участники, способы деления и кто платил"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "参与者、分摊方式与付款人"
+          }
+        }
+      }
+    },
     "Participants, splits and who owes whom" : {
       "localizations" : {
         "de" : {
@@ -38498,6 +41578,64 @@
         }
       }
     },
+    "Pay, and Cashly Knows" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bezahlen, und Cashly weiß es"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pagas y Cashly se entera"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Payez, et Cashly le sait"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paghi, e Cashly lo sa"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "払えば、Cashlyが知る"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "결제하면 Cashly가 압니다"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pague, e o Cashly fica sabendo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Платите — и Cashly знает"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一付款，Cashly 就知道"
+          }
+        }
+      }
+    },
     "Pay, and It's Recorded" : {
       "localizations" : {
         "de" : {
@@ -38604,6 +41742,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Неоплаченный счёт"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "待付账单"
+          }
+        }
+      }
+    },
+    "Pending Bills" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offene Rechnungen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuentas pendientes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Factures en attente"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bollette in sospeso"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未払いの請求"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "미결제 청구서"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contas pendentes"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Неоплаченные счета"
           }
         },
         "zh-Hans" : {
@@ -39020,6 +42216,64 @@
         }
       }
     },
+    "Pick a category and add a short description. Mark it paid or pending, and change the date if it wasn't today." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle eine Kategorie und schreibe eine kurze Beschreibung. Markiere als bezahlt oder offen und ändere das Datum, wenn es nicht heute war."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige una categoría y añade una descripción corta. Márcalo como pagado o pendiente y cambia la fecha si no fue hoy."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez une catégorie et ajoutez une courte description. Marquez payé ou en attente, et changez la date si ce n'était pas aujourd'hui."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli una categoria e aggiungi una breve descrizione. Segna come pagato o in sospeso e cambia la data se non era oggi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カテゴリを選び、短い説明を添えます。支払い済みか未払いかを選び、今日でなければ日付を変えましょう。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카테고리를 고르고 짧은 설명을 적으세요. 결제 완료 또는 미결제로 표시하고, 오늘이 아니면 날짜를 바꾸세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha uma categoria e adicione uma descrição curta. Marque como pago ou pendente e mude a data se não foi hoje."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите категорию и добавьте короткое описание. Отметьте как оплачено или ожидает и измените дату, если это было не сегодня."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择分类并添加简短描述。标记为已付或待付，如果不是今天就改一下日期。"
+          }
+        }
+      }
+    },
     "Pick a challenge for the month" : {
       "localizations" : {
         "de" : {
@@ -39248,6 +42502,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "制定一个预算。"
+          }
+        }
+      }
+    },
+    "Plan per category and follow the pace" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pro Kategorie planen und das Tempo verfolgen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planificar por categoría y seguir el ritmo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planifier par catégorie et suivre le rythme"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pianifica per categoria e segui il ritmo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カテゴリごとに計画し、ペースを追う"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카테고리별로 계획하고 속도 따라가기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planejar por categoria e acompanhar o ritmo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Планировать по категориям и следить за темпом"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按分类计划并跟踪进度"
           }
         }
       }
@@ -40876,6 +44188,64 @@
         }
       }
     },
+    "Read Your Month" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deinen Monat lesen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leer tu mes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lire votre mois"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leggere il tuo mese"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今月を読み解く"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이번 달 읽기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ler o seu mês"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Читать свой месяц"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "读懂你的月份"
+          }
+        }
+      }
+    },
     "Read-only" : {
       "localizations" : {
         "de" : {
@@ -41166,6 +44536,64 @@
         }
       }
     },
+    "Record Before You Pay" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vor dem Bezahlen erfassen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra antes de pagar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrez avant de payer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra prima di pagare"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支払う前に記録"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "결제 전에 기록하기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registre antes de pagar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запишите до оплаты"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "付款前先记录"
+          }
+        }
+      }
+    },
     "Record a transaction or mark a no-spend day to keep it going. A freeze covers a missed day on its own." : {
       "localizations" : {
         "de" : {
@@ -41220,6 +44648,122 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "记录一笔交易或标记零花费日即可保持。冻结卡会自动抵消错过的一天。"
+          }
+        }
+      }
+    },
+    "Record ahead, get reminded, mark as paid" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vorab erfassen, erinnern lassen, als bezahlt markieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrar antes, recibir aviso, marcar como pagada"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer à l'avance, être rappelé, marquer comme payée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra in anticipo, ricevi il promemoria, segna come pagata"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "先に記録、通知を受け、支払い済みにする"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "미리 기록하고 알림 받고 결제 완료로 표시"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrar antes, ser lembrado, marcar como paga"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Записать заранее, получить напоминание, отметить оплату"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提前记录、收到提醒、标记为已付"
+          }
+        }
+      }
+    },
+    "Record an Expense Fast" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine Ausgabe schnell erfassen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrar un gasto rápido"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer une dépense vite"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrare una spesa in fretta"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支出をすばやく記録"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지출을 빠르게 기록하기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrar um gasto rápido"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Быстро записать расход"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "快速记录支出"
           }
         }
       }
@@ -41804,6 +45348,64 @@
         }
       }
     },
+    "Recording" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erfassen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrement"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrazione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記録"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기록"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registro"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запись"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录"
+          }
+        }
+      }
+    },
     "Recording needs Cashly Pro. Open Cashly to subscribe." : {
       "localizations" : {
         "de" : {
@@ -41858,6 +45460,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "记录需要 Cashly Pro。打开 Cashly 订阅。"
+          }
+        }
+      }
+    },
+    "Recording, planning and closing the month in the green earn XP. Fifty levels, a new title every five. XP never depends on how much you spend." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erfassen, Planen und den Monat im Grünen abschließen bringen XP. Fünfzig Level, alle fünf ein neuer Titel. XP hängen nie davon ab, wie viel du ausgibst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrar, planificar y cerrar el mes en verde dan XP. Cincuenta niveles, un título nuevo cada cinco. Los XP nunca dependen de cuánto gastas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer, planifier et finir le mois dans le vert rapportent des XP. Cinquante niveaux, un nouveau titre tous les cinq. Les XP ne dépendent jamais de ce que vous dépensez."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrare, pianificare e chiudere il mese in verde danno XP. Cinquanta livelli, un titolo nuovo ogni cinque. Gli XP non dipendono mai da quanto spendi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記録、計画、黒字で月を終えるとXPがもらえます。50レベル、5つごとに新しい称号。XPは支出額に左右されません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기록하고 계획하고 흑자로 달을 마치면 XP를 얻습니다. 50개 레벨, 5레벨마다 새 칭호. XP는 지출 금액과 무관합니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrar, planejar e fechar o mês no azul rendem XP. Cinquenta níveis, um título novo a cada cinco. O XP nunca depende de quanto você gasta."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запись, планирование и закрытие месяца в плюсе приносят XP. Пятьдесят уровней, новый титул каждые пять. XP никогда не зависит от того, сколько вы тратите."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录、规划和盈余收月都能获得 XP。五十个等级，每五级一个新头衔。XP 从不取决于你花了多少。"
           }
         }
       }
@@ -43892,6 +47552,64 @@
         }
       }
     },
+    "Save a bill as pending with its due date. It counts in the plan from day one, and the Upcoming Bills widget keeps the next ones in sight." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Speichere eine Rechnung als offen mit Fälligkeitsdatum. Sie zählt ab dem ersten Tag im Plan, und das Widget „Nächste Rechnungen“ behält die nächsten im Blick."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guarda una cuenta como pendiente con su vencimiento. Cuenta en el plan desde el primer día y el widget Próximas cuentas mantiene a la vista las siguientes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrez une facture en attente avec son échéance. Elle compte dans le plan dès le premier jour, et le widget Factures à venir garde les prochaines en vue."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva una bolletta come in sospeso con la scadenza. Conta nel piano dal primo giorno e il widget Prossime bollette tiene d'occhio le successive."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請求を期日付きの未払いとして保存。初日から計画に含まれ、「今後の請求」ウィジェットで次の支払いが見えます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "청구서를 마감일과 함께 미결제로 저장하세요. 첫날부터 계획에 포함되고, 다가오는 청구서 위젯이 다음 것들을 보여 줍니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salve uma conta como pendente com a data de vencimento. Ela entra no plano desde o primeiro dia, e o widget Próximas contas mantém as seguintes à vista."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохраните счёт как ожидающий с датой оплаты. Он учитывается в плане с первого дня, а виджет «Ближайшие счета» держит следующие на виду."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把账单保存为待付并填上到期日。它从第一天起就计入计划，“即将到期账单”小组件让你随时看到下一笔。"
+          }
+        }
+      }
+    },
     "Save the spreadsheet as CSV, separated by semicolons or commas, and choose the file in the Files app. The spreadsheet exported by Cashly works too." : {
       "localizations" : {
         "de" : {
@@ -44178,6 +47896,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "保存付款以便稍后分类，并通过通知给出类别建议。专为快捷指令中的钱包交易自动化设计。"
+          }
+        }
+      }
+    },
+    "Say \"Add an expense in Cashly\" or \"How much did I spend this month in Cashly\". Siri answers without opening the app." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sag „Füge eine Ausgabe in Cashly hinzu“ oder „Wie viel habe ich diesen Monat in Cashly ausgegeben“. Siri antwortet, ohne die App zu öffnen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di «Añade un gasto en Cashly» o «Cuánto gasté este mes en Cashly». Siri responde sin abrir la app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dites « Ajoute une dépense dans Cashly » ou « Combien j'ai dépensé ce mois-ci dans Cashly ». Siri répond sans ouvrir l'app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di' \"Aggiungi una spesa in Cashly\" o \"Quanto ho speso questo mese in Cashly\". Siri risponde senza aprire l'app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「Cashlyで支出を追加」や「Cashlyで今月いくら使った」と話しかけてください。Siriがアプリを開かずに答えます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"Cashly에 지출 추가해 줘\" 또는 \"Cashly에서 이번 달 얼마 썼어\"라고 말하세요. Siri가 앱을 열지 않고 답합니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diga \"Adicionar um gasto no Cashly\" ou \"Quanto gastei este mês no Cashly\". A Siri responde sem abrir o app."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скажите «Добавь расход в Cashly» или «Сколько я потратил в этом месяце в Cashly». Siri ответит, не открывая приложение."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "说“在 Cashly 中添加一笔支出”或“这个月我在 Cashly 花了多少”。Siri 无需打开应用即可回答。"
           }
         }
       }
@@ -46506,6 +50282,64 @@
         }
       }
     },
+    "Siri and Shortcuts" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri und Kurzbefehle"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri y Atajos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri et Raccourcis"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri e Comandi Rapidi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siriとショートカット"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri와 단축어"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri e Atalhos"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri и Быстрые команды"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri 与快捷指令"
+          }
+        }
+      }
+    },
     "Siri, Control Center, the Action Button and Wallet" : {
       "localizations" : {
         "de" : {
@@ -48072,6 +51906,64 @@
         }
       }
     },
+    "Spending that stands out against other months is flagged, with the transactions behind it. Compare months to see what changed." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ausgaben, die gegenüber anderen Monaten auffallen, werden markiert – mit den Transaktionen dahinter. Vergleiche Monate, um zu sehen, was sich geändert hat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los gastos que destacan frente a otros meses se señalan, con las transacciones detrás. Compara meses para ver qué cambió."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les dépenses qui ressortent par rapport aux autres mois sont signalées, avec les transactions derrière. Comparez les mois pour voir ce qui a changé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le spese che spiccano rispetto ad altri mesi vengono segnalate, con le transazioni dietro. Confronta i mesi per vedere cosa è cambiato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "他の月と比べて目立つ支出には印が付き、元の取引も見られます。月を比較して何が変わったか確認しましょう。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 달보다 두드러진 지출은 뒤에 있는 거래와 함께 표시됩니다. 달을 비교해 무엇이 달라졌는지 보세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gastos que se destacam em relação a outros meses são marcados, com as transações por trás. Compare meses para ver o que mudou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Траты, выделяющиеся на фоне других месяцев, отмечаются вместе с транзакциями за ними. Сравните месяцы, чтобы увидеть, что изменилось."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与其他月份相比突出的支出会被标出，并附上背后的交易。比较各月看看有什么变化。"
+          }
+        }
+      }
+    },
     "Spending up to %@ of plan." : {
       "localizations" : {
         "de" : {
@@ -48590,6 +52482,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "与他人分摊一笔支出。"
+          }
+        }
+      }
+    },
+    "Split with People" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit anderen teilen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dividir con personas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager avec des personnes"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dividere con altre persone"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "みんなで割り勘"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사람들과 나누기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dividir com pessoas"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Делить с людьми"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与他人分摊"
           }
         }
       }
@@ -49232,6 +53182,64 @@
         }
       }
     },
+    "Start Here" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hier anfangen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empieza aquí"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commencer ici"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inizia qui"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "まずはここから"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "여기서 시작"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comece aqui"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Начните здесь"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从这里开始"
+          }
+        }
+      }
+    },
     "Start Using Cashly" : {
       "localizations" : {
         "de" : {
@@ -49460,6 +53468,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "先从这些开始，需要时再创建其他类别。"
+          }
+        }
+      }
+    },
+    "Start · %lld min" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starten · %lld Min."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empezar · %lld min"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commencer · %lld min"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inizia · %lld min"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "開始 · %lld分"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시작 · %lld분"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Começar · %lld min"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Начать · %lld мин"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始 · %lld 分钟"
           }
         }
       }
@@ -51436,6 +55502,122 @@
         }
       }
     },
+    "Tags and Installments" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags und Raten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etiquetas y cuotas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags et échéances"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tag e rate"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タグと分割払い"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "태그와 할부"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags e parcelas"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Теги и платежи"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标签与分期"
+          }
+        }
+      }
+    },
+    "Tags cut across categories: Trip, Home, Work. Paying in installments? Set how many and Cashly spreads them over the months." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags gehen quer durch Kategorien: Reise, Zuhause, Arbeit. Du zahlst in Raten? Gib die Anzahl an und Cashly verteilt sie auf die Monate."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las etiquetas cruzan categorías: Viaje, Casa, Trabajo. ¿Pagas en cuotas? Indica cuántas y Cashly las reparte por los meses."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les tags traversent les catégories : Voyage, Maison, Travail. Vous payez en plusieurs fois ? Indiquez le nombre et Cashly les répartit sur les mois."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I tag attraversano le categorie: Viaggio, Casa, Lavoro. Paghi a rate? Indica quante e Cashly le distribuisce nei mesi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "タグはカテゴリをまたぎます：旅行、家、仕事。分割払いなら回数を指定すれば、Cashlyが各月に振り分けます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "태그는 카테고리를 가로지릅니다: 여행, 집, 직장. 할부라면 횟수를 정하세요. Cashly가 달마다 나눠 줍니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As tags atravessam categorias: Viagem, Casa, Trabalho. Pagou parcelado? Defina quantas parcelas e o Cashly distribui pelos meses."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Теги проходят сквозь категории: Поездка, Дом, Работа. Платите в рассрочку? Укажите число платежей, и Cashly распределит их по месяцам."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标签跨越分类：旅行、家庭、工作。分期付款？设置期数，Cashly 会把它们分摊到各个月。"
+          }
+        }
+      }
+    },
     "Tags group the spending of a trip, event or project." : {
       "localizations" : {
         "de" : {
@@ -51606,6 +55788,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "橘色"
+          }
+        }
+      }
+    },
+    "Tap Plus" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf Plus tippen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toca el más"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Touchez le plus"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tocca il più"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "＋をタップ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "더하기 탭"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toque no mais"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нажмите плюс"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "点按加号"
           }
         }
       }
@@ -52948,6 +57188,64 @@
         }
       }
     },
+    "The Journey" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Reise"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El Camino"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le Parcours"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il Percorso"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ジャーニー"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "여정"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A Jornada"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Путь"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "旅程"
+          }
+        }
+      }
+    },
     "The Journey: streaks, challenges, shop" : {
       "localizations" : {
         "de" : {
@@ -53118,6 +57416,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分数区间"
+          }
+        }
+      }
+    },
+    "The Shop" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Shop"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La tienda"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La boutique"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il negozio"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ショップ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "상점"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A loja"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Магазин"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "商店"
           }
         }
       }
@@ -53470,6 +57826,64 @@
         }
       }
     },
+    "The bars show how much of each budget is used: green on track, mustard close to the limit, rust over plan." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Balken zeigen, wie viel jedes Budget verbraucht hat: grün im Plan, senf nah am Limit, rost über dem Plan."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las barras muestran cuánto de cada presupuesto se usó: verde en camino, mostaza cerca del límite, óxido por encima del plan."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les barres montrent la part utilisée de chaque budget : vert dans les clous, moutarde près de la limite, rouille au-dessus du plan."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le barre mostrano quanto di ogni budget è usato: verde in linea, senape vicino al limite, ruggine oltre il piano."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バーは各予算の消化具合を示します：緑は順調、マスタードは上限間近、赤茶は計画超過。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "막대는 각 예산을 얼마나 썼는지 보여 줍니다: 초록은 순조로움, 머스터드는 한도 근접, 적갈색은 계획 초과."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As barras mostram quanto de cada orçamento foi usado: verde no ritmo, mostarda perto do limite, ferrugem acima do plano."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Полосы показывают, сколько бюджета использовано: зелёный — в норме, горчичный — близко к лимиту, ржавый — сверх плана."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "进度条显示每个预算用了多少：绿色正常，芥黄接近上限，锈红超出计划。"
+          }
+        }
+      }
+    },
     "The bars show usage: green on track, mustard close to the limit, rust over plan." : {
       "localizations" : {
         "de" : {
@@ -53640,6 +58054,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "更改将在下次打开 Cashly 时生效。"
+          }
+        }
+      }
+    },
+    "The editor, amounts, categories and tags" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Editor, Beträge, Kategorien und Tags"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El editor, importes, categorías y etiquetas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'éditeur, les montants, les catégories et les tags"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'editor, importi, categorie e tag"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エディタ、金額、カテゴリ、タグ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "편집기, 금액, 카테고리, 태그"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O editor, valores, categorias e tags"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Редактор, суммы, категории и теги"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑器、金额、分类与标签"
           }
         }
       }
@@ -54224,6 +58696,64 @@
         }
       }
     },
+    "The phrases Cashly understands" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Sätze, die Cashly versteht"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las frases que Cashly entiende"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les phrases que Cashly comprend"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le frasi che Cashly capisce"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashlyが理解するフレーズ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly가 알아듣는 문장"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As frases que o Cashly entende"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Фразы, которые понимает Cashly"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly 能听懂的语句"
+          }
+        }
+      }
+    },
     "The range depends on how much of the plan was spent." : {
       "localizations" : {
         "de" : {
@@ -54336,6 +58866,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "记录已显示在 App 中。"
+          }
+        }
+      }
+    },
+    "The same actions appear in the Shortcuts app and in Spotlight. Chain them: a shortcut that records your commute every weekday." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dieselben Aktionen gibt es in der Kurzbefehle-App und in Spotlight. Verkette sie: ein Kurzbefehl, der jeden Werktag deinen Arbeitsweg erfasst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las mismas acciones aparecen en la app Atajos y en Spotlight. Encadénalas: un atajo que registre tu transporte cada día laborable."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les mêmes actions apparaissent dans l'app Raccourcis et dans Spotlight. Enchaînez-les : un raccourci qui enregistre vos trajets chaque jour de semaine."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le stesse azioni compaiono nell'app Comandi Rapidi e in Spotlight. Concatenale: un comando che registra il tragitto ogni giorno feriale."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同じアクションがショートカットアプリとSpotlightにも表示されます。組み合わせれば、平日の通勤費を毎日記録するショートカットも作れます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "같은 동작이 단축어 앱과 Spotlight에도 나타납니다. 이어 붙이세요: 평일마다 통근비를 기록하는 단축어처럼."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As mesmas ações aparecem no app Atalhos e na Spotlight. Encadeie: um atalho que registra o transporte todo dia útil."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Те же действия доступны в приложении «Быстрые команды» и в Spotlight. Соединяйте их: команда, которая записывает дорогу на работу каждый будний день."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同样的操作也出现在快捷指令应用和聚焦搜索中。把它们串起来：一个每个工作日记录通勤费的快捷指令。"
           }
         }
       }
@@ -55100,6 +59688,122 @@
         }
       }
     },
+    "This Month also fits the Lock Screen, so a glance tells you where you stand. Widgets refresh every hour and whenever you open Cashly." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„Dieser Monat“ passt auch auf den Sperrbildschirm – ein Blick genügt. Widgets aktualisieren sich stündlich und jedes Mal, wenn du Cashly öffnest."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este mes también cabe en la pantalla bloqueada: un vistazo te dice cómo vas. Los widgets se actualizan cada hora y cada vez que abres Cashly."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce mois tient aussi sur l'écran verrouillé : un coup d'œil suffit. Les widgets se rafraîchissent chaque heure et à chaque ouverture de Cashly."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo mese sta anche nella schermata di blocco: basta un'occhiata. I widget si aggiornano ogni ora e ogni volta che apri Cashly."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「今月」はロック画面にも置けるので、一目で状況がわかります。ウィジェットは1時間ごとと、Cashlyを開くたびに更新されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이번 달은 잠금 화면에도 들어가, 한눈에 상황을 알 수 있습니다. 위젯은 매시간, 그리고 Cashly를 열 때마다 새로 고칩니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este mês também cabe na Tela Bloqueada: uma olhada diz onde você está. Os widgets atualizam a cada hora e sempre que você abre o Cashly."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "«Этот месяц» помещается и на экран блокировки — одного взгляда достаточно. Виджеты обновляются каждый час и при каждом открытии Cashly."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“本月”也能放在锁定屏幕，一瞥便知状况。小组件每小时刷新，打开 Cashly 时也会刷新。"
+          }
+        }
+      }
+    },
+    "This Month shows spent, planned and what is left. Budgets lists every bar. Upcoming Bills shows what is due. One Budget follows the category you pick in Settings › Widgets." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "„Dieser Monat“ zeigt Ausgegebenes, Geplantes und den Rest. „Budgets“ listet jeden Balken. „Nächste Rechnungen“ zeigt, was fällig ist. „Ein Budget“ folgt der Kategorie aus Einstellungen › Widgets."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este mes muestra gastado, planificado y lo que queda. Presupuestos lista cada barra. Próximas cuentas muestra lo que vence. Un presupuesto sigue la categoría que eliges en Ajustes › Widgets."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce mois montre le dépensé, le prévu et le reste. Budgets liste chaque barre. Factures à venir montre ce qui est dû. Un budget suit la catégorie choisie dans Réglages › Widgets."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questo mese mostra speso, pianificato e quanto resta. Budget elenca ogni barra. Prossime bollette mostra cosa scade. Un budget segue la categoria scelta in Impostazioni › Widget."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「今月」は支出、計画、残りを表示。「予算」は各バーを一覧。「今後の請求」は支払い予定を表示。「1つの予算」は設定 › ウィジェットで選んだカテゴリに従います。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이번 달은 지출, 계획, 남은 금액을 보여 줍니다. 예산은 모든 막대를 나열합니다. 다가오는 청구서는 낼 것을 보여 줍니다. 예산 하나는 설정 › 위젯에서 고른 카테고리를 따릅니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este mês mostra gasto, planejado e o que resta. Orçamentos lista cada barra. Próximas contas mostra o que vence. Um orçamento segue a categoria escolhida em Ajustes › Widgets."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "«Этот месяц» показывает потраченное, запланированное и остаток. «Бюджеты» перечисляет каждую полосу. «Ближайшие счета» показывает, что пора оплатить. «Один бюджет» следует категории из Настроек › Виджеты."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "“本月”显示已花、计划和剩余。“预算”列出每条进度。“即将到期账单”显示待付。“单个预算”跟随你在设置 › 小组件中选的分类。"
+          }
+        }
+      }
+    },
     "This Week" : {
       "localizations" : {
         "de" : {
@@ -55792,6 +60496,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "此交易的引用尚不完整。请等待同步完成。"
+          }
+        }
+      }
+    },
+    "Three short missions every week, 25 XP each. Pick one challenge a month, like a week without delivery or a spending cap." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drei kurze Missionen pro Woche, je 25 XP. Wähle eine Herausforderung pro Monat, etwa eine Woche ohne Lieferdienst oder eine Ausgabengrenze."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tres misiones cortas cada semana, 25 XP cada una. Elige un desafío al mes, como una semana sin delivery o un tope de gasto."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trois missions courtes chaque semaine, 25 XP chacune. Choisissez un défi par mois, comme une semaine sans livraison ou un plafond de dépenses."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tre missioni brevi ogni settimana, 25 XP ciascuna. Scegli una sfida al mese, come una settimana senza delivery o un tetto di spesa."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "毎週3つの短いミッション、各25XP。月に1つチャレンジを選びます。デリバリーなしの1週間や支出上限など。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "매주 짧은 미션 세 개, 각 25 XP. 한 달에 챌린지 하나를 고르세요. 배달 없는 일주일이나 지출 상한 같은 것."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Três missões curtas por semana, 25 XP cada. Escolha um desafio por mês, como uma semana sem delivery ou um teto de gastos."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Три короткие миссии каждую неделю, по 25 XP. Выбирайте одно испытание в месяц: неделя без доставки или лимит трат."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周三个小任务，各 25 XP。每月选一个挑战，比如一周不点外卖或设定支出上限。"
           }
         }
       }
@@ -57010,6 +61772,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重试"
+          }
+        }
+      }
+    },
+    "Turn on the lock in Settings › Privacy. Cashly asks for Face ID whenever it comes back to the front and hides its content in the app switcher." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aktiviere die Sperre in Einstellungen › Datenschutz. Cashly fragt nach Face ID, wenn es wieder in den Vordergrund kommt, und blendet den Inhalt im App-Umschalter aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activa el bloqueo en Ajustes › Privacidad. Cashly pide Face ID cada vez que vuelve al frente y oculta su contenido en el selector de apps."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activez le verrouillage dans Réglages › Confidentialité. Cashly demande Face ID à chaque retour au premier plan et masque son contenu dans le sélecteur d'apps."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attiva il blocco in Impostazioni › Privacy. Cashly chiede Face ID ogni volta che torna in primo piano e nasconde il contenuto nel selettore app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定 › プライバシーでロックをオンに。Cashlyは前面に戻るたびにFace IDを求め、Appスイッチャーでは内容を隠します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정 › 개인정보 보호에서 잠금을 켜세요. Cashly는 앞으로 돌아올 때마다 Face ID를 요청하고 앱 전환기에서 내용을 숨깁니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ligue o bloqueio em Ajustes › Privacidade. O Cashly pede Face ID sempre que volta à frente e esconde o conteúdo no seletor de apps."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Включите блокировку в Настройках › Конфиденциальность. Cashly запрашивает Face ID при каждом возвращении на передний план и скрывает содержимое в переключателе приложений."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在设置 › 隐私中开启锁定。Cashly 每次回到前台都会要求 Face ID，并在应用切换器中隐藏内容。"
           }
         }
       }
@@ -58876,6 +63696,64 @@
         }
       }
     },
+    "What you can spend, forecasts and the unusual" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was du ausgeben kannst, Prognosen und Ungewöhnliches"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lo que puedes gastar, previsiones y lo inusual"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce que vous pouvez dépenser, les prévisions et l'inhabituel"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quanto puoi spendere, previsioni e cose insolite"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使える金額、予測、いつもと違う支出"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "쓸 수 있는 금액, 예측, 평소와 다른 지출"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que você pode gastar, previsões e o incomum"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сколько можно тратить, прогнозы и необычное"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可支出金额、预测与异常"
+          }
+        }
+      }
+    },
     "What's New" : {
       "localizations" : {
         "de" : {
@@ -59109,6 +63987,64 @@
         }
       }
     },
+    "Who Paid" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wer bezahlt hat"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quién pagó"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qui a payé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chi ha pagato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "誰が払ったか"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "결제한 사람"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quem pagou"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кто платил"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "谁付的款"
+          }
+        }
+      }
+    },
     "Who paid" : {
       "localizations" : {
         "de" : {
@@ -59225,6 +64161,64 @@
         }
       }
     },
+    "Widgets and Lock Screen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgets und Sperrbildschirm"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgets y pantalla bloqueada"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgets et écran verrouillé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widget e schermata di blocco"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ウィジェットとロック画面"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "위젯과 잠금 화면"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Widgets e Tela Bloqueada"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Виджеты и экран блокировки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小组件与锁定屏幕"
+          }
+        }
+      }
+    },
     "Widgets, Siri and export" : {
       "localizations" : {
         "de" : {
@@ -59279,6 +64273,122 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "小组件、Siri 和导出"
+          }
+        }
+      }
+    },
+    "With Budget Alerts on, Cashly warns you at 80% and again at 100%. On the first day of the month, a reminder asks you to plan the next one." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit Budget-Hinweisen warnt dich Cashly bei 80 % und nochmal bei 100 %. Am Monatsersten erinnert dich eine Mitteilung ans Planen des nächsten Monats."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con los avisos de presupuesto, Cashly te avisa al 80 % y de nuevo al 100 %. El primer día del mes, un recordatorio te pide planificar el siguiente."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec les alertes de budget, Cashly vous prévient à 80 % puis à 100 %. Le premier jour du mois, un rappel vous invite à planifier le suivant."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con gli avvisi di budget, Cashly ti avverte all'80% e di nuovo al 100%. Il primo del mese, un promemoria ti chiede di pianificare il successivo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "予算アラートをオンにすると、80%と100%で知らせます。月初には翌月の計画を促すリマインダーが届きます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "예산 알림을 켜면 80%와 100%에서 알려 줍니다. 매월 1일에는 다음 달을 계획하라는 알림이 옵니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com os Alertas de orçamento ligados, o Cashly avisa aos 80% e de novo aos 100%. No primeiro dia do mês, um lembrete pede para planejar o próximo."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "С включёнными оповещениями Cashly предупредит на 80 % и снова на 100 %. Первого числа напоминание предложит спланировать следующий месяц."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开启预算提醒后，Cashly 会在 80% 和 100% 时提醒你。每月第一天还会提醒你规划下个月。"
+          }
+        }
+      }
+    },
+    "With Sync on, every device signed in to your Apple Account shows the same months. Nothing leaves your iCloud." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit aktivierter Synchronisierung zeigt jedes Gerät mit deinem Apple Account dieselben Monate. Nichts verlässt deine iCloud."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con la sincronización activa, todos los dispositivos con tu Cuenta de Apple muestran los mismos meses. Nada sale de tu iCloud."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec la synchronisation, chaque appareil connecté à votre compte Apple affiche les mêmes mois. Rien ne quitte votre iCloud."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con la sincronizzazione attiva, ogni dispositivo con il tuo Account Apple mostra gli stessi mesi. Niente esce dal tuo iCloud."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同期をオンにすると、同じApple Accountのすべてのデバイスに同じ月が表示されます。データはあなたのiCloudの外に出ません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "동기화를 켜면 같은 Apple 계정에 로그인한 모든 기기에 같은 달이 보입니다. 아무것도 내 iCloud 밖으로 나가지 않습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com a sincronização ligada, todo aparelho com a sua Conta Apple mostra os mesmos meses. Nada sai do seu iCloud."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "При включённой синхронизации все устройства с вашей учётной записью Apple показывают одни и те же месяцы. Ничего не покидает ваш iCloud."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开启同步后，登录同一 Apple 账户的每台设备都显示相同的月份。数据不会离开你的 iCloud。"
           }
         }
       }
@@ -59569,6 +64679,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "可获得 %lld XP。"
+          }
+        }
+      }
+    },
+    "You Can Spend" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du kannst ausgeben"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puedes gastar"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous pouvez dépenser"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puoi spendere"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使える金額"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "쓸 수 있는 금액"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você pode gastar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Можно потратить"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可支出金额"
           }
         }
       }
@@ -60101,6 +65269,64 @@
         }
       }
     },
+    "Your Data Stays Yours" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deine Daten bleiben deine"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tus datos siguen siendo tuyos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vos données restent à vous"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I tuoi dati restano tuoi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "データはあなたのもの"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "내 데이터는 내 것"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seus dados continuam seus"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваши данные остаются вашими"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "数据始终属于你"
+          }
+        }
+      }
+    },
     "Your Name" : {
       "localizations" : {
         "de" : {
@@ -60619,6 +65845,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一眼看清本月"
+          }
+        }
+      }
+    },
+    "Your month on the Home Screen and Lock Screen" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Monat auf Home- und Sperrbildschirm"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu mes en la pantalla de inicio y la bloqueada"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre mois sur l'écran d'accueil et l'écran verrouillé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il tuo mese nella schermata Home e di blocco"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ホーム画面とロック画面に今月を"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "홈 화면과 잠금 화면에서 보는 이번 달"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu mês na Tela de Início e na Tela Bloqueada"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш месяц на экране «Домой» и экране блокировки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主屏幕与锁定屏幕上的本月"
           }
         }
       }
