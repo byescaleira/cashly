@@ -110,6 +110,9 @@ private final class CashlyBootstrap {
                 settings.developer = DeveloperModel(
                     storeURL: database.storeURL
                 ) { try await SampleDatabase.seed(database) }
+                if UserDefaults.standard.bool(forKey: "cashly.developer.seed") {
+                    try? await SampleDatabase.seed(database)
+                }
             #endif
             Task { await data.runAutoBackupIfNeeded() }
         } catch {

@@ -16,7 +16,7 @@ public final class JourneyModel {
     public var error: CashlyError?
     @ObservationIgnored private let session: SessionModel
     @ObservationIgnored private let defaults: UserDefaults
-    @ObservationIgnored private let now: () -> Date
+    @ObservationIgnored let now: () -> Date
 
     public init(
         session: SessionModel, defaults: UserDefaults = .standard,

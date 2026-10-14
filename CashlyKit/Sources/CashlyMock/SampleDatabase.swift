@@ -26,5 +26,7 @@ public enum SampleDatabase {
         for transaction in SampleData.transactions {
             try await owner.transactions.save(transaction)
         }
+        let known = Set(try await owner.game.events().map(\.id))
+        try await owner.game.record(SampleData.gameEvents().filter { !known.contains($0.id) })
     }
 }

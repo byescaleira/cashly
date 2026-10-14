@@ -45,6 +45,8 @@ struct DeepLinks: ViewModifier {
             }
         case "budgets":
             navigation.open(.budgets, in: .planning, beside: horizontalSizeClass == .regular)
+        case "journey":
+            navigation.selectedSection = .journey
         case "shop":
             navigation.open(.shop, in: .journey, beside: horizontalSizeClass == .regular)
             navigation.shopItem = url.pathComponents.dropFirst().first.flatMap(ShopItem.init)

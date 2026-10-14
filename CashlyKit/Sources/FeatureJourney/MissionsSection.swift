@@ -8,16 +8,20 @@ struct MissionsSection: View {
 
     var body: some View {
         if let missions = journey.progress?.missions, !missions.isEmpty {
-            let done = missions.filter(\.isCompleted).count
-            let summary = "\(done)/\(missions.count)"
+            let isDone = journey.missionsDone == missions.count
             Section {
-                ForEach(missions, id: \.kind) { MissionRow(mission: $0) }
+                ForEach(missions.enumerated(), id: \.element.kind) { index, mission in
+                    MissionRow(mission: mission).cascade(index)
+                }
             } header: {
                 HStack {
                     Text("This Week").sectionTitle()
                     Spacer()
-                    Chip(summary, color: done == missions.count ? .positive : appTint)
-                        .contentTransition(.numericText())
+                    Chip(
+                        "\(journey.missionsDone)/\(missions.count)",
+                        color: isDone ? .positive : appTint
+                    )
+                    .contentTransition(.numericText())
                 }
             } footer: {
                 Text(journey.missionsFooter)
@@ -27,6 +31,7 @@ struct MissionsSection: View {
 }
 
 private struct MissionRow: View {
+    @Environment(JourneyModel.self) private var journey
     @Environment(\.appTint) private var appTint
     let mission: Mission
 
@@ -34,22 +39,26 @@ private struct MissionRow: View {
         let color: Color = mission.isCompleted ? .positive : appTint
         HStack(spacing: .spaceM) {
             SymbolBadge(
-                mission.isCompleted ? "checkmark" : mission.kind.symbol, color: color, size: .badgeM
+                mission.isCompleted ? "checkmark" : mission.kind.symbol, color: color,
+                size: .badgeM,
+                style: mission.isCompleted ? .filled : .tinted
             )
             .contentTransition(.symbolEffect(.replace))
             VStack(alignment: .leading, spacing: .spaceXS) {
-                Text(mission.kind.title).font(.rowTitle)
-                ProgressView(value: mission.progress)
-                    .tint(color)
-                    .animation(.smooth, value: mission.progress)
-            }
-            if mission.isCompleted {
-                Chip("+\(Mission.xp) XP", color: .positive)
-            } else {
-                Text("\(min(mission.value, mission.kind.target))/\(mission.kind.target)")
-                    .font(.footnote.weight(.semibold).monospacedDigit())
-                    .foregroundStyle(.secondary)
-                    .contentTransition(.numericText())
+                HStack(alignment: .firstTextBaseline, spacing: .spaceS) {
+                    Text(mission.kind.title)
+                        .font(.rowTitle)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Chip("+\(Mission.xp) XP", color: mission.isCompleted ? .positive : .secondary)
+                        .fixedSize()
+                }
+                HStack(spacing: .spaceS) {
+                    FillingBar(value: mission.progress, color: color)
+                    Text(journey.valueCaption(of: mission))
+                        .font(.footnote.weight(.semibold).monospacedDigit())
+                        .foregroundStyle(.secondary)
+                        .contentTransition(.numericText())
+                }
             }
         }
         .animation(.smooth, value: mission.isCompleted)
