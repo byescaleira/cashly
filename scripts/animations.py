@@ -332,6 +332,18 @@ def file_import():
     return [doc, arrow]
 
 
+def goals():
+    flag = icon("flag.checkered", "tint", 84, (92, 92), delay=0, rotation=settle(0, [-10, 4]))
+    flag["ks"]["s"] = appear(0, 32, overshoot=108, start=50)
+    layers = [flag]
+    for row, (name, ratio, delay) in enumerate([("olive", 0.45, 18), ("denim", 0.62, 32), ("mustard", 0.86, 46)]):
+        layers += bar(name, (214, 56 + row * 34), ratio, delay)
+    check = icon("checkmark.circle.fill", "olive", 30, (296, 56), delay=70, scale=appear(70, 24, overshoot=118, start=40))
+    spark = icon("sparkles", "mustard", 24, (292, 128), delay=84, scale=breathe(108, 6, 30))
+    spark["ks"]["o"] = fade(84, 10)
+    return layers + [check, spark]
+
+
 def done():
     check = icon("checkmark.circle.fill", "olive", 96, (160, 90), delay=0)
     check["ks"]["s"] = appear(0, 34, overshoot=110, start=40)
@@ -435,6 +447,7 @@ ANIMATIONS = {
     "month": month, "history": history, "budgetPace": budget_pace, "journey": journey, "budget": budget,
     "score": score, "participants": participants, "splitModes": split_modes, "paid": paid, "table": table,
     "file": file_import, "done": done, "connect": connect,
+    "goals": goals,
     "pro": pro, "paywall": paywall, "shopIcons": shop_icons, "shopColors": shop_colors, "shopHelps": shop_helps,
     "capture": capture,
 }

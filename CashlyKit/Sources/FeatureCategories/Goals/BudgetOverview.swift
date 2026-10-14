@@ -45,9 +45,47 @@ public struct BudgetProgress: Identifiable, Hashable, Sendable {
         if ratio >= 0.8 { return .attention }
         return .onTrack
     }
+
+    public var usageTitle: String {
+        ratio.formatted(.percent.precision(.fractionLength(0)).locale(.app))
+    }
+
+    public var remainingTitle: String {
+        remaining >= 0
+            ? String(appLocalized: "\(remaining.formatted(.appCurrency)) left")
+            : String(appLocalized: "\(abs(remaining).formatted(.appCurrency)) over")
+    }
+
+    public var amountsTitle: String {
+        String(
+            appLocalized:
+                "\(spent.formatted(.appCurrency)) of \(planned.formatted(.appCurrency))")
+    }
 }
 
 public struct BudgetOverview: Sendable {
+    public enum Pace: Sendable {
+        case over, fast, steady, slow
+
+        var title: String {
+            switch self {
+            case .over: String(appLocalized: "Over the plan")
+            case .fast: String(appLocalized: "Spending faster than the month")
+            case .steady: String(appLocalized: "On pace with the month")
+            case .slow: String(appLocalized: "Spending slower than the month")
+            }
+        }
+
+        var symbol: String {
+            switch self {
+            case .over: "exclamationmark.octagon.fill"
+            case .fast: "hare.fill"
+            case .steady: "checkmark.circle.fill"
+            case .slow: "tortoise.fill"
+            }
+        }
+    }
+
     public let items: [BudgetProgress]
     public let totalSpent: Double
     public let month: YearMonth?
@@ -77,9 +115,11 @@ public struct BudgetOverview: Sendable {
     }
 
     public var usageTitle: String {
-        String(
-            appLocalized:
-                "\(ratio.formatted(.percent.precision(.fractionLength(0)).locale(.app))) used")
+        String(appLocalized: "\(usagePercent) used")
+    }
+
+    public var usagePercent: String {
+        ratio.formatted(.percent.precision(.fractionLength(0)).locale(.app))
     }
 
     public var linkTitle: String {
@@ -97,14 +137,43 @@ public struct BudgetOverview: Sendable {
         }
     }
 
-    public var daysLeft: Int? {
+    public var dayOfMonth: Int? {
         guard let month, month == YearMonth(today) else { return nil }
-        let day = CashlyCalendar.current.component(.day, from: today)
+        return CashlyCalendar.current.component(.day, from: today)
+    }
+
+    public var daysLeft: Int? {
+        guard let month, let day = dayOfMonth else { return nil }
         return month.dayCount - day + 1
+    }
+
+    public var elapsedRatio: Double? {
+        guard let month, let day = dayOfMonth else { return nil }
+        return Double(day) / Double(month.dayCount)
     }
 
     public var dailyAllowance: Double? {
         guard let daysLeft, daysLeft > 0, remaining > 0 else { return nil }
         return remaining / Double(daysLeft)
+    }
+
+    public var pace: Pace? {
+        guard let elapsedRatio, planned > 0, spent > 0 else { return nil }
+        if ratio > 1 { return .over }
+        if ratio > elapsedRatio + 0.1 { return .fast }
+        if ratio < elapsedRatio - 0.1 { return .slow }
+        return .steady
+    }
+
+    public var dayTitle: String? {
+        guard let month, let day = dayOfMonth else { return nil }
+        return String(appLocalized: "Day \(day) of \(month.dayCount)")
+    }
+
+    public var paceDetail: String? {
+        guard let elapsedRatio else { return nil }
+        let elapsed = elapsedRatio.formatted(.percent.precision(.fractionLength(0)).locale(.app))
+        return String(
+            appLocalized: "\(usagePercent) of the plan used, \(elapsed) of the month gone.")
     }
 }

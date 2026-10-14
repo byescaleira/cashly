@@ -14,25 +14,22 @@ public struct BudgetsScreen: View {
     public var body: some View {
         @Bindable var goals = goals
         AdaptiveList {
-            BudgetsSummarySection()
-            ForEach(goals.overview.groups, id: \.group) { entry in
-                BudgetGroupSection(group: entry.group, items: entry.items)
-            }
+            BudgetsEmptySection()
+            BudgetMonthSection()
+            BudgetSections()
             UnbudgetedSection()
         }
-        .emptyState(.budget, when: goals.overview.items.isEmpty && !finance.isLoading)
+        .emptyState(.category, when: finance.categories.isEmpty && !finance.isLoading)
         .fontDesign(.rounded)
         .toolbar {
             ToolbarItem { FilterMenu() }
             FixedToolbarSpacer()
             ToolbarItem {
                 Button("New Budget", systemImage: "plus") {
-                    open(
-                        .addBudget(id: nil, categoryID: nil, date: session.filter.startDate),
-                        in: section)
+                    open(goals.newBudgetRoute, in: section)
                 }
                 .tint(Color.primary)
-                .disabled(finance.categories.isEmpty || finance.isLoading)
+                .disabled(!goals.canCreateBudget)
             }
         }
         .deletionDialog(goals)
@@ -42,61 +39,10 @@ public struct BudgetsScreen: View {
     }
 }
 
-struct BudgetsSummarySection: View {
-    @Environment(GoalsModel.self) private var goals
-
-    var body: some View {
-        let overview = goals.overview
-        Section {
-            BudgetsOverviewCard(overview: overview)
-            if let daily = overview.dailyAllowance, let days = overview.daysLeft {
-                SummaryRow(
-                    symbol: "calendar", color: .positive, title: "You can spend",
-                    detail: "over the next \(days) days",
-                    value: "\(daily.formatted(.appCurrency)) per day",
-                    valueColor: .positive)
-            }
-            if overview.unbudgeted > 0 {
-                SummaryRow(
-                    symbol: "questionmark.folder", color: .secondary, title: "Outside budgets",
-                    detail: "spent in categories without a budget",
-                    value: "\(overview.unbudgeted.formatted(.appCurrency))", valueColor: .primary)
-            }
-        } header: {
-            BudgetsOverviewHeader(title: "Month Summary", overview: overview)
-        }
-    }
-}
-
-private struct SummaryRow: View {
-    let symbol: String
-    let color: Color
-    let title: LocalizedStringKey
-    let detail: LocalizedStringKey
-    let value: LocalizedStringKey
-    let valueColor: Color
-
-    var body: some View {
-        HStack(spacing: .spaceM) {
-            SymbolBadge(symbol, color: color, size: .badgeM)
-            VStack(alignment: .leading, spacing: .spaceHairline) {
-                HStack(alignment: .firstTextBaseline, spacing: .spaceS) {
-                    Text(title).font(.rowTitle).frame(maxWidth: .infinity, alignment: .leading)
-                    Text(value)
-                        .font(.callout.weight(.semibold))
-                        .foregroundStyle(valueColor)
-                        .amountLine()
-                }
-                Text(detail).font(.footnote).foregroundStyle(.secondary)
-            }
-        }
-        .accessibilityElement(children: .combine)
-    }
-}
-
 struct UnbudgetedSection: View {
     @Environment(SessionModel.self) private var session
     @Environment(FinanceModel.self) private var finance
+    @Environment(GoalsModel.self) private var goals
     @Environment(\.open) private var open
     @Environment(\.navigationSection) private var section
 
@@ -108,11 +54,7 @@ struct UnbudgetedSection: View {
                     ForEach(categories) { category in
                         let color = Color(hex: category.color)
                         Button {
-                            open(
-                                .addBudget(
-                                    id: nil, categoryID: category.id,
-                                    date: session.filter.startDate),
-                                in: section)
+                            open(goals.budgetRoute(for: category), in: section)
                         } label: {
                             HStack(spacing: .spaceXS) {
                                 Image(systemName: "plus")

@@ -56,6 +56,24 @@ public final class GoalsModel {
         finance.categories.sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
 
+    public var hasBudgets: Bool { !finance.budgets.isEmpty }
+
+    public var isShowingEmptyBudgets: Bool {
+        !hasBudgets && !finance.categories.isEmpty && !finance.isLoading
+    }
+
+    public var canCreateBudget: Bool { !finance.categories.isEmpty && !finance.isLoading }
+
+    public var periodTitle: String { session.filter.periodTitle }
+
+    public var newBudgetRoute: Route {
+        .addBudget(id: nil, categoryID: nil, date: session.filter.startDate)
+    }
+
+    public func budgetRoute(for category: CashlyDomain.Category) -> Route {
+        .addBudget(id: nil, categoryID: category.id, date: session.filter.startDate)
+    }
+
     public func caption(for category: CashlyDomain.Category) -> String {
         let planned = finance.budgetsAmount(for: category)
         return planned > 0
