@@ -26,17 +26,17 @@ extension Guide {
             TutorialPage(
                 animation: .siri, title: "Ask Siri",
                 message:
-                    "Say \"Add an expense in Cashly\" or \"How much did I spend this month in Cashly\". Siri answers without opening the app."
+                    "Say \"Add an expense in Cashly\": Siri asks the amount and the category, then saves it. \"How much did I spend this month in Cashly\" answers without opening the app."
             ),
             TutorialPage(
                 animation: .budget, title: "More Phrases",
                 message:
-                    "\"How much is left in Groceries in Cashly\", \"Mark a bill as paid in Cashly\" and \"Capture a payment in Cashly\"."
+                    "\"Add income in Cashly\", \"How much is left in Groceries in Cashly\", \"Mark a bill as paid in Cashly\" and \"Capture a payment in Cashly\"."
             ),
             TutorialPage(
                 animation: .capture, title: "In Shortcuts",
                 message:
-                    "The same actions appear in the Shortcuts app and in Spotlight. Chain them: a shortcut that records your commute every weekday."
+                    "In the Shortcuts app, Add Expense has every field of the editor: description, status, date, tags, participants, split, installments and profile. Chain them: a shortcut that records your commute every weekday."
             ),
         ]
     }
@@ -46,7 +46,7 @@ extension Guide {
             TutorialPage(
                 animation: .capture, title: "Pay, and Cashly Knows",
                 message:
-                    "In Shortcuts, create an automation with the Transaction trigger, set to run immediately. Choose Capture a Payment in Cashly and pass the amount, merchant, card and date."
+                    "In Shortcuts, create an automation with the Transaction trigger, set to run immediately. Choose Capture a Payment in Cashly and pass the amount, merchant, card and date. Category, description and tags are optional and become the suggestion."
             ),
             TutorialPage(
                 animation: .bills, title: "Confirm from the Notification",

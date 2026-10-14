@@ -167,6 +167,13 @@ struct CashlyShortcuts: AppShortcutsProvider {
             ],
             shortTitle: "Add Expense", systemImageName: "plus.circle")
         AppShortcut(
+            intent: AddIncomeIntent(),
+            phrases: [
+                "Add income in \(.applicationName)",
+                "Record income in \(.applicationName)",
+            ],
+            shortTitle: "Add Income", systemImageName: "arrow.down.left.circle")
+        AppShortcut(
             intent: MonthSpentIntent(),
             phrases: [
                 "How much did I spend this month in \(.applicationName)",

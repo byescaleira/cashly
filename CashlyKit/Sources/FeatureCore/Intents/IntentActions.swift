@@ -41,6 +41,7 @@ public struct IntentActions: Sendable {
 
     public func tags() async throws -> [Tag] {
         try await repositories.dashboard.snapshot(month: nil).tags
+            .filter { $0.user.id == user.id }
             .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
     }
 
@@ -51,25 +52,118 @@ public struct IntentActions: Sendable {
         ).items
     }
 
+    public func participants() async throws -> [User] {
+        try await repositories.users.users().filter { $0.id != user.id }
+            .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
+    }
+
     public func addExpense(
         amount: Double, categoryID: String?, summary: String, date: Date?, tagIDs: Set<String> = []
     ) async throws -> Transaction {
-        let money = try Money(validating: amount)
-        guard money.minorUnits > 0 else {
-            throw CashlyError.invalidInput(String(appLocalized: "The amount must be positive."))
-        }
         let options = try await categories()
         guard let category = options.first(where: { $0.id == categoryID }) ?? options.first else {
             throw CashlyError.invalidInput(
                 String(appLocalized: "Create a category in Cashly before adding expenses."))
         }
-        let text = summary.trimmingCharacters(in: .whitespacesAndNewlines)
+        return try await add(
+            TransactionRequest(
+                amount: amount, categoryID: category.id, summary: summary, date: date,
+                tagIDs: tagIDs))
+    }
+
+    public func add(_ request: TransactionRequest) async throws -> Transaction {
+        let money = try Money(validating: request.amount)
+        guard money.minorUnits > 0 else {
+            throw CashlyError.invalidInput(String(appLocalized: "The amount must be positive."))
+        }
+        let options = try await categories()
+        guard !options.isEmpty else {
+            throw CashlyError.invalidInput(
+                String(appLocalized: "Create a category in Cashly before adding expenses."))
+        }
+        guard let category = options.first(where: { $0.id == request.categoryID }) else {
+            throw CashlyError.invalidInput(
+                String(appLocalized: "Choose one of the categories of this profile."))
+        }
+        let available = try await tags()
+        guard request.tagIDs.isSubset(of: Set(available.map(\.id))) else {
+            throw CashlyError.invalidInput(
+                String(appLocalized: "Choose tags of this profile."))
+        }
+        if let installments = request.installments, !(1...1200).contains(installments) {
+            throw CashlyError.invalidInput(
+                String(appLocalized: "The number of installments must be between 1 and 1,200."))
+        }
+        let text = request.summary.trimmingCharacters(in: .whitespacesAndNewlines)
+        let summary = text.count >= 3 ? text : category.name
+        let matched = available.filter { TagSuggestion.matches($0.name, in: summary) }.map(\.id)
+        let id = UUID().uuidString
+        let participants = try await split(request, total: money, transactionID: id)
+        let allocation = try TransactionAllocation.resolve(total: money, participants: participants)
         let transaction = Transaction(
-            id: UUID().uuidString, participants: [], category: category, money: money,
-            date: date ?? now(), summary: text.count >= 3 ? text : category.name,
-            status: .settled, splitMode: nil, splitValue: nil, paymentsPlan: nil, tagIDs: tagIDs)
+            id: id,
+            participants: participants.map { participant in
+                var participant = participant
+                participant.allocatedMoney = allocation.participants[participant.id]
+                return participant
+            }, category: category, money: money, date: request.date ?? now(), summary: summary,
+            status: request.transactionStatus,
+            splitMode: participants.isEmpty ? nil : request.splitMode,
+            splitValue: participants.isEmpty ? nil : allocation.owner.doubleValue,
+            paymentsPlan: request.installments, tagIDs: request.tagIDs.union(matched),
+            kind: request.kind)
         try await repositories.transactions.save(transaction)
         return transaction
+    }
+
+    private func split(_ request: TransactionRequest, total: Money, transactionID: String)
+        async throws -> [Participant]
+    {
+        guard !request.participantIDs.isEmpty else { return [] }
+        guard request.kind == .expense else {
+            throw CashlyError.invalidInput(
+                String(appLocalized: "Only expenses can be split with other profiles."))
+        }
+        let others = try await participants()
+        var seen: Set<String> = []
+        let ids = request.participantIDs.filter { seen.insert($0).inserted }
+        let users = try ids.map { id in
+            guard let user = others.first(where: { $0.id == id }) else {
+                throw CashlyError.invalidInput(
+                    String(appLocalized: "Choose participants among the other profiles."))
+            }
+            return user
+        }
+        let value = try shareValue(request, count: users.count)
+        return users.map { user in
+            Participant(
+                id: UUID().uuidString, user: user, splitMode: request.splitMode,
+                splitValue: value, status: .settled, transaction: transactionID)
+        }
+    }
+
+    private func shareValue(_ request: TransactionRequest, count: Int) throws -> Double {
+        switch request.splitMode {
+        case .equal:
+            return Double(count + 1)
+        case .payerBased:
+            throw CashlyError.invalidInput(
+                String(appLocalized: "Choose how to split the transaction."))
+        case .percentage:
+            guard let share = request.share, share.isFinite, (0...100).contains(share) else {
+                throw CashlyError.invalidInput(
+                    String(
+                        appLocalized: "Tell each participant's share as a percentage from 0 to 100."
+                    ))
+            }
+            return share / 100
+        case .fixedAmount:
+            guard let share = request.share, share.isFinite, share >= 0 else {
+                throw CashlyError.invalidInput(
+                    String(appLocalized: "Tell the amount each participant pays."))
+            }
+            return try Money(validating: share).doubleValue
+        }
     }
 
     public func monthSummary(month: YearMonth? = nil) async throws -> MonthSummary {

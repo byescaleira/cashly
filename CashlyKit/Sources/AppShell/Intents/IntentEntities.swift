@@ -4,12 +4,14 @@ import FeatureCore
 import Foundation
 
 enum IntentWorkspace {
-    @MainActor static func actions(writing: Bool = false) async throws -> IntentActions {
+    @MainActor static func actions(writing: Bool = false, profileID: String? = nil) async throws
+        -> IntentActions
+    {
         if writing, await !CashlyServices.shared.canWrite() {
             throw CashlyError.invalidInput(
                 String(appLocalized: "Recording needs Cashly Pro. Open Cashly to subscribe."))
         }
-        let (repositories, user) = try await CashlyServices.shared.workspace()
+        let (repositories, user) = try await CashlyServices.shared.workspace(userID: profileID)
         return IntentActions(repositories: repositories, user: user)
     }
 }
@@ -34,20 +36,27 @@ public struct CategoryEntity: AppEntity, IndexedEntity {
 }
 
 public struct CategoryQuery: EntityStringQuery {
+    @IntentParameterDependency<AddExpenseIntent>(\.$profile) var expense
+    @IntentParameterDependency<AddIncomeIntent>(\.$profile) var income
+
     public init() {}
 
     public func entities(for identifiers: [String]) async throws -> [CategoryEntity] {
-        try await IntentWorkspace.actions().categories()
-            .filter { identifiers.contains($0.id) }.map(CategoryEntity.init)
+        try await categories().filter { identifiers.contains($0.id) }
     }
 
     public func entities(matching string: String) async throws -> [CategoryEntity] {
-        try await IntentWorkspace.actions().categories()
-            .filter { $0.name.localizedStandardContains(string) }.map(CategoryEntity.init)
+        try await categories().filter { $0.name.localizedStandardContains(string) }
     }
 
     public func suggestedEntities() async throws -> [CategoryEntity] {
-        try await IntentWorkspace.actions().categories().map(CategoryEntity.init)
+        try await categories()
+    }
+
+    private func categories() async throws -> [CategoryEntity] {
+        let profileID = expense?.profile.id ?? income?.profile.id
+        return try await IntentWorkspace.actions(profileID: profileID).categories()
+            .map(CategoryEntity.init)
     }
 }
 
@@ -69,20 +78,26 @@ public struct TagEntity: AppEntity {
 }
 
 public struct TagQuery: EntityStringQuery {
+    @IntentParameterDependency<AddExpenseIntent>(\.$profile) var expense
+    @IntentParameterDependency<AddIncomeIntent>(\.$profile) var income
+
     public init() {}
 
     public func entities(for identifiers: [String]) async throws -> [TagEntity] {
-        try await IntentWorkspace.actions().tags().filter { identifiers.contains($0.id) }
-            .map(TagEntity.init)
+        try await tags().filter { identifiers.contains($0.id) }
     }
 
     public func entities(matching string: String) async throws -> [TagEntity] {
-        try await IntentWorkspace.actions().tags()
-            .filter { $0.name.localizedStandardContains(string) }.map(TagEntity.init)
+        try await tags().filter { $0.name.localizedStandardContains(string) }
     }
 
     public func suggestedEntities() async throws -> [TagEntity] {
-        try await IntentWorkspace.actions().tags().map(TagEntity.init)
+        try await tags()
+    }
+
+    private func tags() async throws -> [TagEntity] {
+        let profileID = expense?.profile.id ?? income?.profile.id
+        return try await IntentWorkspace.actions(profileID: profileID).tags().map(TagEntity.init)
     }
 }
 
@@ -116,6 +131,17 @@ public struct ProfileQuery: EntityQuery {
 
     @MainActor private func users() async throws -> [User] {
         try await CashlyServices.shared.workspace().0.users.users()
+    }
+}
+
+public struct ParticipantOptions: DynamicOptionsProvider {
+    @IntentParameterDependency<AddExpenseIntent>(\.$profile) var expense
+
+    public init() {}
+
+    public func results() async throws -> [ProfileEntity] {
+        try await IntentWorkspace.actions(profileID: expense?.profile.id).participants()
+            .map(ProfileEntity.init)
     }
 }
 

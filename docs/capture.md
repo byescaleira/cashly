@@ -28,7 +28,7 @@ Para cada estabelecimento normalizado (minúsculas, sem acentos, sem "*", númer
 
 ### Intent `CaptureTransactionIntent`
 
-Roda em segundo plano, sem abrir o app: recebe valor, estabelecimento, cartão e data do Atalhos, grava a captura, calcula a sugestão e agenda a notificação. É o intent que a automação do Wallet chama. Os intents atuais (registrar gasto, resumo do mês, saldo da categoria, marcar como paga) continuam para a Siri.
+Roda em segundo plano, sem abrir o app: recebe valor, estabelecimento, cartão e data do Atalhos (e, opcionalmente, categoria, descrição e tags, que passam na frente da sugestão aprendida), grava a captura, calcula a sugestão e agenda a notificação. É o intent que a automação do Wallet chama. Os intents atuais (registrar gasto, resumo do mês, saldo da categoria, marcar como paga) continuam para a Siri.
 
 ### Notificação por captura
 

@@ -7,41 +7,6 @@ public struct CashlyIntentsPackage: AppIntentsPackage {
     public init() {}
 }
 
-public struct AddExpenseIntent: AppIntent {
-    public static let title: LocalizedStringResource = "Add Expense"
-    public static let description = IntentDescription("Records an expense in the current profile.")
-
-    @Parameter(title: "Amount", requestValueDialog: "How much did you spend?")
-    public var amount: Double
-    @Parameter(title: "Category")
-    public var category: CategoryEntity?
-    @Parameter(title: "Description")
-    public var summary: String?
-    @Parameter(title: "Tags")
-    public var tags: [TagEntity]?
-    @Parameter(title: "Date")
-    public var date: Date?
-
-    public static var parameterSummary: some ParameterSummary {
-        Summary("Add \(\.$amount) in \(\.$category)") {
-            \.$summary
-            \.$tags
-            \.$date
-        }
-    }
-
-    public init() {}
-
-    @MainActor
-    public func perform() async throws -> some IntentResult & ProvidesDialog {
-        let actions = try await IntentWorkspace.actions(writing: true)
-        let saved = try await actions.addExpense(
-            amount: amount, categoryID: category?.id, summary: summary ?? "", date: date,
-            tagIDs: Set((tags ?? []).map(\.id)))
-        return .result(dialog: "Added \(saved.money.formatted) in \(saved.category.name).")
-    }
-}
-
 public struct MonthSpentIntent: AppIntent {
     public static let title: LocalizedStringResource = "How Much Did I Spend This Month"
     public static let description = IntentDescription(
