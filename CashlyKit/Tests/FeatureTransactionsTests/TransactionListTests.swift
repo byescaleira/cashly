@@ -10,7 +10,7 @@ struct TransactionListTests {
             try await fixture.repositories.transactions.save(
                 fixture.expense(String(format: "t%02d", index), cents: 100, offset: Double(index)))
         }
-        let list = TransactionListModel(session: await fixture.session())
+        let (_, _, list) = await fixture.list()
         await list.load()
         #expect(list.items.count == 50)
         #expect(list.hasMore)
@@ -32,7 +32,7 @@ struct TransactionListTests {
             fixture.expense("b", cents: 100, offset: 3600))
         try await fixture.repositories.transactions.save(
             fixture.expense("c", cents: 100, offset: 86_400 * 2))
-        let list = TransactionListModel(session: await fixture.session())
+        let (_, _, list) = await fixture.list()
         await list.load()
         #expect(list.days.count == 2)
         #expect(list.days.first?.items.map(\.id) == ["c"])
@@ -43,7 +43,7 @@ struct TransactionListTests {
         let fixture = try await TransactionFixture()
         try await fixture.repositories.transactions.save(fixture.expense("a", cents: 100))
         try await fixture.repositories.transactions.save(fixture.expense("b", cents: 200))
-        let list = TransactionListModel(session: await fixture.session())
+        let (_, _, list) = await fixture.list()
         await list.load()
         list.isSelecting = true
         list.toggleSelectAll()

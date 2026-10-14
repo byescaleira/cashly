@@ -1,13 +1,17 @@
 import SwiftUI
 
 public struct FixedToolbarSpacer: ToolbarContent {
-    public init() {}
+    private let placement: ToolbarItemPlacement
+
+    public init(placement: ToolbarItemPlacement = .automatic) {
+        self.placement = placement
+    }
 
     public var body: some ToolbarContent {
         #if os(visionOS)
-            ToolbarItem { EmptyView() }
+            ToolbarItem(placement: placement) { EmptyView() }
         #else
-            ToolbarSpacer(.fixed)
+            ToolbarSpacer(.fixed, placement: placement)
         #endif
     }
 }

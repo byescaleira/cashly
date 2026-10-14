@@ -13,6 +13,7 @@ public struct TransactionListScreen: View {
         @Bindable var list = list
         AdaptiveList(selection: $list.selection) {
             DataStatusSection()
+            TransactionTotalSection()
             if !list.days.isEmpty { TipView(SwipeToDeleteTip()) }
             ForEach(list.days) { TransactionDaySection(day: $0) }
             LoadMoreSection()
@@ -24,7 +25,7 @@ public struct TransactionListScreen: View {
                     get: { list.isSelecting ? .active : .inactive },
                     set: { list.isSelecting = $0 == .active }))
         #endif
-        .emptyState(.transaction, when: list.days.isEmpty && !list.isLoading)
+        .emptyState(.transaction, when: list.isShowingEmptyState)
         .fontDesign(.rounded)
         .toolbar { TransactionListToolbar() }
         .refreshable { await list.load() }

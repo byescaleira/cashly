@@ -1,6 +1,7 @@
 import CashlyData
 import CashlyDomain
 import FeatureCore
+import FeatureTransactions
 import Foundation
 
 @MainActor
@@ -23,11 +24,23 @@ struct TransactionFixture {
         january = YearMonth(year: 2026, month: 1)?.startDate ?? .now
     }
 
-    func expense(_ id: String, cents: Int64, offset: TimeInterval = 0) -> CashlyDomain.Transaction {
+    func expense(
+        _ id: String, cents: Int64, offset: TimeInterval = 0,
+        category: CashlyDomain.Category? = nil,
+        status: TransactionStatus = .settled, tagIDs: Set<String> = [],
+        kind: TransactionKind = .expense
+    ) -> CashlyDomain.Transaction {
         Transaction(
-            id: id, participants: [], category: category, money: Money(minorUnits: cents),
-            date: january.addingTimeInterval(offset), summary: "Compra", status: .settled,
-            splitMode: nil, splitValue: nil, paymentsPlan: nil)
+            id: id, participants: [], category: category ?? self.category,
+            money: Money(minorUnits: cents), date: january.addingTimeInterval(offset),
+            summary: "Compra", status: status, splitMode: nil, splitValue: nil, paymentsPlan: nil,
+            tagIDs: tagIDs, kind: kind)
+    }
+
+    func list() async -> (SessionModel, FinanceModel, TransactionListModel) {
+        let session = await session()
+        let finance = FinanceModel(session: session)
+        return (session, finance, TransactionListModel(session: session, finance: finance))
     }
 
     func session() async -> SessionModel {
