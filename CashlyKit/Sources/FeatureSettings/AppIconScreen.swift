@@ -4,128 +4,128 @@ import SwiftUI
 
 struct AppIconScreen: View {
     @Environment(SettingsModel.self) private var settings
+    @Environment(\.shop) private var shop
 
     var body: some View {
-        @Bindable var settings = settings
-        let featured = AppIcon.featured(on: .now)
-        Form {
-            if let featured {
-                FeaturedIconsSection(collection: featured)
+        SettingsPage("App Icon") {
+            CurrentIconSection()
+            ForEach(settings.iconCollections(on: .now), id: \.self) {
+                IconCollectionSection(collection: $0)
             }
-            ForEach(AppIcon.Collection.allCases.filter { $0 != featured }, id: \.self) {
-                collection in
-                Section(collection.title) {
-                    IconGrid(icons: collection.icons, size: 62)
-                }
-            }
-        }
-        .formStyle(.grouped)
-        .readableWidth()
-        .navigationTitle("Icon")
-        .alert("Icon", isPresented: $settings.isShowingIconError) {
-        } message: {
-            Text(settings.iconError ?? "")
+            if settings.offersAllIcons(in: shop) { AllIconsSection() }
         }
     }
 }
 
-private struct FeaturedIconsSection: View {
-    let collection: AppIcon.Collection
+private struct CurrentIconSection: View {
+    @Environment(SettingsModel.self) private var settings
+    @Environment(\.appTint) private var appTint
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         Section {
-            VStack(alignment: .leading, spacing: .spaceL) {
-                VStack(alignment: .leading, spacing: .space2XS) {
-                    Label("Icons of the Month", systemImage: "sparkles")
-                        .font(.chipLabel)
-                        .textCase(.uppercase)
-                        .foregroundStyle(.white.opacity(.opacityStrong))
-                    Text(collection.title)
-                        .font(.titleMedium)
-                        .foregroundStyle(.white)
+            VStack(spacing: .spaceM) {
+                AppIconImage(icon: settings.appIcon, size: .badgeXL * 1.5)
+                    .shadow(color: .black.opacity(.opacityTint), radius: 10, y: 4)
+                    .id(settings.appIcon)
+                    .transition(.scale(scale: 0.8).combined(with: .opacity))
+                VStack(spacing: .space2XS) {
+                    Text(settings.appIcon.title).font(.titleMedium)
+                    Text(settings.appIcon.collection.title)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
                 }
-                IconGrid(icons: collection.icons, size: 66)
-                    .foregroundStyle(.white)
+                .contentTransition(.opacity)
             }
+            .frame(maxWidth: .infinity)
             .padding(.vertical, .spaceM)
-            .listRowBackground(
-                LinearGradient(
-                    colors: [Color(hex: "3A2340"), Color(hex: "7A1418"), Color(hex: "C8642B")],
-                    startPoint: .topLeading, endPoint: .bottomTrailing))
-        } footer: {
-            Text("Featured this month and available all year.")
+            .animation(reduceMotion ? nil : .smooth, value: settings.appIcon)
+            .accessibilityElement(children: .combine)
         }
     }
 }
 
-private struct IconGrid: View {
+private struct IconCollectionSection: View {
     @Environment(SettingsModel.self) private var settings
     @Environment(\.shop) private var shop
-    let icons: [AppIcon]
-    let size: CGFloat
+    let collection: AppIcon.Collection
 
     var body: some View {
-        LazyVGrid(
-            columns: Array(repeating: GridItem(.flexible(), spacing: .spaceS), count: 4),
-            spacing: .spaceL
-        ) {
-            ForEach(icons) { icon in
-                let lock = icon.shopItem.flatMap { shop.owns($0) ? nil : $0 }
-                IconChoice(
-                    icon: icon, size: size, isSelected: icon == settings.appIcon,
-                    isLocked: lock != nil
-                ) {
-                    if let lock {
-                        shop.open(lock)
-                    } else {
-                        Task { await settings.setAppIcon(icon) }
-                    }
+        let isFeatured = settings.isFeatured(collection, on: .now)
+        Section {
+            AppIconGrid(icons: collection.icons)
+        } header: {
+            HStack(alignment: .lastTextBaseline) {
+                VStack(alignment: .leading, spacing: .space2XS) {
+                    if isFeatured { FeaturedLabel() }
+                    Text(collection.title).sectionTitle()
                 }
+                Spacer()
+                PackAccessButton(access: settings.access(to: collection, in: shop))
             }
+            .textCase(nil)
+        } footer: {
+            if isFeatured { Text("Featured this month and available all year.") }
         }
-        .padding(.vertical, .spaceS)
-        .sensoryFeedback(.selection, trigger: settings.appIcon)
     }
 }
 
-private struct IconChoice: View {
+private struct FeaturedLabel: View {
     @Environment(\.appTint) private var appTint
-    let icon: AppIcon
-    let size: CGFloat
-    let isSelected: Bool
-    let isLocked: Bool
-    let action: () -> Void
 
     var body: some View {
-        Button(action: action) {
-            VStack(spacing: .spaceS) {
-                AppIconImage(icon: icon, size: size)
-                    .overlay {
-                        RoundedRectangle(cornerRadius: size * 0.2237 + 5, style: .continuous)
-                            .stroke(appTint, lineWidth: 3)
-                            .padding(-.space2XS)
-                            .opacity(isSelected ? 1 : 0)
+        Label("Icons of the Month", systemImage: "sparkles")
+            .font(.chipLabel)
+            .textCase(.uppercase)
+            .foregroundStyle(appTint)
+    }
+}
+
+private struct AllIconsSection: View {
+    @Environment(SettingsModel.self) private var settings
+    @Environment(\.shop) private var shop
+
+    var body: some View {
+        Section {
+            Button {
+                shop.open(.iconsAll)
+            } label: {
+                HStack(spacing: .spaceM) {
+                    AllIconsThumbnail()
+                    VStack(alignment: .leading, spacing: .space2XS) {
+                        Text("All Icons").font(.rowTitle)
+                        Text("Every icon pack, including the ones still to come.")
+                            .font(.rowDetail)
+                            .foregroundStyle(.secondary)
                     }
-                    .overlay(alignment: .bottomTrailing) {
-                        if isLocked {
-                            Image(systemName: "lock.fill")
-                                .font(.caption2.weight(.bold))
-                                .foregroundStyle(.white)
-                                .padding(.spaceXS)
-                                .background(.black.opacity(.opacityStrong), in: .circle)
-                                .offset(x: .spaceXS, y: .spaceXS)
-                        }
-                    }
-                    .shadow(color: .black.opacity(.opacityFill), radius: 4, y: 2)
-                Text(icon.title)
-                    .font(.caption.weight(isSelected ? .bold : .regular))
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
+                    Spacer(minLength: .spaceS)
+                    PackAccessChip(access: .locked(.iconsAll))
+                }
+                .contentShape(.rect)
+            }
+            .buttonStyle(.plain)
+            .accessibilityElement(children: .combine)
+        }
+    }
+}
+
+private struct AllIconsThumbnail: View {
+    @Environment(SettingsModel.self) private var settings
+
+    var body: some View {
+        let icons = settings.allIconsPreview
+        Grid(horizontalSpacing: .spaceHairline, verticalSpacing: .spaceHairline) {
+            GridRow {
+                ForEach(icons.prefix(2)) {
+                    AppIconImage(icon: $0, size: (.badgeL - .spaceHairline) / 2)
+                }
+            }
+            GridRow {
+                ForEach(icons.dropFirst(2)) {
+                    AppIconImage(icon: $0, size: (.badgeL - .spaceHairline) / 2)
+                }
             }
         }
-        .buttonStyle(.plain)
-        .accessibilityLabel(icon.title)
-        .accessibilityValue(isLocked ? Text("Locked") : Text(verbatim: ""))
-        .accessibilityAddTraits(isSelected ? .isSelected : [])
+        .frame(width: .badgeL, height: .badgeL)
     }
 }
