@@ -4,8 +4,37 @@ import Lottie
 import SwiftUI
 
 public enum CashlyAnimation: String, Sendable {
-    case month, history, budgetPace, journey, budget, score, participants, splitModes, paid, table
-    case file, done, connect, launch, pro, paywall, shopIcons, shopColors, shopHelps, capture
+    case backup
+    case bills
+    case budget
+    case budgetPace
+    case capture
+    case connect
+    case discreet
+    case done
+    case editor
+    case file
+    case history
+    case insights
+    case journey
+    case launch
+    case missions
+    case month
+    case paid
+    case participants
+    case paywall
+    case privacy
+    case pro
+    case score
+    case shopColors
+    case shopHelps
+    case shopIcons
+    case siri
+    case splitModes
+    case streak
+    case table
+    case tags
+    case widgets
 }
 
 public struct CashlyAnimationView: View {
@@ -14,17 +43,19 @@ public struct CashlyAnimationView: View {
     @Environment(\.self) private var environment
     private let animation: CashlyAnimation
     private let loops: Bool
+    private let isStill: Bool
 
-    public init(_ animation: CashlyAnimation, loops: Bool = false) {
+    public init(_ animation: CashlyAnimation, loops: Bool = false, isStill: Bool = false) {
         self.animation = animation
         self.loops = loops
+        self.isStill = isStill
     }
 
     public var body: some View {
         tinted(
             LottieView(animation: loaded)
                 .playbackMode(
-                    reduceMotion
+                    reduceMotion || isStill
                         ? .paused(at: .progress(1))
                         : .playing(
                             .fromProgress(0, toProgress: 1, loopMode: loops ? .loop : .playOnce))

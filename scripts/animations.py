@@ -214,6 +214,26 @@ def dot(color, diameter, opacity=100):
 # --- Animations ------------------------------------------------------------------------------
 
 
+def backup():
+    cloud = icon("icloud.fill", "teal", 84, (150, 84), delay=0, scale=breathe(40, 2, step=45))
+    arrow = icon("arrow.up", "ink", 26, move([(40, (150, 112)), (80, (150, 76))]), alpha=45,
+                 opacity=anim([(40, 0), (50, 100), (76, 100), (88, 0)]))
+    drive = icon("externaldrive.fill", "tint", 44, (236, 128), delay=26)
+    drive["ks"]["s"] = appear(26, overshoot=110, start=40)
+    check = icon("checkmark.circle.fill", "olive", 30, (88, 128), delay=84)
+    check["ks"]["s"] = appear(84, overshoot=116, start=40)
+    return [cloud, arrow, drive, check]
+
+
+def bills():
+    calendar = icon("calendar.badge.clock", "tint", 84, (124, 90), delay=0)
+    bell = icon("bell.fill", "mustard", 44, (232, 70), delay=24, rotation=settle(60, [-14, 12, -6]), anchor=(0, -18))
+    bell["ks"]["p"] = const([232, 52, 0])
+    check = icon("checkmark.circle.fill", "olive", 40, (238, 128), delay=70)
+    check["ks"]["s"] = appear(70, overshoot=116, start=40)
+    return [calendar, bell, check]
+
+
 def launch():
     coin = icon("dollarsign.circle.fill", "mustard", 44, move([(0, (176, 118)), (75, (190, 34)), (END, (176, 118))]),
                 rotation=anim([(0, -14), (75, 10), (END, -14)]))
@@ -223,6 +243,15 @@ def launch():
     spark_left = icon("sparkles", "ink", 26, (70, 126), alpha=45, scale=breathe(0, -20, step=75),
                       opacity=anim([(0, 100), (40, 100), (70, 0), (110, 0), (END, 100)]))
     return [spark_left, coin, card, spark_right]
+
+
+def missions():
+    checklist = icon("checklist", "tint", 84, (120, 90), delay=0)
+    star = icon("star.fill", "mustard", 44, (236, 68), delay=30, rotation=settle(30, [-15, 6]))
+    star["ks"]["s"] = appear(30, overshoot=116, start=40)
+    flag = icon("flag.fill", "olive", 40, (240, 126), delay=52)
+    flag["ks"]["s"] = appear(52, overshoot=112, start=40)
+    return [checklist, star, flag]
 
 
 def month():
@@ -238,6 +267,15 @@ def history():
     clock["ks"]["s"] = appear(26, overshoot=110)
     dots = [icon("circle.fill", "ink", 8, (82, 60 + index * 26), delay=40 + index * 8, alpha=35) for index in range(3)]
     return [sheet, clock] + dots
+
+
+def insights():
+    chart = layer("tint", [symbol("chart.xyaxis.line", "tint", 84)], position=(120, 92),
+                  opacity=fade(0, 10), mask=wipe(0, 50, (100, 90), "right"))
+    bulb = icon("lightbulb.max.fill", "mustard", 50, (236, 78), delay=50)
+    bulb["ks"]["s"] = appear(50, 30, overshoot=114, start=40)
+    spark = icon("sparkles", "ink", 30, (268, 132), delay=74, alpha=45, scale=breathe(90, -15, step=40))
+    return [chart, bulb, spark]
 
 
 def budget_pace():
@@ -308,6 +346,21 @@ def split_modes():
     return [divide, percent, equal] + layers
 
 
+def streak():
+    flame = icon("flame.fill", "rust", 84, (116, 90), delay=0)
+    flame["ks"]["s"] = anim([(0, [40, 40, 100]), (18, [112, 112, 100]), (28, [100, 100, 100]), (60, [106, 106, 100]),
+                             (90, [100, 100, 100]), (120, [106, 106, 100]), (END, [100, 100, 100])])
+    days = []
+    for index in range(5):
+        delay = 24 + index * 8
+        frozen = index == 3
+        day = icon("snowflake" if frozen else "circle.fill", "denim" if frozen else "olive", 20 if frozen else 16,
+                   (196 + index * 26, 90), delay=delay)
+        day["ks"]["s"] = appear(delay, 22, overshoot=120, start=30)
+        days.append(day)
+    return [flame] + days
+
+
 def paid():
     card = icon("creditcard.fill", "tint", 78, (150, 86), delay=0, rotation=settle(0, [-6, 2]))
     check = icon("checkmark.circle.fill", "olive", 50, (206, 122), delay=32)
@@ -322,6 +375,27 @@ def table():
                   opacity=fade(0, 10), mask=wipe(0, 46, (110, 90), "right"))
     doc = icon("arrow.down.doc.fill", "olive", 50, move([(40, (224, 96)), (62, (224, 118)), (76, (224, 112))]), delay=40)
     return [cells, doc]
+
+
+def widgets():
+    phone = icon("iphone", "ink", 100, (96, 90), delay=0, alpha=35)
+    layers = [phone]
+    for index, (name, x, y, width, height) in enumerate([("tint", 190, 60, 56, 56), ("olive", 262, 60, 56, 56), ("mustard", 226, 128, 128, 44)]):
+        delay = 20 + index * 12
+        layers.append(layer(name, [group([rect((width, height), 12), fill(name), transform()])], position=(x, y),
+                            scale=appear(delay, overshoot=108, start=40), opacity=fade(delay)))
+    lock = icon("lock.fill", "ink", 28, (96, 92), delay=72, alpha=55)
+    lock["ks"]["s"] = appear(72, overshoot=116, start=40)
+    return layers + [lock]
+
+
+def tags():
+    tag = icon("tag.fill", "tint", 80, (122, 90), delay=0, rotation=settle(0, [-10, 4]))
+    number = icon("number", "mustard", 46, (230, 66), delay=28)
+    number["ks"]["s"] = appear(28, overshoot=112, start=40)
+    calendar = icon("calendar", "olive", 40, (238, 126), delay=46)
+    calendar["ks"]["s"] = appear(46, overshoot=110, start=40)
+    return [tag, number, calendar]
 
 
 def file_import():
@@ -347,6 +421,15 @@ def done():
     return [check] + layers + sparks
 
 
+def editor():
+    pencil = icon("square.and.pencil", "tint", 84, (124, 90), delay=0)
+    folder = icon("folder.fill", "olive", 44, (232, 66), delay=26)
+    folder["ks"]["s"] = appear(26, overshoot=110, start=40)
+    tag = icon("tag.fill", "mustard", 40, (236, 124), delay=44, rotation=settle(44, [-12, 5]))
+    tag["ks"]["s"] = appear(44, overshoot=112, start=40)
+    return [pencil, folder, tag]
+
+
 def connect():
     terminal = icon("terminal.fill", "tint", 60, move([(0, (74, 90)), (40, (84, 90))]), delay=0)
     card = icon("creditcard.fill", "denim", 54, move([(10, (246, 90)), (50, (236, 90))]), delay=10)
@@ -356,6 +439,14 @@ def connect():
     for index, x in enumerate([116, 132, 188, 204]):
         dots.append(icon("circle.fill", "ink", 7, (x, 90), delay=64 + index * 6, alpha=35))
     return [terminal, card] + dots + [link]
+
+
+def discreet():
+    note = icon("banknote.fill", "tint", 80, (136, 90), delay=0)
+    note["ks"]["o"] = anim([(0, 0), (12, 100), (50, 100), (70, 30), (110, 30), (130, 100)])
+    eye = icon("eye.slash.fill", "ink", 46, (240, 118), delay=44, alpha=55)
+    eye["ks"]["s"] = appear(44, overshoot=112, start=40)
+    return [note, eye]
 
 
 def pro():
@@ -385,6 +476,14 @@ def paywall():
     return [card, chart, cloud, orbit, crown]
 
 
+def privacy():
+    shield = icon("lock.shield.fill", "tint", 88, (130, 90), delay=0)
+    shield["ks"]["s"] = appear(0, 32, overshoot=106, start=50)
+    face = icon("faceid", "ink", 46, (236, 90), alpha=55, scale=breathe(70, 4, step=40),
+                opacity=anim([(36, 0), (48, 100), (100, 100), (112, 55), (124, 100)]))
+    return [shield, face]
+
+
 def shop_icons():
     layers = []
     for index, name in enumerate(["tint", "mustard", "teal", "plum"]):
@@ -395,6 +494,16 @@ def shop_icons():
     badge = icon("checkmark.circle.fill", "olive", 24, (92, 122), delay=84)
     badge["ks"]["s"] = appear(84, 22, overshoot=120, start=30)
     return layers + [brush, badge]
+
+
+def siri():
+    pulse = anim([(0, [60, 100, 100]), (24, [104, 100, 100]), (36, [100, 100, 100]), (70, [100, 110, 100]),
+                  (100, [100, 94, 100]), (130, [100, 100, 100]), (END, [100, 100, 100])])
+    wave = icon("waveform", "tint", 70, (150, 86), delay=0, scale=pulse)
+    mic = icon("mic.fill", "mustard", 44, (242, 120), delay=30)
+    mic["ks"]["s"] = appear(30, overshoot=114, start=40)
+    bubble = icon("quote.bubble.fill", "ink", 40, (70, 54), delay=48, alpha=45)
+    return [bubble, wave, mic]
 
 
 def shop_colors():
@@ -432,11 +541,36 @@ def capture():
 
 ANIMATIONS = {
     "launch": launch,
-    "month": month, "history": history, "budgetPace": budget_pace, "journey": journey, "budget": budget,
-    "score": score, "participants": participants, "splitModes": split_modes, "paid": paid, "table": table,
-    "file": file_import, "done": done, "connect": connect,
-    "pro": pro, "paywall": paywall, "shopIcons": shop_icons, "shopColors": shop_colors, "shopHelps": shop_helps,
+    "month": month,
+    "history": history,
+    "budgetPace": budget_pace,
+    "journey": journey,
+    "budget": budget,
+    "score": score,
+    "participants": participants,
+    "splitModes": split_modes,
+    "paid": paid,
+    "table": table,
+    "file": file_import,
+    "done": done,
+    "connect": connect,
+    "pro": pro,
+    "paywall": paywall,
+    "shopIcons": shop_icons,
+    "shopColors": shop_colors,
+    "shopHelps": shop_helps,
     "capture": capture,
+    "backup": backup,
+    "bills": bills,
+    "discreet": discreet,
+    "editor": editor,
+    "insights": insights,
+    "missions": missions,
+    "privacy": privacy,
+    "siri": siri,
+    "streak": streak,
+    "tags": tags,
+    "widgets": widgets,
 }
 
 

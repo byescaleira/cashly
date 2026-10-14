@@ -15,7 +15,7 @@ public struct GuideScreen: View {
             ModelHost(SpreadsheetImportModel(session: session)) { SpreadsheetImportScreen() }
         case .score:
             ScoreGuideScreen(onFinish: complete)
-        case .tour, .budgets, .sharing, .quickCapture:
+        default:
             TutorialScreen(pages: guide.pages, onFinish: complete)
         }
     }
