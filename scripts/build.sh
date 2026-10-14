@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 project_root="$(cd "$(dirname "$0")/.." && pwd)"
-build_root="${CASHLY_BUILD_ROOT:-${TMPDIR:-/tmp}/cashly-build}"
+build_root="${CASHLY_BUILD_ROOT:-$HOME/Library/Developer/CashlyBuild}"
 configuration="${1:-Debug}"
 xcodebuild -workspace "$project_root/Cashly.xcworkspace" -scheme Production \
   -configuration "$configuration" -destination 'generic/platform=iOS Simulator' \

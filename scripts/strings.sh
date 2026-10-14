@@ -2,7 +2,7 @@
 set -euo pipefail
 
 project_root="$(cd "$(dirname "$0")/.." && pwd)"
-build_root="${CASHLY_BUILD_ROOT:-${TMPDIR:-/tmp}/cashly-build}"
+build_root="${CASHLY_BUILD_ROOT:-$HOME/Library/Developer/CashlyBuild}"
 objects="$build_root/Debug/Build/Intermediates.noindex"
 catalog="$project_root/Cashly/Cashly/Localizable.xcstrings"
 
