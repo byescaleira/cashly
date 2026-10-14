@@ -13,9 +13,11 @@ PREVIEW = os.path.join(ROOT, "animations-preview.html")
 SYMBOL_SOURCE = os.path.join(ROOT, "symbols.swift")
 SYMBOL_MAP = os.path.join(ROOT, "symbols-map.json")
 
-# EASE is a fluid ease-in-out with a soft landing; SNAP leaves quickly.
+# EASE is a fluid ease-in-out with a soft landing; SNAP leaves quickly; FALL accelerates like gravity.
 EASE = ((0.2, 1.0), (0.4, 0.0))
 SNAP = ((0.1, 1.0), (0.6, 0.0))
+FALL = ((0.9, 0.7), (0.6, 0.0))
+KAPPA = 0.5523
 
 PALETTE = {
     "olive": (0x5F, 0x7A, 0x2E), "mustard": (0xB8, 0x84, 0x1C), "rust": (0xA6, 0x3D, 0x2C),
@@ -121,6 +123,19 @@ def box_path(x0, y0, x1, y1):
     return {"c": True, "v": [[x0, y0], [x1, y0], [x1, y1], [x0, y1]], "i": [[0, 0]] * 4, "o": [[0, 0]] * 4}
 
 
+def pocket_path(width, height, radius, lip, dip):
+    w, h, k = width / 2, height / 2, KAPPA
+    vertices = [
+        ((-w, -h + lip), (0, 0), (0, -lip * k)), ((-w + lip, -h), (-lip * k, 0), (0, 0)),
+        ((-dip, -h), (0, 0), (0, dip * k)), ((0, -h + dip), (-dip * k, 0), (dip * k, 0)), ((dip, -h), (0, dip * k), (0, 0)),
+        ((w - lip, -h), (0, 0), (lip * k, 0)), ((w, -h + lip), (0, -lip * k), (0, 0)),
+        ((w, h - radius), (0, 0), (0, radius * k)), ((w - radius, h), (radius * k, 0), (0, 0)),
+        ((-w + radius, h), (0, 0), (-radius * k, 0)), ((-w, h - radius), (0, radius * k), (0, 0)),
+    ]
+    path = {"c": True, "v": [list(v) for v, _, _ in vertices], "i": [list(i) for _, i, _ in vertices], "o": [list(o) for _, _, o in vertices]}
+    return {"ty": "sh", "d": 1, "ks": const(path)}
+
+
 def wipe(delay, length, size, direction="right", ease=EASE):
     w, h = size[0] / 2 + 2, size[1] / 2 + 2
     full = box_path(-w, -h, w, h)
@@ -212,6 +227,29 @@ def dot(color, diameter, opacity=100):
 
 
 # --- Animations ------------------------------------------------------------------------------
+
+
+def about():
+    center = (160, 92)
+    base = layer("cream", [group([rect((116, 116), 28), fill("cream"), transform()])], position=center, scale=breathe(0, 2, step=75))
+    star = icon("sparkles", "mustard", 36, (206, 46), scale=breathe(0, -18, step=75), rotation=anim([(0, -8), (75, 8), (END, -8)]))
+    card = layer("tint", [group([rect((92, 92), 20), fill("tint"), transform()])], position=center)
+    sign = icon("dollarsign", "cream", 58, (160, 84), weight="Bold", scale=breathe(0, 3, step=75))
+    coin = icon("dollarsign.circle.fill", "mustard", 28,
+                move([(0, (160, 18)), (12, (160, 14)), (24, (160, 18), FALL), (52, (160, 126)), (72, (160, 126)), (73, (160, 18)), (END, (160, 18))]),
+                rotation=anim([(0, 0), (24, 0), (52, -18), (72, -18), (73, 0), (END, 0)]),
+                opacity=anim([(0, 100), (64, 100), (70, 0), (116, 0), (134, 100), (END, 100)]),
+                scale=anim([(0, [100, 100, 100]), (70, [100, 100, 100]), (71, [60, 60, 100]), (116, [60, 60, 100]), (134, [106, 106, 100]), (144, [100, 100, 100]), (END, [100, 100, 100])]))
+    pocket = layer("cream", [group([pocket_path(100, 44, 20, 6, 16), fill("cream"), transform()])], position=(160, 142), anchor=(0, 22),
+                   scale=anim([(0, [100, 100, 100]), (50, [100, 100, 100]), (58, [105, 93, 100]), (70, [98, 103, 100]), (82, [100, 100, 100]), (END, [100, 100, 100])]))
+    layers = [base, star, card, sign, coin, pocket]
+    for index, (name, color, x, y, amount) in enumerate([("chart.bar.fill", "olive", 60, 64, 4), ("trophy.fill", "mustard", 62, 126, -4),
+                                                         ("creditcard.fill", "denim", 260, 66, 3), ("sparkles", "mustard", 256, 130, -3)]):
+        kick = 56 + index * 4
+        size = 26 if name == "sparkles" else 36
+        layers.append(icon(name, color, size, float_y(x, y, amount, step=75), alpha=70 if name == "sparkles" else 100, flip=name == "sparkles",
+                           scale=anim([(0, [100, 100, 100]), (kick, [100, 100, 100]), (kick + 8, [110, 110, 100]), (kick + 22, [100, 100, 100]), (END, [100, 100, 100])])))
+    return layers
 
 
 def launch():
@@ -431,6 +469,7 @@ def capture():
 
 
 ANIMATIONS = {
+    "about": about,
     "launch": launch,
     "month": month, "history": history, "budgetPace": budget_pace, "journey": journey, "budget": budget,
     "score": score, "participants": participants, "splitModes": split_modes, "paid": paid, "table": table,

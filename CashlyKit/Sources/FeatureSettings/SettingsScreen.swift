@@ -120,10 +120,7 @@ private struct SettingsSections<Extra: View>: View {
                 "About Cashly", symbol: "info.circle", color: RetroColor.indigo.color,
                 value: settings.info.version
             ) {
-                SettingsPage("About Cashly") {
-                    AboutSection()
-                    if settings.info.hasHelp { HelpSection() }
-                }
+                AboutScreen()
             }
         } header: {
             Text("Help")

@@ -6649,6 +6649,64 @@
         }
       }
     },
+    "Add an expense in seconds, from the app, Siri or Shortcuts, and split it with whoever shared it." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Füge in Sekunden eine Ausgabe hinzu, aus der App, per Siri oder Kurzbefehle, und teile sie mit allen Beteiligten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade un gasto en segundos, desde la app, Siri o Atajos, y divídelo con quien lo compartió."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoutez une dépense en quelques secondes, depuis l’app, Siri ou Raccourcis, et partagez-la avec qui y a participé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi una spesa in pochi secondi, dall’app, da Siri o dai Comandi rapidi, e dividila con chi ha partecipato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリ、Siri、ショートカットから数秒で支出を追加し、一緒に使った人と分けられます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱, Siri 또는 단축어에서 몇 초 만에 지출을 추가하고 함께한 사람과 나누세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicione um gasto em segundos, pelo app, pela Siri ou pelos Atalhos, e divida com quem participou."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавьте расход за секунды — из приложения, через Siri или «Команды» — и разделите его с теми, кто участвовал."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "通过 App、Siri 或快捷指令，几秒钟添加一笔支出，并与一起消费的人分摊。"
+          }
+        }
+      }
+    },
     "Add Category" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -14562,6 +14620,64 @@
         }
       }
     },
+    "Budgets, upcoming bills and a forecast of where the month is heading, all on one screen." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budgets, anstehende Rechnungen und eine Prognose, wohin der Monat geht, alles auf einem Bildschirm."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Presupuestos, próximas cuentas y una previsión de hacia dónde va el mes, todo en una sola pantalla."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budgets, factures à venir et une prévision de la direction que prend le mois, le tout sur un seul écran."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budget, bollette in arrivo e una previsione di dove sta andando il mese, tutto in una sola schermata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "予算、支払い予定、今月の見通しを、ひとつの画面で。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "예산, 다가오는 청구서, 이번 달 전망을 한 화면에서."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orçamentos, próximas contas e uma previsão de para onde o mês vai, tudo numa tela só."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бюджеты, предстоящие счета и прогноз того, куда движется месяц, — всё на одном экране."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "预算、待付账单和本月走向预测，全部在一个屏幕上。"
+          }
+        }
+      }
+    },
     "Build Your Spreadsheet" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -16215,6 +16331,64 @@
         }
       }
     },
+    "Cashly grows by word of mouth, one friend at a time." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly wächst durch Mundpropaganda, ein Freund nach dem anderen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly crece de boca en boca, un amigo a la vez."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly grandit par le bouche-à-oreille, un ami à la fois."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly cresce con il passaparola, un amico alla volta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashlyは口コミで、友だちひとりずつ広がっています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly는 입소문으로, 친구 한 명씩 성장합니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Cashly cresce no boca a boca, um amigo de cada vez."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly растёт благодаря сарафанному радио — по одному другу за раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly 靠口口相传成长，一次一位朋友。"
+          }
+        }
+      }
+    },
     "Cashly has no servers of its own. Your data stays on this device and, with sync turned on, in your iCloud account. Suggestions are calculated on the device itself." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -16270,6 +16444,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cashly 没有自己的服务器。你的数据保存在此设备上，开启同步后也会保存在你的 iCloud 账户中。建议直接在设备上计算。"
+          }
+        }
+      }
+    },
+    "Cashly is designed, built and supported by a single developer. Every suggestion goes straight to the person who writes the code." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly wird von einem einzigen Entwickler gestaltet, gebaut und betreut. Jeder Vorschlag geht direkt an die Person, die den Code schreibt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly está diseñado, construido y atendido por un único desarrollador. Cada sugerencia llega directamente a quien escribe el código."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly est conçu, développé et suivi par un seul développeur. Chaque suggestion arrive directement à la personne qui écrit le code."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly è progettato, sviluppato e assistito da un unico sviluppatore. Ogni suggerimento arriva direttamente a chi scrive il codice."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashlyは、ひとりの開発者が設計・開発・サポートしています。ご提案はコードを書く本人に直接届きます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly는 개발자 한 사람이 설계하고 만들고 지원합니다. 모든 제안은 코드를 쓰는 사람에게 바로 전달됩니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Cashly é desenhado, construído e atendido por um único desenvolvedor. Cada sugestão vai direto para quem escreve o código."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly проектирует, разрабатывает и поддерживает один разработчик. Каждое предложение попадает напрямую к тому, кто пишет код."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly 由一位开发者独自设计、开发和维护。每条建议都会直接送到写代码的人手中。"
           }
         }
       }
@@ -34682,6 +34914,64 @@
         }
       }
     },
+    "I plan my month with Cashly." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ich plane meinen Monat mit Cashly."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Planifico mi mes con Cashly."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je planifie mon mois avec Cashly."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pianifico il mio mese con Cashly."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "私はCashlyで今月の計画を立てています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저는 Cashly로 한 달을 계획해요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eu planejo meu mês com o Cashly."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Я планирую свой месяц с Cashly."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "我用 Cashly 规划我的每个月。"
+          }
+        }
+      }
+    },
     "iCloud" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -40579,6 +40869,122 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "肺"
+          }
+        }
+      }
+    },
+    "Made by one person in Brazil" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Von einer einzigen Person in Brasilien gemacht"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hecho por una sola persona en Brasil"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conçu par une seule personne, au Brésil"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fatto da una sola persona in Brasile"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ブラジルでひとりが作りました"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "브라질에서 한 사람이 만들었습니다"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feito por uma pessoa só, no Brasil"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сделано одним человеком в Бразилии"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由一个人在巴西打造"
+          }
+        }
+      }
+    },
+    "Made in Brazil" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hergestellt in Brasilien"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hecho en Brasil"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fabriqué au Brésil"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fatto in Brasile"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ブラジル製"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "브라질에서 만들었습니다"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feito no Brasil"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сделано в Бразилии"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "巴西制造"
           }
         }
       }
@@ -54037,6 +54443,64 @@
         }
       }
     },
+    "Record in a tap" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit einem Tipp erfassen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra con un toque"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrez en un geste"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra con un tocco"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ワンタップで記録"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "한 번의 탭으로 기록"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registre num toque"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запись в одно касание"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一键记录"
+          }
+        }
+      }
+    },
     "Record in a Tap" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -59286,6 +59750,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "共享 Cashly"
+          }
+        }
+      }
+    },
+    "Share Cashly with a friend" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly mit einem Freund teilen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartir Cashly con un amigo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager Cashly avec un ami"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Condividi Cashly con un amico"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "友だちにCashlyを紹介"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "친구에게 Cashly 공유하기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartilhar o Cashly com um amigo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поделиться Cashly с другом"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把 Cashly 分享给朋友"
           }
         }
       }
@@ -78070,6 +78592,64 @@
         }
       }
     },
+    "Your data stays yours" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deine Daten bleiben deine"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tus datos siguen siendo tuyos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vos données restent les vôtres"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I tuoi dati restano tuoi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "データはあなたのもの"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "내 데이터는 내 것"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seus dados continuam seus"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваши данные остаются вашими"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你的数据始终属于你"
+          }
+        }
+      }
+    },
     "Your finances stay hidden until you unlock." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -78184,6 +78764,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你的历史记录已更改。请重新训练以更新建议。"
+          }
+        }
+      }
+    },
+    "Your month at a glance" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Monat auf einen Blick"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu mes de un vistazo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre mois en un coup d’œil"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il tuo mese a colpo d’occhio"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今月をひと目で"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "한눈에 보는 이번 달"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu mês de relance"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваш месяц с одного взгляда"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "一眼看清本月"
           }
         }
       }
@@ -78597,6 +79235,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你在 Cashly 的一周"
+          }
+        }
+      }
+    },
+    "Your whole month, in your pocket" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein ganzer Monat, in deiner Tasche"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo tu mes, en tu bolsillo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout votre mois, dans votre poche"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutto il tuo mese, in tasca"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ひと月まるごと、ポケットの中に"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "한 달 전체를 주머니 속에"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O mês inteiro, no seu bolso"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Весь ваш месяц — в кармане"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "整个月，尽在口袋"
           }
         }
       }
