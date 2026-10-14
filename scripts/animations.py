@@ -419,6 +419,38 @@ def shop_helps():
     return [preserver, flake, bolt]
 
 
+def shop_freeze():
+    flame = icon("flame.fill", "orange", 60, (108, 94), delay=0)
+    flame["ks"]["s"] = appear(0, overshoot=108, start=50)
+    flake = icon("snowflake", "denim", 72, (204, 90), delay=24, rotation=anim([(24, -30), (134, 30)]))
+    flake["ks"]["s"] = appear(24, 30, overshoot=115, start=40)
+    shield = icon("checkmark.shield.fill", "olive", 30, (236, 134), delay=84)
+    shield["ks"]["s"] = appear(84, 22, overshoot=120, start=30)
+    return [flame, flake, shield]
+
+
+def shop_reroll():
+    old = icon("flag.fill", "ink", 60, (116, 92), delay=0, alpha=40)
+    old["ks"]["s"] = anim([(0, [60, 60, 100]), (20, [100, 100, 100]), (60, [100, 100, 100]), (82, [60, 60, 100]), (END, [60, 60, 100])])
+    old["ks"]["o"] = anim([(0, 0), (14, 100), (60, 100), (82, 0)])
+    new = icon("flag.fill", "tint", 66, (204, 90), delay=62)
+    new["ks"]["s"] = appear(62, 26, overshoot=112, start=40)
+    die = icon("die.face.5.fill", "mustard", 36, move([(30, (160, 152)), (70, (160, 136))]), delay=30,
+               rotation=anim([(30, -40), (70, 20), (100, 0)]))
+    die["ks"]["s"] = appear(30, 24, overshoot=115, start=40)
+    return [old, new, die]
+
+
+def shop_restore():
+    arrow = icon("arrow.counterclockwise", "teal", 96, (160, 92), delay=0, rotation=anim([(24, 0), (96, -360)]))
+    flame = icon("flame.fill", "orange", 42, (160, 94), delay=0)
+    flame["ks"]["o"] = anim([(0, 0), (14, 30), (66, 30), (90, 100)])
+    flame["ks"]["s"] = anim([(0, [70, 70, 100]), (66, [70, 70, 100]), (90, [112, 112, 100]), (106, [100, 100, 100]), (END, [100, 100, 100])])
+    sparks = icon("sparkles", "mustard", 30, (232, 52), delay=96)
+    sparks["ks"]["s"] = appear(96, 22, overshoot=120, start=30)
+    return [arrow, flame, sparks]
+
+
 def capture():
     plus = icon("plus.circle.fill", "tint", 84, (160, 88), delay=0)
     plus["ks"]["s"] = appear(0, 30, overshoot=108, start=50)
@@ -436,6 +468,9 @@ ANIMATIONS = {
     "score": score, "participants": participants, "splitModes": split_modes, "paid": paid, "table": table,
     "file": file_import, "done": done, "connect": connect,
     "pro": pro, "paywall": paywall, "shopIcons": shop_icons, "shopColors": shop_colors, "shopHelps": shop_helps,
+    "shopFreeze": shop_freeze,
+    "shopReroll": shop_reroll,
+    "shopRestore": shop_restore,
     "capture": capture,
 }
 

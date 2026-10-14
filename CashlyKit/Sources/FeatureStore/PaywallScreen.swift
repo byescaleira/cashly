@@ -140,9 +140,9 @@ private struct PaywallLinks: View {
     }
 }
 
-enum StorePolicy {
-    static var terms: URL? { url("CashlyTermsURL") }
-    static var privacy: URL? { url("CashlyPrivacyURL") }
+public enum StorePolicy {
+    public static var terms: URL? { url("CashlyTermsURL") }
+    public static var privacy: URL? { url("CashlyPrivacyURL") }
 
     private static func url(_ key: String) -> URL? {
         guard let value = Bundle.main.object(forInfoDictionaryKey: key) as? String, !value.isEmpty

@@ -1,4 +1,5 @@
 import CashlyDesignSystem
+import FeatureCore
 import FeatureSettings
 import Observation
 import SwiftUI

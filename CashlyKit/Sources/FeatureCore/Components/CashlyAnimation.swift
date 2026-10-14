@@ -6,6 +6,9 @@ import SwiftUI
 public enum CashlyAnimation: String, Sendable {
     case month, history, budgetPace, journey, budget, score, participants, splitModes, paid, table
     case file, done, connect, launch, pro, paywall, shopIcons, shopColors, shopHelps, capture
+    case shopFreeze
+    case shopReroll
+    case shopRestore
 }
 
 public struct CashlyAnimationView: View {
