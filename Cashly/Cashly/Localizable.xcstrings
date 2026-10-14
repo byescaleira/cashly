@@ -119,61 +119,60 @@
         }
       }
     },
-    "\"How much is left in Groceries in Cashly\", \"Mark a bill as paid in Cashly\" and \"Capture a payment in Cashly\"." : {
-      "extractionState" : "stale",
+    "\"Add income in Cashly\", \"How much is left in Groceries in Cashly\", \"Mark a bill as paid in Cashly\" and \"Capture a payment in Cashly\"." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "„Wie viel bleibt in Lebensmittel in Cashly“, „Markiere eine Rechnung in Cashly als bezahlt“ und „Erfasse eine Zahlung in Cashly“."
+            "value" : "„Einnahme in Cashly erfassen“, „Wie viel bleibt in Lebensmittel in Cashly“, „Markiere eine Rechnung in Cashly als bezahlt“ und „Erfasse eine Zahlung in Cashly“."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "«Cuánto queda en Mercado en Cashly», «Marca una cuenta como pagada en Cashly» y «Captura un pago en Cashly»."
+            "value" : "«Añadir un ingreso en Cashly», «Cuánto queda en Mercado en Cashly», «Marca una cuenta como pagada en Cashly» y «Captura un pago en Cashly»."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "« Combien reste-t-il dans Courses dans Cashly », « Marque une facture comme payée dans Cashly » et « Capture un paiement dans Cashly »."
+            "value" : "« Ajouter un revenu dans Cashly », « Combien reste-t-il dans Courses dans Cashly », « Marque une facture comme payée dans Cashly » et « Capture un paiement dans Cashly »."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "\"Quanto resta in Spesa in Cashly\", \"Segna una bolletta come pagata in Cashly\" e \"Cattura un pagamento in Cashly\"."
+            "value" : "\"Aggiungi un’entrata in Cashly\", \"Quanto resta in Spesa in Cashly\", \"Segna una bolletta come pagata in Cashly\" e \"Cattura un pagamento in Cashly\"."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "「Cashlyの食料品の残りはいくら」「Cashlyで請求を支払い済みにして」「Cashlyで支払いを取り込んで」。"
+            "value" : "「Cashlyで収入を追加」「Cashlyの食料品の残りはいくら」「Cashlyで請求を支払い済みにして」「Cashlyで支払いを取り込んで」。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "\"Cashly에서 식료품 얼마 남았어\", \"Cashly에서 청구서를 결제 완료로 표시해 줘\", \"Cashly에서 결제 캡처해 줘\"."
+            "value" : "\"Cashly에 수입 추가\", \"Cashly에서 식료품 얼마 남았어\", \"Cashly에서 청구서를 결제 완료로 표시해 줘\", \"Cashly에서 결제 캡처해 줘\"."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "\"Quanto sobrou em Mercado no Cashly\", \"Marcar uma conta como paga no Cashly\" e \"Capturar um pagamento no Cashly\"."
+            "value" : "\"Registrar uma entrada no Cashly\", \"Quanto sobrou em Mercado no Cashly\", \"Marcar uma conta como paga no Cashly\" e \"Capturar um pagamento no Cashly\"."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "«Сколько осталось в Продуктах в Cashly», «Отметь счёт оплаченным в Cashly» и «Захвати платёж в Cashly»."
+            "value" : "«Добавить доход в Cashly», «Сколько осталось в Продуктах в Cashly», «Отметь счёт оплаченным в Cashly» и «Захвати платёж в Cashly»."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "“Cashly 中杂货还剩多少”、“在 Cashly 中把账单标记为已付”和“在 Cashly 中捕获一笔付款”。"
+            "value" : "“在 Cashly 中添加收入”、“Cashly 中杂货还剩多少”、“在 Cashly 中把账单标记为已付”和“在 Cashly 中捕获一笔付款”。"
           }
         }
       }
@@ -7666,6 +7665,64 @@
         }
       }
     },
+    "Add ${amount} in ${category} shared with ${participants}, split ${splitMode}" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "${amount} in ${category} erfassen, geteilt mit ${participants}, Aufteilung ${splitMode}"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añadir ${amount} en ${category} compartido con ${participants}, división ${splitMode}"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter ${amount} dans ${category} partagé avec ${participants}, partage ${splitMode}"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi ${amount} in ${category} condiviso con ${participants}, divisione ${splitMode}"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "${category}に${amount}を追加、${participants}と${splitMode}で分担"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "${category}에 ${amount} 추가, ${participants}와(과) ${splitMode} 분할"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrar ${amount} em ${category} dividido com ${participants}, modo ${splitMode}"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить ${amount} в ${category}, разделить с ${participants}: ${splitMode}"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 ${category} 中添加 ${amount}，与 ${participants} 分摊：${splitMode}"
+          }
+        }
+      }
+    },
     "Add an expense in seconds, from the app, Siri or Shortcuts, and split it with whoever shared it." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -7838,6 +7895,122 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "添加支出"
+          }
+        }
+      }
+    },
+    "Add Income" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einnahme erfassen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añadir ingreso"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter un revenu"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi entrata"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "収入を追加"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "수입 추가"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrar entrada"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить доход"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加收入"
+          }
+        }
+      }
+    },
+    "Add income of ${amount} in ${category}" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einnahme von ${amount} in ${category} erfassen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añadir ingreso de ${amount} en ${category}"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter un revenu de ${amount} dans ${category}"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi entrata di ${amount} in ${category}"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "${category}に${amount}の収入を追加"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "${category}에 ${amount} 수입 추가"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrar entrada de ${amount} em ${category}"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить доход ${amount} в ${category}"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 ${category} 中添加收入 ${amount}"
           }
         }
       }
@@ -8316,6 +8489,70 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已在 %2$@ 中添加 %1$@。"
+          }
+        }
+      }
+    },
+    "Added income of %@ in %@." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einnahme von %1$@ in %2$@ erfasst."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Added income of %1$@ in %2$@."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingreso de %1$@ añadido en %2$@."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revenu de %1$@ ajouté dans %2$@."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entrata di %1$@ aggiunta in %2$@."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$@に%1$@の収入を追加しました。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$@에 %1$@ 수입을 추가했어요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entrada de %1$@ registrada em %2$@."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доход %1$@ добавлен в %2$@."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已在 %2$@ 中添加收入 %1$@。"
           }
         }
       }
@@ -20414,6 +20651,238 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择文件"
+          }
+        }
+      }
+    },
+    "Choose how to split the transaction." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle, wie die Transaktion aufgeteilt wird."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige cómo dividir la transacción."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez comment partager la transaction."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli come dividere la transazione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取引の分け方を選んでください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "거래를 나누는 방식을 선택하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha como dividir a transação."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите, как разделить операцию."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请选择如何分摊这笔交易。"
+          }
+        }
+      }
+    },
+    "Choose one of the categories of this profile." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle eine Kategorie dieses Profils."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige una de las categorías de este perfil."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez l’une des catégories de ce profil."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli una delle categorie di questo profilo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このプロファイルのカテゴリから選んでください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 프로필의 카테고리 중에서 선택하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha uma das categorias deste perfil."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите одну из категорий этого профиля."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请选择此档案中的一个分类。"
+          }
+        }
+      }
+    },
+    "Choose participants among the other profiles." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle Teilnehmende aus den anderen Profilen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige participantes entre los otros perfiles."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez les participants parmi les autres profils."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli i partecipanti tra gli altri profili."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "参加者はほかのプロファイルから選んでください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "참여자는 다른 프로필 중에서 선택하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha os participantes entre os outros perfis."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите участников среди других профилей."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请从其他档案中选择参与者。"
+          }
+        }
+      }
+    },
+    "Choose tags of this profile." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle Tags dieses Profils."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige etiquetas de este perfil."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez des tags de ce profil."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli tag di questo profilo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このプロファイルのタグを選んでください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 프로필의 태그를 선택하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha tags deste perfil."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите теги этого профиля."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请选择此档案中的标签。"
           }
         }
       }
@@ -37594,6 +38063,64 @@
         }
       }
     },
+    "How much did you receive?" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wie viel hast du erhalten?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Cuánto recibiste?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combien avez-vous reçu ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quanto hai ricevuto?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "いくら受け取りましたか？"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "얼마를 받았나요?"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quanto você recebeu?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сколько вы получили?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你收到了多少？"
+          }
+        }
+      }
+    },
     "How much did you spend?" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -37649,6 +38176,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你花了多少？"
+          }
+        }
+      }
+    },
+    "How much does each participant pay?" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wie viel zahlt jede teilnehmende Person?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Cuánto paga cada participante?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combien paie chaque participant ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quanto paga ogni partecipante?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "参加者はそれぞれいくら払いますか？"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "참여자마다 얼마를 내나요?"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quanto cada participante paga?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сколько платит каждый участник?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每位参与者付多少？"
           }
         }
       }
@@ -39778,61 +40363,60 @@
         }
       }
     },
-    "In Shortcuts, create an automation with the Transaction trigger, set to run immediately. Choose Capture a Payment in Cashly and pass the amount, merchant, card and date." : {
-      "extractionState" : "stale",
+    "In Shortcuts, create an automation with the Transaction trigger, set to run immediately. Choose Capture a Payment in Cashly and pass the amount, merchant, card and date. Category, description and tags are optional and become the suggestion." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erstelle in Kurzbefehle eine Automation mit dem Auslöser „Transaktion“, die sofort ausgeführt wird. Wähle „Zahlung in Cashly erfassen“ und übergib Betrag, Händler, Karte und Datum."
+            "value" : "Erstelle in Kurzbefehle eine Automation mit dem Auslöser „Transaktion“, die sofort ausgeführt wird. Wähle „Zahlung in Cashly erfassen“ und übergib Betrag, Händler, Karte und Datum. Kategorie, Beschreibung und Tags sind optional und werden zum Vorschlag."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "En Atajos, crea una automatización con el desencadenante Transacción, configurada para ejecutarse de inmediato. Elige Capturar un pago en Cashly y pásale importe, comercio, tarjeta y fecha."
+            "value" : "En Atajos, crea una automatización con el desencadenante Transacción, configurada para ejecutarse de inmediato. Elige Capturar un pago en Cashly y pásale importe, comercio, tarjeta y fecha. Categoría, descripción y etiquetas son opcionales y se vuelven la sugerencia."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dans Raccourcis, créez une automatisation avec le déclencheur Transaction, réglée pour s'exécuter immédiatement. Choisissez Capturer un paiement dans Cashly et transmettez le montant, le commerçant, la carte et la date."
+            "value" : "Dans Raccourcis, créez une automatisation avec le déclencheur Transaction, réglée pour s'exécuter immédiatement. Choisissez Capturer un paiement dans Cashly et transmettez le montant, le commerçant, la carte et la date. Catégorie, description et tags sont facultatifs et deviennent la suggestion."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "In Comandi Rapidi, crea un'automazione con il trigger Transazione, impostata per eseguire subito. Scegli Cattura un pagamento in Cashly e passa importo, esercente, carta e data."
+            "value" : "In Comandi Rapidi, crea un'automazione con il trigger Transazione, impostata per eseguire subito. Scegli Cattura un pagamento in Cashly e passa importo, esercente, carta e data. Categoria, descrizione e tag sono facoltativi e diventano il suggerimento."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ショートカットで「取引」トリガーのオートメーションを作り、すぐに実行する設定にします。「Cashlyで支払いを取り込む」を選び、金額、店名、カード、日付を渡します。"
+            "value" : "ショートカットで「取引」トリガーのオートメーションを作り、すぐに実行する設定にします。「Cashlyで支払いを取り込む」を選び、金額、店名、カード、日付を渡します。カテゴリ、説明、タグは任意で、提案として使われます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "단축어에서 거래 트리거로 자동화를 만들고 즉시 실행으로 설정하세요. Cashly에서 결제 캡처를 고르고 금액, 가맹점, 카드, 날짜를 넘기세요."
+            "value" : "단축어에서 거래 트리거로 자동화를 만들고 즉시 실행으로 설정하세요. Cashly에서 결제 캡처를 고르고 금액, 가맹점, 카드, 날짜를 넘기세요. 카테고리, 설명, 태그는 선택 사항이며 제안으로 쓰여요."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No Atalhos, crie uma automação com o gatilho Transação, configurada para executar imediatamente. Escolha Capturar um pagamento no Cashly e passe valor, estabelecimento, cartão e data."
+            "value" : "No Atalhos, crie uma automação com o gatilho Transação, configurada para executar imediatamente. Escolha Capturar um pagamento no Cashly e passe valor, estabelecimento, cartão e data. Categoria, descrição e tags são opcionais e viram a sugestão."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "В «Быстрых командах» создайте автоматизацию с триггером «Транзакция» и немедленным запуском. Выберите «Захватить платёж в Cashly» и передайте сумму, продавца, карту и дату."
+            "value" : "В «Быстрых командах» создайте автоматизацию с триггером «Транзакция» и немедленным запуском. Выберите «Захватить платёж в Cashly» и передайте сумму, продавца, карту и дату. Категория, описание и теги необязательны и становятся подсказкой."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在快捷指令中创建一个以“交易”为触发条件、立即运行的自动化。选择“在 Cashly 中捕获付款”，并传入金额、商家、卡片和日期。"
+            "value" : "在快捷指令中创建一个以“交易”为触发条件、立即运行的自动化。选择“在 Cashly 中捕获付款”，并传入金额、商家、卡片和日期。分类、描述和标签可选，会作为建议。"
           }
         }
       }
@@ -39951,6 +40535,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "收支达标"
+          }
+        }
+      }
+    },
+    "In the Shortcuts app, Add Expense has every field of the editor: description, status, date, tags, participants, split, installments and profile. Chain them: a shortcut that records your commute every weekday." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In der Kurzbefehle-App hat „Ausgabe erfassen“ jedes Feld des Editors: Beschreibung, Status, Datum, Tags, Teilnehmende, Aufteilung, Raten und Profil. Kombiniere sie: ein Kurzbefehl, der jeden Werktag deinen Arbeitsweg erfasst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En la app Atajos, Añadir gasto tiene todos los campos del editor: descripción, estado, fecha, etiquetas, participantes, división, cuotas y perfil. Encadénalos: un atajo que registra tu trayecto cada día laborable."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans l’app Raccourcis, Ajouter une dépense a tous les champs de l’éditeur : description, statut, date, tags, participants, partage, échéances et profil. Enchaînez-les : un raccourci qui enregistre votre trajet chaque jour de semaine."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nell’app Comandi, Aggiungi spesa ha tutti i campi dell’editor: descrizione, stato, data, tag, partecipanti, divisione, rate e profilo. Concatenali: un comando che registra il tragitto ogni giorno feriale."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ショートカットAppの「支出を追加」には、説明、状態、日付、タグ、参加者、分け方、分割払い、プロファイルなどエディタの全項目があります。組み合わせれば、平日の通勤を毎日記録するショートカットも作れます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단축어 앱의 지출 추가에는 설명, 상태, 날짜, 태그, 참여자, 분할, 할부, 프로필까지 편집기의 모든 항목이 있어요. 이어 붙여 보세요: 평일마다 출퇴근 비용을 기록하는 단축어."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No app Atalhos, Registrar gasto tem todos os campos do editor: descrição, status, data, tags, participantes, divisão, parcelas e perfil. Encadeie: um atalho que registra o transporte todo dia útil."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В приложении «Команды» действие «Добавить расход» содержит все поля редактора: описание, статус, дату, теги, участников, разделение, рассрочку и профиль. Объединяйте их: команда, которая записывает дорогу на работу каждый будний день."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在“快捷指令”App 中，“添加支出”包含编辑器的所有字段：描述、状态、日期、标签、参与者、分摊、分期和档案。把它们串起来：一个每个工作日记录通勤费用的快捷指令。"
           }
         }
       }
@@ -42724,6 +43366,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "皮革"
+          }
+        }
+      }
+    },
+    "Leave it empty to use the profile selected in Cashly." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leer lassen, um das in Cashly ausgewählte Profil zu verwenden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déjalo vacío para usar el perfil seleccionado en Cashly."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laissez vide pour utiliser le profil sélectionné dans Cashly."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lascialo vuoto per usare il profilo selezionato in Cashly."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "空のままにするとCashlyで選択中のプロファイルを使います。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "비워 두면 Cashly에서 선택한 프로필을 사용해요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deixe vazio para usar o perfil selecionado no Cashly."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оставьте пустым, чтобы использовать профиль, выбранный в Cashly."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "留空则使用 Cashly 中当前选择的档案。"
           }
         }
       }
@@ -52401,6 +53101,64 @@
         }
       }
     },
+    "Only expenses can be split with other profiles." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur Ausgaben können mit anderen Profilen geteilt werden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo los gastos se pueden dividir con otros perfiles."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seules les dépenses peuvent être partagées avec d’autres profils."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo le spese possono essere divise con altri profili."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ほかのプロファイルと分担できるのは支出だけです。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 프로필과 나눌 수 있는 건 지출뿐이에요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só gastos podem ser divididos com outros perfis."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разделять с другими профилями можно только расходы."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有支出可以与其他档案分摊。"
+          }
+        }
+      }
+    },
     "Only the budget is deleted; the transactions stay." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -55056,6 +55814,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "铅笔"
+          }
+        }
+      }
+    },
+    "Pending" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Offen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pendiente"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En attente"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In sospeso"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未決済"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "대기 중"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pendente"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ожидает"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "待处理"
           }
         }
       }
@@ -60252,61 +61068,118 @@
         }
       }
     },
-    "Records an expense in the current profile." : {
-      "extractionState" : "stale",
+    "Records an expense with everything the editor has: category, description, status, date, tags, participants, split and installments." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erfasst eine Ausgabe im aktuellen Profil."
+            "value" : "Erfasst eine Ausgabe mit allem, was der Editor bietet: Kategorie, Beschreibung, Status, Datum, Tags, Teilnehmende, Aufteilung und Raten."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registra un gasto en el perfil actual."
+            "value" : "Registra un gasto con todo lo que tiene el editor: categoría, descripción, estado, fecha, etiquetas, participantes, división y cuotas."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enregistre une dépense dans le profil actuel."
+            "value" : "Enregistre une dépense avec tout ce que propose l’éditeur : catégorie, description, statut, date, tags, participants, partage et échéances."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registra una spesa nel profilo attuale."
+            "value" : "Registra una spesa con tutto ciò che ha l’editor: categoria, descrizione, stato, data, tag, partecipanti, divisione e rate."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "現在のプロファイルに支出を記録します。"
+            "value" : "エディタと同じ項目で支出を記録します：カテゴリ、説明、状態、日付、タグ、参加者、分け方、分割払い。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "현재 프로필에 지출을 기록해요."
+            "value" : "편집기의 모든 항목으로 지출을 기록해요: 카테고리, 설명, 상태, 날짜, 태그, 참여자, 분할, 할부."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registra um gasto no perfil atual."
+            "value" : "Registra um gasto com tudo o que o editor tem: categoria, descrição, status, data, tags, participantes, divisão e parcelas."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Записывает расход в текущем профиле."
+            "value" : "Записывает расход со всем, что есть в редакторе: категория, описание, статус, дата, теги, участники, разделение и рассрочка."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在当前档案中记录一笔支出。"
+            "value" : "用编辑器中的全部字段记录一笔支出：分类、描述、状态、日期、标签、参与者、分摊和分期。"
+          }
+        }
+      }
+    },
+    "Records an income with category, description, status, date, tags and installments." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erfasst eine Einnahme mit Kategorie, Beschreibung, Status, Datum, Tags und Raten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra un ingreso con categoría, descripción, estado, fecha, etiquetas y cuotas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistre un revenu avec catégorie, description, statut, date, tags et échéances."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra un’entrata con categoria, descrizione, stato, data, tag e rate."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カテゴリ、説明、状態、日付、タグ、分割払いを指定して収入を記録します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카테고리, 설명, 상태, 날짜, 태그, 할부로 수입을 기록해요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra uma entrada com categoria, descrição, status, data, tags e parcelas."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Записывает доход с категорией, описанием, статусом, датой, тегами и рассрочкой."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录一笔收入，包含分类、描述、状态、日期、标签和分期。"
           }
         }
       }
@@ -63261,65 +64134,6 @@
         }
       }
     },
-    "Say \"Add an expense in Cashly\" or \"How much did I spend this month in Cashly\". Siri answers without opening the app." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sag „Füge eine Ausgabe in Cashly hinzu“ oder „Wie viel habe ich diesen Monat in Cashly ausgegeben“. Siri antwortet, ohne die App zu öffnen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Di «Añade un gasto en Cashly» o «Cuánto gasté este mes en Cashly». Siri responde sin abrir la app."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dites « Ajoute une dépense dans Cashly » ou « Combien j'ai dépensé ce mois-ci dans Cashly ». Siri répond sans ouvrir l'app."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Di' \"Aggiungi una spesa in Cashly\" o \"Quanto ho speso questo mese in Cashly\". Siri risponde senza aprire l'app."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "「Cashlyで支出を追加」や「Cashlyで今月いくら使った」と話しかけてください。Siriがアプリを開かずに答えます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "\"Cashly에 지출 추가해 줘\" 또는 \"Cashly에서 이번 달 얼마 썼어\"라고 말하세요. Siri가 앱을 열지 않고 답합니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Diga \"Adicionar um gasto no Cashly\" ou \"Quanto gastei este mês no Cashly\". A Siri responde sem abrir o app."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Скажите «Добавь расход в Cashly» или «Сколько я потратил в этом месяце в Cashly». Siri ответит, не открывая приложение."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "说“在 Cashly 中添加一笔支出”或“这个月我在 Cashly 花了多少”。Siri 无需打开应用即可回答。"
-          }
-        }
-      }
-    },
     "Say \"Add an expense in Cashly\" or \"How much did I spend this month in Cashly\". The same shortcuts appear in the Shortcuts app and in Spotlight." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -63375,6 +64189,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "说「在Cashly中添加支出」或「Cashly本月花了多少」。同样的快捷指令也会出现在快捷指令 App 和聚焦搜索中。"
+          }
+        }
+      }
+    },
+    "Say \"Add an expense in Cashly\": Siri asks the amount and the category, then saves it. \"How much did I spend this month in Cashly\" answers without opening the app." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sag „Ausgabe in Cashly erfassen“: Siri fragt nach Betrag und Kategorie und speichert sie. „Wie viel habe ich diesen Monat in Cashly ausgegeben“ antwortet, ohne die App zu öffnen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di \"Añadir un gasto en Cashly\": Siri pregunta el importe y la categoría y lo guarda. \"¿Cuánto gasté este mes en Cashly?\" responde sin abrir la app."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dites « Ajouter une dépense dans Cashly » : Siri demande le montant et la catégorie, puis l’enregistre. « Combien ai-je dépensé ce mois-ci dans Cashly » répond sans ouvrir l’app."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Di’ \"Aggiungi una spesa in Cashly\": Siri chiede importo e categoria e la salva. \"Quanto ho speso questo mese in Cashly\" risponde senza aprire l’app."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "「Cashlyで支出を追加」と言うと、Siriが金額とカテゴリを尋ねて保存します。「Cashlyで今月いくら使った」はアプリを開かずに答えます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"Cashly에 지출 추가\"라고 말하면 Siri가 금액과 카테고리를 묻고 저장해요. \"Cashly에서 이번 달 얼마 썼어\"는 앱을 열지 않고 답해요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diga \"Registrar um gasto no Cashly\": a Siri pergunta o valor e a categoria e salva. \"Quanto gastei este mês no Cashly\" responde sem abrir o app."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Скажите «Добавить расход в Cashly»: Siri спросит сумму и категорию и сохранит расход. «Сколько я потратил в этом месяце в Cashly» отвечает, не открывая приложение."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "说“在 Cashly 中添加支出”：Siri 会询问金额和分类，然后保存。“我这个月在 Cashly 花了多少”无需打开 App 即可回答。"
           }
         }
       }
@@ -65383,6 +66255,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "把 Cashly 分享给朋友"
+          }
+        }
+      }
+    },
+    "Share per Participant" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anteil pro Person"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parte por participante"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Part par participant"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quota per partecipante"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "参加者ごとの負担"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "참여자별 몫"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parte por participante"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доля участника"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每位参与者的份额"
           }
         }
       }
@@ -71817,6 +72747,64 @@
         }
       }
     },
+    "Suggested in the notification instead of the learned one." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wird in der Mitteilung statt der gelernten vorgeschlagen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se sugiere en la notificación en lugar de la aprendida."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proposée dans la notification à la place de celle apprise."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggerita nella notifica al posto di quella appresa."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "学習した候補の代わりに通知で提案されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "학습된 제안 대신 알림에서 제안돼요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sugerida na notificação no lugar da aprendida."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Предлагается в уведомлении вместо запомненной."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在通知中代替已学习的建议。"
+          }
+        }
+      }
+    },
     "Suggestion: %@. Tap to classify." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -74354,6 +75342,122 @@
         }
       }
     },
+    "Tell each participant's share as a percentage from 0 to 100." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gib den Anteil jeder Person als Prozentsatz von 0 bis 100 an."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indica la parte de cada participante como un porcentaje de 0 a 100."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indiquez la part de chaque participant en pourcentage, de 0 à 100."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indica la quota di ogni partecipante come percentuale da 0 a 100."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "参加者ごとの負担を0から100の割合で入力してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "참여자별 몫을 0에서 100 사이의 비율로 입력하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informe a parte de cada participante como uma porcentagem de 0 a 100."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Укажите долю каждого участника в процентах от 0 до 100."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请以 0 到 100 的百分比填写每位参与者的份额。"
+          }
+        }
+      }
+    },
+    "Tell the amount each participant pays." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gib den Betrag an, den jede Person zahlt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indica el importe que paga cada participante."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indiquez le montant payé par chaque participant."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indica l’importo che paga ogni partecipante."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "参加者ごとの支払額を入力してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "참여자마다 내는 금액을 입력하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informe o valor que cada participante paga."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Укажите сумму, которую платит каждый участник."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请填写每位参与者支付的金额。"
+          }
+        }
+      }
+    },
     "Tell the merchant of the payment." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -76775,6 +77879,64 @@
         }
       }
     },
+    "The number of installments must be between 1 and 1,200." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Anzahl der Raten muss zwischen 1 und 1.200 liegen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El número de cuotas debe estar entre 1 y 1200."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le nombre d’échéances doit être compris entre 1 et 1 200."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il numero di rate deve essere compreso tra 1 e 1.200."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分割回数は1から1,200の間にしてください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "할부 횟수는 1에서 1,200 사이여야 해요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O número de parcelas deve ficar entre 1 e 1.200."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Число платежей должно быть от 1 до 1200."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分期数必须在 1 到 1200 之间。"
+          }
+        }
+      }
+    },
     "The One Budget widget follows the category you pick here, for every copy of it on your Home Screen." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -76830,6 +77992,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "“单个预算”小组件会在主屏幕上的所有副本中显示你在此选择的类别。"
+          }
+        }
+      }
+    },
+    "The percentage (0 to 100) or the amount each participant pays." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Prozentsatz (0 bis 100) oder der Betrag, den jede Person zahlt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El porcentaje (0 a 100) o el importe que paga cada participante."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le pourcentage (0 à 100) ou le montant payé par chaque participant."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La percentuale (da 0 a 100) o l’importo che paga ogni partecipante."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "参加者ごとの割合（0〜100）または支払額。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "참여자마다 내는 비율(0~100) 또는 금액."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A porcentagem (0 a 100) ou o valor que cada participante paga."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Процент (от 0 до 100) или сумма, которую платит каждый участник."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每位参与者支付的百分比（0 到 100）或金额。"
           }
         }
       }
@@ -77125,65 +78345,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "记录已显示在 App 中。"
-          }
-        }
-      }
-    },
-    "The same actions appear in the Shortcuts app and in Spotlight. Chain them: a shortcut that records your commute every weekday." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dieselben Aktionen gibt es in der Kurzbefehle-App und in Spotlight. Verkette sie: ein Kurzbefehl, der jeden Werktag deinen Arbeitsweg erfasst."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Las mismas acciones aparecen en la app Atajos y en Spotlight. Encadénalas: un atajo que registre tu transporte cada día laborable."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les mêmes actions apparaissent dans l'app Raccourcis et dans Spotlight. Enchaînez-les : un raccourci qui enregistre vos trajets chaque jour de semaine."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le stesse azioni compaiono nell'app Comandi Rapidi e in Spotlight. Concatenale: un comando che registra il tragitto ogni giorno feriale."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "同じアクションがショートカットアプリとSpotlightにも表示されます。組み合わせれば、平日の通勤費を毎日記録するショートカットも作れます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "같은 동작이 단축어 앱과 Spotlight에도 나타납니다. 이어 붙이세요: 평일마다 통근비를 기록하는 단축어처럼."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "As mesmas ações aparecem no app Atalhos e na Spotlight. Encadeie: um atalho que registra o transporte todo dia útil."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Те же действия доступны в приложении «Быстрые команды» и в Spotlight. Соединяйте их: команда, которая записывает дорогу на работу каждый будний день."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "同样的操作也出现在快捷指令应用和聚焦搜索中。把它们串起来：一个每个工作日记录通勤费的快捷指令。"
           }
         }
       }
@@ -83748,6 +84909,64 @@
         }
       }
     },
+    "What percentage does each participant pay?" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wie viel Prozent zahlt jede teilnehmende Person?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Qué porcentaje paga cada participante?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quel pourcentage paie chaque participant ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Che percentuale paga ogni partecipante?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "参加者はそれぞれ何パーセント払いますか？"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "참여자마다 몇 퍼센트를 내나요?"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qual porcentagem cada participante paga?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Какой процент платит каждый участник?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每位参与者支付百分之多少？"
+          }
+        }
+      }
+    },
     "What Should We Call You?" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -83980,6 +85199,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "版本 %@ 新功能"
+          }
+        }
+      }
+    },
+    "Which category?" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welche Kategorie?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Qué categoría?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quelle catégorie ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quale categoria?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "どのカテゴリですか？"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "어떤 카테고리인가요?"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qual categoria?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Какая категория?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "哪个分类？"
           }
         }
       }

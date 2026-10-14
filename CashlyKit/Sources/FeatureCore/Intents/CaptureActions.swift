@@ -28,7 +28,8 @@ public struct CaptureActions: Sendable {
 
     public func capture(
         amount: Double, merchant: String, card: String? = nil, date: Date? = nil,
-        source: Capture.Source = .wallet
+        source: Capture.Source = .wallet, categoryID: String? = nil, summary: String? = nil,
+        tagIDs: Set<String> = []
     ) async throws -> (capture: Capture, isNew: Bool) {
         let money = try Money(validating: amount)
         guard money.minorUnits > 0 else {
@@ -49,6 +50,12 @@ public struct CaptureActions: Sendable {
             capture.suggestedCategoryID = try await usage().first?.id
             capture.suggestedSummary = capture.merchant
         }
+        if let categoryID, try await categories().contains(where: { $0.id == categoryID }) {
+            capture.suggestedCategoryID = categoryID
+        }
+        let text = summary?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        if !text.isEmpty { capture.suggestedSummary = text }
+        if !tagIDs.isEmpty { capture.suggestedTagIDs = tagIDs }
         let stored = try await repositories.captures.save(capture)
         return (stored, stored.id == capture.id)
     }

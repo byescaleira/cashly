@@ -49,11 +49,13 @@ public final class CashlyServices {
     }
 
     public func workspace(
-        cloudSync: Bool = CashlyServices.launchCloudSync, preference: UserPreference = .standard
+        userID: String? = nil, cloudSync: Bool = CashlyServices.launchCloudSync,
+        preference: UserPreference = .standard
     ) async throws -> (Repositories, User) {
         let database = try await database(cloudSync: cloudSync)
         let users = try await database.repositories(for: nil).users.users()
-        guard let user = users.first(where: { $0.id == preference.selectedUserID }) ?? users.first
+        let selected = users.first { $0.id == (userID ?? preference.selectedUserID) }
+        guard let user = selected ?? (userID == nil ? users.first : nil)
         else { throw CashlyError.missingRecord }
         return (database.repositories(for: user.id), user)
     }

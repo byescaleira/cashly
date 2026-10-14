@@ -17,11 +17,21 @@ public struct CaptureTransactionIntent: AppIntent {
     public var card: String?
     @Parameter(title: "Date")
     public var date: Date?
+    @Parameter(
+        title: "Category", description: "Suggested in the notification instead of the learned one.")
+    public var category: CategoryEntity?
+    @Parameter(title: "Description")
+    public var summary: String?
+    @Parameter(title: "Tags")
+    public var tags: [TagEntity]?
 
     public static var parameterSummary: some ParameterSummary {
         Summary("Capture \(\.$amount) at \(\.$merchant)") {
             \.$card
             \.$date
+            \.$category
+            \.$summary
+            \.$tags
         }
     }
 
@@ -32,7 +42,8 @@ public struct CaptureTransactionIntent: AppIntent {
         let (repositories, user) = try await CashlyServices.shared.workspace()
         let actions = CaptureActions(repositories: repositories, user: user)
         let result = try await actions.capture(
-            amount: amount, merchant: merchant, card: card, date: date)
+            amount: amount, merchant: merchant, card: card, date: date, categoryID: category?.id,
+            summary: summary, tagIDs: Set((tags ?? []).map(\.id)))
         let categories = try await actions.categories()
         let notifier = CaptureNotifier()
         await notifier.register(

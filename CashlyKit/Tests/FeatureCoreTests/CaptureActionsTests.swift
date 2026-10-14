@@ -106,4 +106,16 @@ struct CaptureActionsTests {
             _ = try await actions.capture(amount: 5, merchant: "  ")
         }
     }
+
+    @Test func takesTheSuggestionFromTheShortcut() async throws {
+        let (actions, _) = try await actions()
+        let result = try await actions.capture(
+            amount: 18, merchant: "Padaria", categoryID: "market", summary: " Café ",
+            tagIDs: ["night"])
+        #expect(result.capture.suggestedCategoryID == "market")
+        #expect(result.capture.suggestedSummary == "Café")
+        #expect(result.capture.suggestedTagIDs == ["night"])
+        let unknown = try await actions.capture(amount: 5, merchant: "Banca", categoryID: "gone")
+        #expect(unknown.capture.suggestedCategoryID != "gone")
+    }
 }
