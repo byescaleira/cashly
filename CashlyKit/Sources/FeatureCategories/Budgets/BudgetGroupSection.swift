@@ -37,10 +37,14 @@ struct BudgetGroupSection: View {
                 }
             }
         } header: {
-            Label {
-                Text(group.title).sectionTitle()
-            } icon: {
-                Image(systemName: group.symbol).foregroundStyle(group.color).font(.title3)
+            HStack(spacing: .spaceS) {
+                Label {
+                    Text(group.title).sectionTitle()
+                } icon: {
+                    Image(systemName: group.symbol).foregroundStyle(group.color).font(.title3)
+                }
+                Spacer()
+                Chip(items.count.formatted(.number.locale(.app)), color: group.color)
             }
         } footer: {
             Text(group.detail)
@@ -49,6 +53,8 @@ struct BudgetGroupSection: View {
 }
 
 struct BudgetProgressRow: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var isFilled = false
     let item: BudgetProgress
 
     var body: some View {
@@ -57,29 +63,30 @@ struct BudgetProgressRow: View {
             VStack(alignment: .leading, spacing: .spaceXS) {
                 AdaptiveStack(alignment: .firstTextBaseline) {
                     Text(item.budget.category.name)
-                        .font(.callout.weight(.semibold))
+                        .font(.rowTitle)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    Text(remainingText)
+                    Text(item.remainingTitle)
                         .font(.footnote.weight(.semibold))
                         .foregroundStyle(item.group.color)
                         .amountLine()
                 }
-                ProgressView(value: min(item.ratio, 1)).tint(item.group.color)
-                Text(
-                    "\(item.spent.formatted(.appCurrency)) of \(item.planned.formatted(.appCurrency))"
-                )
+                ProgressView(value: isFilled ? min(item.ratio, 1) : 0)
+                    .tint(item.group.color)
+                    .animation(reduceMotion ? nil : .smooth(duration: 1), value: isFilled)
+                    .animation(reduceMotion ? nil : .smooth, value: item.ratio)
+                HStack(alignment: .firstTextBaseline) {
+                    Text(item.amountsTitle)
+                    Spacer()
+                    Text(item.usageTitle).fontWeight(.semibold)
+                }
                 .font(.footnote)
                 .foregroundStyle(.secondary)
                 .amountLine()
             }
         }
         .padding(.vertical, .space2XS)
-    }
-
-    private var remainingText: String {
-        item.remaining >= 0
-            ? String(appLocalized: "\(item.remaining.formatted(.appCurrency)) left")
-            : String(appLocalized: "\(abs(item.remaining).formatted(.appCurrency)) over")
+        .task { isFilled = true }
+        .accessibilityElement(children: .combine)
     }
 }
 

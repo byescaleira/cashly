@@ -45,5 +45,27 @@ struct BudgetOverviewTests {
         )
         #expect(past.daysLeft == nil)
         #expect(past.dailyAllowance == nil)
+        #expect(past.elapsedRatio == nil)
+        #expect(past.pace == nil)
+    }
+
+    @Test func paceComparesUsageWithElapsedMonth() throws {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = .current
+        let today = try #require(
+            calendar.date(from: DateComponents(year: 2026, month: 10, day: 15, hour: 12)))
+        let october = try #require(YearMonth(year: 2026, month: 10))
+        func overview(spent: Double) -> BudgetOverview {
+            BudgetOverview(
+                items: [item("a", planned: 1000, spent: spent)], totalSpent: spent,
+                month: october, today: today)
+        }
+        #expect(abs((overview(spent: 500).elapsedRatio ?? 0) - 15.0 / 31) < 0.01)
+        #expect(overview(spent: 500).pace == .steady)
+        #expect(overview(spent: 800).pace == .fast)
+        #expect(overview(spent: 200).pace == .slow)
+        #expect(overview(spent: 1200).pace == .over)
+        #expect(overview(spent: 0).pace == nil)
+        #expect(overview(spent: 500).dayOfMonth == 15)
     }
 }

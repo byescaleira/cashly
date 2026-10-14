@@ -15,7 +15,10 @@ public struct GoalsScreen: View {
         @Bindable var goals = goals
         AdaptiveList {
             DataStatusSection()
-            BudgetsOverviewSection()
+            BudgetsEmptySection()
+            BudgetMonthSection()
+            BudgetSections()
+            UnbudgetedSection()
             CategoriesSection()
         }
         .emptyState(.category, when: finance.categories.isEmpty && !finance.isLoading)
@@ -26,8 +29,16 @@ public struct GoalsScreen: View {
             FixedToolbarSpacer()
             if !session.users.isEmpty {
                 ToolbarItem {
-                    Button("New Category", systemImage: "plus") {
-                        open(.addCategory(id: nil), in: section)
+                    Menu {
+                        Button("New Budget", systemImage: "chart.bar") {
+                            open(goals.newBudgetRoute, in: section)
+                        }
+                        .disabled(!goals.canCreateBudget)
+                        Button("New Category", systemImage: "swatchpalette") {
+                            open(.addCategory(id: nil), in: section)
+                        }
+                    } label: {
+                        Label("Add", systemImage: "plus")
                     }
                     .tint(Color.primary)
                     .disabled(finance.isLoading)
@@ -38,6 +49,16 @@ public struct GoalsScreen: View {
         .errorAlert($goals.error)
         .refreshable { await finance.load() }
         .navigationTitle("Goals")
+    }
+}
+
+struct BudgetSections: View {
+    @Environment(GoalsModel.self) private var goals
+
+    var body: some View {
+        ForEach(goals.overview.groups, id: \.group) { entry in
+            BudgetGroupSection(group: entry.group, items: entry.items)
+        }
     }
 }
 
