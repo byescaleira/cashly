@@ -33,6 +33,7 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 
 ## Verificação visual pendente
 
+- Ajustes › Aparência no Mac (`Form` agrupado, sem ícones) e no visionOS: só builds conferidos; as miniaturas de tema ainda não foram vistas fora do iPhone e do iPad. A troca de ícone com falha mostra o alerta pela página Aparência, inclusive com a galeria aberta por cima.
 - iPhone em paisagem e app no Mac: só builds conferidos.
 - Campo de valor muito grande (13 dígitos) corta o "R$" na borda.
 - iPad de 11" em retrato: a barra de abas tem largura limitada pelo sistema; com Ajustes, a Buscar fica atrás da seta de rolagem.

@@ -46,7 +46,7 @@ private struct SettingsSections<Extra: View>: View {
                 "Appearance", symbol: "paintbrush", color: RetroColor.tangerine.color,
                 value: settings.appearance.title
             ) {
-                SettingsPage("Appearance") { AppearanceSection() }
+                AppearanceScreen()
             }
             SettingsRow(
                 "Language", symbol: "globe", color: RetroColor.teal.color,
