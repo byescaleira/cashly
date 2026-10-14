@@ -67,6 +67,14 @@ extension Challenge.Kind {
         }
     }
 
+    var duration: String {
+        switch self {
+        case .noSpendWeek: String(appLocalized: "Seven days from today")
+        case .cap, .blueMonth, .everyDay, .lessThanLastMonth:
+            String(appLocalized: "Until the end of the month")
+        }
+    }
+
     var symbol: String {
         switch self {
         case .noSpendWeek: "nosign"

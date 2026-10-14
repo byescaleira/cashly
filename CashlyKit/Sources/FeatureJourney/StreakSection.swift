@@ -8,33 +8,15 @@ struct StreakSection: View {
     @Environment(JourneyModel.self) private var journey
     @Environment(\.shop) private var shop
     @Environment(\.pro) private var pro
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         if let streak = journey.progress?.streak {
             Section {
-                HStack(spacing: .spaceM) {
-                    SymbolBadge("flame.fill", color: .retroOrange, size: .badgeXL, style: .filled)
-                        .symbolEffect(
-                            .pulse, options: .repeating,
-                            isActive: streak.isTodayTracked && !reduceMotion)
-                    VStack(alignment: .leading, spacing: .spaceHairline) {
-                        Text(journey.streakTitle)
-                            .font(.amountRow)
-                            .contentTransition(.numericText(value: Double(streak.current)))
-                        Text(journey.streakCaption).font(.footnote).foregroundStyle(.secondary)
-                    }
-                }
-                .accessibilityElement(children: .combine)
-                .sensoryFeedback(.success, trigger: streak.isTodayTracked) { _, isTracked in
-                    isTracked
-                }
+                StreakHeroRow(streak: streak)
                 WeekStrip(days: streak.week)
-                if streak.isTodayTracked {
-                    Label("Today is done", systemImage: "checkmark.circle.fill")
-                        .foregroundStyle(Color.positive)
-                        .contentTransition(.symbolEffect(.replace))
-                } else {
+                StreakFiguresRow()
+                MilestoneRow()
+                if !streak.isTodayTracked {
                     TipView(NoSpendDayTip()).tipBackground(.clear)
                     Button("I Didn't Spend Today", systemImage: "hand.raised") {
                         pro.perform { Task { await journey.markNoSpendToday() } }
@@ -58,9 +40,81 @@ struct StreakSection: View {
     }
 }
 
-private struct WeekStrip: View {
+private struct StreakHeroRow: View {
+    @Environment(JourneyModel.self) private var journey
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var isShown = false
+    let streak: Streak
+
+    var body: some View {
+        HStack(spacing: .spaceM) {
+            SymbolBadge(
+                streak.isTodayTracked ? "flame.fill" : "flame", color: .retroOrange,
+                size: .badgeXL, style: streak.isTodayTracked ? .filled : .tinted
+            )
+            .contentTransition(.symbolEffect(.replace))
+            .symbolEffect(.bounce, value: isShown)
+            .symbolEffect(
+                .pulse, options: .repeating, isActive: streak.isTodayTracked && !reduceMotion)
+            VStack(alignment: .leading, spacing: .spaceHairline) {
+                Text(journey.streakTitle)
+                    .font(.amountTitle)
+                    .contentTransition(.numericText(value: Double(streak.current)))
+                InlineLabel(
+                    journey.streakStatus,
+                    symbol: streak.isTodayTracked ? "checkmark.circle.fill" : "clock"
+                )
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(streak.isTodayTracked ? Color.positive : .secondary)
+            }
+        }
+        .padding(.vertical, .space2XS)
+        .accessibilityElement(children: .combine)
+        .sensoryFeedback(.success, trigger: streak.isTodayTracked) { _, isTracked in isTracked }
+        .task { isShown = true }
+    }
+}
+
+private struct StreakFiguresRow: View {
+    @Environment(JourneyModel.self) private var journey
+
+    var body: some View {
+        HStack(spacing: .spaceS) {
+            FigureCell(
+                caption: "Best", value: journey.bestStreak, symbol: "trophy",
+                color: .retroMustard)
+            FigureCell(
+                caption: "Freezes", value: journey.freezesCaption, symbol: "snowflake",
+                color: .info)
+        }
+        .padding(.vertical, .space2XS)
+    }
+}
+
+private struct MilestoneRow: View {
+    @Environment(JourneyModel.self) private var journey
+
+    var body: some View {
+        HStack(spacing: .spaceM) {
+            SymbolBadge("flag.checkered", color: .retroOrange, size: .badgeM)
+            VStack(alignment: .leading, spacing: .spaceS) {
+                HStack(alignment: .firstTextBaseline, spacing: .spaceS) {
+                    Text(journey.milestoneTitle)
+                        .font(.rowTitle)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text(journey.milestoneDetail)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                }
+                FillingBar(value: journey.streakMilestone?.progress ?? 1, color: .retroOrange)
+            }
+        }
+        .accessibilityElement(children: .combine)
+    }
+}
+
+private struct WeekStrip: View {
     let days: [Streak.Day]
 
     var body: some View {
@@ -69,15 +123,11 @@ private struct WeekStrip: View {
                 VStack(spacing: .spaceXS) {
                     Text(day.date.formatted(Date.FormatStyle(locale: .app).weekday(.narrow)))
                         .font(.caption2.weight(.semibold))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(index == days.count - 1 ? .primary : .secondary)
                     DayMark(day: day, isToday: index == days.count - 1)
                 }
                 .frame(maxWidth: .infinity)
-                .scaleEffect(isShown ? 1 : 0.5)
-                .opacity(isShown ? 1 : 0)
-                .animation(
-                    reduceMotion ? nil : .bouncy.delay(Double(index) * 0.06), value: isShown
-                )
+                .cascade(index)
                 .accessibilityElement(children: .ignore)
                 .accessibilityLabel(
                     day.date.formatted(Date.FormatStyle(locale: .app).weekday(.wide)) + ": "
@@ -85,7 +135,6 @@ private struct WeekStrip: View {
             }
         }
         .padding(.vertical, .space2XS)
-        .task { isShown = true }
     }
 }
 
