@@ -54,7 +54,7 @@ Regras de dependência:
 | `FeatureBudgets` | Editor de orçamento e resolução de conflito |
 | `FeatureTags` | Editor de tag |
 | `FeatureUsers` | Editor de usuário |
-| `FeatureSettings` | Aparência e ícone, moeda, notificações, inteligência (estado e treino dos modelos), iCloud (estado e última sincronização), dados (backup, planilha CSV, backup automático, importar, apagar tudo), ajuda, sobre e novidades |
+| `FeatureSettings` | Aparência e ícone, moeda, notificações, inteligência (estado e treino dos modelos, só com a flag `intelligence` ligada), iCloud (estado e última sincronização), dados (backup, planilha CSV, backup automático, importar, apagar tudo), ajuda, sobre e novidades |
 
 ## Estado e fluxo de dados
 

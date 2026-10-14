@@ -21,7 +21,7 @@ struct EraseSection: View {
                 Button("Delete All", role: .destructive) { Task { await data.eraseAll() } }
             } message: {
                 Text(
-                    "Users, categories, tags, budgets, transactions and intelligence models will be deleted. With iCloud on, the data also leaves your other devices. This can't be undone."
+                    "Users, categories, tags, budgets and transactions will be deleted. With iCloud on, the data also leaves your other devices. This can't be undone."
                 )
             }
         }

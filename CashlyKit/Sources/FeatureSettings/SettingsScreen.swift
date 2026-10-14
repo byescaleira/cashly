@@ -106,6 +106,7 @@ private struct SettingsSections<Extra: View>: View {
                     SettingsPage("Data and Backup") { DataSection() }.environment(data)
                 }
             }
+            IntelligenceRow()
             extra
         } header: {
             Text("Data")

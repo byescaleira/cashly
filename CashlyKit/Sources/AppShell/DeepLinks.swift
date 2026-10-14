@@ -43,6 +43,10 @@ struct DeepLinks: ViewModifier {
                 else { return }
                 open(.classifyCapture(capture), in: .transaction)
             }
+        case "budgets" where url.pathComponents.dropFirst().first == "new":
+            open(
+                .addBudget(id: nil, categoryID: nil, date: session.filter.startDate),
+                in: .planning)
         case "budgets":
             navigation.open(.budgets, in: .planning, beside: horizontalSizeClass == .regular)
         case "shop":

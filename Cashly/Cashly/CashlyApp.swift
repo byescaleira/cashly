@@ -110,6 +110,9 @@ private final class CashlyBootstrap {
                 settings.developer = DeveloperModel(
                     storeURL: database.storeURL
                 ) { try await SampleDatabase.seed(database) }
+                if UserDefaults.standard.bool(forKey: "cashly.developer.seed") {
+                    try? await SampleDatabase.seed(database)
+                }
             #endif
             Task { await data.runAutoBackupIfNeeded() }
         } catch {
@@ -146,7 +149,9 @@ private struct CashlyRootView: View {
             await bootstrap.prepare()
             guard !Task.isCancelled else { return }
             if let database = bootstrap.database {
-                window = CashlyWindow(provider: database, intelligence: bootstrap.intelligence)
+                window = CashlyWindow(
+                    provider: database, intelligence: bootstrap.intelligence,
+                    flags: bootstrap.flags)
                 launch.finish(.database)
             }
         }
