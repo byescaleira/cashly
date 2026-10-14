@@ -40,6 +40,7 @@ public final class CashlyServices {
 
     public func canWrite() async -> Bool {
         guard FeatureFlags().isOn(.pro) else { return true }
+        if let simulated = StoreOverride.entitlement() { return simulated.canWrite }
         let plans = Set(ShopCatalog.plans.map(\.id))
         return await StoreKitClient().currentEntitlements().contains { transaction in
             plans.contains(transaction.productID) && transaction.revocationDate == nil

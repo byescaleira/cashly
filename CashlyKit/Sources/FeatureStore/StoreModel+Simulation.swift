@@ -8,6 +8,12 @@ public enum SimulatedPlan: String, CaseIterable, Identifiable, Sendable {
     public var id: String { rawValue }
 }
 
+public enum StoreOverride {
+    public static func entitlement(in defaults: UserDefaults = .standard) -> Entitlement? {
+        StoreSimulation.stored(in: defaults)?.entitlement
+    }
+}
+
 struct StoreSimulation: Equatable, Sendable {
     var plan: SimulatedPlan
     var expires: Date
