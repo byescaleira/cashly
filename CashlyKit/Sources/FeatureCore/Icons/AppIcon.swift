@@ -17,7 +17,7 @@ public enum AppIcon: String, CaseIterable, Identifiable, Sendable {
         case colors, fashion, countries, sports, eighties
         case summer, carnival, junina, halloween, christmas
 
-        var title: String {
+        public var title: String {
             switch self {
             case .colors: String(appLocalized: "Colors")
             case .fashion: String(appLocalized: "Fashion")
@@ -43,7 +43,7 @@ public enum AppIcon: String, CaseIterable, Identifiable, Sendable {
             }
         }
 
-        var icons: [AppIcon] { AppIcon.allCases.filter { $0.collection == self } }
+        public var icons: [AppIcon] { AppIcon.allCases.filter { $0.collection == self } }
 
         public var shopItem: ShopItem? {
             switch self {
@@ -74,11 +74,18 @@ public enum AppIcon: String, CaseIterable, Identifiable, Sendable {
         }
     }
 
-    var previewName: String { assetName ?? "CashlyIcon" }
+    public var previewName: String { assetName ?? "CashlyIcon" }
 
     public var shopItem: ShopItem? { collection.shopItem }
 
-    var collection: Collection {
+    public static func icons(of item: ShopItem) -> [AppIcon] {
+        if item == .iconsAll {
+            return Collection.allCases.filter { $0.shopItem != nil }.flatMap(\.icons)
+        }
+        return Collection.allCases.first { $0.shopItem == item }?.icons ?? []
+    }
+
+    public var collection: Collection {
         switch self {
         case .standard, .dark, .orange, .graphite: .colors
         case .jeans, .tailoring, .leather, .polkaDot: .fashion
@@ -93,7 +100,7 @@ public enum AppIcon: String, CaseIterable, Identifiable, Sendable {
         }
     }
 
-    var title: String {
+    public var title: String {
         switch self {
         case .standard: String(appLocalized: "Classic")
         case .dark: String(appLocalized: "Night")
@@ -138,7 +145,7 @@ public enum AppIcon: String, CaseIterable, Identifiable, Sendable {
         }
     }
 
-    static func featured(on date: Date, calendar: Calendar = .current) -> Collection? {
+    public static func featured(on date: Date, calendar: Calendar = .current) -> Collection? {
         let month = calendar.component(.month, from: date)
         return Collection.allCases.first { $0.month == month }
     }

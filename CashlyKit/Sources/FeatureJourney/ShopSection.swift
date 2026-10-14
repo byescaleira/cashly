@@ -38,7 +38,7 @@ struct ShopRow: View {
             if item.kind == .subscription { pro.present() } else { navigation.shopItem = item }
         } label: {
             HStack(spacing: .spaceM) {
-                SymbolBadge(item.symbol, color: item.color, size: .badgeM)
+                ShopThumbnail(item: item)
                 VStack(alignment: .leading, spacing: .spaceHairline) {
                     HStack(spacing: .spaceXS) {
                         Text(item.title).font(.rowTitle)
@@ -74,8 +74,6 @@ extension ShopItem {
 }
 
 extension StoreModel {
-    func owns(_ item: ShopItem) -> Bool { ShopCatalog.owns(item, in: owned) }
-
     func caption(for item: ShopItem) -> String {
         switch item.kind {
         case .subscription: String(appLocalized: "7 days free, then billed automatically")

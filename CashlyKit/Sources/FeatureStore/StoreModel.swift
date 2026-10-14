@@ -7,12 +7,13 @@ import Observation
 public final class StoreModel: EntitlementProviding, PurchaseProviding {
     public private(set) var products: [ShopItem: StoreProduct] = [:]
     public var owned: Set<ShopItem> { simulation?.owned ?? storeOwned }
+    public var isPending: Bool { pending.contains { $0.kind == .subscription } }
     public var entitlement: Entitlement { simulation?.entitlement ?? storeEntitlement }
     public private(set) var hasLoaded = false
     public private(set) var hasRefreshed = false
     public private(set) var introEligible: Set<ShopItem> = []
     public private(set) var isBuying = false
-    public private(set) var isPending = false
+    public private(set) var pending: Set<ShopItem> = []
     public var selectedPlan = ShopItem.proYearly
     public var error: CashlyError?
     var simulation: StoreSimulation?
@@ -101,18 +102,32 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
     }
 
     public func subscribe() async -> Bool {
+        await buy(selectedPlan)
+    }
+
+    public func buy(_ item: ShopItem) async -> Bool {
         isBuying = true
         defer { isBuying = false }
         do {
-            switch try await purchase(selectedPlan) {
-            case .purchased: return true
-            case .pending: isPending = true
+            switch try await purchase(item) {
+            case .purchased:
+                pending.remove(item)
+                return true
+            case .pending: pending.insert(item)
             case .cancelled: break
             }
         } catch {
             self.error = error as? CashlyError
         }
         return false
+    }
+
+    public func owns(_ item: ShopItem) -> Bool {
+        ShopCatalog.owns(item, in: owned)
+    }
+
+    public func isPending(_ item: ShopItem) -> Bool {
+        pending.contains(item)
     }
 
     public func restore() async throws {
@@ -126,6 +141,21 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
     }
 
     public func restoreSubscription() async -> Bool {
+        await restoreQuietly()
+        return entitlement.isActive
+    }
+
+    public func restoreItem(_ item: ShopItem) async -> Bool {
+        await restoreQuietly()
+        return owns(item)
+    }
+
+    public func restoreItems() async -> Bool {
+        await restoreQuietly()
+        return !owned.isEmpty
+    }
+
+    private func restoreQuietly() async {
         isBuying = true
         defer { isBuying = false }
         do {
@@ -133,7 +163,6 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
         } catch {
             self.error = error as? CashlyError
         }
-        return entitlement.isActive
     }
 
     func handle(_ transaction: StoreTransaction) async {

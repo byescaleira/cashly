@@ -1,3 +1,4 @@
+import FeatureCore
 import Foundation
 import Testing
 
@@ -41,6 +42,12 @@ struct AppIconTests {
         await settings.setAppIcon(.graphite)
         #expect(settings.appIcon == .standard)
         #expect(settings.isShowingIconError)
+    }
+
+    @Test func shopItemsMapToTheirIcons() {
+        #expect(AppIcon.icons(of: .iconsSports) == [.football, .basketball, .tennis, .volleyball])
+        #expect(AppIcon.icons(of: .iconsAll).count == 36)
+        #expect(AppIcon.icons(of: .accentNeon).isEmpty)
     }
 
     @Test func everyAlternateHasAnAsset() {

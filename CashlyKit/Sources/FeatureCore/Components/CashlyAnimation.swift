@@ -8,6 +8,9 @@ public enum CashlyAnimation: String, Sendable {
     case file, done, connect, launch, pro, paywall, shopIcons, shopColors, shopHelps, capture
     case about
     case goals
+    case shopFreeze
+    case shopReroll
+    case shopRestore
 }
 
 public struct CashlyAnimationView: View {

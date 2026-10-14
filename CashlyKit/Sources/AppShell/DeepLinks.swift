@@ -1,3 +1,4 @@
+import CashlyDomain
 import FeatureCore
 import SwiftUI
 
@@ -15,6 +16,17 @@ struct DeepLinks: ViewModifier {
                 CashlyServices.shared.pendingURL = nil
                 handle(url)
             }
+            .task { handleLaunchArgument() }
+    }
+
+    private func handleLaunchArgument() {
+        #if DEBUG
+            guard let value = UserDefaults.standard.string(forKey: "cashly.developer.openURL"),
+                let url = URL(string: value)
+            else { return }
+            UserDefaults.standard.removeObject(forKey: "cashly.developer.openURL")
+            handle(url)
+        #endif
     }
 
     private func handle(_ url: URL) {
@@ -33,6 +45,9 @@ struct DeepLinks: ViewModifier {
             }
         case "budgets":
             navigation.open(.budgets, in: .planning, beside: horizontalSizeClass == .regular)
+        case "shop":
+            navigation.open(.shop, in: .journey, beside: horizontalSizeClass == .regular)
+            navigation.shopItem = url.pathComponents.dropFirst().first.flatMap(ShopItem.init)
         default:
             navigation.selectedSection = .home
         }

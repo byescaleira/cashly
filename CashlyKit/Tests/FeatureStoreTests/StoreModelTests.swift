@@ -220,6 +220,29 @@ struct StoreModelTests {
         #expect(!store.isBuying)
     }
 
+    @Test func buyingAnItemFollowsTheSubscriptionPath() async throws {
+        let (store, client, _) = try await store()
+        client.next = .pending
+        #expect(await store.buy(.iconsSports) == false)
+        #expect(store.isPending(.iconsSports))
+        #expect(!store.isPending)
+        client.next = .success(StoreTransaction(id: 11, productID: ShopItem.iconsSports.id))
+        #expect(await store.buy(.iconsSports))
+        #expect(store.owns(.iconsSports))
+        #expect(!store.isPending(.iconsSports))
+        #expect(!store.isBuying)
+    }
+
+    @Test func restoringAnItemReportsWhetherItIsOwned() async throws {
+        let (store, client, _) = try await store()
+        #expect(await store.restoreItem(.iconsFashion) == false)
+        #expect(await store.restoreItems() == false)
+        client.entitlements = [StoreTransaction(id: 12, productID: ShopItem.iconsAll.id)]
+        #expect(await store.restoreItem(.iconsFashion))
+        #expect(await store.restoreItems())
+        #expect(client.synced)
+    }
+
     @Test func restoreSyncsAndRefreshes() async throws {
         let (store, client, _) = try await store()
         client.entitlements = [StoreTransaction(id: 7, productID: ShopItem.iconsAll.id)]
