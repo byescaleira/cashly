@@ -6,6 +6,20 @@ struct TutorialPage: Identifiable {
     let animation: CashlyAnimation
     let title: LocalizedStringKey
     let message: LocalizedStringKey
+    var steps: [GuideStep] = []
+    var link: TutorialLink?
+}
+
+struct TutorialLink {
+    let title: LocalizedStringKey
+    let symbol: String
+    let url: URL
+
+    static var shortcuts: TutorialLink {
+        TutorialLink(
+            title: "Open Shortcuts", symbol: "square.stack.3d.up.fill",
+            url: URL(string: "shortcuts://")!)
+    }
 }
 
 extension Guide {
@@ -21,6 +35,7 @@ extension Guide {
         case .widgets: Self.widgetsPages
         case .siri: Self.siriPages
         case .quickCapture: Self.capturePages
+        case .backTap: Self.backTapPages
         case .backups: Self.backupsPages
         case .privacy: Self.privacyPages
         case .importSpreadsheet, .score: []

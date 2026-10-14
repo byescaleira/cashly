@@ -32,6 +32,9 @@ private struct TutorialPageView: View {
     var body: some View {
         GuidePage(title: page.title, message: page.message) {
             CashlyAnimationView(page.animation)
+        } content: {
+            if !page.steps.isEmpty { GuideSteps(page.steps) }
+            if let link = page.link { GuideLink(link.title, symbol: link.symbol, url: link.url) }
         }
     }
 }

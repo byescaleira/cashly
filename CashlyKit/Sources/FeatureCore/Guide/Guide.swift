@@ -3,7 +3,7 @@ import SwiftUI
 
 public enum Guide: String, CaseIterable, Identifiable, Sendable {
     case tour, recording, sharing, bills, budgets, score, insights, journey
-    case widgets, siri, quickCapture, backups, privacy, importSpreadsheet
+    case widgets, siri, quickCapture, backTap, backups, privacy, importSpreadsheet
 
     public var id: String { rawValue }
 
@@ -20,6 +20,7 @@ public enum Guide: String, CaseIterable, Identifiable, Sendable {
         case .widgets: String(appLocalized: "Widgets and Lock Screen")
         case .siri: String(appLocalized: "Siri and Shortcuts")
         case .quickCapture: String(appLocalized: "Capture Payments Automatically")
+        case .backTap: String(appLocalized: "Double Tap the Back")
         case .backups: String(appLocalized: "Backups, iCloud and Claude Code")
         case .privacy: String(appLocalized: "Privacy")
         case .importSpreadsheet: String(appLocalized: "Import a Spreadsheet")
@@ -39,6 +40,7 @@ public enum Guide: String, CaseIterable, Identifiable, Sendable {
         case .widgets: String(appLocalized: "Your month on the Home Screen and Lock Screen")
         case .siri: String(appLocalized: "The phrases Cashly understands")
         case .quickCapture: String(appLocalized: "Apple Pay to Cashly, one tap to confirm")
+        case .backTap: String(appLocalized: "Two taps on your iPhone to add an expense")
         case .backups: String(appLocalized: "Keep your data safe and use it from your Mac")
         case .privacy: String(appLocalized: "Face ID lock, discreet mode and where data lives")
         case .importSpreadsheet:
@@ -59,6 +61,7 @@ public enum Guide: String, CaseIterable, Identifiable, Sendable {
         case .widgets: "apps.iphone"
         case .siri: "waveform"
         case .quickCapture: "bolt"
+        case .backTap: "hand.tap"
         case .backups: "externaldrive.badge.icloud"
         case .privacy: "lock.shield"
         case .importSpreadsheet: "tablecells"
@@ -78,6 +81,7 @@ public enum Guide: String, CaseIterable, Identifiable, Sendable {
         case .widgets: .widgets
         case .siri: .siri
         case .quickCapture: .capture
+        case .backTap: .editor
         case .backups: .backup
         case .privacy: .privacy
         case .importSpreadsheet: .table
@@ -91,7 +95,7 @@ public enum Guide: String, CaseIterable, Identifiable, Sendable {
         case .budgets, .score: .planning
         case .insights: .analysis
         case .journey: .journey
-        case .widgets, .siri, .quickCapture: .automation
+        case .widgets, .siri, .quickCapture, .backTap: .automation
         case .backups, .privacy, .importSpreadsheet: .data
         }
     }
