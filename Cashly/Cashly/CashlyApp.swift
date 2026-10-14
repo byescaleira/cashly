@@ -30,6 +30,7 @@ struct CashlyApp: App {
         _bootstrap = State(initialValue: CashlyBootstrap(settings: settings))
         _lock = State(initialValue: AppLockModel(isEnabled: settings.locksApp))
         NotificationResponder.install()
+        NewExpenseIntent.open = { CashlyServices.shared.pendingURL = $0 }
     }
 
     var body: some Scene {
