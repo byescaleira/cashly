@@ -6,7 +6,7 @@ import WidgetKit
     struct NewExpenseControl: ControlWidget {
         var body: some ControlWidgetConfiguration {
             StaticControlConfiguration(kind: "cashly.newExpense") {
-                ControlWidgetButton(action: NewExpenseControlIntent()) {
+                ControlWidgetButton(action: OpenURLIntent(.newExpense)) {
                     Label("New Expense", systemImage: "plus.circle")
                 }
             }
@@ -15,12 +15,7 @@ import WidgetKit
         }
     }
 
-    struct NewExpenseControlIntent: AppIntent {
-        static let title: LocalizedStringResource = "New Expense"
-        static let openAppWhenRun = true
-
-        func perform() async throws -> some IntentResult & OpensIntent {
-            .result(opensIntent: OpenURLIntent(URL(string: "cashly://transactions/new")!))
-        }
+    extension URL {
+        fileprivate static let newExpense = URL(string: "cashly://transactions/new")!
     }
 #endif
