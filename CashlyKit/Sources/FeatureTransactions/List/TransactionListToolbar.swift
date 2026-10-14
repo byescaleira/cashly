@@ -6,41 +6,75 @@ struct TransactionListToolbar: ToolbarContent {
     @Environment(SessionModel.self) private var session
     @Environment(FinanceModel.self) private var finance
     @Environment(TransactionListModel.self) private var list
-    @Environment(\.open) private var open
-    @Environment(\.navigationSection) private var section
 
     var body: some ToolbarContent {
         ToolbarItem(placement: .leading) {
             if list.isSelecting {
-                Button(list.isAllSelected ? "Clear Selection" : "Select Loaded") {
+                Button(
+                    list.isAllSelected ? "Clear Selection" : "Select Loaded",
+                    systemImage: list.isAllSelected ? "checklist.unchecked" : "checklist.checked"
+                ) {
                     list.toggleSelectAll()
                 }
-                .font(.body.weight(.bold))
                 .tint(Color.primary)
             } else {
                 UserMenu()
             }
         }
-        ToolbarItem(placement: .secondaryAction) {
-            if !session.users.isEmpty, !list.isSelecting, !list.items.isEmpty {
-                Button("Select", systemImage: "checkmark.circle") {
-                    withAnimation(.bouncy(duration: 0.8)) { list.isSelecting = true }
-                }
-                .disabled(finance.isLoading)
-            }
-        }
-        ToolbarItem { FilterMenu() }
-        ToolbarItemGroup(placement: .primaryAction) {
-            if list.isSelecting {
+        if list.isSelecting {
+            ToolbarItemGroup(placement: .primaryAction) {
                 SelectionActions().disabled(finance.isLoading)
-            } else if !session.users.isEmpty {
-                Button("Add Transaction", systemImage: "plus") {
-                    open(.addTransaction(id: nil), in: section)
-                }
-                .tint(Color.primary)
-                .disabled(finance.isLoading)
             }
+            FixedToolbarSpacer(placement: .primaryAction)
+            ToolbarItem(placement: .primaryAction) { DoneButton() }
+        } else if !session.users.isEmpty {
+            ToolbarItemGroup(placement: .primaryAction) {
+                FilterMenu()
+                SelectButton()
+            }
+            FixedToolbarSpacer(placement: .primaryAction)
+            ToolbarItem(placement: .primaryAction) { AddButton() }
         }
+    }
+}
+
+private struct AddButton: View {
+    @Environment(FinanceModel.self) private var finance
+    @Environment(\.open) private var open
+    @Environment(\.navigationSection) private var section
+
+    var body: some View {
+        Button("Add Transaction", systemImage: "plus") {
+            open(.addTransaction(id: nil), in: section)
+        }
+        .tint(Color.primary)
+        .disabled(finance.isLoading)
+    }
+}
+
+private struct SelectButton: View {
+    @Environment(FinanceModel.self) private var finance
+    @Environment(TransactionListModel.self) private var list
+
+    var body: some View {
+        if !list.items.isEmpty {
+            Button("Select", systemImage: "checkmark.circle") {
+                withAnimation(.bouncy(duration: 0.8)) { list.isSelecting = true }
+            }
+            .tint(Color.primary)
+            .disabled(finance.isLoading)
+        }
+    }
+}
+
+private struct DoneButton: View {
+    @Environment(TransactionListModel.self) private var list
+
+    var body: some View {
+        Button("Done", systemImage: "checkmark") {
+            withAnimation(.bouncy(duration: 0.8)) { list.isSelecting = false }
+        }
+        .prominentButton()
     }
 }
 
@@ -65,9 +99,5 @@ private struct SelectionActions: View {
                     "The \(list.selection.count) selected transactions will be deleted. This can't be undone."
                 )
             }
-        Button("Done", systemImage: "checkmark") {
-            withAnimation(.bouncy(duration: 0.8)) { list.isSelecting = false }
-        }
-        .prominentButton()
     }
 }

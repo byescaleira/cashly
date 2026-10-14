@@ -19,7 +19,7 @@ public struct CashlyWindow {
     ) {
         session = SessionModel(provider: provider, preference: preference)
         finance = FinanceModel(session: session)
-        transactions = TransactionListModel(session: session)
+        transactions = TransactionListModel(session: session, finance: finance)
         intelligence = IntelligenceModel(service: service, session: session)
         store = StoreModel(session: session)
         navigation = CashlyNavigation()

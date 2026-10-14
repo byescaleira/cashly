@@ -30,6 +30,7 @@ extension FinanceModel {
     public var incomeAmount: Double { summary.incomeTotal.doubleValue }
     public var netAmount: Double { summary.netTotal.doubleValue }
     public var expensesAmount: Double { summary.expensesTotal.doubleValue }
+    public var matchingTransactionCount: Int { summary.transactionCount }
     public var remainingAmount: Double {
         Money(minorUnits: summary.budgetsTotal.minorUnits - summary.expensesTotal.minorUnits)
             .doubleValue

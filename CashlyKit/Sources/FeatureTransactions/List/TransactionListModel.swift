@@ -13,15 +13,35 @@ public final class TransactionListModel {
     public var isConfirmingDelete = false
     public var error: CashlyError?
     @ObservationIgnored private let session: SessionModel
+    @ObservationIgnored private let finance: FinanceModel
     @ObservationIgnored private var nextCursor: TransactionCursor?
     @ObservationIgnored private var loadedKey: SessionLoadKey?
     @ObservationIgnored private var request = 0
 
-    public init(session: SessionModel) {
+    public init(session: SessionModel, finance: FinanceModel) {
         self.session = session
+        self.finance = finance
     }
 
     public var hasMore: Bool { nextCursor != nil }
+
+    public var totals: TransactionTotals {
+        TransactionTotals(
+            count: finance.matchingTransactionCount, spent: finance.expensesAmount,
+            received: finance.incomeAmount, balance: finance.netAmount)
+    }
+
+    public var periodTitle: String { session.filter.periodTitle }
+    public var activeFilters: [ActiveFilter] { ActiveFilter.all(in: session.filter) }
+    public var isFiltered: Bool { !activeFilters.isEmpty }
+    public var isLoadingTotals: Bool { !finance.hasLoaded }
+    public var isFilteredOut: Bool { items.isEmpty && !isLoading && isFiltered }
+    public var isShowingTotals: Bool { !isSelecting && (!items.isEmpty || isFilteredOut) }
+    public var isShowingEmptyState: Bool { items.isEmpty && !isLoading && !isFiltered }
+
+    public func clearFilters() {
+        session.filter = session.filter.keepingPeriod
+    }
 
     public var days: [TransactionDay] {
         let groups = Dictionary(grouping: items) {

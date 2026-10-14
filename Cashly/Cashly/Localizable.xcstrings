@@ -4716,6 +4716,12 @@
                   "state" : "translated",
                   "value" : "%lld Transaktionen"
                 }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Keine Transaktionen"
+                }
               }
             }
           }
@@ -4733,6 +4739,12 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%lld transactions"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "No transactions"
                 }
               }
             }
@@ -4752,6 +4764,12 @@
                   "state" : "translated",
                   "value" : "%lld transacciones"
                 }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Ninguna transacción"
+                }
               }
             }
           }
@@ -4769,6 +4787,12 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%lld transactions"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Aucune transaction"
                 }
               }
             }
@@ -4788,6 +4812,12 @@
                   "state" : "translated",
                   "value" : "%lld transazioni"
                 }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nessuna transazione"
+                }
               }
             }
           }
@@ -4800,6 +4830,12 @@
                   "state" : "translated",
                   "value" : "取引%lld件"
                 }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "取引なし"
+                }
               }
             }
           }
@@ -4811,6 +4847,12 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "거래 %lld건"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "거래 없음"
                 }
               }
             }
@@ -4829,6 +4871,12 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%lld transações"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Nenhuma transação"
                 }
               }
             }
@@ -4860,6 +4908,12 @@
                   "state" : "translated",
                   "value" : "%lld операции"
                 }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Нет операций"
+                }
               }
             }
           }
@@ -4871,6 +4925,12 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%lld 笔交易"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "没有交易"
                 }
               }
             }
@@ -12682,6 +12742,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "备份、导入和 Claude Code"
+          }
+        }
+      }
+    },
+    "Balance" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saldo"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saldo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solde"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saldo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "収支"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "잔액"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saldo"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Баланс"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "结余"
           }
         }
       }
@@ -50513,6 +50631,64 @@
         }
       }
     },
+    "No transactions match these filters." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keine Transaktionen entsprechen diesen Filtern."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ninguna transacción coincide con estos filtros."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune transaction ne correspond à ces filtres."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessuna transazione corrisponde a questi filtri."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このフィルタに一致する取引はありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 필터와 일치하는 거래가 없습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nenhuma transação corresponde a estes filtros."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет операций, соответствующих этим фильтрам."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有符合这些筛选条件的交易。"
+          }
+        }
+      }
+    },
     "No-Spend Week" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -59009,6 +59185,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "真实（StoreKit）"
+          }
+        }
+      }
+    },
+    "Received" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erhalten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recibido"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reçu"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ricevuto"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "収入"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "수입"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recebido"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Получено"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "收入"
           }
         }
       }

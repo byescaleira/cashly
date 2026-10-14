@@ -36,7 +36,8 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 - iPhone em paisagem e app no Mac: só builds conferidos.
 - Campo de valor muito grande (13 dígitos) corta o "R$" na borda.
 - iPad de 11" em retrato: a barra de abas tem largura limitada pelo sistema; com Ajustes, a Buscar fica atrás da seta de rolagem.
-- Folha lateral na horizontal: conferida com a posição forçada; falta girar um iPad de verdade. Na lista de transações, "Adicionar" fica no menu "…".
+- Folha lateral na horizontal: conferida com a posição forçada; falta girar um iPad de verdade.
+- Histórico: o total do topo não tem filtro de tipo (gasto ou entrada); se o filtro ganhar tipo, a seção já troca para "Recebido" quando só há entradas.
 
 ## Qualidade de código
 
