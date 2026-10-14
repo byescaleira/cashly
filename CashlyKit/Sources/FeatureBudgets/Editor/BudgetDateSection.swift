@@ -10,10 +10,14 @@ struct BudgetDateSection: View {
         @Bindable var model = model
         Section {
             MonthPicker(
-                selection: Binding(
-                    get: { YearMonth(model.draft.date) }, set: { model.draft.date = $0.startDate }))
+                selection: $model.month, unavailable: model.takenMonths,
+                unavailableTitle: model.takenMonthTitle)
         } header: {
             Text("Month").sectionTitle()
+        } footer: {
+            if let message = model.monthMessage {
+                Text(message).foregroundStyle(model.isMonthTaken ? Color.negative : .secondary)
+            }
         }
     }
 }

@@ -22,6 +22,7 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 - **[P3] Testes do StoreKit hospedados pelo app.** O `SKTestSession` falha nos testes do pacote (`xctest` não é um app instalado; `storekitd` responde `SKServiceErrorDomain 2`). Para exercitar o `Cashly.storekit` de verdade (compra, reembolso, expiração), criar um alvo de testes no `Cashly.xcodeproj` com o app como hospedeiro.
 - **[P3] Sequência durante a pausa do Pro.** Sem assinatura a Jornada pausa, mas o motor continua contando os dias sem registro como perdidos; para "nada se perde" de verdade, o `GameSnapshot` precisa receber os períodos sem assinatura e tratá-los como cobertos.
 - **[P3] Jornada no backup.** Os eventos da Jornada (`GameEventEntity`) sincronizam pelo iCloud, mas não entram no arquivo de backup; apagar tudo e restaurar zera dias acompanhados e desafios. O XP de transações, orçamentos e meses volta, porque é recalculado dos dados.
+- **[P2] Ligar a inteligência.** A flag `intelligence` esconde sugestão de valor, de categoria e a tela de treino. Antes de ligar por padrão: treino automático (hoje é manual nos Ajustes), estado vazio e explicação na primeira sugestão, e a medição de qualidade abaixo.
 - **[P3] Qualidade das sugestões.** Medir precisão por usuário e categoria antes de mostrar confiança ou automatizar escolhas.
 
 ## Produto
@@ -29,6 +30,7 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 - **Configuração da distribuição.** Preencher no `Info.plist` as chaves de links (`CashlyAppStoreID`, `CashlySupportEmail`, `CashlyHelpURL`, `CashlyPrivacyURL`, `CashlyTermsURL`). Atualizar `ReleaseNote.current` a cada versão.
 - **Integrações, assinatura e novas features.** Planejadas por fase em [roadmap.md](roadmap.md). Antes de App Intents e widgets, resolver "Serviços fora da janela" acima. Servidor MCP para o Claude Code continua como ideia futura.
 - **[P3] Acessibilidade e restauração.** Dynamic Type conferido no iPhone até o tamanho de acessibilidade AX3; falta VoiceOver, principalmente gráficos e seletores de ícones. Rotas pequenas permitem deep links e restauração.
+- **[P3] Seletor de mês além do orçamento.** O `MonthPicker` novo só é usado no editor de orçamento; avaliar o filtro de período (`FilterMenu`) e a escolha de mês das telas de Metas com o mesmo componente.
 - **Ações de retry** nos editores quando a carga inicial falha (hoje é preciso fechar e abrir).
 
 ## Verificação visual pendente

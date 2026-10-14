@@ -9,18 +9,26 @@ public final class IntelligenceModel {
     public var error: CashlyError?
     @ObservationIgnored private let service: any IntelligenceService
     @ObservationIgnored private let session: SessionModel
+    @ObservationIgnored private let flags: FeatureFlags?
     @ObservationIgnored private var activeUserID: String?
     @ObservationIgnored private var request = 0
 
-    public init(service: any IntelligenceService, session: SessionModel) {
+    public init(
+        service: any IntelligenceService, session: SessionModel, flags: FeatureFlags? = nil
+    ) {
         self.service = service
         self.session = session
+        self.flags = flags
+    }
+
+    public var isEnabled: Bool {
+        flags?.isOn(.intelligence) ?? FeatureFlag.intelligence.defaultValue
     }
 
     public var isStale: Bool { models.contains { $0.datasetRevision != datasetRevision } }
 
     public func hasModel(_ kind: CashlyIntelligence) -> Bool {
-        models.contains { $0.kind == kind && $0.datasetRevision == datasetRevision }
+        isEnabled && models.contains { $0.kind == kind && $0.datasetRevision == datasetRevision }
     }
 
     public func loadModels(revision: String) async {
@@ -64,7 +72,9 @@ public final class IntelligenceModel {
 
     public func predict(_ input: CashlyPredictionInput) async -> CashlyPredictionResult {
         let revision = datasetRevision
-        guard let userID = activeUserID, !revision.isEmpty, !isStale else { return .empty }
+        guard isEnabled, let userID = activeUserID, !revision.isEmpty, !isStale else {
+            return .empty
+        }
         do {
             let result = try await service.predict(userID: userID, input: input, revision: revision)
             try Task.checkCancellation()

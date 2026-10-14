@@ -1,7 +1,8 @@
 import CashlyDomain
 
 public enum FeatureFlag: String, CaseIterable, Identifiable, Sendable {
-    case mcpServer, mcpLocalNetwork, spreadsheetImport, guides, analytics, journey, pro
+    case mcpServer, mcpLocalNetwork, spreadsheetImport, guides, analytics, journey, pro,
+        intelligence
 
     public var id: String { rawValue }
 
@@ -14,6 +15,7 @@ public enum FeatureFlag: String, CaseIterable, Identifiable, Sendable {
         case .analytics: String(appLocalized: "Analytics engine")
         case .journey: String(appLocalized: "Journey")
         case .pro: String(appLocalized: "Cashly Pro paywall")
+        case .intelligence: String(appLocalized: "On-device intelligence")
         }
     }
 
@@ -21,6 +23,7 @@ public enum FeatureFlag: String, CaseIterable, Identifiable, Sendable {
         switch self {
         case .mcpServer, .mcpLocalNetwork, .spreadsheetImport, .guides, .analytics, .journey, .pro:
             true
+        case .intelligence: false
         }
     }
 }
