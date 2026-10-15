@@ -17,7 +17,7 @@ Uma aba própria, **Jornada** (ícone `trophy`), proeminente no fim da barra, no
 - **Topo:** título do nível em chip, "Nível n" em número grande e o XP total; dentro do grupo, "x de y XP" na cor de destaque, o XP que falta e a barra do nível entre os chips do nível atual e do próximo (preenche ao abrir); embaixo, o próximo título com uma barra de 5 segmentos (os níveis do título atual) e "faltam n níveis". Sem anel circular: o app usa barras lineares.
 - **Sequência:** chama cheia que pulsa quando o dia está feito (contorno quando ainda não está), contagem com troca numérica animada e a situação do dia logo abaixo; faixa dos últimos sete dias (chama = acompanhado, floco = coberto por congelamento, círculo vazio = perdido, tracejado = hoje ainda não) que entra em cascata; recorde e congelamentos lado a lado; a próxima marca (7, 30, 100 ou 365 dias, as conquistas de constância) com barra e os dias que faltam; e o botão "Hoje não gastei".
 - **Missões da semana:** três tarefas curtas, renovadas toda segunda; chip "feitas/3" no título, recompensa "+25 XP" sempre visível (cinza até concluir, oliva depois), barra que preenche ao abrir com "feito/meta", troca de símbolo e vibração ao concluir, e "Missões novas em n dias" no rodapé.
-- **Desafios:** sem desafio, os cinco tipos aparecem como linhas com símbolo, frase e chip de XP (do menor para o maior) e tocar abre o seletor já no tipo escolhido. O desafio ativo mostra o símbolo, o XP, a frase, a barra e os dias que faltam; nos desafios de gasto (teto e menos que o mês passado) a barra ganha o marcador do dia do mês, a legenda "R$ x de R$ y" ou "x% do mês passado" e o ritmo (no ritmo, mais rápido que o mês, acima da meta) nas cores da situação, como em Metas.
+- **Desafios:** sem desafio, a seção sugere três tipos (um fácil, um médio e um difícil, entre os liberados, trocando a cada semana) com símbolo na cor do tema, frase, chips de duração, dificuldade e XP, e o botão "Ver todos os desafios". O seletor é uma folha com pilha de navegação: no topo, quantos desafios existem e a regra de custo; depois uma seção por tema (Gastar menos, Limites, Hábitos, Orçamentos) com cabeçalho colorido e frase do tema, e cada tipo com símbolo, título, regra, chips e, quando não dá para começar, o motivo com cadeado; no fim, os desafios recentes (concluídos com "+XP", perdidos com "Perdido"). Tocar num tipo abre a configuração: herói com o símbolo animado, título, regra e chips; cartão de categoria (escolhida ou, em "Corte no maior gasto", a maior do mês passado) com o gasto do mês passado e, no teto, o campo de valor com a sugestão; cartão de resumo na cor do tema com a meta ("Até R$ 640 com Restaurantes neste mês"), o período ("De hoje até domingo, 18 de out."), a recompensa, o custo (grátis, troca ou sem trocas), o aviso de que encerra o desafio atual e o bloqueio; e o botão "Começar desafio" (ou "Obter trocas", que abre o item da loja na própria folha). O desafio ativo mostra símbolo e XP na cor do tema, a frase com a meta, a barra, os dias que faltam e a legenda da medida do tipo (dias sem gasto, dias acompanhados, gastos etiquetados, "R$ x de R$ y", nota…); nos desafios de gasto a barra ganha o marcador do período e o ritmo (do mês ou da semana).
 - **Conquistas:** barra geral de desbloqueadas, as três mais próximas (bloqueadas, não secretas, por progresso) com barra, "x de y" e XP, e uma grade por grupo (Primeiros passos, Constância, No azul…) com a contagem de cada grupo; bloqueadas em silhueta, as começadas tingidas na cor do nível com uma barrinha, e secretas como "?". A folha de detalhe segue o padrão dos guias (título e critério, medalhão animado em SwiftUI, até três linhas com estado, recompensa e dica, e "Concluído" com uma ação que leva à tela certa).
 - **Comemoração:** folha curta com o símbolo entrando com salto, chip "+XP" nas conquistas, vibração de sucesso e confete em `Canvas` por 2,5 s; tudo desligado com "Reduzir movimento".
 - **Loja:** os dois planos no alto e as vitrines (destaques do mês, ícones, personalização, ajudas, conteúdo). Toque abre o item; "Ver loja" mostra tudo.
@@ -37,7 +37,7 @@ No iPhone deitado e no iPad, a aba usa o `AdaptiveList` como as outras.
 | Fechar o mês com pontuação 1.000 | +100 | 1 por mês |
 | Concluir um guia | 20 | 1 por guia |
 | Concluir uma missão da semana | 25 | 3 por semana |
-| Concluir um desafio | 100 a 300 | conforme o desafio |
+| Concluir um desafio | 75 a 300 | conforme o desafio |
 | Desbloquear uma conquista | 50 a 500 | conforme o nível da conquista |
 
 - Apagar uma transação tira o XP dela, porque o XP é recalculado dos dados. Isso evita criar e apagar para subir.
@@ -66,15 +66,33 @@ Cerca de 40, em grupos e com níveis bronze, prata e ouro:
 
 Algumas conquistas dão itens de presente, como o ícone "Ouro" para quem chega a 365 dias de sequência.
 
-### Desafios do mês
+### Desafios
 
-A pessoa escolhe um desafio ativo por vez. O progresso sai dos dados:
+A pessoa escolhe um desafio ativo por vez. São 16 tipos em quatro temas, com duração de fim de semana, semana (sete dias a partir de hoje) ou mês, três níveis de dificuldade e XP de 75 a 300. Tudo sai dos dados que o app já tem e é recalculado a cada leitura; nada é gravado além do código do desafio.
 
-- **Semana sem…:** sete dias sem gasto numa categoria escolhida (delivery, lazer, compras).
-- **Teto:** gastar até um valor escolhido numa categoria no mês.
-- **Mês no azul:** terminar no nível saudável (≥ 895).
-- **Todo dia:** acompanhar todos os dias do mês.
-- **Menos que o mês passado:** fechar uma categoria abaixo do mês anterior.
+| Tema | Tipo (código) | Regra | Duração | Dif. | XP |
+| --- | --- | --- | --- | --- | --- |
+| Gastar menos | Fim de semana sem gastos (`noSpendWeekend`) | Nenhum gasto no sábado e no domingo; começado no meio da semana, vale o próximo fim de semana; no domingo, só o domingo | Fim de semana | Fácil | 75 |
+| Gastar menos | Três dias tranquilos (`quietDays`) | Três dias acompanhados e sem nenhum gasto; conclui assim que chega a três | Semana | Fácil | 100 |
+| Gastar menos | Semana sem… (`noSpendWeek`) | Nenhum gasto numa categoria | Semana | Médio | 100 |
+| Gastar menos | Fim de semana mais leve (`weekendLighter`) | Média diária de sábado e domingo menor que a dos dias úteis (sem gasto no fim de semana também vale) | Semana | Médio | 150 |
+| Limites | Abaixo da sua média (`belowAverage`) | Gastar até a média semanal dos 28 dias anteriores | Semana | Médio | 150 |
+| Limites | Teto (`cap`) | Até um valor numa categoria no mês | Mês | Médio | 150 |
+| Limites | Menos que o mês passado (`lessThanLastMonth`) | Categoria abaixo do mês anterior | Mês | Médio | 150 |
+| Limites | Corte no maior gasto (`cutBiggest`) | Maior categoria do mês passado com 20% a menos | Mês | Difícil | 250 |
+| Hábitos | Sete dias de registro (`trackWeek`) | Acompanhar todos os dias | Semana | Fácil | 75 |
+| Hábitos | Semana etiquetada (`tagWeek`) | Todo gasto com etiqueta, pelo menos três | Semana | Fácil | 100 |
+| Hábitos | Registro no mesmo dia (`sameDay`) | Todos os dias acompanhados e nenhum gasto da semana registrado depois do dia em que aconteceu | Semana | Médio | 150 |
+| Hábitos | Todo dia (`everyDay`) | Acompanhar todos os dias até o fim do mês | Mês | Difícil | 300 |
+| Orçamentos | Planeje cada categoria (`planEveryCategory`) | No fim da semana, toda categoria com gasto no mês tem orçamento | Semana | Fácil | 75 |
+| Orçamentos | Semana no orçamento (`weeklyBudget`) | Gastar até 7/dias do mês do total orçado | Semana | Médio | 125 |
+| Orçamentos | Mês no azul (`blueMonth`) | Terminar no nível saudável (≥ 895) | Mês | Difícil | 200 |
+| Orçamentos | Todos os orçamentos no azul (`allBudgetsBlue`) | Nenhuma categoria orçada passa do valor | Mês | Difícil | 250 |
+
+- **Código.** O evento `challengeStarted` guarda `tipo|categoria|limite`. Os cinco tipos antigos mantêm o mesmo código e o mesmo XP; códigos desconhecidos são ignorados.
+- **Avaliação.** `ChallengeRun` calcula o período (`Challenge.Kind.period`), a situação (ativo com progresso, concluído, perdido, abandonado) e a medida (`ChallengeMeasure`: valor, alvo e unidade). Os de limite perdem assim que passam do alvo; os de contagem (dias tranquilos) concluem ao chegar ao alvo; os demais se decidem no fim do período. Conta o gasto com data dentro do período até o fim do dia de hoje (um gasto lançado para mais tarde hoje já conta), no fuso do aparelho; a meia-noite seguinte ao período já fica de fora.
+- **Bloqueios.** `ChallengeHints` (no `GameProgress`) diz o que falta para cada tipo: categoria, semanas de histórico, gasto no mês passado, orçamento no mês, etiqueta ou "todas as categorias já têm orçamento". Também traz a média mensal por categoria (base da sugestão do teto, 90% arredondado para baixo), o gasto do mês passado por categoria, a média semanal e a parte semanal do orçamento.
+- **Recentes.** `GameProgress.recentChallenges` lista os cinco últimos concluídos ou perdidos, do mais novo para o mais antigo.
 
 Desafios temáticos extras (Natal no azul, Férias planejadas, Volta às aulas) vêm em pacotes da loja.
 

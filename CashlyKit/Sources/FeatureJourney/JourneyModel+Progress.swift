@@ -66,7 +66,7 @@ extension JourneyModel {
             return ChallengeOutlook(
                 progress: min(ratio, 1), daysLeft: daysLeft, elapsed: nil, pace: nil)
         }
-        let start = YearMonth(state.start).startDate
+        let start = state.from
         let total = max(calendar.dateComponents([.day], from: start, to: state.end).day ?? 1, 1)
         let done = calendar.dateComponents([.day], from: start, to: today).day ?? 0
         let elapsed = min(max((Double(done) + 1) / Double(total), 0), 1)
@@ -74,15 +74,6 @@ extension JourneyModel {
             ratio >= 1 ? .over : ratio > elapsed + ChallengeOutlook.slack ? .fast : .steady
         return ChallengeOutlook(
             progress: min(ratio, 1), daysLeft: daysLeft, elapsed: elapsed, pace: pace)
-    }
-
-    public var challengeSuggestions: [Challenge.Kind] {
-        Challenge.Kind.allCases.sorted { $0.xp < $1.xp }
-    }
-
-    public func chooseChallenge(_ kind: Challenge.Kind) {
-        chooseChallenge()
-        draft.kind = kind
     }
 
     public var nextAchievements: [AchievementState] {
@@ -110,10 +101,6 @@ extension JourneyModel {
 
 extension ChallengeOutlook {
     static let slack = 0.1
-}
-
-extension Challenge.Kind {
-    public var measuresUsage: Bool { self == .cap || self == .lessThanLastMonth }
 }
 
 extension AchievementState {

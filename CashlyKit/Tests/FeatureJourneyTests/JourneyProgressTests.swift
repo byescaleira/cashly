@@ -82,12 +82,13 @@ struct JourneyProgressTests {
     @Test func timeChallengeHasNoPace() async throws {
         let (journey, _) = try await model(today: date(14))
         await journey.load()
-        journey.chooseChallenge(.blueMonth)
+        #expect(journey.challengeSuggestions.map(\.difficulty) == [.easy, .medium, .hard])
+        #expect(journey.challengeSuggestions.allSatisfy { journey.blocker(for: $0) == nil })
+        journey.chooseChallenge(.everyDay)
         await journey.startChallenge()
         let outlook = try #require(journey.challengeOutlook)
         #expect(outlook.pace == nil)
         #expect(outlook.isUsage == false)
-        #expect(journey.challengeSuggestions.first == .noSpendWeek)
     }
 
     @Test func nextAchievementsAreTheClosestLockedOnes() async throws {

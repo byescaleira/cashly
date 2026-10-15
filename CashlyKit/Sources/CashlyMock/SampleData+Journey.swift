@@ -25,6 +25,12 @@ extension SampleData {
                 id: "sample-freezes", kind: .freezesCredited, date: day(-15), value: "sample",
                 count: 2),
             GameEvent(
+                id: "sample-challenge-done", kind: .challengeStarted, date: day(-41),
+                value: "trackWeek||"),
+            GameEvent(
+                id: "sample-challenge-missed", kind: .challengeStarted, date: day(-24),
+                value: "everyDay||"),
+            GameEvent(
                 id: "sample-challenge", kind: .challengeStarted, date: day(-3),
                 value: "cap|\(restaurants)|60000"),
         ]

@@ -45,47 +45,6 @@ extension Mission.Kind {
     }
 }
 
-extension Challenge.Kind {
-    var title: String {
-        switch self {
-        case .noSpendWeek: String(appLocalized: "No-Spend Week")
-        case .cap: String(appLocalized: "Spending Cap")
-        case .blueMonth: String(appLocalized: "Month in the Blue")
-        case .everyDay: String(appLocalized: "Every Day")
-        case .lessThanLastMonth: String(appLocalized: "Less Than Last Month")
-        }
-    }
-
-    var detail: String {
-        switch self {
-        case .noSpendWeek: String(appLocalized: "Seven days without spending in one category.")
-        case .cap: String(appLocalized: "Keep one category under an amount this month.")
-        case .blueMonth: String(appLocalized: "End the month within budget.")
-        case .everyDay: String(appLocalized: "Follow your money every day until the month ends.")
-        case .lessThanLastMonth:
-            String(appLocalized: "Spend less in one category than last month.")
-        }
-    }
-
-    var duration: String {
-        switch self {
-        case .noSpendWeek: String(appLocalized: "Seven days from today")
-        case .cap, .blueMonth, .everyDay, .lessThanLastMonth:
-            String(appLocalized: "Until the end of the month")
-        }
-    }
-
-    var symbol: String {
-        switch self {
-        case .noSpendWeek: "nosign"
-        case .cap: "gauge.with.dots.needle.33percent"
-        case .blueMonth: "checkmark.seal.fill"
-        case .everyDay: "calendar"
-        case .lessThanLastMonth: "arrow.down.right.circle.fill"
-        }
-    }
-}
-
 extension Celebration {
     var title: String {
         switch self {

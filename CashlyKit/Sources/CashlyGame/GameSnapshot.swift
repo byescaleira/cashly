@@ -40,12 +40,39 @@ public struct GameSnapshot: Sendable {
             .reduce(0) { $0 + $1.minorUnits }
     }
 
-    func spent(categoryID: String, from start: Date, to end: Date) -> Int64 {
-        ledger.postings
-            .filter {
-                $0.isExpense && $0.categoryID == categoryID && $0.date >= start && $0.date < end
-            }
-            .reduce(0) { $0 + $1.minorUnits }
+    func expenses(from start: Date, to end: Date, categoryID: String? = nil) -> [Posting] {
+        ledger.postings.filter {
+            $0.isExpense && (categoryID == nil || $0.categoryID == categoryID)
+                && $0.date >= start && $0.date < end
+        }
+    }
+
+    func spent(from start: Date, to end: Date, categoryID: String? = nil) -> Int64 {
+        expenses(from: start, to: end, categoryID: categoryID).reduce(0) { $0 + $1.minorUnits }
+    }
+
+    func weeklyAverage(before day: Date) -> Int64 {
+        let days = Challenge.weekDays * Challenge.averageWeeks
+        guard let start = calendar.date(byAdding: .day, value: -days, to: day) else { return 0 }
+        return spent(from: start, to: day) / Int64(Challenge.averageWeeks)
+    }
+
+    func spentCategories(in month: YearMonth) -> Set<String> {
+        Set(ledger.postings(in: month).filter(\.isExpense).map(\.categoryID))
+    }
+
+    func budgetedCategories(in month: YearMonth) -> Set<String> {
+        Set(budgetsByCategory(in: month).keys)
+    }
+
+    func budgetsByCategory(in month: YearMonth) -> [String: Int64] {
+        ledger.budgets.filter { $0.month == month }.reduce(into: [:]) {
+            $0[$1.category.id, default: 0] += $1.money.minorUnits
+        }
+    }
+
+    func weeklyShare(of month: YearMonth) -> Int64 {
+        ledger.budgeted(in: month) * Int64(Challenge.weekDays) / Int64(max(month.dayCount, 1))
     }
 
     func score(in month: YearMonth) -> Int? {

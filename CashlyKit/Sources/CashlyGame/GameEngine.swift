@@ -11,6 +11,8 @@ public struct GameProgress: Equatable, Sendable {
     public let completedChallenges: Int
     public let rerolls: Int
     public let challengeStartsThisMonth: Int
+    public let recentChallenges: [ChallengeState]
+    public let challengeHints: ChallengeHints
 
     public var canStartChallenge: Bool { challengeStartsThisMonth == 0 || rerolls > 0 }
 }
@@ -24,6 +26,7 @@ public enum GameEngine {
     public static let blueMonthXP = 200
     public static let perfectMonthXP = 100
     public static let guideXP = 20
+    public static let recentChallengeCount = 5
 
     public static func progress(_ snapshot: GameSnapshot) -> GameProgress {
         let streak = Streak(snapshot)
@@ -61,7 +64,10 @@ public enum GameEngine {
             xp: xp, level: GameLevel(xp: xp), streak: streak, achievements: achievements,
             missions: Mission.week(containing: snapshot.today, in: snapshot), challenge: current,
             completedChallenges: completed.count, rerolls: max(credited - used, 0),
-            challengeStartsThisMonth: starts[YearMonth(snapshot.today)] ?? 0)
+            challengeStartsThisMonth: starts[YearMonth(snapshot.today)] ?? 0,
+            recentChallenges: Array(
+                challenges.filter(\.isFinished).suffix(recentChallengeCount).reversed()),
+            challengeHints: ChallengeHints(snapshot))
     }
 
     private static func transactionXP(_ snapshot: GameSnapshot) -> Int {

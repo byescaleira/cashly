@@ -90,7 +90,7 @@ struct JourneyShopTests {
         await journey.startChallenge()
         #expect(journey.progress?.challengeStartsThisMonth == 1)
         journey.chooseChallenge()
-        journey.draft.kind = .blueMonth
+        journey.draft.kind = .trackWeek
         await journey.startChallenge()
         #expect(journey.progress?.challengeStartsThisMonth == 1)
         try await database.repositories(for: owner.id).game.record([

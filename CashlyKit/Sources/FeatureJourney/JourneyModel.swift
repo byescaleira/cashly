@@ -13,6 +13,8 @@ public final class JourneyModel {
     public internal(set) var unlockDates: [Achievement: Date] = [:]
     public internal(set) var pendingAction: AchievementAction?
     public var isChoosingChallenge = false
+    public var challengePath: [Challenge.Kind] = []
+    public var isOfferingRerolls = false
     public var isConfirmingAbandon = false
     public var draft = ChallengeDraft()
     public var error: CashlyError?
@@ -59,13 +61,15 @@ public final class JourneyModel {
     }
 
     public func chooseChallenge() {
-        draft = ChallengeDraft(categoryID: categories.first?.id)
+        draft = ChallengeDraft(categoryID: defaultCategoryID)
+        challengePath = []
         isChoosingChallenge = true
     }
 
     public func startChallenge() async {
-        guard let challenge = draft.challenge, progress?.canStartChallenge != false else { return }
+        guard let challenge = draft.challenge, canStartDraft else { return }
         isChoosingChallenge = false
+        challengePath = []
         await record(GameEvent(kind: .challengeStarted, date: now(), value: challenge.code))
     }
 
@@ -120,14 +124,14 @@ public enum Celebration: Identifiable, Hashable, Sendable {
 }
 
 public struct ChallengeDraft: Equatable, Sendable {
-    public var kind = Challenge.Kind.noSpendWeek
+    public var kind = Challenge.Kind.noSpendWeekend
     public var categoryID: String?
     public var limit = 0.0
 
     public var challenge: Challenge? {
         if kind.needsCategory && categoryID == nil { return nil }
-        let cents = kind == .cap ? (try? Money(validating: limit))?.minorUnits : nil
-        if kind == .cap && (cents ?? 0) <= 0 { return nil }
+        let cents = kind.needsLimit ? (try? Money(validating: limit))?.minorUnits : nil
+        if kind.needsLimit && (cents ?? 0) <= 0 { return nil }
         return Challenge(
             kind: kind, categoryID: kind.needsCategory ? categoryID : nil, limit: cents)
     }
