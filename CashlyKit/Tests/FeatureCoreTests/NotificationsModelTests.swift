@@ -119,7 +119,7 @@ struct NotificationsModelTests {
         let scheduler = FakeScheduler(status: .allowed)
         let model = NotificationsModel(defaults: defaults, scheduler: scheduler)
         let database = try CashlyDatabase.open(inMemory: true)
-        let owner = User(id: "owner", name: "Perfil", photo: "1")
+        let owner = User(id: "owner", name: "Perfil")
         try await database.repositories(for: nil).users.save(owner)
         let repositories = database.repositories(for: owner.id)
         let category = Category(id: "c", user: owner, name: "Geral", color: "0099FF", icon: "cart")
@@ -149,7 +149,7 @@ struct NotificationsModelTests {
         let scheduler = FakeScheduler(status: .allowed)
         let model = NotificationsModel(defaults: defaults, scheduler: scheduler)
         let database = try CashlyDatabase.open(inMemory: true)
-        let owner = User(id: "owner", name: "Ana", photo: "1")
+        let owner = User(id: "owner", name: "Ana")
         try await database.repositories(for: nil).users.save(owner)
         let repositories = database.repositories(for: owner.id)
         let food = CashlyDomain.Category(

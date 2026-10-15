@@ -1,6 +1,5 @@
 import CashlyDesignSystem
 import CashlyDomain
-import CashlyResource
 import FeatureCore
 import SwiftUI
 
@@ -10,10 +9,8 @@ struct ParticipantRow: View {
 
     var body: some View {
         AdaptiveRow {
-            CashlyResourceImage.avatar(id: participant.user.photo)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 50, height: 50)
+            ProfileAvatar(participant.user, size: .badgeXL)
+                .accessibilityHidden(true)
                 .overlay(alignment: .topTrailing) { StatusMenu(status: $participant.status) }
             VStack(alignment: .leading, spacing: .space2XS) {
                 Text(participant.user.name.capitalized)

@@ -29,6 +29,17 @@ struct OnboardingModelTests {
         #expect(model.firstName == "Ana")
     }
 
+    @Test func profilePhotoShowsInitialsAndChangesColor() async throws {
+        let (model, _, _) = try await onboarding()
+        model.name = "ana souza"
+        #expect(model.initials == "AS")
+        let before = model.photo
+        model.changeColor()
+        #expect(model.photo != before)
+        #expect(model.photo == .initials(color: model.photo.color ?? ""))
+        #expect(model.photo.color.flatMap(RetroColor.init(hex:)) != nil)
+    }
+
     @Test func finishingCreatesTheUserAndChosenCategories() async throws {
         let (model, session, database) = try await onboarding()
         await model.advance()
@@ -39,6 +50,7 @@ struct OnboardingModelTests {
         #expect(model.step == .done)
         let user = try #require(session.user)
         #expect(user.name == "Ana")
+        #expect(user.photo == model.photo)
         let categories = try await database.repositories(for: user.id).dashboard.snapshot(
             month: nil
         ).categories

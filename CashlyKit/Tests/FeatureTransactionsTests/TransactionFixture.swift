@@ -6,8 +6,8 @@ import Foundation
 
 @MainActor
 struct TransactionFixture {
-    let owner = User(id: "owner", name: "Perfil", photo: "1")
-    let friend = User(id: "friend", name: "Amigo", photo: "2")
+    let owner = User(id: "owner", name: "Perfil")
+    let friend = User(id: "friend", name: "Amigo")
     let database: CashlyDatabase
     let repositories: Repositories
     let category: CashlyDomain.Category

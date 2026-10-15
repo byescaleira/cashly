@@ -1,26 +1,32 @@
 import CashlyDomain
 import FeatureCore
+import Foundation
 import Observation
 
 @MainActor @Observable
 public final class UserEditorModel {
     public var draft: UserDraft
-    public var avatarStyle: AvatarStyle = .masculine
     public let status = EditorStatus()
+    public internal(set) var style: PhotoStyle
+    public var photoColor: String {
+        didSet { recolor() }
+    }
+    public internal(set) var symbol = ProfileSymbol.default.rawValue
+    public internal(set) var memoji: ProfilePhoto?
+    public var isPickingMemoji = false
+    public var isShowingMemojiGuide = false
     @ObservationIgnored private let users: any UserRepository
 
     public init(draft: UserDraft = .new(), users: any UserRepository) {
         self.draft = draft
         self.users = users
+        style = PhotoStyle(draft.photo)
+        photoColor = draft.photo.color ?? ProfilePhoto.defaultColor
     }
 
     public var canSave: Bool { status.isLoaded && !status.isLocked && draft.canSave }
     public var canRemove: Bool { !draft.isNew && !status.isBusy }
     public var userToSelect: String? { draft.isNew ? draft.id : nil }
-
-    public func shufflePhoto() {
-        draft.photo = avatarStyle.photos.randomElement()
-    }
 
     public func load() async {
         await status.load {
@@ -28,8 +34,7 @@ public final class UserEditorModel {
             try Task.checkCancellation()
             if !draft.isNew && record == nil { throw CashlyError.missingRecord }
             draft.apply(record)
-            avatarStyle =
-                AvatarStyle.allCases.first { $0.photos.contains(draft.photo ?? "") } ?? avatarStyle
+            adopt(draft.photo)
         }
     }
 
@@ -40,5 +45,10 @@ public final class UserEditorModel {
     public func remove() async {
         guard !draft.isNew else { return }
         await status.remove { try await users.delete(id: draft.id) }
+    }
+
+    private func recolor() {
+        draft.photo = draft.photo.recolored(photoColor)
+        memoji = memoji?.recolored(photoColor)
     }
 }

@@ -7,7 +7,7 @@ import Testing
 
 @MainActor
 struct GuidesModelTests {
-    private let owner = User(id: "owner", name: "Ana", photo: "1")
+    private let owner = User(id: "owner", name: "Ana")
 
     private func model() async throws -> (GuidesModel, SessionModel) {
         let database = try CashlyDatabase.open(inMemory: true)

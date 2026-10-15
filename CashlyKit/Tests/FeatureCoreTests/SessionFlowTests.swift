@@ -6,8 +6,8 @@ import Testing
 
 @MainActor
 struct SessionFlowTests {
-    private let owner = User(id: "owner", name: "Perfil", photo: "1")
-    private let friend = User(id: "friend", name: "Amigo", photo: "2")
+    private let owner = User(id: "owner", name: "Perfil")
+    private let friend = User(id: "friend", name: "Amigo")
     private var category: CashlyDomain.Category {
         Category(id: "category", user: owner, name: "Geral", color: "0099FF", icon: "cart")
     }

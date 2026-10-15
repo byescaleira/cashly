@@ -3,7 +3,7 @@ import Foundation
 import Testing
 
 struct WidgetSnapshotTests {
-    private let owner = User(id: "owner", name: "Ana", photo: "1")
+    private let owner = User(id: "owner", name: "Ana")
 
     @Test func snapshotSummarizesTheOverview() throws {
         let month = try #require(YearMonth(year: 2026, month: 10))

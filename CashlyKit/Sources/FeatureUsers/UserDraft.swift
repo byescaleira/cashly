@@ -1,26 +1,21 @@
 import CashlyDomain
+import FeatureCore
 import Foundation
 
 public struct UserDraft: Hashable {
     public var id: String
     public var name: String
-    public var photo: String?
+    public var photo: ProfilePhoto
     public var isNew: Bool
 
     public var canSave: Bool {
-        name.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3
-            && (1...100).contains(Int(photo ?? "") ?? 0)
+        name.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3 && photo.isValid
     }
 
-    private init(
-        id: String = UUID().uuidString,
-        name: String = "",
-        photo: String? = nil,
-        isNew: Bool = true,
-    ) {
+    private init(id: String = UUID().uuidString, isNew: Bool = true) {
         self.id = id
-        self.name = name
-        self.photo = photo
+        self.name = ""
+        self.photo = .suggested(for: id)
         self.isNew = isNew
     }
 
@@ -33,16 +28,14 @@ public struct UserDraft: Hashable {
     }
 
     public func makeUser() throws -> User {
-        guard canSave, let photo else { throw CashlyError.onSave }
+        guard canSave else { throw CashlyError.onSave }
         return User(
             id: id, name: name.trimmingCharacters(in: .whitespacesAndNewlines), photo: photo)
     }
 
     public mutating func apply(_ user: User?) {
-        if let user {
-            name = user.name
-            photo = user.photo
-        }
-        if photo == nil { photo = "1" }
+        guard let user else { return }
+        name = user.name
+        photo = user.photo
     }
 }

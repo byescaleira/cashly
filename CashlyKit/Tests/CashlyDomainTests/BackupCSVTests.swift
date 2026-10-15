@@ -4,7 +4,7 @@ import Testing
 
 struct BackupCSVTests {
     @Test func transactionsBecomeSemicolonRows() throws {
-        let owner = User(id: "o", name: "Ana", photo: "1")
+        let owner = User(id: "o", name: "Ana")
         let category = Category(
             id: "c", user: owner, name: "Mercado", color: "0099FF", icon: "cart")
         let tag = Tag(id: "t", user: owner, name: "Casa", color: "FF9900", icon: "house")

@@ -6,7 +6,7 @@ struct TransactionAllocationTests {
         _ id: String, _ mode: TransactionSplitMode, _ value: Double
     ) -> Participant {
         Participant(
-            id: id, user: User(id: "user-\(id)", name: id, photo: ""), splitMode: mode,
+            id: id, user: User(id: "user-\(id)", name: id), splitMode: mode,
             splitValue: value, status: .pendingToReceive, transaction: "t")
     }
 

@@ -5,8 +5,8 @@ import Testing
 
 struct TestDatabase {
     let database: CashlyDatabase
-    let owner = User(id: "owner", name: "Perfil", photo: "1")
-    let friend = User(id: "friend", name: "Amigo", photo: "2")
+    let owner = User(id: "owner", name: "Perfil")
+    let friend = User(id: "friend", name: "Amigo")
     let category: CashlyDomain.Category
 
     init() async throws {

@@ -34,7 +34,7 @@ private actor FakeScheduler: NotificationScheduling {
 
 @MainActor
 struct StoreModelTests {
-    private let owner = User(id: "owner", name: "Ana", photo: "1")
+    private let owner = User(id: "owner", name: "Ana")
     private let scheduler = FakeScheduler()
 
     private func store(withUser: Bool = true) async throws -> (

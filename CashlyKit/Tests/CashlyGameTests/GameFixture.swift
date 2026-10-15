@@ -5,7 +5,7 @@ import Foundation
 @testable import CashlyGame
 
 struct GameFixture {
-    let owner = User(id: "owner", name: "Ana", photo: "1")
+    let owner = User(id: "owner", name: "Ana")
     var transactions: [Transaction] = []
     var events: [GameEvent] = []
     var budgets: [Budget] = []

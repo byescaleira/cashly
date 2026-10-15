@@ -2,7 +2,7 @@ import CashlyDomain
 import Testing
 
 struct BudgetConflictTests {
-    private let owner = User(id: "owner", name: "Owner", photo: "")
+    private let owner = User(id: "owner", name: "Owner")
 
     private func budget(_ id: String, category: String, month: Int, conflicted: Bool) throws
         -> Budget

@@ -7,7 +7,8 @@ import Observation
 public final class OnboardingModel {
     public var step = OnboardingStep.welcome
     public var name = ""
-    public var photo = String(Int.random(in: 1...100))
+    public var photo = ProfilePhoto.initials(
+        color: RetroColor.allCases.randomElement()?.hex ?? ProfilePhoto.defaultColor)
     public var suggestions = CategorySuggestion.defaults
     public private(set) var isSaving = false
     public var error: CashlyError?
@@ -29,8 +30,12 @@ public final class OnboardingModel {
 
     public var canGoBack: Bool { step.previous != nil && !isSaving }
 
-    public func shufflePhoto() {
-        photo = String(Int.random(in: 1...100))
+    public var initials: String { User.initials(of: name) }
+
+    public func changeColor() {
+        let colors = RetroColor.allCases
+        let current = photo.color.flatMap(RetroColor.init(hex:)).flatMap(colors.firstIndex) ?? 0
+        photo = photo.recolored(colors[(current + 1) % colors.count].hex)
     }
 
     public func isSelected(_ suggestion: CategorySuggestion) -> Bool {

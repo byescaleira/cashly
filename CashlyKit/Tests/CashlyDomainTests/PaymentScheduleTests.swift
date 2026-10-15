@@ -3,7 +3,7 @@ import Foundation
 import Testing
 
 struct PaymentScheduleTests {
-    private let owner = User(id: "owner", name: "Perfil", photo: "1")
+    private let owner = User(id: "owner", name: "Perfil")
 
     private func transaction(
         _ id: String, cents: Int64, date: Date, plan: Int? = nil,

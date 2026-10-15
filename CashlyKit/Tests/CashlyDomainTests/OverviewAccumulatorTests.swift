@@ -3,8 +3,8 @@ import Foundation
 import Testing
 
 struct OverviewAccumulatorTests {
-    private let owner = User(id: "owner", name: "Owner", photo: "")
-    private let friend = User(id: "friend", name: "Friend", photo: "")
+    private let owner = User(id: "owner", name: "Owner")
+    private let friend = User(id: "friend", name: "Friend")
     private var food: CashlyDomain.Category {
         Category(id: "food", user: owner, name: "Food", color: "", icon: "")
     }

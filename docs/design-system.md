@@ -95,6 +95,7 @@ Símbolos com tamanho fixo usam `.font(.icon(_:weight:))`, nunca `.system(size:)
 | --- | --- |
 | `Chip(_:color:shape:font:)` | Texto na cor com fundo `.opacityTint`; `.tag` (raio 8) ou `.capsule` |
 | `SymbolBadge(_:color:size:style:)` | Símbolo num círculo, `.tinted` ou `.filled` |
+| `Avatar(_:color:size:)` | Foto de perfil num círculo de qualquer tamanho (28 a 112 pt): monograma ou símbolo brancos sobre o degradê da cor, emoji grande sobre a cor, ou imagem (Memoji) sobre `.subtleFill`. As features usam `ProfileAvatar` do `FeatureCore`, que escolhe o conteúdo a partir da `ProfilePhoto` e põe o rótulo de acessibilidade |
 | `tintedCard(_:radius:)` | Fundo `.opacityFill` na cor, para blocos |
 | `IconRow(_:detail:symbol:color:value:titleColor:)` | Linha de ajustes e ações: símbolo sem preenchimento num quadrado tingido, título, detalhe e valor |
 | `FigureHeader(title:value:numeric:color:detail:)` | Cabeçalho de seção com o número grande fora do grupo |

@@ -16,7 +16,7 @@ struct CloudBackupTests {
     private func model(cloud: BackupCloud) async throws -> DataModel {
         let database = try CashlyDatabase.open(inMemory: true)
         try await database.repositories(for: nil).users.save(
-            User(id: "owner", name: "Perfil", photo: "1"))
+            User(id: "owner", name: "Perfil"))
         let intelligence = LocalIntelligenceService(
             directory: FileManager.default.temporaryDirectory.appending(path: UUID().uuidString))
         return DataModel(

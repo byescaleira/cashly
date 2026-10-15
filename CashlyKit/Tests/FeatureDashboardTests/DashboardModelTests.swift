@@ -7,7 +7,7 @@ import Testing
 
 @MainActor
 struct DashboardModelTests {
-    private let owner = User(id: "owner", name: "Perfil", photo: "1")
+    private let owner = User(id: "owner", name: "Perfil")
 
     private func dashboard() async throws -> (DashboardModel, FinanceModel) {
         let database = try CashlyDatabase.open(inMemory: true)

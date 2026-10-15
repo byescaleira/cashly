@@ -6,7 +6,7 @@ import Testing
 
 @MainActor
 struct SpreadsheetImportModelTests {
-    private let owner = User(id: "owner", name: "Ana", photo: "1")
+    private let owner = User(id: "owner", name: "Ana")
 
     private func model() async throws -> (SpreadsheetImportModel, CashlyDatabase) {
         let database = try CashlyDatabase.open(inMemory: true)

@@ -6,7 +6,7 @@ import Testing
 
 @MainActor
 struct CategoryEditorTests {
-    private let owner = User(id: "owner", name: "Perfil", photo: "1")
+    private let owner = User(id: "owner", name: "Perfil")
     private var market: CashlyDomain.Category {
         Category(id: "market", user: owner, name: "Mercado", color: "0099FF", icon: "cart.fill")
     }

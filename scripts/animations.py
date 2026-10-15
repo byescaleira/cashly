@@ -283,6 +283,16 @@ def launch():
     return [spark_left, coin, card, spark_right]
 
 
+def memoji():
+    face = icon("face.smiling", "tint", 84, (124, 92), delay=0, rotation=settle(0, [-10, 4]))
+    face["ks"]["s"] = appear(0, 32, overshoot=108, start=50)
+    bubble = icon("bubble.left.fill", "denim", 46, (232, 70), delay=22)
+    bubble["ks"]["s"] = appear(22, overshoot=112, start=40)
+    spark = icon("sparkles", "mustard", 30, (240, 128), delay=46, scale=breathe(70, 6, 30))
+    spark["ks"]["o"] = fade(46, 10)
+    return [bubble, face, spark]
+
+
 def missions():
     checklist = icon("checklist", "tint", 84, (120, 90), delay=0)
     star = icon("star.fill", "mustard", 44, (236, 68), delay=30, rotation=settle(30, [-15, 6]))
@@ -659,6 +669,7 @@ ANIMATIONS = {
     "streak": streak,
     "tags": tags,
     "widgets": widgets,
+    "memoji": memoji,
 }
 
 

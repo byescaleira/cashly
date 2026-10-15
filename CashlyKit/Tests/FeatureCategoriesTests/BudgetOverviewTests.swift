@@ -4,7 +4,7 @@ import Foundation
 import Testing
 
 struct BudgetOverviewTests {
-    private let owner = User(id: "owner", name: "Ana", photo: "1")
+    private let owner = User(id: "owner", name: "Ana")
 
     private func item(_ name: String, planned: Double, spent: Double) -> BudgetProgress {
         let category = CashlyDomain.Category(

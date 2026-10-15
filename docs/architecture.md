@@ -13,7 +13,7 @@ flowchart TD
     Features --> Core[FeatureCore: sessão, finanças, navegação, componentes comuns]
     Core --> Domain[CashlyDomain: entidades, valores, regras, protocolos]
     Core --> DS[CashlyDesignSystem: estilos, modifiers, layout]
-    Core --> Resource[CashlyResource: avatares e ilustrações]
+    Core --> Resource[CashlyResource: prévias dos ícones e animações]
     App --> Data[CashlyData: SwiftData, repositórios, inteligência local]
     Data --> Domain
 ```
@@ -21,10 +21,10 @@ flowchart TD
 | Target | Responsabilidade | Depende de |
 | --- | --- | --- |
 | `CashlyDomain` | Entidades (`Transaction`, `Budget`, `Category`…), valores (`Money` em centavos, `YearMonth`), regras puras (`BudgetUsage`, `BudgetHealth`, `TransactionAllocation`…), formato de backup (`CashlyBackup`), protocolos de repositório | nada |
-| `CashlyData` | `CashlyDatabase`, `CashlyStore` (`@ModelActor`), schemas V1 a V4 congelados e V5 atual (capturas e memória de estabelecimentos), repositórios por agregado, backup (`CashlyDatabase.backup`), `CashlyChangeHub`, `LocalIntelligenceService` | Domain |
+| `CashlyData` | `CashlyDatabase`, `CashlyStore` (`@ModelActor`), schemas V1 a V5 congelados e V6 atual (imagem do Memoji do perfil em armazenamento externo), repositórios por agregado, backup (`CashlyDatabase.backup`), `CashlyChangeHub`, `LocalIntelligenceService` | Domain |
 | `CashlyDesignSystem` | `Styles/` (extensions de `ShapeStyle`, paleta retrô em `Color+Retro`, `Color(hex:)`, `\.appTint`), `Modifiers/` (extensions de `View`, como `.amountLine()`), `Layout/` (`AdaptiveList`, `AdaptiveStack`, `AdaptiveRow`, `SurfaceContainer`) | nada |
-| `CashlyResource` | Avatares e ilustrações | nada |
-| `FeatureCore` | Estado compartilhado (`SessionModel`, `FinanceModel`, `IntelligenceModel`, `EditorStatus`, `TransactionFilter`), navegação (`Route`, `AppSection`, `CashlyNavigation`, `\.open`, `\.close`), componentes usados por mais de uma feature (como `RetroColorPicker` e `ColorSection`, com as 26 cores nomeadas de `RetroColor`, e `AppIcon`/`AppIconImage`, usados pelos Ajustes e pela loja), textos de exibição, `ProAccess` e `ShopAccess` (ambiente), `CashlyTips` (configuração do TipKit e eventos compartilhados; cada feature declara as suas `Tip`s), `IntentActions` e `CaptureActions` (lógica dos App Intents e da caixa de entrada de capturas), `CaptureNotifier` (notificação por captura, ações e contador do ícone) | Domain, DesignSystem, Resource |
+| `CashlyResource` | Prévias dos ícones do app e animações Lottie embutidas | nada |
+| `FeatureCore` | Estado compartilhado (`SessionModel`, `FinanceModel`, `IntelligenceModel`, `EditorStatus`, `TransactionFilter`), navegação (`Route`, `AppSection`, `CashlyNavigation`, `\.open`, `\.close`), componentes usados por mais de uma feature (como `RetroColorPicker` e `ColorSection`, com as 26 cores nomeadas de `RetroColor`, `AppIcon`/`AppIconImage`, usados pelos Ajustes e pela loja, e a foto de perfil: `ProfileAvatar`, `ProfileSymbol`, `MemojiField` e os tipos testáveis `ProfilePhotoCapture` e `ProfilePhotoImage`), textos de exibição, `ProAccess` e `ShopAccess` (ambiente), `CashlyTips` (configuração do TipKit e eventos compartilhados; cada feature declara as suas `Tip`s), `IntentActions` e `CaptureActions` (lógica dos App Intents e da caixa de entrada de capturas), `CaptureNotifier` (notificação por captura, ações e contador do ícone) | Domain, DesignSystem, Resource |
 | `Feature*` | Uma área do app: model, telas e seções | Domain, DesignSystem, FeatureCore |
 | `FeatureSettings` | Ajustes do app (`SettingsModel`, `DataModel`, `AppInfo`), um por processo e não por janela; a página Sobre lê os números da Jornada pelo `CashlyGame` | Domain, Game, FeatureCore |
 | `AppShell` | `CashlyWindow`, `MainScreen`, `SectionStack`, `RouteScreen`, folha lateral (`routeInspector`), `CashlyServices` (banco e perfil sem janela), App Intents e entidades (`Intents/`, incluindo `CaptureTransactionIntent` para a automação do Wallet), indexação no Spotlight, `NotificationResponder` (ações das notificações, inclusive as de captura) e `DeepLinks` (`cashly://`, com `captures/<id>`) | todas as features |

@@ -4,15 +4,23 @@ import SwiftUI
 
 public struct UserEditorScreen: View {
     @Environment(UserEditorModel.self) private var model
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     public init() {}
 
     public var body: some View {
+        @Bindable var model = model
         List {
             UserPhotoHeader()
             UserNameSection()
-            AvatarSection()
+            PhotoStyleSection()
+            if model.showsMemoji { MemojiSection() }
+            if model.showsSymbols { PhotoSymbolSection() }
+            if model.showsColors {
+                ColorSection(hex: $model.photoColor)
+            }
         }
+        .animation(reduceMotion ? nil : .smooth, value: model.highlightedStyle)
         .fontDesign(.rounded)
         .readableWidth()
         .toolbar {
@@ -21,6 +29,9 @@ public struct UserEditorScreen: View {
             } remove: {
                 await model.remove()
             }
+        }
+        .sheet(isPresented: $model.isShowingMemojiGuide) {
+            MemojiGuideScreen().environment(model)
         }
         .editorLifecycle(model.status, selecting: model.userToSelect) { await model.load() }
     }

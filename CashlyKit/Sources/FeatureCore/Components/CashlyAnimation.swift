@@ -18,6 +18,7 @@ public enum CashlyAnimation: String, Sendable {
     case insights
     case journey
     case launch
+    case memoji
     case missions
     case month
     case paid

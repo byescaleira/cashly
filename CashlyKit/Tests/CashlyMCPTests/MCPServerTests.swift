@@ -20,7 +20,7 @@ private actor FakeImporter: TransactionImporting {
 }
 
 struct MCPServerTests {
-    private let owner = User(id: "owner", name: "Ana", photo: "1")
+    private let owner = User(id: "owner", name: "Ana")
 
     private func server(_ importer: FakeImporter = FakeImporter(outcome: .imported(1))) async throws
         -> MCPServer
