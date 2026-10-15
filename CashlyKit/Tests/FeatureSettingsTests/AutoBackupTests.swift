@@ -41,7 +41,27 @@ struct AutoBackupTests {
         #expect(files.first?.lastPathComponent == name)
         let saved = try CashlyBackup(data: Data(contentsOf: try #require(files.first)))
         #expect(saved.users.map(\.id) == ["owner"])
-        #expect(data.autoBackupFooter.contains("Last:"))
+        #expect(data.autoBackupFooter.hasPrefix("One copy a week"))
+        #expect(data.latestBackup == latest)
+    }
+
+    @Test func scheduleShowsLastAndNextCopy() async throws {
+        let data = try await model()
+        #expect(data.backupSchedule(now: .now) == nil)
+        await data.setAutoBackup(true)
+        let last = try #require(data.lastAutoBackup)
+        let week = DataModel.autoBackupInterval
+        let halfway = try #require(data.backupSchedule(now: last.addingTimeInterval(week / 2)))
+        #expect(abs(halfway.fraction - 0.5) < 0.001)
+        #expect(halfway.last == RelativeTime.day(last, now: last.addingTimeInterval(week / 2)))
+        #expect(halfway.next != "When Cashly next opens")
+        let late = try #require(data.backupSchedule(now: last.addingTimeInterval(week * 2)))
+        #expect(late.fraction == 1)
+        #expect(late.next == "When Cashly next opens")
+        data.resetAutoBackupSchedule()
+        #expect(
+            data.backupSchedule(now: .now)
+                == .init(last: "Not yet", next: "When Cashly next opens", fraction: 1))
     }
 
     @Test func spreadsheetExportUsesCSV() async throws {

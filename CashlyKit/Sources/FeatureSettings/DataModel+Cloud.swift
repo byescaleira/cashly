@@ -96,13 +96,12 @@ extension DataModel {
                 let data = try await Task.detached(priority: .userInitiated) {
                     try BackupFolder.read(saved.url)
                 }.value
-                pendingRestore = try CashlyBackup(data: data)
+                try review(data)
             } catch let error as CashlyError {
                 throw error
             } catch {
                 throw CashlyError.invalidInput(String(appLocalized: "Couldn't read the file."))
             }
-            backupStep = .review
             isRestoringBackup = true
         }
     }

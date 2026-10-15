@@ -14,18 +14,22 @@ public final class DataModel {
     public var message: String?
     public var isExporting = false
     public var isImporting = false
-    public var isConfirmingErase = false
     public var pendingRestore: CashlyBackup?
+    var pendingMerge: BackupMerge?
     public var isRestoringBackup = false
     public var backupStep = BackupStep.intro
+    public var isErasing = false
+    public var eraseStep = EraseStep.review
+    public internal(set) var exportedBeforeErase = false
+    var inventory: DataInventory?
     public internal(set) var place: BackupPlace
     public internal(set) var cloudState = CloudDriveState.checking
     public internal(set) var savedBackups: [SavedBackup] = []
     private(set) var document: BackupDocument?
     private(set) var exportType: UTType = .json
     private var skipped = 0
-    @ObservationIgnored private let backup: any BackupRepository
-    @ObservationIgnored private let intelligence: any IntelligenceService
+    @ObservationIgnored let backup: any BackupRepository
+    @ObservationIgnored let intelligence: any IntelligenceService
     @ObservationIgnored let defaults: UserDefaults
     @ObservationIgnored let folder: BackupFolder
     @ObservationIgnored let cloud: BackupCloud
@@ -58,12 +62,7 @@ public final class DataModel {
     }
 
     var autoBackupFooter: String {
-        let text =
-            String(appLocalized: "One copy a week, when you open the app.") + " " + placeDescription
-        guard autoBackup, let lastAutoBackup else { return text }
-        let date = lastAutoBackup.formatted(
-            Date.FormatStyle(date: .abbreviated, time: .shortened, locale: .app))
-        return text + " " + String(appLocalized: "Last: \(date).")
+        String(appLocalized: "One copy a week, when you open the app.") + " " + placeDescription
     }
 
     var isShowingMessage: Bool {
@@ -76,28 +75,42 @@ public final class DataModel {
         set { if !newValue { error = nil } }
     }
 
+    var isExportingFromPage: Bool {
+        get { isExporting && !isErasing }
+        set { isExporting = newValue }
+    }
+
+    var isExportingFromErase: Bool {
+        get { isExporting && isErasing }
+        set { isExporting = newValue }
+    }
+
     public enum BackupStep: Int, CaseIterable, Sendable {
         case intro, review, done
     }
 
-    func startBackupImport() {
-        pendingRestore = nil
-        backupStep = .intro
-        isRestoringBackup = true
+    public enum EraseStep: Int, CaseIterable, Sendable {
+        case review, confirm, done
     }
 
-    func description(of backup: CashlyBackup) -> String {
-        let counts = [
-            String(appLocalized: "\(backup.users.count) users"),
-            String(appLocalized: "\(backup.categories.count) categories"),
-            String(appLocalized: "\(backup.tags.count) tags"),
-            String(appLocalized: "\(backup.budgets.count) budgets"),
-            String(appLocalized: "\(backup.transactions.count) transactions"),
-        ]
-        return counts.formatted(.list(type: .and).locale(.app)) + ". "
-            + String(
-                appLocalized:
-                    "Records with the same identifier are replaced by the ones in the file.")
+    func load() async {
+        await loadBackups()
+        await refreshInventory()
+    }
+
+    func refreshInventory() async {
+        guard let export = try? await backup.export() else { return }
+        let measured = await Task.detached(priority: .utility) {
+            try? DataInventory.measuring(export.backup)
+        }.value
+        inventory = measured ?? inventory
+    }
+
+    func startBackupImport() {
+        pendingRestore = nil
+        pendingMerge = nil
+        backupStep = .intro
+        isRestoringBackup = true
     }
 
     func prepareExport(as type: UTType = .json) async {
@@ -156,6 +169,10 @@ public final class DataModel {
     func finishExport(_ result: Result<URL, any Error>) {
         document = nil
         guard case .success = result else { return }
+        if isErasing {
+            exportedBeforeErase = true
+            return
+        }
         let saved =
             exportType == .json
             ? String(appLocalized: "Backup saved.") : String(appLocalized: "Spreadsheet saved.")
@@ -167,8 +184,7 @@ public final class DataModel {
             let url = try result.get()
             let isScoped = url.startAccessingSecurityScopedResource()
             defer { if isScoped { url.stopAccessingSecurityScopedResource() } }
-            pendingRestore = try CashlyBackup(data: Data(contentsOf: url))
-            backupStep = .review
+            try review(Data(contentsOf: url))
         } catch {
             self.error =
                 error as? CashlyError
@@ -176,20 +192,19 @@ public final class DataModel {
         }
     }
 
+    func review(_ data: Data) throws {
+        let file = try CashlyBackup(data: data)
+        pendingRestore = file
+        pendingMerge = BackupMerge(file: file, bytes: data.count, current: inventory)
+        backupStep = .review
+    }
+
     func restore(_ file: CashlyBackup) async {
         await perform {
             try await backup.restore(file)
             backupStep = .done
         }
-    }
-
-    func eraseAll() async {
-        await perform {
-            for userID in try await backup.eraseAll() {
-                try? await intelligence.clean(userID: userID)
-            }
-            message = String(appLocalized: "All data was deleted.")
-        }
+        await refreshInventory()
     }
 
     enum Key {

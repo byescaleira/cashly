@@ -8,13 +8,14 @@ struct DeveloperSections: View {
     @Environment(SettingsModel.self) private var settings
 
     var body: some View {
-        FlagsSection()
+        DeveloperStatusSection()
         #if DEBUG
             DeveloperStoreSection()
         #endif
         if let developer = settings.developer {
             DeveloperToolsSections().environment(developer)
         }
+        FlagsSection()
         if let data = settings.data {
             DeveloperBackupSection().environment(data)
             EraseSection().environment(data)
@@ -23,15 +24,55 @@ struct DeveloperSections: View {
     }
 }
 
+private struct DeveloperStatusSection: View {
+    @Environment(SettingsModel.self) private var settings
+    @Environment(\.featureFlags) private var flags
+
+    var body: some View {
+        Section {
+            FlowLayout(spacing: .spaceS) {
+                Chip("Development Build", color: .warning, shape: .capsule)
+                if let flags {
+                    Chip(
+                        flags.overridesSummary,
+                        color: flags.overriddenCount == 0 ? .secondary : .warning, shape: .capsule)
+                }
+                DeveloperStoreChip()
+                Chip(
+                    settings.isSyncOn ? "Sync On" : "Sync Off",
+                    color: settings.isSyncOn ? .positive : .secondary, shape: .capsule)
+            }
+            .padding(.vertical, .space2XS)
+        } footer: {
+            Text("Everything on this page exists only in development builds.")
+        }
+    }
+}
+
+private struct DeveloperStoreChip: View {
+    #if DEBUG
+        @Environment(StoreModel.self) private var store
+
+        var body: some View {
+            if store.isSimulating {
+                Chip(store.simulationStatus, color: .warning, shape: .capsule)
+            } else {
+                Chip("Real StoreKit", color: .secondary, shape: .capsule)
+            }
+        }
+    #else
+        var body: some View { EmptyView() }
+    #endif
+}
+
 private struct DeveloperToolsSections: View {
     @Environment(DeveloperModel.self) private var developer
 
     var body: some View {
         @Bindable var developer = developer
         Group {
-            DeveloperDataSection()
-            DeveloperNotificationSection()
-            DeveloperPreferencesSection()
+            DeveloperSimulationSection()
+            DeveloperSampleSection()
         }
         .disabled(developer.isWorking)
         .alert("Developer", isPresented: $developer.isShowingMessage) {
@@ -42,20 +83,58 @@ private struct DeveloperToolsSections: View {
     }
 }
 
-private struct DeveloperDataSection: View {
+private struct DeveloperSimulationSection: View {
     @Environment(DeveloperModel.self) private var developer
-    @Environment(SessionModel.self) private var session: SessionModel?
     @Environment(CashlyNavigation.self) private var navigation: CashlyNavigation?
     @Environment(\.appTint) private var appTint
 
     var body: some View {
+        Section {
+            Button {
+                Task { await developer.sendTestNotification() }
+            } label: {
+                IconRow(
+                    "Send Test Notification", detail: "Arrives five seconds after you tap.",
+                    symbol: "bell.badge", color: appTint)
+            }
+            if let navigation {
+                Button {
+                    navigation.isOnboarding = true
+                } label: {
+                    IconRow(
+                        "Show Welcome", detail: "Opens the onboarding over the current data.",
+                        symbol: "hand.wave", color: .companion)
+                }
+            }
+            Button {
+                CashlyTips.showAllOnNextLaunch()
+            } label: {
+                IconRow(
+                    "Show All Tips on Next Launch", detail: "Resets every tip that was dismissed.",
+                    symbol: "lightbulb", color: appTint)
+            }
+        } header: {
+            Text("Simulations").sectionTitle()
+        }
+    }
+}
+
+private struct DeveloperSampleSection: View {
+    @Environment(DeveloperModel.self) private var developer
+    @Environment(SessionModel.self) private var session: SessionModel?
+    @Environment(\.appTint) private var appTint
+
+    var body: some View {
+        @Bindable var developer = developer
         Section {
             if developer.hasSample {
                 Button {
                     Task { await developer.loadSample() }
                 } label: {
                     IconRow(
-                        "Load Sample Data", symbol: "tray.and.arrow.down", color: appTint)
+                        "Load Sample Data",
+                        detail: "Adds five users with categories, tags, budgets and transactions.",
+                        symbol: "tray.and.arrow.down", color: appTint)
                 }
             }
             if let session {
@@ -65,54 +144,11 @@ private struct DeveloperDataSection: View {
                     IconRow("Reload Data", symbol: "arrow.clockwise", color: .companion)
                 }
             }
-            if let navigation {
-                Button {
-                    navigation.isOnboarding = true
-                } label: {
-                    IconRow("Show Welcome", symbol: "hand.wave", color: appTint)
-                }
-            }
-            if developer.isWorking { ProgressView() }
-        } header: {
-            Text("Data")
-        } footer: {
-            Text(
-                "Sample data adds five users, categories, tags, budgets and transactions to the current records."
-            )
-        }
-    }
-}
-
-private struct DeveloperNotificationSection: View {
-    @Environment(DeveloperModel.self) private var developer
-    @Environment(\.appTint) private var appTint
-
-    var body: some View {
-        Section {
-            Button {
-                Task { await developer.sendTestNotification() }
-            } label: {
-                IconRow("Send Test Notification", symbol: "bell.badge", color: appTint)
-            }
-        } header: {
-            Text("Notifications")
-        } footer: {
-            Text("The notification arrives five seconds after you tap.")
-        }
-    }
-}
-
-private struct DeveloperPreferencesSection: View {
-    @Environment(DeveloperModel.self) private var developer
-
-    var body: some View {
-        @Bindable var developer = developer
-        Section {
             Button(role: .destructive) {
                 developer.isConfirmingReset = true
             } label: {
                 IconRow(
-                    "Delete Preferences",
+                    "Delete Preferences", detail: "Saved keys: \(developer.preferenceKeys.count).",
                     symbol: "gearshape.arrow.trianglehead.2.clockwise.rotate.90",
                     color: .negative, titleColor: .negative)
             }
@@ -126,15 +162,9 @@ private struct DeveloperPreferencesSection: View {
                     "Appearance, currency, notifications, backup, features and MCP server go back to their defaults. Your data isn't deleted."
                 )
             }
-            Button {
-                CashlyTips.showAllOnNextLaunch()
-            } label: {
-                IconRow("Show All Tips on Next Launch", symbol: "lightbulb", color: .companion)
-            }
+            if developer.isWorking { ProgressView() }
         } header: {
-            Text("Preferences")
-        } footer: {
-            Text("Saved keys: \(developer.preferenceKeys.count).")
+            Text("Sample Data").sectionTitle()
         }
     }
 }
@@ -154,18 +184,17 @@ private struct DeveloperBackupSection: View {
                 data.resetAutoBackupSchedule()
             } label: {
                 IconRow(
-                    "Reset Automatic Backup Schedule", symbol: "calendar.badge.clock",
-                    color: .companion)
+                    "Reset Automatic Backup Schedule",
+                    detail: "The next copy is made the next time Cashly opens.",
+                    symbol: "calendar.badge.clock", color: .companion)
             }
             LabeledContent("Destination", value: data.placeTitle)
         } header: {
-            Text("Backup")
-        } footer: {
-            Text(data.autoBackupFooter)
+            Text("Backup").sectionTitle()
         }
         .disabled(data.isWorking)
         .dataAlerts()
-        .task { await data.loadBackups() }
+        .task { await data.load() }
     }
 }
 
@@ -181,9 +210,6 @@ private struct DeveloperInfoSection: View {
             }
             LabeledContent("iCloud Container", value: settings.cloudContainerName)
             LabeledContent("iCloud Account", value: settings.cloudAccount.title)
-            LabeledContent(
-                "Sync",
-                value: settings.isSyncOn ? String(appLocalized: "On") : String(appLocalized: "Off"))
             if let data = settings.data {
                 DeveloperPath("Backups on Device", path: data.localPath)
                 DeveloperPath(
@@ -191,7 +217,7 @@ private struct DeveloperInfoSection: View {
                     path: data.cloudPath ?? String(appLocalized: "Unavailable"))
             }
         } header: {
-            Text("App")
+            Text("App").sectionTitle()
         }
     }
 }
@@ -218,14 +244,9 @@ private struct DeveloperInfoSection: View {
                 Button("Reset Simulation", role: .destructive) { store.resetSimulation() }
                     .disabled(!store.isSimulating)
             } header: {
-                Text("Shop")
+                Text("Shop").sectionTitle()
             } footer: {
-                VStack(alignment: .leading, spacing: .spaceXS) {
-                    Text(verbatim: store.simulationStatus)
-                    Text(
-                        "The simulation only exists in development builds and never touches StoreKit."
-                    )
-                }
+                Text("The simulation only exists in development builds and never touches StoreKit.")
             }
         }
     }

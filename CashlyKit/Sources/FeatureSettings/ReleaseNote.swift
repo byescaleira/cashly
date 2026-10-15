@@ -1,37 +1,59 @@
 import CashlyDomain
+import FeatureCore
 
-struct ReleaseNote: Identifiable {
+struct ReleaseNote: Identifiable, Equatable {
     let symbol: String
+    let color: RetroColor
     let title: String
     let detail: String
 
-    var id: String { title }
+    var id: String { symbol }
+}
 
-    static var current: [ReleaseNote] {
+extension ReleaseNote {
+    static var firstVersion: [ReleaseNote] {
         [
             ReleaseNote(
-                symbol: "gearshape", title: String(appLocalized: "Settings"),
+                symbol: "chart.bar", color: .olive,
+                title: String(appLocalized: "Month at a Glance"),
                 detail: String(
-                    appLocalized: "Theme, icon and currency in one place, from your avatar menu.")),
+                    appLocalized: "Budgets with a pace bar that shows if spending is on track.")),
             ReleaseNote(
-                symbol: "externaldrive", title: String(appLocalized: "Backup and Spreadsheet"),
-                detail:
-                    String(
-                        appLocalized:
-                            "Export and import your data, create a spreadsheet of your transactions and turn on the weekly automatic backup."
-                    )
+                symbol: "plus.circle", color: .tangerine,
+                title: String(appLocalized: "Record in Seconds"),
+                detail: String(
+                    appLocalized:
+                        "From the app, Siri, Shortcuts, Control Center or the Action button.")),
+            ReleaseNote(
+                symbol: "wallet.pass", color: .denim, title: String(appLocalized: "Wallet Capture"),
+                detail: String(
+                    appLocalized:
+                        "An automation catches each card payment; you only pick the category.")),
+            ReleaseNote(
+                symbol: "person.2", color: .plum, title: String(appLocalized: "Split Expenses"),
+                detail: String(
+                    appLocalized: "Share a cost equally, by percentage or by a fixed amount.")),
+            ReleaseNote(
+                symbol: "trophy", color: .mustard, title: String(appLocalized: "Journey"),
+                detail: String(
+                    appLocalized: "Levels, streaks, missions and challenges for good money habits.")
             ),
             ReleaseNote(
-                symbol: "bell", title: String(appLocalized: "Reminders"),
-                detail: String(
-                    appLocalized:
-                        "Alerts on the day bills are due or money is expected, and at the start of each month."
-                )),
+                symbol: "square.grid.2x2", color: .sky, title: String(appLocalized: "Widgets"),
+                detail: String(appLocalized: "Your budgets on the Home Screen and Lock Screen.")),
             ReleaseNote(
-                symbol: "rectangle.split.2x1", title: String(appLocalized: "Column Layouts"),
+                symbol: "book", color: .avocado, title: String(appLocalized: "Guides"),
+                detail: String(
+                    appLocalized: "Fourteen short guides, from the first expense to backups.")),
+            ReleaseNote(
+                symbol: "externaldrive", color: .slate,
+                title: String(appLocalized: "Your Data, Your Way"),
                 detail: String(
                     appLocalized:
-                        "On iPad and Mac, Home and categories make use of the screen width.")),
+                        "iCloud sync, weekly backups and spreadsheets you can open anywhere.")),
+            ReleaseNote(
+                symbol: "globe", color: .teal, title: String(appLocalized: "Ten Languages"),
+                detail: String(appLocalized: "Change the app's language right in Settings.")),
         ]
     }
 }
