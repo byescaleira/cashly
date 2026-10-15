@@ -173,18 +173,17 @@ struct AchievementDetailTests {
         #expect(journey.isChoosingChallenge)
     }
 
-    @Test func importNeedsProBeforeOpeningTheGuide() async throws {
+    @Test func guidesGoToNavigationAndTheProActionOpensThePaywall() async throws {
         let (journey, _) = try await model()
         var presented = 0
         var guides: [Guide] = []
         let pro = ProAccess(entitlement: .none, isEnforced: true, present: { presented += 1 })
         journey.follow(.guide(.importSpreadsheet))
         journey.performPendingAction(pro: pro, open: { _ in }, guide: { guides.append($0) })
-        #expect(presented == 1)
-        #expect(guides.isEmpty)
-        journey.follow(.guide(.backups))
+        #expect(guides == [.importSpreadsheet])
+        journey.follow(.pro)
         journey.performPendingAction(pro: pro, open: { _ in }, guide: { guides.append($0) })
-        #expect(guides == [.backups])
+        #expect(presented == 1)
     }
 
     @Test func everyAchievementHasItsOwnTitleCriterionAndTip() {
