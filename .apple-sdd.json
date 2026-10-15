@@ -1,0 +1,29 @@
+{
+  "app": "Cashly",
+  "include": [
+    "^CashlyKit/Sources/",
+    "^Cashly/"
+  ],
+  "exclude": [
+    "/CashlyResource/",
+    "Package\\.swift$",
+    "/CashlyMock/",
+    "/CashlyPreview/"
+  ],
+  "catalogs": [
+    "Cashly/Cashly/Localizable.xcstrings"
+  ],
+  "swiftlintConfig": ".swiftlint.yml",
+  "allow": {
+    "literal-color": [
+      "/CashlyDesignSystem/"
+    ],
+    "print": [
+      "/CashlyAudit/"
+    ],
+    "foreign-localization": [
+      "/CashlyDomain/Localization/"
+    ]
+  },
+  "swiftlintResolver": "scripts/install-swiftlint.sh"
+}
