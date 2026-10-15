@@ -64,7 +64,7 @@ struct AboutModelTests {
         try await database.repositories(for: owner.id).budgets.save(
             Budget(
                 id: "october", money: Money(minorUnits: 50_000), category: market, month: month,
-                summary: ""))
+                summary: "October"))
         await about.load()
         let usage = try #require(about.usage)
         #expect(!about.isEmpty)

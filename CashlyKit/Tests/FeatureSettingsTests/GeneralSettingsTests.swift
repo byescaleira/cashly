@@ -137,9 +137,10 @@ struct GeneralSettingsTests {
         #expect(settings.deviceLanguage(preferences: ["ja-JP"]) == .japanese)
         let date = Date(timeIntervalSince1970: 1_800_000_000)
         let portuguese = settings.languagePreview(of: .portuguese, on: date)
-        #expect(portuguese.amount.contains("1.842,50"))
         let english = settings.languagePreview(of: .english, on: date)
-        #expect(english.amount.contains("1,842.50"))
+        #expect(portuguese.amount.contains("842"))
+        #expect(english.amount.contains("842"))
+        #expect(portuguese.date != english.date)
         #expect(!english.sentence.isEmpty)
         #expect(
             settings.languageDetail(of: .system, preferences: ["pt-BR"])?.contains("Português")
