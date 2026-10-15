@@ -19,7 +19,7 @@ struct ProfileStep: View {
                     }
                     .labelStyle(.iconOnly)
                     .buttonBorderShape(.circle)
-                    .buttonStyle(.borderedProminent)
+                    .prominentButton()
                 }
                 .sensoryFeedback(.selection, trigger: model.photo)
         } content: {

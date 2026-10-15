@@ -63,17 +63,6 @@ private struct AppIconChoice: View {
     }
 }
 
-private struct LockBadge: View {
-    var body: some View {
-        Image(systemName: "lock.fill")
-            .font(.caption2.weight(.bold))
-            .foregroundStyle(.white)
-            .padding(.spaceXS)
-            .background(.black.opacity(.opacityStrong), in: .circle)
-            .offset(x: .spaceXS, y: .spaceXS)
-    }
-}
-
 extension CGFloat {
     fileprivate static let appIconRing = CGFloat.badgeXL * 0.2237 + .spaceXS
 }

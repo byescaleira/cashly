@@ -150,6 +150,8 @@ let package = Package(
             ]),
         .testTarget(
             name: "FeatureCoreTests",
-            dependencies: ["CashlyDomain", "CashlyData", "CashlyDesignSystem", "FeatureCore"]),
+            dependencies: [
+                "CashlyDomain", "CashlyData", "CashlyDesignSystem", "CashlyResource", "FeatureCore",
+            ]),
     ]
 )

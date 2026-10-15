@@ -15,7 +15,7 @@ public struct CashlyDatabase: RepositoryProvider {
     public static func open(inMemory: Bool = false, cloudSync: Bool = true, storeURL: URL? = nil)
         throws -> CashlyDatabase
     {
-        let schema = Schema(versionedSchema: CashlySchemaV6.self)
+        let schema = Schema(versionedSchema: CashlySchemaV5.self)
         let database: ModelConfiguration.CloudKitDatabase =
             inMemory || !cloudSync ? .none : .private(cloudContainer)
         let configuration =

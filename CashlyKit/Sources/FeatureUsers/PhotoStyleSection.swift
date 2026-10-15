@@ -11,12 +11,12 @@ struct PhotoStyleSection: View {
                 ForEach(PhotoStyle.allCases) { PhotoStyleChoice(style: $0) }
             }
             .padding(.vertical, .spaceS)
-            .sensoryFeedback(.selection, trigger: model.highlightedStyle)
+            .sensoryFeedback(.selection, trigger: model.style)
         } header: {
             Text("Photo").sectionTitle()
         } footer: {
             Text(
-                "Initials follow the name. A symbol or a Memoji stays the same when the name changes."
+                "Initials follow the name. A symbol or an illustration stays the same when the name changes."
             )
         }
     }
@@ -28,7 +28,7 @@ private struct PhotoStyleChoice: View {
     let style: PhotoStyle
 
     var body: some View {
-        let isSelected = model.highlightedStyle == style
+        let isSelected = model.style == style
         Button {
             model.select(style)
         } label: {
@@ -47,7 +47,7 @@ private struct PhotoStyleChoice: View {
             .background(.subtleFill, in: .rect(cornerRadius: .radiusM))
             .overlay {
                 RoundedRectangle(cornerRadius: .radiusM, style: .continuous)
-                    .stroke(isSelected ? appTint : .clear, lineWidth: 2)
+                    .stroke(isSelected ? appTint : .clear, lineWidth: 3)
             }
             .contentShape(.rect)
         }

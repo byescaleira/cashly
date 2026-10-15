@@ -18,6 +18,12 @@ struct UserEditorTests {
         return editor
     }
 
+    private func illustration(in section: ProfileIllustration.Section) throws
+        -> ProfileIllustration
+    {
+        try #require(section.illustrations.first)
+    }
+
     @Test func newUserStartsWithInitialsInTheProfileColor() async throws {
         let users = try users()
         let editor = UserEditorModel(users: users)
@@ -61,46 +67,45 @@ struct UserEditorTests {
         #expect(!editor.showsSymbols)
     }
 
-    @Test func choosingMemojiOpensThePickerUntilSomethingArrives() async throws {
+    @Test func freeIllustrationIsChosenAndSaved() async throws {
         let editor = try await editor()
-        editor.select(.memoji)
-        #expect(editor.isPickingMemoji)
-        #expect(editor.showsMemoji)
-        #expect(editor.highlightedStyle == .memoji)
-        #expect(editor.style == .initials)
-        editor.capture(NSAttributedString(string: "abc"))
-        #expect(editor.isPickingMemoji)
-        #expect(PhotoStyle(editor.draft.photo) == .initials)
-    }
-
-    @Test func emojiFromTheKeyboardBecomesThePhoto() async throws {
-        let editor = try await editor()
-        editor.photoColor = "DDB040"
-        editor.select(.memoji)
-        editor.capture(NSAttributedString(string: "🌻"))
-        #expect(editor.draft.photo == .emoji("🌻", color: "DDB040"))
-        #expect(editor.style == .memoji)
-        #expect(!editor.isPickingMemoji)
-        #expect(editor.showsColors)
-        editor.select(.symbol)
-        editor.select(.memoji)
-        #expect(editor.draft.photo == .emoji("🌻", color: "DDB040"))
-        #expect(!editor.isPickingMemoji)
+        let cat = try illustration(in: .classics)
+        var opened: [ShopItem] = []
+        editor.choose(cat, in: ShopAccess(owned: []) { opened.append($0) })
+        #expect(opened.isEmpty)
+        #expect(editor.draft.photo == .illustration(cat.id))
+        #expect(editor.style == .illustration)
+        #expect(editor.isSelected(cat))
+        #expect(!editor.showsColors)
+        #expect(editor.photoCaption == PhotoStyle.illustration.title)
         await editor.save()
         #expect(editor.status.isSaved)
     }
 
-    @Test func savedMemojiHidesTheColors() async throws {
-        let users = try users()
-        try await users.save(User(id: "ana", name: "Ana Souza", photo: .memoji(Data([1, 2, 3]))))
-        let editor = UserEditorModel(draft: .edit(id: "ana"), users: users)
-        await editor.load()
-        #expect(editor.style == .memoji)
-        #expect(editor.hasMemoji)
-        #expect(!editor.showsColors)
-        #expect(editor.photoCaption == "Memoji")
-        editor.select(.memoji)
-        #expect(editor.isPickingMemoji)
+    @Test func lockedIllustrationOpensTheShopAndKeepsThePhoto() async throws {
+        let editor = try await editor()
+        let before = editor.draft.photo
+        let whale = try illustration(in: .ocean)
+        var opened: [ShopItem] = []
+        let shop = ShopAccess(owned: []) { opened.append($0) }
+        #expect(editor.access(to: .ocean, in: shop) == .locked(.avatarsOcean))
+        editor.choose(whale, in: shop)
+        #expect(opened == [.avatarsOcean])
+        #expect(editor.draft.photo == before)
+        editor.choose(whale, in: ShopAccess(owned: [.avatarsAll]) { opened.append($0) })
+        #expect(editor.draft.photo == .illustration(whale.id))
+        #expect(opened == [.avatarsOcean])
+    }
+
+    @Test func switchingStylesRemembersTheIllustration() async throws {
+        let editor = try await editor()
+        let capybara = try illustration(in: .brazil)
+        editor.choose(capybara, in: ShopAccess(owned: []) { _ in })
+        editor.select(.initials)
+        #expect(editor.draft.photo == .initials(color: editor.photoColor))
+        editor.select(.illustration)
+        #expect(editor.draft.photo == .illustration(capybara.id))
+        #expect(editor.illustrationSections == ProfileIllustration.Section.allCases)
     }
 
     @Test func shortNameCannotBeSaved() async throws {

@@ -4,7 +4,6 @@ public struct Avatar: View {
     public enum Content {
         case monogram(String)
         case symbol(String)
-        case emoji(String)
         case image(Image)
     }
 
@@ -40,16 +39,10 @@ public struct Avatar: View {
             Image(systemName: name)
                 .font(.system(size: size * 0.45, weight: .semibold))
                 .foregroundStyle(.white)
-        case .emoji(let emoji):
-            Text(verbatim: emoji)
-                .font(.system(size: size * 0.56))
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
         case .image(let image):
             image
                 .resizable()
-                .scaledToFit()
-                .padding(size * 0.06)
+                .scaledToFill()
         }
     }
 

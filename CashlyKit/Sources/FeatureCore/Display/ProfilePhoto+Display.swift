@@ -14,27 +14,27 @@ extension ProfilePhoto {
 
     public var tint: Color { Color(hex: color ?? Self.defaultColor) }
 
-    public func accessibilityLabel(initials: String) -> String {
-        switch self {
-        case .initials:
-            String(appLocalized: "Profile photo with the initials \(initials)")
-        case .symbol(let name, _):
-            String(appLocalized: "Profile photo with the symbol \(ProfileSymbol.name(for: name))")
-        case .emoji(let emoji, _):
-            String(appLocalized: "Profile photo with the emoji \(emoji)")
-        case .memoji:
-            String(appLocalized: "Profile photo with a Memoji")
-        }
+    public var illustration: ProfileIllustration? {
+        guard case .illustration(let id) = self else { return nil }
+        return ProfileIllustration(id: id)
     }
 
-    @MainActor public func avatarContent(initials: String) -> Avatar.Content {
-        switch self {
-        case .initials: initials.isEmpty ? .symbol("person.fill") : .monogram(initials)
-        case .symbol(let name, _): .symbol(name)
-        case .emoji(let emoji, _): .emoji(emoji)
-        case .memoji(let data):
-            ProfilePhotoImage.image(from: data).map { .image(Image(decorative: $0, scale: 1)) }
-                ?? .symbol("person.fill")
+    public func accessibilityLabel(initials: String) -> String {
+        if let illustration {
+            return String(appLocalized: "Profile photo with the illustration \(illustration.name)")
         }
+        if case .symbol(let name, _) = self {
+            return String(
+                appLocalized: "Profile photo with the symbol \(ProfileSymbol.name(for: name))")
+        }
+        return initials.isEmpty
+            ? String(appLocalized: "Profile photo")
+            : String(appLocalized: "Profile photo with the initials \(initials)")
+    }
+
+    public func avatarContent(initials: String) -> Avatar.Content {
+        if let illustration { return .image(illustration.image) }
+        if case .symbol(let name, _) = self { return .symbol(name) }
+        return initials.isEmpty ? .symbol("person.fill") : .monogram(initials)
     }
 }

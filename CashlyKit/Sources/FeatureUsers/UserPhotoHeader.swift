@@ -21,8 +21,7 @@ struct UserPhotoHeader: View {
                     .foregroundStyle(Color.primary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
-                    .contentTransition(.opacity)
-                Chip(model.photoCaption, color: model.draft.photo.tint, shape: .capsule)
+                Chip(model.photoCaption, color: model.captionTint, shape: .capsule)
                     .textCase(.uppercase)
                     .contentTransition(.opacity)
             }

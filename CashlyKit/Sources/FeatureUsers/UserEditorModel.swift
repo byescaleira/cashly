@@ -9,12 +9,10 @@ public final class UserEditorModel {
     public let status = EditorStatus()
     public internal(set) var style: PhotoStyle
     public var photoColor: String {
-        didSet { recolor() }
+        didSet { draft.photo = draft.photo.recolored(photoColor) }
     }
     public internal(set) var symbol = ProfileSymbol.default.rawValue
-    public internal(set) var memoji: ProfilePhoto?
-    public var isPickingMemoji = false
-    public var isShowingMemojiGuide = false
+    public internal(set) var illustration = ProfileIllustration.suggested?.id
     @ObservationIgnored private let users: any UserRepository
 
     public init(draft: UserDraft = .new(), users: any UserRepository) {
@@ -45,10 +43,5 @@ public final class UserEditorModel {
     public func remove() async {
         guard !draft.isNew else { return }
         await status.remove { try await users.delete(id: draft.id) }
-    }
-
-    private func recolor() {
-        draft.photo = draft.photo.recolored(photoColor)
-        memoji = memoji?.recolored(photoColor)
     }
 }

@@ -20,8 +20,15 @@ extension ShopItem {
         case .iconsAll: String(appLocalized: "All Icons")
         case .accentMetallic: String(appLocalized: "Metallic Colors")
         case .accentNeon: String(appLocalized: "Neon Colors")
+        case .avatarsOcean: String(appLocalized: "Ocean Avatars")
+        case .avatarsFarm: String(appLocalized: "Farm Avatars")
+        case .avatarsSavanna: String(appLocalized: "Savanna Avatars")
+        case .avatarsCold: String(appLocalized: "Cold Climate Avatars")
+        case .avatarsTiny: String(appLocalized: "Tiny Friends Avatars")
+        case .avatarsBirds: String(appLocalized: "Bird Avatars")
+        case .avatarsFantasy: String(appLocalized: "Fantasy Avatars")
+        case .avatarsAll: String(appLocalized: "All Avatars")
         case .avatarFrames: String(appLocalized: "Avatar Frames")
-        case .avatarPack: String(appLocalized: "Avatar Pack")
         case .celebrations: String(appLocalized: "Celebrations")
         case .sounds: String(appLocalized: "Sounds")
         case .freezes3: String(appLocalized: "3 Streak Freezes")
@@ -41,8 +48,12 @@ extension ShopItem {
         case .iconsAll: String(appLocalized: "Every icon pack, including the ones still to come.")
         case .accentMetallic: String(appLocalized: "Gold, silver, bronze and copper accent colors.")
         case .accentNeon: String(appLocalized: "Four neon accent colors.")
+        case .avatarsOcean, .avatarsFarm, .avatarsSavanna, .avatarsCold, .avatarsTiny,
+            .avatarsBirds, .avatarsFantasy:
+            String(appLocalized: "Illustrated animals for your profile photo.")
+        case .avatarsAll:
+            String(appLocalized: "Every avatar section, including the ones still to come.")
         case .avatarFrames: String(appLocalized: "Six frames for your avatar.")
-        case .avatarPack: String(appLocalized: "Twelve extra illustrated avatars.")
         case .celebrations: String(appLocalized: "Confetti, fireworks and coin rain.")
         case .sounds: String(appLocalized: "Sounds and haptics when you save and complete.")
         case .freezes3, .freezes10:
@@ -61,7 +72,10 @@ extension ShopItem {
             .iconsCarnival, .iconsJunina, .iconsHalloween, .iconsChristmas:
             String(appLocalized: "A new face for Cashly on your Home Screen")
         case .accentMetallic, .accentNeon: String(appLocalized: "Your accent, everywhere in Cashly")
-        case .avatarFrames, .avatarPack: String(appLocalized: "Your profile, your way")
+        case .avatarsAll: String(appLocalized: "Every avatar, now and later")
+        case .avatarsOcean, .avatarsFarm, .avatarsSavanna, .avatarsCold, .avatarsTiny,
+            .avatarsBirds, .avatarsFantasy, .avatarFrames:
+            String(appLocalized: "Your profile, your way")
         case .celebrations, .sounds: String(appLocalized: "More delight when you save")
         case .freezes3, .freezes10: String(appLocalized: "Miss a day without losing your streak")
         case .streakRestore: String(appLocalized: "Get a lost streak back")
@@ -73,6 +87,7 @@ extension ShopItem {
         switch group {
         case .plans: []
         case .icons: iconBenefits
+        case .avatars: avatarBenefits
         case .personalization: personalizationBenefits
         case .helps: helpBenefits
         }
@@ -88,6 +103,22 @@ extension ShopItem {
             ShopBenefit(
                 symbol: "gearshape.fill", color: .retroDenim,
                 title: String(appLocalized: "Switch anytime in Settings › Icon")),
+            ShopBenefit(
+                symbol: "infinity", color: .retroOlive,
+                title: String(appLocalized: "Yours for good, on all your devices")),
+        ]
+    }
+
+    private var avatarBenefits: [ShopBenefit] {
+        [
+            ShopBenefit(
+                symbol: "pawprint.fill", color: .retroBrown,
+                title: self == .avatarsAll
+                    ? String(appLocalized: "Every section in the shop, plus future ones")
+                    : String(appLocalized: "A whole section of illustrated animals")),
+            ShopBenefit(
+                symbol: "person.crop.circle.fill", color: .retroOrange,
+                title: String(appLocalized: "Pick one in Edit User › Illustration")),
             ShopBenefit(
                 symbol: "infinity", color: .retroOlive,
                 title: String(appLocalized: "Yours for good, on all your devices")),
@@ -139,6 +170,7 @@ extension ShopItem {
         switch group {
         case .plans: "crown.fill"
         case .icons: "app.gift.fill"
+        case .avatars: "pawprint.fill"
         case .personalization: "paintpalette.fill"
         case .helps: helpSymbol
         }
@@ -156,6 +188,7 @@ extension ShopItem {
         switch group {
         case .plans: .retroMustard
         case .icons: .retroOrange
+        case .avatars: .retroBrown
         case .personalization: .retroPlum
         case .helps: .retroTeal
         }
@@ -175,6 +208,7 @@ extension ShopItem.Group {
         switch self {
         case .plans: String(appLocalized: "Cashly Pro")
         case .icons: String(appLocalized: "App Icons")
+        case .avatars: String(appLocalized: "Avatars")
         case .personalization: String(appLocalized: "Personalization")
         case .helps: String(appLocalized: "Journey Helps")
         }
@@ -184,6 +218,7 @@ extension ShopItem.Group {
         switch self {
         case .plans: .pro
         case .icons: .shopIcons
+        case .avatars: .avatars
         case .personalization: .shopColors
         case .helps: .shopHelps
         }

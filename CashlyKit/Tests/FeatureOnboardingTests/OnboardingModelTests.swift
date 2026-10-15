@@ -33,6 +33,7 @@ struct OnboardingModelTests {
         let (model, _, _) = try await onboarding()
         model.name = "ana souza"
         #expect(model.initials == "AS")
+        #expect(model.photo == .suggested(for: model.userID))
         let before = model.photo
         model.changeColor()
         #expect(model.photo != before)
@@ -51,6 +52,7 @@ struct OnboardingModelTests {
         let user = try #require(session.user)
         #expect(user.name == "Ana")
         #expect(user.photo == model.photo)
+        #expect(user.id == model.userID)
         let categories = try await database.repositories(for: user.id).dashboard.snapshot(
             month: nil
         ).categories

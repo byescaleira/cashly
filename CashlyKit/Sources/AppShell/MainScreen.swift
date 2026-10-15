@@ -51,7 +51,10 @@ public struct MainScreen: View {
         .sheet(item: $navigation.guide) { GuideScreen($0) }
         .sheet(item: $navigation.shopItem) { ShopItemScreen(item: $0) }
         .environment(
-            \.shop, ShopAccess(owned: store.owned) { navigation.shopItem = $0 }
+            \.shop,
+            ShopAccess(
+                owned: store.owned, price: { store.price(for: $0) },
+                open: { navigation.shopItem = $0 })
         )
         .modifier(MCPImportPresenter())
         .environment(\.showGuide, ShowGuideAction { navigation.guide = $0 })

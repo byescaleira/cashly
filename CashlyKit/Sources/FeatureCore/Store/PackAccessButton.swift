@@ -1,13 +1,16 @@
 import CashlyDesignSystem
-import FeatureCore
-import FeatureStore
+import CashlyDomain
 import SwiftUI
 
-struct PackAccessButton: View {
+public struct PackAccessButton: View {
     @Environment(\.shop) private var shop
-    let access: PackAccess
+    private let access: PackAccess
 
-    var body: some View {
+    public init(access: PackAccess) {
+        self.access = access
+    }
+
+    public var body: some View {
         if let item = access.lockedItem {
             Button {
                 shop.open(item)
@@ -21,14 +24,17 @@ struct PackAccessButton: View {
     }
 }
 
-struct PackAccessChip: View {
-    @Environment(SettingsModel.self) private var settings
-    @Environment(StoreModel.self) private var store
+public struct PackAccessChip: View {
+    @Environment(\.shop) private var shop
     @Environment(\.appTint) private var appTint
-    let access: PackAccess
+    private let access: PackAccess
 
-    var body: some View {
-        if let label = settings.accessLabel(access, price: access.lockedItem.flatMap(store.price)) {
+    public init(access: PackAccess) {
+        self.access = access
+    }
+
+    public var body: some View {
+        if let label = access.label(price: access.lockedItem.flatMap(shop.price)) {
             HStack(spacing: .spaceXS) {
                 if access.lockedItem != nil {
                     Image(systemName: "lock")

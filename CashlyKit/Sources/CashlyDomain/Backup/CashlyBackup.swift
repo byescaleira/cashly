@@ -2,7 +2,7 @@ import Foundation
 
 public struct CashlyBackup: Codable, Equatable, Sendable {
     public static let format = "cashly-backup"
-    public static let version = 2
+    public static let version = 1
 
     public var format: String
     public var version: Int
@@ -18,7 +18,6 @@ public struct CashlyBackup: Codable, Equatable, Sendable {
         public var id: String
         public var name: String
         public var photo: String
-        public var photoData: Data?
     }
 
     public struct LabelRecord: Codable, Equatable, Sendable {

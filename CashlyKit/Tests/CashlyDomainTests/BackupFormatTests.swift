@@ -48,18 +48,17 @@ struct BackupFormatTests {
         }
     }
 
-    @Test func memojiTravelsInsideTheBackup() throws {
-        let image = Data([0x89, 0x50, 0x4E, 0x47])
-        let ana = User(id: "ana", name: "Ana", photo: .memoji(image))
-        let bia = User(id: "bia", name: "Bia", photo: .emoji("🌻", color: "DDB040"))
+    @Test func profilePhotosTravelInsideTheBackup() throws {
+        let ana = User(id: "ana", name: "Ana", photo: .illustration("brazil-01"))
+        let bia = User(id: "bia", name: "Bia", photo: .symbol("cat.fill", color: "B23A48"))
         let backup = CashlyBackup(
             users: [ana, bia], categories: [], tags: [], budgets: [], transactions: [])
         let decoded = try CashlyBackup(data: backup.encoded())
-        #expect(decoded.users.first { $0.id == "ana" }?.photoData == image)
+        #expect(decoded.users.first { $0.id == "ana" }?.photo == "illustration:brazil-01")
         #expect(try decoded.entities().users == [ana, bia])
     }
 
-    @Test func firstVersionBackupsStillOpenWithInitials() throws {
+    @Test func oldAvatarNumbersOpenWithInitials() throws {
         let json = """
             {"format":"cashly-backup","version":1,"currency":"BRL",\
             "exportedAt":"2026-10-01T12:00:00Z",\

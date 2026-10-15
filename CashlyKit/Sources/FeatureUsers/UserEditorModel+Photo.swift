@@ -11,67 +11,31 @@ extension UserEditorModel {
         return name.isEmpty ? String(appLocalized: "New Profile") : name
     }
 
-    public var photoCaption: String {
-        switch draft.photo {
-        case .initials: String(appLocalized: "Initials")
-        case .symbol(let name, _): ProfileSymbol.name(for: name)
-        case .emoji: String(appLocalized: "Emoji")
-        case .memoji: String(appLocalized: "Memoji")
-        }
-    }
+    public var photoCaption: String { PhotoStyle(draft.photo).title }
 
-    public var memojiFooter: String {
-        usesCharacterViewer
-            ? String(
-                appLocalized:
-                    "Click the field to open the Character Viewer and pick a Memoji sticker. A regular emoji works too."
-            )
-            : String(
-                appLocalized:
-                    "Your Memoji stickers are on the emoji keyboard: tap the field and swipe to the stickers. A regular emoji works too."
-            )
+    public var captionTint: Color {
+        draft.photo.illustration.map { Color(hex: $0.background) } ?? draft.photo.tint
     }
-
-    private var usesCharacterViewer: Bool {
-        #if os(macOS)
-            true
-        #else
-            false
-        #endif
-    }
-
-    public var messagesURL: URL? { URL(string: "sms:") }
 
     public var tint: Color { Color(hex: photoColor) }
-
-    public var highlightedStyle: PhotoStyle { isPickingMemoji ? .memoji : style }
-    public var showsColors: Bool { style != .memoji || memoji?.color != nil }
-    public var showsSymbols: Bool { style == .symbol && !isPickingMemoji }
-    public var showsMemoji: Bool { style == .memoji || isPickingMemoji }
-    public var hasMemoji: Bool { memoji != nil }
+    public var showsColors: Bool { style != .illustration }
+    public var showsSymbols: Bool { style == .symbol }
+    public var showsIllustrations: Bool { style == .illustration }
+    public var illustrationSections: [ProfileIllustration.Section] {
+        ProfileIllustration.Section.allCases.filter { !$0.illustrations.isEmpty }
+    }
 
     public func preview(for style: PhotoStyle) -> ProfilePhoto {
         switch style {
         case .initials: .initials(color: photoColor)
         case .symbol: .symbol(symbol, color: photoColor)
-        case .memoji: memoji ?? .symbol("face.smiling", color: photoColor)
+        case .illustration: illustration.map(ProfilePhoto.illustration) ?? .default
         }
     }
 
     public func select(_ style: PhotoStyle) {
-        switch style {
-        case .initials, .symbol:
-            isPickingMemoji = false
-            self.style = style
-            draft.photo = preview(for: style)
-        case .memoji:
-            if let memoji, self.style != .memoji {
-                self.style = .memoji
-                draft.photo = memoji
-            } else {
-                isPickingMemoji = true
-            }
-        }
+        self.style = style
+        draft.photo = preview(for: style)
     }
 
     public func select(_ symbol: ProfileSymbol) {
@@ -83,29 +47,28 @@ extension UserEditorModel {
         style == .symbol && self.symbol == symbol.rawValue
     }
 
-    public func pickMemoji() {
-        isPickingMemoji = true
+    public func isSelected(_ illustration: ProfileIllustration) -> Bool {
+        draft.photo == .illustration(illustration.id)
     }
 
-    public func capture(_ text: NSAttributedString) {
-        do {
-            guard let photo = try ProfilePhotoCapture.photo(from: text, color: photoColor) else {
-                return
-            }
-            memoji = photo
-            style = .memoji
-            draft.photo = photo
-            isPickingMemoji = false
-        } catch {
-            status.error = error as? CashlyError ?? .onSave
+    public func access(to section: ProfileIllustration.Section, in shop: ShopAccess) -> PackAccess {
+        shop.access(to: section.shopItem)
+    }
+
+    public func choose(_ illustration: ProfileIllustration, in shop: ShopAccess) {
+        if let item = shop.access(to: illustration.shopItem).lockedItem {
+            shop.open(item)
+            return
         }
+        self.illustration = illustration.id
+        select(.illustration)
     }
 
     func adopt(_ photo: ProfilePhoto) {
         style = PhotoStyle(photo)
         switch photo {
         case .symbol(let name, _): symbol = name
-        case .emoji, .memoji: memoji = photo
+        case .illustration(let id): illustration = id
         case .initials: break
         }
         if let color = photo.color { photoColor = color }

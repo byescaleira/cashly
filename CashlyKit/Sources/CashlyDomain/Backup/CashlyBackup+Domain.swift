@@ -10,7 +10,7 @@ extension CashlyBackup {
         currency = Money.currencyCode
         self.exportedAt = exportedAt
         self.users = users.map {
-            UserRecord(id: $0.id, name: $0.name, photo: $0.photo.encoded, photoData: $0.photo.data)
+            UserRecord(id: $0.id, name: $0.name, photo: $0.photo.encoded)
         }
         self.categories = categories.map {
             LabelRecord(
@@ -33,7 +33,7 @@ extension CashlyBackup {
             users.map {
                 User(
                     id: $0.id, name: $0.name,
-                    photo: ProfilePhoto(encoded: $0.photo, data: $0.photoData))
+                    photo: ProfilePhoto(encoded: $0.photo))
             })
         let categories = try index(
             categories.map {

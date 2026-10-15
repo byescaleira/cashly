@@ -14,13 +14,14 @@ public struct UserEditorScreen: View {
             UserPhotoHeader()
             UserNameSection()
             PhotoStyleSection()
-            if model.showsMemoji { MemojiSection() }
             if model.showsSymbols { PhotoSymbolSection() }
-            if model.showsColors {
-                ColorSection(hex: $model.photoColor)
+            if model.showsColors { ColorSection(hex: $model.photoColor) }
+            if model.showsIllustrations {
+                ForEach(model.illustrationSections) { IllustrationSection(section: $0) }
             }
         }
-        .animation(reduceMotion ? nil : .smooth, value: model.highlightedStyle)
+        .animation(reduceMotion ? nil : .smooth, value: model.style)
+        .sensoryFeedback(.selection, trigger: model.illustration)
         .fontDesign(.rounded)
         .readableWidth()
         .toolbar {
@@ -29,9 +30,6 @@ public struct UserEditorScreen: View {
             } remove: {
                 await model.remove()
             }
-        }
-        .sheet(isPresented: $model.isShowingMemojiGuide) {
-            MemojiGuideScreen().environment(model)
         }
         .editorLifecycle(model.status, selecting: model.userToSelect) { await model.load() }
     }

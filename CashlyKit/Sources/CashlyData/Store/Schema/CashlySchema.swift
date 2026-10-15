@@ -1,8 +1,8 @@
 import Foundation
 import SwiftData
 
-public enum CashlySchemaV6: VersionedSchema {
-    public static var versionIdentifier: Schema.Version { .init(6, 0, 0) }
+public enum CashlySchemaV5: VersionedSchema {
+    public static var versionIdentifier: Schema.Version { .init(5, 0, 0) }
     public static var models: [any PersistentModel.Type] {
         [
             UserEntity.self, CategoryEntity.self, BudgetEntity.self, TagEntity.self,
@@ -16,7 +16,7 @@ public enum CashlyMigrationPlan: SchemaMigrationPlan {
     public static var schemas: [any VersionedSchema.Type] {
         [
             CashlySchemaV1.self, CashlySchemaV2.self, CashlySchemaV3.self, CashlySchemaV4.self,
-            CashlySchemaV5.self, CashlySchemaV6.self,
+            CashlySchemaV5.self,
         ]
     }
     public static var stages: [MigrationStage] {
@@ -25,7 +25,6 @@ public enum CashlyMigrationPlan: SchemaMigrationPlan {
             .lightweight(fromVersion: CashlySchemaV2.self, toVersion: CashlySchemaV3.self),
             .lightweight(fromVersion: CashlySchemaV3.self, toVersion: CashlySchemaV4.self),
             .lightweight(fromVersion: CashlySchemaV4.self, toVersion: CashlySchemaV5.self),
-            .lightweight(fromVersion: CashlySchemaV5.self, toVersion: CashlySchemaV6.self),
         ]
     }
 }

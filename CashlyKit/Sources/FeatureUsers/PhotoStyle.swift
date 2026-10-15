@@ -1,7 +1,7 @@
 import CashlyDomain
 
 public enum PhotoStyle: CaseIterable, Identifiable, Sendable {
-    case initials, symbol, memoji
+    case initials, symbol, illustration
 
     public var id: Self { self }
 
@@ -9,7 +9,7 @@ public enum PhotoStyle: CaseIterable, Identifiable, Sendable {
         switch self {
         case .initials: String(appLocalized: "Initials")
         case .symbol: String(appLocalized: "Symbol")
-        case .memoji: String(appLocalized: "Memoji")
+        case .illustration: String(appLocalized: "Illustration")
         }
     }
 
@@ -17,7 +17,7 @@ public enum PhotoStyle: CaseIterable, Identifiable, Sendable {
         switch photo {
         case .initials: self = .initials
         case .symbol: self = .symbol
-        case .emoji, .memoji: self = .memoji
+        case .illustration: self = .illustration
         }
     }
 }

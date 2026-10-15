@@ -4,6 +4,7 @@ import Lottie
 import SwiftUI
 
 public enum CashlyAnimation: String, Sendable {
+    case avatars
     case backup
     case bills
     case budget
@@ -18,7 +19,6 @@ public enum CashlyAnimation: String, Sendable {
     case insights
     case journey
     case launch
-    case memoji
     case missions
     case month
     case paid

@@ -55,14 +55,11 @@ extension CashlyStore {
         let entity = previous ?? UserEntity(id: id, name: name, photo: photo.encoded)
         entity.name = name
         entity.photo = photo.encoded
-        if entity.photoData != photo.data { entity.photoData = photo.data }
         modelContext.insert(entity)
     }
 
     static func user(_ entity: UserEntity) -> User {
-        User(
-            id: entity.id, name: entity.name,
-            photo: ProfilePhoto(encoded: entity.photo, data: entity.photoData))
+        User(id: entity.id, name: entity.name, photo: ProfilePhoto(encoded: entity.photo))
     }
 
 }

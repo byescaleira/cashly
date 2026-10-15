@@ -19,6 +19,7 @@ public struct UserMenu: View {
                             Text(user.name.capitalized)
                         } icon: {
                             ProfileAvatar.image(for: user, size: .badgeS, scale: displayScale)
+                                .renderingMode(.original)
                         }
                         .tag(Optional(user))
                     }

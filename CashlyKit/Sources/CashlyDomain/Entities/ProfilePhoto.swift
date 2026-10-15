@@ -3,22 +3,19 @@ import Foundation
 public enum ProfilePhoto: Hashable, Sendable {
     case initials(color: String)
     case symbol(String, color: String)
-    case emoji(String, color: String)
-    case memoji(Data)
+    case illustration(String)
 
     public static let defaultColor = "C2602A"
-    public static let maximumImageBytes = 1_000_000
     public static let `default` = ProfilePhoto.initials(color: defaultColor)
 
-    public init(encoded: String, data: Data? = nil) {
+    public init(encoded: String) {
         let parts = encoded.split(separator: ":", maxSplits: 2, omittingEmptySubsequences: false)
             .map(String.init)
         let photo: ProfilePhoto? =
             switch (parts.first, parts.count) {
             case ("initials", 2): .initials(color: parts[1])
             case ("symbol", 3): .symbol(parts[2], color: parts[1])
-            case ("emoji", 3): .emoji(parts[2], color: parts[1])
-            case ("memoji", 1): data.map(ProfilePhoto.memoji)
+            case ("illustration", 2): .illustration(parts[1])
             default: nil
             }
         self = photo.flatMap { $0.isValid ? $0 : nil } ?? .default
@@ -28,36 +25,22 @@ public enum ProfilePhoto: Hashable, Sendable {
         switch self {
         case .initials(let color): "initials:\(color)"
         case .symbol(let name, let color): "symbol:\(color):\(name)"
-        case .emoji(let emoji, let color): "emoji:\(color):\(emoji)"
-        case .memoji: "memoji"
+        case .illustration(let id): "illustration:\(id)"
         }
-    }
-
-    public var data: Data? {
-        guard case .memoji(let data) = self else { return nil }
-        return data
     }
 
     public var color: String? {
         switch self {
-        case .initials(let color), .symbol(_, let color), .emoji(_, let color): color
-        case .memoji: nil
+        case .initials(let color), .symbol(_, let color): color
+        case .illustration: nil
         }
     }
 
     public var isValid: Bool {
         switch self {
-        case .initials(let color):
-            Self.isColor(color)
-        case .symbol(let name, let color):
-            Self.isColor(color) && Self.isSymbolName(name)
-        case .emoji(let emoji, let color):
-            Self.isColor(color) && emoji.count == 1
-                && !emoji.unicodeScalars.contains {
-                    $0.properties.isWhitespace || $0.properties.generalCategory == .control
-                }
-        case .memoji(let data):
-            !data.isEmpty && data.count <= Self.maximumImageBytes
+        case .initials(let color): Self.isColor(color)
+        case .symbol(let name, let color): Self.isColor(color) && Self.isSymbolName(name)
+        case .illustration(let id): Self.isIllustrationID(id)
         }
     }
 
@@ -65,8 +48,7 @@ public enum ProfilePhoto: Hashable, Sendable {
         switch self {
         case .initials: .initials(color: color)
         case .symbol(let name, _): .symbol(name, color: color)
-        case .emoji(let emoji, _): .emoji(emoji, color: color)
-        case .memoji: self
+        case .illustration: self
         }
     }
 
@@ -77,5 +59,14 @@ public enum ProfilePhoto: Hashable, Sendable {
     private static func isSymbolName(_ value: String) -> Bool {
         !value.isEmpty && value.count <= 64
             && value.allSatisfy { $0 == "." || ($0.isASCII && ($0.isLowercase || $0.isNumber)) }
+    }
+
+    private static func isIllustrationID(_ value: String) -> Bool {
+        let parts = value.split(separator: "-", omittingEmptySubsequences: false)
+        guard parts.count == 2, let section = parts.first, let number = parts.last else {
+            return false
+        }
+        return !section.isEmpty && section.allSatisfy { $0.isASCII && $0.isLowercase }
+            && number.count == 2 && number.allSatisfy { $0.isASCII && $0.isNumber }
     }
 }
