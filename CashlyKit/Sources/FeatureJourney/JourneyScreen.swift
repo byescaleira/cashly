@@ -25,6 +25,10 @@ public struct JourneyScreen: View {
         .fontDesign(.rounded)
         .toolbar {
             ToolbarItem(placement: .leading) { UserMenu() }
+            ToolbarItem(placement: .primaryAction) {
+                Button("Shop", systemImage: "bag") { open(.shop, in: section) }
+                    .tint(Color.primary)
+            }
         }
         .navigationTitle("Journey")
         .task(id: session.loadKey) { await journey.load() }
@@ -35,7 +39,9 @@ public struct JourneyScreen: View {
         .sheet(item: $journey.selected, onDismiss: followAchievement) {
             AchievementDetailScreen(state: $0)
         }
-        .sheet(item: $journey.celebration) { CelebrationScreen(celebration: $0) }
+        .sheet(item: $journey.celebration, onDismiss: followAchievement) {
+            CelebrationScreen(celebration: $0)
+        }
         .errorAlert($journey.error)
     }
 

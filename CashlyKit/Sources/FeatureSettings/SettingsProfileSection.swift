@@ -15,12 +15,13 @@ struct SettingsProfileSection: View {
                 } else {
                     ProOfferRow()
                     SettingsRow(
-                        "Plan and Purchases", symbol: "bag", color: .companion,
+                        "Plan and Purchases", symbol: "creditcard", color: .companion,
                         value: store.entitlement.title
                     ) {
                         SettingsPage("Cashly Pro") { ProSection() }
                     }
                 }
+                SettingsEntryRow(entry: .shop)
             }
         } header: {
             SettingsProfileHeader()

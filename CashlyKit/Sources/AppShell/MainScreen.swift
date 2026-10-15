@@ -73,6 +73,7 @@ public struct MainScreen: View {
                 navigation.open(route, in: section, beside: horizontalSizeClass == .regular)
             }
         )
+        .environment(\.routeView, RouteViewBuilder { RouteScreen(route: $0) })
         .environment(\.user, session.user)
         .environment(\.isLoading, finance.isLoading)
         .task { await session.start() }

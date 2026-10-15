@@ -11,7 +11,8 @@ struct SettingsEntryRow: View {
 
     var body: some View {
         SettingsRow(
-            verbatim: entry.title, symbol: entry.symbol, color: entry.color.color, value: value
+            verbatim: entry.title, symbol: entry.symbol, color: entry.color.color, value: value,
+            detail: entry.detail
         ) {
             SettingsDestination(entry: entry)
         }
@@ -29,7 +30,7 @@ struct SettingsEntryRow: View {
         case .cloud: settings.cloudValue
         case .about: settings.info.version
         case .data: settings.data?.overviewValue(now: .now)
-        case .guides: nil
+        case .guides, .shop: nil
         }
     }
 }
@@ -54,6 +55,7 @@ private struct SettingsDestination: View {
             }
         case .guides: GuidesHubScreen()
         case .about: AboutScreen()
+        case .shop: RouteView(.shop)
         }
     }
 }

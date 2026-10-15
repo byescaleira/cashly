@@ -13,6 +13,7 @@ struct AppIconScreen: View {
             ForEach(collections.prefix(1), id: \.self) { IconCollectionSection(collection: $0) }
             if settings.offersAllIcons(in: shop) { AllIconsSection() }
             ForEach(collections.dropFirst(), id: \.self) { IconCollectionSection(collection: $0) }
+            ShopLinkSection()
         }
     }
 }

@@ -93,6 +93,12 @@ extension JourneyModel {
         selected = nil
     }
 
+    var offersShopAfterCelebration: Bool { celebrations.count == 1 }
+
+    func browseShopAfterCelebration() {
+        pendingAction = .open(.shop)
+    }
+
     public func performPendingAction(
         pro: ProAccess, open: (Route) -> Void, guide: (Guide) -> Void
     ) {

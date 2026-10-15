@@ -1103,6 +1103,64 @@
         }
       }
     },
+    "From the Shop" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aus dem Shop"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De la tienda"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De la boutique"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dal negozio"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ショップから"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "상점에서"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Da loja"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Из магазина"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来自商店"
+          }
+        }
+      }
+    },
     "Get a score for your month" : {
       "localizations" : {
         "de" : {
@@ -1621,6 +1679,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "累计使用 Cashly Pro 两年。"
+          }
+        }
+      }
+    },
+    "Icons, colors, avatars and Journey helps." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Symbole, Farben, Avatare und Reise-Hilfen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iconos, colores, avatares y ayudas de la Trayectoria."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icônes, couleurs, avatars et aides du Parcours."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icone, colori, avatar e aiuti del Percorso."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アイコン、カラー、アバター、ジャーニーのヘルプ。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "아이콘, 색상, 아바타, 여정 도우미."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ícones, cores, avatares e ajudas da Jornada."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Иконки, цвета, аватары и помощь в «Пути»."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "图标、颜色、头像和旅程助力。"
           }
         }
       }
@@ -2897,6 +3013,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "智能建议"
+          }
+        }
+      }
+    },
+    "store, buy, purchases, icons, colors, avatars, helps" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Store, kaufen, Käufe, Symbole, Farben, Avatare, Hilfen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tienda, comprar, compras, iconos, colores, avatares, ayudas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "boutique, acheter, achats, icônes, couleurs, avatars, aides"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "negozio, acquistare, acquisti, icone, colori, avatar, aiuti"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ストア、購入、購入済み、アイコン、カラー、アバター、ヘルプ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "스토어, 구매, 구입, 아이콘, 색상, 아바타, 도우미"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "loja, comprar, compras, ícones, cores, avatares, ajudas"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "магазин, купить, покупки, иконки, цвета, аватары, помощь"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "商店、购买、已购项目、图标、颜色、头像、助力"
           }
         }
       }

@@ -11,7 +11,14 @@ struct CelebrationScreen: View {
     let celebration: Celebration
 
     var body: some View {
-        GuideSheet(index: 0, count: 1, primary: GuideAction("Continue") { dismiss() }) {
+        GuideSheet(
+            index: 0, count: 1, primary: GuideAction("Continue") { dismiss() },
+            secondary: journey.offersShopAfterCelebration
+                ? GuideAction("See the Shop") {
+                    journey.browseShopAfterCelebration()
+                    dismiss()
+                } : nil
+        ) {
             GuidePage(verbatim: celebration.title, message: celebration.detail) {
                 CelebrationArtwork(celebration: celebration)
             } content: {

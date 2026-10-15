@@ -1,3 +1,5 @@
+import Foundation
+
 public enum ShopItem: String, CaseIterable, Identifiable, Sendable {
     case proMonthly = "cashly.pro.monthly"
     case proYearly = "cashly.pro.yearly"
@@ -110,5 +112,39 @@ public enum ShopCatalog {
     public static func owns(_ item: ShopItem, in owned: Set<ShopItem>) -> Bool {
         owned.contains(item) || (item.group == .icons && owned.contains(.iconsAll))
             || (item.group == .avatars && owned.contains(.avatarsAll))
+    }
+
+    public static func spotlight(
+        on date: Date, owned: Set<ShopItem>, calendar: Calendar = .current
+    ) -> ShopItem? {
+        if let featured = ShopItem.featured(on: date, calendar: calendar),
+            !owns(featured, in: owned)
+        {
+            return featured
+        }
+        let candidates = items.filter {
+            $0.kind == .nonConsumable && !$0.isSeasonal && !owns($0, in: owned)
+        }
+        guard !candidates.isEmpty else { return nil }
+        return candidates[calendar.component(.month, from: date) % candidates.count]
+    }
+}
+
+extension ShopItem {
+    public static let seasonal: Set<ShopItem> = [
+        .iconsSummer, .iconsCarnival, .iconsJunina, .iconsHalloween, .iconsChristmas,
+    ]
+
+    public var isSeasonal: Bool { Self.seasonal.contains(self) }
+
+    public static func featured(on date: Date, calendar: Calendar = .current) -> ShopItem? {
+        switch calendar.component(.month, from: date) {
+        case 1: .iconsSummer
+        case 2: .iconsCarnival
+        case 6: .iconsJunina
+        case 10: .iconsHalloween
+        case 12: .iconsChristmas
+        default: nil
+        }
     }
 }

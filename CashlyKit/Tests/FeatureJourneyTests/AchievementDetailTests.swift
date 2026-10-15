@@ -173,6 +173,27 @@ struct AchievementDetailTests {
         #expect(journey.isChoosingChallenge)
     }
 
+    @Test func theCelebrationOpensTheShopAfterItCloses() async throws {
+        let (journey, _) = try await model()
+        let pro = ProAccess(entitlement: .none, isEnforced: false, present: {})
+        journey.browseShopAfterCelebration()
+        var opened: [Route] = []
+        journey.performPendingAction(pro: pro, open: { opened.append($0) }, guide: { _ in })
+        #expect(opened == [.shop])
+        #expect(journey.pendingAction == nil)
+    }
+
+    @Test func onlyTheLastCelebrationOffersTheShop() async throws {
+        let (journey, database) = try await model()
+        await journey.load()
+        try await spend(4_200, in: database)
+        await journey.load()
+        #expect(journey.celebrations.count > 1)
+        #expect(!journey.offersShopAfterCelebration)
+        while journey.celebrations.count > 1 { journey.celebration = nil }
+        #expect(journey.offersShopAfterCelebration)
+    }
+
     @Test func guidesGoToNavigationAndTheProActionOpensThePaywall() async throws {
         let (journey, _) = try await model()
         var presented = 0
