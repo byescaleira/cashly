@@ -22,6 +22,15 @@ struct AppInfoTests {
         #expect(info.privacyURL?.absoluteString == "https://cashly.app/privacidade")
         #expect(info.termsURL?.absoluteString == "https://cashly.app/termos")
         #expect(info.hasHelp)
+        #expect(info.links.map(\.kind) == [.help, .contact, .privacy, .terms])
+    }
+
+    @Test func websiteLeadsTheLinks() {
+        let info = AppInfo(info: [
+            "CashlyWebsiteURL": "https://cashly.app", "CashlyTermsURL": "https://cashly.app/termos",
+        ])
+        #expect(info.websiteURL?.absoluteString == "https://cashly.app")
+        #expect(info.links.map(\.kind) == [.website, .terms])
     }
 
     @Test func emptyKeysHideLinks() {
@@ -30,5 +39,6 @@ struct AppInfoTests {
         #expect(info.appStoreURL == nil)
         #expect(info.supportURL == nil)
         #expect(!info.hasHelp)
+        #expect(info.links.isEmpty)
     }
 }
