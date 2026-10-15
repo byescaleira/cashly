@@ -13,6 +13,33 @@ struct ChallengeTests {
         #expect(Challenge(code: "everyDay||") == Challenge(kind: .everyDay))
     }
 
+    @Test(arguments: [
+        "noSpendWeek|market|", "cap|market|60000", "blueMonth||", "everyDay||",
+        "lessThanLastMonth|market|",
+    ])
+    func legacyCodesStillDecode(code: String) {
+        #expect(Challenge(code: code)?.code == code)
+    }
+
+    @Test func newCodesValidateTheirParameters() {
+        #expect(Challenge(code: "cutBiggest||") == nil)
+        #expect(
+            Challenge(code: "cutBiggest|market|")
+                == Challenge(kind: .cutBiggest, categoryID: "market"))
+        #expect(Challenge(code: "noSpendWeekend||") == Challenge(kind: .noSpendWeekend))
+        #expect(Challenge(code: "tagWeek") == Challenge(kind: .tagWeek))
+    }
+
+    @Test func catalogHasFourThemesOfFour() {
+        #expect(Challenge.Kind.allCases.count == 16)
+        for theme in Challenge.Theme.allCases {
+            let kinds = Challenge.Kind.kinds(in: theme)
+            #expect(kinds.count == 4)
+            #expect(Set(kinds.map(\.difficulty)).count >= 2)
+        }
+        #expect(Challenge.Kind.allCases.allSatisfy { (75...300).contains($0.xp) })
+    }
+
     @Test func noSpendWeekFailsWhenTheCategoryIsUsed() {
         var game = GameFixture(today: 5)
         game.event(.challengeStarted, day: 1, value: "noSpendWeek|market|")

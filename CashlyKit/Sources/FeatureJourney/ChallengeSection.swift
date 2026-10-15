@@ -39,7 +39,6 @@ struct ChallengeSection: View {
                         }
                     }
                     .font(.buttonLabel)
-                    .disabled(journey.categories.isEmpty)
                 } else {
                     TipView(ChallengeTip()).tipBackground(.clear)
                     ForEach(journey.challengeSuggestions.enumerated(), id: \.element) {
@@ -47,6 +46,10 @@ struct ChallengeSection: View {
                         ChallengeOption(kind: kind, isLocked: !progress.canStartChallenge)
                             .cascade(index)
                     }
+                    Button("See All Challenges", systemImage: "square.grid.2x2") {
+                        pro.perform { journey.chooseChallenge() }
+                    }
+                    .font(.buttonLabel)
                 }
             } header: {
                 Text("Challenge").sectionTitle()
@@ -72,7 +75,6 @@ private struct ChallengeOption: View {
     @Environment(JourneyModel.self) private var journey
     @Environment(\.shop) private var shop
     @Environment(\.pro) private var pro
-    @Environment(\.appTint) private var appTint
     let kind: Challenge.Kind
     let isLocked: Bool
 
@@ -82,41 +84,40 @@ private struct ChallengeOption: View {
                 if isLocked { shop.open(.challengeRerolls) } else { journey.chooseChallenge(kind) }
             }
         } label: {
-            HStack(spacing: .spaceM) {
-                SymbolBadge(kind.symbol, color: appTint, size: .badgeM)
-                VStack(alignment: .leading, spacing: .spaceHairline) {
+            HStack(alignment: .top, spacing: .spaceM) {
+                SymbolBadge(kind.symbol, color: kind.color, size: .badgeM)
+                VStack(alignment: .leading, spacing: .spaceXS) {
                     Text(kind.title).font(.rowTitle)
                     Text(kind.detail).font(.footnote).foregroundStyle(.secondary)
+                    ChallengeChips(kind: kind)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                Chip("+\(kind.xp) XP", color: appTint).fixedSize()
             }
             .contentShape(.rect)
         }
         .tint(Color.primary)
-        .disabled(kind.needsCategory && journey.categories.isEmpty)
         .accessibilityElement(children: .combine)
     }
 }
 
 private struct ChallengeRow: View {
     @Environment(JourneyModel.self) private var journey
-    @Environment(\.appTint) private var appTint
     @State private var isShown = false
     let state: ChallengeState
 
     var body: some View {
+        let kind = state.challenge.kind
         HStack(alignment: .top, spacing: .spaceM) {
-            SymbolBadge(state.challenge.kind.symbol, color: appTint, size: .badgeL, style: .filled)
+            SymbolBadge(kind.symbol, color: kind.color, size: .badgeL, style: .filled)
                 .symbolEffect(.bounce, value: isShown)
             VStack(alignment: .leading, spacing: .spaceS) {
                 VStack(alignment: .leading, spacing: .spaceHairline) {
                     HStack(alignment: .firstTextBaseline) {
-                        Text(state.challenge.kind.title).font(.rowTitle)
+                        Text(kind.title).font(.rowTitle)
                         Spacer()
-                        Chip("+\(state.challenge.kind.xp) XP", color: appTint).fixedSize()
+                        Chip("+\(kind.xp) XP", color: kind.color).fixedSize()
                     }
-                    Text(journey.detail(of: state.challenge))
+                    Text(journey.detail(of: state))
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
@@ -135,16 +136,15 @@ private struct ChallengeRow: View {
 
 private struct ChallengeProgress: View {
     @Environment(JourneyModel.self) private var journey
-    @Environment(\.appTint) private var appTint
     let state: ChallengeState
     let outlook: ChallengeOutlook
 
     var body: some View {
-        let color = outlook.pace?.color ?? appTint
+        let color = outlook.pace?.color ?? state.challenge.kind.color
         VStack(alignment: .leading, spacing: .spaceXS) {
             FillingBar(value: outlook.progress, color: color, marker: outlook.elapsed)
             HStack(alignment: .firstTextBaseline) {
-                Text(journey.progressCaption(of: state, outlook: outlook))
+                Text(journey.progressCaption(of: state))
                     .font(.caption.weight(.semibold).monospacedDigit())
                     .foregroundStyle(color)
                     .contentTransition(.numericText(value: outlook.progress))
@@ -155,7 +155,7 @@ private struct ChallengeProgress: View {
             }
             .lineLimit(1)
             if let pace = outlook.pace {
-                InlineLabel(pace.title, symbol: pace.symbol)
+                InlineLabel(journey.paceTitle(pace, of: state), symbol: pace.symbol)
                     .font(.footnote.weight(.semibold))
                     .foregroundStyle(pace.color)
             }
@@ -164,6 +164,14 @@ private struct ChallengeProgress: View {
 }
 
 extension ChallengeOutlook.Pace {
+    var symbol: String {
+        switch self {
+        case .steady: "checkmark.circle"
+        case .fast: "hare"
+        case .over: "exclamationmark.triangle"
+        }
+    }
+
     var color: Color {
         switch self {
         case .steady: .positive

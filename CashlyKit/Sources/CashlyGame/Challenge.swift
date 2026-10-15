@@ -3,21 +3,33 @@ import Foundation
 
 public struct Challenge: Hashable, Sendable {
     public enum Kind: String, CaseIterable, Sendable {
-        case noSpendWeek, cap, blueMonth, everyDay, lessThanLastMonth
+        case noSpendWeekend, quietDays, noSpendWeek, weekendLighter
+        case belowAverage, cap, lessThanLastMonth, cutBiggest
+        case trackWeek, tagWeek, sameDay, everyDay
+        case planEveryCategory, weeklyBudget, blueMonth, allBudgetsBlue
+    }
 
-        public var xp: Int {
-            switch self {
-            case .noSpendWeek: 100
-            case .cap, .lessThanLastMonth: 150
-            case .blueMonth: 200
-            case .everyDay: 300
-            }
-        }
+    public enum Theme: CaseIterable, Sendable {
+        case spendLess, limits, habits, budgets
+    }
 
-        public var needsCategory: Bool {
-            self == .noSpendWeek || self == .cap || self == .lessThanLastMonth
+    public enum Length: Sendable {
+        case weekend, week, month
+    }
+
+    public enum Difficulty: Int, CaseIterable, Comparable, Sendable {
+        case easy, medium, hard
+
+        public static func < (lhs: Difficulty, rhs: Difficulty) -> Bool {
+            lhs.rawValue < rhs.rawValue
         }
     }
+
+    public static let weekDays = 7
+    public static let quietDayTarget = 3
+    public static let taggedTarget = 3
+    public static let averageWeeks = 4
+    public static let cutPercent: Int64 = 20
 
     public let kind: Kind
     public let categoryID: String?
@@ -34,7 +46,7 @@ public struct Challenge: Hashable, Sendable {
         guard let first = parts.first, let kind = Kind(rawValue: first) else { return nil }
         let category = parts.count > 1 && !parts[1].isEmpty ? parts[1] : nil
         let limit = parts.count > 2 ? Int64(parts[2]) : nil
-        guard !kind.needsCategory || category != nil, kind != .cap || limit != nil else {
+        guard !kind.needsCategory || category != nil, !kind.needsLimit || limit != nil else {
             return nil
         }
         self.init(kind: kind, categoryID: category, limit: limit)
@@ -45,104 +57,83 @@ public struct Challenge: Hashable, Sendable {
     }
 }
 
-public struct ChallengeState: Equatable, Sendable {
-    public enum Status: Equatable, Sendable {
-        case active(progress: Double)
-        case completed
-        case failed
-        case abandoned
+extension Challenge.Kind {
+    public static func kinds(in theme: Challenge.Theme) -> [Challenge.Kind] {
+        allCases.filter { $0.theme == theme }
     }
 
-    public let challenge: Challenge
-    public let start: Date
-    public let end: Date
-    public let status: Status
-
-    public var xp: Int { status == .completed ? challenge.kind.xp : 0 }
-}
-
-extension ChallengeState {
-    static func all(in snapshot: GameSnapshot) -> [ChallengeState] {
-        let markers = snapshot.events.filter {
-            $0.kind == .challengeStarted || $0.kind == .challengeAbandoned
-        }
-        return markers.enumerated().compactMap { index, event in
-            guard event.kind == .challengeStarted, let challenge = Challenge(code: event.value)
-            else {
-                return nil
-            }
-            let stop = markers.dropFirst(index + 1).first?.date
-            return evaluate(challenge, start: event.date, stoppedAt: stop, in: snapshot)
+    public var theme: Challenge.Theme {
+        switch self {
+        case .noSpendWeekend, .quietDays, .noSpendWeek, .weekendLighter: .spendLess
+        case .belowAverage, .cap, .lessThanLastMonth, .cutBiggest: .limits
+        case .trackWeek, .tagWeek, .sameDay, .everyDay: .habits
+        case .planEveryCategory, .weeklyBudget, .blueMonth, .allBudgetsBlue: .budgets
         }
     }
 
-    static func evaluate(
-        _ challenge: Challenge, start: Date, stoppedAt stop: Date?, in snapshot: GameSnapshot
-    ) -> ChallengeState {
-        let calendar = snapshot.calendar
-        let startDay = snapshot.day(start)
+    public var length: Challenge.Length {
+        switch self {
+        case .noSpendWeekend: .weekend
+        case .cap, .lessThanLastMonth, .cutBiggest, .everyDay, .blueMonth, .allBudgetsBlue: .month
+        case .quietDays, .noSpendWeek, .weekendLighter, .belowAverage, .trackWeek, .tagWeek,
+            .sameDay, .planEveryCategory, .weeklyBudget:
+            .week
+        }
+    }
+
+    public var difficulty: Challenge.Difficulty {
+        switch self {
+        case .noSpendWeekend, .quietDays, .trackWeek, .tagWeek, .planEveryCategory: .easy
+        case .cutBiggest, .everyDay, .blueMonth, .allBudgetsBlue: .hard
+        case .noSpendWeek, .weekendLighter, .belowAverage, .cap, .lessThanLastMonth, .sameDay,
+            .weeklyBudget:
+            .medium
+        }
+    }
+
+    public var xp: Int {
+        switch self {
+        case .noSpendWeekend, .trackWeek, .planEveryCategory: 75
+        case .quietDays, .noSpendWeek, .tagWeek: 100
+        case .weeklyBudget: 125
+        case .weekendLighter, .belowAverage, .cap, .lessThanLastMonth, .sameDay: 150
+        case .blueMonth: 200
+        case .cutBiggest, .allBudgetsBlue: 250
+        case .everyDay: 300
+        }
+    }
+
+    public var needsCategory: Bool {
+        self == .noSpendWeek || self == .cap || self == .lessThanLastMonth || self == .cutBiggest
+    }
+
+    public var choosesCategory: Bool { needsCategory && self != .cutBiggest }
+
+    public var needsLimit: Bool { self == .cap }
+
+    public var measuresUsage: Bool {
+        switch self {
+        case .cap, .lessThanLastMonth, .cutBiggest, .belowAverage, .weeklyBudget: true
+        default: false
+        }
+    }
+
+    public func period(startingAt start: Date, calendar: Calendar) -> DateInterval {
+        let day = calendar.startOfDay(for: start)
         let month = YearMonth(start)
         let monthEnd = month.adding(months: 1).startDate
-        let end =
-            challenge.kind == .noSpendWeek
-            ? calendar.date(byAdding: .day, value: 7, to: startDay) ?? monthEnd : monthEnd
-        let now = stop.map { min($0, snapshot.today) } ?? snapshot.today
-        let finished = now >= end
-        let status: Status
-        switch challenge.kind {
-        case .noSpendWeek:
-            let spent = snapshot.spent(
-                categoryID: challenge.categoryID ?? "", from: startDay, to: min(end, now))
-            let days = calendar.dateComponents([.day], from: startDay, to: now).day ?? 0
-            status =
-                spent > 0 ? .failed : finished ? .completed : .active(progress: Double(days) / 7)
-        case .cap:
-            let limit = challenge.limit ?? 0
-            let spent = snapshot.spent(in: month, categoryID: challenge.categoryID)
-            status =
-                spent > limit
-                ? .failed
-                : finished
-                    ? .completed : .active(progress: limit > 0 ? Double(spent) / Double(limit) : 0)
-        case .blueMonth:
-            let score = snapshot.score(in: month) ?? 0
-            status =
-                finished
-                ? (score >= GameEngine.blueScore ? .completed : .failed)
-                : .active(progress: elapsed(from: month.startDate, to: end, now: now, calendar))
-        case .everyDay:
-            let tracked = snapshot.trackedDays
-            var cursor = startDay
-            var missed = false
-            while cursor < min(end, snapshot.day(now)) {
-                if !tracked.contains(cursor) { missed = true }
-                cursor = calendar.date(byAdding: .day, value: 1, to: cursor) ?? end
-            }
-            status =
-                missed
-                ? .failed
-                : finished
-                    ? .completed
-                    : .active(progress: elapsed(from: startDay, to: end, now: now, calendar))
-        case .lessThanLastMonth:
-            let spent = snapshot.spent(in: month, categoryID: challenge.categoryID)
-            let previous = snapshot.spent(
-                in: month.adding(months: -1), categoryID: challenge.categoryID)
-            status =
-                finished
-                ? (spent < previous ? .completed : .failed)
-                : .active(progress: previous > 0 ? Double(spent) / Double(previous) : 0)
+        switch length {
+        case .weekend:
+            let weekday = calendar.component(.weekday, from: day)
+            let offset = weekday == 1 ? -1 : 7 - weekday
+            let saturday = calendar.date(byAdding: .day, value: offset, to: day) ?? day
+            let end = calendar.date(byAdding: .day, value: 2, to: saturday) ?? monthEnd
+            return DateInterval(start: max(day, saturday), end: end)
+        case .week:
+            let end = calendar.date(byAdding: .day, value: Challenge.weekDays, to: day) ?? monthEnd
+            return DateInterval(start: day, end: end)
+        case .month:
+            return DateInterval(start: self == .everyDay ? day : month.startDate, end: monthEnd)
         }
-        let resolved: Status =
-            if stop != nil, case .active = status { .abandoned } else { status }
-        return ChallengeState(challenge: challenge, start: start, end: end, status: resolved)
-    }
-
-    private static func elapsed(from start: Date, to end: Date, now: Date, _ calendar: Calendar)
-        -> Double
-    {
-        let total = max(calendar.dateComponents([.day], from: start, to: end).day ?? 1, 1)
-        let done = calendar.dateComponents([.day], from: start, to: now).day ?? 0
-        return min(max(Double(done) / Double(total), 0), 1)
     }
 }
