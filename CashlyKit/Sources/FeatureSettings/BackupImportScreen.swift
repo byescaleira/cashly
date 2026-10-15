@@ -13,28 +13,9 @@ struct BackupImportScreen: View {
             isWorking: data.isWorking, back: back, primary: primary, secondary: secondary
         ) {
             switch data.backupStep {
-            case .intro:
-                GuidePage(
-                    title: "Import Backup",
-                    message:
-                        "Choose a Cashly backup file (.json). The file's records are added to the ones already on this device; nothing is deleted."
-                ) {
-                    CashlyAnimationView(.file)
-                }
-            case .review:
-                GuidePage(
-                    title: "Review the Backup",
-                    message: LocalizedStringKey(
-                        data.pendingRestore.map(data.description(of:)) ?? "")
-                ) {
-                    CashlyAnimationView(.file)
-                }
-            case .done:
-                GuidePage(
-                    title: "Backup Imported", message: "The records already show up in the app."
-                ) {
-                    CashlyAnimationView(.done)
-                }
+            case .intro: BackupImportIntro()
+            case .review: BackupImportReview()
+            case .done: BackupImportDone()
             }
         }
         .fileImporter(isPresented: $data.isImporting, allowedContentTypes: [.json]) {
@@ -63,5 +44,65 @@ struct BackupImportScreen: View {
     private var secondary: GuideAction? {
         guard data.backupStep == .intro else { return nil }
         return GuideAction("Not Now") { data.isRestoringBackup = false }
+    }
+}
+
+private struct BackupImportIntro: View {
+    @Environment(DataModel.self) private var data
+
+    var body: some View {
+        GuidePage(
+            title: "Import Backup",
+            message:
+                "Choose a Cashly backup file (.json). The file's records are added to the ones already on this device; nothing is deleted."
+        ) {
+            CashlyAnimationView(.file)
+        } content: {
+            if !data.savedBackups.isEmpty {
+                GuideFeatureList {
+                    ForEach(data.savedBackups.prefix(2)) { saved in
+                        Button {
+                            Task { await data.openSaved(saved) }
+                        } label: {
+                            SavedBackupRow(saved: saved, isLatest: saved == data.savedBackups.first)
+                                .padding(.vertical, .spaceS)
+                                .padding(.horizontal, .spaceL)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+        }
+    }
+}
+
+private struct BackupImportReview: View {
+    @Environment(DataModel.self) private var data
+
+    var body: some View {
+        if let merge = data.pendingMerge {
+            GuidePage(verbatim: merge.title, message: merge.message) {
+                CashlyAnimationView(.file)
+            } content: {
+                GuideValueList(
+                    merge.rows.map {
+                        GuideValue(
+                            $0.label, value: $0.value,
+                            color: $0.isHighlighted ? .positive : .primary)
+                    })
+            }
+        }
+    }
+}
+
+private struct BackupImportDone: View {
+    @Environment(DataModel.self) private var data
+
+    var body: some View {
+        if let merge = data.pendingMerge {
+            GuidePage(verbatim: merge.doneTitle, message: merge.doneMessage) {
+                CashlyAnimationView(.done)
+            }
+        }
     }
 }

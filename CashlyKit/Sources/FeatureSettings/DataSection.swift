@@ -4,61 +4,139 @@ import SwiftUI
 
 struct DataSection: View {
     @Environment(DataModel.self) private var data
+    @Environment(SessionModel.self) private var session: SessionModel?
+
+    var body: some View {
+        @Bindable var data = data
+        Group {
+            DataSummarySection()
+            DataExportSection()
+            BackupScheduleSection()
+            BackupCloudSection()
+            SavedBackupsSection()
+            DataImportSection()
+            EraseSection()
+        }
+        .disabled(data.isWorking)
+        .fileExporter(
+            isPresented: $data.isExportingFromPage, document: data.document,
+            contentType: data.exportType, defaultFilename: data.fileName,
+            onCompletion: data.finishExport
+        )
+        .sheet(isPresented: $data.isRestoringBackup) { BackupImportScreen().environment(data) }
+        .dataAlerts()
+        .task(id: session?.generation) { await data.load() }
+    }
+}
+
+private struct DataSummarySection: View {
+    @Environment(DataModel.self) private var data
+
+    var body: some View {
+        Section {
+            VStack(spacing: .spaceM) {
+                CashlyAnimationView(.backup).frame(maxWidth: 220)
+                if let inventory = data.inventory {
+                    DataSummary(inventory: inventory)
+                } else {
+                    ProgressView().frame(minHeight: .rowHeight)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, .spaceS)
+            .animation(.smooth, value: data.inventory)
+        }
+    }
+}
+
+private struct DataSummary: View {
+    @Environment(\.appTint) private var appTint
+    let inventory: DataInventory
+
+    var body: some View {
+        VStack(spacing: .spaceM) {
+            VStack(spacing: .space2XS) {
+                Text("Transactions").font(.subheadline).foregroundStyle(.secondary)
+                FigureValue(
+                    inventory.transactionsValue, numeric: Double(inventory.transactions),
+                    color: appTint)
+                Text(verbatim: inventory.summaryLine)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+            .multilineTextAlignment(.center)
+            .accessibilityElement(children: .combine)
+            ViewThatFits {
+                HStack(spacing: .spaceS) { chips }
+                FlowLayout(spacing: .spaceS) { chips }
+            }
+        }
+    }
+
+    @ViewBuilder private var chips: some View {
+        ForEach(inventory.otherKinds, id: \.self) { kind in
+            Chip(inventory.chip(kind), color: inventory.count(kind) > 0 ? .companion : .secondary)
+        }
+    }
+}
+
+private struct DataExportSection: View {
+    @Environment(DataModel.self) private var data
+    @Environment(\.appTint) private var appTint
+
+    var body: some View {
+        Section {
+            Button {
+                Task { await data.prepareExport() }
+            } label: {
+                IconRow(
+                    "Backup File (JSON)", detail: "Everything, ready to import into Cashly.",
+                    symbol: "doc.badge.arrow.up", color: appTint)
+            }
+            Button {
+                Task { await data.prepareExport(as: .commaSeparatedText) }
+            } label: {
+                IconRow(
+                    "Spreadsheet (CSV)", detail: "Transactions only, for Numbers, Excel or Sheets.",
+                    symbol: "tablecells", color: .companion)
+            }
+        } header: {
+            Text("Export").sectionTitle()
+        } footer: {
+            Text("Exporting is always free. You choose where the file goes.")
+        }
+    }
+}
+
+private struct DataImportSection: View {
+    @Environment(DataModel.self) private var data
     @Environment(\.showGuide) private var showGuide
     @Environment(\.featureFlags) private var flags
     @Environment(\.appTint) private var appTint
     @Environment(\.pro) private var pro
 
     var body: some View {
-        @Bindable var data = data
-        Group {
-            Section {
-                Button {
-                    Task { await data.prepareExport() }
-                } label: {
-                    IconRow("Export Backup", symbol: "square.and.arrow.up", color: appTint)
-                }
-                Button {
-                    Task { await data.prepareExport(as: .commaSeparatedText) }
-                } label: {
-                    IconRow("Export Spreadsheet (CSV)", symbol: "tablecells", color: .companion)
-                }
-                Button {
-                    pro.perform { data.startBackupImport() }
-                } label: {
-                    IconRow("Import Backup", symbol: "square.and.arrow.down", color: appTint)
-                }
-                if let showGuide, flags?.isOn(.spreadsheetImport) != false {
-                    Button {
-                        pro.perform { showGuide(.importSpreadsheet) }
-                    } label: {
-                        IconRow(
-                            "Import Spreadsheet (CSV)", symbol: "tablecells.badge.ellipsis",
-                            color: .companion)
-                    }
-                }
-                if data.isWorking { ProgressView() }
-            } header: {
-                Text("Export and Import")
-            } footer: {
-                Text(
-                    "A backup is a file with users, categories, tags, budgets and transactions. Importing adds the file's records to the ones already on this device. The spreadsheet has transactions only."
-                )
+        Section {
+            Button {
+                pro.perform { data.startBackupImport() }
+            } label: {
+                IconRow(
+                    "Import Backup", detail: "See what's new in the file before anything changes.",
+                    symbol: "square.and.arrow.down", color: appTint)
             }
-            BackupScheduleSection()
-            BackupCloudSection()
-            SavedBackupsSection()
-            EraseSection()
+            if let showGuide, flags?.isOn(.spreadsheetImport) != false {
+                Button {
+                    pro.perform { showGuide(.importSpreadsheet) }
+                } label: {
+                    IconRow(
+                        "Import Spreadsheet (CSV)",
+                        detail: "Bring transactions from your bank or another app.",
+                        symbol: "tablecells.badge.ellipsis", color: .companion)
+                }
+            }
+        } header: {
+            Text("Import").sectionTitle()
         }
-        .disabled(data.isWorking)
-        .fileExporter(
-            isPresented: $data.isExporting, document: data.document,
-            contentType: data.exportType, defaultFilename: data.fileName,
-            onCompletion: data.finishExport
-        )
-        .sheet(isPresented: $data.isRestoringBackup) { BackupImportScreen().environment(data) }
-        .dataAlerts()
-        .task { await data.loadBackups() }
     }
 }
 

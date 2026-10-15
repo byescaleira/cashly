@@ -28,7 +28,8 @@ struct SettingsEntryRow: View {
         case .journey: settings.journeyValue
         case .cloud: settings.cloudValue
         case .about: settings.info.version
-        case .data, .guides: nil
+        case .data: settings.data?.overviewValue(now: .now)
+        case .guides: nil
         }
     }
 }

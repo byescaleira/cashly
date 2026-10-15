@@ -12,6 +12,8 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 - **[P2] Competência depende do fuso do aparelho.** Separar instante, data civil, competência, vencimento e pagamento; persistir a competência escolhida.
 - **[P2] Responsabilidades sobrepostas.** `Participant` aponta para `User`, que também é perfil financeiro; não há pagador, vencimento ou liquidação parcial. Proposta: `FinancialProfile`, `Counterparty`, `ExpenseAllocation`, `Obligation`, `Settlement`.
 - **[P2] Fonte de verdade por associação.** Transação e participante guardam referências nos dois sentidos, e valores coexistem em quatro campos. Separar dados canônicos, legado de migração e projeções.
+- **[P3] Resumo de Dados e Backup lê o banco inteiro.** `DataModel.refreshInventory()` usa `backup.export()` para contar registros, período e tamanho a cada visita à página. Com volume grande, trocar por contagens no repositório e estimar o tamanho.
+- **[P3] Data do arquivo de backup em UTC.** `BackupFolder.name(on:)` usa `.iso8601`, que formata em GMT; à noite no Brasil a cópia leva o dia seguinte no nome. As datas relativas da página usam o mesmo calendário GMT para não divergir do nome.
 - **[P2] Atualização duplicada após salvar.** `.editorLifecycle` recarrega a sessão e o `CashlyChangeHub` também avisa; centralizar o refresh.
 - **[P3] Múltiplas moedas.** O app tem uma moeda escolhida nos Ajustes, e cada registro grava a moeda em que foi salvo, mas os totais somam tudo sem conversão. Se contas em moedas diferentes entrarem no escopo, incluir a moeda no `Money` e tratar câmbio como operação explícita.
 
@@ -27,7 +29,7 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 
 ## Produto
 
-- **Configuração da distribuição.** Preencher no `Info.plist` as chaves de links (`CashlyAppStoreID`, `CashlySupportEmail`, `CashlyHelpURL`, `CashlyPrivacyURL`, `CashlyTermsURL`, `CashlyWebsiteURL`). Sem elas, Ajustes › Sobre mostra só "Avaliar" (pelo `requestReview`) e "Novidades", e o compartilhar manda só o texto; o id 6821986667 do App Store Connect só deve entrar quando a página do app estiver no ar. Atualizar `ReleaseNote.current` a cada versão.
+- **Configuração da distribuição.** Preencher no `Info.plist` as chaves de links (`CashlyAppStoreID`, `CashlySupportEmail`, `CashlyHelpURL`, `CashlyPrivacyURL`, `CashlyTermsURL`, `CashlyWebsiteURL`). Sem elas, Ajustes › Sobre mostra só "Avaliar" (pelo `requestReview`) e "Novidades", e o compartilhar manda só o texto; o id 6821986667 do App Store Connect só deve entrar quando a página do app estiver no ar. A cada versão, acrescentar um `Release` em `Release.all` (a tela Novidades destaca a versão instalada e lista as anteriores).
 - **Integrações, assinatura e novas features.** Planejadas por fase em [roadmap.md](roadmap.md). Antes de App Intents e widgets, resolver "Serviços fora da janela" acima. Servidor MCP para o Claude Code continua como ideia futura.
 - **[P3] Acessibilidade e restauração.** Dynamic Type conferido no iPhone até o tamanho de acessibilidade AX3; falta VoiceOver, principalmente gráficos e seletores de ícones. Rotas pequenas permitem deep links e restauração.
 - **[P3] Seletor de mês além do orçamento.** O `MonthPicker` novo só é usado no editor de orçamento; avaliar o filtro de período (`FilterMenu`) e a escolha de mês das telas de Metas com o mesmo componente.
@@ -52,6 +54,10 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 - Ajustes › Sobre: herói, números e compartilhar só conferidos em build; falta ver no iPhone (inclusive tamanhos de acessibilidade, com os quadros em uma coluna), no iPad em colunas e no Mac.
 - Histórico: o total do topo não tem filtro de tipo (gasto ou entrada); se o filtro ganhar tipo, a seção já troca para "Recebido" quando só há entradas.
 
+- Ajustes › iCloud, Dados e Backup (com o guia de importar e o de apagar tudo), Novidades e Desenvolvedor: só builds conferidos; falta ver no iPhone, no iPad, no Mac (`Form` agrupado) e no visionOS, inclusive o vermelho do botão "Apagar todos os dados" na segunda etapa e o seletor de arquivo aberto de dentro da folha de apagar.
+
 ## Qualidade de código
+
+- `SettingsModel.cloudFooter` e `lastSyncText` ficaram usados só pelos testes depois que a página iCloud passou para `SettingsModel+Cloud`; remover junto com os testes quando ninguém mais estiver mexendo em `SettingsModel.swift`.
 
 - Funções grandes nas camadas de dados e domínio (`CashlyStore+Normalization`, `TransactionAllocation`, `LocalIntelligenceService`): avaliar as regras `function_body_length` e `cyclomatic_complexity` do SwiftLint quando essas áreas forem tocadas, com testes cobrindo antes.

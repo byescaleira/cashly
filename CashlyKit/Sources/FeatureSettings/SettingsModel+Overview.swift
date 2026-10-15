@@ -65,6 +65,7 @@ extension SettingsModel {
     }
 
     var cloudValue: String {
+        if needsRestart { return String(appLocalized: "Restart to Apply") }
         guard isSyncOn else { return String(appLocalized: "Off") }
         switch cloudAccount {
         case .noAccount, .restricted, .temporarilyUnavailable: return cloudAccount.title

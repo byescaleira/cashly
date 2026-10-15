@@ -41,9 +41,13 @@ struct DataModelTests {
         data.read(.success(url))
         #expect(data.backupStep == .review)
         let pending = try #require(data.pendingRestore)
-        #expect(data.description(of: pending).contains("0 categories"))
+        let merge = try #require(data.pendingMerge)
+        #expect(merge.file.count(.profiles) == 1)
+        #expect(merge.added == 1)
+        #expect(merge.rows.count == 3)
         await data.restore(pending)
         #expect(data.backupStep == .done)
+        #expect(data.inventory?.count(.profiles) == 1)
         #expect(try await database.repositories(for: nil).users.users() == [owner])
     }
 
@@ -59,8 +63,32 @@ struct DataModelTests {
 
     @Test func eraseRemovesEverything() async throws {
         let (data, database) = try await model()
+        await data.load()
+        #expect(data.inventory?.count(.profiles) == 1)
+        data.startErase()
+        #expect(data.isErasing)
+        #expect(data.eraseStep == .review)
         await data.eraseAll()
-        #expect(data.message == "All data was deleted.")
+        #expect(data.eraseStep == .done)
+        #expect(data.message == nil)
+        #expect(data.inventory?.isEmpty == true)
         #expect(try await database.repositories(for: nil).users.users().isEmpty)
+        data.closeErase()
+        #expect(!data.isErasing)
+    }
+
+    @Test func exportDuringEraseOnlyMarksTheBackup() async throws {
+        let (data, _) = try await model()
+        data.startErase()
+        #expect(data.eraseBackupState(now: .now) == .init(text: "None yet", isSafe: false))
+        await data.prepareExport()
+        #expect(data.isExportingFromErase)
+        #expect(!data.isExportingFromPage)
+        data.finishExport(.success(URL(filePath: "/tmp/backup.json")))
+        #expect(data.message == nil)
+        #expect(data.exportedBeforeErase)
+        #expect(data.eraseBackupState(now: .now) == .init(text: "Exported just now", isSafe: true))
+        data.startErase()
+        #expect(!data.exportedBeforeErase)
     }
 }
