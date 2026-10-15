@@ -48,7 +48,7 @@ extension JourneyModel {
     func widgetChallenge(_ state: ChallengeState) -> JourneySnapshot.Challenge {
         let kind = state.challenge.kind
         let measure = state.measure
-        let outlook = outlook(of: state)
+        let outlook = ChallengeOutlook(state, today: now())
         return JourneySnapshot.Challenge(
             id: state.challenge.code + "@" + String(Int(state.start.timeIntervalSince1970)),
             title: kind.title, detail: detail(of: state), symbol: kind.symbol,

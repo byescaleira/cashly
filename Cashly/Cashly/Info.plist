@@ -23,6 +23,8 @@
 	<string></string>
 	<key>CashlyTermsURL</key>
 	<string></string>
+	<key>CashlyWebsiteURL</key>
+	<string></string>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>NSBonjourServices</key>

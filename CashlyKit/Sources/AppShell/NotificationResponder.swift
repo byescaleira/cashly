@@ -1,4 +1,5 @@
 import FeatureCore
+import FeatureJourney
 import Foundation
 import UserNotifications
 
@@ -26,6 +27,10 @@ public final class NotificationResponder: NSObject, UNUserNotificationCenterDele
             await respond(captureID: id, action: response.actionIdentifier)
             return
         }
+        if let link = info[NotificationCategory.linkKey] as? String {
+            await respond(link: link, action: response.actionIdentifier)
+            return
+        }
         guard let id = info[NotificationCategory.transactionKey] as? String else {
             await open("cashly://home")
             return
@@ -49,6 +54,7 @@ public final class NotificationResponder: NSObject, UNUserNotificationCenterDele
             let categoryID = String(action.dropFirst(NotificationCategory.capturePick.count))
             _ = try? await actions.accept(captureID: captureID, categoryID: categoryID)
             await updateBadge(actions)
+            await reviewJourney()
         } else if action == NotificationCategory.captureIgnore {
             guard let actions = await captureActions(writing: false) else { return }
             _ = try? await actions.dismiss(captureID: captureID)
@@ -56,6 +62,34 @@ public final class NotificationResponder: NSObject, UNUserNotificationCenterDele
         } else {
             await open("cashly://captures/\(captureID)")
         }
+    }
+
+    private func respond(link: String, action: String) async {
+        switch action {
+        case NotificationCategory.journeyNoSpend: await markNoSpendDay()
+        case NotificationCategory.journeyExpense: await open("cashly://transactions/new")
+        default: await open(link)
+        }
+    }
+
+    @MainActor
+    private func markNoSpendDay() async {
+        guard await CashlyServices.shared.canWrite(),
+            let (repositories, _) = try? await CashlyServices.shared.workspace()
+        else {
+            open(JourneyNotices.journeyLink)
+            return
+        }
+        await JourneyNotifier().markNoSpendDay(repositories: repositories)
+    }
+
+    @MainActor
+    private func reviewJourney() async {
+        guard FeatureFlags().isOn(.journey),
+            let (repositories, _) = try? await CashlyServices.shared.workspace()
+        else { return }
+        await JourneyNotifier().review(
+            repositories: repositories, isActive: await CashlyServices.shared.canWrite())
     }
 
     private func updateBadge(_ actions: CaptureActions) async {

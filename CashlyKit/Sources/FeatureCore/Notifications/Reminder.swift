@@ -12,6 +12,11 @@ public enum NotificationCategory {
     public static let captureIgnore = "cashly.capture.ignore"
     public static let capturePick = "cashly.capture.pick."
     public static let captureKey = "captureID"
+    public static let journey = "cashly.journey"
+    public static let journeyStreak = "cashly.journey.streak"
+    public static let journeyNoSpend = "cashly.journey.noSpend"
+    public static let journeyExpense = "cashly.journey.expense"
+    public static let linkKey = "link"
 
     public static func capture(suggesting categoryID: String?) -> String {
         categoryID.map { "\(capture).\($0)" } ?? capture

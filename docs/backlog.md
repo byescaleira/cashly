@@ -27,19 +27,30 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 
 ## Produto
 
-- **Configuração da distribuição.** Preencher no `Info.plist` as chaves de links (`CashlyAppStoreID`, `CashlySupportEmail`, `CashlyHelpURL`, `CashlyPrivacyURL`, `CashlyTermsURL`). Atualizar `ReleaseNote.current` a cada versão.
+- **Configuração da distribuição.** Preencher no `Info.plist` as chaves de links (`CashlyAppStoreID`, `CashlySupportEmail`, `CashlyHelpURL`, `CashlyPrivacyURL`, `CashlyTermsURL`, `CashlyWebsiteURL`). Sem elas, Ajustes › Sobre mostra só "Avaliar" (pelo `requestReview`) e "Novidades", e o compartilhar manda só o texto; o id 6821986667 do App Store Connect só deve entrar quando a página do app estiver no ar. Atualizar `ReleaseNote.current` a cada versão.
 - **Integrações, assinatura e novas features.** Planejadas por fase em [roadmap.md](roadmap.md). Antes de App Intents e widgets, resolver "Serviços fora da janela" acima. Servidor MCP para o Claude Code continua como ideia futura.
 - **[P3] Acessibilidade e restauração.** Dynamic Type conferido no iPhone até o tamanho de acessibilidade AX3; falta VoiceOver, principalmente gráficos e seletores de ícones. Rotas pequenas permitem deep links e restauração.
 - **[P3] Seletor de mês além do orçamento.** O `MonthPicker` novo só é usado no editor de orçamento; avaliar o filtro de período (`FilterMenu`) e a escolha de mês das telas de Metas com o mesmo componente.
 - **Ações de retry** nos editores quando a carga inicial falha (hoje é preciso fechar e abrir).
 
+## Widgets
+
+- **[P2] Linha Widgets da tela principal.** O valor da linha ainda diz "Nothing yet" quando não há escolha; deve usar `settings.widgetValue(categories: finance.allCategories)`, que devolve a categoria ou "Automático" (a `SettingsScreen` é de outra frente).
+- **[P2] Publicar o widget sem o resto.** Trocar a escolha reinicia o `.task(id: extrasKey)` inteiro do `MainScreen` (notificações, Spotlight, capturas e modelos); separar a publicação do snapshot.
+- **[P3] Um orçamento por cópia.** Hoje a escolha é global. Com `AppIntentConfiguration` e opções lidas do snapshot, cada cópia poderia seguir uma categoria, com "a escolha do app" como padrão.
+- **[P3] Modo discreto nos widgets.** Os widgets mostram valores mesmo com o modo discreto ligado.
+- **[P3] Duas janelas, um snapshot.** Com perfis diferentes em duas janelas (iPad, Mac), a última publicação vence.
+
 ## Verificação visual pendente
+
+- Ajustes › Widgets no Mac (`Form` agrupado, sem Tela Bloqueada nem Controles) e no visionOS: só builds conferidos.
 
 - Ajustes › Aparência no Mac (`Form` agrupado, sem ícones) e no visionOS: só builds conferidos; as miniaturas de tema ainda não foram vistas fora do iPhone e do iPad. A troca de ícone com falha mostra o alerta pela página Aparência, inclusive com a galeria aberta por cima.
 - iPhone em paisagem e app no Mac: só builds conferidos.
 - Campo de valor muito grande (13 dígitos) corta o "R$" na borda.
 - iPad de 11" em retrato: a barra de abas tem largura limitada pelo sistema; com Ajustes, a Buscar fica atrás da seta de rolagem.
 - Folha lateral na horizontal: conferida com a posição forçada; falta girar um iPad de verdade.
+- Ajustes › Sobre: herói, números e compartilhar só conferidos em build; falta ver no iPhone (inclusive tamanhos de acessibilidade, com os quadros em uma coluna), no iPad em colunas e no Mac.
 - Histórico: o total do topo não tem filtro de tipo (gasto ou entrada); se o filtro ganhar tipo, a seção já troca para "Recebido" quando só há entradas.
 
 ## Qualidade de código
