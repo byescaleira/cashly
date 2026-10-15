@@ -10,3 +10,7 @@ extension CGFloat {
     public static let barHeight: CGFloat = 10
     public static let rowHeight: CGFloat = 44
 }
+
+extension CGFloat {
+    public static let blurCurtain: CGFloat = 8
+}

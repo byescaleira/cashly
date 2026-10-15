@@ -37,4 +37,16 @@ struct NavigationTests {
         navigation.closeInspectorOutsideSelection()
         #expect(navigation.inspector == nil)
     }
+
+    @Test func proGuidesOpenThePaywallForFreeUsers() {
+        let navigation = CashlyNavigation()
+        navigation.show(.importSpreadsheet, isPro: false)
+        #expect(navigation.isShowingPaywall)
+        #expect(navigation.guide == nil)
+        navigation.isShowingPaywall = false
+        navigation.show(.importSpreadsheet, isPro: true)
+        #expect(navigation.guide == .importSpreadsheet)
+        navigation.show(.score, isPro: false)
+        #expect(navigation.guide == .score)
+    }
 }

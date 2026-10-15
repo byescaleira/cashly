@@ -9,6 +9,7 @@ public struct TransactionEditorScreen: View {
     @Environment(SessionModel.self) private var session
     @Environment(FinanceModel.self) private var finance
     @Environment(IntelligenceModel.self) private var intelligence
+    @Environment(\.pro) private var pro
 
     public init() {}
 
@@ -39,8 +40,10 @@ public struct TransactionEditorScreen: View {
                 .tint(Color.primary)
                 if model.canEnablePrediction(with: intelligence) {
                     Button("Suggest Category", systemImage: "bolt") {
-                        model.enablePrediction()
+                        pro.perform { model.enablePrediction() }
                     }
+                    .accessibilityValue(
+                        pro.isPro ? "" : String(appLocalized: "Requires Cashly Pro"))
                 }
                 if !session.otherUsers.isEmpty && model.draft.kind == .expense {
                     MultiSelectMenu(
@@ -58,6 +61,7 @@ public struct TransactionEditorScreen: View {
                 await model.remove()
             }
         }
+        .onChange(of: pro.isPro, initial: true) { model.isPro = $1 }
         .onChange(of: model.draft.summary) { model.matchTags() }
         .onChange(of: model.draft.participants) { model.updateShares() }
         .onChange(of: model.draft.amount) { model.updateShares() }

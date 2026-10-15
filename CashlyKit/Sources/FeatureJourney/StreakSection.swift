@@ -7,7 +7,6 @@ import TipKit
 struct StreakSection: View {
     @Environment(JourneyModel.self) private var journey
     @Environment(\.shop) private var shop
-    @Environment(\.pro) private var pro
 
     var body: some View {
         if let streak = journey.progress?.streak {
@@ -19,7 +18,7 @@ struct StreakSection: View {
                 if !streak.isTodayTracked {
                     TipView(NoSpendDayTip()).tipBackground(.clear)
                     Button("I Didn't Spend Today", systemImage: "hand.raised") {
-                        pro.perform { Task { await journey.markNoSpendToday() } }
+                        Task { await journey.markNoSpendToday() }
                     }
                     .font(.buttonLabel)
                 }

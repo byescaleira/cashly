@@ -1,0 +1,198 @@
+{
+  "fill-specializations": [
+    {
+      "value": {
+        "linear-gradient": [
+          "srgb:0.96471,0.92157,0.82745,1.00000",
+          "srgb:0.92157,0.85098,0.71373,1.00000"
+        ]
+      }
+    },
+    {
+      "appearance": "dark",
+      "value": {
+        "linear-gradient": [
+          "srgb:0.16471,0.12549,0.10588,1.00000",
+          "srgb:0.10980,0.08235,0.07059,1.00000"
+        ]
+      }
+    }
+  ],
+  "groups": [
+    {
+      "layers": [],
+      "name": "Group",
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": false,
+        "value": 0.5
+      }
+    },
+    {
+      "layers": [
+        {
+          "fill-specializations": [
+            {
+              "value": {
+                "linear-gradient": [
+                  "srgb:0.98431,0.95686,0.90196,1.00000",
+                  "srgb:0.94510,0.89020,0.77647,1.00000"
+                ]
+              }
+            },
+            {
+              "appearance": "dark",
+              "value": {
+                "linear-gradient": [
+                  "srgb:0.23137,0.18039,0.15294,1.00000",
+                  "srgb:0.18039,0.14118,0.12157,1.00000"
+                ]
+              }
+            },
+            {
+              "appearance": "tinted",
+              "value": {
+                "solid": "srgb:0.78431,0.39216,0.16863,1.00000"
+              }
+            }
+          ],
+          "image-name": "Rectangle 4.svg",
+          "name": "Rectangle 4",
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              232.0
+            ]
+          }
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": false,
+        "value": 0.5
+      }
+    },
+    {
+      "layers": [
+        {
+          "blend-mode": "normal",
+          "fill-specializations": [
+            {
+              "value": {
+                "solid": "srgb:0.30588,0.16471,0.14118,1.00000"
+              }
+            },
+            {
+              "appearance": "dark",
+              "value": {
+                "solid": "srgb:0.22745,0.11765,0.10196,1.00000"
+              }
+            }
+          ],
+          "glass": false,
+          "image-name": "Vector.svg",
+          "name": "Vector",
+          "opacity": 0.95,
+          "position": {
+            "scale": 1.85,
+            "translation-in-points": [
+              0,
+              -60
+            ]
+          }
+        },
+        {
+          "fill-specializations": [
+            {
+              "value": {
+                "linear-gradient": [
+                  "srgb:0.94902,0.78039,0.70588,1.00000",
+                  "srgb:0.72549,0.47059,0.41569,1.00000"
+                ]
+              }
+            },
+            {
+              "appearance": "dark",
+              "value": {
+                "linear-gradient": [
+                  "srgb:0.90588,0.70196,0.62353,1.00000",
+                  "srgb:0.62745,0.39608,0.35294,1.00000"
+                ]
+              }
+            }
+          ],
+          "glass": true,
+          "image-name": "Rectangle 2.svg",
+          "name": "Rectangle 2",
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": true,
+        "value": 0.5
+      }
+    },
+    {
+      "layers": [
+        {
+          "name": "Star",
+          "image-name": "Star.svg",
+          "glass": false,
+          "opacity": 1,
+          "fill-specializations": [
+            {
+              "value": {
+                "solid": "srgb:0.78824,0.58824,0.18431,1.00000"
+              }
+            },
+            {
+              "appearance": "dark",
+              "value": {
+                "solid": "srgb:0.89020,0.69020,0.29412,1.00000"
+              }
+            }
+          ],
+          "position": {
+            "scale": 0.62,
+            "translation-in-points": [
+              210,
+              -220
+            ]
+          }
+        }
+      ],
+      "name": "Star",
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.3
+      },
+      "translucency": {
+        "enabled": false,
+        "value": 0.5
+      }
+    }
+  ],
+  "supported-platforms": {
+    "circles": [
+      "watchOS"
+    ],
+    "squares": "shared"
+  }
+}

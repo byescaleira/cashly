@@ -100,7 +100,7 @@ private struct MedallionLock: View {
     }
 }
 
-private struct MedallionShine: View {
+struct MedallionShine: View {
     var body: some View {
         LinearGradient(
             colors: [.clear, .white.opacity(.opacitySoft), .clear], startPoint: .leading,

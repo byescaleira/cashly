@@ -15,7 +15,6 @@ public struct JourneyScreen: View {
     public var body: some View {
         @Bindable var journey = journey
         AdaptiveList {
-            PausedSection()
             LevelSection()
             StreakSection()
             MissionsSection()
@@ -26,16 +25,23 @@ public struct JourneyScreen: View {
         .fontDesign(.rounded)
         .toolbar {
             ToolbarItem(placement: .leading) { UserMenu() }
+            ToolbarItem(placement: .primaryAction) {
+                Button("Shop", systemImage: "bag") { open(.shop, in: section) }
+                    .tint(Color.primary)
+            }
         }
         .navigationTitle("Journey")
         .task(id: session.loadKey) { await journey.load() }
         .task { await CashlyTips.record(CashlyTips.journeyOpened) }
+        .onChange(of: pro.isPro, initial: true) { journey.isPro = $1 }
         .refreshable { await journey.load() }
         .sheet(isPresented: $journey.isChoosingChallenge) { ChallengePickerScreen() }
         .sheet(item: $journey.selected, onDismiss: followAchievement) {
             AchievementDetailScreen(state: $0)
         }
-        .sheet(item: $journey.celebration) { CelebrationScreen(celebration: $0) }
+        .sheet(item: $journey.celebration, onDismiss: followAchievement) {
+            CelebrationScreen(celebration: $0)
+        }
         .errorAlert($journey.error)
     }
 

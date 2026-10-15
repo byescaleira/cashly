@@ -29,10 +29,14 @@ public final class DashboardModel {
 
     @ObservationIgnored private let session: SessionModel
     @ObservationIgnored private let finance: FinanceModel
+    @ObservationIgnored let defaults: UserDefaults
+    var hiddenSpotlightMonth: Int
 
-    public init(session: SessionModel, finance: FinanceModel) {
+    public init(session: SessionModel, finance: FinanceModel, defaults: UserDefaults = .standard) {
         self.session = session
         self.finance = finance
+        self.defaults = defaults
+        hiddenSpotlightMonth = defaults.integer(forKey: Self.spotlightKey)
     }
 
     public var topSpending: [TopSpending] {

@@ -12,10 +12,12 @@ public enum AppIcon: String, CaseIterable, Identifiable, Sendable {
     case bunting, plaid, bonfire, corn
     case blood, bat, skull, frankenstein
     case gift, snow, lights, candyCane
+    case gold, roseGold, blackGold, bullion
 
     public enum Collection: CaseIterable, Sendable {
         case colors, fashion, countries, sports, eighties
         case summer, carnival, junina, halloween, christmas
+        case gold
 
         public var title: String {
             switch self {
@@ -29,12 +31,13 @@ public enum AppIcon: String, CaseIterable, Identifiable, Sendable {
             case .junina: String(appLocalized: "Festa Junina")
             case .halloween: String(appLocalized: "Halloween")
             case .christmas: String(appLocalized: "Christmas")
+            case .gold: String(appLocalized: "Gold")
             }
         }
 
         var month: Int? {
             switch self {
-            case .colors, .fashion, .countries, .sports, .eighties: nil
+            case .colors, .fashion, .countries, .sports, .eighties, .gold: nil
             case .summer: 1
             case .carnival: 2
             case .junina: 6
@@ -43,11 +46,13 @@ public enum AppIcon: String, CaseIterable, Identifiable, Sendable {
             }
         }
 
+        public var isProOnly: Bool { self == .gold }
+
         public var icons: [AppIcon] { AppIcon.allCases.filter { $0.collection == self } }
 
         public var shopItem: ShopItem? {
             switch self {
-            case .colors: nil
+            case .colors, .gold: nil
             case .fashion: .iconsFashion
             case .countries: .iconsCountries
             case .sports: .iconsSports
@@ -97,6 +102,7 @@ public enum AppIcon: String, CaseIterable, Identifiable, Sendable {
         case .bunting, .plaid, .bonfire, .corn: .junina
         case .blood, .bat, .skull, .frankenstein: .halloween
         case .gift, .snow, .lights, .candyCane: .christmas
+        case .gold, .roseGold, .blackGold, .bullion: .gold
         }
     }
 
@@ -142,6 +148,10 @@ public enum AppIcon: String, CaseIterable, Identifiable, Sendable {
         case .snow: String(appLocalized: "Snow")
         case .lights: String(appLocalized: "Lights")
         case .candyCane: String(appLocalized: "Candy Cane")
+        case .gold: String(appLocalized: "Gold")
+        case .roseGold: String(appLocalized: "Rose Gold")
+        case .blackGold: String(appLocalized: "Black Gold")
+        case .bullion: String(appLocalized: "Gold Bar")
         }
     }
 

@@ -17,8 +17,6 @@ public struct JourneyWidgetView: View {
         if let snapshot {
             switch snapshot.status {
             case .active: JourneyLayout(snapshot: snapshot, size: size, date: date)
-            case .paused:
-                WidgetMessage(symbol: "pause.circle", text: Text("Journey Paused"), size: size)
             case .hidden:
                 WidgetMessage(
                     symbol: "trophy", text: Text("Turn the Journey on in Cashly › Settings."),

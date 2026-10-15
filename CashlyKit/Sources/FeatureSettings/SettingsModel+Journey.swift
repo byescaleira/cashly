@@ -57,7 +57,7 @@ extension SettingsModel {
         }
         await loadJourney(
             from: RepositoriesGameSource(
-                repositories: session.repositories, guideCount: Guide.allCases.count))
+                repositories: session.repositories, guides: Guide.journeyIDs))
     }
 
     var journeyValue: String {

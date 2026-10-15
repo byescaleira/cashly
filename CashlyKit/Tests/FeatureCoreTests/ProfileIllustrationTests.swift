@@ -11,12 +11,13 @@ struct ProfileIllustrationTests {
         #expect(
             Section.allCases.map(\.rawValue) == [
                 "cats", "dogs", "forest", "farm", "ocean", "birds", "jungle", "tiny", "fantasy",
+                "gold",
             ])
-        #expect(Section.allCases.map(\.count) == [22, 22, 22, 22, 24, 22, 24, 22, 20])
-        #expect(ProfileIllustration.all.count == 200)
+        #expect(Section.allCases.map(\.count) == [22, 22, 22, 22, 24, 22, 24, 22, 20, 20])
+        #expect(ProfileIllustration.all.count == 220)
         #expect(ProfileIllustration.all.first?.id == "cats-01")
-        #expect(ProfileIllustration.all.last?.id == "fantasy-20")
-        #expect(Set(ProfileIllustration.all.map(\.id)).count == 200)
+        #expect(ProfileIllustration.all.last?.id == "gold-20")
+        #expect(Set(ProfileIllustration.all.map(\.id)).count == 220)
     }
 
     @Test func listComesFromTheRealCatalog() {
@@ -31,8 +32,17 @@ struct ProfileIllustrationTests {
         #expect(ProfileIllustration(id: "cats-01")?.section == .cats)
     }
 
-    @Test func catsDogsAndForestAreFree() {
-        #expect(Section.allCases.filter { $0.shopItem == nil } == [.cats, .dogs, .forest])
+    @Test func catsDogsAndForestAreFreeAndGoldIsPro() {
+        let shop = ShopAccess(owned: [], open: { _ in })
+        let free = Section.allCases.filter {
+            shop.access(to: $0.shopItem, proOnly: $0.isProOnly) == .included
+        }
+        #expect(free == [.cats, .dogs, .forest])
+        #expect(shop.access(to: nil, proOnly: Section.gold.isProOnly) == .pro)
+        #expect(
+            ShopAccess(owned: [], isPro: true, open: { _ in }).access(to: nil, proOnly: true)
+                == .included)
+        #expect(Section.sections(of: .avatarsAll).allSatisfy { !$0.isProOnly })
         let paid = Section.allCases.compactMap(\.shopItem)
         #expect(paid.count == 6)
         #expect(Set(paid).count == 6)
@@ -41,7 +51,7 @@ struct ProfileIllustrationTests {
     }
 
     @Test func allAvatarsUnlocksEveryPaidSection() {
-        let shop = ShopAccess(owned: [.avatarsAll]) { _ in }
+        let shop = ShopAccess(owned: [.avatarsAll], open: { _ in })
         #expect(Section.allCases.allSatisfy { shop.access(to: $0.shopItem).lockedItem == nil })
         #expect(shop.access(to: Section.ocean.shopItem) == .owned)
         #expect(shop.access(to: Section.cats.shopItem) == .included)
@@ -51,7 +61,7 @@ struct ProfileIllustrationTests {
     }
 
     @Test func oneSectionDoesNotUnlockAnother() {
-        let shop = ShopAccess(owned: [.avatarsOcean]) { _ in }
+        let shop = ShopAccess(owned: [.avatarsOcean], open: { _ in })
         #expect(shop.access(to: Section.ocean.shopItem) == .owned)
         #expect(shop.access(to: Section.farm.shopItem) == .locked(.avatarsFarm))
         #expect(!shop.owns(.avatarsAll))

@@ -63,4 +63,12 @@ public final class CashlyNavigation {
         paths = [:]
         closeInspector()
     }
+
+    public func show(_ guide: Guide, isPro: Bool) {
+        if guide.requiresPro, !isPro {
+            isShowingPaywall = true
+        } else {
+            self.guide = guide
+        }
+    }
 }

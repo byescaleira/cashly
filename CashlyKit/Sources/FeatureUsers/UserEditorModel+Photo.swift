@@ -50,12 +50,13 @@ extension UserEditorModel {
     }
 
     public func access(to section: ProfileIllustration.Section, in shop: ShopAccess) -> PackAccess {
-        shop.access(to: section.shopItem)
+        shop.access(to: section.shopItem, proOnly: section.isProOnly)
     }
 
     public func choose(_ illustration: ProfileIllustration, in shop: ShopAccess) {
-        if let item = shop.access(to: illustration.shopItem).lockedItem {
-            shop.open(item)
+        let access = access(to: illustration.section, in: shop)
+        if access.isLocked {
+            shop.unlock(access)
             return
         }
         self.illustration = illustration.id

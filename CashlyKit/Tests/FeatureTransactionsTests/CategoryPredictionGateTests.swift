@@ -44,6 +44,7 @@ struct CategoryPredictionGateTests {
             flags: flags)
         await intelligence.loadModels(revision: "r1")
         let editor = TransactionEditorModel(repositories: fixture.repositories)
+        editor.isPro = true
         await editor.load()
         editor.draft.kind = .expense
         editor.draft.summary = "Feira"
@@ -63,5 +64,12 @@ struct CategoryPredictionGateTests {
         let (editor, intelligence, market) = try await editor(intelligenceOn: true)
         await editor.predictCategory(with: intelligence)
         #expect(editor.draft.category == market)
+    }
+
+    @Test func freeUsersGetNoAutomaticSuggestion() async throws {
+        let (editor, intelligence, market) = try await editor(intelligenceOn: true)
+        editor.isPro = false
+        await editor.predictCategory(with: intelligence)
+        #expect(editor.draft.category != market)
     }
 }

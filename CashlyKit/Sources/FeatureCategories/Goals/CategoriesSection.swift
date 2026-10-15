@@ -7,7 +7,6 @@ struct CategoriesSection: View {
     @Environment(FinanceModel.self) private var finance
     @Environment(\.open) private var open
     @Environment(\.navigationSection) private var section
-    @Environment(\.pro) private var pro
 
     var body: some View {
         Section {
@@ -35,7 +34,7 @@ struct CategoriesSection: View {
                 .tint(Color.primary)
                 .swipeActions {
                     Button("Delete", systemImage: "trash", role: .destructive) {
-                        pro.perform { goals.deletion = .category(category) }
+                        goals.deletion = .category(category)
                     }
                     Button("Edit", systemImage: "square.and.pencil") {
                         open(.addCategory(id: category.id), in: section)
@@ -47,7 +46,7 @@ struct CategoriesSection: View {
                     }
                     Divider()
                     Button("Delete", systemImage: "trash", role: .destructive) {
-                        pro.perform { goals.deletion = .category(category) }
+                        goals.deletion = .category(category)
                     }
                 }
             }

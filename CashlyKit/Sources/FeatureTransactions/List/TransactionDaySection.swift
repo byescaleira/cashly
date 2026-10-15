@@ -27,7 +27,6 @@ private struct TransactionDayRow: View {
     @Environment(\.open) private var open
     @Environment(\.navigationSection) private var section
     @Environment(\.isGroupedColumn) private var isGroupedColumn
-    @Environment(\.pro) private var pro
     let transaction: CashlyDomain.Transaction
 
     var body: some View {
@@ -48,10 +47,10 @@ private struct TransactionDayRow: View {
         .tag(transaction)
         .tint(Color.primary)
         .accessibilityAddTraits(isPicking && list.isSelected(transaction) ? .isSelected : [])
-        .deleteAction { pro.perform { Task { await list.delete(transaction) } } }
+        .deleteAction { Task { await list.delete(transaction) } }
         .contextMenu {
             Button("Delete", systemImage: "trash", role: .destructive) {
-                pro.perform { Task { await list.delete(transaction) } }
+                Task { await list.delete(transaction) }
             }
         }
     }

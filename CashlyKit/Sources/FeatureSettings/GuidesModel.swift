@@ -12,24 +12,32 @@ public final class GuidesModel {
         self.session = session
     }
 
-    public var total: Int { Guide.allCases.count }
+    public var total: Int { Guide.free.count }
 
-    public var doneCount: Int { done.count }
+    public var doneCount: Int { Guide.free.filter(done.contains).count }
 
     public var fraction: Double { total > 0 ? Double(doneCount) / Double(total) : 0 }
 
     public var isComplete: Bool { doneCount >= total }
 
-    public var next: Guide? { Guide.allCases.first { !done.contains($0) } }
+    public var next: Guide? { Guide.free.first { !done.contains($0) } }
 
     public var remainingMinutes: Int {
-        Guide.allCases.filter { !done.contains($0) }.reduce(0) { $0 + $1.minutes }
+        Guide.free.filter { !done.contains($0) }.reduce(0) { $0 + $1.minutes }
     }
 
     public func isDone(_ guide: Guide) -> Bool { done.contains(guide) }
 
     public func doneCount(in category: GuideCategory) -> Int {
-        category.guides.filter(done.contains).count
+        Self.counted(in: category).filter(done.contains).count
+    }
+
+    public func total(in category: GuideCategory) -> Int {
+        Self.counted(in: category).count
+    }
+
+    private static func counted(in category: GuideCategory) -> [Guide] {
+        category.guides.filter { !$0.requiresPro }
     }
 
     public func load() async {

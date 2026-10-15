@@ -7,18 +7,22 @@ struct FutureSection: View {
 
     var body: some View {
         if let commitments = insights.commitments {
-            Section {
-                InsightBars(bars: commitments.bars)
-                LabeledContent(
-                    "Next Month", value: commitments.nextMonth.formatted(.appCurrency))
-            } header: {
-                FigureHeader(title: "Coming Months", amount: commitments.total) {
-                    Text("already committed to installments")
-                        .font(.title3.weight(.semibold))
-                        .foregroundStyle(.secondary)
+            ProCurtainSection(.future) {
+                Section {
+                    InsightBars(bars: commitments.bars)
+                    LabeledContent(
+                        "Next Month", value: commitments.nextMonth.formatted(.appCurrency))
+                } header: {
+                    FigureHeader(title: "Coming Months", amount: commitments.total) {
+                        Text("already committed to installments")
+                            .font(.title3.weight(.semibold))
+                            .foregroundStyle(.secondary)
+                    }
+                } footer: {
+                    Text("Installments and future bills you've already recorded.")
                 }
-            } footer: {
-                Text("Installments and future bills you've already recorded.")
+            } preview: {
+                InsightBars(bars: commitments.bars)
             }
         }
     }

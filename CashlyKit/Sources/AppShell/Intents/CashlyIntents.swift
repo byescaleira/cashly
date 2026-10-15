@@ -76,7 +76,7 @@ public struct MarkBillPaidIntent: AppIntent {
 
     @MainActor
     public func perform() async throws -> some IntentResult & ProvidesDialog {
-        let actions = try await IntentWorkspace.actions(writing: true)
+        let actions = try await IntentWorkspace.actions()
         let paid = try await actions.markPaid(transactionID: bill.id)
         let name = paid.summary.isEmpty ? paid.category.name : paid.summary
         return .result(dialog: "\(name) marked as paid.")

@@ -106,11 +106,11 @@ struct JourneyWidgetTests {
     @Test func statusComesFromTheAppAndSurvivesTheJourneyTab() async throws {
         let (session, _) = try await session()
         let store = try store()
-        await JourneyModel.publish(session: session, status: .paused, store: store)
-        #expect(try store.read()?.status == .paused)
+        await JourneyModel.publish(session: session, status: .hidden, store: store)
+        #expect(try store.read()?.status == .hidden)
         let journey = try model(session, store: store, today: .now)
         await journey.load()
-        #expect(try store.read()?.status == .paused)
+        #expect(try store.read()?.status == .hidden)
         await JourneyModel.publish(session: session, status: .active, store: store)
         #expect(try store.read()?.status == .active)
     }

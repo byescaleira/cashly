@@ -60,7 +60,7 @@ extension JourneyModel {
 
     public var nextAchievements: [AchievementState] {
         let locked = (progress?.achievements ?? []).filter {
-            !$0.isUnlocked && !$0.achievement.isSecret
+            !$0.isUnlocked && !$0.achievement.isSecret && $0.achievement.group != .pro
         }
         return Array(
             locked.sorted {

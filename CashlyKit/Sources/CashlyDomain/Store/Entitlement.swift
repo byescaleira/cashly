@@ -13,8 +13,6 @@ public enum Entitlement: Equatable, Sendable {
         }
     }
 
-    public var canWrite: Bool { isActive }
-
     public var expires: Date? {
         switch self {
         case .trial(let date), .active(let date), .expired(let date): date

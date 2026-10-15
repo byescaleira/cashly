@@ -90,7 +90,7 @@ public struct AddExpenseIntent: AppIntent {
         if request.needsShare {
             throw $share.needsValueError("How much does each participant pay?")
         }
-        let saved = try await IntentWorkspace.actions(writing: true, profileID: profile?.id)
+        let saved = try await IntentWorkspace.actions(profileID: profile?.id)
             .add(request)
         await JourneyNotifier.reviewInBackground()
         return .result(dialog: "Added \(saved.money.formatted) in \(saved.category.name).")
@@ -139,7 +139,7 @@ public struct AddIncomeIntent: AppIntent {
             kind: .income, amount: amount, categoryID: category.id, summary: summary ?? "",
             date: date, status: status.request, tagIDs: Set((tags ?? []).map(\.id)),
             installments: installments)
-        let saved = try await IntentWorkspace.actions(writing: true, profileID: profile?.id)
+        let saved = try await IntentWorkspace.actions(profileID: profile?.id)
             .add(request)
         await JourneyNotifier.reviewInBackground()
         return .result(

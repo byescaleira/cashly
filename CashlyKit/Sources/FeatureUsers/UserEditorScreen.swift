@@ -18,6 +18,7 @@ public struct UserEditorScreen: View {
             if model.showsColors { ColorSection(hex: $model.photoColor) }
             if model.showsIllustrations {
                 ForEach(model.illustrationSections) { IllustrationSection(section: $0) }
+                ShopLinkSection()
             }
         }
         .animation(reduceMotion ? nil : .smooth, value: model.style)

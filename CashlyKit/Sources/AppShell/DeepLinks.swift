@@ -5,7 +5,6 @@ import SwiftUI
 struct DeepLinks: ViewModifier {
     @Environment(CashlyNavigation.self) private var navigation
     @Environment(SessionModel.self) private var session
-    @Environment(\.pro) private var pro
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     func body(content: Content) -> some View {
@@ -60,10 +59,6 @@ struct DeepLinks: ViewModifier {
     }
 
     private func open(_ route: Route, in section: AppSection) {
-        if pro.canWrite {
-            navigation.open(route, in: section, beside: horizontalSizeClass == .regular)
-        } else {
-            navigation.isShowingPaywall = true
-        }
+        navigation.open(route, in: section, beside: horizontalSizeClass == .regular)
     }
 }

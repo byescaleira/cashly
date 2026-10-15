@@ -152,7 +152,7 @@ struct StoreModelTests {
                 id: 5, productID: ShopItem.proMonthly.id, expirationDate: week, isFreeTrial: true))
         _ = try await store.purchase(.proMonthly)
         #expect(store.entitlement == .trial(expires: week))
-        #expect(store.entitlement.canWrite)
+        #expect(store.entitlement.isActive)
         let month = week.addingTimeInterval(30 * 86_400)
         client.entitlements = [
             StoreTransaction(id: 6, productID: ShopItem.proMonthly.id, expirationDate: month)
@@ -164,7 +164,7 @@ struct StoreModelTests {
             id: 6, productID: ShopItem.proMonthly.id, expirationDate: month)
         await store.refresh()
         #expect(store.entitlement == .expired(month))
-        #expect(!store.entitlement.canWrite)
+        #expect(!store.entitlement.isActive)
     }
 
     @Test func plansLeadWithTheAnnualSaving() async throws {
@@ -249,5 +249,45 @@ struct StoreModelTests {
         try await store.restore()
         #expect(client.synced)
         #expect(store.owned == [.iconsAll])
+    }
+
+    @Test func proTimeAddsUpFromThePlanHistoryAndIsRecordedOnce() async throws {
+        let (store, client, database) = try await store()
+        let now = Date.now
+        client.past = [
+            StoreTransaction(
+                id: 20, productID: ShopItem.proMonthly.id,
+                purchaseDate: now.addingTimeInterval(-70 * 86_400),
+                expirationDate: now.addingTimeInterval(-40 * 86_400), isFreeTrial: true),
+            StoreTransaction(
+                id: 21, productID: ShopItem.proMonthly.id,
+                purchaseDate: now.addingTimeInterval(-40 * 86_400),
+                expirationDate: now.addingTimeInterval(-5 * 86_400)),
+            StoreTransaction(
+                id: 22, productID: ShopItem.iconsAll.id,
+                purchaseDate: now.addingTimeInterval(-300 * 86_400)),
+        ]
+        await store.refresh()
+        #expect(store.proMonths == 2)
+        await store.recordTenure()
+        await store.recordTenure()
+        let months = try await events(database).filter { $0.kind == .proMonth }.map(\.count)
+        #expect(months.sorted() == [1, 2])
+    }
+
+    @Test func refundsCutProTimeAndNothingIsRecordedWithoutAProfile() async throws {
+        let (store, client, database) = try await store(withUser: false)
+        let now = Date.now
+        client.past = [
+            StoreTransaction(
+                id: 30, productID: ShopItem.proYearly.id,
+                purchaseDate: now.addingTimeInterval(-50 * 86_400),
+                expirationDate: now.addingTimeInterval(300 * 86_400),
+                revocationDate: now.addingTimeInterval(-15 * 86_400))
+        ]
+        await store.refresh()
+        #expect(store.proMonths == 1)
+        await store.recordTenure()
+        #expect(try await events(database).isEmpty)
     }
 }

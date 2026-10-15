@@ -56,6 +56,10 @@ public final class SettingsModel {
     public var developer: DeveloperModel?
     public let notifications: NotificationsModel
     public let info: AppInfo
+    public static var journeyPreference: Bool {
+        UserDefaults.standard.object(forKey: Key.journey) as? Bool ?? true
+    }
+
     public static var launchSyncPreference: Bool {
         UserDefaults.standard.object(forKey: Key.cloudSync) as? Bool ?? true
     }

@@ -1,7 +1,7 @@
 import CashlyDesignSystem
 import SwiftUI
 
-public struct GuideSheet<Page: View>: View {
+public struct GuideSheet<Page: View, Backdrop: View>: View {
     @State private var height: CGFloat = 560
     @State private var shownIndex = 0
     private let index: Int
@@ -11,10 +11,12 @@ public struct GuideSheet<Page: View>: View {
     private let primary: GuideAction
     private let secondary: GuideAction?
     private let page: Page
+    private let backdrop: Backdrop
 
     public init(
         index: Int, count: Int, isWorking: Bool = false, back: (() -> Void)? = nil,
-        primary: GuideAction, secondary: GuideAction? = nil, @ViewBuilder page: () -> Page
+        primary: GuideAction, secondary: GuideAction? = nil, @ViewBuilder page: () -> Page,
+        @ViewBuilder backdrop: () -> Backdrop
     ) {
         self.index = index
         self.count = count
@@ -23,6 +25,7 @@ public struct GuideSheet<Page: View>: View {
         self.primary = primary
         self.secondary = secondary
         self.page = page()
+        self.backdrop = backdrop()
     }
 
     public var body: some View {
@@ -51,12 +54,28 @@ public struct GuideSheet<Page: View>: View {
         .presentationDetents([.height(height)])
         .presentationDragIndicator(.hidden)
         #if !os(visionOS)
-            .presentationBackground(.sheetBackground)
+            .presentationBackground {
+                ZStack {
+                    Rectangle().fill(.sheetBackground)
+                    backdrop
+                }
+            }
         #endif
         #if os(iOS)
             .modifier(GuidePlacement())
         #endif
         .interactiveDismissDisabled(isWorking)
+    }
+}
+
+extension GuideSheet where Backdrop == EmptyView {
+    public init(
+        index: Int, count: Int, isWorking: Bool = false, back: (() -> Void)? = nil,
+        primary: GuideAction, secondary: GuideAction? = nil, @ViewBuilder page: () -> Page
+    ) {
+        self.init(
+            index: index, count: count, isWorking: isWorking, back: back, primary: primary,
+            secondary: secondary, page: page, backdrop: { EmptyView() })
     }
 }
 

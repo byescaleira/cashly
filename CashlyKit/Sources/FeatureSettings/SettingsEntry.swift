@@ -20,15 +20,17 @@ enum SettingsEntry: String, CaseIterable, Identifiable {
     case appearance, language, currency, notifications, privacy, widgets, journey
     case cloud, data
     case guides, about
+    case shop
 
     var id: String { rawValue }
 
-    var group: SettingsGroup {
+    var group: SettingsGroup? {
         switch self {
         case .appearance, .language, .currency, .notifications, .privacy, .widgets, .journey:
             .general
         case .cloud, .data: .data
         case .guides, .about: .help
+        case .shop: nil
         }
     }
 
@@ -45,7 +47,12 @@ enum SettingsEntry: String, CaseIterable, Identifiable {
         case .data: String(appLocalized: "Data and Backup")
         case .guides: String(appLocalized: "Guides")
         case .about: String(appLocalized: "About Cashly")
+        case .shop: String(appLocalized: "Shop")
         }
+    }
+
+    var detail: String? {
+        self == .shop ? String(appLocalized: "Icons, colors, avatars and Journey helps.") : nil
     }
 
     var keywords: String {
@@ -63,6 +70,7 @@ enum SettingsEntry: String, CaseIterable, Identifiable {
         case .data: String(appLocalized: "backup, export, import, spreadsheet, CSV, erase")
         case .guides: String(appLocalized: "help, tutorial, how to")
         case .about: String(appLocalized: "version, support, terms, what's new")
+        case .shop: String(appLocalized: "store, buy, purchases, icons, colors, avatars, helps")
         }
     }
 
@@ -79,6 +87,7 @@ enum SettingsEntry: String, CaseIterable, Identifiable {
         case .data: "externaldrive"
         case .guides: "book"
         case .about: "info.circle"
+        case .shop: "bag"
         }
     }
 
@@ -95,6 +104,7 @@ enum SettingsEntry: String, CaseIterable, Identifiable {
         case .data: .slate
         case .guides: .avocado
         case .about: .indigo
+        case .shop: .burntOrange
         }
     }
 

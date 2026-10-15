@@ -8,11 +8,11 @@ public protocol GameSource: Sendable {
 
 public struct RepositoriesGameSource: GameSource {
     private let repositories: Repositories
-    private let guideCount: Int
+    private let guides: Set<String>
 
-    public init(repositories: Repositories, guideCount: Int) {
+    public init(repositories: Repositories, guides: Set<String>) {
         self.repositories = repositories
-        self.guideCount = guideCount
+        self.guides = guides
     }
 
     public func snapshot(today: Date) async throws -> GameSnapshot {
@@ -24,6 +24,6 @@ public struct RepositoriesGameSource: GameSource {
             budgets: catalog.budgets, revision: data.revision, today: today)
         return GameSnapshot(
             userID: repositories.userID ?? "", ledger: ledger, transactions: data.transactions,
-            events: events, guideCount: guideCount)
+            events: events, guides: guides)
     }
 }

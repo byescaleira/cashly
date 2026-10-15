@@ -15,12 +15,13 @@ struct SettingsProfileSection: View {
                 } else {
                     ProOfferRow()
                     SettingsRow(
-                        "Plan and Purchases", symbol: "bag", color: .companion,
+                        "Plan and Purchases", symbol: "creditcard", color: .companion,
                         value: store.entitlement.title
                     ) {
                         SettingsPage("Cashly Pro") { ProSection() }
                     }
                 }
+                SettingsEntryRow(entry: .shop)
             }
         } header: {
             SettingsProfileHeader()
@@ -107,7 +108,7 @@ private struct ProOfferRow: View {
                     Text(verbatim: settings.proOfferTitle(for: store.entitlement))
                         .font(.rowTitle)
                         .foregroundStyle(Color.primary)
-                    Text("Unlimited recording, analysis, the Journey and backups.")
+                    Text("Insights, intelligence, backups and Claude Code.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }

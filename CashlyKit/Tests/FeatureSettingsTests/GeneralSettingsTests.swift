@@ -36,7 +36,7 @@ private struct SnapshotSource: GameSource {
             ledger: LedgerSnapshot(
                 transactions: [], categories: [], tags: [], budgets: [], revision: "r",
                 today: today),
-            transactions: [], events: events, guideCount: 3)
+            transactions: [], events: events, guides: ["a", "b", "c"])
     }
 }
 
@@ -68,6 +68,9 @@ struct GeneralSettingsTests {
         #expect(found == [.privacy])
         let titled = settings.entries(matching: "CURR", showsGuides: true, showsJourneyEntry: true)
         #expect(titled == [.currency])
+        let shop = settings.entries(matching: "avatars", showsGuides: true, showsJourneyEntry: true)
+        #expect(shop == [.shop])
+        #expect(!general.contains(.shop))
         #expect(
             settings.entries(matching: "zzz", showsGuides: true, showsJourneyEntry: true).isEmpty)
     }

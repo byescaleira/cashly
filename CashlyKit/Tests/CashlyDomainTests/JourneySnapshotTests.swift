@@ -92,8 +92,8 @@ struct JourneySnapshotTests {
         let done = try snapshot(day: date(14, hour: 0))
         #expect(try done.streakRisk(at: date(14, hour: 20), calendar: calendar) == nil)
         #expect(try done.streakRisk(at: date(15, hour: 20), calendar: calendar) != nil)
-        let paused = try snapshot(status: .paused, tracked: false, day: date(14, hour: 0))
-        #expect(try paused.streakRisk(at: date(14, hour: 20), calendar: calendar) == nil)
+        let hidden = try snapshot(status: .hidden, tracked: false, day: date(14, hour: 0))
+        #expect(try hidden.streakRisk(at: date(14, hour: 20), calendar: calendar) == nil)
     }
 
     @Test func challengeEndsTodayOnlyOnItsLastDay() throws {

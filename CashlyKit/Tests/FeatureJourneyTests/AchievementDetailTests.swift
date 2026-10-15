@@ -173,18 +173,38 @@ struct AchievementDetailTests {
         #expect(journey.isChoosingChallenge)
     }
 
-    @Test func importNeedsProBeforeOpeningTheGuide() async throws {
+    @Test func theCelebrationOpensTheShopAfterItCloses() async throws {
+        let (journey, _) = try await model()
+        let pro = ProAccess(entitlement: .none, isEnforced: false, present: {})
+        journey.browseShopAfterCelebration()
+        var opened: [Route] = []
+        journey.performPendingAction(pro: pro, open: { opened.append($0) }, guide: { _ in })
+        #expect(opened == [.shop])
+        #expect(journey.pendingAction == nil)
+    }
+
+    @Test func onlyTheLastCelebrationOffersTheShop() async throws {
+        let (journey, database) = try await model()
+        await journey.load()
+        try await spend(4_200, in: database)
+        await journey.load()
+        #expect(journey.celebrations.count > 1)
+        #expect(!journey.offersShopAfterCelebration)
+        while journey.celebrations.count > 1 { journey.celebration = nil }
+        #expect(journey.offersShopAfterCelebration)
+    }
+
+    @Test func guidesGoToNavigationAndTheProActionOpensThePaywall() async throws {
         let (journey, _) = try await model()
         var presented = 0
         var guides: [Guide] = []
         let pro = ProAccess(entitlement: .none, isEnforced: true, present: { presented += 1 })
         journey.follow(.guide(.importSpreadsheet))
         journey.performPendingAction(pro: pro, open: { _ in }, guide: { guides.append($0) })
-        #expect(presented == 1)
-        #expect(guides.isEmpty)
-        journey.follow(.guide(.backups))
+        #expect(guides == [.importSpreadsheet])
+        journey.follow(.pro)
         journey.performPendingAction(pro: pro, open: { _ in }, guide: { guides.append($0) })
-        #expect(guides == [.backups])
+        #expect(presented == 1)
     }
 
     @Test func everyAchievementHasItsOwnTitleCriterionAndTip() {
@@ -200,5 +220,27 @@ struct AchievementDetailTests {
         #expect(BudgetHealth.maximumScore == 1_000)
         #expect(Achievement.tagsInUse5.detail.contains("\(Achievement.tagsInUse5.target)"))
         #expect(Achievement.splits50.detail.contains("50"))
+    }
+
+    @Test func proTimeOffersThePaywallOnlyToFreeUsersAndStaysOutOfNext() async throws {
+        let (journey, _) = try await model()
+        await journey.load()
+        let supporter = try state(.proMonth1, in: journey)
+        #expect(journey.action(for: supporter) == .pro)
+        journey.isPro = true
+        #expect(journey.action(for: supporter) == nil)
+        #expect(!journey.nextAchievements.contains { $0.achievement.group == .pro })
+        #expect(Achievement.proYear2.xp == 0)
+    }
+
+    @Test func celebrationsShowTheMedalAndOnlyRealRewards() async throws {
+        let (journey, _) = try await model()
+        await journey.load()
+        #expect(journey.state(of: .firstTransaction)?.achievement == .firstTransaction)
+        #expect(journey.reward(for: .achievement(.firstTransaction)) != nil)
+        #expect(journey.reward(for: .achievement(.proMonth1)) == nil)
+        #expect(journey.reward(for: .level(3)) == nil)
+        #expect(Celebration.level(12).levelText == "12")
+        #expect(Celebration.achievement(.firstTransaction).levelText == nil)
     }
 }

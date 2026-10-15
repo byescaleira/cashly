@@ -6,7 +6,7 @@ public struct JourneySnapshot: Codable, Hashable, Sendable {
     public static let riskHour = 18
 
     public enum Status: String, Codable, Hashable, Sendable {
-        case active, paused, hidden
+        case active, hidden
     }
 
     public enum Tint: String, Codable, Hashable, Sendable {

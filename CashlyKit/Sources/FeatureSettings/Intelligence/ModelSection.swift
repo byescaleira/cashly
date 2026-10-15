@@ -9,7 +9,7 @@ struct ModelSection: View {
 
     var body: some View {
         Section {
-            IconRow(verbatim: kind.name, symbol: kind.icon, color: kind.color)
+            ModelRow(kind: kind)
             if let info = intelligence.info(for: kind) {
                 LabeledContent(
                     "Last Updated",
@@ -21,5 +21,13 @@ struct ModelSection: View {
         } footer: {
             Text(kind.summary)
         }
+    }
+}
+
+struct ModelRow: View {
+    let kind: CashlyIntelligence
+
+    var body: some View {
+        IconRow(verbatim: kind.name, symbol: kind.icon, color: kind.color)
     }
 }

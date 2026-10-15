@@ -115,7 +115,9 @@ private final class CashlyBootstrap {
                     try? await SampleDatabase.seed(database)
                 }
             #endif
-            Task { await data.runAutoBackupIfNeeded() }
+            Task {
+                if await CashlyServices.shared.isPro() { await data.runAutoBackupIfNeeded() }
+            }
         } catch {
             self.error = error.localizedDescription
         }

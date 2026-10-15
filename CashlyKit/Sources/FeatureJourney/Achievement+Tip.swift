@@ -7,8 +7,7 @@ public enum AchievementAction: Equatable {
     case open(Route)
     case guide(Guide)
     case challenge
-
-    var requiresPro: Bool { self == .guide(.importSpreadsheet) }
+    case pro
 }
 
 extension Achievement {
@@ -37,6 +36,10 @@ extension Achievement {
         case .levels:
             String(appLocalized: "Recording, streaks, missions and challenges all earn XP.")
         case .secret: clue
+        case .pro:
+            String(
+                appLocalized:
+                    "The free trial and every plan add up, even with breaks in between.")
         }
     }
 
@@ -56,11 +59,11 @@ extension Achievement {
         case .firstCategory: .open(.addCategory(id: nil))
         case .firstBudget: .open(.addBudget(id: nil, categoryID: nil, date: nil))
         case .firstTag: .open(.addTag(id: nil))
-        case .firstImport: .guide(.importSpreadsheet)
         case .firstBackup: .guide(.backups)
         case .fullyBudgeted, .blueMonth, .blueRun3, .blueRun6, .blueRun12, .perfectMonth:
             .open(.budgets)
         case .challenges1, .challenges5, .challenges12: .challenge
+        case .proMonth1, .proMonth6, .proYear1, .proYear2: .pro
         case .allGuides, .level10, .level25: nil
         default: isSecret ? nil : .open(.addTransaction(id: nil))
         }
@@ -82,11 +85,6 @@ extension Achievement {
         case .firstSplit:
             String(
                 appLocalized: "In the transaction editor, add participants and choose the split.")
-        case .firstImport:
-            String(
-                appLocalized:
-                    "The import guide shows the columns Cashly reads and checks the file before saving."
-            )
         case .firstBackup:
             String(appLocalized: "Settings › Data › Export Backup saves a file with every profile.")
         default: String(appLocalized: "Any amount counts, even a coffee. It takes a few seconds.")

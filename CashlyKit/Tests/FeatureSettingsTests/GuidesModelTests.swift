@@ -24,7 +24,8 @@ struct GuidesModelTests {
         #expect(guides.fraction == 0)
         #expect(guides.next == .tour)
         #expect(!guides.isComplete)
-        #expect(guides.remainingMinutes == Guide.allCases.reduce(0) { $0 + $1.minutes })
+        #expect(guides.remainingMinutes == Guide.free.reduce(0) { $0 + $1.minutes })
+        #expect(guides.total == Guide.allCases.count - 1)
     }
 
     @Test func completedGuidesCountOnceAndMoveTheSuggestion() async throws {
@@ -43,11 +44,15 @@ struct GuidesModelTests {
 
     @Test func everyGuideDoneIsComplete() async throws {
         let (guides, session) = try await model()
-        for guide in Guide.allCases {
+        for guide in Guide.free {
             await session.record(.guideCompleted, value: guide.rawValue)
         }
         await guides.load()
         #expect(guides.isComplete)
+        #expect(
+            GuideCategory.allCases.allSatisfy {
+                guides.doneCount(in: $0) == guides.total(in: $0)
+            })
         #expect(guides.next == nil)
         #expect(guides.remainingMinutes == 0)
     }
