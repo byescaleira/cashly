@@ -61,6 +61,7 @@ public struct TransactionEditorScreen: View {
                 await model.remove()
             }
         }
+        .onChange(of: pro.isPro, initial: true) { model.isPro = $1 }
         .onChange(of: model.draft.summary) { model.matchTags() }
         .onChange(of: model.draft.participants) { model.updateShares() }
         .onChange(of: model.draft.amount) { model.updateShares() }

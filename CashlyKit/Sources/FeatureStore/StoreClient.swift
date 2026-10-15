@@ -74,6 +74,7 @@ public protocol StoreClient: Sendable {
     func isEligibleForIntroOffer(_ id: String) async -> Bool
     func purchase(_ id: String) async throws -> StorePurchase
     func currentEntitlements() async -> [StoreTransaction]
+    func history() async -> [StoreTransaction]
     func latest(for id: String) async -> StoreTransaction?
     func unfinished() async -> [StoreTransaction]
     func finish(_ transaction: StoreTransaction) async

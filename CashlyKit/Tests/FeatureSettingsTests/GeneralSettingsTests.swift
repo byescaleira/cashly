@@ -36,7 +36,7 @@ private struct SnapshotSource: GameSource {
             ledger: LedgerSnapshot(
                 transactions: [], categories: [], tags: [], budgets: [], revision: "r",
                 today: today),
-            transactions: [], events: events, guideCount: 3)
+            transactions: [], events: events, guides: ["a", "b", "c"])
     }
 }
 

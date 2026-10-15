@@ -4,6 +4,7 @@ public struct GameEvent: Identifiable, Hashable, Sendable {
     public enum Kind: String, CaseIterable, Sendable {
         case transactionRecorded, noSpendDay, guideCompleted, challengeStarted, challengeAbandoned
         case freezesCredited, streakRestored, rerollsCredited, backupCreated, spreadsheetImported
+        case proMonth
     }
 
     public let id: String

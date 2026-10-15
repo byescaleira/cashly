@@ -56,15 +56,16 @@ No iPhone deitado e no iPad, a aba usa o `AdaptiveList` como as outras.
 
 Cerca de 40, em grupos e com níveis bronze, prata e ouro:
 
-- **Primeiros passos:** primeira transação, categoria, orçamento, tag, divisão, importação e backup.
+- **Primeiros passos:** primeira transação, categoria, orçamento, tag, divisão e backup (a de importação saiu em 15/10/2026, quando importar virou Pro).
 - **Constância:** sequência de 7, 30, 100 e 365 dias.
 - **No azul:** mês no nível saudável (≥ 895); 3, 6 e 12 meses seguidos; pontuação 1.000.
 - **Volume:** 100, 500, 1.000 e 5.000 transações.
 - **Organização:** 5 tags em uso; um orçamento para cada categoria no mês; todos os guias concluídos.
 - **Juntos:** 10 e 50 despesas divididas.
+- **Cashly Pro** (15/10/2026): 1 mês (bronze), 6 meses (prata), 1 ano e 2 anos (ouro) de Pro acumulado, teste grátis incluído e com pausas no meio. Só medalha, sem XP (nível não se compra), e fora das "próximas conquistas". É a única diferença da Jornada entre grátis e Pro.
 - **Secretas:** registrar exatamente 42,00 ou 1.234,56; registrar em 31/10 ou em 1/1; registrar às 4h44. Ligam-se aos easter eggs do roadmap.
 
-Algumas conquistas dão itens de presente, como o ícone "Ouro" para quem chega a 365 dias de sequência.
+Conquistas não dão itens de presente: a ideia do ícone "Ouro" para 365 dias de sequência caiu em 15/10/2026, quando a coleção Ouro virou exclusiva do Cashly Pro.
 
 ### Desafios
 
@@ -109,7 +110,7 @@ O Cashly tem vários perfis por aparelho. A Jornada (XP, sequência, conquistas,
 ### Regras
 
 - Itens são compras no app com dinheiro real: **não consumíveis** para o que é permanente e **consumíveis** para ajudas de jogo.
-- O que foi comprado é da pessoa para sempre e funciona com ou sem assinatura. Sem o Pro, a Jornada pausa (nada se ganha ou se perde), mas ícones, cores e conteúdos comprados continuam usáveis.
+- O que foi comprado é da pessoa para sempre e funciona com ou sem assinatura. Desde 15/10/2026 a Jornada é igual com ou sem o Pro (ver [subscription.md](subscription.md)), e ícones, cores e conteúdos comprados continuam usáveis.
 - Compartilhamento Familiar ligado nos não consumíveis.
 - Botão "Restaurar compras" na loja e em Ajustes › Cashly Pro.
 - Itens sem conteúdo pronto (molduras, comemorações e sons) ficam com `isAvailable = false` e fora das vitrines até existirem; os produtos já estão no App Store Connect e no `Cashly.storekit`.

@@ -7,17 +7,17 @@ public struct GameSnapshot: Sendable {
     public let ledger: LedgerSnapshot
     public let transactions: [Transaction]
     public let events: [GameEvent]
-    public let guideCount: Int
+    public let guides: Set<String>
 
     public init(
         userID: String, ledger: LedgerSnapshot, transactions: [Transaction], events: [GameEvent],
-        guideCount: Int
+        guides: Set<String>
     ) {
         self.userID = userID
         self.ledger = ledger
         self.transactions = transactions
         self.events = events.sorted { $0.date < $1.date }
-        self.guideCount = guideCount
+        self.guides = guides
     }
 
     public var today: Date { ledger.today }

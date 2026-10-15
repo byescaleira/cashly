@@ -22,7 +22,7 @@ struct CelebrationScreen: View {
                 Text(celebration.detail).foregroundStyle(.secondary)
             }
             .multilineTextAlignment(.center)
-            if case .achievement(let achievement) = celebration {
+            if case .achievement(let achievement) = celebration, achievement.xp > 0 {
                 Chip("+\(achievement.xp) XP", color: celebration.color, shape: .capsule)
             }
             Button("Continue") { dismiss() }

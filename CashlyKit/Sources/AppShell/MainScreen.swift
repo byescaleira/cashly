@@ -57,7 +57,10 @@ public struct MainScreen: View {
                 open: { navigation.shopItem = $0 })
         )
         .modifier(MCPImportPresenter())
-        .environment(\.showGuide, ShowGuideAction { navigation.guide = $0 })
+        .environment(
+            \.showGuide,
+            ShowGuideAction { [isPro = pro.isPro] in navigation.show($0, isPro: isPro) }
+        )
         .sheet(isPresented: $navigation.isOnboarding) {
             ModelHost(OnboardingModel(session: session)) { OnboardingScreen() }
         }
@@ -95,11 +98,12 @@ public struct MainScreen: View {
             await intelligence.loadModels(revision: finance.datasetRevision)
         }
         .task(id: journeyKey) {
-            guard session.isReady(finance), store.hasRefreshed, scenePhase == .active else {
+            guard session.isReady(finance), scenePhase == .active else {
                 return
             }
             await JourneyModel.publish(session: session, status: journeyStatus)
         }
+        .task(id: store.tenureKey) { await store.recordTenure() }
         .onChange(of: session.hasLoadedUsers, initial: true) {
             if session.hasLoadedUsers { launch.finish(.profiles) }
         }
@@ -141,7 +145,7 @@ public struct MainScreen: View {
     }
 
     private var journeyKey: String {
-        "\(extrasKey):\(journeyStatus.rawValue):\(store.hasRefreshed):\(scenePhase == .active)"
+        "\(extrasKey):\(journeyStatus.rawValue):\(scenePhase == .active)"
     }
 
     private var journeyStatus: JourneySnapshot.Status {

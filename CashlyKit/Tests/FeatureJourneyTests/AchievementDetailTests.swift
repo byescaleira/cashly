@@ -201,4 +201,15 @@ struct AchievementDetailTests {
         #expect(Achievement.tagsInUse5.detail.contains("\(Achievement.tagsInUse5.target)"))
         #expect(Achievement.splits50.detail.contains("50"))
     }
+
+    @Test func proTimeOffersThePaywallOnlyToFreeUsersAndStaysOutOfNext() async throws {
+        let (journey, _) = try await model()
+        await journey.load()
+        let supporter = try state(.proMonth1, in: journey)
+        #expect(journey.action(for: supporter) == .pro)
+        journey.isPro = true
+        #expect(journey.action(for: supporter) == nil)
+        #expect(!journey.nextAchievements.contains { $0.achievement.group == .pro })
+        #expect(Achievement.proYear2.xp == 0)
+    }
 }

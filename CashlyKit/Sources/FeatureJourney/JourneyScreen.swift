@@ -29,6 +29,7 @@ public struct JourneyScreen: View {
         .navigationTitle("Journey")
         .task(id: session.loadKey) { await journey.load() }
         .task { await CashlyTips.record(CashlyTips.journeyOpened) }
+        .onChange(of: pro.isPro, initial: true) { journey.isPro = $1 }
         .refreshable { await journey.load() }
         .sheet(isPresented: $journey.isChoosingChallenge) { ChallengePickerScreen() }
         .sheet(item: $journey.selected, onDismiss: followAchievement) {

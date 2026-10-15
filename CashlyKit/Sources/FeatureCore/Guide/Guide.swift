@@ -124,3 +124,11 @@ public struct ShowGuideAction {
 extension EnvironmentValues {
     @Entry public var showGuide: ShowGuideAction?
 }
+
+extension Guide {
+    public var requiresPro: Bool { self == .importSpreadsheet }
+
+    public static var free: [Guide] { allCases.filter { !$0.requiresPro } }
+
+    public static var journeyIDs: Set<String> { Set(free.map(\.rawValue)) }
+}

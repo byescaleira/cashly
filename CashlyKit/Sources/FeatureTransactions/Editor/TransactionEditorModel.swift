@@ -11,6 +11,7 @@ public final class TransactionEditorModel {
     @ObservationIgnored private let capture: Capture?
     @ObservationIgnored private var original: CashlyDomain.Transaction?
     private var predictsCategory: Bool?
+    public var isPro = false
     @ObservationIgnored private var keptTagIDs: Set<String>?
     @ObservationIgnored private var dismissedTagIDs: Set<String> = []
 
@@ -24,7 +25,7 @@ public final class TransactionEditorModel {
 
     public var canSave: Bool { status.isLoaded && !status.isLocked && draft.canSave }
     public var canRemove: Bool { !draft.isNew && !status.isBusy }
-    public var isPredictingCategory: Bool { predictsCategory ?? draft.isNew }
+    public var isPredictingCategory: Bool { isPro && (predictsCategory ?? draft.isNew) }
 
     public var chosenCategory: CashlyDomain.Category? {
         get { draft.category }

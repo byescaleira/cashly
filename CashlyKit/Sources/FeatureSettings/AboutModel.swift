@@ -79,7 +79,7 @@ final class AboutModel {
             return
         }
         let source = RepositoriesGameSource(
-            repositories: session.repositories, guideCount: Guide.allCases.count)
+            repositories: session.repositories, guides: Guide.journeyIDs)
         guard let snapshot = try? await source.snapshot(today: now()) else { return }
         usage = AboutUsage(snapshot: snapshot, progress: GameEngine.progress(snapshot))
     }

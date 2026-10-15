@@ -112,7 +112,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "每天在本设备或 iCloud 云盘备份,需要时即可恢复。"
+            "value" : "每天在本设备或 iCloud 云盘备份，需要时即可恢复。"
           }
         }
       }
@@ -134,7 +134,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Une projection jusqu'à la fin du mois, avec ce que vous pouvez encore dépenser par jour."
+            "value" : "Une projection jusqu’à la fin du mois, avec ce que vous pouvez encore dépenser par jour."
           }
         },
         "it" : {
@@ -170,7 +170,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "预测到月底的支出,并告诉你每天还能花多少。"
+            "value" : "预测到月底的支出，并告诉你每天还能花多少。"
           }
         }
       }
@@ -228,7 +228,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "根据预算和支出得出的评分,告诉你可以改进什么。"
+            "value" : "根据预算和支出得出的评分，告诉你可以改进什么。"
           }
         }
       }
@@ -424,7 +424,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Repérez ce qui sort de l'ordinaire"
+            "value" : "Repérez ce qui sort de l’ordinaire"
           }
         },
         "it" : {
@@ -482,7 +482,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Catégories et montants suggérés d'après votre historique, le tout sur cet appareil."
+            "value" : "Catégories et montants suggérés d’après votre historique, le tout sur cet appareil."
           }
         },
         "it" : {
@@ -518,7 +518,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "根据你的历史推荐分类和金额,全部在本设备上完成。"
+            "value" : "根据你的历史推荐分类和金额，全部在本设备上完成。"
           }
         }
       }
@@ -808,7 +808,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "连接 Claude Code,读取交易、运行分析并导入账单。"
+            "value" : "连接 Claude Code，读取交易、运行分析并导入账单。"
           }
         }
       }
@@ -1045,6 +1045,354 @@
         }
       }
     },
+    "Gold Member" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gold-Mitglied"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Miembro Oro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Membre Or"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Membro Oro"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ゴールドメンバー"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "골드 멤버"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Membro Ouro"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Золотой участник"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "金牌会员"
+          }
+        }
+      }
+    },
+    "Hall of Fame" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ruhmeshalle"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salón de la Fama"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Panthéon"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hall of Fame"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "殿堂入り"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "명예의 전당"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hall da Fama"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Зал славы"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "名人堂"
+          }
+        }
+      }
+    },
+    "Have Cashly Pro for a month in total." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Habe Cashly Pro insgesamt einen Monat lang."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ten Cashly Pro durante un mes en total."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayez Cashly Pro pendant un mois au total."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa Cashly Pro per un mese in totale."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly Pro を合計1か月利用する。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly Pro를 총 한 달 이용하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tenha o Cashly Pro por um mês no total."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пользуйтесь Cashly Pro в сумме месяц."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "累计使用 Cashly Pro 一个月。"
+          }
+        }
+      }
+    },
+    "Have Cashly Pro for a year in total." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Habe Cashly Pro insgesamt ein Jahr lang."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ten Cashly Pro durante un año en total."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayez Cashly Pro pendant un an au total."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa Cashly Pro per un anno in totale."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly Pro を合計1年利用する。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly Pro를 총 1년 이용하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tenha o Cashly Pro por um ano no total."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пользуйтесь Cashly Pro в сумме год."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "累计使用 Cashly Pro 一年。"
+          }
+        }
+      }
+    },
+    "Have Cashly Pro for six months in total." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Habe Cashly Pro insgesamt sechs Monate lang."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ten Cashly Pro durante seis meses en total."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayez Cashly Pro pendant six mois au total."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa Cashly Pro per sei mesi in totale."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly Pro を合計6か月利用する。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly Pro를 총 6개월 이용하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tenha o Cashly Pro por seis meses no total."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пользуйтесь Cashly Pro в сумме полгода."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "累计使用 Cashly Pro 六个月。"
+          }
+        }
+      }
+    },
+    "Have Cashly Pro for two years in total." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Habe Cashly Pro insgesamt zwei Jahre lang."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ten Cashly Pro durante dos años en total."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayez Cashly Pro pendant deux ans au total."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa Cashly Pro per due anni in totale."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly Pro を合計2年利用する。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly Pro를 총 2년 이용하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tenha o Cashly Pro por dois anos no total."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пользуйтесь Cashly Pro в сумме два года."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "累计使用 Cashly Pro 两年。"
+          }
+        }
+      }
+    },
     "Import a backup or a bank spreadsheet and Cashly puts each transaction in place." : {
       "localizations" : {
         "de" : {
@@ -1098,7 +1446,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "导入备份或银行表格,Cashly 会把每笔交易归位。"
+            "value" : "导入备份或银行表格，Cashly 会把每笔交易归位。"
           }
         }
       }
@@ -1214,7 +1562,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在所有免费功能之上,再加分析、智能和备份"
+            "value" : "在所有免费功能之上，再加分析、智能和备份"
           }
         }
       }
@@ -1294,7 +1642,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Échéances et factures à venir additionnées mois par mois, pour qu'aucune ne vous surprenne."
+            "value" : "Échéances et factures à venir additionnées mois par mois, pour qu’aucune ne vous surprenne."
           }
         },
         "it" : {
@@ -1330,7 +1678,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "分期和未来账单按月汇总,不会让你措手不及。"
+            "value" : "分期和未来账单按月汇总，不会让你措手不及。"
           }
         }
       }
@@ -1389,6 +1737,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "无需操心的备份"
+          }
+        }
+      }
+    },
+    "Keep insights, intelligence and backups, or cancel in your Apple Account before the charge." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behalte Analysen, Intelligenz und Backups oder kündige vor der Abbuchung in deinem Apple Account."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sigue con análisis, inteligencia y copias de seguridad, o cancela en tu cuenta de Apple antes del cobro."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gardez analyses, intelligence et sauvegardes, ou résiliez dans votre compte Apple avant le prélèvement."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantieni analisi, intelligenza e backup, oppure annulla nel tuo Account Apple prima dell’addebito."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分析・インテリジェンス・バックアップを続けるか、請求前に Apple アカウントで解約できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "분석, 인텔리전스, 백업을 계속 쓰거나 결제 전에 Apple 계정에서 취소하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue com análises, inteligência e backups, ou cancele na sua Conta Apple antes da cobrança."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохраните аналитику, интеллект и резервные копии или отмените подписку в Apple Account до списания."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "继续使用分析、智能和备份，或在扣费前到 Apple 账户中取消。"
           }
         }
       }
@@ -1679,6 +2085,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已有预算"
+          }
+        }
+      }
+    },
+    "Patron" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gönner"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mecenas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mécène"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mecenate"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "パトロン"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "후원자"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mecenas"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Меценат"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "赞助人"
           }
         }
       }
@@ -2048,7 +2512,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Voyez si vous dépensez plus ou moins que d'habitude à ce stade du mois."
+            "value" : "Voyez si vous dépensez plus ou moins que d’habitude à ce stade du mois."
           }
         },
         "it" : {
@@ -2084,7 +2548,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "看看到月中这个时候,你比平时花得多还是少。"
+            "value" : "看看到月中这个时候，你比平时花得多还是少。"
           }
         }
       }
@@ -2147,6 +2611,122 @@
         }
       }
     },
+    "Supporter" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unterstützer"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seguidor"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Soutien"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sostenitore"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サポーター"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "서포터"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apoiador"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сторонник"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支持者"
+          }
+        }
+      }
+    },
+    "The free trial and every plan add up, even with breaks in between." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Testphase und jeder Plan zählen zusammen, auch mit Pausen dazwischen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La prueba gratis y todos los planes suman, aunque haya pausas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’essai gratuit et chaque abonnement s’additionnent, même avec des pauses."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La prova gratuita e ogni piano si sommano, anche con pause nel mezzo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無料体験とすべてのプランは、途中で間が空いても合算されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "무료 체험과 모든 플랜은 중간에 쉬어도 합산됩니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O teste grátis e todos os planos somam, mesmo com pausas no meio."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пробный период и все планы суммируются, даже с перерывами."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "免费试用和所有方案都会累计，中间中断也算。"
+          }
+        }
+      }
+    },
     "The Journey: streaks, challenges and achievements" : {
       "localizations" : {
         "de" : {
@@ -2200,7 +2780,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "旅程:连续记录、挑战和成就"
+            "value" : "旅程：连续记录、挑战和成就"
           }
         }
       }
@@ -40700,64 +41280,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "本月将一个分类控制在设定金额以内。"
-          }
-        }
-      }
-    },
-    "Keep recording without a pause, or cancel in your Apple Account before the charge." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Erfasse ohne Unterbrechung weiter oder kündige vor der Abbuchung in deinem Apple-Account."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sigue registrando sin pausa, o cancela en tu Cuenta de Apple antes del cobro."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Continuez à enregistrer sans pause, ou annulez dans votre compte Apple avant le prélèvement."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Continua a registrare senza pause, o annulla nel tuo Account Apple prima dell'addebito."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "このまま記録を続けるか、請求の前に Apple アカウントで解約してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "계속 기록하거나, 결제 전에 Apple 계정에서 해지하세요."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Continue registrando sem pausa, ou cancele na sua Conta Apple antes da cobrança."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Продолжайте вести записи без перерыва или отмените в своём аккаунте Apple до списания."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "继续不间断地记录，或在扣费前到你的 Apple 账户取消。"
           }
         }
       }
@@ -84317,64 +84839,6 @@
         }
       }
     },
-    "Moving In" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eingezogen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mudanza hecha"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Emménagement"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trasloco fatto"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "引っ越し完了"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이사 완료"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mudança feita"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Переезд"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "搬进来了"
-          }
-        }
-      }
-    },
     "Safety Net" : {
       "localizations" : {
         "de" : {
@@ -85763,64 +86227,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "记录一笔与至少一人分摊的支出。"
-          }
-        }
-      }
-    },
-    "Import transactions from a CSV spreadsheet." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Importiere Transaktionen aus einer CSV-Tabelle."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Importa transacciones desde una hoja de cálculo CSV."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Importez des transactions depuis un tableur CSV."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Importa transazioni da un foglio di calcolo CSV."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CSVスプレッドシートから取引を読み込む。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "CSV 스프레드시트에서 거래를 가져오세요."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Importe transações de uma planilha CSV."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Импортируйте операции из таблицы CSV."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "从 CSV 电子表格导入交易。"
           }
         }
       }
@@ -87271,64 +87677,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在交易编辑器中添加参与者并选择分摊方式。"
-          }
-        }
-      }
-    },
-    "The import guide shows the columns Cashly reads and checks the file before saving." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Import-Anleitung zeigt, welche Spalten Cashly liest, und prüft die Datei vor dem Sichern."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La guía de importación muestra las columnas que lee Cashly y revisa el archivo antes de guardar."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le guide d’import montre les colonnes lues par Cashly et vérifie le fichier avant l’enregistrement."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La guida all’importazione mostra le colonne che Cashly legge e controlla il file prima di salvare."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "読み込みガイドでCashlyが読む列を確認でき、保存前にファイルをチェックします。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "가져오기 가이드에서 Cashly가 읽는 열을 보여 주고 저장 전에 파일을 확인해요."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O guia de importação mostra as colunas que o Cashly lê e confere o arquivo antes de salvar."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Руководство по импорту показывает, какие столбцы читает Cashly, и проверяет файл перед сохранением."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "导入指南会列出 Cashly 读取的列，并在保存前检查文件。"
           }
         }
       }

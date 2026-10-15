@@ -8,6 +8,7 @@ final class FakeStoreClient: StoreClient, @unchecked Sendable {
     var catalog = ShopItem.allCases.map { StoreProduct(id: $0.id, displayPrice: "R$ 9,90") }
     var eligible: Set<String> = []
     var entitlements: [StoreTransaction] = []
+    var past: [StoreTransaction] = []
     var latestByProduct: [String: StoreTransaction] = [:]
     var waiting: [StoreTransaction] = []
     var finished: [UInt64] = []
@@ -39,6 +40,8 @@ final class FakeStoreClient: StoreClient, @unchecked Sendable {
     }
 
     func currentEntitlements() async -> [StoreTransaction] { entitlements }
+
+    func history() async -> [StoreTransaction] { past }
 
     func latest(for id: String) async -> StoreTransaction? { latestByProduct[id] }
 

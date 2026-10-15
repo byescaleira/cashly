@@ -16,6 +16,7 @@ public final class JourneyModel {
     public var challengePath: [Challenge.Kind] = []
     public var isOfferingRerolls = false
     public var isConfirmingAbandon = false
+    public var isPro = false
     public var draft = ChallengeDraft()
     public var error: CashlyError?
     @ObservationIgnored let session: SessionModel
@@ -53,7 +54,7 @@ public final class JourneyModel {
     func compute() async -> GameProgress? {
         do {
             let source = RepositoriesGameSource(
-                repositories: session.repositories, guideCount: Guide.allCases.count)
+                repositories: session.repositories, guides: Guide.journeyIDs)
             let snapshot = try await source.snapshot(today: now())
             categories = snapshot.ledger.categories.sorted {
                 $0.name.localizedStandardCompare($1.name) == .orderedAscending

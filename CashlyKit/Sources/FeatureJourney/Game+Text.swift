@@ -92,6 +92,7 @@ extension Achievement.Group {
         case .together: String(appLocalized: "Together")
         case .challenges: String(appLocalized: "Challenges")
         case .levels: String(appLocalized: "Levels")
+        case .pro: String(appLocalized: "Cashly Pro")
         case .secret: String(appLocalized: "Secrets")
         }
     }

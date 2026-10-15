@@ -26,21 +26,21 @@ Substitui o modelo "teste grátis e depois modo leitura" (decisões de 09/10 e 1
 
 ## Tapume (`ProCurtain`)
 
-`ProCurtainSection(pitch) { conteúdo } preview: { prévia }` no `FeatureCore`. Sem Pro, o componente aparece com as formas reais e sem os valores (`.redacted(reason: .placeholder)` + desfoque, sem toque e escondido do VoiceOver). Por cima vai um cartão com `SymbolBadge` preenchido, título, frase de incentivo do componente e o botão "Conhecer o Cashly Pro", que abre o paywall. Cada componente diz o que entrega, por exemplo: Projeção → "Saiba onde o mês vai fechar antes de chegar lá". Com Pro o modificador não faz nada. Reduzir transparência troca o desfoque por uma prévia quase invisível.
+`ProCurtainSection(pitch) { conteúdo } preview: { prévia }` no `FeatureCore`. Sem Pro, o componente aparece com as formas reais e sem os valores (`.redacted(reason: .placeholder)` + desfoque, sem toque e escondido do VoiceOver). Por cima da prévia fica o `SymbolBadge` preenchido do recurso, em mostarda; embaixo, título, frase de incentivo do componente e o botão principal "Conhecer o Cashly Pro", que abre o paywall. Cada componente diz o que entrega, por exemplo: Projeção → "Saiba onde o mês vai fechar antes de chegar lá". Com Pro o modificador não faz nada. Com Reduzir transparência a prévia não aparece; fica só o selo do recurso.
 
 Onde entra: as seis seções do motor na Início, a tela Inteligência e os botões de raio (que abrem o paywall), as seções de backup automático, iCloud Drive e backups salvos, as linhas de importar, e a seção do Claude Code nos Ajustes.
 
 ## Paywall
 
 - A tabela Grátis × Pro passa a mostrar o modelo novo: registrar e editar ✓/✓, Jornada ✓/✓, Widgets, Siri e exportação ✓/✓, Análises e previsões —/✓, Inteligência —/✓, Backups automáticos e importação "Só exportar"/✓, Claude Code —/✓. A linha "Ícones e avatares exclusivos" só entra com a fase 4, quando eles existirem.
-- O herói diz o que o Pro soma: "Análises, inteligência e backups no seu bolso".
+- O herói diz o que o Pro soma: "Análises, inteligência e backups além de tudo o que é grátis".
 - **Oferta automática:** depois do onboarding e, sem Pro, no máximo uma vez a cada 7 dias na abertura. O resto vem do contexto (tapumes, cadeados, loja, Ajustes).
 
 ## Conquistas de tempo de Pro
 
 - Grupo novo **Cashly Pro** com quatro conquistas: 1 mês (bronze), 6 meses (prata), 1 ano (ouro) e 2 anos (ouro). O tempo é acumulado (teste e assinatura contam; os intervalos são unidos, então um plano trocado não conta em dobro).
 - Fonte: `StoreClient.history()` lê `Transaction.all` dos planos; o `StoreModel` calcula os meses cobertos e grava um `GameEvent` `.proMonth` por mês completo no perfil atual, com chave única `pro-month-<n>`. A conquista conta esses eventos, como os créditos da loja.
-- Simulação de Desenvolvedor: "Meses de Pro" para testar sem esperar.
+- Sem XP (nível não se compra) e fora das "próximas conquistas"; a ação "Conhecer o Cashly Pro" na folha só aparece para quem não é Pro.
 
 ## Exclusivos
 

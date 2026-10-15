@@ -53,6 +53,7 @@ extension JourneyModel {
 
     public func action(for state: AchievementState) -> AchievementAction? {
         guard !state.isUnlocked, let action = state.achievement.action else { return nil }
+        if action == .pro, isPro { return nil }
         if action == .challenge, progress?.challenge != nil || progress?.canStartChallenge == false
         {
             return nil
@@ -86,14 +87,11 @@ extension JourneyModel {
     ) {
         guard let action = pendingAction else { return }
         pendingAction = nil
-        if action.requiresPro, !pro.isPro {
-            pro.present()
-            return
-        }
         switch action {
         case .open(let route): open(route)
         case .guide(let item): guide(item)
         case .challenge: chooseChallenge()
+        case .pro: pro.present()
         }
     }
 
@@ -123,7 +121,9 @@ extension JourneyModel {
         let achievement = state.achievement
         let reward = AchievementDetail.Row(
             label: String(appLocalized: "Reward"),
-            value: String(appLocalized: "\(achievement.tier.title) · \(achievement.xp) XP"),
+            value: achievement.xp > 0
+                ? String(appLocalized: "\(achievement.tier.title) · \(achievement.xp) XP")
+                : achievement.tier.title,
             tone: .tier)
         guard state.isUnlocked else { return [progressRow(of: state), reward] }
         var rows = [unlockRow(of: state), reward]
@@ -157,7 +157,7 @@ extension JourneyModel {
     }
 
     private static let seriesGroups: Set<Achievement.Group> = [
-        .consistency, .inTheBlue, .volume, .together, .challenges, .levels,
+        .consistency, .inTheBlue, .volume, .together, .challenges, .levels, .pro,
     ]
 }
 

@@ -1,19 +1,17 @@
 import FeatureCore
 import FeatureJourney
 import FeatureSettings
-import FeatureStore
 import SwiftUI
 
 struct JourneyNotifications: ViewModifier {
     @Environment(SessionModel.self) private var session
     @Environment(SettingsModel.self) private var settings
-    @Environment(StoreModel.self) private var store
     @Environment(\.featureFlags) private var flags
     @Environment(\.scenePhase) private var scenePhase
 
     func body(content: Content) -> some View {
         content.task(id: key) {
-            guard store.hasRefreshed, scenePhase == .active, session.user != nil else { return }
+            guard scenePhase == .active, session.user != nil else { return }
             await JourneyNotifier().review(repositories: session.repositories, isActive: isActive)
         }
     }
@@ -24,7 +22,7 @@ struct JourneyNotifications: ViewModifier {
     }
 
     private var key: String {
-        "\(session.user?.id ?? ""):\(session.generation):\(isActive):\(store.hasRefreshed):\(scenePhase == .active)"
+        "\(session.user?.id ?? ""):\(session.generation):\(isActive):\(scenePhase == .active)"
     }
 }
 
@@ -34,6 +32,7 @@ extension JourneyNotifier {
         guard FeatureFlags().isOn(.journey),
             let (repositories, _) = try? await CashlyServices.shared.workspace()
         else { return }
-        await JourneyNotifier().review(repositories: repositories, isActive: true)
+        await JourneyNotifier().review(
+            repositories: repositories, isActive: SettingsModel.journeyPreference)
     }
 }
