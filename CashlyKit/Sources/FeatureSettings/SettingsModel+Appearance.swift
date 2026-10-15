@@ -63,10 +63,6 @@ extension SettingsModel {
         access(to: collection.shopItem, in: shop)
     }
 
-    func accessLabel(_ access: PackAccess, price: String?) -> String? {
-        access.label(price: price)
-    }
-
     func choose(_ icon: AppIcon, in shop: ShopAccess) async {
         if let item = access(to: icon.shopItem, in: shop).lockedItem {
             shop.open(item)

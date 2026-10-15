@@ -71,6 +71,9 @@ struct ProfileIllustrationTests {
         #expect(PackAccess.owned.label(price: "R$ 9,90") == "Owned")
         #expect(PackAccess.locked(.avatarsFarm).label(price: "R$ 9,90") == "R$ 9,90")
         #expect(PackAccess.locked(.avatarsFarm).label(price: nil) == "Locked")
+        #expect(PackAccess.owned.label(price: nil) == "Owned")
+        #expect(PackAccess.locked(.accentNeon).label(price: "R$ 9,90") == "R$ 9,90")
+        #expect(PackAccess.locked(.accentNeon).label(price: nil) == "Locked")
         let shop = ShopAccess(
             owned: [], price: { $0 == .avatarsFarm ? "R$ 9,90" : nil }, open: { _ in })
         #expect(shop.price(for: .avatarsFarm) == "R$ 9,90")

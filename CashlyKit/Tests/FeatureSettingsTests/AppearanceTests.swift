@@ -45,14 +45,6 @@ struct AppearanceTests {
             settings.access(to: .halloween, in: shop.access(owning: [.iconsAll])) == .owned)
     }
 
-    @Test func accessLabelShowsPriceOwnedOrLocked() {
-        let settings = makeSettings()
-        #expect(settings.accessLabel(.included, price: "R$ 9,90") == nil)
-        #expect(settings.accessLabel(.owned, price: nil) == "Owned")
-        #expect(settings.accessLabel(.locked(.accentNeon), price: "R$ 9,90") == "R$ 9,90")
-        #expect(settings.accessLabel(.locked(.accentNeon), price: nil) == "Locked")
-    }
-
     @Test func tintNameFollowsClassicAndPremiumColors() {
         let settings = makeSettings()
         #expect(settings.tintName == RetroColor.burntOrange.name)

@@ -4,6 +4,7 @@ import SwiftUI
 
 struct UserPhotoHeader: View {
     @Environment(UserEditorModel.self) private var model
+    @Environment(\.appTint) private var appTint
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
@@ -21,7 +22,7 @@ struct UserPhotoHeader: View {
                     .foregroundStyle(Color.primary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
-                Chip(model.photoCaption, color: model.captionTint, shape: .capsule)
+                Chip(model.photoCaption, color: model.captionColor ?? appTint, shape: .capsule)
                     .textCase(.uppercase)
                     .contentTransition(.opacity)
             }

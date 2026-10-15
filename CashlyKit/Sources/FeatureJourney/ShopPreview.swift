@@ -33,12 +33,11 @@ struct ShopHeroPreview: View {
             IconPackGrid(icons: AppIcon.icons(of: item), columns: 9)
                 .frame(height: .badgeXL * 3)
         case .icons: IconPackRow(icons: AppIcon.icons(of: item))
-        case .avatars where item == .avatarsAll:
-            AvatarPackGrid(illustrations: item.previewIllustrations, columns: 4)
-                .frame(height: .badgeXL * 2 + .spaceXS)
         case .avatars:
-            AvatarPackGrid(illustrations: ProfileIllustration.illustrations(of: item), columns: 5)
-                .frame(height: .badgeXL * 2 + .spaceXS)
+            AvatarPackGrid(
+                illustrations: item.heroIllustrations, columns: item == .avatarsAll ? 3 : 5
+            )
+            .frame(height: .badgeXL * 2 + .spaceXS)
         case .personalization: SwatchRow(colors: PremiumColor.colors(of: item))
         case .helps, .plans: CashlyAnimationView(item.animation).frame(maxWidth: 260)
         }
@@ -54,8 +53,11 @@ struct ShopThumbnail: View {
             IconPackGrid(icons: Array(item.previewIcons.prefix(4)), columns: 2)
                 .frame(width: .badgeL, height: .badgeL)
         case .avatars:
-            AvatarPackGrid(illustrations: Array(item.previewIllustrations.prefix(4)), columns: 2)
-                .frame(width: .badgeL, height: .badgeL)
+            ProfileAvatar(
+                photo: item.previewIllustrations.first.map { .illustration($0.id) } ?? .default,
+                initials: "", size: .badgeL
+            )
+            .accessibilityHidden(true)
         case .personalization:
             SwatchGrid(colors: PremiumColor.colors(of: item), columns: 2)
                 .frame(width: .badgeL, height: .badgeL)
@@ -78,6 +80,13 @@ extension ShopItem {
             return Array(ProfileIllustration.illustrations(of: self).prefix(4))
         }
         return ProfileIllustration.Section.sections(of: self).compactMap(\.illustrations.first)
+    }
+
+    fileprivate var heroIllustrations: [ProfileIllustration] {
+        guard self == .avatarsAll else {
+            return Array(ProfileIllustration.illustrations(of: self).prefix(10))
+        }
+        return previewIllustrations
     }
 }
 

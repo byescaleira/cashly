@@ -60,6 +60,7 @@ struct UserEditorTests {
         editor.select(.leaf)
         #expect(editor.draft.photo == .symbol("leaf.fill", color: "2E7D74"))
         #expect(editor.showsSymbols)
+        #expect(editor.captionColor != nil)
         editor.photoColor = "B23A48"
         #expect(editor.draft.photo == .symbol("leaf.fill", color: "B23A48"))
         editor.select(.initials)
@@ -78,6 +79,7 @@ struct UserEditorTests {
         #expect(editor.isSelected(cat))
         #expect(!editor.showsColors)
         #expect(editor.photoCaption == PhotoStyle.illustration.title)
+        #expect(editor.captionColor == nil)
         await editor.save()
         #expect(editor.status.isSaved)
     }
