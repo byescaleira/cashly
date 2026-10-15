@@ -5,6 +5,10 @@ import SwiftUI
 public struct JourneyScreen: View {
     @Environment(SessionModel.self) private var session
     @Environment(JourneyModel.self) private var journey
+    @Environment(\.open) private var open
+    @Environment(\.navigationSection) private var section
+    @Environment(\.showGuide) private var showGuide
+    @Environment(\.pro) private var pro
 
     public init() {}
 
@@ -28,10 +32,15 @@ public struct JourneyScreen: View {
         .task { await CashlyTips.record(CashlyTips.journeyOpened) }
         .refreshable { await journey.load() }
         .sheet(isPresented: $journey.isChoosingChallenge) { ChallengePickerScreen() }
-        .sheet(isPresented: $journey.isShowingAchievement) {
-            if let state = journey.selected { AchievementDetailScreen(state: state) }
+        .sheet(item: $journey.selected, onDismiss: followAchievement) {
+            AchievementDetailScreen(state: $0)
         }
         .sheet(item: $journey.celebration) { CelebrationScreen(celebration: $0) }
         .errorAlert($journey.error)
+    }
+
+    private func followAchievement() {
+        journey.performPendingAction(
+            pro: pro, open: { open($0, in: section) }, guide: { showGuide?($0) })
     }
 }
