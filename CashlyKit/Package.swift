@@ -71,7 +71,8 @@ let package = Package(
         .target(
             name: "FeatureSettings",
             dependencies: [
-                "CashlyDomain", "CashlyDesignSystem", "CashlyGame", "CashlyResource", "CashlyWidgetUI",
+                "CashlyDomain", "CashlyDesignSystem", "CashlyGame", "CashlyResource",
+                "CashlyWidgetUI",
                 "FeatureCore", "FeatureStore",
             ]),
         .target(
