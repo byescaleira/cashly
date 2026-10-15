@@ -3,12 +3,18 @@ set -euo pipefail
 project_root="$(cd "$(dirname "$0")/.." && pwd)"
 build_root="${CASHLY_BUILD_ROOT:-$HOME/Library/Developer/CashlyBuild}"
 configuration="${1:-Debug}"
-xcodebuild -workspace "$project_root/Cashly.xcworkspace" -scheme Production \
-  -configuration "$configuration" -destination 'generic/platform=iOS Simulator' \
-  -derivedDataPath "$build_root/$configuration" CODE_SIGNING_ALLOWED=NO build
-xcodebuild -workspace "$project_root/Cashly.xcworkspace" -scheme Production \
-  -configuration "$configuration" -destination 'generic/platform=macOS' \
-  -derivedDataPath "$build_root/macOS-$configuration" CODE_SIGNING_ALLOWED=NO build
-xcodebuild -workspace "$project_root/Cashly.xcworkspace" -scheme Production \
-  -configuration "$configuration" -destination 'generic/platform=visionOS Simulator' \
-  -derivedDataPath "$build_root/visionOS-$configuration" CODE_SIGNING_ALLOWED=NO build
+platforms="${2:-ios macos visionos}"
+build() {
+  xcodebuild -workspace "$project_root/Cashly.xcworkspace" -scheme Production \
+    -configuration "$configuration" -destination "$1" -derivedDataPath "$2" \
+    -skipPackageUpdates -disableAutomaticPackageResolution CODE_SIGNING_ALLOWED=NO \
+    COMPILER_INDEX_STORE_ENABLE=NO ARCHS=arm64 build
+}
+for platform in $platforms; do
+  case "$platform" in
+    ios) build 'generic/platform=iOS Simulator' "$build_root/$configuration" ;;
+    macos) build 'generic/platform=macOS' "$build_root/macOS-$configuration" ;;
+    visionos) build 'generic/platform=visionOS Simulator' "$build_root/visionOS-$configuration" ;;
+    *) echo "Unknown platform: $platform (use ios, macos or visionos)" >&2; exit 1 ;;
+  esac
+done
