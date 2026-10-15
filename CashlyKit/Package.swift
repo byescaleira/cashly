@@ -71,7 +71,8 @@ let package = Package(
         .target(
             name: "FeatureSettings",
             dependencies: [
-                "CashlyDomain", "CashlyDesignSystem", "CashlyGame", "CashlyResource", "CashlyWidgetUI",
+                "CashlyDomain", "CashlyDesignSystem", "CashlyGame", "CashlyResource",
+                "CashlyWidgetUI",
                 "FeatureCore", "FeatureStore",
             ]),
         .target(
@@ -144,7 +145,8 @@ let package = Package(
         .testTarget(
             name: "FeatureSettingsTests",
             dependencies: [
-                "CashlyDomain", "CashlyData", "CashlyWidgetUI", "FeatureCore", "FeatureSettings",
+                "CashlyAnalytics", "CashlyDomain", "CashlyData", "CashlyGame", "CashlyWidgetUI",
+                "FeatureCore", "FeatureSettings",
             ]),
         .testTarget(
             name: "FeatureCoreTests",

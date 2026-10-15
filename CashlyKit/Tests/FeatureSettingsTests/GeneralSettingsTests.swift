@@ -1,0 +1,203 @@
+import CashlyAnalytics
+import CashlyDomain
+import CashlyGame
+import FeatureCore
+import Foundation
+import Testing
+
+@testable import FeatureSettings
+
+private actor AllowingScheduler: NotificationScheduling {
+    var current: NotificationStatus
+
+    init(status: NotificationStatus) {
+        current = status
+    }
+
+    func status() -> NotificationStatus { current }
+
+    func requestAuthorization() -> Bool {
+        current = .allowed
+        return true
+    }
+
+    func replace(prefix: String, with reminders: [Reminder]) {}
+    func deliver(_ reminder: Reminder) {}
+    func registerCaptureActions(_ groups: [CaptureActionGroup]) {}
+    func setBadge(_ count: Int) {}
+}
+
+private struct SnapshotSource: GameSource {
+    let events: [GameEvent]
+
+    func snapshot(today: Date) async throws -> GameSnapshot {
+        GameSnapshot(
+            userID: "user",
+            ledger: LedgerSnapshot(
+                transactions: [], categories: [], tags: [], budgets: [], revision: "r",
+                today: today),
+            transactions: [], events: events, guideCount: 3)
+    }
+}
+
+@MainActor
+struct GeneralSettingsTests {
+    private let defaults = UserDefaults(suiteName: UUID().uuidString) ?? .standard
+
+    private func makeSettings(status: NotificationStatus = .allowed) -> SettingsModel {
+        SettingsModel(
+            defaults: defaults, cloudContainer: nil, currencySetting: CurrencySetting(),
+            languageSetting: LanguageSetting(),
+            notifications: NotificationsModel(
+                defaults: defaults, scheduler: AllowingScheduler(status: status)))
+    }
+
+    @Test func entriesFollowGroupsFlagsAndSearch() {
+        let settings = makeSettings()
+        let general = settings.entries(in: .general, showsGuides: true, showsJourneyEntry: true)
+        #expect(general.first == .appearance)
+        #expect(general.contains(.journey))
+        let hidden = settings.entries(in: .general, showsGuides: true, showsJourneyEntry: false)
+        #expect(!hidden.contains(.journey))
+        let data = settings.entries(in: .data, showsGuides: true, showsJourneyEntry: true)
+        #expect(data == [.cloud])
+        let help = settings.entries(in: .help, showsGuides: false, showsJourneyEntry: true)
+        #expect(help == [.about])
+        let found = settings.entries(
+            matching: "face id", showsGuides: true, showsJourneyEntry: true)
+        #expect(found == [.privacy])
+        let titled = settings.entries(matching: "CURR", showsGuides: true, showsJourneyEntry: true)
+        #expect(titled == [.currency])
+        #expect(
+            settings.entries(matching: "zzz", showsGuides: true, showsJourneyEntry: true).isEmpty)
+    }
+
+    @Test func planBadgeShowsProTrialDaysAndFree() {
+        let settings = makeSettings()
+        let now = Date(timeIntervalSince1970: 1_800_000_000)
+        #expect(settings.planBadge(for: .active(expires: .distantFuture)).tone == .pro)
+        let trial = settings.planBadge(
+            for: .trial(expires: now.addingTimeInterval(3 * 86_400)), now: now)
+        #expect(trial.tone == .trial)
+        #expect(trial.title.contains("3"))
+        #expect(settings.planBadge(for: .none).tone == .free)
+        #expect(settings.planBadge(for: .expired(now)).tone == .free)
+        #expect(settings.proOfferTitle(for: .expired(now)) != settings.proOfferTitle(for: .none))
+    }
+
+    @Test func privacyValueAndSymbolsFollowTheChoices() {
+        let settings = makeSettings()
+        #expect(settings.privacyValue(.faceID) == "Off")
+        settings.locksApp = true
+        #expect(settings.privacyValue(.faceID) == "Face ID")
+        settings.isDiscreet = true
+        #expect(settings.privacyValue(.faceID).contains("Face ID"))
+        #expect(settings.privacyValue(.faceID).contains("Discreet"))
+        settings.locksApp = false
+        #expect(settings.privacyValue(.faceID) == "Discreet")
+        #expect(settings.lockSymbol(.faceID) == "faceid")
+        #expect(settings.lockSymbol(.none) == "lock")
+        #expect(settings.privacySample.count == 2)
+    }
+
+    @Test func suggestedCurrenciesComeFromTheRegions() {
+        let settings = makeSettings()
+        let regions = [Locale.Region("BR"), Locale.Region("US"), Locale.Region("BR")]
+        #expect(settings.suggestedCurrencies(regions: regions) == ["BRL", "USD"])
+        #expect(settings.suggestedCurrencies(regions: [Locale.Region("JP")]).isEmpty)
+        let others = settings.otherCurrencies(regions: regions)
+        #expect(!others.contains("BRL"))
+        #expect(others.count == CurrencySetting.supported.count - 2)
+        #expect(settings.currencies(matching: "eur").contains("EUR"))
+        #expect(settings.currencies(matching: "").count == CurrencySetting.supported.count)
+    }
+
+    @Test func currencyChangeWaitsForConfirmation() {
+        let settings = makeSettings()
+        settings.choose(currency: settings.currency)
+        #expect(settings.currencyChoice == nil)
+        settings.choose(currency: "XYZ")
+        #expect(settings.currencyChoice == nil)
+        settings.choose(currency: "USD")
+        #expect(settings.currencyChoice == CurrencyChoice(from: "BRL", to: "USD"))
+        #expect(settings.currency == "BRL")
+        settings.cancelCurrencyChoice()
+        #expect(settings.currency == "BRL")
+        settings.choose(currency: "USD")
+        settings.confirmCurrencyChoice()
+        #expect(settings.currency == "USD")
+        #expect(settings.currencyChoice == nil)
+        #expect(settings.currencyValue.hasSuffix("USD"))
+        #expect(settings.choiceNotes(CurrencyChoice(from: "BRL", to: "USD")).count == 2)
+    }
+
+    @Test func languageHelpersResolveDevicePreviewAndValue() {
+        let settings = makeSettings()
+        #expect(settings.deviceLanguage(preferences: ["pt-BR"]) == .portuguese)
+        #expect(settings.deviceLanguage(preferences: ["ja-JP"]) == .japanese)
+        let date = Date(timeIntervalSince1970: 1_800_000_000)
+        let portuguese = settings.languagePreview(of: .portuguese, on: date)
+        #expect(portuguese.amount.contains("1.842,50"))
+        let english = settings.languagePreview(of: .english, on: date)
+        #expect(english.amount.contains("1,842.50"))
+        #expect(!english.sentence.isEmpty)
+        #expect(
+            settings.languageDetail(of: .system, preferences: ["pt-BR"])?.contains("Português")
+                == true)
+        #expect(AppLanguage.languages.allSatisfy { !$0.glyph.isEmpty })
+    }
+
+    @Test func notificationOverviewCountsReminders() async {
+        let settings = makeSettings()
+        let notifications = settings.notifications
+        #expect(notifications.overviewValue == "Off")
+        await notifications.setPayments(true)
+        await notifications.setWeekly(true)
+        #expect(notifications.enabledCount == 2)
+        #expect(notifications.isOn(.payments))
+        #expect(!notifications.isOn(.budgets))
+        #expect(notifications.overviewValue.contains("2"))
+        await notifications.setBudgets(true)
+        await notifications.setPlanning(true)
+        #expect(notifications.overviewValue == "All On")
+        #expect(notifications.actions(of: .payments).count == 2)
+        #expect(notifications.actions(of: .weekly).isEmpty)
+        #expect(notifications.preview(of: .budgets).title.contains("Groceries"))
+        #expect(notifications.preview(of: .planning) == ReminderText.planning)
+    }
+
+    @Test func deniedNotificationsShowTheSystemState() async {
+        let settings = makeSettings(status: .denied)
+        let notifications = settings.notifications
+        await notifications.refreshStatus()
+        #expect(notifications.overviewValue == "Off in Settings")
+        #expect(notifications.statusSymbol == "bell.slash")
+        await notifications.setPayments(true)
+        #expect(!notifications.remindsPayments)
+    }
+
+    @Test func journeyHidingAsksFirstAndKeepsTheSummary() async {
+        let settings = makeSettings()
+        #expect(settings.showsJourney)
+        settings.journeyToggle = false
+        #expect(settings.isConfirmingHideJourney)
+        #expect(settings.showsJourney)
+        settings.hideJourney()
+        #expect(!settings.showsJourney)
+        #expect(!settings.isConfirmingHideJourney)
+        #expect(settings.journeyValue == "Hidden")
+        settings.journeyToggle = true
+        #expect(settings.showsJourney)
+        await settings.loadJourney(
+            from: SnapshotSource(events: [
+                GameEvent(kind: .guideCompleted, value: "a"),
+                GameEvent(kind: .guideCompleted, value: "b"),
+            ]))
+        let journey = settings.journey
+        #expect((journey?.level ?? 0) >= 1)
+        #expect((journey?.xp ?? 0) >= 40)
+        #expect(journey?.achievements == Achievement.allCases.count)
+        #expect(settings.journeyValue.hasPrefix("Level"))
+        #expect(settings.journeyHideNotes.count == 3)
+    }
+}
