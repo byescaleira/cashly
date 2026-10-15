@@ -22,7 +22,7 @@ public actor CashlyStore {
         try modelContext.fetch(
             FetchDescriptor<UserEntity>(sortBy: [SortDescriptor(\.name), SortDescriptor(\.id)])
         )
-        .map { User(id: $0.id, name: $0.name, photo: $0.photo) }
+        .map(Self.user)
     }
     public func getUser(id: String) throws -> User? {
         var descriptor = FetchDescriptor<UserEntity>(predicate: #Predicate { $0.id == id })
@@ -32,7 +32,7 @@ public actor CashlyStore {
             throw CashlyError.persistence(
                 String(appLocalized: "Some users in storage have conflicting IDs."))
         }
-        return values.first.map { User(id: $0.id, name: $0.name, photo: $0.photo) }
+        return values.first.map(Self.user)
     }
     func requireCategory(id: String, userID: String) throws -> CategoryEntity {
         var descriptor = FetchDescriptor<CategoryEntity>(

@@ -98,13 +98,14 @@ extension CashlyStore {
                 ).first
                 ?? ParticipantEntity(
                     id: participant.id, user: participant.user.id, name: participant.user.name,
-                    photo: participant.user.photo, splitMode: participant.splitMode.rawValue,
+                    photo: participant.user.photo.encoded,
+                    splitMode: participant.splitMode.rawValue,
                     splitValue: participant.splitValue, status: participant.status.rawValue,
                     transaction: id)
             guard row.transaction == id else { throw CashlyError.onSave }
             row.user = participant.user.id
             row.name = participant.user.name
-            row.photo = participant.user.photo
+            row.photo = participant.user.photo.encoded
             row.splitMode = participant.splitMode.rawValue
             row.splitValue = participant.splitValue
             row.allocatedMinorUnits = allocation.participants[participant.id]?.minorUnits

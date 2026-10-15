@@ -9,7 +9,9 @@ extension CashlyBackup {
         version = Self.version
         currency = Money.currencyCode
         self.exportedAt = exportedAt
-        self.users = users.map { UserRecord(id: $0.id, name: $0.name, photo: $0.photo) }
+        self.users = users.map {
+            UserRecord(id: $0.id, name: $0.name, photo: $0.photo.encoded)
+        }
         self.categories = categories.map {
             LabelRecord(
                 id: $0.id, userID: $0.user.id, name: $0.name, color: $0.color, icon: $0.icon)
@@ -27,7 +29,12 @@ extension CashlyBackup {
     }
 
     public func entities() throws -> BackupEntities {
-        let users = try index(users.map { User(id: $0.id, name: $0.name, photo: $0.photo) })
+        let users = try index(
+            users.map {
+                User(
+                    id: $0.id, name: $0.name,
+                    photo: ProfilePhoto(encoded: $0.photo))
+            })
         let categories = try index(
             categories.map {
                 Category(

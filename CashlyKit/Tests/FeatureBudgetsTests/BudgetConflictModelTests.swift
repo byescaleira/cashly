@@ -7,7 +7,7 @@ import Testing
 
 @MainActor
 struct BudgetConflictModelTests {
-    private let owner = User(id: "owner", name: "Perfil", photo: "1")
+    private let owner = User(id: "owner", name: "Perfil")
 
     @Test func keepingABudgetResolvesTheConflict() async throws {
         let database = try CashlyDatabase.open(inMemory: true)

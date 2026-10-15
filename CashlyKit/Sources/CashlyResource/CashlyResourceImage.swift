@@ -1,13 +1,25 @@
 import SwiftUI
 
+#if canImport(UIKit)
+    import UIKit
+#elseif canImport(AppKit)
+    import AppKit
+#endif
+
 public enum CashlyResourceImage {
     public static func appIcon(_ name: String) -> Image {
         Image(name, bundle: .module)
     }
-    public static func avatar(id: String?) -> Image {
-        guard let id, (1...100).contains(Int(id) ?? 0) else {
-            return Image(systemName: "person")
-        }
-        return Image("avatar\(id)", bundle: .module)
+
+    public static func avatar(_ name: String) -> Image {
+        Image(name, bundle: .module)
+    }
+
+    public static func contains(_ name: String) -> Bool {
+        #if canImport(UIKit)
+            UIImage(named: name, in: .module, with: nil) != nil
+        #else
+            Bundle.module.image(forResource: name) != nil
+        #endif
     }
 }

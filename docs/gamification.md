@@ -112,7 +112,7 @@ O Cashly tem vários perfis por aparelho. A Jornada (XP, sequência, conquistas,
 - O que foi comprado é da pessoa para sempre e funciona com ou sem assinatura. Sem o Pro, a Jornada pausa (nada se ganha ou se perde), mas ícones, cores e conteúdos comprados continuam usáveis.
 - Compartilhamento Familiar ligado nos não consumíveis.
 - Botão "Restaurar compras" na loja e em Ajustes › Cashly Pro.
-- Itens sem conteúdo pronto (molduras, avatares extras, comemorações e sons) ficam com `isAvailable = false` e fora das vitrines até existirem; os produtos já estão no App Store Connect e no `Cashly.storekit`.
+- Itens sem conteúdo pronto (molduras, comemorações e sons) ficam com `isAvailable = false` e fora das vitrines até existirem; os produtos já estão no App Store Connect e no `Cashly.storekit`.
 - Os preços abaixo estão em reais, já revisados para cima em 12/10/2026 (mais que o dobro da primeira proposta). Os valores finais saem dos níveis de preço do App Store Connect.
 
 ### Catálogo
@@ -131,6 +131,13 @@ O Cashly tem vários perfis por aparelho. A Jornada (XP, sequência, conquistas,
 | Moda, Países, Esportes, Anos 80, Verão, Carnaval, Festa Junina, Halloween, Natal (um pacote cada) | `cashly.icons.<coleção>` | R$ 11,90 |
 | Todos os ícones, inclusive os que vierem depois | `cashly.icons.all` | R$ 44,90 |
 
+**Avatares ilustrados** (ipaslogo.com; Gatos, Cachorros e Floresta são grátis)
+
+| Item | Produto | Preço |
+| --- | --- | --- |
+| Fazenda, Oceano, Aves, Selva, Bichinhos, Fantasia (uma seção de 20 a 24 cada) | `cashly.avatars.<seção>` | R$ 9,90 |
+| Todos os avatares, inclusive as seções que vierem depois | `cashly.avatars.all` | R$ 34,90 |
+
 **Personalização**
 
 | Item | Produto | Preço |
@@ -138,7 +145,6 @@ O Cashly tem vários perfis por aparelho. A Jornada (XP, sequência, conquistas,
 | Cores metálicas de destaque (Ouro, Prata, Bronze, Cobre) | `cashly.accent.metallic` | R$ 11,90 |
 | Cores neon de destaque | `cashly.accent.neon` | R$ 11,90 |
 | Molduras de avatar (6) | `cashly.avatar.frames` | R$ 11,90 |
-| Avatares ilustrados extras (12) | `cashly.avatar.pack` | R$ 16,90 |
 | Comemorações (confete, fogos, chuva de moedas ao fechar o mês) | `cashly.celebrations` | R$ 9,90 |
 | Sons e vibrações (caixa registradora ao salvar, moeda ao concluir) | `cashly.sounds` | R$ 7,90 |
 

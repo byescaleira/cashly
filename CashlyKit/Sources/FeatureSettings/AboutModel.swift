@@ -63,6 +63,8 @@ final class AboutModel {
 
     let lottieURL = URL(string: "https://github.com/airbnb/lottie-ios")
 
+    let illustrationsURL = URL(string: "https://ipaslogo.com")
+
     var hasLoaded: Bool { usage != nil }
 
     var isEmpty: Bool { usage?.transactions == 0 }

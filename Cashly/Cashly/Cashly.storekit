@@ -263,23 +263,143 @@
       "type" : "NonConsumable"
     },
     {
-      "displayPrice" : "16.90",
+      "displayPrice" : "9.90",
       "familyShareable" : true,
-      "internalID" : "5053FB01",
+      "internalID" : "FD9FDABB",
       "localizations" : [
         {
-          "description" : "Twelve extra illustrated avatars",
-          "displayName" : "Avatar Pack",
+          "description" : "22 illustrated farm animals",
+          "displayName" : "Farm Avatars",
           "locale" : "en_US"
         },
         {
-          "description" : "Doze avatares ilustrados extras",
-          "displayName" : "Pacote de Avatares",
+          "description" : "22 bichos ilustrados da fazenda",
+          "displayName" : "Avatares da Fazenda",
           "locale" : "pt_BR"
         }
       ],
-      "productID" : "cashly.avatar.pack",
-      "referenceName" : "Avatar Pack",
+      "productID" : "cashly.avatars.farm",
+      "referenceName" : "Farm Avatars",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "9.90",
+      "familyShareable" : true,
+      "internalID" : "77C66478",
+      "localizations" : [
+        {
+          "description" : "24 illustrated sea animals",
+          "displayName" : "Ocean Avatars",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "24 bichos ilustrados do oceano",
+          "displayName" : "Avatares do Oceano",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.avatars.ocean",
+      "referenceName" : "Ocean Avatars",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "9.90",
+      "familyShareable" : true,
+      "internalID" : "1FF45091",
+      "localizations" : [
+        {
+          "description" : "22 illustrated birds",
+          "displayName" : "Bird Avatars",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "22 aves ilustradas",
+          "displayName" : "Avatares de Aves",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.avatars.birds",
+      "referenceName" : "Bird Avatars",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "9.90",
+      "familyShareable" : true,
+      "internalID" : "7A7376F3",
+      "localizations" : [
+        {
+          "description" : "24 illustrated jungle animals",
+          "displayName" : "Jungle Avatars",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "24 bichos ilustrados da selva",
+          "displayName" : "Avatares da Selva",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.avatars.jungle",
+      "referenceName" : "Jungle Avatars",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "9.90",
+      "familyShareable" : true,
+      "internalID" : "882575E7",
+      "localizations" : [
+        {
+          "description" : "22 illustrated tiny friends",
+          "displayName" : "Tiny Friends Avatars",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "22 bichinhos ilustrados",
+          "displayName" : "Avatares Bichinhos",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.avatars.tiny",
+      "referenceName" : "Tiny Friends Avatars",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "9.90",
+      "familyShareable" : true,
+      "internalID" : "EF7390A2",
+      "localizations" : [
+        {
+          "description" : "20 illustrated fantasy creatures",
+          "displayName" : "Fantasy Avatars",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "20 criaturas de fantasia ilustradas",
+          "displayName" : "Avatares de Fantasia",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.avatars.fantasy",
+      "referenceName" : "Fantasy Avatars",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "34.90",
+      "familyShareable" : true,
+      "internalID" : "C94DBAAE",
+      "localizations" : [
+        {
+          "description" : "Every avatar section, including future ones",
+          "displayName" : "All Avatars",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Todas as seções, inclusive as futuras",
+          "displayName" : "Todos os Avatares",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.avatars.all",
+      "referenceName" : "All Avatars",
       "type" : "NonConsumable"
     },
     {

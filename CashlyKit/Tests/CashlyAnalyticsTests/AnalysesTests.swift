@@ -4,7 +4,7 @@ import Foundation
 import Testing
 
 struct AnalysesTests {
-    private let owner = User(id: "owner", name: "Ana", photo: "1")
+    private let owner = User(id: "owner", name: "Ana")
     private var market: CashlyDomain.Category {
         CashlyDomain.Category(
             id: "market", user: owner, name: "Mercado", color: "C2602A", icon: "cart.fill")

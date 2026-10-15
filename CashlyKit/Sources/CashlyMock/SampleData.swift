@@ -3,11 +3,21 @@ import Foundation
 
 public enum SampleData {
     public static let users: [User] = [
-        User(id: "550e8400-e29b-41d4-a716-446655440000", name: "Alice Johnson", photo: "58"),
-        User(id: "123e4567-e89b-12d3-a456-426614174000", name: "Bruno Silva", photo: "41"),
-        User(id: "9b2f6c4e-3c21-4e7b-9d45-b6d0d8d6faaa", name: "Carla Mendes", photo: "91"),
-        User(id: "f47ac10b-58cc-4372-a567-0e02b2c3d479", name: "David Thompson", photo: "45"),
-        User(id: "7c9e6679-7425-40de-944b-e07fc1f90ae7", name: "Emma Rossi", photo: "73"),
+        User(
+            id: "550e8400-e29b-41d4-a716-446655440000", name: "Alice Johnson",
+            photo: .illustration("cats-01")),
+        User(
+            id: "123e4567-e89b-12d3-a456-426614174000", name: "Bruno Silva",
+            photo: .initials(color: "466A93")),
+        User(
+            id: "9b2f6c4e-3c21-4e7b-9d45-b6d0d8d6faaa", name: "Carla Mendes",
+            photo: .illustration("forest-05")),
+        User(
+            id: "f47ac10b-58cc-4372-a567-0e02b2c3d479", name: "David Thompson",
+            photo: .initials(color: "2E7D74")),
+        User(
+            id: "7c9e6679-7425-40de-944b-e07fc1f90ae7", name: "Emma Rossi",
+            photo: .symbol("bicycle", color: "85506F")),
     ]
 
     public static let owner = users[3]

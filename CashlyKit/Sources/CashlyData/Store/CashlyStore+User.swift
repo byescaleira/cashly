@@ -44,8 +44,7 @@ extension CashlyStore {
         let id = user.id
         let name = user.name
         let photo = user.photo
-        guard name.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3,
-            (1...100).contains(Int(photo) ?? 0)
+        guard name.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3, photo.isValid
         else { throw CashlyError.onSave }
         let predicate: Predicate<UserEntity> = #Predicate { $0.id == id }
         let descriptor = FetchDescriptor<UserEntity>(predicate: predicate)
@@ -53,10 +52,14 @@ extension CashlyStore {
         guard replacing || previous == nil || id == contextUserID else {
             throw CashlyError.onSave
         }
-        let entity = previous ?? UserEntity(id: id, name: name, photo: photo)
+        let entity = previous ?? UserEntity(id: id, name: name, photo: photo.encoded)
         entity.name = name
-        entity.photo = photo
+        entity.photo = photo.encoded
         modelContext.insert(entity)
+    }
+
+    static func user(_ entity: UserEntity) -> User {
+        User(id: entity.id, name: entity.name, photo: ProfilePhoto(encoded: entity.photo))
     }
 
 }

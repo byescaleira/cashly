@@ -229,6 +229,16 @@ def dot(color, diameter, opacity=100):
 # --- Animations ------------------------------------------------------------------------------
 
 
+def avatars():
+    face = icon("face.smiling", "tint", 84, (124, 92), delay=0, rotation=settle(0, [-10, 4]))
+    face["ks"]["s"] = appear(0, 32, overshoot=108, start=50)
+    paw = icon("pawprint.fill", "mustard", 44, (234, 70), delay=22, rotation=settle(22, [-12, 5]))
+    paw["ks"]["s"] = appear(22, overshoot=112, start=40)
+    spark = icon("sparkles", "denim", 30, (240, 130), delay=46, scale=breathe(70, 6, 30))
+    spark["ks"]["o"] = fade(46, 10)
+    return [paw, face, spark]
+
+
 def backup():
     cloud = icon("icloud.fill", "teal", 84, (150, 84), delay=0, scale=breathe(40, 2, step=45))
     arrow = icon("arrow.up", "ink", 26, move([(40, (150, 112)), (80, (150, 76))]), alpha=45,
@@ -659,6 +669,7 @@ ANIMATIONS = {
     "streak": streak,
     "tags": tags,
     "widgets": widgets,
+    "avatars": avatars,
 }
 
 

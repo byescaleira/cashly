@@ -8,7 +8,7 @@ import Testing
 
 @MainActor
 struct JourneyNoticesTests {
-    private let owner = User(id: "owner", name: "Ana", photo: "1")
+    private let owner = User(id: "owner", name: "Ana")
     private var market: CashlyDomain.Category {
         Category(id: "market", user: owner, name: "Groceries", color: "C2602A", icon: "cart.fill")
     }

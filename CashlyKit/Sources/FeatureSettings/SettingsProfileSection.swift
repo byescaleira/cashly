@@ -1,6 +1,5 @@
 import CashlyDesignSystem
 import CashlyDomain
-import CashlyResource
 import FeatureCore
 import FeatureStore
 import SwiftUI
@@ -37,11 +36,7 @@ private struct SettingsProfileHeader: View {
 
     var body: some View {
         SettingsHero {
-            CashlyResourceImage.avatar(id: session?.user?.photo)
-                .resizable()
-                .scaledToFit()
-                .frame(width: .badgeXL, height: .badgeXL)
-                .foregroundStyle(.secondary)
+            ProfileAvatar(session?.user, size: .badgeXL)
                 .accessibilityHidden(true)
             Text(verbatim: settings.profileName(session?.user))
                 .font(.titleMedium)

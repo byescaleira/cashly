@@ -3,8 +3,8 @@ import Foundation
 import Testing
 
 struct TransactionBillingTests {
-    private let owner = User(id: "owner", name: "Owner", photo: "")
-    private let friend = User(id: "friend", name: "Friend", photo: "")
+    private let owner = User(id: "owner", name: "Owner")
+    private let friend = User(id: "friend", name: "Friend")
 
     private func month(_ year: Int, _ month: Int) throws -> YearMonth {
         try #require(YearMonth(year: year, month: month))

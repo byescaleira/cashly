@@ -2,15 +2,6 @@ import CashlyDomain
 import FeatureCore
 import Foundation
 
-enum PackAccess: Equatable {
-    case included, owned
-    case locked(ShopItem)
-
-    var lockedItem: ShopItem? {
-        if case .locked(let item) = self { item } else { nil }
-    }
-}
-
 struct ThemeSample {
     struct Row: Identifiable {
         let symbol: String
@@ -65,20 +56,11 @@ extension SettingsModel {
     }
 
     func access(to item: ShopItem?, in shop: ShopAccess) -> PackAccess {
-        guard let item else { return .included }
-        return shop.owns(item) ? .owned : .locked(item)
+        shop.access(to: item)
     }
 
     func access(to collection: AppIcon.Collection, in shop: ShopAccess) -> PackAccess {
         access(to: collection.shopItem, in: shop)
-    }
-
-    func accessLabel(_ access: PackAccess, price: String?) -> String? {
-        switch access {
-        case .included: nil
-        case .owned: String(appLocalized: "Owned")
-        case .locked: price ?? String(appLocalized: "Locked")
-        }
     }
 
     func choose(_ icon: AppIcon, in shop: ShopAccess) async {

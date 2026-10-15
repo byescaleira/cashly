@@ -60,7 +60,7 @@ struct WidgetSnapshotFocusTests {
     }
 
     @Test func overviewKeepsCategoryIDsAndTheFocus() throws {
-        let owner = User(id: "owner", name: "Ana", photo: "1")
+        let owner = User(id: "owner", name: "Ana")
         let month = try #require(YearMonth(year: 2026, month: 10))
         let food = CashlyDomain.Category(
             id: "food", user: owner, name: "Mercado", color: "5F7A2E", icon: "cart")

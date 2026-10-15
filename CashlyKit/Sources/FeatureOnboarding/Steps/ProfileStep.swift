@@ -1,10 +1,10 @@
 import CashlyDesignSystem
-import CashlyResource
 import FeatureCore
 import SwiftUI
 
 struct ProfileStep: View {
     @Environment(OnboardingModel.self) private var model
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         @Bindable var model = model
@@ -12,20 +12,16 @@ struct ProfileStep: View {
             title: "What Should We Call You?",
             message: "Your profile keeps your finances separate from other people at home."
         ) {
-            CashlyResourceImage.avatar(id: model.photo)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 140, height: 140)
-                .background(.subtleFill, in: .circle)
+            ProfileAvatar(photo: model.photo, initials: model.initials, size: .medallion)
                 .overlay(alignment: .bottomTrailing) {
-                    Button("Change Photo", systemImage: "arrow.triangle.2.circlepath") {
-                        withAnimation(.bouncy) { model.shufflePhoto() }
+                    Button("Change Color", systemImage: "arrow.triangle.2.circlepath") {
+                        withAnimation(reduceMotion ? nil : .bouncy) { model.changeColor() }
                     }
                     .labelStyle(.iconOnly)
                     .buttonBorderShape(.circle)
-                    .buttonStyle(.borderedProminent)
+                    .prominentButton()
                 }
-                .contentTransition(.opacity)
+                .sensoryFeedback(.selection, trigger: model.photo)
         } content: {
             TextField("Your Name", text: $model.name)
                 .textContentType(.givenName)

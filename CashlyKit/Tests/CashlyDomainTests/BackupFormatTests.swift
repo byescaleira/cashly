@@ -3,8 +3,8 @@ import Foundation
 import Testing
 
 struct BackupFormatTests {
-    private let owner = User(id: "owner", name: "Perfil", photo: "1")
-    private let friend = User(id: "friend", name: "Amigo", photo: "2")
+    private let owner = User(id: "owner", name: "Perfil")
+    private let friend = User(id: "friend", name: "Amigo")
 
     private func sample() throws -> CashlyBackup {
         let category = Category(id: "c", user: owner, name: "Geral", color: "0099FF", icon: "cart")
@@ -46,6 +46,29 @@ struct BackupFormatTests {
         #expect(throws: CashlyError.invalidInput("The backup has incomplete references.")) {
             try backup.entities()
         }
+    }
+
+    @Test func profilePhotosTravelInsideTheBackup() throws {
+        let ana = User(id: "ana", name: "Ana", photo: .illustration("dogs-03"))
+        let bia = User(id: "bia", name: "Bia", photo: .symbol("cat.fill", color: "B23A48"))
+        let backup = CashlyBackup(
+            users: [ana, bia], categories: [], tags: [], budgets: [], transactions: [])
+        let decoded = try CashlyBackup(data: backup.encoded())
+        #expect(decoded.users.first { $0.id == "ana" }?.photo == "illustration:dogs-03")
+        #expect(try decoded.entities().users == [ana, bia])
+    }
+
+    @Test func oldAvatarNumbersOpenWithInitials() throws {
+        let json = """
+            {"format":"cashly-backup","version":1,"currency":"BRL",\
+            "exportedAt":"2026-10-01T12:00:00Z",\
+            "users":[{"id":"ana","name":"Ana Souza","photo":"58"}],\
+            "categories":[],"tags":[],"budgets":[],"transactions":[]}
+            """
+        let backup = try CashlyBackup(data: Data(json.utf8))
+        let user = try #require(backup.entities().users.first)
+        #expect(user.photo == .default)
+        #expect(user.initials == "AS")
     }
 
     @Test func otherFilesAndNewerVersionsAreRejected() throws {

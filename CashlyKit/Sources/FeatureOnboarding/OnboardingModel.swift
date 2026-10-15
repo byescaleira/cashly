@@ -7,7 +7,8 @@ import Observation
 public final class OnboardingModel {
     public var step = OnboardingStep.welcome
     public var name = ""
-    public var photo = String(Int.random(in: 1...100))
+    public let userID = UUID().uuidString
+    public var photo: ProfilePhoto
     public var suggestions = CategorySuggestion.defaults
     public private(set) var isSaving = false
     public var error: CashlyError?
@@ -15,6 +16,7 @@ public final class OnboardingModel {
 
     public init(session: SessionModel) {
         self.session = session
+        photo = .suggested(for: userID)
     }
 
     public var firstName: String {
@@ -29,8 +31,12 @@ public final class OnboardingModel {
 
     public var canGoBack: Bool { step.previous != nil && !isSaving }
 
-    public func shufflePhoto() {
-        photo = String(Int.random(in: 1...100))
+    public var initials: String { User.initials(of: name) }
+
+    public func changeColor() {
+        let colors = RetroColor.allCases
+        let current = photo.color.flatMap(RetroColor.init(hex:)).flatMap(colors.firstIndex) ?? 0
+        photo = photo.recolored(colors[(current + 1) % colors.count].hex)
     }
 
     public func isSelected(_ suggestion: CategorySuggestion) -> Bool {
@@ -68,7 +74,7 @@ public final class OnboardingModel {
         defer { isSaving = false }
         do {
             let user = User(
-                id: UUID().uuidString, name: name.trimmingCharacters(in: .whitespacesAndNewlines),
+                id: userID, name: name.trimmingCharacters(in: .whitespacesAndNewlines),
                 photo: photo)
             try await session.repositories.users.save(user)
             await session.selectUser(id: user.id)

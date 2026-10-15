@@ -1,10 +1,11 @@
-import CashlyResource
+import CashlyDesignSystem
 import SwiftUI
 
 public struct UserMenu: View {
     @Environment(SessionModel.self) private var session
     @Environment(\.open) private var open
     @Environment(\.navigationSection) private var section
+    @Environment(\.displayScale) private var displayScale
 
     public init() {}
 
@@ -14,9 +15,11 @@ public struct UserMenu: View {
             if !session.users.isEmpty {
                 Picker(selection: $session.userSelection) {
                     ForEach(session.users) { user in
-                        HStack {
-                            avatar(user.photo)
+                        Label {
                             Text(user.name.capitalized)
+                        } icon: {
+                            ProfileAvatar.image(for: user, size: .badgeS, scale: displayScale)
+                                .renderingMode(.original)
                         }
                         .tag(Optional(user))
                     }
@@ -34,17 +37,10 @@ public struct UserMenu: View {
                 open(.addUser(id: nil), in: section)
             }
         } label: {
-            avatar(session.user?.photo)
+            ProfileAvatar(session.user, size: .badgeM)
         }
         .menuStyle(.button)
         .buttonStyle(.plain)
         .accessibilityLabel("User")
-    }
-
-    private func avatar(_ photo: String?) -> some View {
-        CashlyResourceImage.avatar(id: photo)
-            .resizable()
-            .scaledToFit()
-            .frame(width: 36, height: 36)
     }
 }

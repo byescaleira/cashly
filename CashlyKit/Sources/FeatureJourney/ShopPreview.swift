@@ -10,6 +10,11 @@ struct ShopCardPreview: View {
         Group {
             switch item.group {
             case .icons: IconPackGrid(icons: item.previewIcons, columns: item == .iconsAll ? 3 : 2)
+            case .avatars:
+                AvatarPackGrid(
+                    illustrations: Array(
+                        item.previewIllustrations.prefix(item == .avatarsAll ? 6 : 4)),
+                    columns: item == .avatarsAll ? 3 : 2)
             case .personalization: SwatchGrid(colors: PremiumColor.colors(of: item), columns: 2)
             case .helps, .plans: CashlyAnimationView(item.animation)
             }
@@ -28,6 +33,11 @@ struct ShopHeroPreview: View {
             IconPackGrid(icons: AppIcon.icons(of: item), columns: 9)
                 .frame(height: .badgeXL * 3)
         case .icons: IconPackRow(icons: AppIcon.icons(of: item))
+        case .avatars:
+            AvatarPackGrid(
+                illustrations: item.heroIllustrations, columns: item == .avatarsAll ? 3 : 5
+            )
+            .frame(height: .badgeXL * 2 + .spaceXS)
         case .personalization: SwatchRow(colors: PremiumColor.colors(of: item))
         case .helps, .plans: CashlyAnimationView(item.animation).frame(maxWidth: 260)
         }
@@ -42,6 +52,12 @@ struct ShopThumbnail: View {
         case .icons:
             IconPackGrid(icons: Array(item.previewIcons.prefix(4)), columns: 2)
                 .frame(width: .badgeL, height: .badgeL)
+        case .avatars:
+            ProfileAvatar(
+                photo: item.previewIllustrations.first.map { .illustration($0.id) } ?? .default,
+                initials: "", size: .badgeL
+            )
+            .accessibilityHidden(true)
         case .personalization:
             SwatchGrid(colors: PremiumColor.colors(of: item), columns: 2)
                 .frame(width: .badgeL, height: .badgeL)
@@ -55,6 +71,50 @@ extension ShopItem {
         guard self == .iconsAll else { return AppIcon.icons(of: self) }
         return ShopCatalog.items(in: .icons).filter { $0 != .iconsAll }
             .compactMap { AppIcon.icons(of: $0).first }
+    }
+}
+
+extension ShopItem {
+    fileprivate var previewIllustrations: [ProfileIllustration] {
+        guard self == .avatarsAll else {
+            return Array(ProfileIllustration.illustrations(of: self).prefix(4))
+        }
+        return ProfileIllustration.Section.sections(of: self).compactMap(\.illustrations.first)
+    }
+
+    fileprivate var heroIllustrations: [ProfileIllustration] {
+        guard self == .avatarsAll else {
+            return Array(ProfileIllustration.illustrations(of: self).prefix(10))
+        }
+        return previewIllustrations
+    }
+}
+
+private struct AvatarPackGrid: View {
+    let illustrations: [ProfileIllustration]
+    let columns: Int
+
+    var body: some View {
+        GeometryReader { proxy in
+            let rows = (illustrations.count + columns - 1) / columns
+            let side = min(
+                (proxy.size.width - .spaceXS * CGFloat(columns - 1)) / CGFloat(columns),
+                (proxy.size.height - .spaceXS * CGFloat(rows - 1)) / CGFloat(rows))
+            Grid(horizontalSpacing: .spaceXS, verticalSpacing: .spaceXS) {
+                ForEach(0..<rows, id: \.self) { row in
+                    GridRow {
+                        ForEach(
+                            illustrations[
+                                row * columns..<min((row + 1) * columns, illustrations.count)]
+                        ) {
+                            ProfileAvatar(photo: .illustration($0.id), initials: "", size: side)
+                        }
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .accessibilityHidden(true)
     }
 }
 

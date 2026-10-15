@@ -5,7 +5,7 @@ import Foundation
 import Testing
 
 struct CaptureActionsTests {
-    private let owner = User(id: "owner", name: "Ana", photo: "1")
+    private let owner = User(id: "owner", name: "Ana")
     private let today = Date(timeIntervalSince1970: 1_790_000_000)
 
     private func actions() async throws -> (CaptureActions, Repositories) {

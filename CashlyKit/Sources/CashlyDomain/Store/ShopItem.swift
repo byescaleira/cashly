@@ -13,8 +13,14 @@ public enum ShopItem: String, CaseIterable, Identifiable, Sendable {
     case iconsAll = "cashly.icons.all"
     case accentMetallic = "cashly.accent.metallic"
     case accentNeon = "cashly.accent.neon"
+    case avatarsFarm = "cashly.avatars.farm"
+    case avatarsOcean = "cashly.avatars.ocean"
+    case avatarsBirds = "cashly.avatars.birds"
+    case avatarsJungle = "cashly.avatars.jungle"
+    case avatarsTiny = "cashly.avatars.tiny"
+    case avatarsFantasy = "cashly.avatars.fantasy"
+    case avatarsAll = "cashly.avatars.all"
     case avatarFrames = "cashly.avatar.frames"
-    case avatarPack = "cashly.avatar.pack"
     case celebrations = "cashly.celebrations"
     case sounds = "cashly.sounds"
     case freezes3 = "cashly.freeze.3"
@@ -27,7 +33,7 @@ public enum ShopItem: String, CaseIterable, Identifiable, Sendable {
     }
 
     public enum Group: CaseIterable, Sendable {
-        case plans, icons, personalization, helps
+        case plans, icons, avatars, personalization, helps
     }
 
     public var id: String { rawValue }
@@ -38,7 +44,10 @@ public enum ShopItem: String, CaseIterable, Identifiable, Sendable {
         case .iconsFashion, .iconsCountries, .iconsSports, .iconsEighties, .iconsSummer,
             .iconsCarnival, .iconsJunina, .iconsHalloween, .iconsChristmas, .iconsAll:
             .icons
-        case .accentMetallic, .accentNeon, .avatarFrames, .avatarPack, .celebrations, .sounds:
+        case .avatarsFarm, .avatarsOcean, .avatarsBirds, .avatarsJungle, .avatarsTiny,
+            .avatarsFantasy, .avatarsAll:
+            .avatars
+        case .accentMetallic, .accentNeon, .avatarFrames, .celebrations, .sounds:
             .personalization
         case .freezes3, .freezes10, .streakRestore, .challengeRerolls: .helps
         }
@@ -47,14 +56,14 @@ public enum ShopItem: String, CaseIterable, Identifiable, Sendable {
     public var kind: Kind {
         switch group {
         case .plans: .subscription
-        case .icons, .personalization: .nonConsumable
+        case .icons, .avatars, .personalization: .nonConsumable
         case .helps: .consumable
         }
     }
 
     public var isAvailable: Bool {
         switch self {
-        case .avatarFrames, .avatarPack, .celebrations, .sounds: false
+        case .avatarFrames, .celebrations, .sounds: false
         default: true
         }
     }
@@ -101,5 +110,6 @@ public enum ShopCatalog {
 
     public static func owns(_ item: ShopItem, in owned: Set<ShopItem>) -> Bool {
         owned.contains(item) || (item.group == .icons && owned.contains(.iconsAll))
+            || (item.group == .avatars && owned.contains(.avatarsAll))
     }
 }

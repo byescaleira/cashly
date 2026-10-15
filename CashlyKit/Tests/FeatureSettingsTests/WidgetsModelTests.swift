@@ -120,7 +120,7 @@ struct WidgetsModelTests {
 
     @Test func settingsRowNamesTheChosenCategory() {
         let settings = makeSettings()
-        let owner = User(id: "owner", name: "Ana", photo: "1")
+        let owner = User(id: "owner", name: "Ana")
         let food = CashlyDomain.Category(
             id: "food", user: owner, name: "Mercado", color: "5F7A2E", icon: "cart")
         #expect(settings.widgetValue(categories: [food]) == String(appLocalized: "Automatic"))

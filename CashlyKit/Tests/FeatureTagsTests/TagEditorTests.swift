@@ -6,7 +6,7 @@ import Testing
 
 @MainActor
 struct TagEditorTests {
-    private let owner = User(id: "owner", name: "Perfil", photo: "1")
+    private let owner = User(id: "owner", name: "Perfil")
 
     private func repositories() async throws -> Repositories {
         let database = try CashlyDatabase.open(inMemory: true)

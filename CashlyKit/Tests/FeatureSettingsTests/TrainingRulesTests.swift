@@ -8,7 +8,7 @@ import Testing
 
 @MainActor
 struct TrainingRulesTests {
-    private let owner = User(id: "owner", name: "Perfil", photo: "1")
+    private let owner = User(id: "owner", name: "Perfil")
 
     private func models(transactions: Int) async throws -> (
         SessionModel, FinanceModel, IntelligenceModel

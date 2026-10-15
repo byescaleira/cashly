@@ -8,7 +8,7 @@ import Testing
 
 @MainActor
 struct JourneyModelTests {
-    private let owner = User(id: "owner", name: "Ana", photo: "1")
+    private let owner = User(id: "owner", name: "Ana")
     private var market: CashlyDomain.Category {
         Category(id: "market", user: owner, name: "Groceries", color: "C2602A", icon: "cart.fill")
     }
@@ -73,7 +73,7 @@ struct JourneyModelTests {
 
 @MainActor
 struct JourneyShopTests {
-    private let owner = User(id: "owner", name: "Ana", photo: "1")
+    private let owner = User(id: "owner", name: "Ana")
 
     @Test func secondChallengeInAMonthNeedsARerollCredit() async throws {
         let database = try CashlyDatabase.open(inMemory: true)

@@ -28,7 +28,7 @@ private struct TrainedService: IntelligenceService {
 
 @MainActor
 struct IntelligenceGateTests {
-    private let owner = User(id: "owner", name: "Perfil", photo: "1")
+    private let owner = User(id: "owner", name: "Perfil")
 
     private func intelligence(flags: FeatureFlags?) async throws -> IntelligenceModel {
         let database = try CashlyDatabase.open(inMemory: true)

@@ -5,8 +5,8 @@ import Foundation
 import Testing
 
 struct IntentActionsTests {
-    private let owner = User(id: "owner", name: "Ana", photo: "1")
-    private let friend = User(id: "friend", name: "Bia", photo: "2")
+    private let owner = User(id: "owner", name: "Ana")
+    private let friend = User(id: "friend", name: "Bia")
     private let today = Date(timeIntervalSince1970: 1_790_000_000)
 
     private func actions() async throws -> (IntentActions, Repositories) {

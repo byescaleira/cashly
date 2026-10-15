@@ -16,7 +16,7 @@ enum BenchmarkFixture {
             cloudSync: false, storeURL: folder.appending(path: "benchmark.store"))
         let context = ModelContext(database.modelContainer)
         for id in owners {
-            context.insert(UserEntity(id: id, name: id, photo: "person"))
+            context.insert(UserEntity(id: id, name: id, photo: ProfilePhoto.default.encoded))
             context.insert(
                 CategoryEntity(
                     id: "category-" + id, user: id, name: "Mercado", color: "0099FF", icon: "cart"))
