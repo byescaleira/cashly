@@ -11,7 +11,7 @@ Os 100 avatares ilustrados do perfil (além das iniciais e dos símbolos) são p
 
 ## Importar
 
-`python3 design/avatars/import.py [tamanho]` confere que os 100 arquivos existem, reduz para 512 px (padrão) e recria o catálogo `CashlyResource/Assets/Media.xcassets/Avatars` com `avatar-<seção>-<nn>`.
+`python3 design/avatars/import.py [tamanho]` confere que os 100 arquivos existem (`--allow-missing` importa o que houver), reduz para JPEG de 360 px, qualidade 85 (padrão; o fundo é sólido e o app recorta o círculo) e recria o catálogo `CashlyResource/Assets/Media.xcassets/Avatars` com `avatar-<seção>-<nn>`.
 
 ## Editar a lista
 
