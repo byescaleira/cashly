@@ -9,6 +9,7 @@ struct NotificationScreen: View {
         SettingsPage("Notifications") {
             NotificationStatusSection()
             ForEach(ReminderKind.allCases) { ReminderSection(kind: $0) }
+            JourneyReminderSection()
         }
         .sensoryFeedback(.selection, trigger: notifications.enabledCount)
         .task { await notifications.refreshStatus() }

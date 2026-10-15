@@ -11,6 +11,7 @@ struct DeveloperSections: View {
         FlagsSection()
         #if DEBUG
             DeveloperStoreSection()
+            NotificationSimulationSection()
         #endif
         if let developer = settings.developer {
             DeveloperToolsSections().environment(developer)

@@ -1,3 +1,4 @@
+import CashlyDomain
 import Foundation
 import Observation
 
@@ -8,6 +9,14 @@ public final class JourneyNotificationSetting {
     public nonisolated static let prefix = "journey.plan."
     public private(set) var isOn: Bool
     public private(set) var status: NotificationStatus = .notDetermined
+    public var showsLiveActivities: Bool {
+        didSet {
+            defaults.set(showsLiveActivities, forKey: JourneySnapshot.liveActivityKey)
+            #if os(iOS)
+                Task { await JourneyActivities.sync(defaults: defaults) }
+            #endif
+        }
+    }
     @ObservationIgnored private let defaults: UserDefaults
     @ObservationIgnored private let scheduler: any NotificationScheduling
 
@@ -18,6 +27,7 @@ public final class JourneyNotificationSetting {
         self.defaults = defaults
         self.scheduler = scheduler
         isOn = Self.isOn(in: defaults)
+        showsLiveActivities = JourneySnapshot.isLiveActivityEnabled(defaults)
     }
 
     public nonisolated static func isOn(in defaults: UserDefaults) -> Bool {
