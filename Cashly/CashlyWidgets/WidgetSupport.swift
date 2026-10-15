@@ -73,7 +73,7 @@ extension CashlyWidget {
 }
 
 extension WidgetSize {
-    fileprivate var family: WidgetFamily? {
+    var family: WidgetFamily? {
         switch self {
         case .small: .systemSmall
         case .medium: .systemMedium
