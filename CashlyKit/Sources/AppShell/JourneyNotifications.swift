@@ -28,3 +28,14 @@ struct JourneyNotifications: ViewModifier {
         "\(session.user?.id ?? ""):\(session.generation):\(isActive):\(store.hasRefreshed):\(scenePhase == .active)"
     }
 }
+
+extension JourneyNotifier {
+    @MainActor
+    static func reviewInBackground() async {
+        guard FeatureFlags().isOn(.journey),
+            let (repositories, _) = try? await CashlyServices.shared.workspace()
+        else { return }
+        await JourneyNotifier().review(
+            repositories: repositories, isActive: await CashlyServices.shared.canWrite())
+    }
+}

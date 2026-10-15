@@ -54,7 +54,7 @@ public final class NotificationResponder: NSObject, UNUserNotificationCenterDele
             let categoryID = String(action.dropFirst(NotificationCategory.capturePick.count))
             _ = try? await actions.accept(captureID: captureID, categoryID: categoryID)
             await updateBadge(actions)
-            await reviewJourney()
+            await JourneyNotifier.reviewInBackground()
         } else if action == NotificationCategory.captureIgnore {
             guard let actions = await captureActions(writing: false) else { return }
             _ = try? await actions.dismiss(captureID: captureID)
@@ -81,15 +81,6 @@ public final class NotificationResponder: NSObject, UNUserNotificationCenterDele
             return
         }
         await JourneyNotifier().markNoSpendDay(repositories: repositories)
-    }
-
-    @MainActor
-    private func reviewJourney() async {
-        guard FeatureFlags().isOn(.journey),
-            let (repositories, _) = try? await CashlyServices.shared.workspace()
-        else { return }
-        await JourneyNotifier().review(
-            repositories: repositories, isActive: await CashlyServices.shared.canWrite())
     }
 
     private func updateBadge(_ actions: CaptureActions) async {
