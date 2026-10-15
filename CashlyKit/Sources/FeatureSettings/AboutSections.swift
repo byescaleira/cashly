@@ -127,6 +127,14 @@ struct AboutCreditsSection: View {
                         symbol: "wand.and.sparkles", color: .retroPlum)
                 }
             }
+            if let url = about.illustrationsURL {
+                Link(destination: url) {
+                    AboutLinkLabel(
+                        title: "Profile illustrations: ipaslogo.com",
+                        detail: "Animal avatars · Free for commercial use", symbol: "pawprint",
+                        color: .retroBrown)
+                }
+            }
         } header: {
             Text("Credits").sectionTitle()
         } footer: {

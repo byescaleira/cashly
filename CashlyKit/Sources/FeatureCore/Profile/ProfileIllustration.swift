@@ -4,34 +4,40 @@ import SwiftUI
 
 public struct ProfileIllustration: Identifiable, Hashable, Sendable {
     public enum Section: String, CaseIterable, Identifiable, Sendable {
-        case classics, brazil, savers, ocean, farm, savanna, cold, tiny, birds, fantasy
+        case cats, dogs, forest, farm, ocean, birds, jungle, tiny, fantasy
 
         public var id: String { rawValue }
 
         public var title: String {
             switch self {
-            case .classics: String(appLocalized: "Classics")
-            case .brazil: String(appLocalized: "Brazil")
-            case .savers: String(appLocalized: "Savers")
-            case .ocean: String(appLocalized: "Ocean")
+            case .cats: String(appLocalized: "Cats")
+            case .dogs: String(appLocalized: "Dogs")
+            case .forest: String(appLocalized: "Forest")
             case .farm: String(appLocalized: "Farm")
-            case .savanna: String(appLocalized: "Savanna")
-            case .cold: String(appLocalized: "Cold")
-            case .tiny: String(appLocalized: "Tiny Friends")
+            case .ocean: String(appLocalized: "Ocean")
             case .birds: String(appLocalized: "Birds")
+            case .jungle: String(appLocalized: "Jungle")
+            case .tiny: String(appLocalized: "Tiny Friends")
             case .fantasy: String(appLocalized: "Fantasy")
+            }
+        }
+
+        public var count: Int {
+            switch self {
+            case .ocean, .jungle: 24
+            case .fantasy: 20
+            case .cats, .dogs, .forest, .farm, .birds, .tiny: 22
             }
         }
 
         public var shopItem: ShopItem? {
             switch self {
-            case .classics, .brazil, .savers: nil
-            case .ocean: .avatarsOcean
+            case .cats, .dogs, .forest: nil
             case .farm: .avatarsFarm
-            case .savanna: .avatarsSavanna
-            case .cold: .avatarsCold
-            case .tiny: .avatarsTiny
+            case .ocean: .avatarsOcean
             case .birds: .avatarsBirds
+            case .jungle: .avatarsJungle
+            case .tiny: .avatarsTiny
             case .fantasy: .avatarsFantasy
             }
         }
@@ -46,25 +52,20 @@ public struct ProfileIllustration: Identifiable, Hashable, Sendable {
         }
     }
 
-    public static let perSection = 10
-
     public static let all: [ProfileIllustration] = Section.allCases.flatMap { section in
-        (1...perSection).map {
-            ProfileIllustration(
-                id: section.rawValue + "-" + ($0 < 10 ? "0\($0)" : "\($0)"), section: section)
-        }
+        (1...section.count).map { ProfileIllustration(section: section, number: $0) }
     }
 
     public static let available = all.filter { CashlyResourceImage.contains($0.assetName) }
 
-    public static let suggested = Section.classics.illustrations.first
+    public static let suggested = Section.cats.illustrations.first
 
-    public let id: String
     public let section: Section
+    public let number: Int
 
-    private init(id: String, section: Section) {
-        self.id = id
+    private init(section: Section, number: Int) {
         self.section = section
+        self.number = number
     }
 
     public init?(id: String) {
@@ -72,9 +73,15 @@ public struct ProfileIllustration: Identifiable, Hashable, Sendable {
         self = match
     }
 
+    public var id: String {
+        section.rawValue + "-" + (number < 10 ? "0\(number)" : "\(number)")
+    }
+
     public var assetName: String { "avatar-" + id }
 
     public var image: Image { CashlyResourceImage.avatar(assetName) }
+
+    public var name: String { String(appLocalized: "Avatar \(number) of \(section.title)") }
 
     public var shopItem: ShopItem? { section.shopItem }
 

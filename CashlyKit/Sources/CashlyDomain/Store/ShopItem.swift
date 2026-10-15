@@ -13,12 +13,11 @@ public enum ShopItem: String, CaseIterable, Identifiable, Sendable {
     case iconsAll = "cashly.icons.all"
     case accentMetallic = "cashly.accent.metallic"
     case accentNeon = "cashly.accent.neon"
-    case avatarsOcean = "cashly.avatars.ocean"
     case avatarsFarm = "cashly.avatars.farm"
-    case avatarsSavanna = "cashly.avatars.savanna"
-    case avatarsCold = "cashly.avatars.cold"
-    case avatarsTiny = "cashly.avatars.tiny"
+    case avatarsOcean = "cashly.avatars.ocean"
     case avatarsBirds = "cashly.avatars.birds"
+    case avatarsJungle = "cashly.avatars.jungle"
+    case avatarsTiny = "cashly.avatars.tiny"
     case avatarsFantasy = "cashly.avatars.fantasy"
     case avatarsAll = "cashly.avatars.all"
     case avatarFrames = "cashly.avatar.frames"
@@ -45,8 +44,8 @@ public enum ShopItem: String, CaseIterable, Identifiable, Sendable {
         case .iconsFashion, .iconsCountries, .iconsSports, .iconsEighties, .iconsSummer,
             .iconsCarnival, .iconsJunina, .iconsHalloween, .iconsChristmas, .iconsAll:
             .icons
-        case .avatarsOcean, .avatarsFarm, .avatarsSavanna, .avatarsCold, .avatarsTiny,
-            .avatarsBirds, .avatarsFantasy, .avatarsAll:
+        case .avatarsFarm, .avatarsOcean, .avatarsBirds, .avatarsJungle, .avatarsTiny,
+            .avatarsFantasy, .avatarsAll:
             .avatars
         case .accentMetallic, .accentNeon, .avatarFrames, .celebrations, .sounds:
             .personalization

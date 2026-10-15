@@ -13,9 +13,7 @@ extension UserEditorModel {
 
     public var photoCaption: String { PhotoStyle(draft.photo).title }
 
-    public var captionTint: Color {
-        draft.photo.illustration.map { Color(hex: $0.background) } ?? draft.photo.tint
-    }
+    public var captionTint: Color { draft.photo.tint }
 
     public var tint: Color { Color(hex: photoColor) }
     public var showsColors: Bool { style != .illustration }

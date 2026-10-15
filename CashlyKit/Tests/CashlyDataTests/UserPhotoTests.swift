@@ -26,11 +26,11 @@ struct UserPhotoTests {
     @Test func restoringABackupKeepsTheIllustration() async throws {
         let source = try CashlyDatabase.open(inMemory: true)
         try await source.repositories(for: nil).users.save(
-            User(id: "ana", name: "Ana Souza", photo: .illustration("savanna-02")))
+            User(id: "ana", name: "Ana Souza", photo: .illustration("jungle-02")))
         let backup = try await source.backup.export().backup
         let target = try CashlyDatabase.open(inMemory: true)
         try await target.backup.restore(backup)
         let restored = try await target.repositories(for: nil).users.user(id: "ana")
-        #expect(restored?.photo == .illustration("savanna-02"))
+        #expect(restored?.photo == .illustration("jungle-02"))
     }
 }

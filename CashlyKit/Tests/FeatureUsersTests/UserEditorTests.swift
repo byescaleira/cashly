@@ -69,7 +69,7 @@ struct UserEditorTests {
 
     @Test func freeIllustrationIsChosenAndSaved() async throws {
         let editor = try await editor()
-        let cat = try illustration(in: .classics)
+        let cat = try illustration(in: .cats)
         var opened: [ShopItem] = []
         editor.choose(cat, in: ShopAccess(owned: []) { opened.append($0) })
         #expect(opened.isEmpty)
@@ -99,7 +99,7 @@ struct UserEditorTests {
 
     @Test func switchingStylesRemembersTheIllustration() async throws {
         let editor = try await editor()
-        let capybara = try illustration(in: .brazil)
+        let capybara = try illustration(in: .forest)
         editor.choose(capybara, in: ShopAccess(owned: []) { _ in })
         editor.select(.initials)
         #expect(editor.draft.photo == .initials(color: editor.photoColor))

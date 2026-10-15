@@ -131,11 +131,11 @@ O Cashly tem vários perfis por aparelho. A Jornada (XP, sequência, conquistas,
 | Moda, Países, Esportes, Anos 80, Verão, Carnaval, Festa Junina, Halloween, Natal (um pacote cada) | `cashly.icons.<coleção>` | R$ 11,90 |
 | Todos os ícones, inclusive os que vierem depois | `cashly.icons.all` | R$ 44,90 |
 
-**Avatares ilustrados** (Clássicos, Brasil e Poupadores são grátis)
+**Avatares ilustrados** (ipaslogo.com; Gatos, Cachorros e Floresta são grátis)
 
 | Item | Produto | Preço |
 | --- | --- | --- |
-| Oceano, Fazenda, Savana, Frio, Bichinhos, Aves, Fantasia (uma seção de 10 cada) | `cashly.avatars.<seção>` | R$ 9,90 |
+| Fazenda, Oceano, Aves, Selva, Bichinhos, Fantasia (uma seção de 20 a 24 cada) | `cashly.avatars.<seção>` | R$ 9,90 |
 | Todos os avatares, inclusive as seções que vierem depois | `cashly.avatars.all` | R$ 34,90 |
 
 **Personalização**

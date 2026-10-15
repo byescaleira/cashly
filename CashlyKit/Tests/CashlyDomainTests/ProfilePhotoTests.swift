@@ -6,7 +6,7 @@ struct ProfilePhotoTests {
     @Test(arguments: [
         ProfilePhoto.initials(color: "2E7D74"),
         .symbol("pawprint.fill", color: "C47C86"),
-        .illustration("classics-01"),
+        .illustration("cats-01"),
         .illustration("fantasy-10"),
     ])
     func photosSurviveEncoding(photo: ProfilePhoto) {

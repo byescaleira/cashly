@@ -49,12 +49,12 @@ struct BackupFormatTests {
     }
 
     @Test func profilePhotosTravelInsideTheBackup() throws {
-        let ana = User(id: "ana", name: "Ana", photo: .illustration("brazil-01"))
+        let ana = User(id: "ana", name: "Ana", photo: .illustration("dogs-03"))
         let bia = User(id: "bia", name: "Bia", photo: .symbol("cat.fill", color: "B23A48"))
         let backup = CashlyBackup(
             users: [ana, bia], categories: [], tags: [], budgets: [], transactions: [])
         let decoded = try CashlyBackup(data: backup.encoded())
-        #expect(decoded.users.first { $0.id == "ana" }?.photo == "illustration:brazil-01")
+        #expect(decoded.users.first { $0.id == "ana" }?.photo == "illustration:dogs-03")
         #expect(try decoded.entities().users == [ana, bia])
     }
 

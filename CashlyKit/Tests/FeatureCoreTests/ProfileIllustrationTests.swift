@@ -7,43 +7,35 @@ import Testing
 struct ProfileIllustrationTests {
     typealias Section = ProfileIllustration.Section
 
-    @Test func sectionsFollowTheManifestOrder() {
+    @Test func sectionsFollowTheManifest() {
         #expect(
             Section.allCases.map(\.rawValue) == [
-                "classics", "brazil", "savers", "ocean", "farm", "savanna", "cold", "tiny",
-                "birds", "fantasy",
+                "cats", "dogs", "forest", "farm", "ocean", "birds", "jungle", "tiny", "fantasy",
             ])
-        #expect(ProfileIllustration.all.count == Section.allCases.count * 10)
-        #expect(ProfileIllustration.all.first?.id == "classics-01")
-        #expect(ProfileIllustration.all.last?.id == "fantasy-10")
+        #expect(Section.allCases.map(\.count) == [22, 22, 22, 22, 24, 22, 24, 22, 20])
+        #expect(ProfileIllustration.all.count == 200)
+        #expect(ProfileIllustration.all.first?.id == "cats-01")
+        #expect(ProfileIllustration.all.last?.id == "fantasy-20")
+        #expect(Set(ProfileIllustration.all.map(\.id)).count == 200)
     }
 
-    @Test func onlyIllustrationsWithAnImageAreOffered() {
+    @Test func listComesFromTheRealCatalog() {
         let available = ProfileIllustration.available
         #expect(
             available
                 == ProfileIllustration.all.filter { CashlyResourceImage.contains($0.assetName) })
-        #expect(available.count >= 99)
-        #expect(Section.allCases.allSatisfy { !$0.illustrations.isEmpty })
-        #expect(
-            Section.allCases.flatMap(\.illustrations).count == available.count)
+        #expect(available.count == ProfileIllustration.all.count)
+        #expect(Section.allCases.allSatisfy { $0.illustrations.count == $0.count })
+        #expect(!CashlyResourceImage.contains("avatar-cats-23"))
+        #expect(ProfileIllustration(id: "cats-23") == nil)
+        #expect(ProfileIllustration(id: "cats-01")?.section == .cats)
     }
 
-    @Test func missingImageIsNeitherListedNorDecoded() throws {
-        let missing = ProfileIllustration.all.filter { !CashlyResourceImage.contains($0.assetName) }
-        for illustration in missing {
-            #expect(ProfileIllustration(id: illustration.id) == nil)
-            #expect(ProfilePhoto.illustration(illustration.id).illustration == nil)
-        }
-        let first = try #require(ProfileIllustration.available.first)
-        #expect(ProfileIllustration(id: first.id) == first)
-    }
-
-    @Test func classicsBrazilAndSaversAreFree() {
-        #expect(Section.allCases.filter { $0.shopItem == nil } == [.classics, .brazil, .savers])
+    @Test func catsDogsAndForestAreFree() {
+        #expect(Section.allCases.filter { $0.shopItem == nil } == [.cats, .dogs, .forest])
         let paid = Section.allCases.compactMap(\.shopItem)
-        #expect(paid.count == 7)
-        #expect(Set(paid).count == 7)
+        #expect(paid.count == 6)
+        #expect(Set(paid).count == 6)
         #expect(paid.allSatisfy { $0.group == .avatars && $0.kind == .nonConsumable })
         #expect(ShopCatalog.items(in: .avatars) == paid + [.avatarsAll])
     }
@@ -52,9 +44,10 @@ struct ProfileIllustrationTests {
         let shop = ShopAccess(owned: [.avatarsAll]) { _ in }
         #expect(Section.allCases.allSatisfy { shop.access(to: $0.shopItem).lockedItem == nil })
         #expect(shop.access(to: Section.ocean.shopItem) == .owned)
-        #expect(shop.access(to: Section.classics.shopItem) == .included)
-        #expect(Section.sections(of: .avatarsAll).count == 7)
+        #expect(shop.access(to: Section.cats.shopItem) == .included)
+        #expect(Section.sections(of: .avatarsAll).count == 6)
         #expect(Section.sections(of: .avatarsBirds) == [.birds])
+        #expect(ProfileIllustration.illustrations(of: .avatarsJungle).count == 24)
     }
 
     @Test func oneSectionDoesNotUnlockAnother() {
@@ -64,15 +57,13 @@ struct ProfileIllustrationTests {
         #expect(!shop.owns(.avatarsAll))
     }
 
-    @Test func everyIllustrationHasANameAndBackground() {
-        let names = ProfileIllustration.all.map(\.name)
-        #expect(Set(names).count == names.count)
-        #expect(!names.contains("Illustration"))
-        #expect(
-            ProfileIllustration.all.allSatisfy {
-                $0.background.count == 6 && $0.background.allSatisfy(\.isHexDigit)
-            })
+    @Test func everyIllustrationIsAValidPhotoWithALabel() {
         #expect(ProfileIllustration.all.allSatisfy { ProfilePhoto.illustration($0.id).isValid })
+        let label = ProfilePhoto.illustration("dogs-03").accessibilityLabel(initials: "AS")
+        #expect(label.contains("3"))
+        #expect(
+            ProfilePhoto.initials(color: "2E7D74").accessibilityLabel(initials: "")
+                == "Profile photo")
     }
 
     @Test func packAccessLabels() {

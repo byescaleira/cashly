@@ -20,12 +20,11 @@ extension ShopItem {
         case .iconsAll: String(appLocalized: "All Icons")
         case .accentMetallic: String(appLocalized: "Metallic Colors")
         case .accentNeon: String(appLocalized: "Neon Colors")
-        case .avatarsOcean: String(appLocalized: "Ocean Avatars")
         case .avatarsFarm: String(appLocalized: "Farm Avatars")
-        case .avatarsSavanna: String(appLocalized: "Savanna Avatars")
-        case .avatarsCold: String(appLocalized: "Cold Climate Avatars")
-        case .avatarsTiny: String(appLocalized: "Tiny Friends Avatars")
+        case .avatarsOcean: String(appLocalized: "Ocean Avatars")
         case .avatarsBirds: String(appLocalized: "Bird Avatars")
+        case .avatarsJungle: String(appLocalized: "Jungle Avatars")
+        case .avatarsTiny: String(appLocalized: "Tiny Friends Avatars")
         case .avatarsFantasy: String(appLocalized: "Fantasy Avatars")
         case .avatarsAll: String(appLocalized: "All Avatars")
         case .avatarFrames: String(appLocalized: "Avatar Frames")
@@ -48,8 +47,8 @@ extension ShopItem {
         case .iconsAll: String(appLocalized: "Every icon pack, including the ones still to come.")
         case .accentMetallic: String(appLocalized: "Gold, silver, bronze and copper accent colors.")
         case .accentNeon: String(appLocalized: "Four neon accent colors.")
-        case .avatarsOcean, .avatarsFarm, .avatarsSavanna, .avatarsCold, .avatarsTiny,
-            .avatarsBirds, .avatarsFantasy:
+        case .avatarsFarm, .avatarsOcean, .avatarsBirds, .avatarsJungle, .avatarsTiny,
+            .avatarsFantasy:
             String(appLocalized: "Illustrated animals for your profile photo.")
         case .avatarsAll:
             String(appLocalized: "Every avatar section, including the ones still to come.")
@@ -73,8 +72,8 @@ extension ShopItem {
             String(appLocalized: "A new face for Cashly on your Home Screen")
         case .accentMetallic, .accentNeon: String(appLocalized: "Your accent, everywhere in Cashly")
         case .avatarsAll: String(appLocalized: "Every avatar, now and later")
-        case .avatarsOcean, .avatarsFarm, .avatarsSavanna, .avatarsCold, .avatarsTiny,
-            .avatarsBirds, .avatarsFantasy, .avatarFrames:
+        case .avatarsFarm, .avatarsOcean, .avatarsBirds, .avatarsJungle, .avatarsTiny,
+            .avatarsFantasy, .avatarFrames:
             String(appLocalized: "Your profile, your way")
         case .celebrations, .sounds: String(appLocalized: "More delight when you save")
         case .freezes3, .freezes10: String(appLocalized: "Miss a day without losing your streak")

@@ -265,35 +265,15 @@
     {
       "displayPrice" : "9.90",
       "familyShareable" : true,
-      "internalID" : "77C66478",
-      "localizations" : [
-        {
-          "description" : "Ten illustrated ocean animals",
-          "displayName" : "Ocean Avatars",
-          "locale" : "en_US"
-        },
-        {
-          "description" : "Dez bichos ilustrados do oceano",
-          "displayName" : "Avatares do Oceano",
-          "locale" : "pt_BR"
-        }
-      ],
-      "productID" : "cashly.avatars.ocean",
-      "referenceName" : "Ocean Avatars",
-      "type" : "NonConsumable"
-    },
-    {
-      "displayPrice" : "9.90",
-      "familyShareable" : true,
       "internalID" : "FD9FDABB",
       "localizations" : [
         {
-          "description" : "Ten illustrated farm animals",
+          "description" : "22 illustrated farm animals",
           "displayName" : "Farm Avatars",
           "locale" : "en_US"
         },
         {
-          "description" : "Dez bichos ilustrados da fazenda",
+          "description" : "22 bichos ilustrados da fazenda",
           "displayName" : "Avatares da Fazenda",
           "locale" : "pt_BR"
         }
@@ -305,61 +285,21 @@
     {
       "displayPrice" : "9.90",
       "familyShareable" : true,
-      "internalID" : "94EAEC94",
+      "internalID" : "77C66478",
       "localizations" : [
         {
-          "description" : "Ten illustrated savanna animals",
-          "displayName" : "Savanna Avatars",
+          "description" : "24 illustrated sea animals",
+          "displayName" : "Ocean Avatars",
           "locale" : "en_US"
         },
         {
-          "description" : "Dez bichos ilustrados da savana",
-          "displayName" : "Avatares da Savana",
+          "description" : "24 bichos ilustrados do oceano",
+          "displayName" : "Avatares do Oceano",
           "locale" : "pt_BR"
         }
       ],
-      "productID" : "cashly.avatars.savanna",
-      "referenceName" : "Savanna Avatars",
-      "type" : "NonConsumable"
-    },
-    {
-      "displayPrice" : "9.90",
-      "familyShareable" : true,
-      "internalID" : "F76A9CFB",
-      "localizations" : [
-        {
-          "description" : "Ten illustrated cold-climate animals",
-          "displayName" : "Cold Climate Avatars",
-          "locale" : "en_US"
-        },
-        {
-          "description" : "Dez bichos ilustrados do frio",
-          "displayName" : "Avatares do Frio",
-          "locale" : "pt_BR"
-        }
-      ],
-      "productID" : "cashly.avatars.cold",
-      "referenceName" : "Cold Climate Avatars",
-      "type" : "NonConsumable"
-    },
-    {
-      "displayPrice" : "9.90",
-      "familyShareable" : true,
-      "internalID" : "882575E7",
-      "localizations" : [
-        {
-          "description" : "Ten illustrated tiny friends",
-          "displayName" : "Tiny Friends Avatars",
-          "locale" : "en_US"
-        },
-        {
-          "description" : "Dez bichinhos ilustrados",
-          "displayName" : "Avatares Bichinhos",
-          "locale" : "pt_BR"
-        }
-      ],
-      "productID" : "cashly.avatars.tiny",
-      "referenceName" : "Tiny Friends Avatars",
+      "productID" : "cashly.avatars.ocean",
+      "referenceName" : "Ocean Avatars",
       "type" : "NonConsumable"
     },
     {
@@ -368,12 +308,12 @@
       "internalID" : "1FF45091",
       "localizations" : [
         {
-          "description" : "Ten illustrated birds",
+          "description" : "22 illustrated birds",
           "displayName" : "Bird Avatars",
           "locale" : "en_US"
         },
         {
-          "description" : "Dez aves ilustradas",
+          "description" : "22 aves ilustradas",
           "displayName" : "Avatares de Aves",
           "locale" : "pt_BR"
         }
@@ -385,15 +325,55 @@
     {
       "displayPrice" : "9.90",
       "familyShareable" : true,
+      "internalID" : "7A7376F3",
+      "localizations" : [
+        {
+          "description" : "24 illustrated jungle animals",
+          "displayName" : "Jungle Avatars",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "24 bichos ilustrados da selva",
+          "displayName" : "Avatares da Selva",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.avatars.jungle",
+      "referenceName" : "Jungle Avatars",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "9.90",
+      "familyShareable" : true,
+      "internalID" : "882575E7",
+      "localizations" : [
+        {
+          "description" : "22 illustrated tiny friends",
+          "displayName" : "Tiny Friends Avatars",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "22 bichinhos ilustrados",
+          "displayName" : "Avatares Bichinhos",
+          "locale" : "pt_BR"
+        }
+      ],
+      "productID" : "cashly.avatars.tiny",
+      "referenceName" : "Tiny Friends Avatars",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "9.90",
+      "familyShareable" : true,
       "internalID" : "EF7390A2",
       "localizations" : [
         {
-          "description" : "Ten illustrated fantasy creatures",
+          "description" : "20 illustrated fantasy creatures",
           "displayName" : "Fantasy Avatars",
           "locale" : "en_US"
         },
         {
-          "description" : "Dez criaturas de fantasia ilustradas",
+          "description" : "20 criaturas de fantasia ilustradas",
           "displayName" : "Avatares de Fantasia",
           "locale" : "pt_BR"
         }

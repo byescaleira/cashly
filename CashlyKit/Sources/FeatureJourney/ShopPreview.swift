@@ -12,7 +12,8 @@ struct ShopCardPreview: View {
             case .icons: IconPackGrid(icons: item.previewIcons, columns: item == .iconsAll ? 3 : 2)
             case .avatars:
                 AvatarPackGrid(
-                    illustrations: Array(item.previewIllustrations.prefix(item == .avatarsAll ? 6 : 4)),
+                    illustrations: Array(
+                        item.previewIllustrations.prefix(item == .avatarsAll ? 6 : 4)),
                     columns: item == .avatarsAll ? 3 : 2)
             case .personalization: SwatchGrid(colors: PremiumColor.colors(of: item), columns: 2)
             case .helps, .plans: CashlyAnimationView(item.animation)
