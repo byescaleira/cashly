@@ -76,9 +76,4 @@ extension SettingsModel {
         guard let name = user?.name, !name.isEmpty else { return "Cashly" }
         return name.capitalized
     }
-
-    func widgetValue(budgets: [Budget]) -> String {
-        budgets.first { $0.category.id == widgetCategoryID }?.category.name
-            ?? String(appLocalized: "Nothing yet")
-    }
 }

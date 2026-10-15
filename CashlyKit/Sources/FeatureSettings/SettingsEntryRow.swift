@@ -24,7 +24,7 @@ struct SettingsEntryRow: View {
         case .currency: settings.currencyValue
         case .notifications: notifications.overviewValue
         case .privacy: settings.privacyValue(lock?.biometry ?? .none)
-        case .widgets: settings.widgetValue(budgets: finance?.budgets ?? [])
+        case .widgets: settings.widgetValue(categories: finance?.allCategories ?? [])
         case .journey: settings.journeyValue
         case .cloud: settings.cloudValue
         case .about: settings.info.version

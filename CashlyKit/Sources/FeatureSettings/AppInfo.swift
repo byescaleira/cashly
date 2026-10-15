@@ -11,6 +11,7 @@ public struct AppInfo: Sendable {
     let helpURL: URL?
     let privacyURL: URL?
     let termsURL: URL?
+    let websiteURL: URL?
 
     public init(info: [String: Any]) {
         func value(_ key: String) -> String? {
@@ -26,6 +27,7 @@ public struct AppInfo: Sendable {
         helpURL = value("CashlyHelpURL").flatMap(URL.init(string:))
         privacyURL = value("CashlyPrivacyURL").flatMap(URL.init(string:))
         termsURL = value("CashlyTermsURL").flatMap(URL.init(string:))
+        websiteURL = value("CashlyWebsiteURL").flatMap(URL.init(string:))
     }
 
     var hasHelp: Bool { reviewURL != nil || supportURL != nil || helpURL != nil }

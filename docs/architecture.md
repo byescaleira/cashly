@@ -26,12 +26,13 @@ flowchart TD
 | `CashlyResource` | Avatares e ilustrações | nada |
 | `FeatureCore` | Estado compartilhado (`SessionModel`, `FinanceModel`, `IntelligenceModel`, `EditorStatus`, `TransactionFilter`), navegação (`Route`, `AppSection`, `CashlyNavigation`, `\.open`, `\.close`), componentes usados por mais de uma feature (como `RetroColorPicker` e `ColorSection`, com as 26 cores nomeadas de `RetroColor`, e `AppIcon`/`AppIconImage`, usados pelos Ajustes e pela loja), textos de exibição, `ProAccess` e `ShopAccess` (ambiente), `CashlyTips` (configuração do TipKit e eventos compartilhados; cada feature declara as suas `Tip`s), `IntentActions` e `CaptureActions` (lógica dos App Intents e da caixa de entrada de capturas), `CaptureNotifier` (notificação por captura, ações e contador do ícone) | Domain, DesignSystem, Resource |
 | `Feature*` | Uma área do app: model, telas e seções | Domain, DesignSystem, FeatureCore |
-| `FeatureSettings` | Ajustes do app (`SettingsModel`, `DataModel`, `AppInfo`), um por processo e não por janela | Domain, FeatureCore |
+| `FeatureSettings` | Ajustes do app (`SettingsModel`, `DataModel`, `AppInfo`), um por processo e não por janela; a página Sobre lê os números da Jornada pelo `CashlyGame` | Domain, Game, FeatureCore |
 | `AppShell` | `CashlyWindow`, `MainScreen`, `SectionStack`, `RouteScreen`, folha lateral (`routeInspector`), `CashlyServices` (banco e perfil sem janela), App Intents e entidades (`Intents/`, incluindo `CaptureTransactionIntent` para a automação do Wallet), indexação no Spotlight, `NotificationResponder` (ações das notificações, inclusive as de captura) e `DeepLinks` (`cashly://`, com `captures/<id>`) | todas as features |
 | `CashlyMock` | `SampleData` e `SampleDatabase` em memória | Domain, Data |
 | `CashlyPreview` | Previews por feature sobre o `SampleDatabase` | AppShell, features, Mock |
 | `CashlyAudit` | Diagnóstico e validação automatizada (migração, integridade, volume) | Domain, Data, Mock |
-| `CashlyWidgets` (app) | Extensão WidgetKit: lê o `WidgetSnapshot` da pasta `cashly/` no App Group `group.com.byescaleira` (`AppGroup` e `manifest.json` no domínio); produto `CashlyWidgetKit` | Domain, DesignSystem |
+| `CashlyWidgetUI` | Views dos widgets (`CashlyWidgetView`, `WidgetSize`, `CashlyWidget`), usadas pela extensão e pelas prévias de Ajustes › Widgets | Domain, DesignSystem |
+| `CashlyWidgets` (app) | Extensão WidgetKit: lê o `WidgetSnapshot` da pasta `cashly/` no App Group `group.com.byescaleira` (`AppGroup` e `manifest.json` no domínio) e desenha com o `CashlyWidgetUI`; produto `CashlyWidgetKit` | Domain, DesignSystem, WidgetUI |
 
 Regras de dependência:
 
@@ -73,7 +74,7 @@ Regras de dependência:
 - `@Environment(\.close)` fecha a rota no contexto certo (inspector, pilha do inspector ou pilha da aba).
 - Ajustes são uma aba em todas as plataformas; no Mac também abrem na janela de Ajustes do sistema (cena `Settings`, ⌘,). O menu do avatar só troca, edita e adiciona usuários.
 - Ícones alternativos são pastas `.icon` em `Cashly/Cashly` (`CashlyIcon` + nome do `case` com inicial maiúscula, como `CashlyIconCandyCane`), incluídas por `ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS`. São 10 coleções com exatamente 4 ícones cada (Cores, Moda, Países, Esportes, Anos 80, Verão, Carnaval, Festa Junina, Halloween, Natal), regra coberta pelo `AppIconTests`. Para um novo, crie a pasta, acrescente o `case` em `AppIcon` (`FeatureCore/Icons`) e rode `scripts/icons.sh` para exportar a prévia.
-- Os links de ajuda e sobre vêm das chaves `CashlyAppStoreID`, `CashlySupportEmail`, `CashlyHelpURL`, `CashlyPrivacyURL` e `CashlyTermsURL` do `Info.plist`; a linha some enquanto a chave estiver vazia.
+- Os links de ajuda e sobre vêm das chaves `CashlyAppStoreID`, `CashlySupportEmail`, `CashlyHelpURL`, `CashlyPrivacyURL`, `CashlyTermsURL` e `CashlyWebsiteURL` do `Info.plist`; a linha some enquanto a chave estiver vazia.
 
 ## Views
 
