@@ -7,7 +7,6 @@ struct BudgetGroupSection: View {
     @Environment(GoalsModel.self) private var goals
     @Environment(\.open) private var open
     @Environment(\.navigationSection) private var section
-    @Environment(\.pro) private var pro
     let group: BudgetProgress.Group
     let items: [BudgetProgress]
 
@@ -22,7 +21,7 @@ struct BudgetGroupSection: View {
                 .tint(Color.primary)
                 .swipeActions {
                     Button("Delete", systemImage: "trash", role: .destructive) {
-                        pro.perform { goals.deletion = .budget(item.budget) }
+                        goals.deletion = .budget(item.budget)
                     }
                 }
                 .contextMenu {
@@ -32,7 +31,7 @@ struct BudgetGroupSection: View {
                     }
                     Divider()
                     Button("Delete", systemImage: "trash", role: .destructive) {
-                        pro.perform { goals.deletion = .budget(item.budget) }
+                        goals.deletion = .budget(item.budget)
                     }
                 }
             }

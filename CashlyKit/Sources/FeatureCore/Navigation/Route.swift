@@ -11,11 +11,4 @@ public enum Route: Hashable {
     case budgets
     case budgetConflict(categoryID: String, month: YearMonth)
     case shop
-
-    public var requiresPro: Bool {
-        switch self {
-        case .addUser, .addCategory, .addBudget, .addTransaction, .addTag, .classifyCapture: true
-        case .budgets, .budgetConflict, .shop: false
-        }
-    }
 }

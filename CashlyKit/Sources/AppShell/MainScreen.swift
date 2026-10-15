@@ -72,12 +72,8 @@ public struct MainScreen: View {
         }
         .environment(
             \.open,
-            CashlyDestination { [canWrite = pro.canWrite] route, section in
-                if route.requiresPro, !canWrite {
-                    navigation.isShowingPaywall = true
-                } else {
-                    navigation.open(route, in: section, beside: horizontalSizeClass == .regular)
-                }
+            CashlyDestination { route, section in
+                navigation.open(route, in: section, beside: horizontalSizeClass == .regular)
             }
         )
         .environment(\.user, session.user)
@@ -149,7 +145,7 @@ public struct MainScreen: View {
     }
 
     private var journeyStatus: JourneySnapshot.Status {
-        !sections.contains(.journey) ? .hidden : pro.canWrite ? .active : .paused
+        sections.contains(.journey) ? .active : .hidden
     }
 
     private var pro: ProAccess {
@@ -174,13 +170,14 @@ private struct PaywallOffer: ViewModifier {
 
     private var isDue: Bool {
         store.hasRefreshed && session.isReady(finance) && !session.needsOnboarding
-            && !navigation.isOnboarding && !pro.canWrite
+            && !navigation.isOnboarding && !pro.isPro
     }
 
     func body(content: Content) -> some View {
         content.onChange(of: isDue, initial: true) { _, due in
-            guard due, !hasOffered else { return }
+            guard due, !hasOffered, store.isPaywallOfferDue() else { return }
             hasOffered = true
+            store.markPaywallOffered()
             Task {
                 try? await Task.sleep(for: .milliseconds(500))
                 navigation.isShowingPaywall = true

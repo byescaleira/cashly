@@ -152,7 +152,7 @@ struct StoreModelTests {
                 id: 5, productID: ShopItem.proMonthly.id, expirationDate: week, isFreeTrial: true))
         _ = try await store.purchase(.proMonthly)
         #expect(store.entitlement == .trial(expires: week))
-        #expect(store.entitlement.canWrite)
+        #expect(store.entitlement.isActive)
         let month = week.addingTimeInterval(30 * 86_400)
         client.entitlements = [
             StoreTransaction(id: 6, productID: ShopItem.proMonthly.id, expirationDate: month)
@@ -164,7 +164,7 @@ struct StoreModelTests {
             id: 6, productID: ShopItem.proMonthly.id, expirationDate: month)
         await store.refresh()
         #expect(store.entitlement == .expired(month))
-        #expect(!store.entitlement.canWrite)
+        #expect(!store.entitlement.isActive)
     }
 
     @Test func plansLeadWithTheAnnualSaving() async throws {

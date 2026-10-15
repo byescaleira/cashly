@@ -9,12 +9,8 @@ struct BackupScheduleSection: View {
     var body: some View {
         @Bindable var data = data
         Section {
-            Toggle(isOn: $data.autoBackupToggle) {
-                IconRow(
-                    "Automatic Backup", symbol: "calendar.badge.clock",
-                    color: RetroColor.slate.color)
-            }
-            .tint(.positive)
+            Toggle(isOn: $data.autoBackupToggle) { AutoBackupLabel() }
+                .tint(.positive)
             if data.autoBackup {
                 TimelineView(.everyMinute) { context in
                     if let schedule = data.backupSchedule(now: context.date) {
@@ -82,7 +78,7 @@ struct BackupCloudSection: View {
         Section {
             Toggle(isOn: $data.cloudToggle) {
                 HStack(spacing: .spaceS) {
-                    IconRow("Save to iCloud Drive", symbol: "icloud", color: RetroColor.sky.color)
+                    CloudBackupLabel()
                     Chip(data.cloudState.title, color: data.cloudState.color)
                 }
             }
@@ -96,14 +92,13 @@ struct BackupCloudSection: View {
 
 struct SavedBackupsSection: View {
     @Environment(DataModel.self) private var data
-    @Environment(\.pro) private var pro
 
     var body: some View {
         if !data.savedBackups.isEmpty {
             Section {
                 ForEach(data.savedBackups) { saved in
                     Button {
-                        pro.perform { Task { await data.openSaved(saved) } }
+                        Task { await data.openSaved(saved) }
                     } label: {
                         SavedBackupRow(saved: saved, isLatest: saved == data.savedBackups.first)
                     }
@@ -139,5 +134,17 @@ extension CloudDriveState {
         case .available: .positive
         case .unavailable: .warning
         }
+    }
+}
+
+struct AutoBackupLabel: View {
+    var body: some View {
+        IconRow("Automatic Backup", symbol: "calendar.badge.clock", color: RetroColor.slate.color)
+    }
+}
+
+struct CloudBackupLabel: View {
+    var body: some View {
+        IconRow("Save to iCloud Drive", symbol: "icloud", color: RetroColor.sky.color)
     }
 }

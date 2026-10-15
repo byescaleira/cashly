@@ -15,7 +15,6 @@ public struct JourneyScreen: View {
     public var body: some View {
         @Bindable var journey = journey
         AdaptiveList {
-            PausedSection()
             LevelSection()
             StreakSection()
             MissionsSection()

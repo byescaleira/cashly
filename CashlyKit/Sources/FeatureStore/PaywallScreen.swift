@@ -47,7 +47,8 @@ private struct PaywallHero: View {
         VStack(spacing: .spaceM) {
             CashlyAnimationView(.paywall).frame(maxWidth: 260)
             Text("Cashly Pro").font(.titleLarge)
-            Text("Your whole month, without limits").font(.body).foregroundStyle(.secondary)
+            Text("Insights, intelligence and backups on top of everything free").font(.body)
+                .foregroundStyle(.secondary)
             if let days = store.trialDays {
                 Chip("\(days) days free, cancel anytime", color: .retroMustard, shape: .capsule)
             }

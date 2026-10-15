@@ -37,4 +37,8 @@ public struct BudgetHealth: Equatable, Sendable {
     public var level: Level {
         Level.allCases.first { $0.scores.contains(score) } ?? .critical
     }
+
+    public var levelPosition: Double {
+        Double(Level.allCases.firstIndex(of: level) ?? 0) + level.progress(for: score)
+    }
 }

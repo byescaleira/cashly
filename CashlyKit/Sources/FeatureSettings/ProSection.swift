@@ -27,7 +27,7 @@ struct ProSection: View {
             }
         } footer: {
             Text(
-                "Cashly Pro unlocks recording and editing. Without it your data stays visible and exportable."
+                "Recording and editing are free forever. Cashly Pro adds insights, intelligence, backups and Claude Code."
             )
         }
         Section {

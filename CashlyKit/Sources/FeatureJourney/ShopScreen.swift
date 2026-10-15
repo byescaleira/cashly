@@ -58,7 +58,8 @@ private struct ShopProCard: View {
     }
 
     private var detail: String {
-        store.entitlement.detail ?? String(appLocalized: "Your whole month, without limits")
+        store.entitlement.detail
+            ?? String(appLocalized: "Insights, intelligence and backups")
     }
 
     @ViewBuilder private var chip: some View {

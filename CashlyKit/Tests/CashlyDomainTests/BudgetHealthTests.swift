@@ -62,4 +62,13 @@ struct BudgetHealthTests {
         #expect(BudgetHealth.Level.healthy.progress(for: 1000) == 1)
         #expect(BudgetHealth.Level.critical.progress(for: 100) == 0)
     }
+
+    @Test func levelPositionFillsOneSegmentPerLevel() {
+        #expect(BudgetHealth(usage: BudgetUsage(ratio: 0.5)).levelPosition == 4)
+        let bottom = BudgetHealth(usage: BudgetUsage(ratio: 3))
+        #expect(bottom.level == .critical)
+        #expect(bottom.levelPosition == 0)
+        let atRisk = BudgetHealth(usage: BudgetUsage(ratio: 1.3)).levelPosition
+        #expect(atRisk > 1 && atRisk < 2)
+    }
 }

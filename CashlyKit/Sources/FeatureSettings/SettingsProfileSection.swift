@@ -107,7 +107,7 @@ private struct ProOfferRow: View {
                     Text(verbatim: settings.proOfferTitle(for: store.entitlement))
                         .font(.rowTitle)
                         .foregroundStyle(Color.primary)
-                    Text("Unlimited recording, analysis, the Journey and backups.")
+                    Text("Insights, intelligence, backups and Claude Code.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }

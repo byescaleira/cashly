@@ -18,7 +18,7 @@ struct PaywallComparison: View {
             .background(alignment: .trailing) { proColumn }
             .background(.sheetCard, in: .rect(cornerRadius: .radiusL))
             Text(
-                "Without Cashly Pro your data stays visible and exportable, but recording and editing are locked."
+                "Recording, editing and the Journey are free forever. Cashly Pro adds insights, intelligence, backups and Claude Code."
             )
             .font(.footnote)
             .foregroundStyle(.secondary)
@@ -73,6 +73,11 @@ private struct PaywallCell: View {
                 .font(.icon(.m, weight: .semibold))
                 .foregroundStyle(Color.retroOlive)
                 .accessibilityLabel("Included")
+        case .no:
+            Image(systemName: "minus")
+                .font(.icon(.s, weight: .semibold))
+                .foregroundStyle(.tertiary)
+                .accessibilityLabel("Not included")
         case .text(let key):
             Text(key)
                 .font(.caption.weight(.semibold))
@@ -85,10 +90,10 @@ private struct PaywallCell: View {
 }
 
 enum PaywallFeature: CaseIterable, Identifiable {
-    case record, budgets, insights, journey, backups, system
+    case record, journey, system, insights, intelligence, backups, claudeCode
 
     enum Value {
-        case yes
+        case yes, no
         case text(LocalizedStringKey)
     }
 
@@ -97,20 +102,20 @@ enum PaywallFeature: CaseIterable, Identifiable {
     var title: LocalizedStringKey {
         switch self {
         case .record: "Record and edit"
-        case .budgets: "Budgets and goals"
-        case .insights: "Insights and forecasts"
-        case .journey: "The Journey: streaks, challenges, shop"
-        case .backups: "Backups, imports and Claude Code"
+        case .journey: "The Journey: streaks, challenges and achievements"
         case .system: "Widgets, Siri and export"
+        case .insights: "Insights and forecasts"
+        case .intelligence: "Smart suggestions"
+        case .backups: "Automatic backups and imports"
+        case .claudeCode: "Claude Code"
         }
     }
 
     var free: Value {
         switch self {
-        case .record: .text("Trial only")
-        case .budgets, .insights, .backups: .text("Read-only")
-        case .journey: .text("Paused")
-        case .system: .yes
+        case .record, .journey, .system: .yes
+        case .backups: .text("Export only")
+        case .insights, .intelligence, .claudeCode: .no
         }
     }
 

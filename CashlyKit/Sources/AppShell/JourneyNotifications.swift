@@ -9,7 +9,6 @@ struct JourneyNotifications: ViewModifier {
     @Environment(SettingsModel.self) private var settings
     @Environment(StoreModel.self) private var store
     @Environment(\.featureFlags) private var flags
-    @Environment(\.pro) private var pro
     @Environment(\.scenePhase) private var scenePhase
 
     func body(content: Content) -> some View {
@@ -20,7 +19,7 @@ struct JourneyNotifications: ViewModifier {
     }
 
     private var isActive: Bool {
-        pro.canWrite && settings.showsJourney && flags?.isOn(.journey) != false
+        settings.showsJourney && flags?.isOn(.journey) != false
             && JourneyNotificationSetting.shared.isOn
     }
 
@@ -35,7 +34,6 @@ extension JourneyNotifier {
         guard FeatureFlags().isOn(.journey),
             let (repositories, _) = try? await CashlyServices.shared.workspace()
         else { return }
-        await JourneyNotifier().review(
-            repositories: repositories, isActive: await CashlyServices.shared.canWrite())
+        await JourneyNotifier().review(repositories: repositories, isActive: true)
     }
 }

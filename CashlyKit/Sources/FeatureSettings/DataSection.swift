@@ -11,10 +11,18 @@ struct DataSection: View {
         Group {
             DataSummarySection()
             DataExportSection()
-            BackupScheduleSection()
-            BackupCloudSection()
-            SavedBackupsSection()
-            DataImportSection()
+            ProCurtainSection(.backups) {
+                BackupScheduleSection()
+                BackupCloudSection()
+                SavedBackupsSection()
+            } preview: {
+                BackupPreview()
+            }
+            ProCurtainSection(.imports) {
+                DataImportSection()
+            } preview: {
+                ImportPreview()
+            }
             EraseSection()
         }
         .disabled(data.isWorking)
@@ -112,26 +120,19 @@ private struct DataImportSection: View {
     @Environment(DataModel.self) private var data
     @Environment(\.showGuide) private var showGuide
     @Environment(\.featureFlags) private var flags
-    @Environment(\.appTint) private var appTint
-    @Environment(\.pro) private var pro
 
     var body: some View {
         Section {
             Button {
-                pro.perform { data.startBackupImport() }
+                data.startBackupImport()
             } label: {
-                IconRow(
-                    "Import Backup", detail: "See what's new in the file before anything changes.",
-                    symbol: "square.and.arrow.down", color: appTint)
+                ImportBackupLabel()
             }
             if let showGuide, flags?.isOn(.spreadsheetImport) != false {
                 Button {
-                    pro.perform { showGuide(.importSpreadsheet) }
+                    showGuide(.importSpreadsheet)
                 } label: {
-                    IconRow(
-                        "Import Spreadsheet (CSV)",
-                        detail: "Bring transactions from your bank or another app.",
-                        symbol: "tablecells.badge.ellipsis", color: .companion)
+                    ImportSpreadsheetLabel()
                 }
             }
         } header: {
@@ -160,5 +161,41 @@ struct DataAlerts: ViewModifier {
 extension View {
     func dataAlerts() -> some View {
         modifier(DataAlerts())
+    }
+}
+
+private struct BackupPreview: View {
+    var body: some View {
+        VStack(spacing: .spaceM) {
+            Toggle(isOn: .constant(true)) { AutoBackupLabel() }.tint(.positive)
+            Toggle(isOn: .constant(false)) { CloudBackupLabel() }.tint(.positive)
+        }
+    }
+}
+
+private struct ImportPreview: View {
+    var body: some View {
+        VStack(spacing: .spaceM) {
+            ImportBackupLabel()
+            ImportSpreadsheetLabel()
+        }
+    }
+}
+
+private struct ImportBackupLabel: View {
+    @Environment(\.appTint) private var appTint
+
+    var body: some View {
+        IconRow(
+            "Import Backup", detail: "See what's new in the file before anything changes.",
+            symbol: "square.and.arrow.down", color: appTint)
+    }
+}
+
+private struct ImportSpreadsheetLabel: View {
+    var body: some View {
+        IconRow(
+            "Import Spreadsheet (CSV)", detail: "Bring transactions from your bank or another app.",
+            symbol: "tablecells.badge.ellipsis", color: .companion)
     }
 }

@@ -86,7 +86,7 @@ extension JourneyModel {
     ) {
         guard let action = pendingAction else { return }
         pendingAction = nil
-        if action.requiresPro, !pro.canWrite {
+        if action.requiresPro, !pro.isPro {
             pro.present()
             return
         }

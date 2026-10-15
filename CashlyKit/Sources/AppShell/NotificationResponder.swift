@@ -47,7 +47,7 @@ public final class NotificationResponder: NSObject, UNUserNotificationCenterDele
 
     private func respond(captureID: String, action: String) async {
         if action.hasPrefix(NotificationCategory.capturePick) {
-            guard let actions = await captureActions(writing: true) else {
+            guard let actions = await captureActions() else {
                 await open("cashly://captures/\(captureID)")
                 return
             }
@@ -56,7 +56,7 @@ public final class NotificationResponder: NSObject, UNUserNotificationCenterDele
             await updateBadge(actions)
             await JourneyNotifier.reviewInBackground()
         } else if action == NotificationCategory.captureIgnore {
-            guard let actions = await captureActions(writing: false) else { return }
+            guard let actions = await captureActions() else { return }
             _ = try? await actions.dismiss(captureID: captureID)
             await updateBadge(actions)
         } else {
@@ -74,9 +74,7 @@ public final class NotificationResponder: NSObject, UNUserNotificationCenterDele
 
     @MainActor
     private func markNoSpendDay() async {
-        guard await CashlyServices.shared.canWrite(),
-            let (repositories, _) = try? await CashlyServices.shared.workspace()
-        else {
+        guard let (repositories, _) = try? await CashlyServices.shared.workspace() else {
             open(JourneyNotices.journeyLink)
             return
         }
@@ -94,15 +92,14 @@ public final class NotificationResponder: NSObject, UNUserNotificationCenterDele
 
     @MainActor
     private func actions() async -> IntentActions? {
-        guard await CashlyServices.shared.canWrite(),
-            let (repositories, user) = try? await CashlyServices.shared.workspace()
-        else { return nil }
+        guard let (repositories, user) = try? await CashlyServices.shared.workspace() else {
+            return nil
+        }
         return IntentActions(repositories: repositories, user: user)
     }
 
     @MainActor
-    private func captureActions(writing: Bool) async -> CaptureActions? {
-        if writing, await !CashlyServices.shared.canWrite() { return nil }
+    private func captureActions() async -> CaptureActions? {
         guard let (repositories, user) = try? await CashlyServices.shared.workspace() else {
             return nil
         }
