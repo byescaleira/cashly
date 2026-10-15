@@ -68,7 +68,7 @@ let package = Package(
         .target(
             name: "FeatureSettings",
             dependencies: [
-                "CashlyDomain", "CashlyDesignSystem", "CashlyResource", "FeatureCore",
+                "CashlyDomain", "CashlyDesignSystem", "CashlyGame", "CashlyResource", "FeatureCore",
                 "FeatureStore",
             ]),
         .target(
@@ -140,7 +140,10 @@ let package = Package(
             dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureTransactions"]),
         .testTarget(
             name: "FeatureSettingsTests",
-            dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureSettings"]),
+            dependencies: [
+                "CashlyAnalytics", "CashlyDomain", "CashlyData", "CashlyGame", "FeatureCore",
+                "FeatureSettings",
+            ]),
         .testTarget(
             name: "FeatureCoreTests",
             dependencies: ["CashlyDomain", "CashlyData", "CashlyDesignSystem", "FeatureCore"]),

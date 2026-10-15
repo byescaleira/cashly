@@ -32,6 +32,18 @@ public struct IconRow: View {
         self.titleColor = titleColor
     }
 
+    public init(
+        title: Text, detail: Text?, symbol: String, color: Color, value: String? = nil,
+        titleColor: Color = .primary
+    ) {
+        self.title = title
+        self.detail = detail
+        self.symbol = symbol
+        self.color = color
+        self.value = value
+        self.titleColor = titleColor
+    }
+
     public var body: some View {
         HStack(spacing: .spaceM) {
             Image(systemName: symbol)
