@@ -11,7 +11,7 @@ args = [a for a in sys.argv[1:] if not a.startswith("--")]
 allow_missing = "--allow-missing" in sys.argv
 size = int(args[0]) if args else 360
 manifest = json.loads((root / "manifest.json").read_text())
-generated = root / "generated"
+generated = root / "downloaded"
 
 missing = [item["file"] for item in manifest if not (generated / item["file"]).exists()]
 if missing:
