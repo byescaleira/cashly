@@ -8,8 +8,11 @@ struct CashlyWidgetsBundle: WidgetBundle {
         BudgetWidget()
         BudgetsWidget()
         BillsWidget()
+        JourneyWidget()
         #if os(iOS)
             NewExpenseControl()
+            StreakLiveActivity()
+            ChallengeLiveActivity()
         #endif
     }
 }

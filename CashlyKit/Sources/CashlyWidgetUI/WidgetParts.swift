@@ -87,11 +87,13 @@ public struct UsageBar: View {
     private let ratio: Double
     private let height: CGFloat
     private let color: Color?
+    private let marker: Double?
 
-    public init(ratio: Double, height: CGFloat = 6, color: Color? = nil) {
+    public init(ratio: Double, height: CGFloat = 6, color: Color? = nil, marker: Double? = nil) {
         self.ratio = ratio
         self.height = height
         self.color = color
+        self.marker = marker
     }
 
     public var body: some View {
@@ -101,6 +103,12 @@ public struct UsageBar: View {
                 Capsule()
                     .fill(color ?? .usage(ratio))
                     .frame(width: proxy.size.width * min(max(ratio, 0), 1))
+                if let marker {
+                    Capsule()
+                        .fill(Color.primary.opacity(.opacityStrong))
+                        .frame(width: .spaceHairline, height: height + .space2XS)
+                        .offset(x: proxy.size.width * min(max(marker, 0), 1) - .spaceHairline / 2)
+                }
             }
         }
         .frame(height: height)

@@ -98,7 +98,7 @@ private final class CashlyBootstrap {
                 AppGroup.Manifest(
                     app: AppGroup.app, bundleIdentifier: Bundle.main.bundleIdentifier ?? "",
                     version: settings.info.version, urlScheme: "cashly",
-                    files: [WidgetSnapshotStore.fileName]))
+                    files: [WidgetSnapshotStore.fileName, JourneySnapshotStore.fileName]))
             Task { await flags.refresh() }
             if flags.isOn(.mcpServer) {
                 mcp = MCPModel(provider: database, serviceName: Self.deviceName)

@@ -35,6 +35,8 @@
 	<string>Cashly uses Face ID to unlock the app.</string>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Cashly uses the local network so Claude Code on your computer can read and send transactions, always with your approval.</string>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
 	<key>NSUbiquitousContainers</key>
 	<dict>
 		<key>iCloud.cashly</key>

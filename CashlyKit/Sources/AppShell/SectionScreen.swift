@@ -24,7 +24,8 @@ struct SectionScreen: View {
         case .transaction: TransactionListScreen()
         case .planning:
             ModelHost(GoalsModel(session: session, finance: finance)) { GoalsScreen() }
-        case .journey: ModelHost(JourneyModel(session: session)) { JourneyScreen() }
+        case .journey:
+            ModelHost(JourneyModel(session: session, journeyStore: .shared)) { JourneyScreen() }
         case .settings: SettingsScreen { MCPSettingsSlot() }
         }
     }
