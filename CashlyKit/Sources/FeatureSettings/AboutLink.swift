@@ -3,7 +3,7 @@ import SwiftUI
 
 struct AboutLink: Identifiable {
     enum Kind {
-        case contact, help, privacy, terms
+        case website, help, contact, privacy, terms
     }
 
     let kind: Kind
@@ -13,8 +13,9 @@ struct AboutLink: Identifiable {
 
     var title: LocalizedStringKey {
         switch kind {
-        case .contact: "Contact Us"
+        case .website: "Website"
         case .help: "Help Center"
+        case .contact: "Contact Us"
         case .privacy: "Privacy Policy"
         case .terms: "Terms of Use"
         }
@@ -22,17 +23,11 @@ struct AboutLink: Identifiable {
 
     var symbol: String {
         switch kind {
-        case .contact: "envelope"
+        case .website: "globe"
         case .help: "questionmark.circle"
+        case .contact: "envelope"
         case .privacy: "hand.raised"
         case .terms: "doc.text"
-        }
-    }
-
-    var usesTint: Bool {
-        switch kind {
-        case .contact, .privacy: false
-        case .help, .terms: true
         }
     }
 }
@@ -40,7 +35,8 @@ struct AboutLink: Identifiable {
 extension AppInfo {
     var links: [AboutLink] {
         let pairs: [(AboutLink.Kind, URL?)] = [
-            (.contact, supportURL), (.help, helpURL), (.privacy, privacyURL), (.terms, termsURL),
+            (.website, websiteURL), (.help, helpURL), (.contact, supportURL),
+            (.privacy, privacyURL), (.terms, termsURL),
         ]
         return pairs.compactMap { kind, url in url.map { AboutLink(kind: kind, url: $0) } }
     }
