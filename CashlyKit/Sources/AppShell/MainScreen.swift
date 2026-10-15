@@ -95,6 +95,12 @@ public struct MainScreen: View {
                 categories: finance.allCategories)
             await intelligence.loadModels(revision: finance.datasetRevision)
         }
+        .task(id: journeyKey) {
+            guard session.isReady(finance), store.hasRefreshed, scenePhase == .active else {
+                return
+            }
+            await JourneyModel.publish(session: session, status: journeyStatus)
+        }
         .onChange(of: session.hasLoadedUsers, initial: true) {
             if session.hasLoadedUsers { launch.finish(.profiles) }
         }
@@ -113,6 +119,9 @@ public struct MainScreen: View {
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .background { WidgetCenter.shared.reloadAllTimelines() }
+            #if os(iOS)
+                if phase != .active { Task { await JourneyActivities.sync() } }
+            #endif
         }
         .onChange(of: navigation.selectedSection) { navigation.closeInspectorOutsideSelection() }
         .onChange(of: session.user?.id) { old, new in
@@ -129,6 +138,14 @@ public struct MainScreen: View {
 
     private var extrasKey: String {
         "\(session.user?.id ?? ""):\(finance.datasetRevision):\(session.isReady(finance)):\(settings.widgetCategoryID ?? "")"
+    }
+
+    private var journeyKey: String {
+        "\(extrasKey):\(journeyStatus.rawValue):\(store.hasRefreshed):\(scenePhase == .active)"
+    }
+
+    private var journeyStatus: JourneySnapshot.Status {
+        !sections.contains(.journey) ? .hidden : pro.canWrite ? .active : .paused
     }
 
     private var pro: ProAccess {

@@ -55,9 +55,11 @@ extension JourneyModel {
     }
 
     public var challengeOutlook: ChallengeOutlook? {
-        guard let state = progress?.challenge, case .active(let value) = state.status else {
-            return nil
-        }
+        progress?.challenge.flatMap(outlook(of:))
+    }
+
+    func outlook(of state: ChallengeState) -> ChallengeOutlook? {
+        guard case .active(let value) = state.status else { return nil }
         let calendar = CashlyCalendar.current
         let today = calendar.startOfDay(for: now())
         let daysLeft = max(calendar.dateComponents([.day], from: today, to: state.end).day ?? 0, 1)

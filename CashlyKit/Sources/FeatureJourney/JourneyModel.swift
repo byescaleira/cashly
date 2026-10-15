@@ -6,7 +6,7 @@ import Observation
 
 @MainActor @Observable
 public final class JourneyModel {
-    public private(set) var progress: GameProgress?
+    public internal(set) var progress: GameProgress?
     public private(set) var categories: [CashlyDomain.Category] = []
     public private(set) var celebrations: [Celebration] = []
     public var selected: AchievementState?
@@ -18,16 +18,18 @@ public final class JourneyModel {
     public var isConfirmingAbandon = false
     public var draft = ChallengeDraft()
     public var error: CashlyError?
-    @ObservationIgnored private let session: SessionModel
+    @ObservationIgnored let session: SessionModel
     @ObservationIgnored let defaults: UserDefaults
+    @ObservationIgnored let journeyStore: JourneySnapshotStore?
     @ObservationIgnored let now: () -> Date
 
     public init(
         session: SessionModel, defaults: UserDefaults = .standard,
-        now: @escaping () -> Date = { .now }
+        journeyStore: JourneySnapshotStore? = nil, now: @escaping () -> Date = { .now }
     ) {
         self.session = session
         self.defaults = defaults
+        self.journeyStore = journeyStore
         self.now = now
     }
 
@@ -39,8 +41,16 @@ public final class JourneyModel {
     public func load() async {
         guard let userID = session.user?.id else {
             progress = nil
+            await publish()
             return
         }
+        guard let progress = await compute() else { return }
+        celebrate(progress, userID: userID)
+        self.progress = progress
+        await publish()
+    }
+
+    func compute() async -> GameProgress? {
         do {
             let source = RepositoriesGameSource(
                 repositories: session.repositories, guideCount: Guide.allCases.count)
@@ -48,11 +58,10 @@ public final class JourneyModel {
             categories = snapshot.ledger.categories.sorted {
                 $0.name.localizedStandardCompare($1.name) == .orderedAscending
             }
-            let progress = GameEngine.progress(snapshot)
-            celebrate(progress, userID: userID)
-            self.progress = progress
+            return GameEngine.progress(snapshot)
         } catch {
             self.error = error as? CashlyError ?? .onFetch
+            return nil
         }
     }
 
