@@ -1,71 +1,34 @@
 import CashlyDesignSystem
 import CashlyDomain
 import CashlyGame
+import FeatureCore
 import SwiftUI
 
 extension Achievement {
     var title: String {
-        switch self {
-        case .firstTransaction: String(appLocalized: "First Record")
-        case .firstCategory: String(appLocalized: "First Category")
-        case .firstBudget: String(appLocalized: "First Budget")
-        case .firstTag: String(appLocalized: "First Tag")
-        case .firstSplit: String(appLocalized: "First Split")
-        case .firstImport: String(appLocalized: "First Import")
-        case .firstBackup: String(appLocalized: "First Backup")
-        case .streak7, .streak30, .streak100, .streak365:
-            String(appLocalized: "\(target)-Day Streak")
-        case .blueMonth: String(appLocalized: "In the Blue")
-        case .blueRun3, .blueRun6, .blueRun12: String(appLocalized: "\(target) Months in the Blue")
-        case .perfectMonth: String(appLocalized: "Perfect Month")
-        case .transactions100, .transactions500, .transactions1000, .transactions5000:
-            String(appLocalized: "\(target) Records")
-        case .tagsInUse5: String(appLocalized: "Well Tagged")
-        case .fullyBudgeted: String(appLocalized: "Everything Planned")
-        case .allGuides: String(appLocalized: "Studious")
-        case .splits10: String(appLocalized: "Better Together")
-        case .splits50: String(appLocalized: "Group Treasurer")
-        case .challenges1: String(appLocalized: "Challenger")
-        case .challenges5: String(appLocalized: "Determined")
-        case .challenges12: String(appLocalized: "Unstoppable")
-        case .level10, .level25: String(appLocalized: "Level \(target)")
-        case .theAnswer: String(appLocalized: "The Answer")
-        case .sequence: String(appLocalized: "In Sequence")
-        case .halloween: String(appLocalized: "Spooky")
-        case .newYear: String(appLocalized: "Fresh Start")
-        case .earlyBird: String(appLocalized: "Early Bird")
+        switch group {
+        case .firstSteps: firstStepTitle
+        case .consistency: consistencyTitle
+        case .inTheBlue: blueTitle
+        case .volume: volumeTitle
+        case .secret: secretTitle
+        case .organization, .together, .challenges, .levels: milestoneTitle
         }
     }
 
     var detail: String {
-        switch self {
-        case .firstTransaction: String(appLocalized: "Record your first transaction.")
-        case .firstCategory: String(appLocalized: "Create a category.")
-        case .firstBudget: String(appLocalized: "Plan a budget.")
-        case .firstTag: String(appLocalized: "Create a tag.")
-        case .firstSplit: String(appLocalized: "Split an expense with someone.")
-        case .firstImport: String(appLocalized: "Import a spreadsheet.")
-        case .firstBackup: String(appLocalized: "Make a backup.")
-        case .streak7, .streak30, .streak100, .streak365:
-            String(appLocalized: "Follow your money \(target) days in a row.")
-        case .blueMonth: String(appLocalized: "Close a month within budget.")
-        case .blueRun3, .blueRun6, .blueRun12:
-            String(appLocalized: "Close \(target) months in a row within budget.")
-        case .perfectMonth: String(appLocalized: "Close a month with a score of 1,000.")
-        case .transactions100, .transactions500, .transactions1000, .transactions5000:
-            String(appLocalized: "Record \(target) transactions.")
-        case .tagsInUse5: String(appLocalized: "Use 5 different tags.")
-        case .fullyBudgeted: String(appLocalized: "Give every category a budget this month.")
-        case .allGuides: String(appLocalized: "Finish every guide.")
-        case .splits10, .splits50: String(appLocalized: "Split \(target) expenses.")
-        case .challenges1: String(appLocalized: "Complete your first challenge.")
-        case .challenges5, .challenges12: String(appLocalized: "Complete \(target) challenges.")
-        case .level10, .level25: String(appLocalized: "Reach level \(target).")
-        case .theAnswer: String(appLocalized: "Record an amount of exactly 42.")
-        case .sequence: String(appLocalized: "Record an amount of exactly 1,234.56.")
-        case .halloween: String(appLocalized: "Record something on October 31.")
-        case .newYear: String(appLocalized: "Record something on January 1.")
-        case .earlyBird: String(appLocalized: "Record something at 4:44 in the morning.")
+        switch group {
+        case .firstSteps: firstStepDetail
+        case .consistency:
+            String(
+                appLocalized:
+                    "Keep a streak of \(target) days: every day, record something or mark a no-spend day."
+            )
+        case .inTheBlue: blueDetail
+        case .volume:
+            String(appLocalized: "Record \(target) transactions in total, expenses and income.")
+        case .secret: secretDetail
+        case .organization, .together, .challenges, .levels: milestoneDetail
         }
     }
 
@@ -81,6 +44,129 @@ extension Achievement {
         case .levels: "arrow.up.circle.fill"
         case .secret: "sparkles"
         }
+    }
+
+    private var firstStepTitle: String {
+        switch self {
+        case .firstCategory: String(appLocalized: "A Place for Everything")
+        case .firstBudget: String(appLocalized: "The Plan")
+        case .firstTag: String(appLocalized: "Tag, You're It")
+        case .firstSplit: String(appLocalized: "Fair Share")
+        case .firstImport: String(appLocalized: "Moving In")
+        case .firstBackup: String(appLocalized: "Safety Net")
+        default: String(appLocalized: "Day One")
+        }
+    }
+
+    private var consistencyTitle: String {
+        switch self {
+        case .streak7: String(appLocalized: "One Week Strong")
+        case .streak30: String(appLocalized: "Monthly Habit")
+        case .streak100: String(appLocalized: "Triple Digits")
+        default: String(appLocalized: "Full Orbit")
+        }
+    }
+
+    private var blueTitle: String {
+        switch self {
+        case .blueRun3: String(appLocalized: "Blue Quarter")
+        case .blueRun6: String(appLocalized: "Blue Half-Year")
+        case .blueRun12: String(appLocalized: "Blue Year")
+        case .perfectMonth: String(appLocalized: "Flawless")
+        default: String(appLocalized: "In the Blue")
+        }
+    }
+
+    private var volumeTitle: String {
+        switch self {
+        case .transactions100: String(appLocalized: "Hundred Club")
+        case .transactions500: String(appLocalized: "Five Hundred Club")
+        case .transactions1000: String(appLocalized: "Thousand Club")
+        default: String(appLocalized: "Archivist")
+        }
+    }
+
+    private var milestoneTitle: String {
+        switch self {
+        case .tagsInUse5: String(appLocalized: "Well Tagged")
+        case .fullyBudgeted: String(appLocalized: "Nothing Left to Chance")
+        case .allGuides: String(appLocalized: "Read the Manual")
+        case .splits10: String(appLocalized: "Better Together")
+        case .splits50: String(appLocalized: "Group Treasurer")
+        case .challenges1: String(appLocalized: "Challenge Accepted")
+        case .challenges5: String(appLocalized: "Determined")
+        case .challenges12: String(appLocalized: "Unstoppable")
+        case .level10: String(appLocalized: "Double Digits")
+        default: String(appLocalized: "Quarter Century")
+        }
+    }
+
+    private var secretTitle: String {
+        switch self {
+        case .theAnswer: String(appLocalized: "The Answer")
+        case .sequence: String(appLocalized: "One, Two, Three")
+        case .halloween: String(appLocalized: "Trick or Treat")
+        case .newYear: String(appLocalized: "Fresh Start")
+        default: String(appLocalized: "Early Bird")
+        }
+    }
+
+    private var firstStepDetail: String {
+        switch self {
+        case .firstCategory: String(appLocalized: "Create your first category.")
+        case .firstBudget: String(appLocalized: "Plan a budget for any category, in any month.")
+        case .firstTag: String(appLocalized: "Create your first tag.")
+        case .firstSplit:
+            String(appLocalized: "Record an expense split with at least one other person.")
+        case .firstImport: String(appLocalized: "Import transactions from a CSV spreadsheet.")
+        case .firstBackup: String(appLocalized: "Export a backup of your data.")
+        default: String(appLocalized: "Record your first transaction, an expense or an income.")
+        }
+    }
+
+    private var blueDetail: String {
+        switch self {
+        case .blueMonth:
+            String(appLocalized: "Close a month with a health score of 895 or more.")
+        case .perfectMonth:
+            String(appLocalized: "Close a month with the top health score, 1,000.")
+        default:
+            String(
+                appLocalized: "Close \(target) months in a row with a health score of 895 or more.")
+        }
+    }
+
+    private var milestoneDetail: String {
+        switch self {
+        case .tagsInUse5:
+            String(appLocalized: "Use \(target) different tags on your transactions.")
+        case .fullyBudgeted:
+            String(appLocalized: "Give every category a budget in the current month.")
+        case .allGuides: String(appLocalized: "Finish all \(Guide.allCases.count) guides.")
+        case .splits10, .splits50:
+            String(appLocalized: "Record \(target) expenses split with other people.")
+        case .challenges1: String(appLocalized: "Complete a challenge before it ends.")
+        case .challenges5, .challenges12: String(appLocalized: "Complete \(target) challenges.")
+        default:
+            String(
+                appLocalized:
+                    "Reach level \(target), at \(GameLevel.threshold(target).formatted(.number.locale(.app))) XP in total."
+            )
+        }
+    }
+
+    private var secretDetail: String {
+        switch self {
+        case .theAnswer, .sequence:
+            String(appLocalized: "Record a transaction of exactly \(secretAmount).")
+        case .halloween: String(appLocalized: "Record a transaction dated October 31.")
+        case .newYear: String(appLocalized: "Record a transaction dated January 1.")
+        default: String(appLocalized: "Record a transaction at 4:44 in the morning.")
+        }
+    }
+
+    private var secretAmount: String {
+        Money(minorUnits: self == .theAnswer ? 4_200 : 123_456).doubleValue.formatted(.appCurrency)
     }
 
     private var firstStepSymbol: String {
@@ -126,7 +212,9 @@ extension AchievementState {
     var isHidden: Bool { achievement.isSecret && !isUnlocked }
     var title: String { isHidden ? String(appLocalized: "Secret") : achievement.title }
     var detail: String {
-        isHidden ? String(appLocalized: "Keep using Cashly to find out.") : achievement.detail
+        isHidden
+            ? String(appLocalized: "Secret achievements show what they ask once you find them.")
+            : achievement.detail
     }
     var symbol: String { isHidden ? "questionmark" : achievement.symbol }
 }

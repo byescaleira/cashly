@@ -46,6 +46,7 @@ O pacote não depende de nenhum outro módulo do app. Componentes que precisam d
 | `.badgeS` | 28 | Badge de símbolo em blocos pequenos |
 | `.badgeM` | 36 | Badge em linhas compactas e exemplos |
 | `.badgeL` | 44 | Badge em linhas de lista (alvo de toque mínimo) |
+| `.medallion` | 112 | Medalhão animado da folha de conquista |
 | `.barHeight` | 10 | Barras de progresso e segmentadas |
 | `.rowHeight` | 44 | Altura mínima das linhas |
 

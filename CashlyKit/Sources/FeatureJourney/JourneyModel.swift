@@ -10,12 +10,14 @@ public final class JourneyModel {
     public private(set) var categories: [CashlyDomain.Category] = []
     public private(set) var celebrations: [Celebration] = []
     public var selected: AchievementState?
+    public internal(set) var unlockDates: [Achievement: Date] = [:]
+    public internal(set) var pendingAction: AchievementAction?
     public var isChoosingChallenge = false
     public var isConfirmingAbandon = false
     public var draft = ChallengeDraft()
     public var error: CashlyError?
     @ObservationIgnored private let session: SessionModel
-    @ObservationIgnored private let defaults: UserDefaults
+    @ObservationIgnored let defaults: UserDefaults
     @ObservationIgnored let now: () -> Date
 
     public init(
@@ -30,11 +32,6 @@ public final class JourneyModel {
     public var celebration: Celebration? {
         get { celebrations.first }
         set { if newValue == nil, !celebrations.isEmpty { celebrations.removeFirst() } }
-    }
-
-    public var isShowingAchievement: Bool {
-        get { selected != nil }
-        set { if !newValue { selected = nil } }
     }
 
     public func load() async {
@@ -93,10 +90,13 @@ public final class JourneyModel {
                 [Seen.level: progress.level.number, Seen.achievements: unlocked.map(\.rawValue)],
                 forKey: key)
         }
-        guard let seen = defaults.dictionary(forKey: key) else { return }
-        let known = Set(seen[Seen.achievements] as? [String] ?? [])
+        let seen = defaults.dictionary(forKey: key)
+        let known = Set(seen?[Seen.achievements] as? [String] ?? [])
+        let fresh = seen == nil ? [] : unlocked.filter { !known.contains($0.rawValue) }
+        stampUnlocks(fresh, unlocked: unlocked, userID: userID)
+        guard let seen else { return }
         let level = seen[Seen.level] as? Int ?? progress.level.number
-        var news = unlocked.filter { !known.contains($0.rawValue) }.map(Celebration.achievement)
+        var news = fresh.map(Celebration.achievement)
         if progress.level.number > level { news.insert(.level(progress.level.number), at: 0) }
         celebrations += news.filter { !celebrations.contains($0) }
     }
