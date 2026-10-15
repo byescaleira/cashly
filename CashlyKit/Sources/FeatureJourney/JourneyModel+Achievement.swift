@@ -23,6 +23,17 @@ public struct AchievementDetail: Equatable {
 }
 
 extension JourneyModel {
+    public func state(of achievement: Achievement) -> AchievementState? {
+        progress?.achievements.first { $0.achievement == achievement }
+    }
+
+    public func reward(for celebration: Celebration) -> String? {
+        guard case .achievement(let achievement) = celebration, achievement.xp > 0 else {
+            return nil
+        }
+        return String(appLocalized: "+\(achievement.xp) XP")
+    }
+
     public func achievementDetail(_ state: AchievementState) -> AchievementDetail {
         AchievementDetail(
             title: state.title, message: state.detail, rows: rows(of: state),

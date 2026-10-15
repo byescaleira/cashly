@@ -21,7 +21,6 @@ public enum ShopItem: String, CaseIterable, Identifiable, Sendable {
     case avatarsFantasy = "cashly.avatars.fantasy"
     case avatarsAll = "cashly.avatars.all"
     case avatarFrames = "cashly.avatar.frames"
-    case celebrations = "cashly.celebrations"
     case sounds = "cashly.sounds"
     case freezes3 = "cashly.freeze.3"
     case freezes10 = "cashly.freeze.10"
@@ -47,7 +46,7 @@ public enum ShopItem: String, CaseIterable, Identifiable, Sendable {
         case .avatarsFarm, .avatarsOcean, .avatarsBirds, .avatarsJungle, .avatarsTiny,
             .avatarsFantasy, .avatarsAll:
             .avatars
-        case .accentMetallic, .accentNeon, .avatarFrames, .celebrations, .sounds:
+        case .accentMetallic, .accentNeon, .avatarFrames, .sounds:
             .personalization
         case .freezes3, .freezes10, .streakRestore, .challengeRerolls: .helps
         }
@@ -63,7 +62,7 @@ public enum ShopItem: String, CaseIterable, Identifiable, Sendable {
 
     public var isAvailable: Bool {
         switch self {
-        case .avatarFrames, .celebrations, .sounds: false
+        case .avatarFrames, .sounds: false
         default: true
         }
     }

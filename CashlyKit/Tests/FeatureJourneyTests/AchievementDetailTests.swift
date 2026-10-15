@@ -211,4 +211,15 @@ struct AchievementDetailTests {
         #expect(!journey.nextAchievements.contains { $0.achievement.group == .pro })
         #expect(Achievement.proYear2.xp == 0)
     }
+
+    @Test func celebrationsShowTheMedalAndOnlyRealRewards() async throws {
+        let (journey, _) = try await model()
+        await journey.load()
+        #expect(journey.state(of: .firstTransaction)?.achievement == .firstTransaction)
+        #expect(journey.reward(for: .achievement(.firstTransaction)) != nil)
+        #expect(journey.reward(for: .achievement(.proMonth1)) == nil)
+        #expect(journey.reward(for: .level(3)) == nil)
+        #expect(Celebration.level(12).levelText == "12")
+        #expect(Celebration.achievement(.firstTransaction).levelText == nil)
+    }
 }

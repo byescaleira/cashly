@@ -24682,64 +24682,6 @@
         }
       }
     },
-    "Confetti, fireworks and coin rain." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Konfetti, Feuerwerk und Münzregen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Confeti, fuegos artificiales y lluvia de monedas."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Confettis, feux d’artifice et pluie de pièces."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Coriandoli, fuochi d’artificio e pioggia di monete."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "紙吹雪、花火、コインの雨。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "색종이, 불꽃놀이, 동전 비."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Confete, fogos e chuva de moedas."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Конфетти, фейерверк и дождь из монет."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "彩纸、烟花和金币雨。"
-          }
-        }
-      }
-    },
     "Confirm from the Notification" : {
       "localizations" : {
         "de" : {

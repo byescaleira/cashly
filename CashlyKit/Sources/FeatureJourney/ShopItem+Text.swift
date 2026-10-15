@@ -28,7 +28,6 @@ extension ShopItem {
         case .avatarsFantasy: String(appLocalized: "Fantasy Avatars")
         case .avatarsAll: String(appLocalized: "All Avatars")
         case .avatarFrames: String(appLocalized: "Avatar Frames")
-        case .celebrations: String(appLocalized: "Celebrations")
         case .sounds: String(appLocalized: "Sounds")
         case .freezes3: String(appLocalized: "3 Streak Freezes")
         case .freezes10: String(appLocalized: "10 Streak Freezes")
@@ -53,7 +52,6 @@ extension ShopItem {
         case .avatarsAll:
             String(appLocalized: "Every avatar section, including the ones still to come.")
         case .avatarFrames: String(appLocalized: "Six frames for your avatar.")
-        case .celebrations: String(appLocalized: "Confetti, fireworks and coin rain.")
         case .sounds: String(appLocalized: "Sounds and haptics when you save and complete.")
         case .freezes3, .freezes10:
             String(appLocalized: "Each freeze covers one missed day on its own.")
@@ -76,7 +74,7 @@ extension ShopItem {
         case .avatarsFarm, .avatarsOcean, .avatarsBirds, .avatarsJungle, .avatarsTiny,
             .avatarsFantasy, .avatarFrames:
             String(appLocalized: "Your profile, your way")
-        case .celebrations, .sounds: String(appLocalized: "More delight when you save")
+        case .sounds: String(appLocalized: "More delight when you save")
         case .freezes3, .freezes10: String(appLocalized: "Miss a day without losing your streak")
         case .streakRestore: String(appLocalized: "Get a lost streak back")
         case .challengeRerolls: String(appLocalized: "Change your mind about a challenge")

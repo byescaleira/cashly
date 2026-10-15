@@ -403,26 +403,6 @@
       "type" : "NonConsumable"
     },
     {
-      "displayPrice" : "9.90",
-      "familyShareable" : true,
-      "internalID" : "062CD8EA",
-      "localizations" : [
-        {
-          "description" : "Confetti, fireworks and coin rain",
-          "displayName" : "Celebrations",
-          "locale" : "en_US"
-        },
-        {
-          "description" : "Confete, fogos e chuva de moedas",
-          "displayName" : "Comemorações",
-          "locale" : "pt_BR"
-        }
-      ],
-      "productID" : "cashly.celebrations",
-      "referenceName" : "Celebrations",
-      "type" : "NonConsumable"
-    },
-    {
       "displayPrice" : "7.90",
       "familyShareable" : true,
       "internalID" : "B0B5CA72",

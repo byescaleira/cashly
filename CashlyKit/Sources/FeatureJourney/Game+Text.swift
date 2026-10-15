@@ -60,11 +60,9 @@ extension Celebration {
         }
     }
 
-    var symbol: String {
-        switch self {
-        case .level: "arrow.up.circle.fill"
-        case .achievement(let achievement): achievement.symbol
-        }
+    var levelText: String? {
+        guard case .level(let number) = self else { return nil }
+        return number.formatted(.number.locale(.app))
     }
 
     var color: Color {

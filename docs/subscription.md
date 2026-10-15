@@ -50,7 +50,7 @@ Onde entra: as seis seções do motor na Início, a tela Inteligência e os bot�
 
 ## Folha de conquista
 
-`CelebrationScreen` passa para o padrão de guia (como `AchievementDetailScreen`): medalha animada da conquista ou o nível, título, frase, chip de XP e "Continuar". O fundo ganha uma chuva de **moedas e notas** (`MoneyConfettiView`, `Canvas` + `TimelineView`): moedas douradas girando no eixo Y e notas verdes balançando ao cair, por ~3 s. Com Reduzir movimento não há chuva.
+`CelebrationScreen` passa para o padrão de guia (como `AchievementDetailScreen`): medalha animada da conquista ou o nível, título, frase, chip de XP e "Continuar". O fundo da folha ganha uma chuva curta de **moedas e notas** (`MoneyRainView`, `Canvas` + `TimelineView`, 2,5 s): moedas douradas girando no eixo Y e notas verdes balançando ao cair. Com Reduzir movimento não há chuva.
 
 ## Fases
 
