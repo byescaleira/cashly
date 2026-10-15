@@ -1,4 +1,5 @@
 import CashlyDomain
+import CashlyGame
 import CloudKit
 import FeatureCore
 import Foundation
@@ -48,6 +49,9 @@ public final class SettingsModel {
     public private(set) var lastSync: Date?
     public private(set) var appIcon: AppIcon
     public var iconError: String?
+    public internal(set) var journey: JourneySummary?
+    var isConfirmingHideJourney = false
+    var currencyChoice: CurrencyChoice?
     public var data: DataModel?
     public var developer: DeveloperModel?
     public let notifications: NotificationsModel
@@ -162,6 +166,12 @@ public final class SettingsModel {
     func currencyName(_ code: String) -> String {
         let name = Locale.app.localizedString(forCurrencyCode: code) ?? code
         return name.prefix(1).uppercased() + name.dropFirst()
+    }
+
+    func loadJourney(from source: any GameSource) async {
+        journey = (try? await source.snapshot(today: .now)).map {
+            JourneySummary(GameEngine.progress($0))
+        }
     }
 
     func loadCloudAccount() async {

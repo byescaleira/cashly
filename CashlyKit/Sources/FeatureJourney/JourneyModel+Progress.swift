@@ -55,25 +55,7 @@ extension JourneyModel {
     }
 
     public var challengeOutlook: ChallengeOutlook? {
-        guard let state = progress?.challenge, case .active(let value) = state.status else {
-            return nil
-        }
-        let calendar = CashlyCalendar.current
-        let today = calendar.startOfDay(for: now())
-        let daysLeft = max(calendar.dateComponents([.day], from: today, to: state.end).day ?? 0, 1)
-        let ratio = max(value, 0)
-        guard state.challenge.kind.measuresUsage else {
-            return ChallengeOutlook(
-                progress: min(ratio, 1), daysLeft: daysLeft, elapsed: nil, pace: nil)
-        }
-        let start = state.from
-        let total = max(calendar.dateComponents([.day], from: start, to: state.end).day ?? 1, 1)
-        let done = calendar.dateComponents([.day], from: start, to: today).day ?? 0
-        let elapsed = min(max((Double(done) + 1) / Double(total), 0), 1)
-        let pace: ChallengeOutlook.Pace =
-            ratio >= 1 ? .over : ratio > elapsed + ChallengeOutlook.slack ? .fast : .steady
-        return ChallengeOutlook(
-            progress: min(ratio, 1), daysLeft: daysLeft, elapsed: elapsed, pace: pace)
+        progress?.challenge.flatMap { ChallengeOutlook($0, today: now()) }
     }
 
     public var nextAchievements: [AchievementState] {
@@ -101,6 +83,25 @@ extension JourneyModel {
 
 extension ChallengeOutlook {
     static let slack = 0.1
+
+    public init?(
+        _ state: ChallengeState, today now: Date, calendar: Calendar = CashlyCalendar.current
+    ) {
+        guard case .active(let value) = state.status else { return nil }
+        let today = calendar.startOfDay(for: now)
+        let daysLeft = max(calendar.dateComponents([.day], from: today, to: state.end).day ?? 0, 1)
+        let ratio = max(value, 0)
+        guard state.challenge.kind.measuresUsage else {
+            self.init(progress: min(ratio, 1), daysLeft: daysLeft, elapsed: nil, pace: nil)
+            return
+        }
+        let total = max(
+            calendar.dateComponents([.day], from: state.from, to: state.end).day ?? 1, 1)
+        let done = calendar.dateComponents([.day], from: state.from, to: today).day ?? 0
+        let elapsed = min(max((Double(done) + 1) / Double(total), 0), 1)
+        let pace: Pace = ratio >= 1 ? .over : ratio > elapsed + Self.slack ? .fast : .steady
+        self.init(progress: min(ratio, 1), daysLeft: daysLeft, elapsed: elapsed, pace: pace)
+    }
 }
 
 extension AchievementState {

@@ -1,6 +1,7 @@
 import AppIntents
 import CashlyDomain
 import FeatureCore
+import FeatureJourney
 import Foundation
 
 public struct AddExpenseIntent: AppIntent {
@@ -91,6 +92,7 @@ public struct AddExpenseIntent: AppIntent {
         }
         let saved = try await IntentWorkspace.actions(writing: true, profileID: profile?.id)
             .add(request)
+        await JourneyNotifier.reviewInBackground()
         return .result(dialog: "Added \(saved.money.formatted) in \(saved.category.name).")
     }
 }
@@ -139,6 +141,7 @@ public struct AddIncomeIntent: AppIntent {
             installments: installments)
         let saved = try await IntentWorkspace.actions(writing: true, profileID: profile?.id)
             .add(request)
+        await JourneyNotifier.reviewInBackground()
         return .result(
             dialog: "Added income of \(saved.money.formatted) in \(saved.category.name).")
     }

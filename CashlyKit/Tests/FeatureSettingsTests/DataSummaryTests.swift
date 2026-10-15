@@ -157,6 +157,7 @@ struct CloudStatusTests {
         let settings = SettingsModel(defaults: defaults, cloudContainer: "iCloud.test")
         settings.isSyncOn = false
         #expect(settings.cloudStatus == .pending)
+        #expect(settings.cloudValue == "Restart to Apply")
         #expect(settings.cloudDetail(now: .now) == "Sync turns off the next time Cashly opens.")
         #expect(settings.cloudToggleFooter.hasPrefix("Turn it on"))
         let next = SettingsModel(defaults: defaults, cloudContainer: "iCloud.test")

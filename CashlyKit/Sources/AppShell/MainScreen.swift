@@ -122,6 +122,7 @@ public struct MainScreen: View {
         .errorAlert($session.error)
         .modifier(PaywallOffer())
         .modifier(DeepLinks())
+        .modifier(JourneyNotifications())
         .modifier(PrivacyShield())
         .sheet(isPresented: $navigation.isShowingPaywall) { PaywallScreen() }
         .environment(\.pro, pro)

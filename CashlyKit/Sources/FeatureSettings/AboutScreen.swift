@@ -1,214 +1,148 @@
 import CashlyDesignSystem
 import CashlyDomain
-import CashlyResource
 import FeatureCore
-import StoreKit
+import FeatureStore
 import SwiftUI
 
 struct AboutScreen: View {
+    @Environment(SessionModel.self) private var session
+
     var body: some View {
-        ScrollView {
-            VStack(spacing: .spaceXL) {
-                AboutHero()
-                AboutStory()
-                AboutShare()
-                AboutLinks()
-                AboutFooter()
-            }
-            .padding(.horizontal, .spaceInset)
-            .padding(.top, .spaceS)
-            .padding(.bottom, .spaceXL)
-        }
-        .readableWidth()
-        .background(.groupedBackground)
-        .fontDesign(.rounded)
-        .navigationTitle("About Cashly")
-        #if os(iOS)
-            .navigationBarTitleDisplayMode(.inline)
-        #endif
+        ModelHost(AboutModel(session: session)) { AboutPage() }
     }
 }
 
-private struct AboutHero: View {
+private struct AboutPage: View {
+    @Environment(AboutModel.self) private var about
+    @Environment(SessionModel.self) private var session
+
+    var body: some View {
+        SettingsPage("About Cashly") {
+            AboutHeroSection()
+            AboutFiguresSection()
+            AboutValuesSection()
+            AboutShareSection()
+            AboutLinksSection()
+            AboutCreditsSection()
+        }
+        .task(id: session.generation) { await about.load() }
+    }
+}
+
+private struct AboutHeroSection: View {
     @Environment(SettingsModel.self) private var settings
-    @Environment(\.appTint) private var appTint
+    @Environment(StoreModel.self) private var store
+    @Environment(AboutModel.self) private var about
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var isShown = false
 
     var body: some View {
-        VStack(spacing: .spaceM) {
-            CashlyAnimationView(.about, loops: true).frame(maxWidth: 260)
-            Text("Cashly").font(.titleLarge)
-            Text("Your whole month, in your pocket").font(.body).foregroundStyle(.secondary)
-            Chip("Version \(settings.info.number)", color: appTint, shape: .capsule)
-        }
-        .multilineTextAlignment(.center)
-        .frame(maxWidth: .infinity)
-    }
-}
-
-private struct AboutStory: View {
-    @Environment(\.appTint) private var appTint
-
-    var body: some View {
-        VStack(spacing: .spaceS) {
-            AboutBeat(
-                symbol: "chart.bar.fill", color: .retroOlive, title: "Your month at a glance",
-                detail:
-                    "Budgets, upcoming bills and a forecast of where the month is heading, all on one screen."
-            )
-            AboutBeat(
-                symbol: "plus.circle.fill", color: appTint, title: "Record in a tap",
-                detail:
-                    "Add an expense in seconds, from the app, Siri or Shortcuts, and split it with whoever shared it."
-            )
-            AboutBeat(
-                symbol: "lock.fill", color: .retroDenim, title: "Your data stays yours",
-                detail:
-                    "Cashly has no servers of its own. Your data stays on this device and, with sync turned on, in your iCloud account. Suggestions are calculated on the device itself."
-            )
-            AboutBeat(
-                symbol: "person.fill", color: .retroMustard, title: "Made by one person in Brazil",
-                detail:
-                    "Cashly is designed, built and supported by a single developer. Every suggestion goes straight to the person who writes the code."
-            )
-        }
-    }
-}
-
-private struct AboutBeat: View {
-    let symbol: String
-    let color: Color
-    let title: LocalizedStringKey
-    let detail: LocalizedStringKey
-
-    var body: some View {
-        HStack(alignment: .top, spacing: .spaceM) {
-            SymbolBadge(symbol, color: color, size: .badgeL, style: .filled)
-            VStack(alignment: .leading, spacing: .space2XS) {
-                Text(title).font(.rowTitle)
-                Text(detail).font(.rowDetail).foregroundStyle(.secondary)
+        let plan = about.plan(for: store.entitlement)
+        Section {
+            VStack(spacing: .spaceM) {
+                AppIconImage(icon: settings.appIcon, size: .badgeXL * 1.5)
+                    .shadow(color: .black.opacity(.opacityTint), radius: 10, y: 4)
+                    .scaleEffect(isShown || reduceMotion ? 1 : 0.7)
+                    .opacity(isShown || reduceMotion ? 1 : 0)
+                VStack(spacing: .space2XS) {
+                    Text(verbatim: "Cashly").font(.titleLarge)
+                    Text("Version \(settings.info.version)")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .monospacedDigit()
+                }
+                Chip(plan.title, color: plan.isPro ? .retroMustard : .secondary, shape: .capsule)
+                    .contentTransition(.opacity)
             }
-            .fixedSize(horizontal: false, vertical: true)
-            Spacer(minLength: 0)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, .spaceM)
+            .animation(reduceMotion ? nil : .bouncy, value: isShown)
+            .animation(reduceMotion ? nil : .smooth, value: plan)
+            .accessibilityElement(children: .combine)
+            .task { isShown = true }
         }
-        .padding(.spaceL)
-        .background(.groupedRow, in: .rect(cornerRadius: .radiusL))
+    }
+}
+
+private struct AboutFiguresSection: View {
+    @Environment(AboutModel.self) private var about
+    @Environment(SettingsModel.self) private var settings
+    @Environment(\.featureFlags) private var flags
+
+    var body: some View {
+        Section {
+            if about.isEmpty {
+                IconRow(
+                    "Your story starts with the first record",
+                    detail: "Your numbers show up here as you use Cashly.", symbol: "sparkles",
+                    color: .retroOlive)
+            } else {
+                AboutFigureGrid(
+                    figures: about.figures(
+                        showingJourney: settings.showsJourney && flags?.isOn(.journey) != false))
+            }
+        } header: {
+            Text("Your Cashly").sectionTitle()
+        } footer: {
+            Text("Counted on this device from your own records.")
+        }
+    }
+}
+
+private struct AboutFigureGrid: View {
+    @Environment(AboutModel.self) private var about
+    @ScaledMetric private var tileWidth: CGFloat = 140
+    let figures: [AboutFigure]
+
+    var body: some View {
+        LazyVGrid(
+            columns: [GridItem(.adaptive(minimum: tileWidth), spacing: .spaceS)],
+            spacing: .spaceS
+        ) {
+            ForEach(figures) { AboutFigureTile(figure: $0) }
+        }
+        .padding(.vertical, .space2XS)
+        .redacted(reason: about.hasLoaded ? [] : .placeholder)
+    }
+}
+
+private struct AboutFigureTile: View {
+    @Environment(AboutModel.self) private var about
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    let figure: AboutFigure
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: .space2XS) {
+            Image(systemName: figure.kind.symbol)
+                .font(.icon(.s, weight: .semibold))
+                .foregroundStyle(figure.kind.color)
+                .symbolEffect(
+                    .bounce, options: .nonRepeating, value: !reduceMotion && about.hasLoaded
+                )
+                .padding(.bottom, .space2XS)
+            Text(figure.value)
+                .font(.amountTitle)
+                .contentTransition(.numericText(value: figure.numeric))
+                .amountLine()
+            Text(figure.caption).font(.subheadline.weight(.semibold))
+            Text(figure.detail).font(.footnote).foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.spaceM)
+        .tintedCard(figure.kind.color)
+        .animation(reduceMotion ? nil : .smooth, value: figure)
         .accessibilityElement(children: .combine)
     }
 }
 
-private struct AboutShare: View {
-    @Environment(SettingsModel.self) private var settings
-
-    var body: some View {
-        VStack(spacing: .spaceS) {
-            if let url = settings.info.appStoreURL {
-                ShareLink(
-                    item: url, message: Text("I plan my month with Cashly."),
-                    preview: SharePreview(
-                        "Cashly", image: CashlyResourceImage.appIcon(settings.appIcon.previewName))
-                ) {
-                    label
-                }
-                .primaryButton()
-            } else {
-                ShareLink(item: String(appLocalized: "I plan my month with Cashly.")) { label }
-                    .primaryButton()
-            }
-            Text("Cashly grows by word of mouth, one friend at a time.")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
+extension AboutFigure.Kind {
+    fileprivate var color: Color {
+        switch self {
+        case .history: .retroDenim
+        case .transactions: .retroOrange
+        case .days: .retroOlive
+        case .level: .retroMustard
+        case .budgets: .retroTeal
         }
-    }
-
-    private var label: some View {
-        Label("Share Cashly with a friend", systemImage: "square.and.arrow.up")
-    }
-}
-
-private struct AboutLinks: View {
-    @Environment(SettingsModel.self) private var settings
-    @Environment(\.appTint) private var appTint
-
-    var body: some View {
-        VStack(spacing: 0) {
-            AboutRateRow()
-            Divider()
-            NavigationLink {
-                WhatsNewScreen()
-            } label: {
-                AboutRow(
-                    "What's New", symbol: "sparkles", color: .companion, trailing: "chevron.forward"
-                )
-            }
-            ForEach(settings.info.links) { link in
-                Divider()
-                Link(destination: link.url) {
-                    AboutRow(
-                        link.title, symbol: link.symbol,
-                        color: link.usesTint ? appTint : .companion,
-                        trailing: "arrow.up.right")
-                }
-            }
-        }
-        .buttonStyle(.plain)
-        .background(.groupedRow, in: .rect(cornerRadius: .radiusGroup))
-    }
-}
-
-private struct AboutRateRow: View {
-    @Environment(SettingsModel.self) private var settings
-    @Environment(\.appTint) private var appTint
-    @Environment(\.openURL) private var openURL
-    @Environment(\.requestReview) private var requestReview
-
-    var body: some View {
-        Button {
-            if let url = settings.info.reviewURL { openURL(url) } else { requestReview() }
-        } label: {
-            AboutRow("Rate Cashly", symbol: "star", color: appTint, trailing: "arrow.up.right")
-        }
-    }
-}
-
-private struct AboutRow: View {
-    private let title: LocalizedStringKey
-    private let symbol: String
-    private let color: Color
-    private let trailing: String
-
-    init(_ title: LocalizedStringKey, symbol: String, color: Color, trailing: String) {
-        self.title = title
-        self.symbol = symbol
-        self.color = color
-        self.trailing = trailing
-    }
-
-    var body: some View {
-        HStack(spacing: .spaceS) {
-            IconRow(title, symbol: symbol, color: color)
-            Image(systemName: trailing)
-                .font(.footnote.weight(.semibold))
-                .foregroundStyle(.tertiary)
-        }
-        .padding(.horizontal, .spaceL)
-        .padding(.vertical, .spaceS)
-        .frame(minHeight: .rowHeight)
-        .contentShape(.rect)
-    }
-}
-
-private struct AboutFooter: View {
-    @Environment(SettingsModel.self) private var settings
-
-    var body: some View {
-        VStack(spacing: .space2XS) {
-            Text("Version \(settings.info.version)")
-            Text("Made in Brazil")
-        }
-        .font(.footnote)
-        .foregroundStyle(.secondary)
-        .multilineTextAlignment(.center)
-        .frame(maxWidth: .infinity)
     }
 }

@@ -48,8 +48,10 @@ struct AutoBackupTests {
     @Test func scheduleShowsLastAndNextCopy() async throws {
         let data = try await model()
         #expect(data.backupSchedule(now: .now) == nil)
+        #expect(data.overviewValue(now: .now) == nil)
         await data.setAutoBackup(true)
         let last = try #require(data.lastAutoBackup)
+        #expect(data.overviewValue(now: last) != nil)
         let week = DataModel.autoBackupInterval
         let halfway = try #require(data.backupSchedule(now: last.addingTimeInterval(week / 2)))
         #expect(abs(halfway.fraction - 0.5) < 0.001)

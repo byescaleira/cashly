@@ -79,6 +79,10 @@ public final class NotificationsModel {
         status = await scheduler.status()
     }
 
+    public func requestAuthorization() async {
+        _ = await allows(true)
+    }
+
     public func setPayments(_ isOn: Bool) async {
         guard await allows(isOn) else { return }
         remindsPayments = isOn
@@ -119,16 +123,13 @@ public final class NotificationsModel {
                     "\(Key.budgetAlert).\(line.id).\(snapshot.year)-\(snapshot.month).\(threshold)"
                 guard !defaults.bool(forKey: key) else { break }
                 defaults.set(true, forKey: key)
-                let money = Money(minorUnits: abs(line.remainingMinorUnits)).formatted
+                let text = ReminderText.budget(
+                    category: line.categoryName,
+                    amount: Money(minorUnits: abs(line.remainingMinorUnits)).formatted,
+                    isOver: threshold == 100)
                 await scheduler.deliver(
                     Reminder(
-                        id: key,
-                        title: threshold == 100
-                            ? String(appLocalized: "\(line.categoryName) is over budget")
-                            : String(appLocalized: "\(line.categoryName) at 80% of the budget"),
-                        body: threshold == 100
-                            ? String(appLocalized: "\(money) over what you planned this month.")
-                            : String(appLocalized: "\(money) left for the rest of the month."),
+                        id: key, title: text.title, body: text.body,
                         components: DateComponents(), category: NotificationCategory.budget))
                 break
             }
@@ -142,20 +143,15 @@ public final class NotificationsModel {
                 after: now, matching: DateComponents(hour: 18, minute: 0, weekday: 1),
                 matchingPolicy: .nextTime)
         else { return }
-        let spent = Money(minorUnits: snapshot.spentMinorUnits).formatted
-        let available = Money(minorUnits: snapshot.availableMinorUnits).formatted
+        let text = ReminderText.weekly(
+            spent: Money(minorUnits: snapshot.spentMinorUnits).formatted,
+            available: snapshot.plannedMinorUnits > 0
+                ? Money(minorUnits: snapshot.availableMinorUnits).formatted : nil)
         await scheduler.replace(
             prefix: Prefix.weekly,
             with: [
                 Reminder(
-                    id: Prefix.weekly, title: String(appLocalized: "Your week in Cashly"),
-                    body: snapshot.plannedMinorUnits > 0
-                        ? String(
-                            appLocalized:
-                                "\(spent) spent this month and \(available) still available. See what changed this week."
-                        )
-                        : String(
-                            appLocalized: "\(spent) spent this month. See what changed this week."),
+                    id: Prefix.weekly, title: text.title, body: text.body,
                     components: calendar.dateComponents(
                         [.year, .month, .day, .hour, .minute], from: sunday),
                     category: NotificationCategory.weekly)
@@ -205,8 +201,8 @@ public final class NotificationsModel {
 
     private var planningReminder: Reminder {
         Reminder(
-            id: Prefix.planning, title: String(appLocalized: "Plan your month"),
-            body: String(appLocalized: "Start the month by reviewing your budgets in Cashly."),
+            id: Prefix.planning, title: ReminderText.planning.title,
+            body: ReminderText.planning.body,
             components: DateComponents(day: 1, hour: 9, minute: 0), repeats: true,
             category: NotificationCategory.budget)
     }

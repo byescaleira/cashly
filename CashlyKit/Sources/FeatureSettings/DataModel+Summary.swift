@@ -27,6 +27,12 @@ extension DataModel {
             fraction: min(max(elapsed, 0), 1))
     }
 
+    func overviewValue(now: Date) -> String? {
+        guard autoBackup else { return nil }
+        return latestBackup.map { RelativeTime.day($0, now: now, calendar: SavedBackup.calendar) }
+            ?? String(appLocalized: "Not yet")
+    }
+
     var latestBackup: Date? {
         [savedBackups.first?.date, lastAutoBackup].compactMap(\.self).max()
     }
