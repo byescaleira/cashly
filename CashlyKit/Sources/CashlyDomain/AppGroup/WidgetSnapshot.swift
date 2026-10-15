@@ -3,6 +3,7 @@ import Foundation
 public struct WidgetSnapshot: Codable, Equatable, Sendable {
     public struct BudgetLine: Codable, Equatable, Sendable {
         public let id: String
+        public let categoryID: String?
         public let categoryName: String
         public let color: String
         public let icon: String
@@ -10,10 +11,11 @@ public struct WidgetSnapshot: Codable, Equatable, Sendable {
         public let spentMinorUnits: Int64
 
         public init(
-            id: String, categoryName: String, color: String, icon: String,
-            plannedMinorUnits: Int64, spentMinorUnits: Int64
+            id: String, categoryID: String? = nil, categoryName: String, color: String,
+            icon: String, plannedMinorUnits: Int64, spentMinorUnits: Int64
         ) {
             self.id = id
+            self.categoryID = categoryID
             self.categoryName = categoryName
             self.color = color
             self.icon = icon
@@ -54,7 +56,8 @@ public struct WidgetSnapshot: Codable, Equatable, Sendable {
     public let spentMinorUnits: Int64
     public let incomeMinorUnits: Int64
     public let transactionCount: Int
-    public let focusCategory: String?
+    public var focusCategoryID: String?
+    public var focusCategoryName: String?
     public let budgets: [BudgetLine]
     public var bills: [Bill]
     public let generatedAt: Date
@@ -62,8 +65,9 @@ public struct WidgetSnapshot: Codable, Equatable, Sendable {
     public init(
         userID: String, userName: String, month: YearMonth, currencyCode: String,
         plannedMinorUnits: Int64, spentMinorUnits: Int64, incomeMinorUnits: Int64,
-        transactionCount: Int = 0, focusCategory: String? = nil, budgets: [BudgetLine],
-        bills: [Bill] = [], generatedAt: Date = .now
+        transactionCount: Int = 0, focusCategoryID: String? = nil,
+        focusCategoryName: String? = nil, budgets: [BudgetLine], bills: [Bill] = [],
+        generatedAt: Date = .now
     ) {
         self.userID = userID
         self.userName = userName
@@ -74,7 +78,8 @@ public struct WidgetSnapshot: Codable, Equatable, Sendable {
         self.spentMinorUnits = spentMinorUnits
         self.incomeMinorUnits = incomeMinorUnits
         self.transactionCount = transactionCount
-        self.focusCategory = focusCategory
+        self.focusCategoryID = focusCategoryID
+        self.focusCategoryName = focusCategoryName
         self.budgets = budgets
         self.bills = bills
         self.generatedAt = generatedAt
@@ -87,12 +92,13 @@ public struct WidgetSnapshot: Codable, Equatable, Sendable {
 extension WidgetSnapshot {
     public init(
         user: User, month: YearMonth, overview: CashlyOverview, pending: [Transaction] = [],
-        currencyCode: String, focusCategoryID: String? = nil, generatedAt: Date = .now
+        currencyCode: String, focus: Category? = nil, generatedAt: Date = .now
     ) {
         let lines = overview.budgets.map { budget in
             BudgetLine(
-                id: budget.id, categoryName: budget.category.name, color: budget.category.color,
-                icon: budget.category.icon, plannedMinorUnits: budget.money.minorUnits,
+                id: budget.id, categoryID: budget.category.id, categoryName: budget.category.name,
+                color: budget.category.color, icon: budget.category.icon,
+                plannedMinorUnits: budget.money.minorUnits,
                 spentMinorUnits: overview.budgetExpenses[budget.id]?.minorUnits ?? 0)
         }
         self.init(
@@ -101,8 +107,7 @@ extension WidgetSnapshot {
             spentMinorUnits: overview.expensesTotal.minorUnits,
             incomeMinorUnits: overview.incomeTotal.minorUnits,
             transactionCount: overview.transactionCount,
-            focusCategory: overview.budgets.first { $0.category.id == focusCategoryID }?.category
-                .name,
+            focusCategoryID: focus?.id, focusCategoryName: focus?.name,
             budgets: lines,
             bills: pending.sorted { $0.date < $1.date }.prefix(5).map {
                 Bill(

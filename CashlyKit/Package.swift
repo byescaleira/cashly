@@ -6,7 +6,9 @@ let package = Package(
     defaultLocalization: "en",
     platforms: [.iOS("27.0"), .macOS("27.0"), .visionOS("27.0")],
     products: [
-        .library(name: "CashlyWidgetKit", targets: ["CashlyDomain", "CashlyDesignSystem"]),
+        .library(
+            name: "CashlyWidgetKit",
+            targets: ["CashlyDomain", "CashlyDesignSystem", "CashlyWidgetUI"]),
         .library(
             name: "CashlyKit",
             targets: [
@@ -26,6 +28,7 @@ let package = Package(
         .target(name: "CashlyMCP", dependencies: ["CashlyDomain", "CashlyAnalytics"]),
         .target(name: "CashlyGame", dependencies: ["CashlyDomain", "CashlyAnalytics"]),
         .target(name: "CashlyDesignSystem"),
+        .target(name: "CashlyWidgetUI", dependencies: ["CashlyDomain", "CashlyDesignSystem"]),
         .target(name: "CashlyResource", resources: [.process("Assets")]),
         .target(
             name: "FeatureCore",
@@ -68,8 +71,8 @@ let package = Package(
         .target(
             name: "FeatureSettings",
             dependencies: [
-                "CashlyDomain", "CashlyDesignSystem", "CashlyGame", "CashlyResource", "FeatureCore",
-                "FeatureStore",
+                "CashlyDomain", "CashlyDesignSystem", "CashlyGame", "CashlyResource", "CashlyWidgetUI",
+                "FeatureCore", "FeatureStore",
             ]),
         .target(
             name: "FeatureUsers",
@@ -140,7 +143,9 @@ let package = Package(
             dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureTransactions"]),
         .testTarget(
             name: "FeatureSettingsTests",
-            dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureSettings"]),
+            dependencies: [
+                "CashlyDomain", "CashlyData", "CashlyWidgetUI", "FeatureCore", "FeatureSettings",
+            ]),
         .testTarget(
             name: "FeatureCoreTests",
             dependencies: ["CashlyDomain", "CashlyData", "CashlyDesignSystem", "FeatureCore"]),

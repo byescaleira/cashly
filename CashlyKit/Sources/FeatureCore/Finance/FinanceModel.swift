@@ -88,7 +88,8 @@ public final class FinanceModel {
             ).items) ?? []
         let snapshot = WidgetSnapshot(
             user: user, month: month, overview: overview, pending: pending,
-            currencyCode: Money.currencyCode, focusCategoryID: focusCategoryID)
+            currencyCode: Money.currencyCode,
+            focus: allCategories.first { $0.id == focusCategoryID })
         try? snapshotStore?.write(snapshot)
         WidgetCenter.shared.reloadAllTimelines()
         return snapshot
