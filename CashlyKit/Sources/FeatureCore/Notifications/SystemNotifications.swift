@@ -10,6 +10,12 @@ public struct SystemNotifications: NotificationScheduling {
         let postpone = UNNotificationAction(
             identifier: NotificationCategory.postpone,
             title: String(appLocalized: "Postpone 1 Day"), options: [.authenticationRequired])
+        let noSpend = UNNotificationAction(
+            identifier: NotificationCategory.journeyNoSpend,
+            title: String(appLocalized: "I Didn't Spend Today"), options: [.authenticationRequired])
+        let expense = UNNotificationAction(
+            identifier: NotificationCategory.journeyExpense,
+            title: String(appLocalized: "New Expense"), options: [.foreground])
         let fixed = [
             UNNotificationCategory(
                 identifier: NotificationCategory.bill, actions: [paid, postpone],
@@ -18,6 +24,11 @@ public struct SystemNotifications: NotificationScheduling {
                 identifier: NotificationCategory.budget, actions: [], intentIdentifiers: []),
             UNNotificationCategory(
                 identifier: NotificationCategory.weekly, actions: [], intentIdentifiers: []),
+            UNNotificationCategory(
+                identifier: NotificationCategory.journey, actions: [], intentIdentifiers: []),
+            UNNotificationCategory(
+                identifier: NotificationCategory.journeyStreak, actions: [noSpend, expense],
+                intentIdentifiers: []),
         ]
         UNUserNotificationCenter.current().setNotificationCategories(
             Set(fixed + captures.map(Self.category)))
