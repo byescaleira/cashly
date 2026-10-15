@@ -45,7 +45,7 @@ Onde entra: as seis seções do motor na Início, a tela Inteligência e os bot�
 ## Exclusivos
 
 - **Ícones Ouro:** coleção nova `gold` em `AppIcon` (4 ícones `CashlyIconGold*`), sem `ShopItem`; acesso por `PackAccess.pro`, que mostra o chip "Pro" e abre o paywall.
-- **Avatares Ouro:** seção nova `gold` em `ProfileIllustration`, 20 bichos dourados ou reais do ipaslogo.com escolhidos por `design/avatars/select_gold.py` (leões, golden retriever, raposa e esquilo dourados, pavão, cisne, pinguim-imperador, cavaleiros), mesmo acesso `PackAccess.pro`.
+- **Avatares Ouro:** seção nova `gold` em `ProfileIllustration`, 20 bichos dourados do ipaslogo.com escolhidos pela aparência (filhote de leão, raposa, golden retriever, hamster, tigre, shiba, girafa, esquilo, pintinho, lulu, golem âmbar, corgi, patinho, abelha, urso-malaio, feneco, camelo, peixe amarelo, urso-mel e labrador), lista fixa em `design/avatars/select_gold.py`, mesmo acesso `PackAccess.pro`.
 - Aparecem na loja? Não como item: o cartão do Pro na loja cita os exclusivos.
 
 ## Folha de conquista

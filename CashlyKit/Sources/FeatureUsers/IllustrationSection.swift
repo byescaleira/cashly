@@ -14,7 +14,7 @@ struct IllustrationSection: View {
                 columns: [GridItem(.adaptive(minimum: 70), spacing: .spaceM)], spacing: .spaceM
             ) {
                 ForEach(section.illustrations) {
-                    IllustrationChoice(illustration: $0, isLocked: access.lockedItem != nil)
+                    IllustrationChoice(illustration: $0, access: access)
                 }
             }
             .padding(.vertical, .spaceS)
@@ -26,7 +26,11 @@ struct IllustrationSection: View {
             }
             .textCase(nil)
         } footer: {
-            if access.lockedItem != nil { Text("Available in the Journey shop.") }
+            if access == .pro {
+                Text("Exclusive to Cashly Pro.")
+            } else if access.lockedItem != nil {
+                Text("Available in the Journey shop.")
+            }
         }
     }
 }
@@ -36,7 +40,7 @@ private struct IllustrationChoice: View {
     @Environment(\.shop) private var shop
     @Environment(\.appTint) private var appTint
     let illustration: ProfileIllustration
-    let isLocked: Bool
+    let access: PackAccess
 
     var body: some View {
         let isSelected = model.isSelected(illustration)
@@ -44,21 +48,21 @@ private struct IllustrationChoice: View {
             model.choose(illustration, in: shop)
         } label: {
             ProfileAvatar(photo: .illustration(illustration.id), initials: "", size: .badgeXL)
-                .opacity(isLocked ? .opacityStrong : 1)
+                .opacity(access.isLocked ? .opacityStrong : 1)
                 .overlay {
                     if isSelected {
                         Circle().stroke(appTint, lineWidth: 3).padding(-.space2XS)
                     }
                 }
                 .overlay(alignment: .bottomTrailing) {
-                    if isLocked { LockBadge() }
+                    if access.isLocked { LockBadge() }
                 }
                 .frame(minWidth: .rowHeight, minHeight: .rowHeight)
                 .contentShape(.circle)
         }
         .buttonStyle(.plain)
         .accessibilityLabel(illustration.name)
-        .accessibilityValue(isLocked ? Text("Locked") : Text(verbatim: ""))
+        .accessibilityValue(Text(verbatim: access.lockValue ?? ""))
         .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }

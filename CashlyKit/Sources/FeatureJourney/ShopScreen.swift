@@ -59,7 +59,7 @@ private struct ShopProCard: View {
 
     private var detail: String {
         store.entitlement.detail
-            ?? String(appLocalized: "Insights, intelligence and backups")
+            ?? String(appLocalized: "Insights, backups and the Gold collection")
     }
 
     @ViewBuilder private var chip: some View {

@@ -66,7 +66,7 @@ extension ShopItem {
     var outcome: String {
         switch self {
         case .proMonthly, .proYearly:
-            String(appLocalized: "Insights, intelligence and backups")
+            String(appLocalized: "Insights, backups and the Gold collection")
         case .iconsAll: String(appLocalized: "Every icon, now and later")
         case .iconsFashion, .iconsCountries, .iconsSports, .iconsEighties, .iconsSummer,
             .iconsCarnival, .iconsJunina, .iconsHalloween, .iconsChristmas:

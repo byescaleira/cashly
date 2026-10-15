@@ -126,4 +126,27 @@ struct UserEditorTests {
         await editor.remove()
         #expect(try await users.user(id: "bia") == nil)
     }
+
+    @Test func goldAvatarsNeedProAndGoBackToInitialsWhenItEnds() async throws {
+        let database = try CashlyDatabase.open(inMemory: true)
+        let editor = UserEditorModel(users: database.repositories(for: nil).users)
+        await editor.load()
+        editor.draft.name = "Ana Souza"
+        let lion = try illustration(in: .gold)
+        var proPresented = 0
+        let free = ShopAccess(
+            owned: [.avatarsAll], open: { _ in }, presentPro: { proPresented += 1 })
+        editor.choose(lion, in: free)
+        #expect(proPresented == 1)
+        #expect(editor.draft.photo != .illustration(lion.id))
+        editor.choose(lion, in: ShopAccess(owned: [], isPro: true, open: { _ in }))
+        #expect(editor.draft.photo == .illustration(lion.id))
+        #expect(editor.draft.photo.isProExclusive)
+        await editor.save()
+        let session = SessionModel(provider: database, preference: .disabled)
+        await session.refreshUsers()
+        await session.dropProPhotos()
+        let saved = try await database.repositories(for: nil).users.user(id: editor.draft.id)
+        #expect(saved?.photo == .suggested(for: editor.draft.id))
+    }
 }

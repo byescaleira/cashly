@@ -16,6 +16,7 @@ struct InspectorScreen: View {
                     }
                 }
         }
+        .modifier(InspectorStore())
         .environment(\.navigationSection, inspector.section)
         .environment(
             \.close,

@@ -65,7 +65,11 @@ private struct IconCollectionSection: View {
             }
             .textCase(nil)
         } footer: {
-            if isFeatured { Text("Featured this month and available all year.") }
+            if isFeatured {
+                Text("Featured this month and available all year.")
+            } else if collection.isProOnly {
+                Text("Exclusive to Cashly Pro.")
+            }
         }
     }
 }

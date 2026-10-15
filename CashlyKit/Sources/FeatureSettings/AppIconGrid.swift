@@ -15,7 +15,7 @@ struct AppIconGrid: View {
             ForEach(icons) { icon in
                 AppIconChoice(
                     icon: icon, isSelected: icon == settings.appIcon,
-                    isLocked: settings.access(to: icon.shopItem, in: shop).lockedItem != nil
+                    access: settings.access(to: icon.collection, in: shop)
                 ) {
                     Task { await settings.choose(icon, in: shop) }
                 }
@@ -30,7 +30,7 @@ private struct AppIconChoice: View {
     @Environment(\.appTint) private var appTint
     let icon: AppIcon
     let isSelected: Bool
-    let isLocked: Bool
+    let access: PackAccess
     let action: () -> Void
 
     var body: some View {
@@ -45,7 +45,7 @@ private struct AppIconChoice: View {
                             .opacity(isSelected ? 1 : 0)
                     }
                     .overlay(alignment: .bottomTrailing) {
-                        if isLocked { LockBadge() }
+                        if access.isLocked { LockBadge() }
                     }
                 Text(icon.title)
                     .font(.caption.weight(isSelected ? .bold : .regular))
@@ -58,7 +58,7 @@ private struct AppIconChoice: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(icon.title)
-        .accessibilityValue(isLocked ? Text("Locked") : Text(verbatim: ""))
+        .accessibilityValue(Text(verbatim: access.lockValue ?? ""))
         .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }

@@ -50,12 +50,6 @@ public struct MainScreen: View {
         .animation(.easeOut(duration: 0.4), value: launch.isDismissed)
         .sheet(item: $navigation.guide) { GuideScreen($0) }
         .sheet(item: $navigation.shopItem) { ShopItemScreen(item: $0) }
-        .environment(
-            \.shop,
-            ShopAccess(
-                owned: store.owned, price: { store.price(for: $0) },
-                open: { navigation.shopItem = $0 })
-        )
         .modifier(MCPImportPresenter())
         .environment(
             \.showGuide,
@@ -104,6 +98,11 @@ public struct MainScreen: View {
             await JourneyModel.publish(session: session, status: journeyStatus)
         }
         .task(id: store.tenureKey) { await store.recordTenure() }
+        .task(id: exclusivesKey) {
+            guard store.hasRefreshed, session.hasLoadedUsers, !pro.isPro else { return }
+            await settings.dropProIcon()
+            await session.dropProPhotos()
+        }
         .onChange(of: session.hasLoadedUsers, initial: true) {
             if session.hasLoadedUsers { launch.finish(.profiles) }
         }
@@ -137,6 +136,13 @@ public struct MainScreen: View {
         .modifier(JourneyNotifications())
         .modifier(PrivacyShield())
         .sheet(isPresented: $navigation.isShowingPaywall) { PaywallScreen() }
+        .environment(
+            \.shop,
+            ShopAccess(
+                owned: store.owned, isPro: pro.isPro, price: { store.price(for: $0) },
+                open: { navigation.shopItem = $0 },
+                presentPro: { navigation.isShowingPaywall = true })
+        )
         .environment(\.pro, pro)
     }
 
@@ -146,6 +152,10 @@ public struct MainScreen: View {
 
     private var journeyKey: String {
         "\(extrasKey):\(journeyStatus.rawValue):\(scenePhase == .active)"
+    }
+
+    private var exclusivesKey: String {
+        "\(store.hasRefreshed):\(session.hasLoadedUsers):\(pro.isPro)"
     }
 
     private var journeyStatus: JourneySnapshot.Status {

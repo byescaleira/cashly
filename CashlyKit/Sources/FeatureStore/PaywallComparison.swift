@@ -90,7 +90,7 @@ private struct PaywallCell: View {
 }
 
 enum PaywallFeature: CaseIterable, Identifiable {
-    case record, journey, system, insights, intelligence, backups, claudeCode
+    case record, journey, system, insights, intelligence, backups, claudeCode, exclusives
 
     enum Value {
         case yes, no
@@ -108,6 +108,7 @@ enum PaywallFeature: CaseIterable, Identifiable {
         case .intelligence: "Smart suggestions"
         case .backups: "Automatic backups and imports"
         case .claudeCode: "Claude Code"
+        case .exclusives: "Gold icons and avatars"
         }
     }
 
@@ -115,7 +116,7 @@ enum PaywallFeature: CaseIterable, Identifiable {
         switch self {
         case .record, .journey, .system: .yes
         case .backups: .text("Export only")
-        case .insights, .intelligence, .claudeCode: .no
+        case .insights, .intelligence, .claudeCode, .exclusives: .no
         }
     }
 

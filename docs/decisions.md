@@ -632,3 +632,20 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Central de guias e conquista com a mesma base:** o `GuidesModel` (total, próximo, minutos e contagem por categoria) e a conquista "Leu o manual" contam só os guias grátis (`Guide.free`); o jogo recebe os ids (`Guide.journeyIDs`) e conta a interseção, então uma conclusão antiga da importação não vale. Jornada, Ajustes › Jornada, Sobre e avisos usam a mesma fonte. Sem Pro, o cartão "Importar planilha" mostra o chip "Pro" e o VoiceOver diz "Exige o Cashly Pro"; a decisão de abrir o guia ou o paywall fica em `CashlyNavigation.show(_:isPro:)`.
 - **XP zero não aparece:** a comemoração esconde o chip de XP e a recompensa da folha mostra só o nível quando a conquista não dá XP.
 
+## 15/10/2026: exclusivos do Cashly Pro (fase 4)
+
+- **Coleção de ícones Ouro** (`AppIcon.Collection.gold`): Ouro, Ouro Rosé, Ouro Negro e Barra de Ouro, gerados a partir do ícone Petróleo trocando só as cores das camadas (cartão em degradê dourado, estrela e cifrão com contraste nos dois modos); arquivos `CashlyIcon<Nome>.icon` e prévias exportadas por `scripts/icons.sh`.
+- **Seção de avatares Ouro** (`ProfileIllustration.Section.gold`, 20 bichos): a primeira escolha por nome ficou incoerente (três leões iguais, pavão, cisne, tartaruga), então os 202 candidatos com nomes dourados foram baixados, ordenados pela proporção de pixels dourados no bicho (fora o fundo) e escolhidos à mão sem repetir espécie. `design/avatars/select_gold.py` guarda a lista final e grava as entradas `gold` no `manifest.json`; só a seção nova foi importada no catálogo.
+- **Acesso só Pro:** `PackAccess.pro` (chip "Pro" em mostarda com cadeado) e `ShopAccess.access(to:proOnly:)`/`unlock(_:)`; o toque abre o paywall em vez da folha da loja. Não são itens da loja nem entram em "Todos os ícones"/"Todos os avatares". Rodapés "Exclusivo do Cashly Pro.".
+- **Ao perder o Pro:** depois que o StoreKit responde e os perfis carregam, sem Pro, o ícone Ouro em uso volta ao Clássico (`SettingsModel.dropProIcon`) e cada perfil com avatar Ouro volta às iniciais na cor sugerida (`SessionModel.dropProPhotos`). Com a simulação "Free" do Desenvolvedor isso também vale para os dados reais do aparelho.
+- **Paywall:** a linha "Ícones e avatares Ouro" voltou à tabela.
+
+## 15/10/2026: builds e testes mais rápidos
+
+- **Causa da lentidão:** builds do zero por usar pastas de build novas (inclusive no `$TMPDIR`), dois `xcodebuild` pesados ao mesmo tempo e `xcodebuild test` chamado sem o script (um teste que falhou travou o `simctl diagnose` por mais de 10 minutos).
+- **`scripts/build.sh`:** aceita as plataformas (`scripts/build.sh Debug ios`), compila o simulador só em arm64, sem índice e sem consultar os pacotes na rede. Medido no iOS Debug: recompilar tudo de 198–203 s para 117 s, sem mudanças de 18 s para 5 s, um arquivo de 9 s para 6 s.
+- **`scripts/test.sh --affected [base]`:** `scripts/affected-tests.py` lê o grafo do pacote (`swift package describe`), marca os módulos alterados desde a `development` e roda só os alvos de teste que dependem deles; com nomes de alvos roda só esses; sem argumentos, a suíte inteira. 12 de 17 alvos com cache quente em 45 s.
+- **`scripts/device.sh`:** compila, instala e abre no iPhone de `CASHLY_DEVICE`, sempre na pasta `Device`.
+- **Descartado:** o cache de compilação do Xcode (`COMPILATION_CACHE_ENABLE_CACHING`) cortou cerca de 25% depois de `clean`, mas somou uns 8 s a cada build incremental; compartilhado entre pastas, gerou falhas de cache e deixou o build mais lento. Testes paralelos em clones de simulador furariam o limite de 2.
+- **Uso:** durante o trabalho `swift build`, `build.sh Debug ios` e `test.sh --affected`; antes do commit as três plataformas e a suíte inteira. Registrado no apple-sdd (`tooling-and-ci.md`, `verification.md`, `testing.md` e template).
+

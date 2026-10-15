@@ -349,6 +349,64 @@
         }
       }
     },
+    "Black Gold" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schwarzgold"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oro Negro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Or Noir"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oro Nero"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ブラックゴールド"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "블랙 골드"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouro Negro"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чёрное золото"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "黑金"
+          }
+        }
+      }
+    },
     "Bring in your history" : {
       "localizations" : {
         "de" : {
@@ -871,6 +929,64 @@
         }
       }
     },
+    "Exclusive to Cashly Pro." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exklusiv für Cashly Pro."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exclusivo de Cashly Pro."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exclusif à Cashly Pro."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esclusiva di Cashly Pro."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly Pro 限定。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly Pro 전용."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exclusivo do Cashly Pro."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Только для Cashly Pro."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly Pro 专属。"
+          }
+        }
+      }
+    },
     "Export only" : {
       "localizations" : {
         "de" : {
@@ -1041,6 +1157,122 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "为你的月份评分"
+          }
+        }
+      }
+    },
+    "Gold Bar" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Goldbarren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lingote de Oro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lingot d’Or"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lingotto d’Oro"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "金の延べ棒"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "골드바"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Barra de Ouro"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Слиток золота"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "金条"
+          }
+        }
+      }
+    },
+    "Gold icons and avatars" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gold-Icons und -Avatare"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iconos y avatares Oro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icônes et avatars Or"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icone e avatar Oro"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ゴールドのアイコンとアバター"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "골드 아이콘과 아바타"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ícones e avatares Ouro"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Золотые иконки и аватары"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "金色图标和头像"
           }
         }
       }
@@ -1451,60 +1683,60 @@
         }
       }
     },
-    "Insights, intelligence and backups" : {
+    "Insights, backups and the Gold collection" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Analysen, Intelligenz und Backups"
+            "value" : "Analysen, Backups und die Gold-Kollektion"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Análisis, inteligencia y copias de seguridad"
+            "value" : "Análisis, copias de seguridad y la colección Oro"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Analyses, intelligence et sauvegardes"
+            "value" : "Analyses, sauvegardes et la collection Or"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Analisi, intelligenza e backup"
+            "value" : "Analisi, backup e la collezione Oro"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "分析、インテリジェンス、バックアップ"
+            "value" : "分析、バックアップ、ゴールドコレクション"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "분석, 인텔리전스, 백업"
+            "value" : "분석, 백업, 골드 컬렉션"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Análises, inteligência e backups"
+            "value" : "Análises, backups e a coleção Ouro"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Аналитика, интеллект и резервные копии"
+            "value" : "Аналитика, резервные копии и коллекция «Золото»"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "分析、智能和备份"
+            "value" : "分析、备份和金色系列"
           }
         }
       }
@@ -2317,6 +2549,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "需要 Cashly Pro"
+          }
+        }
+      }
+    },
+    "Rose Gold" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Roségold"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oro Rosa"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Or Rose"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oro Rosa"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ローズゴールド"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "로즈 골드"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouro Rosé"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Розовое золото"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "玫瑰金"
           }
         }
       }

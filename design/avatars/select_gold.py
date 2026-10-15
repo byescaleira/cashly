@@ -9,11 +9,26 @@ DOWNLOADS = ROOT / "downloaded"
 TARGET = 20
 
 NAMES = [
-    "Lion Warm Smile", "Golden Retriever Puppy", "Peacock", "Golden Fox", "Sunflower Lion Cub",
-    "Honey Brown Bear", "Swan", "Emperor Penguin", "Golden Hamster", "Coral Crown Turtle",
-    "Lion Bright Eyed", "Golden Squirrel", "Amber Beetle Knight", "Sun Bear", "Jewel Beetle",
-    "Cavalier King Charles Spaniel Dog", "Honey Comet Bear", "Amber Golem", "Lion Gentle Smile",
-    "Knight", "Mushroom Knight", "Honey Badger", "Lion Calm", "Golden Retriever",
+    "Sunflower Lion Cub",
+    "Golden Fox",
+    "Golden Retriever Puppy",
+    "Happy Hamster",
+    "Tiger Soft Peek",
+    "Shiba Inu",
+    "Baby Giraffe",
+    "Golden Squirrel",
+    "Yellow Chick",
+    "Pomeranian Dog",
+    "Amber Golem",
+    "Corgi",
+    "Duckling",
+    "A8 Team Bee",
+    "Sun Bear",
+    "Bat Eared Fox",
+    "Camel",
+    "Yellow Boxfish",
+    "Honey Comet Bear",
+    "Labrador Retriever",
 ]
 
 items = json.loads(CATALOG.read_text())
