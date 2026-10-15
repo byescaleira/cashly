@@ -195,7 +195,6 @@ private struct MonthCell: View {
             .contentShape(.capsule)
         }
         .buttonStyle(.plain)
-        .disabled(!choice.isAvailable && !choice.isSelected)
         .accessibilityLabel(choice.fullTitle)
         .accessibilityValue(choice.detail)
         .accessibilityAddTraits(choice.isSelected ? .isSelected : [])

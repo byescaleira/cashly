@@ -4,6 +4,7 @@ import SwiftUI
 public struct FilterMenu: View {
     @Environment(SessionModel.self) private var session
     @Environment(FinanceModel.self) private var finance
+    @Environment(\.appTint) private var appTint
 
     public init() {}
 
@@ -46,7 +47,9 @@ public struct FilterMenu: View {
             } label: {
                 Label("Filters", systemImage: "line.3.horizontal.decrease")
                     .labelStyle(.iconOnly)
-                    .foregroundStyle(Color.primary)
+                    .foregroundStyle(session.filter.isCustomized ? appTint : Color.primary)
+                    .symbolEffect(.bounce, value: session.filter.isCustomized)
+                    .accessibilityValue(session.filter.isCustomized ? Text("On") : Text("Off"))
             }
             .menuStyle(.button)
             .buttonStyle(.plain)

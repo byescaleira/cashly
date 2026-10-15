@@ -12,6 +12,12 @@ struct BudgetDateSection: View {
             MonthPicker(
                 selection: $model.month, unavailable: model.takenMonths,
                 unavailableTitle: model.takenMonthTitle)
+            if model.isMonthTaken {
+                Button("Edit That Budget", systemImage: "pencil") {
+                    Task { await model.editTakenBudget() }
+                }
+                .disabled(!model.canEditTakenBudget)
+            }
         } header: {
             Text("Month").sectionTitle()
         } footer: {

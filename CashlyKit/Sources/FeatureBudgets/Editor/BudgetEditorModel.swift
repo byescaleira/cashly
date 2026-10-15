@@ -7,7 +7,7 @@ import Observation
 public final class BudgetEditorModel {
     public var draft: BudgetDraft
     public let status = EditorStatus()
-    public private(set) var budgetedMonths: [String: Set<YearMonth>] = [:]
+    public private(set) var budgetedMonths: [String: [YearMonth: String]] = [:]
     @ObservationIgnored private let repositories: Repositories
 
     public init(draft: BudgetDraft = .new(), repositories: Repositories) {
@@ -26,10 +26,18 @@ public final class BudgetEditorModel {
     }
 
     public var takenMonths: Set<YearMonth> {
-        draft.category.flatMap { budgetedMonths[$0.id] } ?? []
+        Set(budgetsByMonth.keys)
     }
 
-    public var isMonthTaken: Bool { takenMonths.contains(draft.month) }
+    public var takenBudgetID: String? { budgetsByMonth[draft.month] }
+
+    public var canEditTakenBudget: Bool { takenBudgetID != nil && !status.isLocked }
+
+    public var isMonthTaken: Bool { takenBudgetID != nil }
+
+    private var budgetsByMonth: [YearMonth: String] {
+        draft.category.flatMap { budgetedMonths[$0.id] } ?? [:]
+    }
 
     public var takenMonthTitle: String { String(appLocalized: "Already has a budget") }
 
@@ -87,6 +95,21 @@ public final class BudgetEditorModel {
         }
     }
 
+    public func editTakenBudget() async {
+        guard canEditTakenBudget, let id = takenBudgetID else { return }
+        await status.refresh {
+            let catalog = try await ownCatalog(excluding: id)
+            guard let record = try await repositories.budgets.budget(id: id) else {
+                throw CashlyError.missingRecord
+            }
+            try Task.checkCancellation()
+            var next = BudgetDraft.edit(id: id)
+            next.apply(record, categories: catalog.categories)
+            draft = next
+            budgetedMonths = catalog.months
+        }
+    }
+
     public func save() async {
         guard !isMonthTaken else { return }
         await status.save { try await repositories.budgets.save(draft.makeBudget()) }
@@ -97,15 +120,18 @@ public final class BudgetEditorModel {
         await status.remove { try await repositories.budgets.delete(id: draft.id) }
     }
 
-    private func ownCatalog() async throws -> (
-        categories: [CashlyDomain.Category], months: [String: Set<YearMonth>]
+    private func ownCatalog(excluding id: String? = nil) async throws -> (
+        categories: [CashlyDomain.Category], months: [String: [YearMonth: String]]
     ) {
+        let excluded = id ?? draft.id
         let snapshot = try await repositories.dashboard.snapshot(month: nil)
         let owner = snapshot.currentUser?.id
-        let budgets = snapshot.budgets.filter { $0.category.user.id == owner && $0.id != draft.id }
+        let budgets = snapshot.budgets.filter { $0.category.user.id == owner && $0.id != excluded }
         return (
             snapshot.categories.filter { $0.user.id == owner },
-            Dictionary(grouping: budgets, by: \.category.id).mapValues { Set($0.map(\.month)) }
+            Dictionary(grouping: budgets, by: \.category.id).mapValues {
+                Dictionary($0.map { ($0.month, $0.id) }, uniquingKeysWith: { first, _ in first })
+            }
         )
     }
 }

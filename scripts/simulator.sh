@@ -16,7 +16,11 @@ case "$command" in
       if mkdir "$lock" 2>/dev/null; then
         if is_booted; then rmdir "$lock"; echo "ready $device"; exit 0; fi
         if [ "$(booted)" -lt "$limit" ]; then
-          xcrun simctl boot "$device" || true
+          if ! xcrun simctl boot "$device"; then
+            rmdir "$lock"
+            echo "boot failed: $device" >&2
+            exit 1
+          fi
           rmdir "$lock"
           with_timeout 300 xcrun simctl bootstatus "$device" >/dev/null
           echo "ready $device"

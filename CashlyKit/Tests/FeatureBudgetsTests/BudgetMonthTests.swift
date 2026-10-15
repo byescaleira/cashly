@@ -90,6 +90,31 @@ struct BudgetMonthTests {
         #expect(editor.canSave)
     }
 
+    @Test func aTakenMonthOpensTheExistingBudget() async throws {
+        let database = try await database()
+        let repositories = database.repositories(for: owner.id)
+        try await repositories.budgets.save(
+            Budget(
+                id: "march", money: Money(minorUnits: 100_000), category: market,
+                month: try month(202_603), summary: "Março"))
+        let editor = BudgetEditorModel(
+            draft: .new(category: market, date: try month(202_604).startDate),
+            repositories: repositories)
+        await editor.load()
+        #expect(!editor.canEditTakenBudget)
+        editor.month = try month(202_603)
+        #expect(editor.takenBudgetID == "march")
+        #expect(editor.canEditTakenBudget)
+        await editor.editTakenBudget()
+        #expect(editor.draft.id == "march")
+        #expect(!editor.draft.isNew)
+        #expect(editor.draft.amount == 1_000)
+        #expect(editor.draft.summary == "Março")
+        #expect(!editor.isMonthTaken)
+        #expect(editor.canSave)
+        #expect(editor.canRemove)
+    }
+
     @Test func suggestAmountFollowsTheIntelligenceFlag() async throws {
         let database = try await database()
         let repositories = database.repositories(for: owner.id)

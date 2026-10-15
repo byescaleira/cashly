@@ -64,7 +64,6 @@ private struct TotalBreakdownRow: View {
 
     var body: some View {
         HStack(spacing: .spaceS) {
-            TotalFigure(caption: "Spent", amount: totals.spent, color: .primary)
             TotalFigure(caption: "Received", amount: totals.received, color: .primary)
             TotalFigure(
                 caption: "Balance", amount: totals.balance,

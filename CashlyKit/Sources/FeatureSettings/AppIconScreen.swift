@@ -7,12 +7,12 @@ struct AppIconScreen: View {
     @Environment(\.shop) private var shop
 
     var body: some View {
+        let collections = settings.iconCollections(on: .now)
         SettingsPage("App Icon") {
             CurrentIconSection()
-            ForEach(settings.iconCollections(on: .now), id: \.self) {
-                IconCollectionSection(collection: $0)
-            }
+            ForEach(collections.prefix(1), id: \.self) { IconCollectionSection(collection: $0) }
             if settings.offersAllIcons(in: shop) { AllIconsSection() }
+            ForEach(collections.dropFirst(), id: \.self) { IconCollectionSection(collection: $0) }
         }
     }
 }
