@@ -24,15 +24,20 @@ extension CashlyStore {
             transactions += mapped.items
             skipped += mapped.pending
         }
-        for user in users {
-            insertGameEvent(GameEvent(kind: .backupCreated), ownerID: user.id)
-        }
-        try? commit()
         return BackupExport(
             backup: CashlyBackup(
                 users: users, categories: categories, tags: tags, budgets: budgets,
                 transactions: transactions),
             skipped: skipped)
+    }
+
+    public func recordBackup() throws {
+        let users = try getUsers()
+        guard !users.isEmpty else { return }
+        for user in users {
+            insertGameEvent(GameEvent(kind: .backupCreated), ownerID: user.id)
+        }
+        try commit()
     }
 
     public func restore(_ backup: CashlyBackup) throws {

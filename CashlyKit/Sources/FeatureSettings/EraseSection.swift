@@ -47,7 +47,7 @@ private struct EraseScreen: View {
         .fileExporter(
             isPresented: $data.isExportingFromErase, document: data.document,
             contentType: data.exportType, defaultFilename: data.fileName,
-            onCompletion: data.finishExport
+            onCompletion: { result in Task { await data.finishExport(result) } }
         )
         .errorAlert($data.error)
     }
