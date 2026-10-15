@@ -25,7 +25,7 @@ struct DataSection: View {
         )
         .sheet(isPresented: $data.isRestoringBackup) { BackupImportScreen().environment(data) }
         .dataAlerts()
-        .task(id: session?.generation) { await data.load() }
+        .task(id: session?.user?.id) { await data.load() }
     }
 }
 

@@ -582,3 +582,10 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Desenvolvedor:** chips de estado no topo (build de desenvolvimento, flags alteradas, simulação da loja, sincronização), depois Loja, Simulações (notificação de teste, boas-vindas, dicas), Dados de exemplo (carregar, recarregar, apagar preferências), Flags (cada uma diz se está no padrão, alterada neste aparelho ou vindo do rollout remoto; "Restaurar padrões" só habilitado com alteração), Backup, Apagar tudo e App.
 - **Raiz dos Ajustes:** a linha iCloud mostra "Reabra para aplicar" enquanto a mudança está pendente (`cloudValue`), e a linha Dados e Backup mostra a data relativa do último backup quando o automático está ligado (`DataModel.overviewValue`).
 - **Datas relativas** passam por `RelativeTime` (`RelativeDateTimeFormatter` no idioma do app, com `now` injetado para teste). Testes novos em `DataSummaryTests`; `DataModelTests` e `AutoBackupTests` cobrem o fluxo de apagar, a exportação durante o apagar e a agenda do backup.
+
+## 15/10/2026: Dados e Backup piscando
+
+- **Sintoma (iPhone, com iCloud):** a página Dados e Backup piscava e travava.
+- **Causa:** a página recarregava a cada `session.generation`, que sobe a cada mudança no banco (inclusive as que chegam pela sincronização). Cada recarga voltava o iCloud Drive para "verificando" e exportava o banco inteiro para contar registros, ocupando o actor do banco.
+- **Correção:** a página carrega ao abrir e ao trocar de perfil (`.task(id: session?.user?.id)`); importar e apagar já atualizam o resumo. O estado do iCloud Drive só volta para "verificando" enquanto a pasta não foi resolvida. Regra geral: tela que faz trabalho pesado não recarrega por `generation`.
+

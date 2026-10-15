@@ -67,7 +67,7 @@ extension DataModel {
     var localPath: String { folder.url.path(percentEncoded: false) }
 
     func loadBackups() async {
-        cloudState = .checking
+        if cloudFolder == nil { cloudState = .checking }
         cloudFolder = await cloud.resolve()
         cloudState = cloudFolder == nil ? .unavailable : .available
         await refreshSavedBackups()
