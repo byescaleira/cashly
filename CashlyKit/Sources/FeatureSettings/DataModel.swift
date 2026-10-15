@@ -166,9 +166,10 @@ public final class DataModel {
         await runAutoBackupIfNeeded()
     }
 
-    func finishExport(_ result: Result<URL, any Error>) {
+    func finishExport(_ result: Result<URL, any Error>) async {
         document = nil
         guard case .success = result else { return }
+        if exportType == .json { try? await backup.recordBackup() }
         if isErasing {
             exportedBeforeErase = true
             return
@@ -220,6 +221,7 @@ public final class DataModel {
         try await Task.detached(priority: .utility) {
             try destination.save(data, on: date)
         }.value
+        try? await backup.recordBackup()
         return export.skipped
     }
 

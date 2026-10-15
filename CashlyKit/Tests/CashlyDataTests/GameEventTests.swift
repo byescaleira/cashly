@@ -25,6 +25,17 @@ struct GameEventTests {
         #expect(try await db.repositories.game.events().isEmpty)
     }
 
+    @Test func exportReadsWithoutRecordingBackup() async throws {
+        let db = try await TestDatabase()
+        let export = try await db.database.backup.export()
+        #expect(export.backup.users.count == 2)
+        #expect(try await db.repositories.game.events().isEmpty)
+        #expect(try await db.friendRepositories.game.events().isEmpty)
+        try await db.database.backup.recordBackup()
+        #expect(try await db.repositories.game.events().map(\.kind) == [.backupCreated])
+        #expect(try await db.friendRepositories.game.events().map(\.kind) == [.backupCreated])
+    }
+
     @Test func creditsAndRestoresAreKeptOncePerKey() async throws {
         let db = try await TestDatabase()
         let credit = GameEvent(kind: .freezesCredited, value: "purchase-1", count: 2)

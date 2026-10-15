@@ -21,7 +21,7 @@ struct DataSection: View {
         .fileExporter(
             isPresented: $data.isExportingFromPage, document: data.document,
             contentType: data.exportType, defaultFilename: data.fileName,
-            onCompletion: data.finishExport
+            onCompletion: { result in Task { await data.finishExport(result) } }
         )
         .sheet(isPresented: $data.isRestoringBackup) { BackupImportScreen().environment(data) }
         .dataAlerts()
