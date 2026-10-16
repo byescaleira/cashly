@@ -25,6 +25,9 @@ public struct SettingsScreen<Extra: View>: View {
             #endif
         }
         .navigationTitle("Settings")
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) { AddUserButton() }
+        }
         .task { await settings.loadCloudAccount() }
         .task { await notifications.refreshStatus() }
         .task(id: session?.generation) {
@@ -105,5 +108,17 @@ private struct DevelopmentRow: View {
                 }
             }
         #endif
+    }
+}
+
+private struct AddUserButton: View {
+    @Environment(\.open) private var open
+    @Environment(\.navigationSection) private var section
+
+    var body: some View {
+        Button("Add User", systemImage: "person.badge.plus") {
+            open(.addUser(id: nil), in: section)
+        }
+        .tint(Color.primary)
     }
 }

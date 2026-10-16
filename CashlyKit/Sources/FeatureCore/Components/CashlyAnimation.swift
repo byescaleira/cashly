@@ -26,6 +26,7 @@ public enum CashlyAnimation: String, Sendable {
     case paywall
     case privacy
     case pro
+    case profile
     case score
     case shopColors
     case shopHelps
