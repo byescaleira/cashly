@@ -677,3 +677,23 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Card no Início** (`ShopSpotlightSection`, depois de "Disponível"): o item do mês com miniatura, título, texto, preço e o chip "Este mês" numa linha própria (ao lado do título ele quebrava "Halloween" em três linhas; a linha do item do mês na Jornada recebeu o mesmo ajuste); toque abre a folha do item e "Ver a loja" abre tudo. Fecha pelo X do cabeçalho, deslizando ou pelo menu ("Agora não") e só volta no mês seguinte (`DashboardModel.hideShopSpotlight`, mês guardado em `UserDefaults`). Nos meses sem pacote sazonal, gira pelos pacotes permanentes ainda não comprados; sem nada a vender, o card some.
 - **Código:** `ShopItem.featured(on:)`, `seasonal` e `isSeasonal` foram para o `CashlyDomain` com `ShopCatalog.spotlight`; título, texto, símbolo e cor do item e a miniatura (`ShopThumbnail`, `IconPackGrid`, `SwatchGrid`) foram para o `FeatureCore`, para o Início e os Ajustes usarem sem importar a Jornada.
 
+## 15/10/2026: Cashly Pro por tela, sem tapume
+
+- **Pedido do usuário:** o convite ao Pro deve ser um por tela, não um tapume por seção. Sem Pro, as seções Pro são removidas (sem desfoque) e a tela ganha um card que descreve tudo o que ela teria com o Pro.
+- **Código:** `ProCurtain`, `ProCurtainSection`, as prévias (`BackupPreview`, `ImportPreview`, a prévia do Claude Code e a da Inteligência) e o token `.blurCurtain` saíram. Entraram `ProOnly { }` (mostra o conteúdo só com Pro), `ProShowcase` (título, frase e recursos de cada tela) e `ProShowcaseSection`. `ProPitch` virou a lista de recursos, com quatro para a Inteligência e quatro para o Claude Code.
+- **Textos:** os recursos da Inteligência reaproveitam os nomes e as frases dos modelos ("Orçamento inteligente", "Categorização automática", "Previsão por tag"). O card do Claude Code descreve o fluxo real: o extrato é compartilhado com o Claude e cada transação passa pela revisão antes de salvar. Entraram 17 textos novos, com as traduções, e saíram 3 que ficaram sem uso.
+- **Ordem no Início:** o card fica logo depois de "Disponível", antes do card da loja; quem é grátis vê primeiro o que é seu (resumo e disponível) e depois o convite.
+
+## 15/10/2026: coleção do mês acompanha a virada do mês
+
+- **Pergunta do usuário:** o ícone do mês é dinâmico e a seção muda de lugar quando o mês troca? Já era: `iconCollections(on:)` põe a coleção sazonal do mês (verão em janeiro, carnaval em fevereiro, festa junina em junho, Halloween em outubro, Natal em dezembro) no topo, com o selo de destaque, e as outras seguem a ordem fixa. Nos outros meses nenhuma é destacada.
+- **Falha corrigida:** a data vinha de `.now` no desenho, então com o app aberto na virada do mês a ordem só mudava quando a tela era redesenhada. Agora a data é estado do model (`SettingsModel.today`), atualizado ao abrir a tela e a cada `NSCalendarDayChanged` (`followDayChanges()`).
+- **Teste:** `theFeaturedCollectionMovesToTheTopWhenTheMonthChanges` (31/10 → Halloween no topo, 1/11 → ordem fixa, 1/12 → Natal).
+
+## 15/10/2026: perfil em destaque nos Ajustes
+
+- **Pedido do usuário:** foto maior e com mais destaque, acesso à edição e à criação de perfil pelos Ajustes, e um fundo animado simples em loop no cabeçalho.
+- **Foto e nome:** a foto foi de 56 pt para `.avatarHero` (104 pt), com sombra suave, e o nome usa `.titleLarge`. Foto e nome formam um botão só (`ProfileIdentityButton`) que abre o editor do perfil atual.
+- **Criar perfil:** "Add User" (`person.badge.plus`, tinta primária) na barra dos Ajustes. A primeira versão, com cápsulas "Edit User" e "Add User" embaixo dos chips, foi recusada pelo usuário ("ficaram muito ruins").
+- **Fundo animado:** a primeira versão, uma aura de manchas desfocadas em `Canvas`, foi recusada; o usuário pediu "algum lottie em loop tipo o confetti, mas não é confetti". Entrou a Lottie `profile` (`scripts/animations.py`): 14 brilhos (`sparkle`), estrelas e pontos nas cores da paleta (`tint`, mostarda, oliva, denim, ameixa) piscando e flutuando em fases diferentes. Cada partícula segue um ciclo de 150 quadros, então o loop não tem emenda. Fica preso ao topo do cabeçalho (`.background(alignment: .top)`), atrás da foto e do nome; com Reduzir movimento, fica no último quadro.
+- **Acessibilidade:** o cabeçalho deixou de usar o `SettingsHero`, que junta tudo num elemento. A foto e o nome são um botão com a dica "Edit User"; os chips seguem juntos.

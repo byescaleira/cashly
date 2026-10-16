@@ -59,6 +59,64 @@
         }
       }
     },
+    "A Cashly that learns from you" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Cashly, das von dir lernt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un Cashly que aprende de ti"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un Cashly qui apprend de vous"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un Cashly che impara da te"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "あなたから学ぶ Cashly"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "나에게서 배우는 Cashly"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um Cashly que aprende com você"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly, который учится у вас"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "向你学习的 Cashly"
+          }
+        }
+      }
+    },
     "A daily backup on this device or in iCloud Drive, ready to restore when you need it." : {
       "localizations" : {
         "de" : {
@@ -233,6 +291,64 @@
         }
       }
     },
+    "Analyses on request" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analysen auf Wunsch"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Análisis cuando los pidas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Des analyses à la demande"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analisi su richiesta"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "頼めばすぐ分析"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "요청하면 바로 분석"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Análises quando você pedir"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Анализ по запросу"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按需分析"
+          }
+        }
+      }
+    },
     "Ask Claude about your money" : {
       "localizations" : {
         "de" : {
@@ -287,6 +403,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "向 Claude 询问你的财务"
+          }
+        }
+      }
+    },
+    "Ask for comparisons, trends and summaries of any period." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frag nach Vergleichen, Trends und Zusammenfassungen für jeden Zeitraum."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pide comparaciones, tendencias y resúmenes de cualquier período."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demandez des comparaisons, des tendances et des résumés sur n'importe quelle période."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiedi confronti, tendenze e riepiloghi di qualsiasi periodo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "どの期間でも、比較・傾向・まとめを頼めます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "어떤 기간이든 비교, 추세, 요약을 요청하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Peça comparações, tendências e resumos de qualquer período."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Просите сравнения, тренды и сводки за любой период."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以查询任意时间段的对比、趋势和总结。"
           }
         }
       }
@@ -523,64 +697,6 @@
         }
       }
     },
-    "Categories and amounts suggested from your own history, all on this device." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kategorien und Beträge aus deinem eigenen Verlauf, alles auf diesem Gerät."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Categorías e importes sugeridos con tu propio historial, todo en este dispositivo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Catégories et montants suggérés d’après votre historique, le tout sur cet appareil."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Categorie e importi suggeriti dalla tua cronologia, tutto su questo dispositivo."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自分の履歴からカテゴリと金額を提案。処理はすべてこのデバイス上で行われます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "내 기록을 바탕으로 카테고리와 금액을 제안하며, 모두 이 기기에서 처리됩니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Categorias e valores sugeridos pelo seu próprio histórico, tudo neste aparelho."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Категории и суммы по вашей истории, всё на этом устройстве."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "根据你的历史推荐分类和金额，全部在本设备上完成。"
-          }
-        }
-      }
-    },
     "Categories well above their usual pace show up here before they become a problem." : {
       "localizations" : {
         "de" : {
@@ -697,6 +813,64 @@
         }
       }
     },
+    "Claude Code reads your transactions, budgets and goals to answer in plain words." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claude Code liest deine Buchungen, Budgets und Ziele und antwortet in einfachen Worten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claude Code lee tus transacciones, presupuestos y metas para responder con palabras sencillas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claude Code lit vos transactions, budgets et objectifs pour répondre simplement."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claude Code legge transazioni, budget e obiettivi per risponderti in parole semplici."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claude Code が取引、予算、目標を読み取り、わかりやすく答えます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claude Code가 거래, 예산, 목표를 읽고 쉬운 말로 답합니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Claude Code lê suas transações, orçamentos e metas para responder em palavras simples."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claude Code читает ваши операции, бюджеты и цели и отвечает простыми словами."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claude Code 读取你的交易、预算和目标，用通俗的话回答。"
+          }
+        }
+      }
+    },
     "Compare plan and reality" : {
       "localizations" : {
         "de" : {
@@ -809,64 +983,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "把本月和其他月份比较"
-          }
-        }
-      }
-    },
-    "Connect Claude Code to read your transactions, run analyses and import statements." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verbinde Claude Code, um Buchungen zu lesen, Analysen auszuführen und Auszüge zu importieren."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Conecta Claude Code para leer tus movimientos, hacer análisis e importar extractos."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Connectez Claude Code pour lire vos transactions, lancer des analyses et importer des relevés."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Collega Claude Code per leggere le transazioni, fare analisi e importare estratti."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Claude Code を接続すると、取引の読み取り、分析、明細の読み込みができます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Claude Code를 연결해 거래를 읽고, 분석하고, 명세서를 가져오세요."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Conecte o Claude Code para ler suas transações, rodar análises e importar extratos."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Подключите Claude Code, чтобы читать операции, запускать анализ и импортировать выписки."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "连接 Claude Code，读取交易、运行分析并导入账单。"
           }
         }
       }
@@ -1041,6 +1157,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "仅导出"
+          }
+        }
+      }
+    },
+    "Exporting stays free. With Cashly Pro, Cashly keeps backups for you and brings in your history from other files." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportieren bleibt kostenlos. Mit Cashly Pro erstellt Cashly Backups für dich und übernimmt deinen Verlauf aus anderen Dateien."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar sigue siendo gratis. Con Cashly Pro, Cashly hace copias de seguridad por ti y trae tu historial desde otros archivos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'export reste gratuit. Avec Cashly Pro, Cashly sauvegarde pour vous et importe votre historique depuis d'autres fichiers."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esportare resta gratis. Con Cashly Pro, Cashly fa i backup per te e importa la tua cronologia da altri file."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "書き出しはずっと無料。Cashly Pro なら、バックアップを自動で作り、ほかのファイルから履歴を取り込めます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "내보내기는 계속 무료입니다. Cashly Pro를 쓰면 Cashly가 백업을 대신 만들고 다른 파일에서 기록을 가져옵니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar continua grátis. Com o Cashly Pro, o Cashly faz backups por você e traz seu histórico de outros arquivos."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Экспорт остаётся бесплатным. С Cashly Pro приложение само делает резервные копии и переносит историю из других файлов."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出始终免费。有了 Cashly Pro，Cashly 会替你备份，并从其他文件导入你的记录。"
           }
         }
       }
@@ -1799,6 +1973,64 @@
         }
       }
     },
+    "Import statements in a conversation" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kontoauszüge im Gespräch importieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importa extractos en una conversación"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importez des relevés en discutant"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importa estratti conto in una conversazione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "会話で明細を取り込み"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "대화로 명세서 가져오기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importe extratos numa conversa"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Импорт выписок в разговоре"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在对话中导入账单"
+          }
+        }
+      }
+    },
     "Insights, backups and the Gold collection" : {
       "localizations" : {
         "de" : {
@@ -2147,60 +2379,60 @@
         }
       }
     },
-    "Let Cashly suggest for you" : {
+    "Learns only on this device" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lass Cashly Vorschläge machen"
+            "value" : "Lernt nur auf diesem Gerät"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deja que Cashly sugiera por ti"
+            "value" : "Aprende solo en este dispositivo"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Laissez Cashly suggérer pour vous"
+            "value" : "Apprend uniquement sur cet appareil"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lascia che Cashly suggerisca per te"
+            "value" : "Impara solo su questo dispositivo"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cashly に提案を任せる"
+            "value" : "学習はこのデバイスだけで"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cashly가 대신 제안해 드려요"
+            "value" : "이 기기에서만 학습"
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Deixe o Cashly sugerir por você"
+            "value" : "Aprende só neste aparelho"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пусть Cashly подскажет"
+            "value" : "Обучается только на этом устройстве"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "让 Cashly 为你推荐"
+            "value" : "只在这台设备上学习"
           }
         }
       }
@@ -2437,6 +2669,64 @@
         }
       }
     },
+    "Only the connections you allow can read your data, and you can remove them anytime." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nur Verbindungen, die du erlaubst, können deine Daten lesen, und du kannst sie jederzeit entfernen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo las conexiones que permitas pueden leer tus datos, y puedes quitarlas cuando quieras."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seules les connexions que vous autorisez peuvent lire vos données, et vous pouvez les retirer à tout moment."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo le connessioni che autorizzi possono leggere i tuoi dati, e puoi rimuoverle quando vuoi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "許可した接続だけがデータを読み取れ、いつでも削除できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "허용한 연결만 데이터를 읽을 수 있고, 언제든 삭제할 수 있습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Só as conexões que você permitir leem seus dados, e você pode removê-las quando quiser."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Читать данные могут только разрешённые подключения, и их можно удалить в любой момент."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "只有你允许的连接才能读取数据，你也可以随时移除。"
+          }
+        }
+      }
+    },
     "Patron" : {
       "localizations" : {
         "de" : {
@@ -2549,6 +2839,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "记账和编辑永久免费。Cashly Pro 增加分析、智能建议、备份和 Claude Code。"
+          }
+        }
+      }
+    },
+    "Recording stays free. With Cashly Pro, Home also scores your month, projects where it will close, compares it with the others and shows what's already committed ahead." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erfassen bleibt kostenlos. Mit Cashly Pro bewertet die Übersicht auch deinen Monat, zeigt, wie er enden wird, vergleicht ihn mit den anderen und zeigt, was schon verplant ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrar sigue siendo gratis. Con Cashly Pro, Inicio también puntúa tu mes, proyecta cómo cerrará, lo compara con los demás y muestra lo que ya está comprometido."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L'enregistrement reste gratuit. Avec Cashly Pro, l'Accueil note aussi votre mois, prévoit sa clôture, le compare aux autres et montre ce qui est déjà engagé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrare resta gratis. Con Cashly Pro, la Home valuta anche il tuo mese, prevede come si chiuderà, lo confronta con gli altri e mostra ciò che è già impegnato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記録はずっと無料。Cashly Pro なら、ホームで今月の点数、月末の見通し、他の月との比較、すでに決まっている支出も見られます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기록은 계속 무료입니다. Cashly Pro를 쓰면 홈에서 이번 달 점수, 월말 예상, 다른 달과의 비교, 이미 정해진 지출까지 볼 수 있습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registrar continua grátis. Com o Cashly Pro, o Início também dá uma nota ao seu mês, projeta como ele vai fechar, compara com os outros e mostra o que já está comprometido à frente."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Записи остаются бесплатными. С Cashly Pro на Главной появится оценка месяца, прогноз его итога, сравнение с другими месяцами и уже запланированные траты."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记账始终免费。有了 Cashly Pro，首页还会为本月评分、预测月底结余、与其他月份对比，并显示已确定的支出。"
           }
         }
       }
@@ -2959,6 +3307,64 @@
         }
       }
     },
+    "Share a bank statement with Claude and review every transaction before it's saved." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teile einen Kontoauszug mit Claude und prüfe jede Buchung, bevor sie gespeichert wird."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comparte un extracto con Claude y revisa cada transacción antes de guardarla."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partagez un relevé avec Claude et vérifiez chaque transaction avant qu'elle soit enregistrée."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Condividi un estratto conto con Claude e controlla ogni transazione prima che venga salvata."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "明細を Claude に渡し、保存前に各取引を確認できます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "명세서를 Claude와 공유하고 저장 전에 거래를 하나씩 확인하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compartilhe um extrato com o Claude e revise cada transação antes de salvar."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отправьте выписку Claude и проверьте каждую операцию перед сохранением."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "把银行账单分享给 Claude，保存前逐笔核对每笔交易。"
+          }
+        }
+      }
+    },
     "Smart suggestions" : {
       "localizations" : {
         "de" : {
@@ -3249,6 +3655,64 @@
         }
       }
     },
+    "The models are trained from your own history and never leave this device." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Modelle lernen aus deinem eigenen Verlauf und verlassen dieses Gerät nie."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los modelos se entrenan con tu propio historial y nunca salen de este dispositivo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les modèles sont entraînés sur votre propre historique et ne quittent jamais cet appareil."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I modelli vengono addestrati sulla tua cronologia e non lasciano mai questo dispositivo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "モデルはあなた自身の履歴から学習し、このデバイスの外に出ることはありません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모델은 내 기록으로만 학습하며 이 기기를 벗어나지 않습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os modelos são treinados com o seu próprio histórico e nunca saem deste aparelho."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Модели обучаются на вашей истории и никогда не покидают это устройство."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型用你自己的记录训练，绝不会离开这台设备。"
+          }
+        }
+      }
+    },
     "This Month" : {
       "localizations" : {
         "de" : {
@@ -3477,6 +3941,354 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ 在 %2$@ 已有预算。"
+          }
+        }
+      }
+    },
+    "With Cashly Pro, Cashly trains small models on your own history to fill in budgets, categories and tags for you." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit Cashly Pro trainiert Cashly kleine Modelle mit deinem Verlauf und füllt Budgets, Kategorien und Tags für dich aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con Cashly Pro, Cashly entrena pequeños modelos con tu historial para completar presupuestos, categorías y etiquetas por ti."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec Cashly Pro, Cashly entraîne de petits modèles sur votre historique pour remplir budgets, catégories et étiquettes à votre place."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con Cashly Pro, Cashly addestra piccoli modelli sulla tua cronologia per compilare budget, categorie ed etichette al posto tuo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly Pro なら、あなたの履歴で小さなモデルを学習し、予算・カテゴリ・タグを自動で入力します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly Pro를 쓰면 Cashly가 내 기록으로 작은 모델을 학습해 예산, 카테고리, 태그를 대신 채워 줍니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com o Cashly Pro, o Cashly treina pequenos modelos com o seu histórico para preencher orçamentos, categorias e tags por você."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "С Cashly Pro приложение обучает небольшие модели на вашей истории и само заполняет бюджеты, категории и теги."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有了 Cashly Pro，Cashly 会用你的记录训练小模型，替你填写预算、分类和标签。"
+          }
+        }
+      }
+    },
+    "With Cashly Pro, Claude Code connects to Cashly on this device to answer questions, run analyses and import statements." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit Cashly Pro verbindet sich Claude Code auf diesem Gerät mit Cashly, beantwortet Fragen, erstellt Analysen und importiert Kontoauszüge."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con Cashly Pro, Claude Code se conecta a Cashly en este dispositivo para responder preguntas, hacer análisis e importar extractos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avec Cashly Pro, Claude Code se connecte à Cashly sur cet appareil pour répondre à vos questions, faire des analyses et importer des relevés."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con Cashly Pro, Claude Code si collega a Cashly su questo dispositivo per rispondere a domande, fare analisi e importare estratti conto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly Pro なら、Claude Code がこのデバイスの Cashly につながり、質問への回答、分析、明細の取り込みを行います。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly Pro를 쓰면 Claude Code가 이 기기의 Cashly에 연결되어 질문에 답하고, 분석하고, 명세서를 가져옵니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com o Cashly Pro, o Claude Code se conecta ao Cashly neste aparelho para responder perguntas, fazer análises e importar extratos."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "С Cashly Pro Claude Code подключается к Cashly на этом устройстве, отвечает на вопросы, проводит анализ и импортирует выписки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "有了 Cashly Pro，Claude Code 会连接这台设备上的 Cashly，回答问题、进行分析并导入账单。"
+          }
+        }
+      }
+    },
+    "You approve every connection" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du bestätigst jede Verbindung"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tú apruebas cada conexión"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous approuvez chaque connexion"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Approvi tu ogni connessione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "接続はすべてあなたが承認"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모든 연결은 직접 승인"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você aprova cada conexão"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы одобряете каждое подключение"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个连接都由你批准"
+          }
+        }
+      }
+    },
+    "Your data, safe without effort" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deine Daten sicher, ganz ohne Aufwand"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tus datos, seguros sin esfuerzo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vos données en sécurité, sans effort"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I tuoi dati al sicuro, senza fatica"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "手間なくデータを守る"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "수고 없이 지키는 데이터"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seus dados seguros, sem esforço"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Данные в сохранности без усилий"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "轻松保护你的数据"
+          }
+        }
+      }
+    },
+    "Your money in a conversation" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein Geld im Gespräch"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu dinero en una conversación"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre argent en conversation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I tuoi soldi in una conversazione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "会話でお金を管理"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "대화로 만나는 내 돈"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu dinheiro numa conversa"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ваши деньги в разговоре"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在对话中管理你的钱"
+          }
+        }
+      }
+    },
+    "Your whole month, explained" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein ganzer Monat, erklärt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo tu mes, explicado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout votre mois, expliqué"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutto il tuo mese, spiegato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今月のすべてがわかる"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "한 달 전체를 한눈에"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seu mês inteiro, explicado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Весь ваш месяц — понятно"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "整个月一目了然"
           }
         }
       }

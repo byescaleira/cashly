@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+import math
 import os
 import subprocess
 import tempfile
@@ -520,6 +521,34 @@ def pro():
     return [orbit, crown] + sparks
 
 
+def twinkle_frames(phase, low, high, samples=6):
+    frames = []
+    for index in range(samples + 1):
+        time = index * END / samples
+        wave_value = 0.5 - 0.5 * math.cos(2 * math.pi * (time - phase) / END)
+        frames.append((time, low + (high - low) * wave_value))
+    return frames
+
+
+def profile():
+    sparks = [
+        ("sparkle", "mustard", 18, (28, 36), 0), ("star.fill", "tint", 10, (64, 128), 40),
+        ("circle.fill", "denim", 6, (96, 58), 90), ("sparkle", "olive", 14, (52, 136), 20),
+        ("sparkle", "tint", 16, (214, 40), 110), ("star.fill", "mustard", 12, (250, 120), 60),
+        ("circle.fill", "plum", 7, (292, 70), 130), ("sparkle", "denim", 12, (300, 150), 75),
+        ("circle.fill", "mustard", 5, (40, 90), 100), ("star.fill", "olive", 9, (140, 24), 30),
+        ("circle.fill", "tint", 6, (270, 150), 140), ("circle.fill", "olive", 5, (276, 28), 55),
+        ("star.fill", "denim", 9, (18, 160), 120), ("circle.fill", "mustard", 5, (230, 84), 10),
+    ]
+    layers = []
+    for name, color, height, (x, y), phase in sparks:
+        scale = anim([(time, [value, value, 100]) for time, value in twinkle_frames(phase, 45, 100)])
+        opacity = anim(twinkle_frames(phase, 15, 85))
+        position = move([(time, (x, y + value)) for time, value in twinkle_frames(phase + END / 4, 4, -4)])
+        layers.append(icon(name, color, height, position, scale=scale, opacity=opacity))
+    return layers
+
+
 def paywall():
     center = (160, 78)
     crown = icon("crown.fill", "mustard", 72, move([(0, (160, 118)), (26, (160, 70)), (40, center)]), delay=0)
@@ -648,6 +677,7 @@ ANIMATIONS = {
     "done": done,
     "connect": connect,
     "pro": pro,
+    "profile": profile,
     "paywall": paywall,
     "shopIcons": shop_icons,
     "shopColors": shop_colors,

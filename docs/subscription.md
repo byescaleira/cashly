@@ -24,17 +24,28 @@ Substitui o modelo "teste grátis e depois modo leitura" (decisões de 09/10 e 1
 - Fora da janela, `CashlyServices.isPro()` substitui `canWrite()` e vale para o backup automático na abertura e para o MCP.
 - **Ao perder o Pro:** o backup automático para (os arquivos ficam, exportar segue livre), o servidor MCP desliga, ícone e foto exclusivos em uso voltam ao padrão (ícone Cores; iniciais na cor sugerida), e o que foi comprado na loja continua.
 
-## Tapume (`ProCurtain`)
+## Card do Cashly Pro por tela (`ProShowcaseSection`)
 
-`ProCurtainSection(pitch) { conteúdo } preview: { prévia }` no `FeatureCore`. Sem Pro, o componente aparece com as formas reais e sem os valores (`.redacted(reason: .placeholder)` + desfoque, sem toque e escondido do VoiceOver). Por cima da prévia fica o `SymbolBadge` preenchido do recurso, em mostarda; embaixo, título, frase de incentivo do componente e o botão principal "Conhecer o Cashly Pro", que abre o paywall. Cada componente diz o que entrega, por exemplo: Projeção → "Saiba onde o mês vai fechar antes de chegar lá". Com Pro o modificador não faz nada. Com Reduzir transparência a prévia não aparece; fica só o selo do recurso.
+Desde 15/10/2026 (pedido do usuário), o convite é **por tela, não por seção**. Sem Pro, as seções Pro somem (`ProOnly { … }`), sem prévia desfocada, e cada tela que tinha recursos Pro ganha **um** card "Cashly Pro" (`ProShowcaseSection(.home | .data | .intelligence | .claudeCode)`, no `FeatureCore`):
 
-Onde entra: as seis seções do motor na Início, a tela Inteligência e os botões de raio (que abrem o paywall), as seções de backup automático, iCloud Drive e backups salvos, as linhas de importar, e a seção do Claude Code nos Ajustes.
+- herói: coroa (`SymbolBadge` preenchido, mostarda, `.badgeXL`, `bounce` ao aparecer), título da tela em `.titleMedium` e uma frase descritiva que começa pelo que continua grátis ("Registrar continua grátis…", "Exportar continua grátis…");
+- uma linha por recurso da tela (`ProPitch`): selo mostarda, título e frase do que ele entrega;
+- o botão principal "Conhecer o Cashly Pro", que abre o paywall.
+
+| Tela | Onde entra o card | Recursos listados |
+| --- | --- | --- |
+| Início | logo depois de "Disponível" | nota do mês, projeção, comparação com outros meses, fora do comum, próximos meses, planejado × gasto, tags |
+| Ajustes › Dados e Backup | depois de Exportar | backups automáticos (aparelho e iCloud Drive), importar backup e planilha |
+| Ajustes › Inteligência | a tela inteira | orçamento inteligente, categorização automática, previsão por tag, aprende só no aparelho |
+| Ajustes › Claude Code | a tela inteira | perguntas sobre o dinheiro, análises, importar extratos numa conversa, aprovação de cada conexão |
+
+Com Pro, o card some e as seções voltam.
 
 ## Paywall
 
 - A tabela Grátis × Pro passa a mostrar o modelo novo: registrar e editar ✓/✓, Jornada ✓/✓, Widgets, Siri e exportação ✓/✓, Análises e previsões —/✓, Inteligência —/✓, Backups automáticos e importação "Só exportar"/✓, Claude Code —/✓. A linha "Ícones e avatares exclusivos" só entra com a fase 4, quando eles existirem.
 - O herói diz o que o Pro soma: "Análises, inteligência e backups além de tudo o que é grátis".
-- **Oferta automática:** depois do onboarding e, sem Pro, no máximo uma vez a cada 7 dias na abertura. O resto vem do contexto (tapumes, cadeados, loja, Ajustes).
+- **Oferta automática:** depois do onboarding e, sem Pro, no máximo uma vez a cada 7 dias na abertura. O resto vem do contexto (cards por tela, cadeados, loja, Ajustes).
 
 ## Conquistas de tempo de Pro
 

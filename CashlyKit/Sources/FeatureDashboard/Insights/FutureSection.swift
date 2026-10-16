@@ -7,7 +7,7 @@ struct FutureSection: View {
 
     var body: some View {
         if let commitments = insights.commitments {
-            ProCurtainSection(.future) {
+            ProOnly {
                 Section {
                     InsightBars(bars: commitments.bars)
                     LabeledContent(
@@ -21,8 +21,6 @@ struct FutureSection: View {
                 } footer: {
                     Text("Installments and future bills you've already recorded.")
                 }
-            } preview: {
-                InsightBars(bars: commitments.bars)
             }
         }
     }

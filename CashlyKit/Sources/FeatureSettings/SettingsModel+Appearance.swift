@@ -86,6 +86,13 @@ extension SettingsModel {
         AppIcon.featured(on: date) == collection
     }
 
+    func followDayChanges() async {
+        today = .now
+        for await _ in NotificationCenter.default.notifications(named: .NSCalendarDayChanged) {
+            today = .now
+        }
+    }
+
     func offersAllIcons(in shop: ShopAccess) -> Bool {
         !shop.owns(.iconsAll)
             && AppIcon.Collection.allCases.contains { access(to: $0, in: shop).lockedItem != nil }

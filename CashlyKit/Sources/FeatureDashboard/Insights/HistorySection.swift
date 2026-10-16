@@ -8,7 +8,7 @@ struct HistorySection: View {
 
     var body: some View {
         if let history = insights.history {
-            ProCurtainSection(.history) {
+            ProOnly {
                 Section {
                     VStack(spacing: .spaceS) {
                         FigureBlock(
@@ -31,8 +31,6 @@ struct HistorySection: View {
                 } header: {
                     Text("Compared with Other Months").sectionTitle()
                 }
-            } preview: {
-                InsightBars(bars: history.bars)
             }
         }
     }
@@ -44,7 +42,7 @@ struct UnusualSection: View {
     var body: some View {
         let unusual = insights.unusual
         if !unusual.isEmpty {
-            ProCurtainSection(.unusual) {
+            ProOnly {
                 Section {
                     ForEach(unusual) { UnusualRow(item: $0) }
                 } header: {
@@ -53,10 +51,6 @@ struct UnusualSection: View {
                     Text(
                         "Spending so far compared with what usually goes out by this day of the month."
                     )
-                }
-            } preview: {
-                VStack(spacing: .spaceM) {
-                    ForEach(unusual.prefix(2)) { UnusualRow(item: $0) }
                 }
             }
         }

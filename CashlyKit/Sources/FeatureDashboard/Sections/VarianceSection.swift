@@ -5,14 +5,11 @@ import SwiftUI
 
 struct VarianceSection: View {
     @Environment(FinanceModel.self) private var finance
-    @Environment(ReportsModel.self) private var reports
 
     var body: some View {
         if !finance.categories.isEmpty, !finance.budgets.isEmpty {
-            ProCurtainSection(.variance) {
+            ProOnly {
                 VarianceContent()
-            } preview: {
-                ComparisonChart(data: reports.comparisonPoints)
             }
         }
     }

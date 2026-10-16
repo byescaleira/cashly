@@ -30,30 +30,34 @@ struct SettingsProfileSection: View {
 }
 
 private struct SettingsProfileHeader: View {
+    var body: some View {
+        VStack(spacing: .spaceS) {
+            ProfileIdentityButton()
+            ProfileBadges()
+        }
+        .textCase(nil)
+        .multilineTextAlignment(.center)
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, .spaceL)
+        .background(alignment: .top) { CashlyAnimationView(.profile, loops: true) }
+    }
+}
+
+private struct ProfileBadges: View {
     @Environment(SettingsModel.self) private var settings
-    @Environment(SessionModel.self) private var session: SessionModel?
     @Environment(StoreModel.self) private var store: StoreModel?
     @Environment(AppLockModel.self) private var lock: AppLockModel?
 
     var body: some View {
-        SettingsHero {
-            ProfileAvatar(session?.user, size: .badgeXL)
-                .accessibilityHidden(true)
-            Text(verbatim: settings.profileName(session?.user))
-                .font(.titleMedium)
-                .foregroundStyle(Color.primary)
-                .lineLimit(1)
-                .minimumScaleFactor(0.8)
-            AdaptiveStack(stackedAlignment: .center, spacing: .spaceS) {
-                if let store {
-                    PlanChip(badge: settings.planBadge(for: store.entitlement))
-                }
-                Chip(
-                    settings.syncBadge, color: settings.isSyncOn ? .retroDenim : .secondary,
-                    shape: .capsule)
-                if settings.locksApp {
-                    Chip((lock?.biometry ?? .none).title, color: .retroPlum, shape: .capsule)
-                }
+        AdaptiveStack(stackedAlignment: .center, spacing: .spaceS) {
+            if let store {
+                PlanChip(badge: settings.planBadge(for: store.entitlement))
+            }
+            Chip(
+                settings.syncBadge, color: settings.isSyncOn ? .retroDenim : .secondary,
+                shape: .capsule)
+            if settings.locksApp {
+                Chip((lock?.biometry ?? .none).title, color: .retroPlum, shape: .capsule)
             }
         }
     }
@@ -123,5 +127,33 @@ private struct ProOfferRow: View {
         }
         .buttonStyle(.plain)
         .task { isShown = true }
+    }
+}
+
+private struct ProfileIdentityButton: View {
+    @Environment(SettingsModel.self) private var settings
+    @Environment(SessionModel.self) private var session: SessionModel?
+    @Environment(\.open) private var open
+    @Environment(\.navigationSection) private var section
+
+    var body: some View {
+        Button {
+            open(.addUser(id: session?.user?.id), in: section)
+        } label: {
+            VStack(spacing: .spaceM) {
+                ProfileAvatar(session?.user, size: .avatarHero)
+                    .shadow(color: .black.opacity(.opacityFill), radius: .spaceM, y: .spaceS)
+                    .accessibilityHidden(true)
+                Text(verbatim: settings.profileName(session?.user))
+                    .font(.titleLarge)
+                    .foregroundStyle(Color.primary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+            }
+            .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .disabled(session?.user == nil)
+        .accessibilityHint("Edit User")
     }
 }
