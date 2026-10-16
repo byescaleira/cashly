@@ -7,7 +7,7 @@ struct AppIconScreen: View {
     @Environment(\.shop) private var shop
 
     var body: some View {
-        let collections = settings.iconCollections(on: .now)
+        let collections = settings.iconCollections(on: settings.today)
         SettingsPage("App Icon") {
             CurrentIconSection()
             ForEach(collections.prefix(1), id: \.self) { IconCollectionSection(collection: $0) }
@@ -15,6 +15,7 @@ struct AppIconScreen: View {
             ForEach(collections.dropFirst(), id: \.self) { IconCollectionSection(collection: $0) }
             ShopLinkSection()
         }
+        .task { await settings.followDayChanges() }
     }
 }
 
@@ -52,7 +53,7 @@ private struct IconCollectionSection: View {
     let collection: AppIcon.Collection
 
     var body: some View {
-        let isFeatured = settings.isFeatured(collection, on: .now)
+        let isFeatured = settings.isFeatured(collection, on: settings.today)
         Section {
             AppIconGrid(icons: collection.icons)
         } header: {

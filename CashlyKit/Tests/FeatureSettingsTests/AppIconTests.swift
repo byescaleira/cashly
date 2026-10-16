@@ -71,6 +71,24 @@ struct AppIconTests {
         #expect(AppIcon.Collection.fashion.icons == [.jeans, .tailoring, .leather, .polkaDot])
     }
 
+    @Test func theFeaturedCollectionMovesToTheTopWhenTheMonthChanges() throws {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = try #require(TimeZone(identifier: "America/Sao_Paulo"))
+        let settings = SettingsModel(
+            defaults: defaults, cloudContainer: nil, iconSwitcher: FakeIcon())
+        let october = try #require(
+            calendar.date(from: DateComponents(year: 2026, month: 10, day: 31)))
+        let november = try #require(
+            calendar.date(from: DateComponents(year: 2026, month: 11, day: 1)))
+        let december = try #require(
+            calendar.date(from: DateComponents(year: 2026, month: 12, day: 1)))
+        #expect(settings.iconCollections(on: october, calendar: calendar).first == .halloween)
+        #expect(settings.iconCollections(on: november, calendar: calendar).first == .colors)
+        let christmas = settings.iconCollections(on: december, calendar: calendar)
+        #expect(christmas.first == .christmas)
+        #expect(Set(christmas) == Set(AppIcon.Collection.allCases))
+    }
+
     @Test func everyCollectionHasFourIcons() {
         for collection in AppIcon.Collection.allCases {
             #expect(collection.icons.count == 4)

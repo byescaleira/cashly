@@ -683,3 +683,9 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Código:** `ProCurtain`, `ProCurtainSection`, as prévias (`BackupPreview`, `ImportPreview`, a prévia do Claude Code e a da Inteligência) e o token `.blurCurtain` saíram. Entraram `ProOnly { }` (mostra o conteúdo só com Pro), `ProShowcase` (título, frase e recursos de cada tela) e `ProShowcaseSection`. `ProPitch` virou a lista de recursos, com quatro para a Inteligência e quatro para o Claude Code.
 - **Textos:** os recursos da Inteligência reaproveitam os nomes e as frases dos modelos ("Orçamento inteligente", "Categorização automática", "Previsão por tag"). O card do Claude Code descreve o fluxo real: o extrato é compartilhado com o Claude e cada transação passa pela revisão antes de salvar. Entraram 17 textos novos, com as traduções, e saíram 3 que ficaram sem uso.
 - **Ordem no Início:** o card fica logo depois de "Disponível", antes do card da loja; quem é grátis vê primeiro o que é seu (resumo e disponível) e depois o convite.
+
+## 15/10/2026: coleção do mês acompanha a virada do mês
+
+- **Pergunta do usuário:** o ícone do mês é dinâmico e a seção muda de lugar quando o mês troca? Já era: `iconCollections(on:)` põe a coleção sazonal do mês (verão em janeiro, carnaval em fevereiro, festa junina em junho, Halloween em outubro, Natal em dezembro) no topo, com o selo de destaque, e as outras seguem a ordem fixa. Nos outros meses nenhuma é destacada.
+- **Falha corrigida:** a data vinha de `.now` no desenho, então com o app aberto na virada do mês a ordem só mudava quando a tela era redesenhada. Agora a data é estado do model (`SettingsModel.today`), atualizado ao abrir a tela e a cada `NSCalendarDayChanged` (`followDayChanges()`).
+- **Teste:** `theFeaturedCollectionMovesToTheTopWhenTheMonthChanges` (31/10 → Halloween no topo, 1/11 → ordem fixa, 1/12 → Natal).

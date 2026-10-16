@@ -52,6 +52,7 @@ public final class SettingsModel {
     public internal(set) var journey: JourneySummary?
     var isConfirmingHideJourney = false
     var currencyChoice: CurrencyChoice?
+    var today = Date.now
     public var data: DataModel?
     public var developer: DeveloperModel?
     public let notifications: NotificationsModel
