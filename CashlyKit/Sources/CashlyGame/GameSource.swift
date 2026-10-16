@@ -16,7 +16,7 @@ public struct RepositoriesGameSource: GameSource {
     }
 
     public func snapshot(today: Date) async throws -> GameSnapshot {
-        let data = try await repositories.dashboard.trainingData()
+        let data = try await repositories.dashboard.history()
         let catalog = try await repositories.dashboard.snapshot(month: nil)
         let events = try await repositories.game.events()
         let ledger = LedgerSnapshot(

@@ -125,33 +125,4 @@ struct ScenarioTests {
         #expect(after.conflicts.isEmpty)
         #expect(after.budgetsTotal.minorUnits == 1000)
     }
-
-    @Test func intelligenceRequiresEnoughHistoryAndCurrentRevision() async throws {
-        let db = try await TestDatabase()
-        try await sharedTagged(db)
-        let training = try await db.repositories.dashboard.trainingData()
-        let service = LocalIntelligenceService(
-            directory: FileManager.default.temporaryDirectory.appending(
-                path: "cashly-tests-" + UUID().uuidString))
-        await #expect(throws: CashlyError.self) {
-            try await service.train(
-                userID: db.owner.id, transactions: training.transactions, tags: training.tags,
-                revision: training.revision)
-        }
-        var bakery = try #require(training.transactions.first)
-        bakery.id = "another"
-        bakery.summary = "Compra Padaria"
-        bakery.date = try db.month(202_602).startDate
-        bakery.category = Category(
-            id: "bakery", user: db.owner, name: "Padaria", color: "0099FF", icon: "cart")
-        _ = try await service.train(
-            userID: db.owner.id, transactions: training.transactions + [bakery],
-            tags: training.tags, revision: training.revision)
-        let fresh = try await service.predict(
-            userID: db.owner.id, input: .text("Padaria"), revision: training.revision)
-        let stale = try await service.predict(
-            userID: db.owner.id, input: .text("Padaria"), revision: "changed")
-        #expect(fresh == .textClassification("bakery"))
-        #expect(stale == .empty)
-    }
 }

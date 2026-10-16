@@ -12,9 +12,7 @@ struct DataModelTests {
     private func model() async throws -> (DataModel, CashlyDatabase) {
         let database = try CashlyDatabase.open(inMemory: true)
         try await database.repositories(for: nil).users.save(owner)
-        let intelligence = LocalIntelligenceService(
-            directory: FileManager.default.temporaryDirectory.appending(path: UUID().uuidString))
-        return (DataModel(backup: database.backup, intelligence: intelligence), database)
+        return (DataModel(backup: database.backup), database)
     }
 
     private func backups(_ database: CashlyDatabase) async throws -> Int {

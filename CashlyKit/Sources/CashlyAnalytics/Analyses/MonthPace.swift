@@ -6,7 +6,7 @@ public struct MonthPace: Analysis {
     public static let title = "Month forecast"
     public static let detail =
         "Where the month should close: what already went out, scheduled bills and what you usually spend until the end of the month."
-    public static let version = 3
+    public static let version = 4
 
     public init() {}
 
@@ -45,7 +45,10 @@ public struct MonthPace: Analysis {
             .money("projected", "Month forecast", minorUnits: projected),
             Metric(key: "elapsedDays", label: "Days elapsed", value: Double(day), unit: .days),
         ]
+        let confidence: Provenance.Confidence =
+            history.count >= 3 ? .high : history.isEmpty ? (day < 10 ? .low : .medium) : .medium
         var summary = "The month should close at \(Formatting.money(projected))."
+        var findings: [Finding] = []
         if budgeted > 0 {
             metrics.append(.money("budgeted", "Planned", minorUnits: budgeted))
             let difference = projected - budgeted
@@ -53,10 +56,23 @@ public struct MonthPace: Analysis {
                 difference > 0
                 ? " That's \(Formatting.money(difference)) over plan."
                 : " \(Formatting.money(-difference)) of the plan is still left."
+            if difference > 0 {
+                findings.append(
+                    Finding(
+                        analysisID: Self.id, topic: .month, subject: "over-plan",
+                        label: Formatting.month(month),
+                        summary:
+                            "The month should close \(Formatting.money(difference)) over plan.",
+                        impact: difference,
+                        metrics: [
+                            .money("projected", "Month forecast", minorUnits: projected),
+                            .money("budgeted", "Planned", minorUnits: budgeted),
+                        ],
+                        confidence: confidence))
+            }
         }
-        let confidence: Provenance.Confidence =
-            history.count >= 3 ? .high : history.isEmpty ? (day < 10 ? .low : .medium) : .medium
         return result(
-            ledger, summary: summary, metrics: metrics, method: method, confidence: confidence)
+            ledger, summary: summary, metrics: metrics, findings: findings, method: method,
+            confidence: confidence)
     }
 }

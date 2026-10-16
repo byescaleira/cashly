@@ -40,10 +40,10 @@ public final class InsightsModel {
     }
 
     public struct Unusual: Equatable, Identifiable {
+        public let id: String
         public let name: String
         public let current: Double
         public let typical: Double
-        public var id: String { name }
 
         public var badge: String {
             guard typical > 0 else { return String(appLocalized: "New this month") }
@@ -66,12 +66,16 @@ public final class InsightsModel {
     }
 
     private var stored: [AnalysisID: AnalysisResult] = [:]
+    private var feedback = InsightFeedback()
+    private var month = YearMonth(.now)
     private var day = Calendar.current.startOfDay(for: .now)
     @ObservationIgnored private let session: SessionModel
     @ObservationIgnored private let engine = AnalysisEngine()
+    @ObservationIgnored private let store: InsightFeedbackStore
 
-    public init(session: SessionModel) {
+    public init(session: SessionModel, defaults: UserDefaults = .standard) {
         self.session = session
+        store = InsightFeedbackStore(defaults: defaults)
     }
 
     public var key: Key {
@@ -82,21 +86,27 @@ public final class InsightsModel {
         session.filter.isCustomized ? [:] : stored
     }
 
+    private var findings: [Finding] {
+        InsightRanking.rank(results.values.flatMap(\.findings), feedback: feedback, in: month)
+    }
+
     public func checkDay() {
         let today = Calendar.current.startOfDay(for: .now)
         if today != day { day = today }
     }
 
     public func load() async {
-        guard session.user != nil else {
+        guard let userID = session.user?.id else {
             stored = [:]
             return
         }
+        feedback = store.feedback(for: userID)
         do {
             let ledger = try await RepositoriesLedgerSource(repositories: session.repositories)
                 .ledger(today: .now)
             let all = await engine.runAll(on: ledger)
             guard !Task.isCancelled else { return }
+            month = ledger.currentMonth
             stored = Dictionary(all.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         } catch {
             stored = [:]
@@ -132,9 +142,19 @@ public final class InsightsModel {
     }
 
     public var unusual: [Unusual] {
-        results[UnusualCategories.id]?.series.map {
-            Unusual(name: $0.label.capitalized, current: $0.value, typical: $0.reference ?? 0)
-        } ?? []
+        findings.filter { $0.analysisID == UnusualCategories.id }.prefix(3).map {
+            Unusual(
+                id: $0.id, name: $0.label.capitalized, current: $0.metric("current")?.value ?? 0,
+                typical: $0.metric("typical")?.value ?? 0)
+        }
+    }
+
+    public func markExpected(_ item: Unusual) {
+        guard let finding = findings.first(where: { $0.id == item.id }),
+            let userID = session.user?.id
+        else { return }
+        feedback.markExpected(finding, in: month)
+        store.save(feedback, for: userID)
     }
 
     public var commitments: Commitments? {

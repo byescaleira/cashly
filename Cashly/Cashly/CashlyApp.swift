@@ -62,7 +62,6 @@ private final class CashlyBootstrap {
     private(set) var error: String?
     private(set) var mcp: MCPModel?
     let flags: FeatureFlags
-    let intelligence = LocalIntelligenceService()
     private let settings: SettingsModel
     @ObservationIgnored private var isListeningToSync = false
 
@@ -86,6 +85,7 @@ private final class CashlyBootstrap {
     func prepare() async {
         guard database == nil else { return }
         error = nil
+        LegacyIntelligenceFiles.remove()
         let cloudSync = settings.syncsAtLaunch
         if cloudSync && !isListeningToSync {
             isListeningToSync = true
@@ -107,8 +107,7 @@ private final class CashlyBootstrap {
                 mcp = MCPModel(provider: database, serviceName: Self.deviceName)
             }
             let data = DataModel(
-                backup: database.backup, intelligence: intelligence,
-                cloud: .container(CashlyDatabase.cloudContainer))
+                backup: database.backup, cloud: .container(CashlyDatabase.cloudContainer))
             settings.data = data
             #if DEBUG
                 settings.developer = DeveloperModel(
@@ -157,8 +156,7 @@ private struct CashlyRootView: View {
             guard !Task.isCancelled else { return }
             if let database = bootstrap.database {
                 window = CashlyWindow(
-                    provider: database, intelligence: bootstrap.intelligence,
-                    flags: bootstrap.flags)
+                    provider: database, flags: bootstrap.flags)
                 launch.finish(.database)
             }
         }

@@ -90,7 +90,9 @@ public struct MainScreen: View {
             await notifications.reviewCaptures(
                 for: session.user, repositories: session.repositories,
                 categories: finance.allCategories)
-            await intelligence.loadModels(revision: finance.datasetRevision)
+        }
+        .task(id: intelligence.key(revision: finance.datasetRevision)) {
+            await intelligence.load()
         }
         .task(id: journeyKey) {
             guard session.isReady(finance), scenePhase == .active else {

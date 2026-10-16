@@ -64,7 +64,7 @@ struct MigrationReport {
                     pending: state.overview.pendingReferences,
                     ownerMinor: state.overview.expensesTotal.minorUnits,
                     budgetMinor: state.overview.budgetsTotal.minorUnits))
-            report.records += try await dashboard.trainingData().transactions.map(record)
+            report.records += try await dashboard.history().transactions.map(record)
         }
         report.counts = try counts(in: ModelContext(database.modelContainer))
         return report

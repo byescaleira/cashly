@@ -726,3 +726,16 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 
 - **Merge** de `feature/home-shop` com `feature/currency`: as duas mexeram na barra do Início. A barra fica em `HomeToolbar`: `UserMenu` no leading, o conversor, o filtro e a sacola da loja sozinha no fim em `.primaryAction`, cada grupo separado por `FixedToolbarSpacer`.
 - **Terminologia:** a mensagem do editor de pagamento em outra moeda que falava em "participants" passou a "shared profiles" ("perfis da divisão"), seguindo a regra de perfil.
+
+## 16/10/2026: inteligência I1, fatos e ranqueamento
+
+- **Início por perguntas e seis etapas (I1 a I6)** em [analytics.md](analytics.md). Pedido do usuário: mais informação sobre como a pessoa gasta e como pode economizar, e repensar Foundation Models e ML.
+- **`Finding` e `Recommendation` no motor.** As análises devolvem fatos com tema, assunto, impacto mensal em centavos e confiança; o `UnusualCategories` (v3) emite um por categoria, com a economia de voltar ao padrão, e o `MonthPace` (v4) emite um quando a previsão passa do plano.
+- **`InsightRanking`:** impacto × peso da confiança (certo 1, alta 0,9, média 0,7, baixa 0,4). Sem dividir pelo gasto do mês, porque todos os fatos têm o mesmo denominador e a ordem não muda.
+- **"Esperado neste mês" no Fora do padrão.** Deslizar ou tocar e segurar uma categoria esconde o fato até o mês seguinte; o `InsightFeedback` guarda só as marcações do mês atual em diante, por perfil, no `UserDefaults`. Útil e não útil ficaram para os cartões da I2 e da I3, onde há onde tocar.
+- **Fim do treino manual.** `IntelligenceService`, `LocalIntelligenceService`, os tipos de previsão do domínio e a tela Ajustes › Inteligência saíram. As sugestões de valor do orçamento (mediana de até seis meses, antes era a média) e de categoria (o mesmo Naive Bayes) são calculadas pelo `Suggestions` a partir do retrato, sem arquivo salvo nem revisão de modelo. A previsão por etiqueta saiu porque nenhuma tela a usava. Continua tudo atrás da flag `intelligence`.
+- **`trainingData()` virou `history()`** (`TransactionHistory`), porque alimenta o motor, a Jornada e a auditoria, não um treino.
+- **Sugestões com o histórico inteiro do perfil.** O treino antigo usava só as transações criadas pelo perfil; o `Suggestions` lê o mesmo retrato do motor, com as divididas por outros perfis, para que as sugestões e as análises do Início partam dos mesmos números.
+- **Limpeza:** o bootstrap e "Apagar tudo" removem a pasta antiga `Application Support/Cashly/Intelligence` (descrições das transações em JSON), e "Apagar tudo" apaga também as marcações "Esperado" de cada perfil (`InsightFeedbackStore`, no `FeatureCore`).
+- **Revisões:** `apple-sdd:code-reviewer` (sugestões presas ao perfil anterior, flag ligada sem recálculo, arquivos antigos, feedback no apagar tudo, testes do `InsightsModel`) e `apple-sdd:design-reviewer` (Reduzir movimento, linha como um elemento no VoiceOver, tipografia dos tokens, mesmo rótulo no deslizar e no menu). As referências `settings-structure.md` e `analytics-and-intelligence.md` do apple-sdd foram atualizadas sem a linha Inteligência.
+

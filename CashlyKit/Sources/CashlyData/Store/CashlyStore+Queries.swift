@@ -236,11 +236,10 @@ extension CashlyStore {
             return overview
         }
     }
-    public func trainingData(userID: String) throws -> TrainingDataset {
+    public func history(userID: String) throws -> TransactionHistory {
         let catalog = try catalog(userID: userID)
         guard catalog.pendingReferences == 0 else {
-            throw CashlyError.intelligence(
-                String(appLocalized: "Wait for sync to finish before training the models."))
+            throw CashlyError.persistence(String(appLocalized: "Wait for sync to finish."))
         }
         var items: [CashlyDomain.Transaction] = []
         var cursor: TransactionCursor?
@@ -251,14 +250,13 @@ extension CashlyStore {
             guard !rows.isEmpty else { break }
             let mapped = try mapTransactions(rows, userID: userID, catalog: catalog)
             guard mapped.pending == 0 else {
-                throw CashlyError.intelligence(
-                    String(appLocalized: "Wait for sync to finish before training the models."))
+                throw CashlyError.persistence(String(appLocalized: "Wait for sync to finish."))
             }
             items.append(contentsOf: mapped.items)
             cursor = rows.last.map { TransactionCursor(timestamp: $0.date, id: $0.id) }
             if rows.count < 500 { break }
         } while cursor != nil
-        return TrainingDataset(
+        return TransactionHistory(
             transactions: items, tags: catalog.tags, revision: try datasetRevision(userID: userID))
     }
     public func datasetRevision(userID: String) throws -> String {

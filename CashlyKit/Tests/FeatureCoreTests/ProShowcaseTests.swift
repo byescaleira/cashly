@@ -2,7 +2,7 @@ import FeatureCore
 import Testing
 
 struct ProShowcaseTests {
-    private let showcases: [ProShowcase] = [.home, .data, .intelligence, .claudeCode]
+    private let showcases: [ProShowcase] = [.home, .data, .claudeCode]
 
     @Test func everyPitchBelongsToExactlyOneScreen() {
         let listed = showcases.flatMap(\.pitches)

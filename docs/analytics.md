@@ -208,8 +208,8 @@ Em 16/10/2026 o Início passou a responder a quatro perguntas, e a inteligência
 
 - **`Finding`:** um fato relevante de uma análise, com assunto (categoria, estabelecimento), tema (`month`, `spending`, `saving`, `upcoming`), impacto mensal em centavos, confiança e evidências. Pode trazer uma `Recommendation` com a economia mensal estimada.
 - **`InsightRanking`:** ordena os fatos por impacto em relação ao gasto do mês × confiança × retorno da pessoa. Cada bloco do Início mostra os fatos do seu tema nessa ordem.
-- **`InsightFeedback`:** a pessoa marca um fato como esperado neste mês (some até o mês seguinte) ou como útil e não útil (peso maior ou menor no ranqueamento). Fica só no aparelho.
-- **Sugestões sem treino:** valor de orçamento e de etiqueta pela mediana dos meses recentes e categoria pela descrição, calculados do retrato na hora. O treino manual e a tela de treino saem; as sugestões continuam atrás da flag `intelligence`.
+- **`InsightFeedback`:** a pessoa marca um fato como esperado neste mês e ele some até o mês seguinte. Fica só no aparelho, por perfil. "Útil" e "não útil" entram com os cartões da I2 e da I3, como peso no ranqueamento.
+- **Sugestões sem treino (`Suggestions`):** valor de orçamento pela mediana de até seis meses anteriores e categoria pela descrição (Naive Bayes), calculados do retrato na hora. O treino manual, a tela Ajustes › Inteligência e a previsão por etiqueta (que nada usava) saíram; as sugestões continuam atrás da flag `intelligence`.
 
 ## Fases
 

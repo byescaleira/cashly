@@ -6,6 +6,7 @@ public struct Posting: Hashable, Sendable {
     public let month: YearMonth
     public let date: Date
     public let categoryID: String
+    public let summary: String
     public let tagIDs: Set<String>
     public let kind: TransactionKind
     public let status: TransactionStatus
@@ -26,7 +27,7 @@ extension Transaction {
             guard money.minorUnits != 0, let date = billingDate(in: month) else { return nil }
             return Posting(
                 transactionID: id, month: month, date: date, categoryID: category.id,
-                tagIDs: tagIDs,
+                summary: summary, tagIDs: tagIDs,
                 kind: kind, status: status, minorUnits: money.minorUnits, installment: offset + 1,
                 installments: installmentCount)
         }

@@ -4,6 +4,6 @@ public protocol DashboardRepository: Sendable {
     func overview(query: TransactionQuery) async throws -> CashlyOverview
     func page(query: TransactionQuery, after cursor: TransactionCursor?, limit: Int) async throws
         -> TransactionPage
-    func trainingData() async throws -> TrainingDataset
+    func history() async throws -> TransactionHistory
     func datasetRevision() async throws -> String
 }

@@ -23,7 +23,7 @@ public struct BudgetEditorScreen: View {
             if model.canSuggestAmount(with: intelligence) {
                 ToolbarItem {
                     Button("Suggest Amount", systemImage: "bolt") {
-                        pro.perform { Task { await model.suggestAmount(with: intelligence) } }
+                        pro.perform { model.suggestAmount(with: intelligence) }
                     }
                     .accessibilityValue(
                         pro.isPro ? "" : String(appLocalized: "Requires Cashly Pro")

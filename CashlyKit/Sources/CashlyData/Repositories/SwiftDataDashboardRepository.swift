@@ -27,8 +27,8 @@ struct SwiftDataDashboardRepository: DashboardRepository {
             userID: scope.requireUserID(), query: query, after: cursor, limit: limit)
     }
 
-    func trainingData() async throws -> TrainingDataset {
-        try await scope.store.trainingData(userID: scope.requireUserID())
+    func history() async throws -> TransactionHistory {
+        try await scope.store.history(userID: scope.requireUserID())
     }
 
     func datasetRevision() async throws -> String {

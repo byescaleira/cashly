@@ -116,7 +116,7 @@ public final class TransactionEditorModel {
     }
 
     public func canEnablePrediction(with intelligence: IntelligenceModel) -> Bool {
-        repositories.userID != nil && intelligence.hasModel(.categoryName) && !isPredictingCategory
+        repositories.userID != nil && intelligence.canSuggestCategory && !isPredictingCategory
     }
 
     public func enablePrediction() {
@@ -125,12 +125,10 @@ public final class TransactionEditorModel {
 
     public func predictCategory(with intelligence: IntelligenceModel) async {
         guard isPredictingCategory, draft.kind == .expense, !draft.summary.isEmpty,
-            repositories.userID != nil, intelligence.hasModel(.categoryName)
+            repositories.userID != nil, intelligence.canSuggestCategory
         else { return }
         try? await Task.sleep(for: .milliseconds(350))
-        guard !Task.isCancelled else { return }
-        let prediction = await intelligence.predict(.text(draft.summary))
-        guard !Task.isCancelled, case .textClassification(let id) = prediction,
+        guard !Task.isCancelled, let id = intelligence.category(for: draft.summary),
             let category = draft.categories.first(where: { $0.id == id })
         else { return }
         draft.category = category
