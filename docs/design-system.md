@@ -49,7 +49,6 @@ O pacote não depende de nenhum outro módulo do app. Componentes que precisam d
 | `.medallion` | 112 | Medalhão animado da folha de conquista |
 | `.barHeight` | 10 | Barras de progresso e segmentadas |
 | `.rowHeight` | 44 | Altura mínima das linhas |
-| `.blurCurtain` | 8 | Desfoque da prévia sob o tapume do Cashly Pro (`ProCurtain`) |
 
 ### Tipografia (`Font`)
 

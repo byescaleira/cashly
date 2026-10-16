@@ -8,10 +8,8 @@ struct OutlookSection: View {
 
     var body: some View {
         if let outlook = insights.outlook {
-            ProCurtainSection(.forecast) {
+            ProOnly {
                 OutlookContent(outlook: outlook)
-            } preview: {
-                OutlookHero(outlook: outlook)
             }
         }
     }

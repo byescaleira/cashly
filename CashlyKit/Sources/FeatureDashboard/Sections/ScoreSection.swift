@@ -9,10 +9,8 @@ struct ScoreSection: View {
 
     var body: some View {
         if !session.users.isEmpty {
-            ProCurtainSection(.score) {
+            ProOnly {
                 ScoreContent(health: finance.health)
-            } preview: {
-                ScoreCard(health: finance.health)
             }
         }
     }

@@ -16,6 +16,7 @@ public struct HomeScreen: View {
             SpendingSummarySection()
             ScoreSection()
             AvailableSection()
+            ProShowcaseSection(.home)
             ShopSpotlightSection()
             OutlookSection()
             HistorySection()

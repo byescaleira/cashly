@@ -4,14 +4,11 @@ import SwiftUI
 
 struct TagsSection: View {
     @Environment(FinanceModel.self) private var finance
-    @Environment(ReportsModel.self) private var reports
 
     var body: some View {
         if !finance.tags.isEmpty {
-            ProCurtainSection(.tags) {
+            ProOnly {
                 TagsContent()
-            } preview: {
-                ExpenseChart(data: reports.tagPoints)
             }
         }
     }

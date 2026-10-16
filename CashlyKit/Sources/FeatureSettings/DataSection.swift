@@ -11,17 +11,12 @@ struct DataSection: View {
         Group {
             DataSummarySection()
             DataExportSection()
-            ProCurtainSection(.backups) {
+            ProShowcaseSection(.data)
+            ProOnly {
                 BackupScheduleSection()
                 BackupCloudSection()
                 SavedBackupsSection()
-            } preview: {
-                BackupPreview()
-            }
-            ProCurtainSection(.imports) {
                 DataImportSection()
-            } preview: {
-                ImportPreview()
             }
             EraseSection()
         }
@@ -161,24 +156,6 @@ struct DataAlerts: ViewModifier {
 extension View {
     func dataAlerts() -> some View {
         modifier(DataAlerts())
-    }
-}
-
-private struct BackupPreview: View {
-    var body: some View {
-        VStack(spacing: .spaceM) {
-            Toggle(isOn: .constant(true)) { AutoBackupLabel() }.tint(.positive)
-            Toggle(isOn: .constant(false)) { CloudBackupLabel() }.tint(.positive)
-        }
-    }
-}
-
-private struct ImportPreview: View {
-    var body: some View {
-        VStack(spacing: .spaceM) {
-            ImportBackupLabel()
-            ImportSpreadsheetLabel()
-        }
     }
 }
 

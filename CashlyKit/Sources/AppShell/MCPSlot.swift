@@ -21,12 +21,10 @@ public struct MCPSettingsSlot: View {
                 value: pro.lockedValue ?? mcp.overviewValue
             ) {
                 SettingsPage("Claude Code") {
-                    ProCurtainSection(.claudeCode) {
+                    ProOnly {
                         MCPSettingsSection()
-                    } preview: {
-                        Toggle("Allow Access from Claude Code", isOn: .constant(false))
-                            .tint(.positive)
                     }
+                    ProShowcaseSection(.claudeCode)
                 }
                 .environment(mcp)
             }
