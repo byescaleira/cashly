@@ -9,6 +9,10 @@ public final class TransactionEditorModel {
     public let status = EditorStatus()
     @ObservationIgnored private let repositories: Repositories
     @ObservationIgnored private let capture: Capture?
+    @ObservationIgnored let rates: any ExchangeRateProviding
+    public internal(set) var paidCurrencies: [String] = CurrencySetting.supported
+    public internal(set) var isFetchingRate = false
+    public internal(set) var rateFailed = false
     @ObservationIgnored private var original: CashlyDomain.Transaction?
     private var predictsCategory: Bool?
     public var isPro = false
@@ -16,14 +20,18 @@ public final class TransactionEditorModel {
     @ObservationIgnored private var dismissedTagIDs: Set<String> = []
 
     public init(
-        draft: TransactionDraft = .new(), repositories: Repositories, capture: Capture? = nil
+        draft: TransactionDraft = .new(), repositories: Repositories, capture: Capture? = nil,
+        rates: any ExchangeRateProviding = UnavailableExchangeRates()
     ) {
         self.draft = draft
         self.repositories = repositories
         self.capture = capture
+        self.rates = rates
     }
 
-    public var canSave: Bool { status.isLoaded && !status.isLocked && draft.canSave }
+    public var canSave: Bool {
+        status.isLoaded && !status.isLocked && !isFetchingRate && draft.canSave
+    }
     public var canRemove: Bool { !draft.isNew && !status.isBusy }
     public var isPredictingCategory: Bool { isPro && (predictsCategory ?? draft.isNew) }
 
@@ -50,6 +58,14 @@ public final class TransactionEditorModel {
             }
             if newValue == .income { selectParticipants([]) }
         }
+    }
+
+    var keptExchange: TransactionExchange? {
+        guard let original, original.estimate == nil, let exchange = original.exchange,
+            exchange.currencyCode == draft.paidCurrency,
+            ExchangeTable.day(for: original.date) == ExchangeTable.day(for: draft.date)
+        else { return nil }
+        return exchange
     }
 
     public var splitStatus: TransactionStatus {

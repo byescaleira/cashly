@@ -45,6 +45,17 @@ public struct Money: Hashable, Comparable, Sendable {
         return Money(minorUnits: value)
     }
 
+    public func converted(by rate: Decimal) throws -> Money {
+        var scaled = Decimal(minorUnits) * rate
+        var rounded = Decimal()
+        NSDecimalRound(&rounded, &scaled, 0, .plain)
+        guard rate > 0, rounded.isFinite, abs(rounded) <= 900_000_000_000_000 else {
+            throw CashlyError.invalidInput(
+                String(appLocalized: "The amount is outside the allowed range."))
+        }
+        return Money(minorUnits: NSDecimalNumber(decimal: rounded).int64Value)
+    }
+
     public func divided(into count: Int) throws -> [Money] {
         guard (1...10_000).contains(count), minorUnits >= 0 else { throw CashlyError.onSave }
         let quotient = minorUnits / Int64(count)

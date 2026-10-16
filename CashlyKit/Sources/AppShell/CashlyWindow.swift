@@ -35,5 +35,6 @@ extension View {
             .environment(window.store)
             .environment(window.navigation)
             .environment(\.user, window.session.user)
+            .environment(\.exchangeRates, CashlyServices.shared.exchangeRates)
     }
 }

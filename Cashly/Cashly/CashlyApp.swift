@@ -20,10 +20,13 @@ struct CashlyApp: App {
 
     init() {
         #if targetEnvironment(simulator)
-            let settings = SettingsModel(cloudContainer: nil)
+            let settings = SettingsModel(
+                cloudContainer: nil, rates: CashlyServices.shared.exchangeRates)
             CashlyTips.configure(cloudContainer: nil)
         #else
-            let settings = SettingsModel(cloudContainer: CashlyDatabase.cloudContainer)
+            let settings = SettingsModel(
+                cloudContainer: CashlyDatabase.cloudContainer,
+                rates: CashlyServices.shared.exchangeRates)
             CashlyTips.configure(cloudContainer: CashlyDatabase.cloudContainer)
         #endif
         _settings = State(initialValue: settings)
@@ -118,6 +121,7 @@ private final class CashlyBootstrap {
             Task {
                 if await CashlyServices.shared.isPro() { await data.runAutoBackupIfNeeded() }
             }
+            Task { [settings] in await settings.prepareCorrection() }
         } catch {
             self.error = error.localizedDescription
         }

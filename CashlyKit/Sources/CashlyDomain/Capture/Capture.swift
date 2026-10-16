@@ -22,6 +22,7 @@ public struct Capture: Identifiable, Hashable, Sendable {
     public var status: Status
     public var transactionID: String?
     public var createdAt: Date
+    public var currencyCode = Money.currencyCode
 
     public init(
         id: String = UUID().uuidString, ownerID: String, money: Money, merchant: String,

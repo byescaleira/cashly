@@ -24,7 +24,9 @@ public final class SessionModel {
     public var query: TransactionQuery { filter.query }
 
     public var loadKey: SessionLoadKey {
-        SessionLoadKey(userID: user?.id, query: query, generation: generation)
+        SessionLoadKey(
+            userID: user?.id, query: query, generation: generation,
+            currency: CurrencySetting.shared.code, correction: CurrencySetting.shared.correction)
     }
 
     public func start() async {

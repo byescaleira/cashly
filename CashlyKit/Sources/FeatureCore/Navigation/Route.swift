@@ -11,4 +11,5 @@ public enum Route: Hashable {
     case budgets
     case budgetConflict(categoryID: String, month: YearMonth)
     case shop
+    case converter
 }

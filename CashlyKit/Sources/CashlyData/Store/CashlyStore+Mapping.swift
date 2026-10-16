@@ -33,13 +33,14 @@ extension CashlyStore {
         guard let budgetMonth = YearMonth(rawValue: row.date) else {
             throw CashlyError.missingRecord
         }
-        return Budget(
-            id: row.id,
-            money: try money(
-                minorUnits: row.amountMinorUnits, legacy: row.amount, currencyCode: row.currencyCode
-            ),
-            category: category, month: budgetMonth, summary: row.summary,
-            isConflicted: row.isConflicted || conflicted)
+        return try estimatedBudget(
+            Budget(
+                id: row.id,
+                money: try money(
+                    minorUnits: row.amountMinorUnits, legacy: row.amount,
+                    currencyCode: row.currencyCode),
+                category: category, month: budgetMonth, summary: row.summary,
+                isConflicted: row.isConflicted || conflicted, currencyCode: row.currencyCode))
     }
     func mapTag(_ row: TagEntity) throws -> Tag {
         guard let user = try getUser(id: row.user) else { throw CashlyError.missingRecord }
@@ -115,13 +116,16 @@ extension CashlyStore {
                     related[index].allocatedMoney = allocation.participants[related[index].id]
                 }
                 items.append(
-                    CashlyDomain.Transaction(
-                        id: row.id, participants: related, category: category, money: value,
-                        date: Date(timeIntervalSince1970: row.date),
-                        summary: row.summary, status: status,
-                        splitMode: row.splitMode.flatMap(TransactionSplitMode.init),
-                        splitValue: allocation.owner.doubleValue, paymentsPlan: row.paymentsPlan,
-                        ownerMoney: allocation.owner, tagIDs: Set(row.tagIDs), kind: kind))
+                    try estimatedTransaction(
+                        CashlyDomain.Transaction(
+                            id: row.id, participants: related, category: category, money: value,
+                            date: Date(timeIntervalSince1970: row.date),
+                            summary: row.summary, status: status,
+                            splitMode: row.splitMode.flatMap(TransactionSplitMode.init),
+                            splitValue: allocation.owner.doubleValue,
+                            paymentsPlan: row.paymentsPlan,
+                            ownerMoney: allocation.owner, tagIDs: Set(row.tagIDs), kind: kind,
+                            currencyCode: row.currencyCode, exchange: exchange(of: row))))
             } catch { pending += 1 }
         }
         return (items, pending)

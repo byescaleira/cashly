@@ -2,7 +2,7 @@ import Foundation
 
 public struct CashlyBackup: Codable, Equatable, Sendable {
     public static let format = "cashly-backup"
-    public static let version = 1
+    public static let version = 2
 
     public var format: String
     public var version: Int
@@ -34,6 +34,7 @@ public struct CashlyBackup: Codable, Equatable, Sendable {
         public var month: Int
         public var amount: Int64
         public var summary: String
+        public var currency: String?
     }
 
     public struct TransactionRecord: Codable, Equatable, Sendable {
@@ -49,6 +50,11 @@ public struct CashlyBackup: Codable, Equatable, Sendable {
         public var paymentsPlan: Int?
         public var tagIDs: [String]
         public var participants: [ParticipantRecord]
+        public var currency: String?
+        public var paidCurrency: String?
+        public var paidAmount: Int64?
+        public var exchangeRate: Decimal?
+        public var exchangeRateDate: Date?
     }
 
     public struct ParticipantRecord: Codable, Equatable, Sendable {

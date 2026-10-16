@@ -5,4 +5,8 @@ extension Money {
     public var formatted: String {
         decimalValue.formatted(.currency(code: Money.currencyCode).locale(.app))
     }
+
+    public func formatted(currency code: String) -> String {
+        decimalValue.formatted(.currency(code: code).locale(.app))
+    }
 }

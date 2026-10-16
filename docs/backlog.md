@@ -4,9 +4,15 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 
 ## Antes de distribuir
 
+- **[P1] Publicar o schema V6 no CloudKit de produção** (moeda paga e cotação da transação) no CloudKit Console antes de distribuir uma build com a branch de moedas.
+- **[P1] Testar moedas no iPhone físico** (etapa e de [currency.md](currency.md)): a instalação migra o banco do aparelho para o V6, e as branches que ainda estão no V5 deixam de abrir esse banco. Por decisão do usuário em 15/10/2026, o teste fica para depois do merge.
+
 - **[P1] Validar CloudKit em dois aparelhos assinados:** offline e reconexão, referências que chegam em momentos diferentes, conflitos concorrentes, exclusões e troca de usuários. Só dá para fazer com dois aparelhos (fica com o usuário); o lado automático está coberto: `scripts/audit.sh`, os `ScenarioTests` e, desde 12/10/2026, a resolução de conflito usa um carimbo monotônico (`max(agora, último visto + 1)`), então uma escolha feita depois de ver a anterior vence mesmo com o relógio atrasado.
 
 ## Desempenho e dados
+
+- **[P3] Adiar conta em outra moeda.** `IntentActions.postpone` muda a data e mantém a cotação da data original. Buscar a cotação da nova data ou avisar.
+- **[P3] Orçamento estimado sem "≈" na linha.** Metas mostra o aviso de estimativa no rodapé do mês, mas as linhas de orçamento não marcam qual valor foi convertido.
 
 - **[P2] Agregação proporcional ao volume.** Lista e detalhe são paginados e indexados, mas o resumo do período e a revisão do treino leem tudo, no mesmo actor das gravações. Medição anterior: 50 mil transações no mesmo mês levaram 12,1 s no resumo. Se esse volume for requisito, criar projeções mensais reconstruíveis e revisão persistida.
 - **[P2] Competência depende do fuso do aparelho.** Separar instante, data civil, competência, vencimento e pagamento; persistir a competência escolhida.
@@ -15,7 +21,6 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 - **[P2] Resumo de Dados e Backup lê o banco inteiro.** `DataModel.refreshInventory()` usa `backup.export()` para contar registros, período e tamanho a cada visita à página. Em 15/10/2026 isso, somado à recarga a cada mudança do banco (sincronização do iCloud), fez a página piscar e travar no iPhone; a recarga passou a ser só ao abrir e ao trocar de perfil. Trocar por contagens no repositório e estimar o tamanho.
 - **[P3] Data do arquivo de backup em UTC.** `BackupFolder.name(on:)` usa `.iso8601`, que formata em GMT; à noite no Brasil a cópia leva o dia seguinte no nome. As datas relativas da página usam o mesmo calendário GMT para não divergir do nome.
 - **[P2] Atualização duplicada após salvar.** `.editorLifecycle` recarrega a sessão e o `CashlyChangeHub` também avisa; centralizar o refresh.
-- **[P3] Múltiplas moedas.** O app tem uma moeda escolhida nos Ajustes, e cada registro grava a moeda em que foi salvo, mas os totais somam tudo sem conversão. Se contas em moedas diferentes entrarem no escopo, incluir a moeda no `Money` e tratar câmbio como operação explícita.
 
 ## Inteligência e integrações
 

@@ -20,7 +20,10 @@ struct TransactionTotalSection: View {
             } header: {
                 TotalHeader(totals: totals)
             } footer: {
-                if list.isFilteredOut { Text("No transactions match these filters.") }
+                VStack(alignment: .leading, spacing: .spaceS) {
+                    if list.isFilteredOut { Text("No transactions match these filters.") }
+                    EstimatesNotice()
+                }
             }
             .animation(reduceMotion ? nil : .smooth, value: totals)
         }

@@ -33,6 +33,7 @@ extension CashlyStore {
     }
 
     func upsert(_ budget: Budget, userID: String, allowsConflict: Bool) throws {
+        let budget = budget.stored
         let id = budget.id
         let money = budget.money
         let category = budget.category
@@ -42,7 +43,7 @@ extension CashlyStore {
         _ = try requireCategory(id: category.id, userID: userID)
         guard category.user.id == userID else { throw CashlyError.onSave }
         let canonical = money
-        guard canonical.minorUnits > 0,
+        guard canonical.minorUnits > 0, CurrencySetting.isSupported(budget.currencyCode),
             summary.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3,
             try modelContext.fetch(
                 FetchDescriptor<CategoryEntity>(predicate: #Predicate { $0.id == categoryID })
@@ -78,7 +79,7 @@ extension CashlyStore {
         entity.amount = canonical.doubleValue
         entity.amountMinorUnits = canonical.minorUnits
         entity.amountSource = entity.amount
-        entity.currencyCode = Money.currencyCode
+        entity.currencyCode = budget.currencyCode
         entity.category = category.id
         entity.date = date
         entity.summary = summary
