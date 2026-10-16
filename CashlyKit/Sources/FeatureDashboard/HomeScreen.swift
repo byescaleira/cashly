@@ -31,6 +31,8 @@ public struct HomeScreen: View {
         .toolbar {
             ToolbarItem(placement: .leading) { UserMenu() }
             ToolbarItem { FilterMenu() }
+            FixedToolbarSpacer()
+            ToolbarItem(placement: .primaryAction) { ShopButton() }
         }
         .refreshable { await finance.load() }
         .navigationTitle("Home")
@@ -41,5 +43,15 @@ public struct HomeScreen: View {
                 insights.checkDay()
             }
         }
+    }
+}
+
+private struct ShopButton: View {
+    @Environment(\.open) private var open
+    @Environment(\.navigationSection) private var section
+
+    var body: some View {
+        Button("Shop", systemImage: "bag") { open(.shop, in: section) }
+            .tint(Color.primary)
     }
 }

@@ -697,3 +697,8 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Criar perfil:** "Add User" (`person.badge.plus`, tinta primária) na barra dos Ajustes. A primeira versão, com cápsulas "Edit User" e "Add User" embaixo dos chips, foi recusada pelo usuário ("ficaram muito ruins").
 - **Fundo animado:** a primeira versão, uma aura de manchas desfocadas em `Canvas`, foi recusada; o usuário pediu "algum lottie em loop tipo o confetti, mas não é confetti". Entrou a Lottie `profile` (`scripts/animations.py`): 14 brilhos (`sparkle`), estrelas e pontos nas cores da paleta (`tint`, mostarda, oliva, denim, ameixa) piscando e flutuando em fases diferentes. Cada partícula segue um ciclo de 150 quadros, então o loop não tem emenda. Fica preso ao topo do cabeçalho (`.background(alignment: .top)`), atrás da foto e do nome; com Reduzir movimento, fica no último quadro.
 - **Acessibilidade:** o cabeçalho deixou de usar o `SettingsHero`, que junta tudo num elemento. A foto e o nome são um botão com a dica "Edit User"; os chips seguem juntos.
+
+## 15/10/2026: loja na barra do Início
+
+- **Pedido do usuário:** um botão da loja na barra do Início, a tela mais aberta.
+- **Como ficou:** `Button("Shop", systemImage: "bag")` com `.tint(Color.primary)`, sozinha no fim em `.primaryAction`, separada do filtro por `FixedToolbarSpacer` (a loja é navegação para fora; o filtro é da tela), igual ao padrão de Metas e à sacola da Jornada. Abre a loja por `open(.shop, in: section)`, que no iPad abre ao lado. O card "Da loja" continua no meio do Início para o item do mês.
