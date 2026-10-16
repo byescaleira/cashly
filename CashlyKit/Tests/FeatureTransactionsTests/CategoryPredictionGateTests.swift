@@ -4,30 +4,6 @@ import FeatureTransactions
 import Foundation
 import Testing
 
-private struct ClassifyingService: IntelligenceService {
-    let categoryID: String
-
-    func models(userID: String) async throws -> [IntelligenceModelInfo] {
-        [
-            IntelligenceModelInfo(
-                kind: .categoryName, updateDate: .now, sampleCount: 5, datasetRevision: "r1")
-        ]
-    }
-
-    func train(
-        userID: String, transactions: [CashlyDomain.Transaction], tags: [CashlyDomain.Tag],
-        revision: String
-    )
-        async throws -> [IntelligenceModelInfo]
-    { try await models(userID: userID) }
-
-    func predict(userID: String, input: CashlyPredictionInput, revision: String) async throws
-        -> CashlyPredictionResult
-    { .textClassification(categoryID) }
-
-    func clean(userID: String) async throws {}
-}
-
 @MainActor
 struct CategoryPredictionGateTests {
     private func editor(intelligenceOn: Bool) async throws -> (
@@ -37,12 +13,16 @@ struct CategoryPredictionGateTests {
         let market = Category(
             id: "market", user: fixture.owner, name: "Mercado", color: "0099FF", icon: "cart")
         try await fixture.repositories.categories.save(market)
+        var feira = fixture.expense("feira", cents: 5_000, category: market)
+        feira.summary = "Feira do bairro"
+        var bus = fixture.expense("bus", cents: 500)
+        bus.summary = "Ônibus"
+        try await fixture.repositories.transactions.save(feira)
+        try await fixture.repositories.transactions.save(bus)
         let flags = FeatureFlags(defaults: UserDefaults(suiteName: UUID().uuidString) ?? .standard)
         if intelligenceOn { flags.override(.intelligence, true) }
-        let intelligence = IntelligenceModel(
-            service: ClassifyingService(categoryID: market.id), session: await fixture.session(),
-            flags: flags)
-        await intelligence.loadModels(revision: "r1")
+        let intelligence = IntelligenceModel(session: await fixture.session(), flags: flags)
+        await intelligence.load()
         let editor = TransactionEditorModel(repositories: fixture.repositories)
         editor.isPro = true
         await editor.load()

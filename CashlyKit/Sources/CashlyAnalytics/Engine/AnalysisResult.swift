@@ -59,6 +59,7 @@ public struct AnalysisResult: Sendable, Codable, Identifiable {
     public let summary: String
     public let metrics: [Metric]
     public let series: [SeriesPoint]
+    public let findings: [Finding]
     public let provenance: Provenance
 
     public func metric(_ key: String) -> Metric? {

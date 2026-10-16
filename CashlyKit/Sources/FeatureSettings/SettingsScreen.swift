@@ -56,10 +56,7 @@ private struct SettingsSections<Extra: View>: View {
             ForEach(SettingsGroup.allCases) { group in
                 Section {
                     ForEach(entries(in: group)) { SettingsEntryRow(entry: $0) }
-                    if group == .data {
-                        IntelligenceRow()
-                        extra
-                    }
+                    if group == .data { extra }
                 } header: {
                     Text(verbatim: group.title)
                 }

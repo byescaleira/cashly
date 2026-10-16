@@ -6,7 +6,7 @@ public struct UnusualCategories: Analysis {
     public static let title = "Out of the ordinary"
     public static let detail =
         "Categories with spending well above usual for this point of the month."
-    public static let version = 2
+    public static let version = 3
 
     private let minimumGap: Int64 = 5_000
 
@@ -17,7 +17,8 @@ public struct UnusualCategories: Analysis {
         let day = CashlyCalendar.current.component(.day, from: ledger.today)
         let previous = (1...6).map { month.adding(months: -$0) }.filter(ledger.hasActivity(in:))
         guard previous.count >= 3 else { return nil }
-        let points = ledger.categories.compactMap { category -> SeriesPoint? in
+        let unusual = ledger.categories.compactMap {
+            category -> (CashlyDomain.Category, Int64, Double)? in
             let current = ledger.spent(in: month, throughDay: day, categoryID: category.id)
             let history = previous.map {
                 Double(ledger.spent(in: $0, throughDay: day, categoryID: category.id))
@@ -35,24 +36,41 @@ public struct UnusualCategories: Analysis {
             {
                 return nil
             }
-            return SeriesPoint(
-                label: category.name, value: Double(current) / 100, reference: median / 100)
+            return (category, current, median)
         }
-        .sorted { $0.value - ($0.reference ?? 0) > $1.value - ($1.reference ?? 0) }
-        guard let first = points.first else { return nil }
+        .sorted { Double($0.1) - $0.2 > Double($1.1) - $1.2 }
+        guard let first = unusual.first else { return nil }
+        let confidence: Provenance.Confidence = previous.count >= 5 ? .high : .medium
+        let findings = unusual.map { category, current, median in
+            let gap = current - Int64(median.rounded())
+            return Finding(
+                analysisID: Self.id, topic: .spending, subject: category.id, label: category.name,
+                summary:
+                    "\(category.name) is \(Formatting.money(gap)) above usual for this point of the month.",
+                impact: gap,
+                metrics: [
+                    .money("current", "So far", minorUnits: current),
+                    .money("typical", "Usually", minorUnits: Int64(median.rounded())),
+                ],
+                recommendation: Recommendation(action: .returnToUsual, monthlySaving: gap),
+                confidence: confidence)
+        }
         let summary =
-            points.count == 1
-            ? "\(first.label) is above usual for this point of the month."
-            : "\(points.count) categories are above usual for this point of the month."
+            unusual.count == 1
+            ? "\(first.0.name) is above usual for this point of the month."
+            : "\(unusual.count) categories are above usual for this point of the month."
         return result(
             ledger, summary: summary,
             metrics: [
                 Metric(
-                    key: "count", label: "Categories", value: Double(points.count), unit: .count)
+                    key: "count", label: "Categories", value: Double(unusual.count), unit: .count)
             ],
-            series: Array(points.prefix(3)),
+            series: unusual.prefix(3).map {
+                SeriesPoint(label: $0.0.name, value: Double($0.1) / 100, reference: $0.2 / 100)
+            },
+            findings: findings,
             method:
                 "Spending to date compared with the median of recent months, using a robust z-score",
-            confidence: previous.count >= 5 ? .high : .medium)
+            confidence: confidence)
     }
 }

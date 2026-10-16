@@ -29,19 +29,17 @@ public final class DataModel {
     private(set) var exportType: UTType = .json
     private var skipped = 0
     @ObservationIgnored let backup: any BackupRepository
-    @ObservationIgnored let intelligence: any IntelligenceService
     @ObservationIgnored let defaults: UserDefaults
     @ObservationIgnored let folder: BackupFolder
     @ObservationIgnored let cloud: BackupCloud
     @ObservationIgnored var cloudFolder: BackupFolder?
 
     public init(
-        backup: any BackupRepository, intelligence: any IntelligenceService,
-        defaults: UserDefaults = .standard, folder: BackupFolder = .standard,
+        backup: any BackupRepository, defaults: UserDefaults = .standard,
+        folder: BackupFolder = .standard,
         cloud: BackupCloud = .unavailable
     ) {
         self.backup = backup
-        self.intelligence = intelligence
         self.defaults = defaults
         self.folder = folder
         self.cloud = cloud

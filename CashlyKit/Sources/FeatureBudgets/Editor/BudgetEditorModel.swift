@@ -69,14 +69,14 @@ public final class BudgetEditorModel {
     }
 
     public func canSuggestAmount(with intelligence: IntelligenceModel) -> Bool {
-        !isAmountLocked && repositories.userID != nil && intelligence.hasModel(.budgetValue)
+        !isAmountLocked && repositories.userID != nil && intelligence.canSuggestBudget
     }
 
-    public func suggestAmount(with intelligence: IntelligenceModel) async {
-        guard canSuggestAmount(with: intelligence), let category = draft.category else { return }
-        let prediction = await intelligence.predict(
-            .budget(month: draft.month, categoryID: category.id))
-        if case .tabularRegression(let value) = prediction { draft.amount = value }
+    public func suggestAmount(with intelligence: IntelligenceModel) {
+        guard canSuggestAmount(with: intelligence), let category = draft.category,
+            let value = intelligence.budget(categoryID: category.id, month: draft.month)
+        else { return }
+        draft.amount = value
     }
 
     public func loadOrRefresh() async {

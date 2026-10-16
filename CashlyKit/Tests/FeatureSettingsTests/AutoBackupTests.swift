@@ -15,10 +15,8 @@ struct AutoBackupTests {
         let database = try CashlyDatabase.open(inMemory: true)
         try await database.repositories(for: nil).users.save(
             User(id: "owner", name: "Perfil"))
-        let intelligence = LocalIntelligenceService(
-            directory: FileManager.default.temporaryDirectory.appending(path: UUID().uuidString))
         let data = DataModel(
-            backup: database.backup, intelligence: intelligence, defaults: defaults, folder: folder)
+            backup: database.backup, defaults: defaults, folder: folder)
         return (data, database)
     }
 

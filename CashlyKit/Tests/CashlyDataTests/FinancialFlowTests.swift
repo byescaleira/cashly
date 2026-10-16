@@ -61,18 +61,4 @@ struct FinancialFlowTests {
             query: .init(month: db.month(202_601)))
         #expect(overview.incomeTotal == .zero)
     }
-
-    @Test func trainingIgnoresIncome() async throws {
-        let db = try await TestDatabase()
-        try await db.saveFlowRecords()
-        let dataset = try await db.repositories.dashboard.trainingData()
-        let service = LocalIntelligenceService(
-            directory: FileManager.default.temporaryDirectory.appending(
-                path: "cashly-tests-" + UUID().uuidString))
-        let models = try await service.train(
-            userID: db.owner.id, transactions: dataset.transactions, tags: dataset.tags,
-            revision: dataset.revision)
-        #expect(!models.isEmpty)
-        #expect(models.allSatisfy { $0.sampleCount == 2 })
-    }
 }

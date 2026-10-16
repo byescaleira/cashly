@@ -14,13 +14,13 @@ public struct CashlyWindow {
     public let navigation: CashlyNavigation
 
     public init(
-        provider: any RepositoryProvider, intelligence service: any IntelligenceService,
-        preference: UserPreference = .standard, flags: FeatureFlags? = nil
+        provider: any RepositoryProvider, preference: UserPreference = .standard,
+        flags: FeatureFlags? = nil
     ) {
         session = SessionModel(provider: provider, preference: preference)
         finance = FinanceModel(session: session)
         transactions = TransactionListModel(session: session, finance: finance)
-        intelligence = IntelligenceModel(service: service, session: session, flags: flags)
+        intelligence = IntelligenceModel(session: session, flags: flags)
         store = StoreModel(session: session)
         navigation = CashlyNavigation()
     }

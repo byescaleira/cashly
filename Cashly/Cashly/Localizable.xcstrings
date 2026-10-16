@@ -175,64 +175,6 @@
         }
       }
     },
-    "A Cashly that learns from you" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ein Cashly, das von dir lernt"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Un Cashly que aprende de ti"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Un Cashly qui apprend de vous"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Un Cashly che impara da te"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "あなたから学ぶ Cashly"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "나에게서 배우는 Cashly"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Um Cashly que aprende com você"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cashly, который учится у вас"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "向你学习的 Cashly"
-          }
-        }
-      }
-    },
     "A daily backup on this device or in iCloud Drive, ready to restore when you need it." : {
       "localizations" : {
         "de" : {
@@ -1683,6 +1625,64 @@
         }
       }
     },
+    "Expected This Month" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diesen Monat erwartet"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previsto este mes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prévu ce mois-ci"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previsto questo mese"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今月は想定内"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이번 달은 예상됨"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esperado neste mês"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ожидаемо в этом месяце"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本月在预期内"
+          }
+        }
+      }
+    },
     "Export only" : {
       "localizations" : {
         "de" : {
@@ -3075,6 +3075,64 @@
         }
       }
     },
+    "Journey progress and captured payments" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fortschritt der Reise und erfasste Zahlungen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progreso de la Trayectoria y pagos capturados"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progression du Parcours et paiements capturés"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progressi del Percorso e pagamenti acquisiti"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ジャーニーの進捗と取り込んだ支払い"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "여정 진행 상황과 캡처한 결제"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progresso da Jornada e pagamentos capturados"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Прогресс Пути и пойманные платежи"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "旅程进度和捕获的付款"
+          }
+        }
+      }
+    },
     "Keep a copy without thinking about it" : {
       "localizations" : {
         "de" : {
@@ -3187,64 +3245,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "继续使用分析、智能和备份，或在扣费前到 Apple 账户中取消。"
-          }
-        }
-      }
-    },
-    "Learns only on this device" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lernt nur auf diesem Gerät"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aprende solo en este dispositivo"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apprend uniquement sur cet appareil"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Impara solo su questo dispositivo"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "学習はこのデバイスだけで"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 기기에서만 학습"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aprende só neste aparelho"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Обучается только на этом устройстве"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "只在这台设备上学习"
           }
         }
       }
@@ -4993,6 +4993,64 @@
         }
       }
     },
+    "Spending so far compared with what usually goes out by this day of the month. Swipe a category you expected to hide it until next month." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bisherige Ausgaben im Vergleich zu dem, was bis zu diesem Tag des Monats üblicherweise ausgegeben wird. Wische über eine Kategorie, die du erwartet hast, um sie bis zum nächsten Monat auszublenden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gasto hasta hoy comparado con lo que suele salir hasta este día del mes. Desliza una categoría que ya esperabas para ocultarla hasta el mes que viene."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dépenses à ce jour comparées à ce qui sort habituellement à ce stade du mois. Balayez une catégorie que vous attendiez pour la masquer jusqu’au mois prochain."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spesa finora rispetto a quanto esce di solito entro questo giorno del mese. Scorri una categoria che ti aspettavi per nasconderla fino al mese prossimo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今日までの支出を、毎月この日までの通常の支出と比べています。想定内のカテゴリはスワイプすると来月まで非表示になります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "오늘까지의 지출을 평소 이 날짜까지의 지출과 비교합니다. 예상했던 카테고리는 밀어서 다음 달까지 숨길 수 있습니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gasto até hoje comparado ao que costuma sair até este dia do mês. Deslize uma categoria que você já esperava para escondê-la até o mês que vem."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Расходы на сегодня по сравнению с обычными расходами к этому дню месяца. Смахните ожидаемую категорию, чтобы скрыть её до следующего месяца."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将截至今天的支出与通常到本月这一天的支出进行比较。滑动在预期内的类别，可将其隐藏到下个月。"
+          }
+        }
+      }
+    },
     "Split with Other Profiles" : {
       "localizations" : {
         "de" : {
@@ -5515,64 +5573,6 @@
         }
       }
     },
-    "The models are trained from your own history and never leave this device." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Die Modelle lernen aus deinem eigenen Verlauf und verlassen dieses Gerät nie."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Los modelos se entrenan con tu propio historial y nunca salen de este dispositivo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les modèles sont entraînés sur votre propre historique et ne quittent jamais cet appareil."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I modelli vengono addestrati sulla tua cronologia e non lasciano mai questo dispositivo."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "モデルはあなた自身の履歴から学習し、このデバイスの外に出ることはありません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "모델은 내 기록으로만 학습하며 이 기기를 벗어나지 않습니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Os modelos são treinados com o seu próprio histórico e nunca saem deste aparelho."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Модели обучаются на вашей истории и никогда не покидают это устройство."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "模型用你自己的记录训练，绝不会离开这台设备。"
-          }
-        }
-      }
-    },
     "The percentage (0 to 100) or the amount each profile pays." : {
       "localizations" : {
         "de" : {
@@ -5863,6 +5863,64 @@
         }
       }
     },
+    "Wait for sync to finish." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warte, bis die Synchronisierung abgeschlossen ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espera a que termine la sincronización."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attendez la fin de la synchronisation."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Attendi la fine della sincronizzazione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同期が終わるまでお待ちください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "동기화가 끝날 때까지 기다리세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aguarde a sincronização terminar."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дождитесь окончания синхронизации."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请等待同步完成。"
+          }
+        }
+      }
+    },
     "What percentage does each profile pay?" : {
       "localizations" : {
         "de" : {
@@ -5975,64 +6033,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分摊支出时，在编辑器中添加其他档案。每笔分摊支出计一次。"
-          }
-        }
-      }
-    },
-    "With Cashly Pro, Cashly trains small models on your own history to fill in budgets, categories and tags for you." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mit Cashly Pro trainiert Cashly kleine Modelle mit deinem Verlauf und füllt Budgets, Kategorien und Tags für dich aus."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Con Cashly Pro, Cashly entrena pequeños modelos con tu historial para completar presupuestos, categorías y etiquetas por ti."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avec Cashly Pro, Cashly entraîne de petits modèles sur votre historique pour remplir budgets, catégories et étiquettes à votre place."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Con Cashly Pro, Cashly addestra piccoli modelli sulla tua cronologia per compilare budget, categorie ed etichette al posto tuo."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cashly Pro なら、あなたの履歴で小さなモデルを学習し、予算・カテゴリ・タグを自動で入力します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cashly Pro를 쓰면 Cashly가 내 기록으로 작은 모델을 학습해 예산, 카테고리, 태그를 대신 채워 줍니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Com o Cashly Pro, o Cashly treina pequenos modelos com o seu histórico para preencher orçamentos, categorias e tags por você."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "С Cashly Pro приложение обучает небольшие модели на вашей истории и само заполняет бюджеты, категории и теги."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "有了 Cashly Pro，Cashly 会用你的记录训练小模型，替你填写预算、分类和标签。"
           }
         }
       }
@@ -16331,64 +16331,6 @@
         }
       }
     },
-    "At least two transactions are needed to create estimates." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Für Schätzungen sind mindestens zwei Transaktionen nötig."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Se necesitan al menos dos transacciones para crear estimaciones."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il faut au moins deux transactions pour créer des estimations."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Servono almeno due transazioni per creare stime."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "見積もりを作成するには、2件以上の取引が必要です。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "예측을 만들려면 거래가 2건 이상 필요합니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "São necessárias pelo menos duas transações para criar estimativas."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Для оценок нужны как минимум две операции."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "至少需要两笔交易才能生成估算。"
-          }
-        }
-      }
-    },
     "At risk" : {
       "localizations" : {
         "de" : {
@@ -16501,64 +16443,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "原子 科学"
-          }
-        }
-      }
-    },
-    "Auto Categorization" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Automatische Kategorisierung"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Categorización automática"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Catégorisation automatique"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Categorizzazione automatica"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自動カテゴリ分け"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "자동 분류"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Categorização automática"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Автокатегоризация"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "自动分类"
           }
         }
       }
@@ -30554,64 +30438,6 @@
         }
       }
     },
-    "Delete Models" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modelle löschen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliminar modelos"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Supprimer les modèles"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elimina modelli"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "モデルを削除"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "모델 삭제"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apagar modelos"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удалить модели"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "删除模型"
-          }
-        }
-      }
-    },
     "Delete Preferences" : {
       "localizations" : {
         "de" : {
@@ -33508,122 +33334,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "错误：%@"
-          }
-        }
-      }
-    },
-    "Estimates each category's monthly spending from the average of up to six recorded months." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Schätzt die monatlichen Ausgaben jeder Kategorie anhand des Durchschnitts von bis zu sechs erfassten Monaten."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Estima el gasto mensual de cada categoría con la media de hasta seis meses registrados."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Estime les dépenses mensuelles de chaque catégorie à partir de la moyenne de six mois enregistrés au maximum."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stima la spesa mensile di ogni categoria in base alla media di un massimo di sei mesi registrati."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "記録された最大6か月の平均から、カテゴリごとの月間支出を見積もります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "최대 6개월의 기록 평균으로 카테고리별 월 지출을 예측합니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Estima o gasto mensal de cada categoria pela média de até seis meses registrados."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Оценивает ежемесячные расходы по каждой категории по среднему за последние шесть месяцев с записями."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "根据最多六个月的记录平均值估算每个类别的月支出。"
-          }
-        }
-      }
-    },
-    "Estimates use your recent monthly spending. Categorization learns from your transaction descriptions. All processing stays on this device." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Schätzungen nutzen deine letzten Monatsausgaben. Die Kategorisierung lernt aus den Beschreibungen deiner Transaktionen. Die gesamte Verarbeitung bleibt auf diesem Gerät."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Las estimaciones usan tu gasto mensual reciente. La categorización aprende de las descripciones de tus transacciones. Todo el procesamiento se queda en este dispositivo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les estimations utilisent vos dépenses mensuelles récentes. La catégorisation apprend des descriptions de vos transactions. Tout le traitement reste sur cet appareil."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le stime usano la tua spesa mensile recente. La categorizzazione impara dalle descrizioni delle tue transazioni. Tutta l’elaborazione resta su questo dispositivo."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "見積もりには最近の月間支出を使います。カテゴリ分けは取引の説明から学習します。処理はすべてこのデバイス上で行われます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "예측은 최근 월 지출을 사용합니다. 분류는 거래 설명에서 학습합니다. 모든 처리는 이 기기에서 이루어집니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "As estimativas usam os gastos mensais recentes. A categorização aprende com as descrições das suas transações. Todo o processamento fica neste aparelho."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Оценки основаны на ваших недавних ежемесячных расходах. Категоризация учится на описаниях операций. Вся обработка происходит на этом устройстве."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "估算使用你最近的月支出。分类会从交易描述中学习。所有处理都在此设备上进行。"
           }
         }
       }
@@ -39718,64 +39428,6 @@
         }
       }
     },
-    "High" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hoch"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alta"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Élevée"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alta"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "高"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "높음"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alto"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Высокая"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "高"
-          }
-        }
-      }
-    },
     "Highest level reached" : {
       "localizations" : {
         "de" : {
@@ -43086,64 +42738,6 @@
         }
       }
     },
-    "Intelligence" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Intelligenz"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inteligencia"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Intelligence"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Intelligenza"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "インテリジェンス"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "인텔리전스"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inteligência"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Интеллект"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "智能"
-          }
-        }
-      }
-    },
     "internet wi-fi" : {
       "localizations" : {
         "de" : {
@@ -44706,64 +44300,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "笔记本 电脑"
-          }
-        }
-      }
-    },
-    "Last Updated" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zuletzt aktualisiert"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Última actualización"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dernière mise à jour"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ultimo aggiornamento"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "最終更新"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "마지막 업데이트"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Última atualização"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Последнее обновление"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "上次更新"
           }
         }
       }
@@ -48480,64 +48016,6 @@
         }
       }
     },
-    "Memory" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Arbeitsspeicher"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Memoria"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mémoire"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Memoria"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "メモリ"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "메모리"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Memória"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Память"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "内存"
-          }
-        }
-      }
-    },
     "menu restaurant" : {
       "localizations" : {
         "de" : {
@@ -49172,64 +48650,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "任务与挑战"
-          }
-        }
-      }
-    },
-    "Moderate" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mittel"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Moderada"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modérée"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Moderata"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "中"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "보통"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Moderado"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Умеренная"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "中等"
           }
         }
       }
@@ -52594,122 +52014,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "零花费周"
-          }
-        }
-      }
-    },
-    "Normal" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Normal"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Normal"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Normale"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Normale"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "通常"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "정상"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Normal"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Нормальная"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正常"
-          }
-        }
-      }
-    },
-    "Not enough history: use at least two categories with descriptions or two months of records." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zu wenig Verlauf: Nutze mindestens zwei Kategorien mit Beschreibungen oder zwei Monate mit Einträgen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Historial insuficiente: usa al menos dos categorías con descripciones o dos meses de registros."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Historique insuffisant : utilisez au moins deux catégories avec descriptions ou deux mois de données."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cronologia insufficiente: usa almeno due categorie con descrizioni o due mesi di registrazioni."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "履歴が足りません。説明付きのカテゴリを2つ以上使うか、2か月分以上記録してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "기록이 부족합니다. 설명이 있는 카테고리를 2개 이상 사용하거나 2개월 이상 기록하세요."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Histórico insuficiente: use pelo menos duas categorias com descrições ou dois meses registrados."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Недостаточно истории: используйте хотя бы две категории с описаниями или записи за два месяца."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "历史记录不足：请至少使用两个带描述的类别，或记录两个月的数据。"
           }
         }
       }
@@ -58696,64 +58000,6 @@
         }
       }
     },
-    "Predicts each tag's expected monthly spending from your history." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sagt die erwarteten monatlichen Ausgaben jedes Tags anhand deines Verlaufs voraus."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Predice el gasto mensual esperado de cada etiqueta a partir de tu historial."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prévoit les dépenses mensuelles attendues de chaque tag à partir de votre historique."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prevede la spesa mensile attesa di ogni tag in base alla tua cronologia."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "履歴から、タグごとの月間支出を予測します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "기록을 바탕으로 태그별 예상 월 지출을 예측합니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prevê o gasto esperado de cada tag em um mês a partir do histórico."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Прогнозирует ожидаемые ежемесячные расходы по каждому тегу на основе истории."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "根据历史记录预测每个标签的预计月支出。"
-          }
-        }
-      }
-    },
     "Preferences" : {
       "localizations" : {
         "de" : {
@@ -59266,64 +58512,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "процессор"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "处理器"
-          }
-        }
-      }
-    },
-    "Processors" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prozessoren"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Procesadores"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Processeurs"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Processori"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "プロセッサ"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "프로세서"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Processadores"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Процессоры"
           }
         },
         "zh-Hans" : {
@@ -66762,64 +65950,6 @@
         }
       }
     },
-    "Smart Budget" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Intelligentes Budget"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Presupuesto inteligente"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Budget intelligent"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Budget intelligente"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "スマート予算"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "스마트 예산"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Orçamento inteligente"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Умный бюджет"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "智能预算"
-          }
-        }
-      }
-    },
     "smile" : {
       "localizations" : {
         "de" : {
@@ -68266,64 +67396,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "花钱比月份过得慢"
-          }
-        }
-      }
-    },
-    "Spending so far compared with what usually goes out by this day of the month." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bisherige Ausgaben im Vergleich zu dem, was bis zu diesem Tag des Monats üblicherweise ausgegeben wird."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gasto hasta hoy comparado con lo que suele salir hasta este día del mes."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dépenses à ce jour comparées à ce qui sort habituellement à ce stade du mois."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Spesa finora rispetto a quanto esce di solito entro questo giorno del mese."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "今日までの支出を、毎月この日までの通常の支出と比べています。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "오늘까지의 지출을 평소 이 날짜까지의 지출과 비교합니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gasto até hoje comparado ao que costuma sair até este dia do mês."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Расходы на сегодня по сравнению с обычными расходами к этому дню месяца."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "将截至今天的支出与通常到本月这一天的支出进行比较。"
           }
         }
       }
@@ -71170,64 +70242,6 @@
         }
       }
     },
-    "Suggests a category from the words in transactions you've already recorded." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Schlägt eine Kategorie anhand der Wörter in bereits erfassten Transaktionen vor."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sugiere una categoría a partir de las palabras de transacciones que ya registraste."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suggère une catégorie à partir des mots des transactions déjà enregistrées."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suggerisce una categoria in base alle parole delle transazioni già registrate."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "記録済みの取引の言葉からカテゴリを提案します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이미 기록한 거래의 단어로 카테고리를 제안합니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sugere a categoria a partir das palavras de transações já registradas."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Предлагает категорию по словам из уже записанных операций."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "根据已记录交易中的字词建议类别。"
-          }
-        }
-      }
-    },
     "suitcase travel" : {
       "localizations" : {
         "de" : {
@@ -72504,64 +71518,6 @@
         }
       }
     },
-    "Tag Forecast" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tag-Prognose"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Previsión por etiqueta"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prévision par tag"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Previsione per tag"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "タグ別予測"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "태그별 예측"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Previsão por tag"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Прогноз по тегам"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "标签预测"
-          }
-        }
-      }
-    },
     "tag label" : {
       "localizations" : {
         "de" : {
@@ -73660,64 +72616,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "告诉你本月支出以及预算剩余。"
-          }
-        }
-      }
-    },
-    "Temperature" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Temperatur"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Temperatura"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Température"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Temperatura"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "温度"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "온도"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Temperatura"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Температура"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "温度"
           }
         }
       }
@@ -78372,64 +77270,6 @@
         }
       }
     },
-    "Train Models" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modelle trainieren"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Entrenar modelos"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Entraîner les modèles"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Addestra modelli"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "モデルを学習"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "모델 학습"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Treinar modelos"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Обучить модели"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "训练模型"
-          }
-        }
-      }
-    },
     "train subway" : {
       "localizations" : {
         "de" : {
@@ -78484,64 +77324,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "火车 地铁"
-          }
-        }
-      }
-    },
-    "Training" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Training läuft"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Entrenando"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Entraînement"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Addestramento"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "学習中"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "학습 중"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Treinando"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Обучение"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正在训练"
           }
         }
       }
@@ -79880,64 +78662,6 @@
         }
       }
     },
-    "Unknown" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unbekannt"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Desconocida"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inconnue"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sconosciuta"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "不明"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "알 수 없음"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Desconhecido"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Неизвестно"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未知"
-          }
-        }
-      }
-    },
     "Unlock Cashly" : {
       "localizations" : {
         "de" : {
@@ -81100,64 +79824,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "记录量"
-          }
-        }
-      }
-    },
-    "Wait for sync to finish before training the models." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Warte, bis die Synchronisierung abgeschlossen ist, bevor du die Modelle trainierst."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Espera a que termine la sincronización antes de entrenar los modelos."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Attendez la fin de la synchronisation avant d’entraîner les modèles."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Attendi la fine della sincronizzazione prima di addestrare i modelli."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "モデルを学習する前に、同期が終わるのを待ってください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "모델을 학습하기 전에 동기화가 끝날 때까지 기다리세요."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aguarde a sincronização completa antes de treinar os modelos."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Дождитесь окончания синхронизации, прежде чем обучать модели."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请等待同步完成后再训练模型。"
           }
         }
       }
@@ -84181,64 +82847,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "解锁前你的财务信息保持隐藏。"
-          }
-        }
-      }
-    },
-    "Your history changed. Train again to update the suggestions." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dein Verlauf hat sich geändert. Trainiere erneut, um die Vorschläge zu aktualisieren."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tu historial cambió. Vuelve a entrenar para actualizar las sugerencias."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Votre historique a changé. Relancez l’entraînement pour mettre à jour les suggestions."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La tua cronologia è cambiata. Addestra di nuovo per aggiornare i suggerimenti."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "履歴が変わりました。もう一度学習して提案を更新してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "기록이 바뀌었습니다. 다시 학습해 제안을 업데이트하세요."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O histórico mudou. Treine novamente para atualizar as sugestões."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "История изменилась. Обучите модели заново, чтобы обновить подсказки."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你的历史记录已更改。请重新训练以更新建议。"
           }
         }
       }
@@ -96293,64 +94901,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "不在备份中"
-          }
-        }
-      }
-    },
-    "Journey progress, captured payments and intelligence models" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fortschritt der Reise, erfasste Zahlungen und Intelligenzmodelle"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Progreso de la Trayectoria, pagos capturados y modelos de inteligencia"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Progression du Parcours, paiements capturés et modèles d'intelligence"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Progressi del Percorso, pagamenti acquisiti e modelli di intelligenza"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ジャーニーの進捗、取り込んだ支払い、インテリジェンスモデル"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "여정 진행 상황, 캡처한 결제, 인텔리전스 모델"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Progresso da Jornada, pagamentos capturados e modelos de inteligência"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Прогресс Пути, пойманные платежи и модели интеллекта"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "旅程进度、捕获的付款和智能模型"
           }
         }
       }

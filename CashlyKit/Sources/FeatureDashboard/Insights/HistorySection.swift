@@ -38,22 +38,40 @@ struct HistorySection: View {
 
 struct UnusualSection: View {
     @Environment(InsightsModel.self) private var insights
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         let unusual = insights.unusual
         if !unusual.isEmpty {
             ProOnly {
                 Section {
-                    ForEach(unusual) { UnusualRow(item: $0) }
+                    ForEach(unusual) { item in
+                        UnusualRow(item: item)
+                            .swipeActions {
+                                Button("Expected This Month", systemImage: "checkmark") {
+                                    markExpected(item)
+                                }
+                                .tint(.info)
+                            }
+                            .contextMenu {
+                                Button("Expected This Month", systemImage: "checkmark") {
+                                    markExpected(item)
+                                }
+                            }
+                    }
                 } header: {
                     Text("Out of the Ordinary").sectionTitle()
                 } footer: {
                     Text(
-                        "Spending so far compared with what usually goes out by this day of the month."
+                        "Spending so far compared with what usually goes out by this day of the month. Swipe a category you expected to hide it until next month."
                     )
                 }
             }
         }
+    }
+
+    private func markExpected(_ item: InsightsModel.Unusual) {
+        withAnimation(reduceMotion ? nil : .smooth) { insights.markExpected(item) }
     }
 }
 
@@ -63,7 +81,7 @@ private struct UnusualRow: View {
     var body: some View {
         HStack(alignment: .center, spacing: .spaceM) {
             VStack(alignment: .leading, spacing: .spaceHairline) {
-                Text(item.name).font(.headline)
+                Text(item.name).font(.rowTitle)
                 Text(item.reference)
                     .font(.footnote)
                     .foregroundStyle(.secondary)
@@ -71,10 +89,12 @@ private struct UnusualRow: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             VStack(alignment: .trailing, spacing: .space2XS) {
                 Text(item.current.formatted(.appCurrency))
-                    .font(.headline)
+                    .font(.callout.weight(.semibold))
+                    .contentTransition(.numericText(value: item.current))
                     .amountLine()
                 Chip(item.badge, color: .warning)
             }
         }
+        .accessibilityElement(children: .combine)
     }
 }

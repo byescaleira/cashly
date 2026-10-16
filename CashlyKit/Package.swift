@@ -34,7 +34,7 @@ let package = Package(
         .target(
             name: "FeatureCore",
             dependencies: [
-                "CashlyDomain", "CashlyDesignSystem", "CashlyResource",
+                "CashlyDomain", "CashlyAnalytics", "CashlyDesignSystem", "CashlyResource",
                 .product(name: "Lottie", package: "lottie-spm"),
             ]),
         .target(
@@ -163,7 +163,8 @@ let package = Package(
         .testTarget(
             name: "FeatureCoreTests",
             dependencies: [
-                "CashlyDomain", "CashlyData", "CashlyDesignSystem", "CashlyResource", "FeatureCore",
+                "CashlyAnalytics", "CashlyDomain", "CashlyData", "CashlyDesignSystem",
+                "CashlyResource", "FeatureCore",
             ]),
     ]
 )

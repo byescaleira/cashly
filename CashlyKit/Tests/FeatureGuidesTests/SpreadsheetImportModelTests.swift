@@ -40,7 +40,7 @@ struct SpreadsheetImportModelTests {
         #expect(Set(snapshot.categories.map(\.name)) == ["Groceries", "Work", "Technology"])
         #expect(snapshot.tags.map(\.name) == ["Housing"])
         #expect(
-            try await database.repositories(for: owner.id).dashboard.trainingData().transactions
+            try await database.repositories(for: owner.id).dashboard.history().transactions
                 .count == 3)
     }
 

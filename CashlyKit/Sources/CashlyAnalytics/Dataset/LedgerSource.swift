@@ -13,7 +13,7 @@ public struct RepositoriesLedgerSource: LedgerSource {
     }
 
     public func ledger(today: Date) async throws -> LedgerSnapshot {
-        let data = try await repositories.dashboard.trainingData()
+        let data = try await repositories.dashboard.history()
         let catalog = try await repositories.dashboard.snapshot(month: nil)
         return LedgerSnapshot(
             transactions: data.transactions, categories: catalog.categories, tags: catalog.tags,

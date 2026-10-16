@@ -20,8 +20,7 @@ struct MockModifier: ViewModifier {
                     .task {
                         await window.session.refreshUsers()
                         await window.finance.load()
-                        await window.intelligence.loadModels(
-                            revision: window.finance.datasetRevision)
+                        await window.intelligence.load()
                     }
             } else if let error {
                 Text(error)
@@ -34,15 +33,12 @@ struct MockModifier: ViewModifier {
             do {
                 let database = try await SampleDatabase.make(seeded: includeSampleData)
                 try Task.checkCancellation()
-                let directory = FileManager.default.temporaryDirectory.appending(
-                    path: UUID().uuidString)
-                let intelligence = LocalIntelligenceService(directory: directory)
-                settings.data = DataModel(backup: database.backup, intelligence: intelligence)
+                settings.data = DataModel(backup: database.backup)
                 settings.developer = DeveloperModel(storeURL: nil) {
                     try await SampleDatabase.seed(database)
                 }
                 window = CashlyWindow(
-                    provider: database, intelligence: intelligence, preference: .disabled)
+                    provider: database, preference: .disabled)
             } catch is CancellationError {} catch { self.error = error.localizedDescription }
         }
     }

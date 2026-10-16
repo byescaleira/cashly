@@ -3,7 +3,6 @@ import SwiftUI
 public enum ProPitch: CaseIterable, Sendable {
     case score, forecast, history, unusual, future, variance, tags
     case backups, imports
-    case smartBudget, autoCategories, tagForecast, onDevice
     case askClaude, analyses, statements, approvals
 
     public var title: LocalizedStringKey {
@@ -17,10 +16,6 @@ public enum ProPitch: CaseIterable, Sendable {
         case .tags: "Follow your spending by tag"
         case .backups: "Keep a copy without thinking about it"
         case .imports: "Bring in your history"
-        case .smartBudget: "Smart Budget"
-        case .autoCategories: "Auto Categorization"
-        case .tagForecast: "Tag Forecast"
-        case .onDevice: "Learns only on this device"
         case .askClaude: "Ask Claude about your money"
         case .analyses: "Analyses on request"
         case .statements: "Import statements in a conversation"
@@ -45,13 +40,6 @@ public enum ProPitch: CaseIterable, Sendable {
             "A daily backup on this device or in iCloud Drive, ready to restore when you need it."
         case .imports:
             "Import a backup or a bank spreadsheet and Cashly puts each transaction in place."
-        case .smartBudget:
-            "Estimates each category's monthly spending from the average of up to six recorded months."
-        case .autoCategories:
-            "Suggests a category from the words in transactions you've already recorded."
-        case .tagForecast: "Predicts each tag's expected monthly spending from your history."
-        case .onDevice:
-            "The models are trained from your own history and never leave this device."
         case .askClaude:
             "Claude Code reads your transactions, budgets and goals to answer in plain words."
         case .analyses: "Ask for comparisons, trends and summaries of any period."
@@ -73,10 +61,6 @@ public enum ProPitch: CaseIterable, Sendable {
         case .tags: "tag.fill"
         case .backups: "externaldrive.fill.badge.timemachine"
         case .imports: "square.and.arrow.down.fill"
-        case .smartBudget: "dollarsign.bank.building.fill"
-        case .autoCategories: "swatchpalette.fill"
-        case .tagForecast: "tag.circle.fill"
-        case .onDevice: "lock.shield.fill"
         case .askClaude: "text.bubble.fill"
         case .analyses: "chart.xyaxis.line"
         case .statements: "doc.text.fill"
