@@ -28,6 +28,7 @@ public final class FinanceModel {
 
     public var allTags: [Tag] { tags }
     public var hasTransactions: Bool { totalTransactionCount > 0 }
+    public var hasEstimates: Bool { summary.convertedCount > 0 }
     public var allStatuses: [TransactionStatus] { TransactionStatus.allCases }
 
     public func load() async {

@@ -18,13 +18,32 @@ public struct TransactionDraft: Hashable {
     public var isNew: Bool
     public var installmentIsOn: Bool
     public var installmentPlan: Int
+    public var currencyCode = Money.currencyCode
+    public var estimate: CurrencyEstimate?
+    public var exchange: TransactionExchange?
+    public var paidCurrency = Money.currencyCode
+    public var paidAmount: Double = .zero
+    public var rate: Decimal?
+    public var rateDate: Date?
+
+    public var isForeign: Bool { paidCurrency != currencyCode }
+    public var isEstimated: Bool { estimate != nil }
 
     public var canSave: Bool {
         user != nil && category != nil && (kind != .income || participants.isEmpty)
             && ((try? Money(validating: amount).minorUnits) ?? 0) > 0
             && summary.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3
-            && (participants.isEmpty ? true : isValidParticipants)
+            && (participants.isEmpty || isEstimated || isValidParticipants)
             && (!installmentIsOn || (1...1200).contains(installmentPlan))
+            && (isEstimated || !isForeign || paidExchange != nil)
+    }
+
+    public var paidExchange: TransactionExchange? {
+        guard isForeign, let rate, let rateDate,
+            let money = try? Money(validating: paidAmount), money.minorUnits > 0
+        else { return nil }
+        return TransactionExchange(
+            currencyCode: paidCurrency, money: money, rate: rate, date: rateDate)
     }
 
     public var isValidParticipants: Bool {
@@ -88,9 +107,12 @@ public struct TransactionDraft: Hashable {
     public static func new(capture: Capture, category: CashlyDomain.Category?)
         -> TransactionDraft
     {
-        TransactionDraft(
+        var draft = TransactionDraft(
             category: category, amount: capture.money.doubleValue, date: capture.date,
             summary: capture.suggestedSummary.isEmpty ? capture.merchant : capture.suggestedSummary)
+        draft.paidCurrency = capture.currencyCode
+        draft.paidAmount = capture.money.doubleValue
+        return draft
     }
 
     public static func edit(id: String) -> TransactionDraft {
@@ -104,7 +126,8 @@ public struct TransactionDraft: Hashable {
             summary: summary.trimmingCharacters(in: .whitespacesAndNewlines), status: status,
             splitMode: splitMode, splitValue: splitValue,
             paymentsPlan: installmentIsOn ? installmentPlan : nil, tagIDs: selectedTagIDs,
-            kind: kind)
+            kind: kind, currencyCode: currencyCode,
+            exchange: isEstimated ? exchange : paidExchange, estimate: estimate)
     }
 
     public func makeTransaction() throws -> CashlyDomain.Transaction {
@@ -126,6 +149,16 @@ public struct TransactionDraft: Hashable {
         splitValue = transaction.splitValue
         installmentIsOn = transaction.paymentsPlan != nil
         installmentPlan = max(transaction.paymentsPlan ?? 1, 1)
+        currencyCode = transaction.currencyCode
+        estimate = transaction.estimate
+        exchange = transaction.exchange
+        paidAmount = amount
+        paidCurrency = currencyCode
+        guard let exchange = transaction.exchange, transaction.estimate == nil else { return }
+        paidCurrency = exchange.currencyCode
+        paidAmount = exchange.money.doubleValue
+        rate = exchange.rate
+        rateDate = exchange.date
     }
 
     public mutating func applyOptions(categories: [CashlyDomain.Category], tags: [Tag]) throws {

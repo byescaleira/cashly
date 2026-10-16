@@ -115,7 +115,7 @@ struct GeneralSettingsTests {
         #expect(settings.currencies(matching: "").count == CurrencySetting.supported.count)
     }
 
-    @Test func currencyChangeWaitsForConfirmation() {
+    @Test func currencyChangeWaitsForConfirmation() async {
         let settings = makeSettings()
         settings.choose(currency: settings.currency)
         #expect(settings.currencyChoice == nil)
@@ -127,11 +127,70 @@ struct GeneralSettingsTests {
         settings.cancelCurrencyChoice()
         #expect(settings.currency == "BRL")
         settings.choose(currency: "USD")
-        settings.confirmCurrencyChoice()
+        await settings.confirmCurrencyChoice()
         #expect(settings.currency == "USD")
         #expect(settings.currencyChoice == nil)
         #expect(settings.currencyValue.hasSuffix("USD"))
+        #expect(settings.correctionFailed)
+        #expect(settings.correction == nil)
         #expect(settings.choiceNotes(CurrencyChoice(from: "BRL", to: "USD")).count == 2)
+    }
+
+    @Test func missingRatesAreFetchedAtLaunchAndOnRetry() async {
+        let setting = CurrencySetting()
+        let table = ExchangeTable(
+            base: "BRL", day: "2026-10-14", rates: ["USD": Decimal(string: "0.2") ?? 0],
+            source: .currencyAPI)
+        let offline = SettingsModel(
+            defaults: defaults, cloudContainer: nil, currencySetting: setting)
+        await offline.prepareCorrection()
+        #expect(offline.correction == nil)
+        #expect(!offline.correctionFailed)
+        await offline.retryCorrection()
+        #expect(offline.correctionFailed)
+        #expect(offline.correctionStatus.canRetry)
+        let online = SettingsModel(
+            defaults: defaults, cloudContainer: nil, currencySetting: setting,
+            rates: FixedExchangeRates(table: table))
+        await online.prepareCorrection()
+        #expect(online.correction?.target == "BRL")
+        #expect(setting.correctionRate(from: "USD")?.rate == 5)
+        #expect(!online.correctionStatus.canRetry)
+    }
+
+    @Test func cancelIsIgnoredWhileRatesLoad() async {
+        let table = ExchangeTable(
+            base: "USD", day: "2026-10-14", rates: ["BRL": 5], source: .currencyAPI)
+        let settings = SettingsModel(
+            defaults: defaults, cloudContainer: nil, currencySetting: CurrencySetting(),
+            rates: FixedExchangeRates(table: table, delay: .milliseconds(80)))
+        settings.choose(currency: "USD")
+        let confirming = Task { await settings.confirmCurrencyChoice() }
+        try? await Task.sleep(for: .milliseconds(20))
+        #expect(settings.isFetchingCorrection)
+        settings.cancelCurrencyChoice()
+        #expect(settings.currencyChoice != nil)
+        await confirming.value
+        #expect(settings.currency == "USD")
+        #expect(settings.correction?.target == "USD")
+    }
+
+    @Test func currencyChangeKeepsTheRatesOfThatMoment() async throws {
+        let setting = CurrencySetting()
+        let table = ExchangeTable(
+            base: "USD", day: "2026-10-14", rates: ["BRL": 5, "EUR": 1], source: .currencyAPI)
+        let settings = SettingsModel(
+            defaults: defaults, cloudContainer: nil, currencySetting: setting,
+            rates: FixedExchangeRates(table: table))
+        settings.choose(currency: "USD")
+        await settings.confirmCurrencyChoice()
+        #expect(!settings.correctionFailed)
+        #expect(settings.correction != nil)
+        #expect(setting.correctionRate(from: "BRL")?.rate == Decimal(string: "0.2"))
+        let reopened = SettingsModel(
+            defaults: defaults, cloudContainer: nil, currencySetting: CurrencySetting())
+        #expect(reopened.correction?.target == "USD")
+        #expect(reopened.correction?.rate(from: "BRL") == Decimal(string: "0.2"))
     }
 
     @Test func languageHelpersResolveDevicePreviewAndValue() {
@@ -203,5 +262,20 @@ struct GeneralSettingsTests {
         #expect(journey?.achievements == Achievement.allCases.count)
         #expect(settings.journeyValue.hasPrefix("Level"))
         #expect(settings.journeyHideNotes.count == 3)
+    }
+}
+
+private struct FixedExchangeRates: ExchangeRateProviding {
+    let table: ExchangeTable
+    var delay: Duration = .zero
+
+    func table(base: String, on date: Date?) async throws -> ExchangeTable {
+        try await Task.sleep(for: delay)
+        guard base == table.base else { throw URLError(.badURL) }
+        return table
+    }
+
+    func currencies() async throws -> [String] {
+        CurrencySetting.supported
     }
 }

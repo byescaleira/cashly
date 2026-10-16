@@ -21,8 +21,9 @@ public struct TransactionEditorScreen: View {
             BudgetConflictLink()
             TransactionCategorySection()
             TransactionDateSection()
-            InstallmentSection()
-            ParticipantsSection()
+            TransactionCurrencySection()
+            InstallmentSection().disabled(model.isAmountLocked)
+            ParticipantsSection().disabled(model.isAmountLocked)
         }
         .fontDesign(.rounded)
         .readableWidth()
@@ -45,7 +46,7 @@ public struct TransactionEditorScreen: View {
                     .accessibilityValue(
                         pro.isPro ? "" : String(appLocalized: "Requires Cashly Pro"))
                 }
-                if !session.otherUsers.isEmpty && model.draft.kind == .expense {
+                if !session.otherUsers.isEmpty && model.canEditParticipants {
                     MultiSelectMenu(
                         "Participants", systemImage: "person.2.badge.plus",
                         items: session.otherUsers, selection: $model.participantUsers,
@@ -65,6 +66,9 @@ public struct TransactionEditorScreen: View {
         .onChange(of: model.draft.summary) { model.matchTags() }
         .onChange(of: model.draft.participants) { model.updateShares() }
         .onChange(of: model.draft.amount) { model.updateShares() }
+        .onChange(of: model.draft.paidAmount) { model.convertPaidAmount() }
+        .task { await model.loadPaidCurrencies() }
+        .task(id: model.rateRequest) { await model.updateRate() }
         .onChange(of: model.draft.splitMode) { model.changeSplitMode() }
         .task(
             id: PredictionRequest(

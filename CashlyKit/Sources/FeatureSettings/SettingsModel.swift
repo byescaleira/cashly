@@ -53,6 +53,8 @@ public final class SettingsModel {
     var isConfirmingHideJourney = false
     var currencyChoice: CurrencyChoice?
     var today = Date.now
+    var isFetchingCorrection = false
+    var correctionFailed = false
     public var data: DataModel?
     public var developer: DeveloperModel?
     public let notifications: NotificationsModel
@@ -67,8 +69,9 @@ public final class SettingsModel {
 
     public let syncsAtLaunch: Bool
     private let cloudContainer: String?
-    @ObservationIgnored private let defaults: UserDefaults
-    @ObservationIgnored private let currencySetting: CurrencySetting
+    @ObservationIgnored let defaults: UserDefaults
+    @ObservationIgnored let currencySetting: CurrencySetting
+    @ObservationIgnored let rates: any ExchangeRateProviding
     @ObservationIgnored private let languageSetting: LanguageSetting
     @ObservationIgnored private let iconSwitcher: any AppIconSwitching
 
@@ -76,8 +79,10 @@ public final class SettingsModel {
         defaults: UserDefaults = .standard, cloudContainer: String?, info: AppInfo = .main,
         currencySetting: CurrencySetting = .shared, languageSetting: LanguageSetting = .shared,
         notifications: NotificationsModel = NotificationsModel(),
-        iconSwitcher: any AppIconSwitching = SystemAppIcon()
+        iconSwitcher: any AppIconSwitching = SystemAppIcon(),
+        rates: any ExchangeRateProviding = UnavailableExchangeRates()
     ) {
+        self.rates = rates
         self.iconSwitcher = iconSwitcher
         lastSync = defaults.object(forKey: Key.lastSync) as? Date
         appIcon = AppIcon(assetName: iconSwitcher.current)
@@ -96,6 +101,11 @@ public final class SettingsModel {
                 CurrencySetting.isSupported($0) ? $0 : nil
             } ?? currencySetting.code
         currencySetting.code = currency
+        if let data = defaults.data(forKey: Key.currencyCorrection),
+            let correction = try? JSONDecoder().decode(CurrencyCorrection.self, from: data)
+        {
+            currencySetting.correction = correction
+        }
         self.currency = currency
         appearance =
             defaults.string(forKey: Key.appearance).flatMap(Appearance.init(rawValue:)) ?? .system
@@ -169,8 +179,7 @@ public final class SettingsModel {
     }
 
     func currencyName(_ code: String) -> String {
-        let name = Locale.app.localizedString(forCurrencyCode: code) ?? code
-        return name.prefix(1).uppercased() + name.dropFirst()
+        CurrencyText.name(code)
     }
 
     func loadJourney(from source: any GameSource) async {
@@ -190,10 +199,11 @@ public final class SettingsModel {
         }
     }
 
-    private enum Key {
+    enum Key {
         static let appearance = "cashly.settings.appearance"
         static let cloudSync = "cashly.settings.cloudSync"
         static let currency = "cashly.settings.currency"
+        static let currencyCorrection = "cashly.settings.currencyCorrection"
         static let language = "cashly.settings.language"
         static let journey = "cashly.settings.journey"
         static let lock = "cashly.settings.lock"

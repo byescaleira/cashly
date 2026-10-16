@@ -1,5 +1,6 @@
 import CashlyData
 import CashlyDomain
+import CashlyExchange
 import FeatureCore
 import FeatureSettings
 import FeatureStore
@@ -10,6 +11,7 @@ import Observation
 public final class CashlyServices {
     public static let shared = CashlyServices()
     public var pendingURL: URL?
+    public nonisolated let exchangeRates: any ExchangeRateProviding = ExchangeRateService.shared
     @ObservationIgnored private var opening: Task<CashlyDatabase, any Error>?
 
     private init() {}

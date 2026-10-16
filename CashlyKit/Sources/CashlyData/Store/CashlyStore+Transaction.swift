@@ -44,6 +44,7 @@ extension CashlyStore {
     func upsert(
         _ transaction: CashlyDomain.Transaction, userID: String, recordsEvent: Bool = true
     ) throws {
+        let transaction = transaction.stored
         let id = transaction.id
         let participants = transaction.participants
         let categoryID = transaction.category.id
@@ -63,7 +64,8 @@ extension CashlyStore {
         let storedCategory = try requireCategory(id: categoryID, userID: userID)
         for tagID in tagIDs { _ = try requireTag(id: tagID, userID: userID) }
         guard storedCategory.user == userID,
-            canonical.minorUnits > 0, timestamp.isFinite,
+            canonical.minorUnits > 0, CurrencySetting.isSupported(transaction.currencyCode),
+            timestamp.isFinite,
             summary.trimmingCharacters(in: .whitespacesAndNewlines).count >= 3,
             paymentsPlan == nil || (1...1200).contains(paymentsPlan ?? 0),
             kind != .income || participants.isEmpty
@@ -144,7 +146,8 @@ extension CashlyStore {
         entity.amountSource = canonical.doubleValue
         entity.amountMinorUnits = canonical.minorUnits
         entity.ownerMinorUnits = allocation.owner.minorUnits
-        entity.currencyCode = Money.currencyCode
+        entity.currencyCode = transaction.currencyCode
+        try apply(transaction.exchange, to: entity)
         entity.tagIDs = tagIDs.sorted()
         entity.tagsMigrated = true
         entity.startMonthIndex = YearMonth(date).monthIndex

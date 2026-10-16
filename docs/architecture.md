@@ -21,8 +21,9 @@ flowchart TD
 | Target | Responsabilidade | Depende de |
 | --- | --- | --- |
 | `CashlyDomain` | Entidades (`Transaction`, `Budget`, `Category`…), valores (`Money` em centavos, `YearMonth`), regras puras (`BudgetUsage`, `BudgetHealth`, `TransactionAllocation`…), formato de backup (`CashlyBackup`), protocolos de repositório | nada |
-| `CashlyData` | `CashlyDatabase`, `CashlyStore` (`@ModelActor`), schemas V1 a V4 congelados e V5 atual (capturas e memória de estabelecimentos), repositórios por agregado, backup (`CashlyDatabase.backup`), `CashlyChangeHub`, `LocalIntelligenceService` | Domain |
+| `CashlyData` | `CashlyDatabase`, `CashlyStore` (`@ModelActor`), schemas V1 a V5 congelados e V6 atual (moeda paga e cotação da transação; ver [currency.md](currency.md)), repositórios por agregado, backup (`CashlyDatabase.backup`), `CashlyChangeHub`, `LocalIntelligenceService` | Domain |
 | `CashlyDesignSystem` | `Styles/` (extensions de `ShapeStyle`, paleta retrô em `Color+Retro`, `Color(hex:)`, `\.appTint`), `Modifiers/` (extensions de `View`, como `.amountLine()`), `Layout/` (`AdaptiveList`, `AdaptiveStack`, `AdaptiveRow`, `SurfaceContainer`) | nada |
+| `CashlyExchange` | `ExchangeRateService` (actor): cotações por data na `fawazahmed0/exchange-api` (jsDelivr e Cloudflare Pages) com reserva na Frankfurter, cache em disco (datas passadas para sempre, a de hoje por uma hora) e lista de moedas ISO; implementa `ExchangeRateProviding` do domínio | Domain |
 | `CashlyResource` | Prévias dos ícones do app, avatares ilustrados e animações Lottie embutidas | nada |
 | `FeatureCore` | Estado compartilhado (`SessionModel`, `FinanceModel`, `IntelligenceModel`, `EditorStatus`, `TransactionFilter`), navegação (`Route`, `AppSection`, `CashlyNavigation`, `\.open`, `\.close`), componentes usados por mais de uma feature (como `RetroColorPicker` e `ColorSection`, com as 26 cores nomeadas de `RetroColor`, `AppIcon`/`AppIconImage`, usados pelos Ajustes e pela loja, e a foto de perfil: `ProfileAvatar`, `ProfileSymbol` e `ProfileIllustration`, e o acesso a itens da loja: `PackAccess`, `PackAccessButton`), textos de exibição, `ProAccess` e `ShopAccess` (ambiente), `CashlyTips` (configuração do TipKit e eventos compartilhados; cada feature declara as suas `Tip`s), `IntentActions` e `CaptureActions` (lógica dos App Intents e da caixa de entrada de capturas), `CaptureNotifier` (notificação por captura, ações e contador do ícone) | Domain, DesignSystem, Resource |
 | `Feature*` | Uma área do app: model, telas e seções | Domain, DesignSystem, FeatureCore |
@@ -50,7 +51,8 @@ Regras de dependência:
 | `FeatureOnboarding` | `OnboardingModel` e `OnboardingScreen`: primeira abertura, perfil e categorias sugeridas |
 | `FeatureJourney` | `JourneyModel` e `JourneyScreen`: nível, sequência, missões, desafio, conquistas e a loja (`ShopScreen`, `ShopItemScreen`), sobre o motor `CashlyGame` e o `StoreModel` |
 | `FeatureStore` | `StoreModel` (StoreKit 2): produtos do catálogo `ShopItem`, compra, restauração, itens possuídos, `Entitlement` do Cashly Pro e crédito único de consumíveis como `GameEvent`; `PaywallScreen` com `SubscriptionStoreView` |
-| `FeatureTransactions` | Lista paginada com seleção (`TransactionListModel`) e editor (`TransactionEditorModel`) |
+| `FeatureTransactions` | Lista paginada com seleção (`TransactionListModel`) e editor (`TransactionEditorModel`), inclusive "Paga em" outra moeda com a cotação da data (Cashly Pro) |
+| `FeatureConverter` | `ConverterModel` e `ConverterScreen`: conversor rápido com a cotação mais recente, aberto pela toolbar do Início (rota `.converter`) |
 | `FeatureCategories` | Lista, detalhe e editor de categoria |
 | `FeatureBudgets` | Editor de orçamento e resolução de conflito |
 | `FeatureTags` | Editor de tag |
@@ -66,6 +68,7 @@ Regras de dependência:
 - **Mudanças.** O `CashlyChangeHub` avisa a sessão quando o banco muda (inclusive por CloudKit), e a sessão recarrega o que estiver na tela.
 - **Editores.** Cada rota de edição recebe um model novo por `ModelHost`, com `EditorStatus` para carregar, salvar e excluir com proteção contra respostas atrasadas. `.editorLifecycle` cuida de carregar, fechar ao salvar e mostrar erros.
 - **Dinheiro.** Valores são `Money` em centavos inteiros; `Double` só existe na borda da interface. A moeda exibida e gravada nos registros novos vem de `CurrencySetting.shared`, observável e segura entre threads; a formatação (`.appCurrency`, `Money.formatted`) lê dela, então as telas se atualizam quando ela muda.
+- **Moedas.** Cada registro guarda a moeda em que foi gravado. Ao trocar a moeda do app, o `SettingsModel` guarda uma `CurrencyCorrection` com as cotações daquele momento, e o `CashlyStore` mostra os registros de outras moedas convertidos (`CurrencyEstimate`), sem nunca gravar o valor convertido: `Transaction.stored` e `Budget.stored` devolvem o original na escrita. A cotação vem do ambiente (`\.exchangeRates`), injetado pelo `AppShell`. Detalhes em [currency.md](currency.md).
 
 ## Navegação
 

@@ -23,6 +23,7 @@ extension CashlyStore {
     }
 
     public func saveCapture(_ capture: Capture, userID: String) throws -> Capture {
+        guard CurrencySetting.isSupported(capture.currencyCode) else { throw CashlyError.onSave }
         guard capture.ownerID == userID, capture.money.minorUnits > 0 else {
             throw CashlyError.onSave
         }
@@ -52,7 +53,7 @@ extension CashlyStore {
             modelContext.insert(row)
         }
         row.amountMinorUnits = capture.money.minorUnits
-        row.currencyCode = Money.currencyCode
+        row.currencyCode = capture.currencyCode
         row.merchant = capture.merchant
         row.merchantKey = capture.merchantKey
         row.card = capture.card
@@ -101,7 +102,7 @@ extension CashlyStore {
         guard let source = Capture.Source(rawValue: row.source),
             let status = Capture.Status(rawValue: row.status)
         else { return nil }
-        return Capture(
+        var capture = Capture(
             id: row.id, ownerID: row.ownerID, money: Money(minorUnits: row.amountMinorUnits),
             merchant: row.merchant, card: row.card, date: Date(timeIntervalSince1970: row.date),
             source: source,
@@ -109,5 +110,7 @@ extension CashlyStore {
             suggestedSummary: row.suggestedSummary, suggestedTagIDs: Set(row.suggestedTagIDs),
             status: status, transactionID: row.transactionID.isEmpty ? nil : row.transactionID,
             createdAt: Date(timeIntervalSince1970: row.createdAt))
+        capture.currencyCode = row.currencyCode
+        return capture
     }
 }

@@ -116,6 +116,9 @@ Símbolos com tamanho fixo usam `.font(.icon(_:weight:))`, nunca `.system(size:)
 | `SelectionMark(isSelected:)` | Marcador de seleção nas colunas |
 | `FlowLayout` | Itens que quebram linha (chips, cápsulas) |
 | `DisclosureLink`, `SurfaceContainer`, `FixedToolbarSpacer` | Navegação e barra |
+| `CurrencyPickerScreen` (`FeatureCore`) | Lista de moedas com busca, seção de sugeridas e cadeado nas moedas bloqueadas; fecha ao escolher. Usada pelo "Paga em" e pelo conversor |
+| `CurrencySymbolBadge(symbol:size:)` (`FeatureCore`) | Símbolo da moeda num quadrado tingido pela `appTint` |
+| `ExchangeNotice`, `EstimatesNotice` (`FeatureCore`) | Aviso de que conversões são estimativas; o segundo só aparece quando o período tem valores convertidos (`FinanceModel.hasEstimates`) |
 
 ## Regras
 

@@ -28,10 +28,7 @@ public struct HomeScreen: View {
             TagsSection()
         }
         .fontDesign(.rounded)
-        .toolbar {
-            ToolbarItem(placement: .leading) { UserMenu() }
-            ToolbarItem { FilterMenu() }
-        }
+        .toolbar { HomeToolbar() }
         .refreshable { await finance.load() }
         .navigationTitle("Home")
         .onChange(of: reports.syncKey, initial: true) { reports.sync() }

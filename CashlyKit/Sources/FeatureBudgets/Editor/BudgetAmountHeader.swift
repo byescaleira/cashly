@@ -26,6 +26,17 @@ struct BudgetAmountHeader: View {
                     .frame(maxWidth: .infinity)
                     .padding(.top, .spaceL)
                     .tint(.clear)
+                    .disabled(model.isAmountLocked)
+                if let estimate = model.estimateDescription {
+                    VStack(spacing: .spaceS) {
+                        Text(estimate).privacySensitive()
+                        ExchangeNotice()
+                    }
+                    .font(.footnote)
+                    .foregroundStyle(Color.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.top, .spaceM)
+                }
             }
         }
     }

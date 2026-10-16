@@ -60,8 +60,16 @@ public final class BudgetEditorModel {
                 "\(name) already has a budget in \(month). Pick another month or edit that budget.")
     }
 
+    public var isAmountLocked: Bool { draft.estimate != nil }
+
+    public var estimateDescription: String? {
+        guard let estimate = draft.estimate else { return nil }
+        return CurrencyText.estimate(estimate) + " "
+            + String(appLocalized: "The amount can't be changed here.")
+    }
+
     public func canSuggestAmount(with intelligence: IntelligenceModel) -> Bool {
-        repositories.userID != nil && intelligence.hasModel(.budgetValue)
+        !isAmountLocked && repositories.userID != nil && intelligence.hasModel(.budgetValue)
     }
 
     public func suggestAmount(with intelligence: IntelligenceModel) async {

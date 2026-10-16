@@ -36,6 +36,26 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CashlyExchangeTests"
+               BuildableName = "CashlyExchangeTests"
+               BlueprintName = "CashlyExchangeTests"
+               ReferencedContainer = "container:CashlyKit">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FeatureConverterTests"
+               BuildableName = "FeatureConverterTests"
+               BlueprintName = "FeatureConverterTests"
+               ReferencedContainer = "container:CashlyKit">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "CashlyAnalyticsTests"
                BuildableName = "CashlyAnalyticsTests"
                BlueprintName = "CashlyAnalyticsTests"

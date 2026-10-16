@@ -10,6 +10,7 @@ public struct CashlyOverview: Sendable {
     public var incomeTotal: Money = .zero
     public var netTotal: Money = .zero
     public var transactionCount = 0
+    public var convertedCount = 0
     public var expenseDayCount = 0
     public var participantUsers: [User] = []
     public var biggestTransactions: [Transaction] = []
