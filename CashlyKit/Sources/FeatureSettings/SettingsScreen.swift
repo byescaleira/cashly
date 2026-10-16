@@ -116,7 +116,7 @@ private struct AddUserButton: View {
     @Environment(\.navigationSection) private var section
 
     var body: some View {
-        Button("Add User", systemImage: "person.badge.plus") {
+        Button("Add Profile", systemImage: "person.badge.plus") {
             open(.addUser(id: nil), in: section)
         }
         .tint(Color.primary)

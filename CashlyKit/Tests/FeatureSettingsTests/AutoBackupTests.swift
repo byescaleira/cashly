@@ -87,7 +87,7 @@ struct AutoBackupTests {
         #expect(data.exportType == .commaSeparatedText)
         #expect(data.fileName.hasPrefix("Cashly transactions"))
         let text = String(decoding: try #require(data.document).data, as: UTF8.self)
-        #expect(text.hasPrefix("Date;User;"))
+        #expect(text.hasPrefix("Date;Profile;"))
         await data.finishExport(.success(URL(filePath: "/tmp/a.csv")))
         #expect(data.message == "Spreadsheet saved.")
         #expect(try await backups(database) == 0)

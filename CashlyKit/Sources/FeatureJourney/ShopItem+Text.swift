@@ -59,7 +59,7 @@ extension ShopItem {
                     : String(appLocalized: "A whole section of illustrated animals")),
             ShopBenefit(
                 symbol: "person.crop.circle.fill", color: .retroOrange,
-                title: String(appLocalized: "Pick one in Edit User › Illustration")),
+                title: String(appLocalized: "Pick one in Edit Profile › Illustration")),
             ShopBenefit(
                 symbol: "infinity", color: .retroOlive,
                 title: String(appLocalized: "Yours for good, on all your devices")),

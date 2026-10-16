@@ -30,7 +30,7 @@ public actor CashlyStore {
         let values = try modelContext.fetch(descriptor)
         guard values.count <= 1 else {
             throw CashlyError.persistence(
-                String(appLocalized: "Some users in storage have conflicting IDs."))
+                String(appLocalized: "Some profiles in storage have conflicting IDs."))
         }
         return values.first.map(Self.user)
     }

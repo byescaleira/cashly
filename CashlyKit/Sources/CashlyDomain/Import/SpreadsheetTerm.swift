@@ -20,7 +20,7 @@ public enum SpreadsheetTerm: CaseIterable, Sendable {
     private var value: String.LocalizationValue {
         switch self {
         case .date: "Date"
-        case .user: "User"
+        case .user: "Profile"
         case .summary: "Description"
         case .category: "Category"
         case .kind: "Type"

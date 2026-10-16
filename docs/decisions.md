@@ -702,3 +702,11 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 
 - **Pedido do usuário:** um botão da loja na barra do Início, a tela mais aberta.
 - **Como ficou:** `Button("Shop", systemImage: "bag")` com `.tint(Color.primary)`, sozinha no fim em `.primaryAction`, separada do filtro por `FixedToolbarSpacer` (a loja é navegação para fora; o filtro é da tela), igual ao padrão de Metas e à sacola da Jornada. Abre a loja por `open(.shop, in: section)`, que no iPad abre ao lado. O card "Da loja" continua no meio do Início para o item do mês.
+
+## 15/10/2026: "perfil" no lugar de "usuário" e "participante"
+
+- **Pedido do usuário:** o perfil pode ser uma pessoa, uma entidade, um banco, qualquer coisa; os textos não falam mais em usuário, participante ou pessoa para se referir a perfis.
+- **Textos trocados** (34 chaves; 32 entram com as traduções, e "User" e "%lld users" passam a usar "Profile" e "%lld profiles", que já existiam): "Add Profile", "Edit Profile", nome do perfil, seleção de perfil, conflito de IDs, backup e dados de exemplo; na divisão de gastos, "Shared with" no editor, no filtro e nos Atalhos, "each profile pays", "Share per Profile", "Split with Other Profiles" e as conquistas e dicas de divisão. A frase do onboarding virou "Each profile keeps its own finances: a person, a business, a bank or anything else.", e o título do campo de nome no editor de perfil deixou de ser "First and last name" para ser só "Name" (a chave já existia, das categorias e tags). A regra entrou na terminologia fixa de `localization.md` do apple-sdd.
+- **Mantidos:** os textos sobre o desenvolvedor ("Made by one person", "the person who writes the code") e "Some people record before sunrise", que falam de gente de verdade, e a palavra de busca "person" dos símbolos.
+- **Código e dados:** os nomes internos (`User`, `participants`, `UserEntity`) continuam iguais, porque mudar mexeria no banco, no backup e no MCP. O cabeçalho da coluna da planilha exportada passa a ser "Profile"; a importação não lê essa coluna, então planilhas antigas seguem funcionando.
+

@@ -29,7 +29,7 @@ extension Achievement {
         case .together:
             String(
                 appLocalized:
-                    "When you share an expense, add the people in the editor. Each split expense counts once."
+                    "When you share an expense, add the other profiles in the editor. Each split expense counts once."
             )
         case .challenges:
             String(appLocalized: "Pick a challenge in Journey. The first one each month is free.")
@@ -84,7 +84,8 @@ extension Achievement {
             )
         case .firstSplit:
             String(
-                appLocalized: "In the transaction editor, add participants and choose the split.")
+                appLocalized:
+                    "In the transaction editor, add the other profiles and choose the split.")
         case .firstBackup:
             String(appLocalized: "Settings › Data › Export Backup saves a file with every profile.")
         default: String(appLocalized: "Any amount counts, even a coffee. It takes a few seconds.")
