@@ -5,7 +5,6 @@ import SwiftUI
 struct DeepLinks: ViewModifier {
     @Environment(CashlyNavigation.self) private var navigation
     @Environment(SessionModel.self) private var session
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     func body(content: Content) -> some View {
         content
@@ -47,11 +46,11 @@ struct DeepLinks: ViewModifier {
                 .addBudget(id: nil, categoryID: nil, date: session.filter.startDate),
                 in: .planning)
         case "budgets":
-            navigation.open(.budgets, in: .planning, beside: horizontalSizeClass == .regular)
+            navigation.open(.budgets, in: .planning)
         case "journey":
             navigation.selectedSection = .journey
         case "shop":
-            navigation.open(.shop, in: .journey, beside: horizontalSizeClass == .regular)
+            navigation.open(.shop, in: .journey)
             navigation.shopItem = url.pathComponents.dropFirst().first.flatMap(ShopItem.init)
         default:
             navigation.selectedSection = .home
@@ -59,6 +58,6 @@ struct DeepLinks: ViewModifier {
     }
 
     private func open(_ route: Route, in section: AppSection) {
-        navigation.open(route, in: section, beside: horizontalSizeClass == .regular)
+        navigation.open(route, in: section)
     }
 }

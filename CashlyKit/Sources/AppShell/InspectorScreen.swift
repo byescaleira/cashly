@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import FeatureCore
 import SwiftUI
 
@@ -22,8 +23,8 @@ struct InspectorScreen: View {
             \.close,
             CloseAction { navigation.close(in: inspector.section, inspecting: true) }
         )
-        #if os(macOS)
-            .inspectorColumnWidth(min: 320, ideal: 400, max: 480)
+        #if !os(visionOS)
+            .inspectorColumnWidth(min: .inspectorMin, ideal: .inspectorIdeal, max: .inspectorMax)
         #endif
     }
 }

@@ -38,6 +38,7 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 - **Integrações, assinatura e novas features.** Planejadas por fase em [roadmap.md](roadmap.md). Antes de App Intents e widgets, resolver "Serviços fora da janela" acima. Servidor MCP para o Claude Code continua como ideia futura.
 - **[P3] Acessibilidade e restauração.** Dynamic Type conferido no iPhone até o tamanho de acessibilidade AX3; falta VoiceOver, principalmente gráficos e seletores de ícones. Rotas pequenas permitem deep links e restauração.
 - **[P3] Seletor de mês além do orçamento.** O `MonthPicker` novo só é usado no editor de orçamento; avaliar o filtro de período (`FilterMenu`) e a escolha de mês das telas de Metas com o mesmo componente.
+- **[P2] Telas grandes e multiplataforma.** Melhorar a experiência no iPad, no Mac e no iPhone dobrável ("iPhone duo"). As rotas já abrem num `.inspector` quando a janela comporta coluna e inspector (ver decisions.md, 15/10/2026); conferido no simulador do iPad 13" e 11" em pé. Falta: iPad deitado, Split View e Stage Manager, Mac, o dobrável (só pelo Xcode Cloud, porque o Mac de trabalho não tem o Xcode nem o macOS mais recentes). O visual foi aprovado e a regra já está no apple-sdd (adaptive-layout.md §7.2).
 - **Ações de retry** nos editores quando a carga inicial falha (hoje é preciso fechar e abrir).
 
 ## Widgets

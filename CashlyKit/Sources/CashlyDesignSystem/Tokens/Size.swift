@@ -10,4 +10,8 @@ extension CGFloat {
     public static let medallion: CGFloat = 112
     public static let barHeight: CGFloat = 10
     public static let rowHeight: CGFloat = 44
+    public static let readableColumn: CGFloat = 560
+    public static let inspectorMin: CGFloat = 320
+    public static let inspectorIdeal: CGFloat = 400
+    public static let inspectorMax: CGFloat = 480
 }

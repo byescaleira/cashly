@@ -726,3 +726,11 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 
 - **Merge** de `feature/home-shop` com `feature/currency`: as duas mexeram na barra do Início. A barra fica em `HomeToolbar`: `UserMenu` no leading, o conversor, o filtro e a sacola da loja sozinha no fim em `.primaryAction`, cada grupo separado por `FixedToolbarSpacer`.
 - **Terminologia:** a mensagem do editor de pagamento em outra moeda que falava em "participants" passou a "shared profiles" ("perfis da divisão"), seguindo a regra de perfil.
+
+## 15/10/2026: inspector no lugar da folha lateral
+
+- **Pedido do usuário:** a folha lateral do iPad não agradava; em telas grandes as rotas devem abrir num inspector, de forma inteligente.
+- **Regra:** a rota abre ao lado só quando a janela comporta a coluna central (`.readableColumn`, 560 pt) mais o inspector na largura com que ele abre (`.inspectorIdeal`, 400 pt), ou seja, 960 pt ou mais. Abaixo disso ela é empurrada na pilha da aba. A decisão é pela largura da janela inteira (`CashlyNavigation.fit(width:)`), não pela plataforma nem pela classe de tamanho: iPad 13" em pé, iPad deitado, dobrável aberto (se passar de 960 pt) e Mac largo abrem ao lado; iPad 11" em pé, iPad mini em pé, iPhone deitado (até o Pro Max, 956 pt), Split View estreito e Mac estreito empurram. Se a pessoa arrastar o inspector até `.inspectorMax`, a coluna central pode ficar um pouco abaixo de 560 pt; é escolha dela.
+- **Apresentação:** `.inspector` no iPhone, iPad e Mac, com `.inspectorColumnWidth(320/400/480)`; o visionOS continua com `sheet`. Saem a `RouteSheet` e a `SideSheet` (folha com `presentationPlacement`, detents e fundo interativo).
+- **Ao redimensionar:** um inspector aberto fica onde está; a regra vale para a próxima rota. Mover a rota entre o inspector e a pilha recriaria o editor e perderia o que está sendo digitado. Abaixo da largura regular o próprio SwiftUI apresenta o inspector como folha.
+- **Mantidos como folha:** guias (`GuideSheet`), paywall, item da loja, onboarding e as folhas da Jornada, que são momentos modais e não rotas.
