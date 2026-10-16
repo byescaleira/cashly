@@ -12,8 +12,8 @@ extension TransactionSplitMode {
 
     public var description: String {
         switch self {
-        case .equal: String(appLocalized: "Splits the total equally among all participants.")
-        case .fixedAmount: String(appLocalized: "Sets a fixed amount for each participant.")
+        case .equal: String(appLocalized: "Splits the total equally among all profiles.")
+        case .fixedAmount: String(appLocalized: "Sets a fixed amount for each profile.")
         case .percentage: String(appLocalized: "Splits the total by percentage.")
         case .payerBased:
             String(

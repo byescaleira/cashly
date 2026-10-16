@@ -137,7 +137,7 @@ extension Achievement {
         case .firstBudget: String(appLocalized: "Plan a budget for any category, in any month.")
         case .firstTag: String(appLocalized: "Create your first tag.")
         case .firstSplit:
-            String(appLocalized: "Record an expense split with at least one other person.")
+            String(appLocalized: "Record an expense split with at least one other profile.")
         case .firstBackup: String(appLocalized: "Export a backup of your data.")
         default: String(appLocalized: "Record your first transaction, an expense or an income.")
         }
@@ -163,7 +163,7 @@ extension Achievement {
             String(appLocalized: "Give every category a budget in the current month.")
         case .allGuides: String(appLocalized: "Finish all \(Guide.free.count) guides.")
         case .splits10, .splits50:
-            String(appLocalized: "Record \(target) expenses split with other people.")
+            String(appLocalized: "Record \(target) expenses split with other profiles.")
         case .challenges1: String(appLocalized: "Complete a challenge before it ends.")
         case .challenges5, .challenges12: String(appLocalized: "Complete \(target) challenges.")
         default:

@@ -29,11 +29,11 @@ public struct UserMenu: View {
                 Divider()
             }
             if let user = session.user {
-                Button("Edit User", systemImage: "pencil") {
+                Button("Edit Profile", systemImage: "pencil") {
                     open(.addUser(id: user.id), in: section)
                 }
             }
-            Button("Add User", systemImage: "plus") {
+            Button("Add Profile", systemImage: "plus") {
                 open(.addUser(id: nil), in: section)
             }
         } label: {
@@ -41,6 +41,6 @@ public struct UserMenu: View {
         }
         .menuStyle(.button)
         .buttonStyle(.plain)
-        .accessibilityLabel("User")
+        .accessibilityLabel("Profile")
     }
 }

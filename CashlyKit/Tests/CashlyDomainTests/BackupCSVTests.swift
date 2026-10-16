@@ -25,7 +25,8 @@ struct BackupCSVTests {
         let lines = backup.transactionsCSV.components(separatedBy: "\r\n")
         #expect(
             lines[0]
-                == "Date;User;Description;Category;Type;Status;Amount;Currency;Installments;Tags")
+                == "Date;Profile;Description;Category;Type;Status;Amount;Currency;Installments;Tags"
+        )
         #expect(
             lines[1]
                 == "2026-03-05;Ana;\"Feira; \"\"semana\"\"\";Mercado;Expense;To pay;\(SpreadsheetTerm.amount(123_405));\(backup.currency);3;Casa"

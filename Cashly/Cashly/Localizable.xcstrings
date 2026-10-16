@@ -59,6 +59,122 @@
         }
       }
     },
+    "A backup is a file with profiles, categories, tags, budgets and transactions. Importing adds the file's records to the ones already on this device. The spreadsheet has transactions only." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Backup ist eine Datei mit Profilen, Kategorien, Tags, Budgets und Transaktionen. Beim Importieren werden die Einträge der Datei zu denen auf diesem Gerät hinzugefügt. Die Tabelle enthält nur Transaktionen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una copia de seguridad es un archivo con perfiles, categorías, etiquetas, presupuestos y transacciones. Al importar, los registros del archivo se suman a los que ya están en el dispositivo. La hoja de cálculo solo incluye las transacciones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une sauvegarde est un fichier contenant les profils, catégories, tags, budgets et transactions. L’importation ajoute les données du fichier à celles déjà présentes sur l’appareil. Le tableur ne contient que les transactions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un backup è un file con profili, categorie, tag, budget e transazioni. L’importazione aggiunge i dati del file a quelli già presenti sul dispositivo. Il foglio di calcolo contiene solo le transazioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バックアップには、プロファイル、カテゴリ、タグ、予算、取引が含まれます。読み込むと、ファイルの記録がこのデバイスの記録に追加されます。スプレッドシートには取引のみが含まれます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "백업은 프로필, 카테고리, 태그, 예산, 거래가 담긴 파일입니다. 가져오면 파일의 기록이 이 기기의 기록에 추가됩니다. 스프레드시트에는 거래만 포함됩니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O backup é um arquivo com perfis, categorias, tags, orçamentos e transações. Importar adiciona os registros do arquivo aos que já estão no aparelho. A planilha traz só as transações."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Резервная копия — это файл с профилями, категориями, тегами, бюджетами и операциями. При импорте записи из файла добавляются к уже имеющимся на устройстве. В таблице только операции."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份是包含档案、类别、标签、预算和交易的文件。导入时，文件中的记录会添加到此设备上已有的记录中。电子表格只包含交易。"
+          }
+        }
+      }
+    },
+    "A backup is one file with profiles, categories, tags, budgets and transactions. Turn on Automatic Backup, or save copies to iCloud Drive." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ein Backup ist eine Datei mit Profilen, Kategorien, Tags, Budgets und Transaktionen. Aktiviere das automatische Backup oder speichere Kopien in iCloud Drive."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una copia es un archivo con perfiles, categorías, etiquetas, presupuestos y transacciones. Activa la copia automática o guarda copias en iCloud Drive."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une sauvegarde est un fichier avec les profils, catégories, tags, budgets et transactions. Activez la sauvegarde automatique, ou enregistrez des copies dans iCloud Drive."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un backup è un file con profili, categorie, tag, budget e transazioni. Attiva il backup automatico o salva copie su iCloud Drive."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バックアップはプロファイル、カテゴリ、タグ、予算、取引を含む1つのファイルです。自動バックアップをオンにするか、iCloud Driveにコピーを保存しましょう。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "백업은 프로필, 카테고리, 태그, 예산, 거래가 담긴 파일 하나입니다. 자동 백업을 켜거나 iCloud Drive에 사본을 저장하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Um backup é um arquivo com perfis, categorias, tags, orçamentos e transações. Ligue o Backup automático ou salve cópias no iCloud Drive."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Резервная копия — один файл с профилями, категориями, тегами, бюджетами и транзакциями. Включите автоматическое резервирование или сохраняйте копии в iCloud Drive."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "备份是一个包含档案、分类、标签、预算和交易的文件。开启自动备份，或把副本保存到 iCloud 云盘。"
+          }
+        }
+      }
+    },
     "A Cashly that learns from you" : {
       "localizations" : {
         "de" : {
@@ -287,6 +403,180 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "根据预算和支出得出的评分，告诉你可以改进什么。"
+          }
+        }
+      }
+    },
+    "Add Profile" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profil hinzufügen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añadir perfil"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter un profil"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi profilo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プロファイルを追加"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프로필 추가"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar perfil"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавить профиль"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加档案"
+          }
+        }
+      }
+    },
+    "Adds five profiles with categories, tags, budgets and transactions." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fügt fünf Profile mit Kategorien, Tags, Budgets und Transaktionen hinzu."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añade cinco perfiles con categorías, etiquetas, presupuestos y transacciones."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajoute cinq profils avec catégories, tags, budgets et transactions."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiunge cinque profili con categorie, tag, budget e transazioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カテゴリ、タグ、予算、取引を含む5つのプロファイルを追加します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카테고리, 태그, 예산, 거래가 있는 프로필 5개를 추가합니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adiciona cinco perfis com categorias, tags, orçamentos e transações."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавляет пять профилей с категориями, тегами, бюджетами и операциями."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加五个档案及其分类、标签、预算和交易。"
+          }
+        }
+      }
+    },
+    "An equal split must apply to every profile." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eine gleichmäßige Aufteilung muss für alle Profile gelten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El reparto igualitario debe aplicarse a todos los perfiles."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un partage égal doit s’appliquer à tous les profils."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La divisione in parti uguali deve valere per tutti i profili."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "均等割りはすべてのプロファイルに適用する必要があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "균등 분할은 모든 프로필에 적용되어야 합니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A divisão igual deve ser aplicada a todos os perfis."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Равное разделение должно применяться ко всем профилям."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平均分摊必须适用于所有档案。"
           }
         }
       }
@@ -813,6 +1103,64 @@
         }
       }
     },
+    "Choose who splits it among the other profiles." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle aus den anderen Profilen, wer mitteilt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige entre los otros perfiles con quién dividir."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez parmi les autres profils avec qui partager."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli tra gli altri profili con chi dividere."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ほかのプロファイルから分ける相手を選んでください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 프로필 중에서 함께 나눌 프로필을 선택하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha entre os outros perfis com quem dividir."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите среди других профилей, с кем делить."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请从其他档案中选择一起分摊的对象。"
+          }
+        }
+      }
+    },
     "Claude Code reads your transactions, budgets and goals to answer in plain words." : {
       "localizations" : {
         "de" : {
@@ -1041,6 +1389,238 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每个分类的预算与实际支出并排显示。"
+          }
+        }
+      }
+    },
+    "Each profile keeps its own finances: a person, a business, a bank or anything else." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jedes Profil hat eigene Finanzen: eine Person, ein Unternehmen, eine Bank oder etwas anderes."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada perfil tiene sus propias finanzas: una persona, una empresa, un banco o lo que quieras."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque profil a ses propres finances : une personne, une entreprise, une banque ou autre chose."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ogni profilo ha le proprie finanze: una persona, un’azienda, una banca o altro."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プロファイルごとに家計を分けられます。人、会社、銀行など何でも。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프로필마다 재정을 따로 관리해요. 사람, 회사, 은행 등 무엇이든 될 수 있어요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada perfil tem as próprias finanças: uma pessoa, uma empresa, um banco ou o que você quiser."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У каждого профиля свои финансы: человек, компания, банк или что угодно."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个档案都有自己的财务：个人、公司、银行或任何对象。"
+          }
+        }
+      }
+    },
+    "Edit Profile" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profil bearbeiten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar perfil"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier le profil"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifica profilo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プロファイルを編集"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프로필 편집"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar perfil"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить профиль"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑档案"
+          }
+        }
+      }
+    },
+    "Enter the profile's name" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name des Profils eingeben"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escribe el nombre del perfil"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saisissez le nom du profil"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inserisci il nome del profilo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プロファイル名を入力"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프로필 이름 입력"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digite o nome do perfil"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Введите название профиля"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入档案名称"
+          }
+        }
+      }
+    },
+    "Equally, by fixed amount or by percentage. Cashly works out each profile's share." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zu gleichen Teilen, mit festem Betrag oder prozentual. Cashly berechnet den Anteil jedes Profils."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A partes iguales, por importe fijo o por porcentaje. Cashly calcula la parte de cada perfil."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "À parts égales, par montant fixe ou par pourcentage. Cashly calcule la part de chaque profil."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In parti uguali, con importo fisso o in percentuale. Cashly calcola la quota di ogni profilo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "均等、固定額、または割合で分けられます。各プロファイルの負担額はCashlyが計算します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "균등하게, 고정 금액으로, 또는 비율로 나눌 수 있습니다. 프로필별 몫은 Cashly가 계산합니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Em partes iguais, por valor fixo ou por porcentagem. O Cashly calcula a parte de cada perfil."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поровну, фиксированной суммой или в процентах. Cashly посчитает долю каждого профиля."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可平均分摊、按固定金额或按百分比分摊。Cashly 会算出每个档案的份额。"
           }
         }
       }
@@ -1857,6 +2437,64 @@
         }
       }
     },
+    "How much does each profile pay?" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wie viel zahlt jedes Profil?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Cuánto paga cada perfil?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combien paie chaque profil ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quanto paga ogni profilo?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "各プロファイルはいくら払いますか？"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프로필마다 얼마를 내나요?"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quanto cada perfil paga?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сколько платит каждый профиль?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个档案付多少？"
+          }
+        }
+      }
+    },
     "Icons, colors, avatars and Journey helps." : {
       "localizations" : {
         "de" : {
@@ -2027,6 +2665,180 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在对话中导入账单"
+          }
+        }
+      }
+    },
+    "In a transaction, add the profiles that split the bill with you." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Füge in einer Transaktion die Profile hinzu, mit denen du die Rechnung geteilt hast."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En una transacción, añade los perfiles que dividieron la cuenta contigo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans une transaction, ajoutez les profils qui ont partagé l’addition avec vous."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In una transazione, aggiungi i profili che hanno diviso il conto con te."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取引に、一緒に支払いを分けたプロファイルを追加します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "거래에 함께 비용을 나눈 프로필을 추가하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Numa transação, adicione os perfis que dividiram a conta com você."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Добавьте в операцию профили, с которыми вы разделили счёт."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在交易中添加与你一起分摊账单的档案。"
+          }
+        }
+      }
+    },
+    "In the Shortcuts app, Add Expense has every field of the editor: description, status, date, tags, shared profiles, split, installments and profile. Chain them: a shortcut that records your commute every weekday." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In der Kurzbefehle-App hat „Ausgabe erfassen“ jedes Feld des Editors: Beschreibung, Status, Datum, Tags, geteilte Profile, Aufteilung, Raten und Profil. Kombiniere sie: ein Kurzbefehl, der jeden Werktag deinen Arbeitsweg erfasst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En la app Atajos, Añadir gasto tiene todos los campos del editor: descripción, estado, fecha, etiquetas, perfiles con los que se divide, división, cuotas y perfil. Encadénalos: un atajo que registra tu trayecto cada día laborable."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans l’app Raccourcis, Ajouter une dépense a tous les champs de l’éditeur : description, statut, date, tags, profils du partage, partage, échéances et profil. Enchaînez-les : un raccourci qui enregistre votre trajet chaque jour de semaine."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nell’app Comandi, Aggiungi spesa ha tutti i campi dell’editor: descrizione, stato, data, tag, profili con cui dividere, divisione, rate e profilo. Concatenali: un comando che registra il tragitto ogni giorno feriale."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ショートカットAppの「支出を追加」には、説明、状態、日付、タグ、分けるプロファイル、分け方、分割払い、プロファイルなどエディタの全項目があります。組み合わせれば、平日の通勤を毎日記録するショートカットも作れます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단축어 앱의 지출 추가에는 설명, 상태, 날짜, 태그, 함께 나눌 프로필, 분할, 할부, 프로필까지 편집기의 모든 항목이 있어요. 이어 붙여 보세요: 평일마다 출퇴근 비용을 기록하는 단축어."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No app Atalhos, Registrar gasto tem todos os campos do editor: descrição, status, data, tags, perfis da divisão, divisão, parcelas e perfil. Encadeie: um atalho que registra o transporte todo dia útil."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В приложении «Команды» действие «Добавить расход» содержит все поля редактора: описание, статус, дату, теги, профили для разделения, разделение, рассрочку и профиль. Объединяйте их: команда, которая записывает дорогу на работу каждый будний день."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在“快捷指令”App 中，“添加支出”包含编辑器的所有字段：描述、状态、日期、标签、分摊档案、分摊、分期和档案。把它们串起来：一个每个工作日记录通勤费用的快捷指令。"
+          }
+        }
+      }
+    },
+    "In the transaction editor, add the other profiles and choose the split." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Füge im Transaktionseditor die anderen Profile hinzu und wähle die Aufteilung."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En el editor de transacciones, añade los otros perfiles y elige la división."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans l’éditeur de transaction, ajoutez les autres profils et choisissez le partage."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nell’editor della transazione, aggiungi gli altri profili e scegli la divisione."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取引の編集画面でほかのプロファイルを追加し、割り方を選びます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "거래 편집 화면에서 다른 프로필을 추가하고 나누는 방식을 고르세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No editor de transação, adicione os outros perfis e escolha a divisão."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "В редакторе операции добавьте другие профили и выберите способ деления."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在交易编辑器中添加其他档案并选择分摊方式。"
           }
         }
       }
@@ -2785,6 +3597,300 @@
         }
       }
     },
+    "Pick one in Edit Profile › Illustration" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle eins unter Profil bearbeiten › Illustration"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige uno en Editar perfil › Ilustración"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez-en un dans Modifier le profil › Illustration"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegline uno in Modifica profilo › Illustrazione"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プロファイルを編集 › イラストで選択"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프로필 편집 › 일러스트에서 선택"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escolha em Editar perfil › Ilustração"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите в «Изменить профиль › Иллюстрация»"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在“编辑档案 › 插画”中选择"
+          }
+        }
+      }
+    },
+    "Record %lld expenses split with other profiles." : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Record %lld expense split with other profiles."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Record %lld expenses split with other profiles."
+                }
+              }
+            }
+          }
+        },
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Erfasse %lld Ausgabe, die du mit anderen Profilen teilst."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Erfasse %lld Ausgaben, die du mit anderen Profilen teilst."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Registra %lld gasto dividido con otros perfiles."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Registra %lld gastos divididos con otros perfiles."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Saisissez %lld dépense partagée avec d’autres profils."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Saisissez %lld dépenses partagées avec d’autres profils."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Registra %lld spesa divisa con altri profili."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Registra %lld spese divise con altri profili."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "ほかのプロファイルと割り勘した支出を%lld件記録する。"
+                }
+              }
+            }
+          }
+        },
+        "ko" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "다른 프로필과 나눈 지출을 %lld개 기록하세요."
+                }
+              }
+            }
+          }
+        },
+        "pt-BR" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Registre %lld despesa dividida com outros perfis."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Registre %lld despesas divididas com outros perfis."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Запишите %lld расход, разделённый с другими профилями."
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Запишите %lld расхода, разделённых с другими профилями."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Запишите %lld расходов, разделённых с другими профилями."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Запишите %lld расхода, разделённых с другими профилями."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "记录 %lld 笔与其他档案分摊的支出。"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Record an expense split with at least one other profile." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erfasse eine Ausgabe, die du mit mindestens einem weiteren Profil teilst."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra un gasto dividido con al menos otro perfil."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saisissez une dépense partagée avec au moins un autre profil."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra una spesa divisa con almeno un altro profilo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1つ以上のほかのプロファイルと割り勘した支出を記録する。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 프로필 하나 이상과 나눈 지출을 기록하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registre uma despesa dividida com pelo menos mais um perfil."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Запишите расход, разделённый хотя бы с одним другим профилем."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录一笔与至少一个其他档案分摊的支出。"
+          }
+        }
+      }
+    },
     "Recording and editing are free forever. Cashly Pro adds insights, intelligence, backups and Claude Code." : {
       "localizations" : {
         "de" : {
@@ -2959,6 +4065,64 @@
         }
       }
     },
+    "Records an expense with everything the editor has: category, description, status, date, tags, shared profiles, split and installments." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erfasst eine Ausgabe mit allem, was der Editor bietet: Kategorie, Beschreibung, Status, Datum, Tags, geteilte Profile, Aufteilung und Raten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra un gasto con todo lo que tiene el editor: categoría, descripción, estado, fecha, etiquetas, perfiles con los que se divide, división y cuotas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistre une dépense avec tout ce que propose l’éditeur : catégorie, description, statut, date, tags, profils du partage, partage et échéances."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra una spesa con tutto ciò che ha l’editor: categoria, descrizione, stato, data, tag, profili con cui dividere, divisione e rate."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エディタと同じ項目で支出を記録します：カテゴリ、説明、状態、日付、タグ、分けるプロファイル、分け方、分割払い。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "편집기의 모든 항목으로 지출을 기록해요: 카테고리, 설명, 상태, 날짜, 태그, 함께 나눌 프로필, 분할, 할부."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra um gasto com tudo o que o editor tem: categoria, descrição, status, data, tags, perfis da divisão, divisão e parcelas."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Записывает расход со всем, что есть в редакторе: категория, описание, статус, дата, теги, профили для разделения, разделение и рассрочка."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "用编辑器中的全部字段记录一笔支出：分类、描述、状态、日期、标签、分摊档案、分摊和分期。"
+          }
+        }
+      }
+    },
     "Requires Cashly Pro" : {
       "localizations" : {
         "de" : {
@@ -3071,6 +4235,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "玫瑰金"
+          }
+        }
+      }
+    },
+    "Sample data adds five profiles, categories, tags, budgets and transactions to the current records." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beispieldaten fügen den vorhandenen Einträgen fünf Profile, Kategorien, Tags, Budgets und Transaktionen hinzu."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los datos de ejemplo añaden cinco perfiles, categorías, etiquetas, presupuestos y transacciones a los registros actuales."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les données d’exemple ajoutent cinq profils, des catégories, tags, budgets et transactions aux données actuelles."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I dati di esempio aggiungono cinque profili, categorie, tag, budget e transazioni ai dati attuali."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サンプルデータは、5つのプロファイルとカテゴリ、タグ、予算、取引を現在の記録に追加します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "샘플 데이터는 현재 기록에 프로필 5개와 카테고리, 태그, 예산, 거래를 추가합니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os dados de exemplo somam cinco perfis, categorias, tags, orçamentos e transações aos registros atuais."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пример данных добавляет к текущим записям пять профилей, категории, теги, бюджеты и операции."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "示例数据会在现有记录中添加五个档案以及类别、标签、预算和交易。"
           }
         }
       }
@@ -3307,6 +4529,122 @@
         }
       }
     },
+    "Select a profile before continuing." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wähle zuerst ein Profil aus."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecciona un perfil antes de continuar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sélectionnez un profil avant de continuer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleziona un profilo prima di continuare."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "続ける前にプロファイルを選択してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "계속하기 전에 프로필을 선택하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecione um perfil antes de continuar."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите профиль, чтобы продолжить."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请先选择一个档案。"
+          }
+        }
+      }
+    },
+    "Sets a fixed amount for each profile." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Legt für jedes Profil einen festen Betrag fest."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Define un importe fijo para cada perfil."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Définit un montant fixe pour chaque profil."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imposta un importo fisso per ogni profilo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プロファイルごとに固定額を設定します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프로필마다 고정 금액을 정합니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Define um valor fixo para cada perfil."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Задаёт фиксированную сумму для каждого профиля."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为每个档案设置固定金额。"
+          }
+        }
+      }
+    },
     "Share a bank statement with Claude and review every transaction before it's saved." : {
       "localizations" : {
         "de" : {
@@ -3365,6 +4703,180 @@
         }
       }
     },
+    "Share per Profile" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anteil pro Profil"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parte por perfil"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Part par profil"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quota per profilo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プロファイルごとの負担"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프로필별 몫"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parte por perfil"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доля профиля"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个档案的份额"
+          }
+        }
+      }
+    },
+    "Shared profiles, split modes and who paid" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geteilte Profile, Aufteilung und wer bezahlt hat"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perfiles compartidos, modos de división y quién pagó"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profils du partage, modes de partage et qui a payé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profili condivisi, modalità di divisione e chi ha pagato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分けるプロファイル、分け方、誰が払ったか"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "함께 나눈 프로필, 분할 방식, 결제한 프로필"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perfis da divisão, modos de divisão e quem pagou"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Профили для разделения, способы деления и кто платил"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分摊档案、分摊方式与付款方"
+          }
+        }
+      }
+    },
+    "Shared with" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geteilt mit"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dividido con"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partagé avec"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diviso con"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分ける相手"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "함께 나눌 프로필"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dividido com"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Разделено с"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分摊对象"
+          }
+        }
+      }
+    },
     "Smart suggestions" : {
       "localizations" : {
         "de" : {
@@ -3419,6 +4931,180 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "智能建议"
+          }
+        }
+      }
+    },
+    "Some profiles in storage have conflicting IDs." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einige gespeicherte Profile haben widersprüchliche IDs."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algunos perfiles almacenados tienen ID en conflicto."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Certains profils enregistrés ont des identifiants en conflit."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alcuni profili salvati hanno ID in conflitto."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存されている一部のプロファイルのIDが競合しています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장된 일부 프로필의 ID가 충돌합니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Existem perfis com IDs conflitantes no armazenamento."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У некоторых сохранённых профилей конфликтующие идентификаторы."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "部分已存储档案的 ID 有冲突。"
+          }
+        }
+      }
+    },
+    "Split with Other Profiles" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit anderen Profilen teilen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dividir con otros perfiles"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partager avec d’autres profils"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dividere con altri profili"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ほかのプロファイルと割り勘"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 프로필과 나누기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dividir com outros perfis"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Делить с другими профилями"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与其他档案分摊"
+          }
+        }
+      }
+    },
+    "Splits the total equally among all profiles." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teilt den Gesamtbetrag gleichmäßig auf alle Profile auf."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Divide el total a partes iguales entre todos los perfiles."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Répartit le total à parts égales entre tous les profils."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Divide il totale in parti uguali tra tutti i profili."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "合計をすべてのプロファイルで均等に分けます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "합계를 모든 프로필에 균등하게 나눕니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Divide o total igualmente entre todos os perfis."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Делит сумму поровну между всеми профилями."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将总额平均分摊给所有档案。"
           }
         }
       }
@@ -3535,6 +5221,180 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "支持者"
+          }
+        }
+      }
+    },
+    "Tell each profile's share as a percentage from 0 to 100." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gib den Anteil jedes Profils als Prozentsatz von 0 bis 100 an."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indica la parte de cada perfil como un porcentaje de 0 a 100."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indiquez la part de chaque profil en pourcentage, de 0 à 100."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indica la quota di ogni profilo come percentuale da 0 a 100."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プロファイルごとの負担を0から100の割合で入力してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프로필별 몫을 0에서 100 사이의 비율로 입력하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informe a parte de cada perfil como uma porcentagem de 0 a 100."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Укажите долю каждого профиля в процентах от 0 до 100."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请以 0 到 100 的百分比填写每个档案的份额。"
+          }
+        }
+      }
+    },
+    "Tell the amount each profile pays." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gib den Betrag an, den jedes Profil zahlt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indica el importe que paga cada perfil."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indiquez le montant payé par chaque profil."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indica l’importo che paga ogni profilo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プロファイルごとの支払額を入力してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프로필마다 내는 금액을 입력하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informe o valor que cada perfil paga."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Укажите сумму, которую платит каждый профиль."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请填写每个档案支付的金额。"
+          }
+        }
+      }
+    },
+    "The amount, installments and shared profiles can't be changed here." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Betrag, Raten und geteilte Profile lassen sich hier nicht ändern."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El importe, las cuotas y los perfiles con los que se divide no se pueden cambiar aquí."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le montant, les échéances et les profils du partage ne peuvent pas être modifiés ici."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importo, rate e profili con cui dividere non si possono modificare qui."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ここでは金額、分割回数、分けるプロファイルを変更できません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "여기서는 금액, 할부, 함께 나눌 프로필을 바꿀 수 없어요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valor, parcelas e perfis da divisão não podem ser alterados aqui."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сумму, рассрочку и профили для разделения здесь изменить нельзя."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无法在此修改金额、分期和分摊档案。"
           }
         }
       }
@@ -3709,6 +5569,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "模型用你自己的记录训练，绝不会离开这台设备。"
+          }
+        }
+      }
+    },
+    "The percentage (0 to 100) or the amount each profile pays." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Der Prozentsatz (0 bis 100) oder der Betrag, den jedes Profil zahlt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El porcentaje (0 a 100) o el importe que paga cada perfil."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le pourcentage (0 à 100) ou le montant payé par chaque profil."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La percentuale (da 0 a 100) o l’importo che paga ogni profilo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "プロファイルごとの割合（0〜100）または支払額。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프로필마다 내는 비율(0~100) 또는 금액."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A porcentagem (0 a 100) ou o valor que cada perfil paga."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Процент (от 0 до 100) или сумма, которую платит каждый профиль."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个档案支付的百分比（0 到 100）或金额。"
           }
         }
       }
@@ -3941,6 +5859,122 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$@ 在 %2$@ 已有预算。"
+          }
+        }
+      }
+    },
+    "What percentage does each profile pay?" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wie viel Prozent zahlt jedes Profil?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Qué porcentaje paga cada perfil?"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quel pourcentage paie chaque profil ?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Che percentuale paga ogni profilo?"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "各プロファイルは何パーセント払いますか？"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프로필마다 몇 퍼센트를 내나요?"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qual porcentagem cada perfil paga?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Какой процент платит каждый профиль?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个档案支付百分之多少？"
+          }
+        }
+      }
+    },
+    "When you share an expense, add the other profiles in the editor. Each split expense counts once." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wenn du eine Ausgabe teilst, füge die anderen Profile im Editor hinzu. Jede geteilte Ausgabe zählt einmal."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando compartas un gasto, añade los otros perfiles en el editor. Cada gasto dividido cuenta una vez."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quand vous partagez une dépense, ajoutez les autres profils dans l’éditeur. Chaque dépense partagée compte une fois."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quando dividi una spesa, aggiungi gli altri profili nell’editor. Ogni spesa divisa conta una volta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "支出を割り勘するときは、編集画面でほかのプロファイルを追加。割り勘した支出は1件ずつカウントされます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지출을 나눌 때 편집 화면에서 다른 프로필을 추가하세요. 나눈 지출은 하나씩 집계돼요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ao dividir uma despesa, adicione os outros perfis no editor. Cada despesa dividida conta uma vez."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Когда делите расход, добавьте другие профили в редакторе. Каждый разделённый расход считается один раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分摊支出时，在编辑器中添加其他档案。每笔分摊支出计一次。"
           }
         }
       }
@@ -9993,64 +12027,6 @@
         }
       }
     },
-    "A backup is one file with users, categories, tags, budgets and transactions. Turn on Automatic Backup, or save copies to iCloud Drive." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ein Backup ist eine Datei mit Nutzern, Kategorien, Tags, Budgets und Transaktionen. Aktiviere das automatische Backup oder speichere Kopien in iCloud Drive."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Una copia es un archivo con usuarios, categorías, etiquetas, presupuestos y transacciones. Activa la copia automática o guarda copias en iCloud Drive."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Une sauvegarde est un fichier avec les utilisateurs, catégories, tags, budgets et transactions. Activez la sauvegarde automatique, ou enregistrez des copies dans iCloud Drive."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Un backup è un file con utenti, categorie, tag, budget e transazioni. Attiva il backup automatico o salva copie su iCloud Drive."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "バックアップはユーザー、カテゴリ、タグ、予算、取引を含む1つのファイルです。自動バックアップをオンにするか、iCloud Driveにコピーを保存しましょう。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "백업은 사용자, 카테고리, 태그, 예산, 거래가 담긴 파일 하나입니다. 자동 백업을 켜거나 iCloud Drive에 사본을 저장하세요."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Um backup é um arquivo com usuários, categorias, tags, orçamentos e transações. Ligue o Backup automático ou salve cópias no iCloud Drive."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Резервная копия — один файл с пользователями, категориями, тегами, бюджетами и транзакциями. Включите автоматическое резервирование или сохраняйте копии в iCloud Drive."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "备份是一个包含用户、分类、标签、预算和交易的文件。开启自动备份，或把副本保存到 iCloud 云盘。"
-          }
-        }
-      }
-    },
     "A budget already exists for this category and month. Edit the existing budget." : {
       "localizations" : {
         "de" : {
@@ -11791,64 +13767,6 @@
         }
       }
     },
-    "Add User" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Benutzer hinzufügen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Añadir usuario"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajouter un utilisateur"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aggiungi utente"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ユーザーを追加"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "사용자 추가"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adicionar usuário"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Добавить пользователя"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "添加用户"
-          }
-        }
-      }
-    },
     "Add your first transaction or set budgets in Goals." : {
       "localizations" : {
         "de" : {
@@ -13191,64 +15109,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "金额不会换算：更改货币只会改变显示的符号和新记录的货币。"
-          }
-        }
-      }
-    },
-    "An equal split must apply to every participant." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eine gleichmäßige Aufteilung muss für alle Teilnehmenden gelten."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El reparto igualitario debe aplicarse a todos los participantes."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Un partage égal doit s’appliquer à tous les participants."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La divisione in parti uguali deve valere per tutti i partecipanti."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "均等割りは参加者全員に適用する必要があります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "균등 분할은 모든 참여자에게 적용되어야 합니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A divisão igual deve ser aplicada a todos os participantes."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Равное разделение должно применяться ко всем участникам."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "平均分摊必须适用于所有参与者。"
           }
         }
       }
@@ -23406,64 +25266,6 @@
         }
       }
     },
-    "Choose participants among the other profiles." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wähle Teilnehmende aus den anderen Profilen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elige participantes entre los otros perfiles."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choisissez les participants parmi les autres profils."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scegli i partecipanti tra gli altri profili."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参加者はほかのプロファイルから選んでください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "참여자는 다른 프로필 중에서 선택하세요."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escolha os participantes entre os outros perfis."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выберите участников среди других профилей."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请从其他档案中选择参与者。"
-          }
-        }
-      }
-    },
     "Choose tags of this profile." : {
       "localizations" : {
         "de" : {
@@ -31014,64 +32816,6 @@
         }
       }
     },
-    "Edit User" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Benutzer bearbeiten"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Editar usuario"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modifier l’utilisateur"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modifica utente"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ユーザーを編集"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "사용자 편집"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Editar usuário"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Изменить пользователя"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "编辑用户"
-          }
-        }
-      }
-    },
     "Education" : {
       "localizations" : {
         "de" : {
@@ -31594,64 +33338,6 @@
         }
       }
     },
-    "Enter the user's name" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Name des Benutzers eingeben"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escribe el nombre del usuario"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saisissez le nom de l’utilisateur"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inserisci il nome dell’utente"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ユーザー名を入力"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "사용자 이름 입력"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Digite o nome do usuário"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Введите имя пользователя"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "输入用户名称"
-          }
-        }
-      }
-    },
     "Entitlement" : {
       "localizations" : {
         "de" : {
@@ -31764,64 +33450,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "平均"
-          }
-        }
-      }
-    },
-    "Equally, by fixed amount or by percentage. Cashly works out each person's share." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Zu gleichen Teilen, mit festem Betrag oder prozentual. Cashly berechnet den Anteil jeder Person."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A partes iguales, por importe fijo o por porcentaje. Cashly calcula la parte de cada uno."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "À parts égales, par montant fixe ou par pourcentage. Cashly calcule la part de chacun."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In parti uguali, con importo fisso o in percentuale. Cashly calcola la quota di ciascuno."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "均等、固定額、または割合で分けられます。各自の負担額はCashlyが計算します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "균등하게, 고정 금액으로, 또는 비율로 나눌 수 있습니다. 각자의 몫은 Cashly가 계산합니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Em partes iguais, por valor fixo ou por porcentagem. O Cashly calcula a parte de cada um."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Поровну, фиксированной суммой или в процентах. Cashly посчитает долю каждого."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "可平均分摊、按固定金额或按百分比分摊。Cashly 会算出每个人的份额。"
           }
         }
       }
@@ -33968,64 +35596,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "烟花 聚会"
-          }
-        }
-      }
-    },
-    "First and last name" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vor- und Nachname"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nombre y apellido"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prénom et nom"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nome e cognome"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "氏名"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이름과 성"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nome e sobrenome"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Имя и фамилия"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "姓名"
           }
         }
       }
@@ -39018,64 +40588,6 @@
         }
       }
     },
-    "How much does each participant pay?" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wie viel zahlt jede teilnehmende Person?"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¿Cuánto paga cada participante?"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Combien paie chaque participant ?"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quanto paga ogni partecipante?"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参加者はそれぞれいくら払いますか？"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "참여자마다 얼마를 내나요?"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quanto cada participante paga?"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сколько платит каждый участник?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每位参与者付多少？"
-          }
-        }
-      }
-    },
     "How much is left in ${category}" : {
       "localizations" : {
         "de" : {
@@ -40588,64 +42100,6 @@
         }
       }
     },
-    "In a transaction, add the people who split the bill with you." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Füge in einer Transaktion die Personen hinzu, mit denen du die Rechnung geteilt hast."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En una transacción, añade a las personas que dividieron la cuenta contigo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dans une transaction, ajoutez les personnes qui ont partagé l’addition avec vous."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In una transazione, aggiungi le persone che hanno diviso il conto con te."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "取引に、一緒に支払いを分けた人を追加します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "거래에 함께 비용을 나눈 사람을 추가하세요."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Numa transação, adicione as pessoas que dividiram a conta com você."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Добавьте в операцию людей, с которыми вы разделили счёт."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在交易中添加与你一起分摊账单的人。"
-          }
-        }
-      }
-    },
     "In Goals, tap + and choose the category, month and amount. Start with the three categories you spend most on." : {
       "localizations" : {
         "de" : {
@@ -41048,64 +42502,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "收支达标"
-          }
-        }
-      }
-    },
-    "In the Shortcuts app, Add Expense has every field of the editor: description, status, date, tags, participants, split, installments and profile. Chain them: a shortcut that records your commute every weekday." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "In der Kurzbefehle-App hat „Ausgabe erfassen“ jedes Feld des Editors: Beschreibung, Status, Datum, Tags, Teilnehmende, Aufteilung, Raten und Profil. Kombiniere sie: ein Kurzbefehl, der jeden Werktag deinen Arbeitsweg erfasst."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En la app Atajos, Añadir gasto tiene todos los campos del editor: descripción, estado, fecha, etiquetas, participantes, división, cuotas y perfil. Encadénalos: un atajo que registra tu trayecto cada día laborable."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dans l’app Raccourcis, Ajouter une dépense a tous les champs de l’éditeur : description, statut, date, tags, participants, partage, échéances et profil. Enchaînez-les : un raccourci qui enregistre votre trajet chaque jour de semaine."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nell’app Comandi, Aggiungi spesa ha tutti i campi dell’editor: descrizione, stato, data, tag, partecipanti, divisione, rate e profilo. Concatenali: un comando che registra il tragitto ogni giorno feriale."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ショートカットAppの「支出を追加」には、説明、状態、日付、タグ、参加者、分け方、分割払い、プロファイルなどエディタの全項目があります。組み合わせれば、平日の通勤を毎日記録するショートカットも作れます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "단축어 앱의 지출 추가에는 설명, 상태, 날짜, 태그, 참여자, 분할, 할부, 프로필까지 편집기의 모든 항목이 있어요. 이어 붙여 보세요: 평일마다 출퇴근 비용을 기록하는 단축어."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No app Atalhos, Registrar gasto tem todos os campos do editor: descrição, status, data, tags, participantes, divisão, parcelas e perfil. Encadeie: um atalho que registra o transporte todo dia útil."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "В приложении «Команды» действие «Добавить расход» содержит все поля редактора: описание, статус, дату, теги, участников, разделение, рассрочку и профиль. Объединяйте их: команда, которая записывает дорогу на работу каждый будний день."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在“快捷指令”App 中，“添加支出”包含编辑器的所有字段：描述、状态、日期、标签、参与者、分摊、分期和档案。把它们串起来：一个每个工作日记录通勤费用的快捷指令。"
           }
         }
       }
@@ -54922,122 +56318,6 @@
         }
       }
     },
-    "Participants" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Teilnehmende"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Participantes"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Participants"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Partecipanti"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参加者"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "참여자"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Participantes"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Участники"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参与者"
-          }
-        }
-      }
-    },
-    "Participants, split modes and who paid" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Teilnehmer, Aufteilung und wer bezahlt hat"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Participantes, modos de división y quién pagó"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Participants, modes de partage et qui a payé"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Partecipanti, modalità di divisione e chi ha pagato"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参加者、分け方、誰が払ったか"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "참여자, 분할 방식, 결제한 사람"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Participantes, modos de divisão e quem pagou"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Участники, способы деления и кто платил"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参与者、分摊方式与付款人"
-          }
-        }
-      }
-    },
     "party" : {
       "localizations" : {
         "de" : {
@@ -59562,64 +60842,6 @@
         }
       }
     },
-    "Records an expense with everything the editor has: category, description, status, date, tags, participants, split and installments." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Erfasst eine Ausgabe mit allem, was der Editor bietet: Kategorie, Beschreibung, Status, Datum, Tags, Teilnehmende, Aufteilung und Raten."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Registra un gasto con todo lo que tiene el editor: categoría, descripción, estado, fecha, etiquetas, participantes, división y cuotas."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enregistre une dépense avec tout ce que propose l’éditeur : catégorie, description, statut, date, tags, participants, partage et échéances."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Registra una spesa con tutto ciò che ha l’editor: categoria, descrizione, stato, data, tag, partecipanti, divisione e rate."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "エディタと同じ項目で支出を記録します：カテゴリ、説明、状態、日付、タグ、参加者、分け方、分割払い。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "편집기의 모든 항목으로 지출을 기록해요: 카테고리, 설명, 상태, 날짜, 태그, 참여자, 분할, 할부."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Registra um gasto com tudo o que o editor tem: categoria, descrição, status, data, tags, participantes, divisão e parcelas."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Записывает расход со всем, что есть в редакторе: категория, описание, статус, дата, теги, участники, разделение и рассрочка."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用编辑器中的全部字段记录一笔支出：分类、描述、状态、日期、标签、参与者、分摊和分期。"
-          }
-        }
-      }
-    },
     "Records an income with category, description, status, date, tags and installments." : {
       "localizations" : {
         "de" : {
@@ -63220,64 +64442,6 @@
         }
       }
     },
-    "Select a user before continuing." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wähle zuerst einen Benutzer aus."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Selecciona un usuario antes de continuar."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sélectionnez un utilisateur avant de continuer."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seleziona un utente prima di continuare."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "続ける前にユーザーを選択してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "계속하기 전에 사용자를 선택하세요."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Selecione um usuário antes de continuar."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выберите пользователя, чтобы продолжить."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请先选择一个用户。"
-          }
-        }
-      }
-    },
     "Select Loaded" : {
       "localizations" : {
         "de" : {
@@ -63800,64 +64964,6 @@
         }
       }
     },
-    "Sets a fixed amount for each participant." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Legt für jede Person einen festen Betrag fest."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Define un importe fijo para cada participante."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Définit un montant fixe pour chaque participant."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Imposta un importo fisso per ogni partecipante."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参加者ごとに固定額を設定します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "참여자마다 고정 금액을 정합니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Define um valor fixo para cada participante."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Задаёт фиксированную сумму для каждого участника."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "为每位参与者设置固定金额。"
-          }
-        }
-      }
-    },
     "Settings" : {
       "localizations" : {
         "de" : {
@@ -64202,64 +65308,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "把 Cashly 分享给朋友"
-          }
-        }
-      }
-    },
-    "Share per Participant" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anteil pro Person"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Parte por participante"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Part par participant"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quota per partecipante"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参加者ごとの負担"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "참여자별 몫"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Parte por participante"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Доля участника"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每位参与者的份额"
           }
         }
       }
@@ -66410,64 +67458,6 @@
         }
       }
     },
-    "Some users in storage have conflicting IDs." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Einige gespeicherte Benutzer haben widersprüchliche IDs."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Algunos usuarios almacenados tienen ID en conflicto."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Certains utilisateurs enregistrés ont des identifiants en conflit."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alcuni utenti salvati hanno ID in conflitto."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "保存されている一部のユーザーのIDが競合しています。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "저장된 일부 사용자의 ID가 충돌합니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Existem usuários com IDs conflitantes no armazenamento."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "У некоторых сохранённых пользователей конфликтующие идентификаторы."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "部分已存储用户的 ID 有冲突。"
-          }
-        }
-      }
-    },
     "Sounds" : {
       "localizations" : {
         "de" : {
@@ -67860,64 +68850,6 @@
         }
       }
     },
-    "Split with People" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mit anderen teilen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dividir con personas"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Partager avec des personnes"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dividere con altre persone"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "みんなで割り勘"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "사람들과 나누기"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dividir com pessoas"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Делить с людьми"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "与他人分摊"
-          }
-        }
-      }
-    },
     "Splits the total by percentage." : {
       "localizations" : {
         "de" : {
@@ -67972,64 +68904,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "按百分比分摊总额。"
-          }
-        }
-      }
-    },
-    "Splits the total equally among all participants." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Teilt den Gesamtbetrag gleichmäßig auf alle auf."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Divide el total a partes iguales entre todos los participantes."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Répartit le total à parts égales entre tous les participants."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Divide il totale in parti uguali tra tutti i partecipanti."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "合計を参加者全員で均等に分けます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "합계를 모든 참여자에게 균등하게 나눕니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Divide o total igualmente entre todos os participantes."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Делит сумму поровну между всеми участниками."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "将总额平均分摊给所有参与者。"
           }
         }
       }
@@ -72674,122 +73548,6 @@
         }
       }
     },
-    "Tell each participant's share as a percentage from 0 to 100." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gib den Anteil jeder Person als Prozentsatz von 0 bis 100 an."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Indica la parte de cada participante como un porcentaje de 0 a 100."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Indiquez la part de chaque participant en pourcentage, de 0 à 100."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Indica la quota di ogni partecipante come percentuale da 0 a 100."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参加者ごとの負担を0から100の割合で入力してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "참여자별 몫을 0에서 100 사이의 비율로 입력하세요."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Informe a parte de cada participante como uma porcentagem de 0 a 100."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Укажите долю каждого участника в процентах от 0 до 100."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请以 0 到 100 的百分比填写每位参与者的份额。"
-          }
-        }
-      }
-    },
-    "Tell the amount each participant pays." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gib den Betrag an, den jede Person zahlt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Indica el importe que paga cada participante."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Indiquez le montant payé par chaque participant."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Indica l’importo che paga ogni partecipante."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参加者ごとの支払額を入力してください。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "참여자마다 내는 금액을 입력하세요."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Informe o valor que cada participante paga."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Укажите сумму, которую платит каждый участник."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请填写每位参与者支付的金额。"
-          }
-        }
-      }
-    },
     "Tell the merchant of the payment." : {
       "localizations" : {
         "de" : {
@@ -75110,64 +75868,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "“单个预算”小组件会在主屏幕上的所有副本中显示你在此选择的类别。"
-          }
-        }
-      }
-    },
-    "The percentage (0 to 100) or the amount each participant pays." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Der Prozentsatz (0 bis 100) oder der Betrag, den jede Person zahlt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El porcentaje (0 a 100) o el importe que paga cada participante."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le pourcentage (0 à 100) ou le montant payé par chaque participant."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La percentuale (da 0 a 100) o l’importo che paga ogni partecipante."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参加者ごとの割合（0〜100）または支払額。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "참여자마다 내는 비율(0~100) 또는 금액."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "A porcentagem (0 a 100) ou o valor que cada participante paga."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Процент (от 0 до 100) или сумма, которую платит каждый участник."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每位参与者支付的百分比（0 到 100）或金额。"
           }
         }
       }
@@ -79766,64 +80466,6 @@
         }
       }
     },
-    "User" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Benutzer"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Usuario"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Utilisateur"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Utente"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ユーザー"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "사용자"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Usuário"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Пользователь"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "用户"
-          }
-        }
-      }
-    },
     "Usually %@" : {
       "localizations" : {
         "de" : {
@@ -81444,64 +82086,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "含义以及如何提高"
-          }
-        }
-      }
-    },
-    "What percentage does each participant pay?" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wie viel Prozent zahlt jede teilnehmende Person?"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¿Qué porcentaje paga cada participante?"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quel pourcentage paie chaque participant ?"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Che percentuale paga ogni partecipante?"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "参加者はそれぞれ何パーセント払いますか？"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "참여자마다 몇 퍼센트를 내나요?"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Qual porcentagem cada participante paga?"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Какой процент платит каждый участник?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "每位参与者支付百分之多少？"
           }
         }
       }
@@ -83887,64 +84471,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "你当前的期间"
-          }
-        }
-      }
-    },
-    "Your profile keeps your finances separate from other people at home." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dein Profil trennt deine Finanzen von denen anderer Personen im Haushalt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tu perfil separa tus finanzas de las de otras personas de tu casa."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Votre profil sépare vos finances de celles des autres personnes du foyer."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Il tuo profilo separa le tue finanze da quelle delle altre persone di casa."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "プロフィールで、家族などほかの人と家計を分けて管理できます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "프로필로 함께 사는 다른 사람과 재정을 분리할 수 있습니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Seu perfil separa as suas finanças das de outras pessoas da casa."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Профиль отделяет ваши финансы от финансов других людей в доме."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你的个人资料会将你的财务与家中其他人的分开。"
           }
         }
       }
@@ -87391,64 +87917,6 @@
         }
       }
     },
-    "Record an expense split with at least one other person." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Erfasse eine Ausgabe, die du mit mindestens einer weiteren Person teilst."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Registra un gasto dividido con al menos otra persona."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Saisissez une dépense partagée avec au moins une autre personne."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Registra una spesa divisa con almeno un’altra persona."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "1人以上と割り勘した支出を記録する。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "한 명 이상과 나눈 지출을 기록하세요."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Registre uma despesa dividida com pelo menos mais uma pessoa."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Запишите расход, разделённый хотя бы с одним человеком."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "记录一笔与至少一人分摊的支出。"
-          }
-        }
-      }
-    },
     "Export a backup of your data." : {
       "localizations" : {
         "de" : {
@@ -88203,64 +88671,6 @@
         }
       }
     },
-    "When you share an expense, add the people in the editor. Each split expense counts once." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wenn du eine Ausgabe teilst, füge die Personen im Editor hinzu. Jede geteilte Ausgabe zählt einmal."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cuando compartas un gasto, añade a las personas en el editor. Cada gasto dividido cuenta una vez."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quand vous partagez une dépense, ajoutez les personnes dans l’éditeur. Chaque dépense partagée compte une fois."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quando dividi una spesa, aggiungi le persone nell’editor. Ogni spesa divisa conta una volta."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "支出を割り勘するときは、編集画面で相手を追加。割り勘した支出は1件ずつカウントされます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "지출을 나눌 때 편집 화면에서 사람을 추가하세요. 나눈 지출은 하나씩 집계돼요."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ao dividir uma despesa, adicione as pessoas no editor. Cada despesa dividida conta uma vez."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Когда делите расход, добавьте людей в редакторе. Каждый разделённый расход считается один раз."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "分摊支出时，在编辑器中添加参与者。每笔分摊支出计一次。"
-          }
-        }
-      }
-    },
     "Pick a challenge in Journey. The first one each month is free." : {
       "localizations" : {
         "de" : {
@@ -88837,64 +89247,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "标签可跨分类使用，比如旅行或工作。创建一个，记账时加上。"
-          }
-        }
-      }
-    },
-    "In the transaction editor, add participants and choose the split." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Füge im Transaktionseditor Teilnehmende hinzu und wähle die Aufteilung."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En el editor de transacciones, añade participantes y elige la división."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dans l’éditeur de transaction, ajoutez des participants et choisissez le partage."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nell’editor della transazione, aggiungi i partecipanti e scegli la divisione."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "取引の編集画面で参加者を追加し、割り方を選びます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "거래 편집 화면에서 참여자를 추가하고 나누는 방식을 고르세요."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No editor de transação, adicione participantes e escolha a divisão."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "В редакторе операции добавьте участников и выберите способ деления."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在交易编辑器中添加参与者并选择分摊方式。"
           }
         }
       }
@@ -90768,184 +91120,6 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "读完全部 %lld 篇指南。"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "Record %lld expenses split with other people." : {
-      "localizations" : {
-        "de" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Erfasse %lld Ausgabe, die du mit anderen teilst."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Erfasse %lld Ausgaben, die du mit anderen teilst."
-                }
-              }
-            }
-          }
-        },
-        "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Record %lld expense split with other people."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Record %lld expenses split with other people."
-                }
-              }
-            }
-          }
-        },
-        "es" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Registra %lld gasto dividido con otras personas."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Registra %lld gastos divididos con otras personas."
-                }
-              }
-            }
-          }
-        },
-        "fr" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Saisissez %lld dépense partagée avec d’autres personnes."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Saisissez %lld dépenses partagées avec d’autres personnes."
-                }
-              }
-            }
-          }
-        },
-        "it" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Registra %lld spesa divisa con altre persone."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Registra %lld spese divise con altre persone."
-                }
-              }
-            }
-          }
-        },
-        "ja" : {
-          "variations" : {
-            "plural" : {
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "他の人と割り勘した支出を%lld件記録する。"
-                }
-              }
-            }
-          }
-        },
-        "ko" : {
-          "variations" : {
-            "plural" : {
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "다른 사람과 나눈 지출을 %lld개 기록하세요."
-                }
-              }
-            }
-          }
-        },
-        "pt-BR" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Registre %lld despesa dividida com outras pessoas."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Registre %lld despesas divididas com outras pessoas."
-                }
-              }
-            }
-          }
-        },
-        "ru" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Запишите %lld расхода, разделённых с другими."
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Запишите %lld расходов, разделённых с другими."
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Запишите %lld расход, разделённый с другими."
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Запишите %lld расхода, разделённых с другими."
-                }
-              }
-            }
-          }
-        },
-        "zh-Hans" : {
-          "variations" : {
-            "plural" : {
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "记录 %lld 笔与他人分摊的支出。"
                 }
               }
             }
@@ -98733,64 +98907,6 @@
         }
       }
     },
-    "Adds five users with categories, tags, budgets and transactions." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fügt fünf Nutzer mit Kategorien, Tags, Budgets und Transaktionen hinzu."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Añade cinco usuarios con categorías, etiquetas, presupuestos y transacciones."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajoute cinq utilisateurs avec catégories, tags, budgets et transactions."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aggiunge cinque utenti con categorie, tag, budget e transazioni."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "カテゴリ、タグ、予算、取引を含む5人のユーザーを追加します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "카테고리, 태그, 예산, 거래가 있는 사용자 5명을 추가합니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adiciona cinco usuários com categorias, tags, orçamentos e transações."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Добавляет пять пользователей с категориями, тегами, бюджетами и операциями."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "添加五个用户及其分类、标签、预算和交易。"
-          }
-        }
-      }
-    },
     "Sample Data" : {
       "localizations" : {
         "de" : {
@@ -102131,184 +102247,6 @@
         }
       }
     },
-    "%lld users" : {
-      "localizations" : {
-        "de" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld Benutzer"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld Benutzer"
-                }
-              }
-            }
-          }
-        },
-        "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld user"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld users"
-                }
-              }
-            }
-          }
-        },
-        "es" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld usuario"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld usuarios"
-                }
-              }
-            }
-          }
-        },
-        "fr" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld utilisateur"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld utilisateurs"
-                }
-              }
-            }
-          }
-        },
-        "it" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld utente"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld utenti"
-                }
-              }
-            }
-          }
-        },
-        "ja" : {
-          "variations" : {
-            "plural" : {
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "ユーザー%lld人"
-                }
-              }
-            }
-          }
-        },
-        "ko" : {
-          "variations" : {
-            "plural" : {
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "사용자 %lld명"
-                }
-              }
-            }
-          }
-        },
-        "pt-BR" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld usuário"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld usuários"
-                }
-              }
-            }
-          }
-        },
-        "ru" : {
-          "variations" : {
-            "plural" : {
-              "few" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld пользователя"
-                }
-              },
-              "many" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld пользователей"
-                }
-              },
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld пользователь"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld пользователя"
-                }
-              }
-            }
-          }
-        },
-        "zh-Hans" : {
-          "variations" : {
-            "plural" : {
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld 个用户"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "%lld-day streak!" : {
       "localizations" : {
         "de" : {
@@ -102599,64 +102537,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "一个快捷指令自动化会把每笔 Apple Pay 消费发送到 Cashly。"
-          }
-        }
-      }
-    },
-    "A backup is a file with users, categories, tags, budgets and transactions. Importing adds the file's records to the ones already on this device. The spreadsheet has transactions only." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ein Backup ist eine Datei mit Benutzern, Kategorien, Tags, Budgets und Transaktionen. Beim Importieren werden die Einträge der Datei zu denen auf diesem Gerät hinzugefügt. Die Tabelle enthält nur Transaktionen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Una copia de seguridad es un archivo con usuarios, categorías, etiquetas, presupuestos y transacciones. Al importar, los registros del archivo se suman a los que ya están en el dispositivo. La hoja de cálculo solo incluye las transacciones."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Une sauvegarde est un fichier contenant les utilisateurs, catégories, tags, budgets et transactions. L’importation ajoute les données du fichier à celles déjà présentes sur l’appareil. Le tableur ne contient que les transactions."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Un backup è un file con utenti, categorie, tag, budget e transazioni. L’importazione aggiunge i dati del file a quelli già presenti sul dispositivo. Il foglio di calcolo contiene solo le transazioni."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "バックアップには、ユーザー、カテゴリ、タグ、予算、取引が含まれます。読み込むと、ファイルの記録がこのデバイスの記録に追加されます。スプレッドシートには取引のみが含まれます。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "백업은 사용자, 카테고리, 태그, 예산, 거래가 담긴 파일입니다. 가져오면 파일의 기록이 이 기기의 기록에 추가됩니다. 스프레드시트에는 거래만 포함됩니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O backup é um arquivo com usuários, categorias, tags, orçamentos e transações. Importar adiciona os registros do arquivo aos que já estão no aparelho. A planilha traz só as transações."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Резервная копия — это файл с пользователями, категориями, тегами, бюджетами и операциями. При импорте записи из файла добавляются к уже имеющимся на устройстве. В таблице только операции."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "备份是包含用户、类别、标签、预算和交易的文件。导入时，文件中的记录会添加到此设备上已有的记录中。电子表格只包含交易。"
           }
         }
       }
@@ -105847,64 +105727,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "48 小时内可在商店恢复，也可以今天重新开始。"
-          }
-        }
-      }
-    },
-    "Sample data adds five users, categories, tags, budgets and transactions to the current records." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beispieldaten fügen den vorhandenen Einträgen fünf Benutzer, Kategorien, Tags, Budgets und Transaktionen hinzu."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Los datos de ejemplo añaden cinco usuarios, categorías, etiquetas, presupuestos y transacciones a los registros actuales."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Les données d’exemple ajoutent cinq utilisateurs, des catégories, tags, budgets et transactions aux données actuelles."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I dati di esempio aggiungono cinque utenti, categorie, tag, budget e transazioni ai dati attuali."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "サンプルデータは、5人のユーザーとカテゴリ、タグ、予算、取引を現在の記録に追加します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "샘플 데이터는 현재 기록에 사용자 5명과 카테고리, 태그, 예산, 거래를 추가합니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Os dados de exemplo somam cinco usuários, categorias, tags, orçamentos e transações aos registros atuais."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Пример данных добавляет к текущим записям пятерых пользователей, категории, теги, бюджеты и операции."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "示例数据会在现有记录中添加五个用户以及类别、标签、预算和交易。"
           }
         }
       }
@@ -121259,64 +121081,6 @@
         }
       }
     },
-    "Pick one in Edit User › Illustration" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escolha em Editar usuário › Ilustração"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elige uno en Editar usuario › Ilustración"
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wähle eins unter Benutzer bearbeiten › Illustration"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choisissez-en un dans Modifier l’utilisateur › Illustration"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scegline uno in Modifica utente › Illustrazione"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ユーザーを編集 › イラストで選択"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "사용자 편집 › 일러스트에서 선택"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在“编辑用户 › 插画”中选择"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Выберите в «Изменить пользователя › Иллюстрация»"
-          }
-        }
-      }
-    },
     "Cats" : {
       "localizations" : {
         "pt-BR" : {
@@ -122879,64 +122643,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已按%2$@保存为 %1$@。当前按 %3$@ 的汇率换算显示。"
-          }
-        }
-      }
-    },
-    "The amount, installments and participants can't be changed here." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Betrag, Raten und Beteiligte lassen sich hier nicht ändern."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El importe, las cuotas y los participantes no se pueden cambiar aquí."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le montant, les échéances et les participants ne peuvent pas être modifiés ici."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Importo, rate e partecipanti non si possono modificare qui."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ここでは金額、分割回数、参加者を変更できません。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "여기서는 금액, 할부, 참여자를 바꿀 수 없어요."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Valor, parcelas e participantes não podem ser alterados aqui."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Сумму, рассрочку и участников здесь изменить нельзя."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "无法在此修改金额、分期和参与者。"
           }
         }
       }

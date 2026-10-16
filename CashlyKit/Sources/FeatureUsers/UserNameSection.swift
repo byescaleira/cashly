@@ -7,9 +7,9 @@ struct UserNameSection: View {
     var body: some View {
         @Bindable var model = model
         Section {
-            TextField("Enter the user's name", text: $model.draft.name)
+            TextField("Enter the profile's name", text: $model.draft.name)
         } header: {
-            Text("First and last name").sectionTitle()
+            Text("Name").sectionTitle()
         }
     }
 }

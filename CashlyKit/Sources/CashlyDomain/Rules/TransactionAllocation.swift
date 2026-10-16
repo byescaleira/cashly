@@ -81,7 +81,7 @@ public struct TransactionAllocation: Sendable {
                 share = Money(minorUnits: NSDecimalNumber(decimal: rounded).int64Value)
             case .equal:
                 throw CashlyError.invalidInput(
-                    String(appLocalized: "An equal split must apply to every participant."))
+                    String(appLocalized: "An equal split must apply to every profile."))
             }
             guard share.minorUnits >= 0 else { throw CashlyError.onSave }
             shares[participant.id] = share

@@ -134,7 +134,8 @@ private struct DeveloperSampleSection: View {
                 } label: {
                     IconRow(
                         "Load Sample Data",
-                        detail: "Adds five users with categories, tags, budgets and transactions.",
+                        detail:
+                            "Adds five profiles with categories, tags, budgets and transactions.",
                         symbol: "tray.and.arrow.down", color: appTint)
                 }
             }

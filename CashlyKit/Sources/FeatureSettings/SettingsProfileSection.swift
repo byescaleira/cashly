@@ -154,6 +154,6 @@ private struct ProfileIdentityButton: View {
         }
         .buttonStyle(.plain)
         .disabled(session?.user == nil)
-        .accessibilityHint("Edit User")
+        .accessibilityHint("Edit Profile")
     }
 }

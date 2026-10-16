@@ -48,7 +48,7 @@ public struct TransactionEditorScreen: View {
                 }
                 if !session.otherUsers.isEmpty && model.canEditParticipants {
                     MultiSelectMenu(
-                        "Participants", systemImage: "person.2.badge.plus",
+                        "Shared with", systemImage: "person.2.badge.plus",
                         items: session.otherUsers, selection: $model.participantUsers,
                         showsCount: false
                     ) { Text($0.name.capitalized) }

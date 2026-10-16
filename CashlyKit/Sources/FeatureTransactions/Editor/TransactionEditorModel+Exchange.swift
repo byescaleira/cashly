@@ -67,7 +67,7 @@ extension TransactionEditorModel {
         guard let estimate = draft.estimate else { return nil }
         return CurrencyText.estimate(estimate) + " "
             + String(
-                appLocalized: "The amount, installments and participants can't be changed here.")
+                appLocalized: "The amount, installments and shared profiles can't be changed here.")
     }
 
     public func loadPaidCurrencies() async {

@@ -34,7 +34,7 @@ public struct FilterMenu: View {
                 }
                 if !session.users.isEmpty, finance.hasTransactions {
                     MultiSelectMenu(
-                        "Participants", systemImage: "person.2", items: session.users,
+                        "Shared with", systemImage: "person.2", items: session.users,
                         selection: $session.filter.participants
                     ) { Text($0.name) }
                 }

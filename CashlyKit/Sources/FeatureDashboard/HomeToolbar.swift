@@ -8,6 +8,8 @@ struct HomeToolbar: ToolbarContent {
         ToolbarItem { ConverterButton() }
         FixedToolbarSpacer()
         ToolbarItem { FilterMenu() }
+        FixedToolbarSpacer()
+        ToolbarItem(placement: .primaryAction) { ShopButton() }
     }
 }
 
@@ -19,5 +21,15 @@ private struct ConverterButton: View {
             open(.converter, in: .home)
         }
         .tint(Color.primary)
+    }
+}
+
+private struct ShopButton: View {
+    @Environment(\.open) private var open
+    @Environment(\.navigationSection) private var section
+
+    var body: some View {
+        Button("Shop", systemImage: "bag") { open(.shop, in: section) }
+            .tint(Color.primary)
     }
 }
