@@ -1,7 +1,8 @@
 import SwiftUI
 
 public enum ProPitch: CaseIterable, Sendable {
-    case score, forecast, history, unusual, future, variance, tags
+    case score, forecast, history, unusual, changes, merchants, smallPurchases, weekdays
+    case future, variance, tags
     case backups, imports
     case askClaude, analyses, statements, approvals
 
@@ -11,6 +12,10 @@ public enum ProPitch: CaseIterable, Sendable {
         case .forecast: "See where the month will close"
         case .history: "Compare this month with the others"
         case .unusual: "Catch what's out of the ordinary"
+        case .changes: "Understand what changed"
+        case .merchants: "See what you buy again and again"
+        case .smallPurchases: "See small purchases add up"
+        case .weekdays: "Spot your biggest day"
         case .future: "See what's already committed"
         case .variance: "Compare plan and reality"
         case .tags: "Follow your spending by tag"
@@ -32,6 +37,13 @@ public enum ProPitch: CaseIterable, Sendable {
             "See whether you're spending more or less than usual at this point of the month."
         case .unusual:
             "Categories well above their usual pace show up here before they become a problem."
+        case .changes:
+            "Whether a category went up because you bought more often or paid more each time."
+        case .merchants: "The purchases you repeat most, with what they cost per month."
+        case .smallPurchases:
+            "Coffees and snacks are small one by one. See what they add up to in a year."
+        case .weekdays:
+            "Your average spending on each day of the week, to see which one weighs most."
         case .future:
             "Installments and future bills add up month by month, so none catches you off guard."
         case .variance: "Each category's budget side by side with what actually went out."
@@ -56,6 +68,10 @@ public enum ProPitch: CaseIterable, Sendable {
         case .forecast: "chart.line.uptrend.xyaxis"
         case .history: "calendar"
         case .unusual: "exclamationmark.triangle.fill"
+        case .changes: "arrow.up.arrow.down"
+        case .merchants: "repeat"
+        case .smallPurchases: "cup.and.saucer.fill"
+        case .weekdays: "calendar.day.timeline.left"
         case .future: "creditcard.fill"
         case .variance: "chart.bar.fill"
         case .tags: "tag.fill"

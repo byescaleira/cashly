@@ -13,7 +13,8 @@ struct ProShowcaseTests {
     @Test func homeListsEveryInsightOfTheScreen() {
         #expect(
             ProShowcase.home.pitches == [
-                .score, .forecast, .history, .unusual, .future, .variance, .tags,
+                .score, .forecast, .variance, .history, .unusual, .changes, .merchants,
+                .smallPurchases, .weekdays, .tags, .future,
             ])
         #expect(ProShowcase.data.pitches == [.backups, .imports])
     }

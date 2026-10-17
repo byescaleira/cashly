@@ -59,4 +59,37 @@ struct InsightsModelTests {
         #expect(!reopened.unusual.contains(first))
         #expect(InsightFeedbackStore(defaults: defaults).feedback(for: friend.id).expected.isEmpty)
     }
+
+    @Test func changesLeaveOutCategoriesAlreadyOutOfTheOrdinary() async throws {
+        let insights = InsightsModel(
+            session: try await session(),
+            defaults: UserDefaults(suiteName: UUID().uuidString) ?? .standard)
+        await insights.load()
+        let unusual = Set(insights.unusual.map(\.name))
+        #expect(insights.changes.map(\.name) == ["Categoria 0"])
+        #expect(insights.changes.allSatisfy { !unusual.contains($0.name) })
+        let change = try #require(insights.changes.first)
+        #expect(change.isUp)
+        #expect(change.isFrequency == false)
+        #expect(change.difference == 400)
+    }
+
+    @Test func expectedCategoryDoesNotMoveToWhatChanged() async throws {
+        let insights = InsightsModel(
+            session: try await session(),
+            defaults: UserDefaults(suiteName: UUID().uuidString) ?? .standard)
+        await insights.load()
+        insights.markExpected(try #require(insights.unusual.first))
+        #expect(insights.changes.isEmpty)
+    }
+
+    @Test func merchantsComeFromRepeatedDescriptions() async throws {
+        let insights = InsightsModel(
+            session: try await session(),
+            defaults: UserDefaults(suiteName: UUID().uuidString) ?? .standard)
+        await insights.load()
+        let merchant = try #require(insights.merchants.first)
+        #expect(merchant.name == "Compra")
+        #expect(merchant.count >= 8)
+    }
 }

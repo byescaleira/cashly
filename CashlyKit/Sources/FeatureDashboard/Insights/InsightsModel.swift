@@ -82,7 +82,7 @@ public final class InsightsModel {
         Key(userID: session.user?.id, generation: session.generation, day: day)
     }
 
-    private var results: [AnalysisID: AnalysisResult] {
+    var results: [AnalysisID: AnalysisResult] {
         session.filter.isCustomized ? [:] : stored
     }
 
@@ -141,8 +141,18 @@ public final class InsightsModel {
             })
     }
 
+    var unusualFindings: [Finding] {
+        Array(findings.filter { $0.analysisID == UnusualCategories.id }.prefix(3))
+    }
+
+    var expectedSubjects: Set<String> {
+        Set(
+            (results[UnusualCategories.id]?.findings ?? [])
+                .filter { feedback.isExpected($0, in: month) }.map(\.subject))
+    }
+
     public var unusual: [Unusual] {
-        findings.filter { $0.analysisID == UnusualCategories.id }.prefix(3).map {
+        unusualFindings.map {
             Unusual(
                 id: $0.id, name: $0.label.capitalized, current: $0.metric("current")?.value ?? 0,
                 typical: $0.metric("typical")?.value ?? 0)
