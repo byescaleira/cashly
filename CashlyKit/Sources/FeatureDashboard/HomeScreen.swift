@@ -29,6 +29,8 @@ public struct HomeScreen: View {
             WeekdaySection()
             EmptyTagsSection()
             TagsSection()
+            RecurringSection()
+            BudgetIdeasSection()
             FutureSection()
         }
         .fontDesign(.rounded)

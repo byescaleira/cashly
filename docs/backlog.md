@@ -33,6 +33,8 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 
 ## Produto
 
+- **[P3] Vitrine do Pro no Início com 13 argumentos.** Cada análise do Início tem um argumento; para quem não assina, a lista ficou longa. Decidir com o usuário se fica um argumento por pergunta (como está o mês, para onde vai, onde economizar, o que vem aí).
+- **[P3] Reajuste de cobrança recorrente.** Acima de 15% a cobrança abre uma faixa nova e só reaparece depois de três meses no preço novo; detectar a continuação pela descrição e avisar do reajuste. Tolerar uma compra extra na mesma faixa (aceitar a faixa quando tirar uma única compra deixa os intervalos regulares).
 - **Configuração da distribuição.** Preencher no `Info.plist` as chaves de links (`CashlyAppStoreID`, `CashlySupportEmail`, `CashlyHelpURL`, `CashlyPrivacyURL`, `CashlyTermsURL`, `CashlyWebsiteURL`). Sem elas, Ajustes › Sobre mostra só "Avaliar" (pelo `requestReview`) e "Novidades", e o compartilhar manda só o texto; o id 6821986667 do App Store Connect só deve entrar quando a página do app estiver no ar. A cada versão, acrescentar um `Release` em `Release.all` (a tela Novidades destaca a versão instalada e lista as anteriores).
 - **Integrações, assinatura e novas features.** Planejadas por fase em [roadmap.md](roadmap.md). Antes de App Intents e widgets, resolver "Serviços fora da janela" acima. Servidor MCP para o Claude Code continua como ideia futura.
 - **[P3] Acessibilidade e restauração.** Dynamic Type conferido no iPhone até o tamanho de acessibilidade AX3; falta VoiceOver, principalmente gráficos e seletores de ícones. Rotas pequenas permitem deep links e restauração.

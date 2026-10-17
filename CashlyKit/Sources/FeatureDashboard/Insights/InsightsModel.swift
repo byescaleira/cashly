@@ -67,8 +67,8 @@ public final class InsightsModel {
 
     private var stored: [AnalysisID: AnalysisResult] = [:]
     private var feedback = InsightFeedback()
-    private var month = YearMonth(.now)
-    private var day = Calendar.current.startOfDay(for: .now)
+    private(set) var month = YearMonth(.now)
+    private(set) var day = Calendar.current.startOfDay(for: .now)
     @ObservationIgnored private let session: SessionModel
     @ObservationIgnored private let engine = AnalysisEngine()
     @ObservationIgnored private let store: InsightFeedbackStore
@@ -86,7 +86,7 @@ public final class InsightsModel {
         session.filter.isCustomized ? [:] : stored
     }
 
-    private var findings: [Finding] {
+    var findings: [Finding] {
         InsightRanking.rank(results.values.flatMap(\.findings), feedback: feedback, in: month)
     }
 
@@ -157,6 +157,13 @@ public final class InsightsModel {
                 id: $0.id, name: $0.label.capitalized, current: $0.metric("current")?.value ?? 0,
                 typical: $0.metric("typical")?.value ?? 0)
         }
+    }
+
+    func dismiss(_ id: String) {
+        guard let finding = findings.first(where: { $0.id == id }), let userID = session.user?.id
+        else { return }
+        feedback.dismiss(finding)
+        store.save(feedback, for: userID)
     }
 
     public func markExpected(_ item: Unusual) {

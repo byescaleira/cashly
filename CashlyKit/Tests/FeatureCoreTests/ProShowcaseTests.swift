@@ -14,7 +14,7 @@ struct ProShowcaseTests {
         #expect(
             ProShowcase.home.pitches == [
                 .score, .forecast, .variance, .history, .unusual, .changes, .merchants,
-                .smallPurchases, .weekdays, .tags, .future,
+                .smallPurchases, .weekdays, .tags, .recurring, .budgetIdeas, .future,
             ])
         #expect(ProShowcase.data.pitches == [.backups, .imports])
     }

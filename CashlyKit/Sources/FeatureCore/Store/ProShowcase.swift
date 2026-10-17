@@ -27,7 +27,7 @@ public enum ProShowcase: Sendable {
         case .home:
             [
                 .score, .forecast, .variance, .history, .unusual, .changes, .merchants,
-                .smallPurchases, .weekdays, .tags, .future,
+                .smallPurchases, .weekdays, .tags, .recurring, .budgetIdeas, .future,
             ]
         case .data: [.backups, .imports]
         case .claudeCode: [.askClaude, .analyses, .statements, .approvals]

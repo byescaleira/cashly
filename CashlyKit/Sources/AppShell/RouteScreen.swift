@@ -27,10 +27,10 @@ struct RouteScreen: View {
                 CategoryEditorModel(
                     draft: id.map(CategoryDraft.edit) ?? .new(), repositories: repositories)
             ) { CategoryEditorScreen() }
-        case .addBudget(let id, let categoryID, let date):
+        case .addBudget(let id, let categoryID, let date, let amount):
             ModelHost(
                 BudgetEditorModel(
-                    draft: budgetDraft(id: id, categoryID: categoryID, date: date),
+                    draft: budgetDraft(id: id, categoryID: categoryID, date: date, amount: amount),
                     repositories: repositories)
             ) { BudgetEditorScreen() }
         case .addTransaction(let id):
@@ -65,12 +65,15 @@ struct RouteScreen: View {
         }
     }
 
-    private func budgetDraft(id: String?, categoryID: String?, date: Date?) -> BudgetDraft {
+    private func budgetDraft(id: String?, categoryID: String?, date: Date?, amount: Double?)
+        -> BudgetDraft
+    {
         if let id { return .edit(id: id) }
         if let categoryID,
             let category = finance.allCategories.first(where: { $0.id == categoryID })
         {
-            return .new(category: category, date: date ?? session.filter.startDate)
+            return .new(
+                category: category, date: date ?? session.filter.startDate, amount: amount ?? 0)
         }
         return .new(date: date ?? session.filter.startDate)
     }

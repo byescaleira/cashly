@@ -821,6 +821,184 @@
         }
       }
     },
+    "a year in %lld charges that repeat every month" : {
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "im Jahr für %lld Abbuchung, die sich jeden Monat wiederholt"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "im Jahr für %lld Abbuchungen, die sich jeden Monat wiederholen"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "a year in %lld charge that repeats every month"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "a year in %lld charges that repeat every month"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "al año en %lld cargo que se repite cada mes"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "al año en %lld cargos que se repiten cada mes"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "par an pour %lld prélèvement qui revient chaque mois"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "par an pour %lld prélèvements qui reviennent chaque mois"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "all’anno in %lld addebito che si ripete ogni mese"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "all’anno in %lld addebiti che si ripetono ogni mese"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "毎月くり返す%lld件の支払いの年間額"
+                }
+              }
+            }
+          }
+        },
+        "ko" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "매달 반복되는 결제 %lld건의 1년 금액"
+                }
+              }
+            }
+          }
+        },
+        "pt-BR" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "por ano em %lld cobrança que se repete todo mês"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "por ano em %lld cobranças que se repetem todo mês"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "в год на %lld списание, которое повторяется каждый месяц"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "в год на %lld списания, которые повторяются каждый месяц"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "в год на %lld списаний, которые повторяются каждый месяц"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "в год на %lld списания, которые повторяются каждый месяц"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "每月重复的 %lld 笔扣款的全年金额"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "Add Profile" : {
       "localizations" : {
         "de" : {
@@ -1579,6 +1757,64 @@
         }
       }
     },
+    "Budgets to Create" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budgets zum Anlegen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Presupuestos por crear"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budgets à créer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budget da creare"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作成したい予算"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "만들 예산"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Orçamentos para criar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Бюджеты, которые стоит создать"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "可以创建的预算"
+          }
+        }
+      }
+    },
     "By Weekday" : {
       "localizations" : {
         "de" : {
@@ -1749,6 +1985,122 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "明显超出平时节奏的分类会在变成问题之前出现在这里。"
+          }
+        }
+      }
+    },
+    "Categories with spending in most months and no budget this month. Tap one to create its budget, or swipe it to stop the suggestion." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategorien mit Ausgaben in den meisten Monaten und ohne Budget in diesem Monat. Tippe auf eine, um ihr Budget anzulegen, oder wische, damit sie nicht mehr vorgeschlagen wird."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categorías con gastos en la mayoría de los meses y sin presupuesto este mes. Toca una para crear su presupuesto o deslízala para no sugerirla más."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Catégories avec des dépenses la plupart des mois et sans budget ce mois-ci. Touchez-en une pour créer son budget, ou balayez-la pour ne plus la suggérer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categorie con spese nella maggior parte dei mesi e senza budget questo mese. Toccane una per creare il budget o scorri per non suggerirla più."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ほとんどの月に支出があり、今月は予算がないカテゴリです。タップで予算を作成、スワイプで今後は提案しません。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "대부분의 달에 지출이 있지만 이번 달 예산이 없는 카테고리입니다. 눌러서 예산을 만들거나, 밀어서 더 이상 제안하지 않게 하세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categorias com gastos na maioria dos meses e sem orçamento neste mês. Toque em uma para criar o orçamento ou deslize para não sugerir mais."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Категории с расходами почти каждый месяц и без бюджета в этом месяце. Коснитесь, чтобы создать бюджет, или смахните, чтобы больше не предлагать."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大多数月份都有支出、但本月没有预算的类别。轻点一个即可创建预算，滑动则不再建议。"
+          }
+        }
+      }
+    },
+    "Categories you spend on every month without a plan, with a suggested amount." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kategorien, in denen du jeden Monat ohne Plan ausgibst, mit einem vorgeschlagenen Betrag."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categorías en las que gastas cada mes sin un plan, con un importe sugerido."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Catégories où vous dépensez chaque mois sans plan, avec un montant suggéré."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categorie in cui spendi ogni mese senza un piano, con un importo suggerito."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "計画なしで毎月使っているカテゴリと、おすすめの金額。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "계획 없이 매달 쓰는 카테고리와 추천 금액."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categorias em que você gasta todo mês sem um plano, com um valor sugerido."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Категории, в которых вы тратите каждый месяц без плана, с предложенной суммой."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每月都有支出却没有计划的类别，并附建议金额。"
           }
         }
       }
@@ -2271,6 +2623,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "日期"
+          }
+        }
+      }
+    },
+    "Don't Suggest" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicht vorschlagen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No sugerir"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ne plus suggérer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non suggerire"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提案しない"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "제안 안 함"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não sugerir"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не предлагать"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不再建议"
           }
         }
       }
@@ -2851,6 +3261,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "按标签追踪支出"
+          }
+        }
+      }
+    },
+    "Free from %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frei ab %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Libre desde %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Libéré à partir de %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Libero da %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@から空く額"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@부터 여유"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Livre a partir de %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Освободится с %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自 %@ 起释放"
           }
         }
       }
@@ -3667,6 +4135,184 @@
         }
       }
     },
+    "In %lld of the last 6 months · next around %@" : {
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "In %lld der letzten 6 Monate · nächste etwa am %@"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "In %lld der letzten 6 Monate · nächste etwa am %@"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "In %lld of the last 6 months · next around %@"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "In %lld of the last 6 months · next around %@"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "En %lld de los últimos 6 meses · la próxima hacia el %@"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "En %lld de los últimos 6 meses · la próxima hacia el %@"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld des 6 derniers mois · prochaine vers le %@"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld des 6 derniers mois · prochaine vers le %@"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "In %lld degli ultimi 6 mesi · prossima verso il %@"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "In %lld degli ultimi 6 mesi · prossima verso il %@"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "直近6か月のうち%lldか月・次回は%@ごろ"
+                }
+              }
+            }
+          }
+        },
+        "ko" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "최근 6개월 중 %lld개월 · 다음은 %@쯤"
+                }
+              }
+            }
+          }
+        },
+        "pt-BR" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Em %lld dos últimos 6 meses · próxima por volta de %@"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Em %lld dos últimos 6 meses · próxima por volta de %@"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld из последних 6 месяцев · следующее около %@"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld из последних 6 месяцев · следующее около %@"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld из последних 6 месяцев · следующее около %@"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld из последних 6 месяцев · следующее около %@"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "最近 6 个月中有 %lld 个月 · 下次约在 %@"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "In a transaction, add the profiles that split the bill with you." : {
       "localizations" : {
         "de" : {
@@ -4073,6 +4719,64 @@
         }
       }
     },
+    "Installments and future bills you've already recorded, and how much stops going out each month when installments end." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raten und künftige Rechnungen, die du schon erfasst hast, und wie viel monatlich wegfällt, wenn Raten enden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuotas y facturas futuras que ya registraste, y cuánto deja de salir cada mes cuando terminan las cuotas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échéances et factures à venir déjà saisies, et ce qui cesse de sortir chaque mois quand les paiements en plusieurs fois se terminent."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rate e bollette future già registrate, e quanto smette di uscire ogni mese quando le rate finiscono."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すでに記録した分割払いと今後の支払い、そして分割払いが終わると毎月いくら出なくなるか。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미 기록한 할부와 앞으로의 청구, 그리고 할부가 끝나면 매달 얼마가 덜 나가는지."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parcelas e contas futuras que você já registrou, e quanto deixa de sair por mês quando as parcelas terminam."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уже записанные платежи в рассрочку и будущие счета, а также сколько перестанет уходить каждый месяц, когда рассрочки закончатся."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你已记录的分期和未来账单，以及分期结束后每月少支出多少。"
+          }
+        }
+      }
+    },
     "Journey progress and captured payments" : {
       "localizations" : {
         "de" : {
@@ -4127,6 +4831,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "旅程进度和捕获的付款"
+          }
+        }
+      }
+    },
+    "Keep" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Behalten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantener"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Garder"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantieni"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "続ける"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "유지"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manter"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оставить"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保留"
           }
         }
       }
@@ -4247,6 +5009,64 @@
         }
       }
     },
+    "Know which budgets to create" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wisse, welche Budgets du anlegen solltest"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sabe qué presupuestos crear"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sachez quels budgets créer"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scopri quali budget creare"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作るべき予算がわかる"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "만들 예산 알아보기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saiba quais orçamentos criar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Узнайте, какие бюджеты создать"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "知道该创建哪些预算"
+          }
+        }
+      }
+    },
     "More often" : {
       "localizations" : {
         "de" : {
@@ -4359,6 +5179,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "次数更少"
+          }
+        }
+      }
+    },
+    "No budget this month · usually %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kein Budget in diesem Monat · normalerweise %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin presupuesto este mes · normalmente %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas de budget ce mois-ci · habituellement %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun budget questo mese · di solito %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今月は予算なし・通常は%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이번 달 예산 없음 · 평소 %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sem orçamento neste mês · o normal é %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет бюджета в этом месяце · обычно %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本月无预算 · 通常为 %@"
           }
         }
       }
@@ -4649,6 +5527,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "只有你允许的连接才能读取数据，你也可以随时移除。"
+          }
+        }
+      }
+    },
+    "Opens a new budget for this category" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öffnet ein neues Budget für diese Kategorie"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre un nuevo presupuesto para esta categoría"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvre un nouveau budget pour cette catégorie"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apre un nuovo budget per questa categoria"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このカテゴリの新しい予算を開きます"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 카테고리의 새 예산을 엽니다"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre um novo orçamento para esta categoria"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Открывает новый бюджет для этой категории"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "为此类别打开新预算"
           }
         }
       }
@@ -5353,6 +6289,64 @@
         }
       }
     },
+    "Recurring Charges" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wiederkehrende Abbuchungen"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cargos recurrentes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prélèvements récurrents"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Addebiti ricorrenti"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定期的な支払い"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "정기 결제"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cobranças recorrentes"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Регулярные списания"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "定期扣款"
+          }
+        }
+      }
+    },
     "Repeat Purchases" : {
       "localizations" : {
         "de" : {
@@ -5469,6 +6463,64 @@
         }
       }
     },
+    "Review what charges you every month" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prüfe, was jeden Monat abgebucht wird"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisa lo que te cobran cada mes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vérifiez ce qui est prélevé chaque mois"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controlla cosa ti addebitano ogni mese"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "毎月の支払いを見直せる"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "매달 나가는 결제 검토하기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revise o que é cobrado todo mês"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Проверьте ежемесячные списания"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检查每月的扣款"
+          }
+        }
+      }
+    },
     "Rose Gold" : {
       "localizations" : {
         "de" : {
@@ -5523,6 +6575,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "玫瑰金"
+          }
+        }
+      }
+    },
+    "Same description and a similar amount every month. Review what you no longer use, and swipe the charges you keep to hide them." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gleiche Beschreibung und ähnlicher Betrag jeden Monat. Prüfe, was du nicht mehr nutzt, und wische über die Abbuchungen, die du behältst, um sie auszublenden."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Misma descripción e importe parecido cada mes. Revisa lo que ya no usas y desliza los cargos que mantienes para ocultarlos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Même description et montant proche chaque mois. Vérifiez ce que vous n’utilisez plus et balayez les prélèvements que vous gardez pour les masquer."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stessa descrizione e importo simile ogni mese. Controlla ciò che non usi più e scorri gli addebiti che mantieni per nasconderli."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "毎月同じ説明で金額も近い支払いです。使っていないものを見直し、続ける支払いはスワイプで非表示にできます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "매달 설명이 같고 금액이 비슷한 결제입니다. 더 이상 쓰지 않는 것을 검토하고, 유지할 결제는 밀어서 숨기세요."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mesma descrição e valor parecido todo mês. Revise o que você não usa mais e deslize as cobranças que você mantém para escondê-las."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Одно и то же описание и похожая сумма каждый месяц. Проверьте, чем уже не пользуетесь, а списания, которые оставляете, смахните, чтобы скрыть."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每月描述相同、金额相近的扣款。看看哪些已经不用了，要保留的扣款可以滑动隐藏。"
           }
         }
       }
@@ -6741,6 +7851,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "商店、购买、已购项目、图标、颜色、头像、助力"
+          }
+        }
+      }
+    },
+    "Subscriptions and fixed bills found in your history, with what they cost in a year." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abos und feste Rechnungen aus deinem Verlauf, mit ihren Kosten im Jahr."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suscripciones y facturas fijas encontradas en tu historial, con lo que cuestan en un año."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abonnements et factures fixes trouvés dans votre historique, avec leur coût sur un an."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abbonamenti e bollette fisse trovati nella tua cronologia, con quanto costano in un anno."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "履歴から見つかったサブスクや固定費と、その年間額。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기록에서 찾은 구독과 고정 지출, 그리고 1년 비용."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Assinaturas e contas fixas encontradas no seu histórico, com quanto custam em um ano."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подписки и постоянные счета из вашей истории и их стоимость за год."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从记录中找到的订阅和固定账单，以及一年的花费。"
           }
         }
       }
@@ -44486,64 +45654,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "分期"
-          }
-        }
-      }
-    },
-    "Installments and future bills you've already recorded." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Raten und künftige Rechnungen, die du bereits erfasst hast."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cuotas y facturas futuras que ya registraste."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Échéances et factures futures que vous avez déjà enregistrées."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rate e bollette future che hai già registrato."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "すでに記録した分割払いと今後の支払いです。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이미 기록한 할부와 향후 청구서입니다."
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Parcelas e contas futuras que você já registrou."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Платежи в рассрочку и будущие счета, которые вы уже записали."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "你已记录的分期和未来账单。"
           }
         }
       }

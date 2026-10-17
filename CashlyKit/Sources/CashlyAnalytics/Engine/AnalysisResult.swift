@@ -28,7 +28,7 @@ public struct Provenance: Hashable, Sendable, Codable {
 
 public struct Metric: Hashable, Sendable, Codable {
     public enum Unit: String, Sendable, Codable {
-        case money, ratio, days, count
+        case money, ratio, days, count, month
     }
 
     public let key: String

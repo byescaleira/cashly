@@ -201,15 +201,15 @@ Em 16/10/2026 o Início passou a responder a quatro perguntas, e a inteligência
 | Resumo do Cashly | duas ou três frases e uma ação, narradas a partir dos fatos do mês (Pro) | I5 |
 | Como está o mês | resumo, previsão, disponível e saúde | já existe |
 | Para onde vai o dinheiro | variação por frequência × valor, estabelecimentos, pequenos gastos que somam, dia da semana | I2 |
-| Onde dá para economizar | assinaturas e recorrências com custo anual, volta ao padrão, orçamento sugerido, parcelas terminando | I3 |
-| O que vem aí | parcelas, recorrências previstas, risco de fechar no vermelho | I3 e I4 |
+| Onde dá para economizar | cobranças recorrentes com custo anual e orçamentos para criar; a volta ao padrão continua como recomendação do Fora do padrão | I3 |
+| O que vem aí | parcelas, quanto fica livre quando terminam e risco de fechar no vermelho | I3 e I4 |
 
 ### Fatos, recomendações e ranqueamento
 
 - **`Finding`:** um fato relevante de uma análise, com assunto (categoria, estabelecimento), tema (`month`, `spending`, `saving`, `upcoming`), impacto mensal em centavos, confiança e evidências. Pode trazer uma `Recommendation` com a economia mensal estimada.
 - **`InsightRanking`:** ordena os fatos por impacto × confiança × retorno da pessoa. Usado onde a pessoa dá retorno (Fora do padrão e, na I3, Onde dá para economizar); as seções descritivas da I2 mostram os fatos na ordem da própria análise.
-- **`InsightFeedback`:** a pessoa marca um fato como esperado neste mês e ele some até o mês seguinte. Fica só no aparelho, por perfil. "Útil" e "não útil" entram com os cartões da I3, como peso no ranqueamento.
-- **Sugestões sem treino (`Suggestions`):** valor de orçamento pela mediana de até seis meses anteriores e categoria pela descrição (Naive Bayes), calculados do retrato na hora. O treino manual, a tela Ajustes › Inteligência e a previsão por etiqueta (que nada usava) saíram; as sugestões continuam atrás da flag `intelligence`.
+- **`InsightFeedback`:** a pessoa marca um fato como esperado neste mês e ele some até o mês seguinte. Fica só no aparelho, por perfil. Nas sugestões de economia, "Manter" (cobrança recorrente) e "Não sugerir" (orçamento para criar) escondem a sugestão de vez (`dismissed`).
+- **Sugestões sem treino (`Suggestions`):** valor de orçamento pelo `BudgetRule` (mediana dos meses com gasto entre os seis meses do calendário anteriores, arredondada para cima à dezena) e categoria pela descrição (Naive Bayes), calculados do retrato na hora. O treino manual, a tela Ajustes › Inteligência e a previsão por etiqueta (que nada usava) saíram; as sugestões continuam atrás da flag `intelligence`.
 
 ## Fases
 
@@ -219,7 +219,7 @@ Em 16/10/2026 o Início passou a responder a quatro perguntas, e a inteligência
 | A+. Início (feita) | Comparação no mesmo ponto do mês e categorias fora do padrão; seções Este mês, Comparado aos outros meses, Fora do padrão e Próximos meses no Início |
 | I1. Fatos e ranqueamento (feita) | `Finding`, `Recommendation`, `InsightRanking` e `InsightFeedback`; análises atuais emitem fatos; "Esperado neste mês" no Fora do padrão; sugestões calculadas do retrato no lugar do serviço treinado |
 | I2. Para onde vai o dinheiro (feita) | `SpendingDrivers` (frequência × valor), `TopMerchants`, `SmallPurchases`, `WeekdayPattern`; seções O que mudou, Compras que se repetem, Compras pequenas e Por dia da semana no Início |
-| I3. Onde economizar | recorrências e assinaturas, volta ao padrão, orçamento sugerido, parcelas terminando; bloco no Início com economia em R$ |
+| I3. Onde economizar (feita) | `RecurringCharges` (assinaturas e contas fixas com custo anual), `SuggestedBudgets`, `EndingInstallments`; seções Cobranças recorrentes e Orçamentos para criar, e "Livre a partir de" em Próximos meses; "Manter" e "Não sugerir" escondem a sugestão de vez |
 | I4. Modelos | `CashlyAnalyticsML`: embeddings de descrição (`NLContextualEmbedding`), previsão com backtest e seleção automática, Monte Carlo do risco de fechar no vermelho |
 | I5. Narração | `CashlyAnalyticsAI`: Resumo do Cashly no aparelho (`SystemLanguageModel`, `@Generable`) com conferência dos números; resumo semanal em notificação |
 | I6. Pergunte ao Cashly | assistente com `Tool`s do motor no Private Cloud Compute; comprovante por imagem |
