@@ -2,7 +2,7 @@ import Foundation
 
 public struct Recommendation: Hashable, Sendable, Codable {
     public enum Action: String, Sendable, Codable {
-        case returnToUsual
+        case returnToUsual, review, setBudget
     }
 
     public let action: Action

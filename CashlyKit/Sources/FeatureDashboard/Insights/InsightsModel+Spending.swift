@@ -115,13 +115,18 @@ extension InsightsModel {
     }
 
     public var merchants: [Merchant] {
-        (results[TopMerchants.id]?.findings ?? []).prefix(3).map { finding in
-            Merchant(
-                id: finding.id, name: finding.label,
-                count: Int(finding.metric("count")?.value ?? 0),
-                monthly: finding.metric("monthly")?.value ?? 0,
-                ticket: finding.metric("ticket")?.value ?? 0)
-        }
+        let recurring = Set(
+            (results[RecurringCharges.id]?.findings ?? []).map {
+                String($0.subject.prefix { $0 != "|" })
+            })
+        return (results[TopMerchants.id]?.findings ?? []).filter { !recurring.contains($0.subject) }
+            .prefix(3).map { finding in
+                Merchant(
+                    id: finding.id, name: finding.label,
+                    count: Int(finding.metric("count")?.value ?? 0),
+                    monthly: finding.metric("monthly")?.value ?? 0,
+                    ticket: finding.metric("ticket")?.value ?? 0)
+            }
     }
 
     public var small: Small? {

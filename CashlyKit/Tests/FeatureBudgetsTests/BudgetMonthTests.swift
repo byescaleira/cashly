@@ -119,6 +119,6 @@ struct BudgetMonthTests {
         await intelligence.load()
         #expect(editor.canSuggestAmount(with: intelligence))
         editor.suggestAmount(with: intelligence)
-        #expect(editor.draft.amount == 321)
+        #expect(editor.draft.amount == 330)
     }
 }

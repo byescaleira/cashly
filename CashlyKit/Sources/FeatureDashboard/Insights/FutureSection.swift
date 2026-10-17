@@ -12,6 +12,7 @@ struct FutureSection: View {
                     InsightBars(bars: commitments.bars)
                     LabeledContent(
                         "Next Month", value: commitments.nextMonth.formatted(.appCurrency))
+                    ForEach(insights.endings) { LabeledContent($0.title, value: $0.amount) }
                 } header: {
                     FigureHeader(title: "Coming Months", amount: commitments.total) {
                         Text("already committed to installments")
@@ -19,7 +20,9 @@ struct FutureSection: View {
                             .foregroundStyle(.secondary)
                     }
                 } footer: {
-                    Text("Installments and future bills you've already recorded.")
+                    Text(
+                        "Installments and future bills you've already recorded, and how much stops going out each month when installments end."
+                    )
                 }
             }
         }

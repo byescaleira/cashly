@@ -36,10 +36,10 @@ public struct Suggestions: Sendable {
     }
 
     public func budget(categoryID: String, month: YearMonth) -> Int64? {
-        let recent = (monthly[categoryID] ?? [:]).filter { $0.key < month }
-            .sorted { $0.key > $1.key }.prefix(6).map { Double($0.value) }
-        guard recent.count >= 2, let median = Statistics.median(Array(recent)) else { return nil }
-        return Int64(median.rounded())
+        let totals = (1...6).compactMap { monthly[categoryID]?[month.adding(months: -$0)] }
+            .filter { $0 > 0 }
+        guard totals.count >= 2 else { return nil }
+        return BudgetRule.suggested(totals)
     }
 
     public func category(for text: String) -> String? {

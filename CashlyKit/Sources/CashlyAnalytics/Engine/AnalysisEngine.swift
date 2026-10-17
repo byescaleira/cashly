@@ -10,7 +10,8 @@ public actor AnalysisEngine {
     public static let standard: [any Analysis.Type] = [
         InstallmentCommitments.self, MonthPace.self, DailyAllowance.self,
         SamePointComparison.self, UnusualCategories.self, SpendingDrivers.self,
-        TopMerchants.self, SmallPurchases.self, WeekdayPattern.self,
+        TopMerchants.self, SmallPurchases.self, WeekdayPattern.self, RecurringCharges.self,
+        SuggestedBudgets.self, EndingInstallments.self,
     ]
 
     private let analyses: [any Analysis.Type]

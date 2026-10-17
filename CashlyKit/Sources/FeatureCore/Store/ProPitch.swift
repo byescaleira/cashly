@@ -2,7 +2,7 @@ import SwiftUI
 
 public enum ProPitch: CaseIterable, Sendable {
     case score, forecast, history, unusual, changes, merchants, smallPurchases, weekdays
-    case future, variance, tags
+    case recurring, budgetIdeas, future, variance, tags
     case backups, imports
     case askClaude, analyses, statements, approvals
 
@@ -16,6 +16,8 @@ public enum ProPitch: CaseIterable, Sendable {
         case .merchants: "See what you buy again and again"
         case .smallPurchases: "See small purchases add up"
         case .weekdays: "Spot your biggest day"
+        case .recurring: "Review what charges you every month"
+        case .budgetIdeas: "Know which budgets to create"
         case .future: "See what's already committed"
         case .variance: "Compare plan and reality"
         case .tags: "Follow your spending by tag"
@@ -44,6 +46,10 @@ public enum ProPitch: CaseIterable, Sendable {
             "Coffees and snacks are small one by one. See what they add up to in a year."
         case .weekdays:
             "Your average spending on each day of the week, to see which one weighs most."
+        case .recurring:
+            "Subscriptions and fixed bills found in your history, with what they cost in a year."
+        case .budgetIdeas:
+            "Categories you spend on every month without a plan, with a suggested amount."
         case .future:
             "Installments and future bills add up month by month, so none catches you off guard."
         case .variance: "Each category's budget side by side with what actually went out."
@@ -72,6 +78,8 @@ public enum ProPitch: CaseIterable, Sendable {
         case .merchants: "repeat"
         case .smallPurchases: "cup.and.saucer.fill"
         case .weekdays: "calendar.day.timeline.left"
+        case .recurring: "dollarsign.arrow.circlepath"
+        case .budgetIdeas: "chart.pie.fill"
         case .future: "creditcard.fill"
         case .variance: "chart.bar.fill"
         case .tags: "tag.fill"

@@ -4,7 +4,7 @@ import Foundation
 public enum Route: Hashable {
     case addUser(id: String?)
     case addCategory(id: String?)
-    case addBudget(id: String?, categoryID: String?, date: Date?)
+    case addBudget(id: String?, categoryID: String?, date: Date?, amount: Double? = nil)
     case addTransaction(id: String?)
     case classifyCapture(Capture)
     case addTag(id: String?)
