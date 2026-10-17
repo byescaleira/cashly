@@ -9,6 +9,7 @@ import SwiftUI
 struct SectionScreen: View {
     @Environment(SessionModel.self) private var session
     @Environment(FinanceModel.self) private var finance
+    @Environment(\.featureFlags) private var flags
     let section: AppSection
 
     @ViewBuilder var body: some View {
@@ -18,7 +19,9 @@ struct SectionScreen: View {
                 ModelHost(
                     ReportsModel(finance: finance)
                 ) {
-                    ModelHost(InsightsModel(session: session)) { HomeScreen() }
+                    ModelHost(InsightsModel(session: session)) {
+                        ModelHost(SummaryModel(flags: flags)) { HomeScreen() }
+                    }
                 }
             }
         case .transaction: TransactionListScreen()

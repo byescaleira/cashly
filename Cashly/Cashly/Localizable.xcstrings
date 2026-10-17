@@ -2453,6 +2453,64 @@
         }
       }
     },
+    "Cashly Summary" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly-Zusammenfassung"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resumen de Cashly"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Résumé Cashly"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riepilogo di Cashly"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashlyのまとめ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly 요약"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resumo do Cashly"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сводка Cashly"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly 摘要"
+          }
+        }
+      }
+    },
     "Catch what's out of the ordinary" : {
       "localizations" : {
         "de" : {
@@ -3435,6 +3493,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每个档案都有自己的财务：个人、公司、银行或任何对象。"
+          }
+        }
+      }
+    },
+    "Each sentence comes from a fact in the section named above it." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeder Satz stammt aus einem Fakt des darüber genannten Abschnitts."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada frase sale de un dato de la sección indicada encima."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque phrase vient d’un fait de la section indiquée au-dessus."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ogni frase viene da un dato della sezione indicata sopra."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "各文は、その上に書かれたセクションの事実にもとづいています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "각 문장은 위에 적힌 섹션의 사실에서 나옵니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cada frase vem de um fato da seção indicada acima dela."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Каждая фраза основана на факте из раздела, указанного над ней."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每句话都来自其上方所写部分中的一项事实。"
           }
         }
       }
@@ -9881,6 +9997,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "有了 Cashly Pro，Claude Code 会连接这台设备上的 Cashly，回答问题、进行分析并导入账单。"
+          }
+        }
+      }
+    },
+    "Written on this device by Apple Intelligence" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf diesem Gerät von Apple Intelligence geschrieben"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escrito en este dispositivo por Apple Intelligence"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rédigé sur cet appareil par Apple Intelligence"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scritto su questo dispositivo da Apple Intelligence"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このデバイスのApple Intelligenceが作成"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 기기의 Apple Intelligence가 작성"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escrito neste aparelho pela Apple Intelligence"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Написано на этом устройстве Apple Intelligence"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "由本设备上的 Apple Intelligence 撰写"
           }
         }
       }

@@ -787,3 +787,16 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Embeddings de frase, não contextuais:** `NLEmbedding.sentenceEmbedding` vem no sistema e devolve um vetor por frase; o `NLContextualEmbedding` exige baixar recursos e trabalha por token.
 - **Sem boosted trees por enquanto:** com o histórico de uma pessoa, poucos meses por categoria, os modelos estatísticos ganham no backtest; o `MLBoostedTreeRegressor` está no backlog.
 - **`SeededGenerator` (SplitMix64)** fica no motor para as próximas simulações.
+
+## 17/10/2026: inteligência I5, Resumo do Cashly
+
+- **O modelo de linguagem não vê nem escreve números.** `NarrationFact` descreve cada fato só pelo tipo (em inglês, fixo por análise) e, quando o rótulo é um nome (categoria ou compra), pelo nome entre aspas, numa linha só, sem dígitos e com até 40 caracteres. Os rótulos com números (o valor das compras pequenas, o mês das parcelas, o mês da previsão) não vão ao modelo. As instruções dizem que o texto entre aspas é dado, nunca ordem.
+- **Resumo sem valores na tela.** A primeira versão punha ao lado de cada frase o valor do cálculo, mas ele repetia números das seções logo abaixo. Cada linha mostra agora o nome da seção de onde o fato vem ("Fora do padrão", "Cobranças recorrentes") e a frase; os valores ficam só nas seções.
+- **Validação dura (`NarrationCheck`):** dígitos de qualquer escrita (ASCII, largura total, arábicos, sobrescritos), símbolos de moeda, "%", "％", "٪" e "‰", fato fora da lista ou repetido, frase vazia ou com mais de 220 caracteres, e frase que não cita o nome do fato descartam o texto. Ideogramas de número (一, 万) passam, porque fazem parte de palavras comuns em chinês e japonês. Números por extenso não são barrados; as instruções os proíbem.
+- **Sem texto de reserva:** quando não há narração válida, a seção some, para não prometer inteligência que não entrega. A referência `analytics-and-intelligence.md` do apple-sdd foi atualizada.
+- **Só os fatos que a tela mostra,** um por nome (Fora do padrão e O que mudou não repetem a mesma categoria), até seis, na ordem do ranqueamento. Marcar "Esperado", "Manter" ou "Não sugerir" tira a linha na hora, porque o resumo é montado a partir dos fatos atuais.
+- **Só o modelo do sistema, no aparelho:** `SystemLanguageModel.default` com amostragem gulosa, no idioma e na região do app ("Portuguese (Brazil)"), quando `supportsLocale` confirma. Só gera para quem tem o Pro e com a flag `summary` ligada. Erro ou modelo indisponível não ficam guardados (tenta de novo na próxima carga); texto reprovado fica guardado pela combinação de fatos, contexto, idioma e dia, porque a amostragem gulosa repetiria o mesmo texto.
+- **Transparência:** "Escrito neste aparelho pela Apple Intelligence" logo abaixo da frase geral, e o rodapé explica que cada frase vem da seção indicada acima dela. A seção entra com transição de opacidade, sem animação com Reduzir movimento.
+- **Sem argumento na vitrine do Pro:** em aparelhos sem Apple Intelligence a seção nunca aparece, e usar a marca para vender a assinatura pode sugerir endosso.
+- **Por dia da semana fica fora do Resumo,** porque o fato dele não se descreve bem sem o dia.
+- **Resumo semanal por notificação adiado** (backlog): o texto precisa do app aberto.
