@@ -27,6 +27,32 @@ public final class InsightsModel {
         public let daily: Double?
         public let daysLeft: Int?
         public let isUncertain: Bool
+        public let risk: Double?
+
+        public var riskText: String? {
+            risk.map {
+                (($0 * 10_000).rounded() / 10_000).formatted(
+                    .percent.precision(.fractionLength(0))
+                        .rounded(rule: isRiskHigh ? .toNearestOrAwayFromZero : .towardZero)
+                        .locale(.app))
+            }
+        }
+
+        public var isRiskHigh: Bool { (risk ?? 0) >= 0.5 }
+
+        public init(
+            spent: Double, remaining: Double, projected: Double, budgeted: Double?, daily: Double?,
+            daysLeft: Int?, isUncertain: Bool, risk: Double?
+        ) {
+            self.spent = spent
+            self.remaining = remaining
+            self.projected = projected
+            self.budgeted = budgeted
+            self.daily = daily
+            self.daysLeft = daysLeft
+            self.isUncertain = isUncertain
+            self.risk = risk
+        }
 
         public var gap: Double? { budgeted.map { projected - $0 } }
         public var scale: Double { max(projected, budgeted ?? 0, 1) }
@@ -125,7 +151,8 @@ public final class InsightsModel {
             budgeted: pace.metric("budgeted")?.value,
             daily: allowance?.metric("daily")?.value,
             daysLeft: allowance?.metric("daysLeft").map { Int($0.value) },
-            isUncertain: pace.provenance.confidence == .low)
+            isUncertain: pace.provenance.confidence == .low,
+            risk: results[OverPlanRisk.id]?.metric("probability")?.value.nilIfOutside(0.01...0.99))
     }
 
     public var history: History? {

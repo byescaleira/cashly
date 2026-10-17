@@ -21,7 +21,7 @@ struct InsightsModelTests {
                 id: "c\(index)", user: owner, name: "Categoria \(index)", color: "0099FF",
                 icon: "cart")
             try await repositories.categories.save(category)
-            for offset in 0...6 {
+            for offset in 0...7 {
                 let cents: Int64 = offset == 0 ? 50_000 + Int64(index) * 10_000 : 10_000
                 try await repositories.transactions.save(
                     Transaction(
@@ -182,5 +182,40 @@ struct InsightsModelTests {
         await insights.load()
         #expect(insights.recurrences?.items.filter { $0.name == "APPLE.COM/BILL" }.count == 2)
         #expect(!insights.merchants.contains { $0.name == "APPLE.COM/BILL" })
+    }
+
+    @Test func nextMonthComesFromTheForecast() async throws {
+        let insights = InsightsModel(
+            session: try await session(),
+            defaults: UserDefaults(suiteName: UUID().uuidString) ?? .standard)
+        await insights.load()
+        let next = try #require(insights.nextMonth)
+        #expect(next.total == 400)
+        #expect(next.low == 400)
+        #expect(next.high == 400)
+        #expect(next.range == nil)
+        #expect(insights.outlook?.risk == nil)
+        #expect(insights.outlook?.isRiskHigh == false)
+        #expect(
+            insights.futureFooter == "Based on your past months."
+        )
+        let spread = InsightsModel.NextMonth(total: 500, low: 400, high: 600, committed: 0)
+        #expect(spread.range?.contains("counting installments") == false)
+        let withPlans = InsightsModel.NextMonth(total: 500, low: 400, high: 600, committed: 100)
+        #expect(withPlans.range?.contains("counting installments") == true)
+    }
+
+    @Test func riskTextNeverContradictsTheChip() {
+        let outlook = { (risk: Double) in
+            InsightsModel.Outlook(
+                spent: 100, remaining: 100, projected: 200, budgeted: 250, daily: nil,
+                daysLeft: nil, isUncertain: false, risk: risk)
+        }
+        #expect(outlook(0.4995).riskText == "49%")
+        #expect(outlook(0.4995).isRiskHigh == false)
+        #expect(outlook(0.5).riskText == "50%")
+        #expect(outlook(0.5).isRiskHigh)
+        #expect(outlook(0.29).riskText == "29%")
+        #expect(outlook(0.01).riskText == "1%")
     }
 }

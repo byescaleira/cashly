@@ -89,7 +89,7 @@ flowchart TB
 
 **ML no aparelho (`CashlyAnalyticsML`, implementando protocolos do L3):**
 - **Modelo global de previsão:** `MLBoostedTreeRegressor` (Create ML, roda no iPhone) treinado com os atributos do L1 de todas as categorias da pessoa. Entra no ensemble só quando vence o backtest.
-- **Texto e estabelecimentos:** `NLContextualEmbedding` para agrupar descrições parecidas ("NETFLIX.COM", "Netflix *123") e sugerir categoria por vizinhos próximos. Substitui o Naive Bayes atual quando medir melhor.
+- **Texto e estabelecimentos:** embeddings de frase do NaturalLanguage (`NLEmbedding.sentenceEmbedding`, que vem no sistema; o `NLContextualEmbedding` pede download de recursos e devolve vetores por token) para agrupar descrições parecidas ("NETFLIX.COM", "Netflix *123") e sugerir categoria por vizinhos próximos. Substitui o Naive Bayes atual quando medir melhor.
 - **Modelos pré-treinados (Core ML):** um classificador de descrição → categoria treinado fora do aparelho com dados sintéticos e públicos brasileiros, personalizado no aparelho pelos vizinhos da própria pessoa.
 
 ### L4 Motor
@@ -220,7 +220,7 @@ Em 16/10/2026 o Início passou a responder a quatro perguntas, e a inteligência
 | I1. Fatos e ranqueamento (feita) | `Finding`, `Recommendation`, `InsightRanking` e `InsightFeedback`; análises atuais emitem fatos; "Esperado neste mês" no Fora do padrão; sugestões calculadas do retrato no lugar do serviço treinado |
 | I2. Para onde vai o dinheiro (feita) | `SpendingDrivers` (frequência × valor), `TopMerchants`, `SmallPurchases`, `WeekdayPattern`; seções O que mudou, Compras que se repetem, Compras pequenas e Por dia da semana no Início |
 | I3. Onde economizar (feita) | `RecurringCharges` (assinaturas e contas fixas com custo anual), `SuggestedBudgets`, `EndingInstallments`; seções Cobranças recorrentes e Orçamentos para criar, e "Livre a partir de" em Próximos meses; "Manter" e "Não sugerir" escondem a sugestão de vez |
-| I4. Modelos | `CashlyAnalyticsML`: embeddings de descrição (`NLContextualEmbedding`), previsão com backtest e seleção automática, Monte Carlo do risco de fechar no vermelho |
+| I4. Modelos (feita) | `Forecaster` (ingênuo, sazonal, mediana, suavização exponencial e Croston, escolhidos por backtest com faixa p10–p90) e `NextMonthForecast` em Próximos meses; `OverPlanRisk` (Monte Carlo com gerador semeado) na Previsão do mês; `CashlyAnalyticsML` com `EmbeddingClassifier` (embeddings de frase do NaturalLanguage) disputando com o Naive Bayes pela precisão nos dados da própria pessoa |
 | I5. Narração | `CashlyAnalyticsAI`: Resumo do Cashly no aparelho (`SystemLanguageModel`, `@Generable`) com conferência dos números; resumo semanal em notificação |
 | I6. Pergunte ao Cashly | assistente com `Tool`s do motor no Private Cloud Compute; comprovante por imagem |
 

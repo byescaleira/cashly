@@ -5,11 +5,13 @@ import SwiftUI
 
 struct OutlookSection: View {
     @Environment(InsightsModel.self) private var insights
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         if let outlook = insights.outlook {
             ProOnly {
                 OutlookContent(outlook: outlook)
+                    .animation(reduceMotion ? nil : .smooth, value: outlook)
             }
         }
     }
@@ -31,9 +33,21 @@ private struct OutlookContent: View {
                     Text("\(daily.formatted(.appCurrency)) per day")
                         .fontWeight(.semibold)
                         .foregroundStyle(daily > 0 ? Color.positive : .negative)
+                        .contentTransition(.numericText(value: daily))
                 } label: {
                     Text("You can spend")
                     Text("over the next \(days) days without going over plan")
+                }
+            }
+            if let risk = outlook.riskText, let value = outlook.risk {
+                LabeledContent {
+                    Text(risk)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(outlook.isRiskHigh ? Color.negative : .primary)
+                        .contentTransition(.numericText(value: value))
+                } label: {
+                    Text("Chance of going over plan")
+                    Text("Based on how much your daily spending usually varies")
                 }
             }
         } header: {
@@ -114,6 +128,7 @@ private struct PlannedDot: View {
 
 private struct OutlookBar: View {
     @Environment(\.appTint) private var appTint
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     let outlook: InsightsModel.Outlook
 
     var body: some View {
@@ -132,7 +147,7 @@ private struct OutlookBar: View {
             }
         }
         .frame(height: 14)
-        .animation(.smooth, value: outlook)
+        .animation(reduceMotion ? nil : .smooth, value: outlook)
         .accessibilityHidden(true)
     }
 }

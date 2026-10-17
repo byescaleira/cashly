@@ -1115,6 +1115,64 @@
         }
       }
     },
+    "Already committed next month" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Für nächsten Monat schon verplant"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ya comprometido el próximo mes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Déjà engagé le mois prochain"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Già impegnato il mese prossimo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来月にすでに決まっている額"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다음 달 이미 확정된 금액"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Já comprometido no próximo mês"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уже запланировано на следующий месяц"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下个月已确定"
+          }
+        }
+      }
+    },
     "An equal split must apply to every profile." : {
       "localizations" : {
         "de" : {
@@ -1641,6 +1699,528 @@
         }
       }
     },
+    "Based on your past months plus what's already committed; most months fall within the range. The months at the end show when installments finish and how much stops going out." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf Basis deiner bisherigen Monate plus dem, was schon verplant ist; die meisten Monate liegen im Bereich. Die Monate am Ende zeigen, wann Raten auslaufen und wie viel dann wegfällt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Según tus meses anteriores más lo ya comprometido; la mayoría de los meses cae dentro del rango. Los meses al final muestran cuándo terminan las cuotas y cuánto deja de salir."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "D’après vos mois passés et ce qui est déjà engagé ; la plupart des mois restent dans la fourchette. Les mois à la fin montrent quand les échéances se terminent et ce qui cesse de sortir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In base ai tuoi mesi passati più quanto è già impegnato; la maggior parte dei mesi resta nell’intervallo. I mesi in fondo mostrano quando finiscono le rate e quanto smette di uscire."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "過去の月とすでに決まっている額をもとにしています。ほとんどの月はこの範囲に収まります。最後の月は、分割払いが終わる時期と出なくなる額を示します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지난 달들과 이미 확정된 금액을 바탕으로 합니다. 대부분의 달은 이 범위 안에 들어갑니다. 마지막 달들은 할부가 끝나는 때와 덜 나가는 금액을 보여 줍니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com base nos seus meses anteriores mais o que já está comprometido; a maioria dos meses cai dentro da faixa. Os meses no fim mostram quando as parcelas terminam e quanto deixa de sair."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На основе прошлых месяцев и уже запланированного; большинство месяцев укладывается в диапазон. Месяцы в конце показывают, когда закончатся платежи и сколько перестанет уходить."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据你过去的月份和已确定的支出；大多数月份都在这个范围内。末尾的月份显示分期何时结束以及每月少支出多少。"
+          }
+        }
+      }
+    },
+    "Based on your past months plus what's already committed." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf Basis deiner bisherigen Monate plus dem, was schon verplant ist."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Según tus meses anteriores más lo ya comprometido."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "D’après vos mois passés et ce qui est déjà engagé."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In base ai tuoi mesi passati più quanto è già impegnato."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "過去の月とすでに決まっている額をもとにしています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지난 달들과 이미 확정된 금액을 바탕으로 합니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com base nos seus meses anteriores mais o que já está comprometido."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На основе прошлых месяцев и уже запланированного."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据你过去的月份和已确定的支出。"
+          }
+        }
+      }
+    },
+    "Based on your past months plus what's already committed. The months at the end show when installments finish and how much stops going out." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf Basis deiner bisherigen Monate plus dem, was schon verplant ist. Die Monate am Ende zeigen, wann Raten auslaufen und wie viel dann wegfällt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Según tus meses anteriores más lo ya comprometido. Los meses al final muestran cuándo terminan las cuotas y cuánto deja de salir."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "D’après vos mois passés et ce qui est déjà engagé. Les mois à la fin montrent quand les échéances se terminent et ce qui cesse de sortir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In base ai tuoi mesi passati più quanto è già impegnato. I mesi in fondo mostrano quando finiscono le rate e quanto smette di uscire."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "過去の月とすでに決まっている額をもとにしています。最後の月は、分割払いが終わる時期と出なくなる額を示します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지난 달들과 이미 확정된 금액을 바탕으로 합니다. 마지막 달들은 할부가 끝나는 때와 덜 나가는 금액을 보여 줍니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com base nos seus meses anteriores mais o que já está comprometido. Os meses no fim mostram quando as parcelas terminam e quanto deixa de sair."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На основе прошлых месяцев и уже запланированного. Месяцы в конце показывают, когда закончатся платежи и сколько перестанет уходить."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据你过去的月份和已确定的支出。末尾的月份显示分期何时结束以及每月少支出多少。"
+          }
+        }
+      }
+    },
+    "Based on your past months." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf Basis deiner bisherigen Monate."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Según tus meses anteriores."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "D’après vos mois passés."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In base ai tuoi mesi passati."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "過去の月をもとにしています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지난 달들을 바탕으로 합니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com base nos seus meses anteriores."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На основе прошлых месяцев."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据你过去的月份。"
+          }
+        }
+      }
+    },
+    "Between %@ and %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zwischen %1$@ und %2$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entre %1$@ y %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entre %1$@ et %2$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tra %1$@ e %2$@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@〜%2$@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@~%2$@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entre %1$@ e %2$@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "От %1$@ до %2$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 %1$@ 到 %2$@ 之间"
+          }
+        }
+      }
+    },
+    "Based on how much your daily spending usually varies" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Danach, wie stark deine täglichen Ausgaben meist schwanken"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Según cuánto suele variar tu gasto diario"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "D’après la variation habituelle de vos dépenses quotidiennes"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In base a quanto varia di solito la tua spesa giornaliera"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日々の支出がふだんどれだけ変わるかをもとにしています"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "평소 일일 지출이 얼마나 달라지는지를 바탕으로 합니다"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com base em quanto seus gastos diários costumam variar"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "С учётом того, насколько обычно меняются ваши ежедневные расходы"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据你每日支出的通常波动"
+          }
+        }
+      }
+    },
+    "Based on your past months; most months fall within the range." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf Basis deiner bisherigen Monate; die meisten Monate liegen im Bereich."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Según tus meses anteriores; la mayoría de los meses cae dentro del rango."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "D’après vos mois passés ; la plupart des mois restent dans la fourchette."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In base ai tuoi mesi passati; la maggior parte dei mesi resta nell’intervallo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "過去の月をもとにしています。ほとんどの月はこの範囲に収まります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지난 달들을 바탕으로 합니다. 대부분의 달은 이 범위 안에 들어갑니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com base nos seus meses anteriores; a maioria dos meses cai dentro da faixa."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На основе прошлых месяцев; большинство месяцев укладывается в диапазон."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据你过去的月份；大多数月份都在这个范围内。"
+          }
+        }
+      }
+    },
+    "Based on your past months plus what's already committed; most months fall within the range." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auf Basis deiner bisherigen Monate plus dem, was schon verplant ist; die meisten Monate liegen im Bereich."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Según tus meses anteriores más lo ya comprometido; la mayoría de los meses cae dentro del rango."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "D’après vos mois passés et ce qui est déjà engagé ; la plupart des mois restent dans la fourchette."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In base ai tuoi mesi passati più quanto è già impegnato; la maggior parte dei mesi resta nell’intervallo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "過去の月とすでに決まっている額をもとにしています。ほとんどの月はこの範囲に収まります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지난 달들과 이미 확정된 금액을 바탕으로 합니다. 대부분의 달은 이 범위 안에 들어갑니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Com base nos seus meses anteriores mais o que já está comprometido; a maioria dos meses cai dentro da faixa."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "На основе прошлых месяцев и уже запланированного; большинство месяцев укладывается в диапазон."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "根据你过去的月份和已确定的支出；大多数月份都在这个范围内。"
+          }
+        }
+      }
+    },
+    "Between %@ and %@, counting installments" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Zwischen %1$@ und %2$@, mit Raten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entre %1$@ y %2$@, contando las cuotas"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entre %1$@ et %2$@, échéances comprises"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tra %1$@ e %2$@, rate comprese"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@〜%2$@（分割払いを含む）"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@~%2$@, 할부 포함"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entre %1$@ e %2$@, contando as parcelas"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "От %1$@ до %2$@ с учётом платежей"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 %1$@ 到 %2$@ 之间，含分期"
+          }
+        }
+      }
+    },
     "Black Gold" : {
       "localizations" : {
         "de" : {
@@ -2101,6 +2681,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每月都有支出却没有计划的类别，并附建议金额。"
+          }
+        }
+      }
+    },
+    "Chance of going over plan" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wahrscheinlichkeit, den Plan zu überschreiten"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probabilidad de superar lo planificado"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probabilité de dépasser le prévu"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Probabilità di superare il pianificato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "予定を超える確率"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "계획을 넘을 확률"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chance de passar do planejado"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вероятность превысить план"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "超出计划的概率"
           }
         }
       }
@@ -3029,6 +3667,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cashly Pro 专属。"
+          }
+        }
+      }
+    },
+    "Expected next month" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erwartet im nächsten Monat"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previsto el próximo mes"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prévu le mois prochain"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previsto il mese prossimo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "来月の見込み"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다음 달 예상"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esperado no próximo mês"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ожидается в следующем месяце"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "下个月预计"
           }
         }
       }
@@ -4719,60 +5415,118 @@
         }
       }
     },
-    "Installments and future bills you've already recorded, and how much stops going out each month when installments end." : {
+    "Installments and future bills you've already recorded." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Raten und künftige Rechnungen, die du schon erfasst hast, und wie viel monatlich wegfällt, wenn Raten enden."
+            "value" : "Raten und künftige Rechnungen, die du schon erfasst hast."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cuotas y facturas futuras que ya registraste, y cuánto deja de salir cada mes cuando terminan las cuotas."
+            "value" : "Cuotas y facturas futuras que ya registraste."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Échéances et factures à venir déjà saisies, et ce qui cesse de sortir chaque mois quand les paiements en plusieurs fois se terminent."
+            "value" : "Échéances et factures à venir déjà saisies."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rate e bollette future già registrate, e quanto smette di uscire ogni mese quando le rate finiscono."
+            "value" : "Rate e bollette future già registrate."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "すでに記録した分割払いと今後の支払い、そして分割払いが終わると毎月いくら出なくなるか。"
+            "value" : "すでに記録した分割払いと今後の支払い。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "이미 기록한 할부와 앞으로의 청구, 그리고 할부가 끝나면 매달 얼마가 덜 나가는지."
+            "value" : "이미 기록한 할부와 앞으로의 청구."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Parcelas e contas futuras que você já registrou, e quanto deixa de sair por mês quando as parcelas terminam."
+            "value" : "Parcelas e contas futuras que você já registrou."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Уже записанные платежи в рассрочку и будущие счета, а также сколько перестанет уходить каждый месяц, когда рассрочки закончатся."
+            "value" : "Уже записанные платежи и будущие счета."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你已记录的分期和未来账单，以及分期结束后每月少支出多少。"
+            "value" : "你已记录的分期和未来账单。"
+          }
+        }
+      }
+    },
+    "Installments and future bills you've already recorded. The months at the end show when installments finish and how much stops going out." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raten und künftige Rechnungen, die du schon erfasst hast. Die Monate am Ende zeigen, wann Raten auslaufen und wie viel dann wegfällt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuotas y facturas futuras que ya registraste. Los meses al final muestran cuándo terminan las cuotas y cuánto deja de salir."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Échéances et factures à venir déjà saisies. Les mois à la fin montrent quand les échéances se terminent et ce qui cesse de sortir."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rate e bollette future già registrate. I mesi in fondo mostrano quando finiscono le rate e quanto smette di uscire."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すでに記録した分割払いと今後の支払い。最後の月は、分割払いが終わる時期と出なくなる額を示します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이미 기록한 할부와 앞으로의 청구. 마지막 달들은 할부가 끝나는 때와 덜 나가는 금액을 보여 줍니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parcelas e contas futuras que você já registrou. Os meses no fim mostram quando as parcelas terminam e quanto deixa de sair."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Уже записанные платежи и будущие счета. Месяцы в конце показывают, когда закончатся платежи и сколько перестанет уходить."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你已记录的分期和未来账单。末尾的月份显示分期何时结束以及每月少支出多少。"
           }
         }
       }
@@ -54122,64 +54876,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "接下来"
-          }
-        }
-      }
-    },
-    "Next Month" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nächster Monat"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Próximo mes"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mois prochain"
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mese prossimo"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "来月"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "다음 달"
-          }
-        },
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No próximo mês"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Следующий месяц"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "下个月"
           }
         }
       }
