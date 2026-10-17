@@ -1,4 +1,5 @@
 import CashlyAnalytics
+import CashlyAnalyticsML
 import CashlyDomain
 import Foundation
 import Observation
@@ -6,6 +7,7 @@ import Observation
 @MainActor @Observable
 public final class IntelligenceModel {
     private var suggestions: Suggestions?
+    private var classifier: CategoryModels.Choice?
     @ObservationIgnored private var loadedUserID: String?
     @ObservationIgnored private let session: SessionModel
     @ObservationIgnored private let flags: FeatureFlags?
@@ -45,6 +47,7 @@ public final class IntelligenceModel {
         let userID = session.user?.id
         if !isEnabled || userID != loadedUserID {
             suggestions = nil
+            classifier = nil
             loadedUserID = nil
         }
         guard isEnabled, let userID else { return }
@@ -52,6 +55,9 @@ public final class IntelligenceModel {
         guard let ledger = try? await source.ledger(today: .now), !Task.isCancelled else { return }
         suggestions = Suggestions(ledger: ledger)
         loadedUserID = userID
+        let choice = await Self.chooseClassifier(ledger.categoryExamples)
+        guard !Task.isCancelled else { return }
+        classifier = choice
     }
 
     public func budget(categoryID: String, month: YearMonth) -> Double? {
@@ -63,6 +69,12 @@ public final class IntelligenceModel {
 
     public func category(for text: String) -> String? {
         guard canSuggestCategory else { return nil }
-        return suggestions?.category(for: text)
+        return classifier?.classifier.category(for: text) ?? suggestions?.category(for: text)
+    }
+
+    @concurrent private static func chooseClassifier(_ examples: [CategoryExample]) async
+        -> CategoryModels.Choice?
+    {
+        CategoryModels.best(for: examples)
     }
 }

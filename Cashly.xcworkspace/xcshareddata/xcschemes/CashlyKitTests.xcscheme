@@ -66,6 +66,16 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CashlyAnalyticsMLTests"
+               BuildableName = "CashlyAnalyticsMLTests"
+               BlueprintName = "CashlyAnalyticsMLTests"
+               ReferencedContainer = "container:CashlyKit">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "CashlyGameTests"
                BuildableName = "CashlyGameTests"
                BlueprintName = "CashlyGameTests"

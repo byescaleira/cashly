@@ -66,3 +66,17 @@ struct SuggestionsTests {
         #expect(!value.canSuggestCategory)
     }
 }
+
+struct ClassifierEvaluationTests {
+    @Test func accuracyTrainsOnTheOldestAndTestsOnTheNewest() throws {
+        let examples = (0..<20).map {
+            CategoryExample(
+                text: $0 < 16 ? "Feira" : "Ônibus", categoryID: $0 < 16 ? "market" : "transport",
+                date: Date(timeIntervalSince1970: Double($0) * 86_400))
+        }
+        let accuracy = try #require(
+            ClassifierEvaluation.accuracy(examples) { NaiveBayesClassifier(examples: $0) })
+        #expect(accuracy == 0)
+        #expect(ClassifierEvaluation.accuracy(Array(examples.prefix(8))) { _ in nil } == nil)
+    }
+}
