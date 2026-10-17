@@ -27,6 +27,7 @@ let package = Package(
         .target(name: "CashlyExchange", dependencies: ["CashlyDomain"]),
         .target(name: "CashlyAnalytics", dependencies: ["CashlyDomain"]),
         .target(name: "CashlyAnalyticsML", dependencies: ["CashlyDomain", "CashlyAnalytics"]),
+        .target(name: "CashlyAnalyticsAI", dependencies: ["CashlyDomain", "CashlyAnalytics"]),
         .target(name: "CashlyMCP", dependencies: ["CashlyDomain", "CashlyAnalytics"]),
         .target(name: "CashlyGame", dependencies: ["CashlyDomain", "CashlyAnalytics"]),
         .target(name: "CashlyDesignSystem"),
@@ -40,7 +41,10 @@ let package = Package(
             ]),
         .target(
             name: "FeatureDashboard",
-            dependencies: ["CashlyDomain", "CashlyAnalytics", "CashlyDesignSystem", "FeatureCore"]),
+            dependencies: [
+                "CashlyDomain", "CashlyAnalytics", "CashlyAnalyticsAI", "CashlyDesignSystem",
+                "FeatureCore",
+            ]),
         .target(
             name: "FeatureMCP",
             dependencies: [
@@ -121,6 +125,9 @@ let package = Package(
             name: "CashlyAnalyticsTests",
             dependencies: ["CashlyDomain", "CashlyData", "CashlyAnalytics"]),
         .testTarget(
+            name: "CashlyAnalyticsAITests",
+            dependencies: ["CashlyDomain", "CashlyAnalytics", "CashlyAnalyticsAI"]),
+        .testTarget(
             name: "CashlyAnalyticsMLTests",
             dependencies: ["CashlyDomain", "CashlyAnalytics", "CashlyAnalyticsML"]),
         .testTarget(
@@ -128,7 +135,10 @@ let package = Package(
             dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureBudgets"]),
         .testTarget(
             name: "FeatureDashboardTests",
-            dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureDashboard"]),
+            dependencies: [
+                "CashlyDomain", "CashlyData", "CashlyAnalyticsAI", "FeatureCore",
+                "FeatureDashboard",
+            ]),
         .testTarget(
             name: "FeatureStoreTests",
             dependencies: ["CashlyDomain", "CashlyData", "FeatureCore", "FeatureStore"]),

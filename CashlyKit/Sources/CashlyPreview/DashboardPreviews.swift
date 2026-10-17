@@ -11,7 +11,7 @@
                         ReportsModel(finance: finance)
                     ) {
                         ModelHost(InsightsModel(session: session)) {
-                            HomeScreen()
+                            ModelHost(SummaryModel()) { HomeScreen() }
                         }
                     }
                 }
