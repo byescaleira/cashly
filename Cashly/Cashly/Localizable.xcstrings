@@ -59,6 +59,478 @@
         }
       }
     },
+    "%@ of the month's spending. In a typical month, that adds up to %@ a year." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ der Ausgaben des Monats. In einem normalen Monat sind das %2$@ im Jahr."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ del gasto del mes. En un mes normal, eso suma %2$@ al año."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ des dépenses du mois. Sur un mois habituel, cela fait %2$@ par an."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ della spesa del mese. In un mese normale fanno %2$@ all’anno."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "今月の支出の%1$@。ふだんの月なら、年間%2$@になります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이번 달 지출의 %1$@입니다. 평소 같은 달이면 1년에 %2$@가 됩니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ dos gastos do mês. Num mês comum, isso dá %2$@ por ano."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ расходов месяца. В обычный месяц это %2$@ в год."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "占本月支出的 %1$@。按平常的月份算，一年是 %2$@。"
+          }
+        }
+      }
+    },
+    "%@ of what you spend without installments." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ deiner Ausgaben ohne Raten."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ de lo que gastas sin cuotas."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ de ce que vous dépensez sans paiement en plusieurs fois."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ di quanto spendi senza rate."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "分割払いを除く支出の%@。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "할부를 뺀 지출의 %@."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ do que você gasta sem parcelas."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ ваших расходов без рассрочки."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "占非分期支出的 %@。"
+          }
+        }
+      }
+    },
+    "%lld times · %@ each" : {
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld-mal · je %@"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld-mal · je %@"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld time · %@ each"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld times · %@ each"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vez · %@ cada una"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld veces · %@ cada una"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld fois · %@ chacune"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld fois · %@ chacune"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld volta · %@ ciascuna"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld volte · %@ ciascuna"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld回・1回%@"
+                }
+              }
+            }
+          }
+        },
+        "ko" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld회 · 회당 %@"
+                }
+              }
+            }
+          }
+        },
+        "pt-BR" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vez · %@ cada"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld vezes · %@ cada"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld раз · по %@"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld раза · по %@"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld раз · по %@"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld раза · по %@"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld 次 · 每次 %@"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%lld purchases up to %@ this month" : {
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Einkauf bis %@ in diesem Monat"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Einkäufe bis %@ in diesem Monat"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld purchase up to %@ this month"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld purchases up to %@ this month"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld compra de hasta %@ este mes"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld compras de hasta %@ este mes"
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld achat jusqu’à %@ ce mois-ci"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld achats jusqu’à %@ ce mois-ci"
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld acquisto fino a %@ questo mese"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld acquisti fino a %@ questo mese"
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "今月の%2$@以下の買い物：%1$lld件"
+                }
+              }
+            }
+          }
+        },
+        "ko" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "이번 달 %2$@ 이하 구매 %1$lld건"
+                }
+              }
+            }
+          }
+        },
+        "pt-BR" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld compra de até %@ neste mês"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld compras de até %@ neste mês"
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld покупка до %@ в этом месяце"
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld покупки до %@ в этом месяце"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld покупок до %@ в этом месяце"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld покупки до %@ в этом месяце"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "本月 %2$@ 以内的消费：%1$lld 笔"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "A backup is a file with profiles, categories, tags, budgets and transactions. Importing adds the file's records to the ones already on this device. The spreadsheet has transactions only." : {
       "localizations" : {
         "de" : {
@@ -755,6 +1227,242 @@
         }
       }
     },
+    "Average amount: %@, usually %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Durchschnittsbetrag: %1$@, normalerweise %2$@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importe medio: %1$@, normalmente %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Montant moyen : %1$@, habituellement %2$@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importo medio: %1$@, di solito %2$@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平均額：%1$@（通常は%2$@）"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "평균 금액: %1$@, 평소 %2$@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valor médio: %1$@, o normal é %2$@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Средняя сумма: %1$@, обычно %2$@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平均金额：%1$@，通常为 %2$@"
+          }
+        }
+      }
+    },
+    "Average on each day of the week over the last %lld weeks. Installment purchases are left out, so the days show your habits." : {
+      "localizations" : {
+        "de" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Durchschnitt pro Wochentag in der letzten %lld Woche. Ratenkäufe bleiben außen vor, damit die Tage deine Gewohnheiten zeigen."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Durchschnitt pro Wochentag in den letzten %lld Wochen. Ratenkäufe bleiben außen vor, damit die Tage deine Gewohnheiten zeigen."
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Average on each day of the week over the last %lld week. Installment purchases are left out, so the days show your habits."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Average on each day of the week over the last %lld weeks. Installment purchases are left out, so the days show your habits."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Media de cada día de la semana en la última %lld semana. Las compras a plazos quedan fuera, para que los días muestren tus hábitos."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Media de cada día de la semana en las últimas %lld semanas. Las compras a plazos quedan fuera, para que los días muestren tus hábitos."
+                }
+              }
+            }
+          }
+        },
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Moyenne de chaque jour de la semaine sur la dernière %lld semaine. Les achats en plusieurs fois sont exclus, pour que les jours reflètent vos habitudes."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Moyenne de chaque jour de la semaine sur les %lld dernières semaines. Les achats en plusieurs fois sont exclus, pour que les jours reflètent vos habitudes."
+                }
+              }
+            }
+          }
+        },
+        "it" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Media di ogni giorno della settimana nell’ultima %lld settimana. Gli acquisti a rate restano fuori, così i giorni mostrano le tue abitudini."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Media di ogni giorno della settimana nelle ultime %lld settimane. Gli acquisti a rate restano fuori, così i giorni mostrano le tue abitudini."
+                }
+              }
+            }
+          }
+        },
+        "ja" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "過去%lld週間の曜日ごとの平均です。分割払いの買い物は除いているので、曜日ごとの習慣が見えます。"
+                }
+              }
+            }
+          }
+        },
+        "ko" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "최근 %lld주 동안의 요일별 평균입니다. 할부 구매는 빼서 요일별 습관이 보이게 했습니다."
+                }
+              }
+            }
+          }
+        },
+        "pt-BR" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Média de cada dia da semana na última %lld semana. Compras parceladas ficam de fora, para os dias mostrarem seus hábitos."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Média de cada dia da semana nas últimas %lld semanas. Compras parceladas ficam de fora, para os dias mostrarem seus hábitos."
+                }
+              }
+            }
+          }
+        },
+        "ru" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Среднее по дням недели за последнюю %lld неделю. Покупки в рассрочку не учитываются, чтобы дни отражали ваши привычки."
+                }
+              },
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Среднее по дням недели за последние %lld недели. Покупки в рассрочку не учитываются, чтобы дни отражали ваши привычки."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Среднее по дням недели за последние %lld недель. Покупки в рассрочку не учитываются, чтобы дни отражали ваши привычки."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Среднее по дням недели за последние %lld недели. Покупки в рассрочку не учитываются, чтобы дни отражали ваши привычки."
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans" : {
+          "variations" : {
+            "plural" : {
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "过去 %lld 周每天的平均支出。不含分期消费，这样每天的数据更能反映你的习惯。"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "Black Gold" : {
       "localizations" : {
         "de" : {
@@ -867,6 +1575,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "导入你的历史记录"
+          }
+        }
+      }
+    },
+    "By Weekday" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nach Wochentag"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por día de la semana"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Par jour de la semaine"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Per giorno della settimana"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "曜日別"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "요일별"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por dia da semana"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По дням недели"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按星期"
           }
         }
       }
@@ -1045,6 +1811,64 @@
         }
       }
     },
+    "Cheaper" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Günstiger"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Más barato"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moins cher"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Più economico"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "単価が低下"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "더 저렴"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mais barato"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дешевле"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "单价更低"
+          }
+        }
+      }
+    },
     "Choose who splits it among the other profiles." : {
       "localizations" : {
         "de" : {
@@ -1161,6 +1985,64 @@
         }
       }
     },
+    "Coffees and snacks are small one by one. See what they add up to in a year." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kaffee und Snacks sind einzeln klein. Sieh, was sie im Jahr ausmachen."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cafés y meriendas son pequeños uno a uno. Mira cuánto suman en un año."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cafés et en-cas sont petits un par un. Voyez ce qu’ils représentent sur un an."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caffè e spuntini sono piccoli uno per uno. Guarda quanto fanno in un anno."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コーヒーや軽食は1回ずつは少額。1年でいくらになるかがわかります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "커피와 간식은 하나씩은 작지만 1년이면 얼마나 되는지 보여 줍니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cafés e lanches são pequenos um a um. Veja quanto somam em um ano."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Кофе и перекусы мелочь по отдельности. Посмотрите, сколько это за год."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "咖啡和零食单笔不多，看看一年加起来有多少。"
+          }
+        }
+      }
+    },
     "Compare plan and reality" : {
       "localizations" : {
         "de" : {
@@ -1273,6 +2155,122 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "把本月和其他月份比较"
+          }
+        }
+      }
+    },
+    "Compared with what usually goes out by this day in recent months, and whether it came from buying more often or from paying more each time." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verglichen mit dem, was in den letzten Monaten bis zu diesem Tag üblicherweise ausgegeben wurde, und ob es am häufigeren Kaufen oder an höheren Beträgen lag."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comparado con lo que suele salir hasta este día en los últimos meses, y si vino de comprar más veces o de pagar más cada vez."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comparé à ce qui sort habituellement à cette date les derniers mois, et si l’écart vient d’achats plus fréquents ou de montants plus élevés."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rispetto a quanto esce di solito entro questo giorno negli ultimi mesi, e se dipende da acquisti più frequenti o da importi più alti."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "直近の月でこの日までにふだん出ていく金額と比べ、回数が増えたのか1回の金額が上がったのかを示します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최근 몇 달 동안 이날까지 평소 나가던 금액과 비교하고, 더 자주 샀는지 한 번에 더 많이 냈는지 보여 줍니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comparado ao que costuma sair até este dia nos últimos meses, e se a diferença veio de comprar mais vezes ou de pagar mais a cada vez."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По сравнению с тем, что обычно уходит к этому дню в последние месяцы, и откуда разница: покупали чаще или платили больше за раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "与近几个月到这一天通常的支出比较，并显示差异来自买得更频繁还是每次花得更多。"
+          }
+        }
+      }
+    },
+    "Day" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tag"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Día"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jour"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giorno"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "曜日"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "요일"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dia"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "День"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日期"
           }
         }
       }
@@ -3249,6 +4247,122 @@
         }
       }
     },
+    "More often" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Öfter"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Más veces"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus souvent"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Più spesso"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "回数が増加"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "더 자주"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mais vezes"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Чаще"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次数更多"
+          }
+        }
+      }
+    },
+    "Less often" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seltener"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menos veces"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moins souvent"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Meno spesso"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "回数が減少"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "덜 자주"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menos vezes"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Реже"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次数更少"
+          }
+        }
+      }
+    },
     "Not included" : {
       "localizations" : {
         "de" : {
@@ -3655,6 +4769,122 @@
         }
       }
     },
+    "Pricier" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Teurer"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Más caro"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus cher"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Più caro"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "単価が上昇"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "더 비쌈"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mais caro"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Дороже"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "单价更高"
+          }
+        }
+      }
+    },
+    "Purchases without installments from the last three months with the same description, as a monthly average." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Einkäufe ohne Raten der letzten drei Monate mit derselben Beschreibung, als Monatsdurchschnitt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compras sin cuotas de los últimos tres meses con la misma descripción, como media mensual."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Achats sans paiement en plusieurs fois des trois derniers mois avec la même description, en moyenne mensuelle."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acquisti senza rate degli ultimi tre mesi con la stessa descrizione, come media mensile."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "過去3か月の同じ説明の分割払いでない買い物を、月平均で表示しています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최근 3개월 동안 설명이 같은 할부 없는 구매를 월평균으로 보여 줍니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compras sem parcelas dos últimos três meses com a mesma descrição, em média por mês."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Покупки без рассрочки за последние три месяца с одинаковым описанием, в среднем за месяц."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "过去三个月描述相同的非分期消费，按月平均。"
+          }
+        }
+      }
+    },
     "Record %lld expenses split with other profiles." : {
       "localizations" : {
         "en" : {
@@ -3949,60 +5179,60 @@
         }
       }
     },
-    "Recording stays free. With Cashly Pro, Home also scores your month, projects where it will close, compares it with the others and shows what's already committed ahead." : {
+    "Recording stays free. With Cashly Pro, Home also scores your month, projects where it will close, explains what changed and where the money goes, and shows what's already committed ahead." : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Erfassen bleibt kostenlos. Mit Cashly Pro bewertet die Übersicht auch deinen Monat, zeigt, wie er enden wird, vergleicht ihn mit den anderen und zeigt, was schon verplant ist."
+            "value" : "Erfassen bleibt kostenlos. Mit Cashly Pro bewertet die Übersicht auch deinen Monat, zeigt, wie er enden wird, erklärt, was sich geändert hat und wohin das Geld geht, und zeigt, was schon verplant ist."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registrar sigue siendo gratis. Con Cashly Pro, Inicio también puntúa tu mes, proyecta cómo cerrará, lo compara con los demás y muestra lo que ya está comprometido."
+            "value" : "Registrar sigue siendo gratis. Con Cashly Pro, Inicio también puntúa tu mes, proyecta cómo cerrará, explica qué cambió y adónde va el dinero, y muestra lo que ya está comprometido."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "L'enregistrement reste gratuit. Avec Cashly Pro, l'Accueil note aussi votre mois, prévoit sa clôture, le compare aux autres et montre ce qui est déjà engagé."
+            "value" : "L'enregistrement reste gratuit. Avec Cashly Pro, l'Accueil note aussi votre mois, prévoit sa clôture, explique ce qui a changé et où va l'argent, et montre ce qui est déjà engagé."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registrare resta gratis. Con Cashly Pro, la Home valuta anche il tuo mese, prevede come si chiuderà, lo confronta con gli altri e mostra ciò che è già impegnato."
+            "value" : "Registrare resta gratis. Con Cashly Pro, la Home valuta anche il tuo mese, prevede come si chiuderà, spiega cosa è cambiato e dove vanno i soldi e mostra ciò che è già impegnato."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "記録はずっと無料。Cashly Pro なら、ホームで今月の点数、月末の見通し、他の月との比較、すでに決まっている支出も見られます。"
+            "value" : "記録はずっと無料。Cashly Pro なら、ホームで今月の点数、月末の見通し、変わったことやお金の行き先、すでに決まっている支出も見られます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "기록은 계속 무료입니다. Cashly Pro를 쓰면 홈에서 이번 달 점수, 월말 예상, 다른 달과의 비교, 이미 정해진 지출까지 볼 수 있습니다."
+            "value" : "기록은 계속 무료입니다. Cashly Pro에서는 홈이 이번 달 점수를 매기고, 월말을 예측하고, 무엇이 달라졌는지와 돈이 어디로 가는지 설명하고, 이미 확정된 지출도 보여 줍니다."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Registrar continua grátis. Com o Cashly Pro, o Início também dá uma nota ao seu mês, projeta como ele vai fechar, compara com os outros e mostra o que já está comprometido à frente."
+            "value" : "Registrar continua grátis. Com o Cashly Pro, o Início também dá uma nota ao seu mês, projeta como ele vai fechar, explica o que mudou e para onde vai o dinheiro, e mostra o que já está comprometido nos próximos meses."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Записи остаются бесплатными. С Cashly Pro на Главной появится оценка месяца, прогноз его итога, сравнение с другими месяцами и уже запланированные траты."
+            "value" : "Записи остаются бесплатными. С Cashly Pro на Главной появится оценка месяца, прогноз его итога, объяснение, что изменилось и куда уходят деньги, и уже запланированные траты."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "记账始终免费。有了 Cashly Pro，首页还会为本月评分、预测月底结余、与其他月份对比，并显示已确定的支出。"
+            "value" : "记账始终免费。有了 Cashly Pro，首页还会为本月评分、预测月底结余、解释变化和钱的去向，并显示已确定的支出。"
           }
         }
       }
@@ -4119,6 +5349,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "用编辑器中的全部字段记录一笔支出：分类、描述、状态、日期、标签、分摊档案、分摊和分期。"
+          }
+        }
+      }
+    },
+    "Repeat Purchases" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wiederkehrende Einkäufe"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compras que se repiten"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Achats répétés"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acquisti ripetuti"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "繰り返す買い物"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "반복 구매"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compras que se repetem"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повторяющиеся покупки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重复消费"
           }
         }
       }
@@ -4351,6 +5639,122 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "了解 Cashly Pro"
+          }
+        }
+      }
+    },
+    "See small purchases add up" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sieh, wie sich kleine Einkäufe summieren"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mira cómo suman las pequeñas compras"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voyez les petits achats s’additionner"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guarda i piccoli acquisti sommarsi"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "少額の買い物の積み重ねが見える"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "소액 구매가 쌓이는 걸 보기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veja as compras pequenas somarem"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Посмотрите, как набегают мелочи"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "看小额消费如何累积"
+          }
+        }
+      }
+    },
+    "See what you buy again and again" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sieh, was du immer wieder kaufst"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mira lo que compras una y otra vez"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voyez ce que vous achetez encore et encore"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guarda cosa compri più e più volte"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "何度も買っているものがわかる"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자주 사는 것 보기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Veja o que você compra sempre"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Посмотрите, что вы покупаете снова и снова"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "看看你反复买的东西"
           }
         }
       }
@@ -4877,6 +6281,64 @@
         }
       }
     },
+    "Small Purchases" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kleine Einkäufe"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pequeñas compras"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Petits achats"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piccoli acquisti"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "少額の買い物"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "소액 구매"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compras pequenas"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мелкие покупки"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小额消费"
+          }
+        }
+      }
+    },
     "Smart suggestions" : {
       "localizations" : {
         "de" : {
@@ -5163,6 +6625,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "将总额平均分摊给所有档案。"
+          }
+        }
+      }
+    },
+    "Spot your biggest day" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finde deinen ausgabenstärksten Tag"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descubre tu día de más gasto"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repérez votre jour le plus dépensier"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scopri il giorno in cui spendi di più"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "いちばん使う曜日がわかる"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "가장 많이 쓰는 요일 찾기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descubra o dia em que mais gasta"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Найдите самый затратный день"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "找出花得最多的一天"
           }
         }
       }
@@ -5631,6 +7151,64 @@
         }
       }
     },
+    "The purchases you repeat most, with what they cost per month." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Die Einkäufe, die du am häufigsten wiederholst, mit ihren Kosten pro Monat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las compras que más repites, con lo que cuestan al mes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les achats que vous répétez le plus, avec leur coût mensuel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gli acquisti che ripeti di più, con quanto costano al mese."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "よく繰り返す買い物と、それが月にいくらになるか。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "가장 자주 반복하는 구매와 한 달 비용."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "As compras que você mais repete, com quanto custam por mês."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Покупки, которые вы повторяете чаще всего, и их стоимость в месяц."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "你最常重复的消费，以及每月花费。"
+          }
+        }
+      }
+    },
     "This Month" : {
       "localizations" : {
         "de" : {
@@ -5863,6 +7441,180 @@
         }
       }
     },
+    "Transactions: %lld, usually %lld" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transaktionen: %1$lld, normalerweise %2$lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transacciones: %1$lld, normalmente %2$lld"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transactions : %1$lld, habituellement %2$lld"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transazioni: %1$lld, di solito %2$lld"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "取引：%1$lld件（通常は%2$lld件）"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "거래: %1$lld건, 평소 %2$lld건"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Transações: %1$lld, o normal é %2$lld"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Операций: %1$lld, обычно %2$lld"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "交易：%1$lld 笔，通常为 %2$lld 笔"
+          }
+        }
+      }
+    },
+    "Up to the amount you usually spend per purchase. Each one is small, but together they add up." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bis zu dem Betrag, den du pro Einkauf meist ausgibst. Einzeln klein, zusammen spürbar."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hasta el importe que sueles gastar por compra. Cada una es pequeña, pero juntas suman."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jusqu’au montant que vous dépensez habituellement par achat. Chacun est petit, mais ensemble ils pèsent."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fino all’importo che spendi di solito per acquisto. Ognuna è piccola, ma insieme si sommano."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1回の買い物でふだん使う金額以下のものです。1つずつは小さくても、合わせると大きくなります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "한 번 구매에 평소 쓰는 금액 이하입니다. 하나하나는 작아도 모이면 커집니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Até o valor que você costuma gastar por compra. Cada uma é pequena, mas juntas somam."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "До суммы, которую вы обычно тратите за покупку. По отдельности мелочь, но вместе набегает."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不超过你平时每次消费的金额。单笔不大，加起来就多了。"
+          }
+        }
+      }
+    },
+    "Understand what changed" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verstehe, was sich geändert hat"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entiende qué cambió"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comprenez ce qui a changé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capisci cosa è cambiato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "何が変わったかがわかる"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "무엇이 달라졌는지 이해하기"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entenda o que mudou"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Поймите, что изменилось"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "了解发生了什么变化"
+          }
+        }
+      }
+    },
     "Wait for sync to finish." : {
       "localizations" : {
         "de" : {
@@ -5917,6 +7669,64 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "请等待同步完成。"
+          }
+        }
+      }
+    },
+    "What Changed" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was sich geändert hat"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Qué cambió"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ce qui a changé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cosa è cambiato"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "変わったこと"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "달라진 점"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O que mudou"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Что изменилось"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "变化"
           }
         }
       }
@@ -6037,6 +7847,64 @@
         }
       }
     },
+    "Whether a category went up because you bought more often or paid more each time." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ob eine Kategorie gestiegen ist, weil du öfter gekauft oder jedes Mal mehr bezahlt hast."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si una categoría subió porque compraste más veces o pagaste más cada vez."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si une catégorie a augmenté parce que vous avez acheté plus souvent ou payé plus à chaque fois."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se una categoria è salita perché hai comprato più spesso o pagato di più ogni volta."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カテゴリが増えたのは、回数が増えたからか、1回の金額が上がったからかがわかります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카테고리가 늘어난 이유가 더 자주 사서인지, 한 번에 더 많이 내서인지 알려 줍니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se uma categoria subiu porque você comprou mais vezes ou pagou mais a cada vez."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выросла ли категория из-за более частых покупок или из-за большей суммы каждый раз."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "某个类别增加，是因为买得更频繁，还是每次花得更多。"
+          }
+        }
+      }
+    },
     "With Cashly Pro, Claude Code connects to Cashly on this device to answer questions, run analyses and import statements." : {
       "localizations" : {
         "de" : {
@@ -6149,6 +8017,122 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "每个连接都由你批准"
+          }
+        }
+      }
+    },
+    "Your average spending on each day of the week, to see which one weighs most." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deine durchschnittlichen Ausgaben an jedem Wochentag, um zu sehen, welcher am meisten wiegt."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu gasto medio en cada día de la semana, para ver cuál pesa más."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vos dépenses moyennes pour chaque jour de la semaine, pour voir lequel pèse le plus."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La tua spesa media per ogni giorno della settimana, per vedere quale pesa di più."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "曜日ごとの平均支出で、どの曜日がいちばん重いかがわかります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "요일별 평균 지출로 어느 요일이 가장 큰지 보여 줍니다."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quanto você gasta em média em cada dia da semana, para ver qual pesa mais."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Средние расходы по дням недели, чтобы увидеть самый тяжёлый день."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每周各天的平均支出，看看哪天花得最多。"
+          }
+        }
+      }
+    },
+    "Your biggest day: %@" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dein ausgabenstärkster Tag: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu día de más gasto: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre jour le plus dépensier : %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il giorno in cui spendi di più: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "いちばん使う曜日：%@"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "가장 많이 쓰는 요일: %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O dia em que você mais gasta: %@"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Самый затратный день: %@"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "花得最多的一天：%@"
           }
         }
       }

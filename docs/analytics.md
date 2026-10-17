@@ -207,8 +207,8 @@ Em 16/10/2026 o Início passou a responder a quatro perguntas, e a inteligência
 ### Fatos, recomendações e ranqueamento
 
 - **`Finding`:** um fato relevante de uma análise, com assunto (categoria, estabelecimento), tema (`month`, `spending`, `saving`, `upcoming`), impacto mensal em centavos, confiança e evidências. Pode trazer uma `Recommendation` com a economia mensal estimada.
-- **`InsightRanking`:** ordena os fatos por impacto em relação ao gasto do mês × confiança × retorno da pessoa. Cada bloco do Início mostra os fatos do seu tema nessa ordem.
-- **`InsightFeedback`:** a pessoa marca um fato como esperado neste mês e ele some até o mês seguinte. Fica só no aparelho, por perfil. "Útil" e "não útil" entram com os cartões da I2 e da I3, como peso no ranqueamento.
+- **`InsightRanking`:** ordena os fatos por impacto × confiança × retorno da pessoa. Usado onde a pessoa dá retorno (Fora do padrão e, na I3, Onde dá para economizar); as seções descritivas da I2 mostram os fatos na ordem da própria análise.
+- **`InsightFeedback`:** a pessoa marca um fato como esperado neste mês e ele some até o mês seguinte. Fica só no aparelho, por perfil. "Útil" e "não útil" entram com os cartões da I3, como peso no ranqueamento.
 - **Sugestões sem treino (`Suggestions`):** valor de orçamento pela mediana de até seis meses anteriores e categoria pela descrição (Naive Bayes), calculados do retrato na hora. O treino manual, a tela Ajustes › Inteligência e a previsão por etiqueta (que nada usava) saíram; as sugestões continuam atrás da flag `intelligence`.
 
 ## Fases
@@ -217,8 +217,8 @@ Em 16/10/2026 o Início passou a responder a quatro perguntas, e a inteligência
 | --- | --- |
 | A. Fundação (feita) | `CashlyAnalytics` com dataset, séries, matemática, motor e origem; `LedgerSource` no `CashlyData`; três análises certas (parcelas, ritmo, quanto posso gastar) |
 | A+. Início (feita) | Comparação no mesmo ponto do mês e categorias fora do padrão; seções Este mês, Comparado aos outros meses, Fora do padrão e Próximos meses no Início |
-| I1. Fatos e ranqueamento | `Finding`, `Recommendation`, `InsightRanking` e `InsightFeedback`; análises atuais emitem fatos; "Esperado neste mês" no Fora do padrão; sugestões calculadas do retrato no lugar do serviço treinado |
-| I2. Para onde vai o dinheiro | decomposição frequência × valor, estabelecimentos, pequenos gastos, dia da semana; bloco no Início |
+| I1. Fatos e ranqueamento (feita) | `Finding`, `Recommendation`, `InsightRanking` e `InsightFeedback`; análises atuais emitem fatos; "Esperado neste mês" no Fora do padrão; sugestões calculadas do retrato no lugar do serviço treinado |
+| I2. Para onde vai o dinheiro (feita) | `SpendingDrivers` (frequência × valor), `TopMerchants`, `SmallPurchases`, `WeekdayPattern`; seções O que mudou, Compras que se repetem, Compras pequenas e Por dia da semana no Início |
 | I3. Onde economizar | recorrências e assinaturas, volta ao padrão, orçamento sugerido, parcelas terminando; bloco no Início com economia em R$ |
 | I4. Modelos | `CashlyAnalyticsML`: embeddings de descrição (`NLContextualEmbedding`), previsão com backtest e seleção automática, Monte Carlo do risco de fechar no vermelho |
 | I5. Narração | `CashlyAnalyticsAI`: Resumo do Cashly no aparelho (`SystemLanguageModel`, `@Generable`) com conferência dos números; resumo semanal em notificação |

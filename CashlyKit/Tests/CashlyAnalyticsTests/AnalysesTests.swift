@@ -107,7 +107,7 @@ struct AnalysesTests {
         let snapshot = ledger([transaction("a", 10_000, day: 2)], budget: 50_000)
         let all = await engine.runAll(on: snapshot)
         #expect(Set(all.map(\.id)) == ["month-pace", "daily-allowance"])
-        #expect(engine.catalog.count == 5)
+        #expect(engine.catalog.count == AnalysisEngine.standard.count)
         #expect(await engine.run("unknown", on: snapshot) == nil)
     }
 

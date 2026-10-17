@@ -739,3 +739,25 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Limpeza:** o bootstrap e "Apagar tudo" removem a pasta antiga `Application Support/Cashly/Intelligence` (descrições das transações em JSON), e "Apagar tudo" apaga também as marcações "Esperado" de cada perfil (`InsightFeedbackStore`, no `FeatureCore`).
 - **Revisões:** `apple-sdd:code-reviewer` (sugestões presas ao perfil anterior, flag ligada sem recálculo, arquivos antigos, feedback no apagar tudo, testes do `InsightsModel`) e `apple-sdd:design-reviewer` (Reduzir movimento, linha como um elemento no VoiceOver, tipografia dos tokens, mesmo rótulo no deslizar e no menu). As referências `settings-structure.md` e `analytics-and-intelligence.md` do apple-sdd foram atualizadas sem a linha Inteligência.
 
+
+## 17/10/2026: inteligência I2, para onde vai o dinheiro
+
+- **Crítica do Início antes da I2:** todas as seções respondiam "quanto, comparado ao plano ou ao normal". Nenhuma dizia como a pessoa gasta (frequência, lugares, dias), Maiores gastos destaca compras únicas e não hábitos, e Fora do padrão diz que uma categoria subiu, mas não por quê.
+- **Quatro análises novas no motor**, cada uma com fatos e testes:
+  - `SpendingDrivers`: a diferença de cada categoria até hoje em relação à mediana dos meses anteriores, separada em frequência (transações a mais × valor médio de sempre) e valor (o resto). A mediana de transações é arredondada antes da conta, para a tela e a decomposição usarem o mesmo número. Mínimo de R$ 50 e 20%.
+  - `TopMerchants`: compras sem parcelas dos últimos 90 dias agrupadas pela descrição normalizada (`MerchantMemory.key`), repetidas pelo menos duas vezes, com a média mensal proporcional aos dias cobertos.
+  - `SmallPurchases`: compras até a mediana das compras sem parcelas de 180 dias, arredondada para baixo a um valor redondo (1, 2, 3 ou 5 × 10ⁿ); o ano é a média dos três meses anteriores × 12, ou o mês atual projetado quando ainda não há meses anteriores.
+  - `WeekdayPattern`: média por dia da semana nas últimas 13 semanas, dividida pelo número de vezes que aquele dia aparece na janela; vira fato quando o maior dia passa de 1,5× a média diária.
+- **Parcelas ficam de fora** de Compras que se repetem, Compras pequenas e Por dia da semana, porque mostram uma compra antiga e não um hábito. O O que mudou conta as parcelas, como o Fora do padrão.
+- **Sem repetição entre seções:** O que mudou não mostra as categorias que já estão no Fora do padrão.
+- **Ordem do Início por pergunta:** como está o mês (Resumo, Pontuação, Disponível, Previsão, Planejado × Gasto, Comparado aos outros meses), para onde vai o dinheiro (Fora do padrão, O que mudou, Maiores gastos, Compras que se repetem, Compras pequenas, Por dia da semana, Tags) e o que vem aí (Próximos meses). Planejado × Gasto subiu e Próximos meses foi para o fim.
+- **"Compras que se repetem"** no lugar de "Onde você mais gasta", que competia com "Maiores gastos" na mesma tela.
+- **Termos:** "transações" e "valor médio" (o app não usa "lançamento"), "o normal é" como no Fora do padrão, "compras pequenas" em todo lugar e "sem parcelas" no lugar de "avulsa".
+- **Frases inteiras no catálogo:** "%lld compras de até %@ neste mês" e "%lld vezes · %@ cada" com plural na própria chave; nenhuma frase montada por concatenação. A janela do Por dia da semana vem das semanas realmente cobertas.
+- **Chip e valor na mesma cor** em O que mudou (ferrugem quando sobe, verde quando cai), como na Previsão do mês.
+- **Por dia da semana só aparece com padrão:** quando o maior dia passa de 1,5× a média diária; com gasto uniforme, a seção some.
+- **Esperado também vale em O que mudou:** a categoria marcada some das duas seções até o mês seguinte.
+- **Acessibilidade:** `FigureBlock` vira um elemento só no VoiceOver (no design system, vale para todo o app) e as barras do `InsightBars` têm rótulo e valor em moeda; as linhas novas usam `AdaptiveRow`.
+- **Impacto dos fatos de hábito:** em Compras que se repetem e Compras pequenas o `impact` é o gasto mensal, não um desvio; quando o ranqueamento global juntar temas (I5), esses fatos precisam de peso próprio.
+- **Útil e não útil ficaram para a I3,** junto com os cartões de economia, onde a ação faz sentido.
+- **Vitrine do Pro no Início** ganhou os quatro argumentos, na ordem das seções, e a mensagem passou a citar "o que mudou e para onde vai o dinheiro".

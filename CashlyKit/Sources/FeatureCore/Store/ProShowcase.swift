@@ -14,7 +14,7 @@ public enum ProShowcase: Sendable {
     public var message: LocalizedStringKey {
         switch self {
         case .home:
-            "Recording stays free. With Cashly Pro, Home also scores your month, projects where it will close, compares it with the others and shows what's already committed ahead."
+            "Recording stays free. With Cashly Pro, Home also scores your month, projects where it will close, explains what changed and where the money goes, and shows what's already committed ahead."
         case .data:
             "Exporting stays free. With Cashly Pro, Cashly keeps backups for you and brings in your history from other files."
         case .claudeCode:
@@ -24,7 +24,11 @@ public enum ProShowcase: Sendable {
 
     public var pitches: [ProPitch] {
         switch self {
-        case .home: [.score, .forecast, .history, .unusual, .future, .variance, .tags]
+        case .home:
+            [
+                .score, .forecast, .variance, .history, .unusual, .changes, .merchants,
+                .smallPurchases, .weekdays, .tags, .future,
+            ]
         case .data: [.backups, .imports]
         case .claudeCode: [.askClaude, .analyses, .statements, .approvals]
         }
