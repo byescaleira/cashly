@@ -138,5 +138,6 @@ O CI é o Xcode Cloud. Os workflows (gatilhos, ações e destinos) ficam no App 
 
 - `ci_scripts/ci_pre_xcodebuild.sh`: na etapa `build-for-testing` de uma ação de teste, roda `scripts/lint.sh` e `scripts/audit.sh` antes da compilação.
 - `Cashly.xcworkspace/xcshareddata/xcschemes/CashlyKitTests.xcscheme`: o scheme que a ação de teste usa.
+- `Cashly/Cashly.xcodeproj/xcshareddata/xcschemes/CashlyUITests.xcscheme`: os testes de interface do alvo `CashlyUITests` (pasta `Cashly/CashlyUITests`), que abrem o app, passam pelo onboarding e pelo paywall, abrem uma rota, giram o iPad e anexam a tela inteira e as medidas das colunas ao resultado.
 
-Workflow recomendado: ação **Test** com o scheme `CashlyKitTests` no iPhone 17 (iOS 27) e ação **Build** do scheme `Production` para iOS, macOS e visionOS, disparadas em pull requests e na branch principal.
+Workflow recomendado: ação **Test** com o scheme `CashlyKitTests` no iPhone 17 (iOS 27) e ação **Build** do scheme `Production` para iOS, macOS e visionOS, disparadas em pull requests e na branch principal. Para o layout em telas grandes, uma segunda ação **Test** com o scheme `CashlyUITests` nos destinos que o Mac de trabalho não roda: iPad Pro 11" e 13", o iPhone dobrável, o Mac e o Apple Vision Pro. As capturas ficam nos anexos do resultado de cada destino.

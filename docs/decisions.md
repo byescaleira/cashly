@@ -734,3 +734,12 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Apresentação:** `.inspector` no iPhone, iPad e Mac, com `.inspectorColumnWidth(320/400/480)`; o visionOS continua com `sheet`. Saem a `RouteSheet` e a `SideSheet` (folha com `presentationPlacement`, detents e fundo interativo).
 - **Ao redimensionar:** um inspector aberto fica onde está; a regra vale para a próxima rota. Mover a rota entre o inspector e a pilha recriaria o editor e perderia o que está sendo digitado. Abaixo da largura regular o próprio SwiftUI apresenta o inspector como folha.
 - **Mantidos como folha:** guias (`GuideSheet`), paywall, item da loja, onboarding e as folhas da Jornada, que são momentos modais e não rotas.
+
+## 17/10/2026: testes de interface para telas grandes
+
+- **Pedido do usuário:** girar o iPad com XCUIDevice e salvar capturas, para rodar aqui e no Xcode Cloud, porque o Mac de trabalho não gira o simulador (o Xcode 27 beta 6 trocou o Simulator pelo Device Hub, sem rotação pelo `simctl`), não abre o app de Mac (pede macOS 27) e não tem runtime de visionOS.
+- **Alvo `CashlyUITests`** em `Cashly/CashlyUITests`, numa pasta sincronizada como os outros alvos, com scheme compartilhado próprio e `scripts/ui-test.sh`. Isolamento padrão `nonisolated` (o `MainActor` padrão conflita com os inicializadores do `XCTestCase`) e `@MainActor` nos métodos.
+- **XCTest só aqui.** Num bundle de UI test, `import Testing` resolve para `_Testing_Unavailable` no Xcode 27 beta 6; o resto do projeto continua só com Swift Testing.
+- **O que o teste confere:** a rota abre ao lado exatamente quando a janela tem 960 pt ou mais; um inspector aberto continua aberto ao girar; e, já deitado, a próxima rota segue a largura nova. Anexa `XCUIScreen.main.screenshot()` (o `app.screenshot()` cortava a tela deitada) e as medidas das barras de navegação.
+- **Conferido no simulador do iPad Pro 13":** deitado (1376 pt), a barra lateral aparece, o Início fica no meio em uma coluna e o conversor ocupa o inspector de 400 pt (x 976); em pé (1032 pt), o inspector fica em x 632. Girar com o conversor aberto mantém o conversor nos dois sentidos.
+
