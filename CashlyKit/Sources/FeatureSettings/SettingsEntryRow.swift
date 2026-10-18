@@ -7,6 +7,7 @@ struct SettingsEntryRow: View {
     @Environment(NotificationsModel.self) private var notifications
     @Environment(FinanceModel.self) private var finance: FinanceModel?
     @Environment(AppLockModel.self) private var lock: AppLockModel?
+    @Environment(\.pro) private var pro
     let entry: SettingsEntry
 
     var body: some View {
@@ -30,6 +31,7 @@ struct SettingsEntryRow: View {
         case .cloud: settings.cloudValue
         case .about: settings.info.version
         case .data: settings.data?.overviewValue(now: .now)
+        case .web: settings.web.map { pro.lockedValue ?? $0.overviewValue }
         case .guides, .shop: nil
         }
     }
@@ -52,6 +54,10 @@ private struct SettingsDestination: View {
         case .data:
             if let data = settings.data {
                 SettingsPage("Data and Backup") { DataSection() }.environment(data)
+            }
+        case .web:
+            if let web = settings.web {
+                WebSharingScreen().environment(web)
             }
         case .guides: GuidesHubScreen()
         case .about: AboutScreen()

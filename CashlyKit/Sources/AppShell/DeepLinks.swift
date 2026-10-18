@@ -1,14 +1,20 @@
 import CashlyDomain
 import FeatureCore
+import FeatureSettings
 import SwiftUI
 
 struct DeepLinks: ViewModifier {
     @Environment(CashlyNavigation.self) private var navigation
     @Environment(SessionModel.self) private var session
+    @Environment(SettingsModel.self) private var settings
+    @Environment(\.pro) private var pro
 
     func body(content: Content) -> some View {
         content
             .onOpenURL(perform: handle)
+            .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { activity in
+                if let url = activity.webpageURL { handle(url) }
+            }
             .onChange(of: CashlyServices.shared.pendingURL, initial: true) { _, url in
                 guard let url else { return }
                 CashlyServices.shared.pendingURL = nil
@@ -28,6 +34,15 @@ struct DeepLinks: ViewModifier {
     }
 
     private func handle(_ url: URL) {
+        if let web = settings.web {
+            switch web.receive(url) {
+            case .ignored: break
+            case .needsPro:
+                pro.present()
+                return
+            case .invalid, .confirming, .alreadyConnected: return
+            }
+        }
         guard url.scheme == "cashly" else { return }
         switch url.host() {
         case "transactions":

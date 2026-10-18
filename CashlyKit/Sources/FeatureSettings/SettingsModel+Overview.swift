@@ -22,11 +22,12 @@ struct PlanBadge: Equatable {
 extension SettingsModel {
     func entries(
         in group: SettingsGroup? = nil, matching query: String = "", showsGuides: Bool,
-        showsJourneyEntry: Bool
+        showsJourneyEntry: Bool, showsWebEntry: Bool = true
     ) -> [SettingsEntry] {
         SettingsEntry.allCases.filter { entry in
             switch entry {
             case .data: if data == nil { return false }
+            case .web: if web == nil || !showsWebEntry { return false }
             case .guides: if !showsGuides { return false }
             case .journey: if !showsJourneyEntry { return false }
             default: break

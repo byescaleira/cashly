@@ -114,6 +114,9 @@ private final class CashlyBootstrap {
             let data = DataModel(
                 backup: database.backup, cloud: .container(CashlyDatabase.cloudContainer))
             settings.data = data
+            if flags.isOn(.web) {
+                settings.web = WebSharingModel(provider: database)
+            }
             #if DEBUG
                 settings.developer = DeveloperModel(
                     storeURL: database.storeURL
