@@ -28,6 +28,21 @@ struct NavigationTests {
         #expect(navigation.paths[.planning] == [])
     }
 
+    @Test func opensBesideOnlyWhenTheContentColumnAndTheInspectorFit() {
+        let navigation = CashlyNavigation()
+        navigation.fit(width: 834)
+        navigation.open(.addTag(id: nil), in: .home)
+        #expect(navigation.inspector == nil)
+        #expect(navigation.paths[.home] == [.addTag(id: nil)])
+        navigation.fit(width: 956)
+        navigation.open(.addTag(id: nil), in: .home)
+        #expect(navigation.inspector == nil)
+        navigation.fit(width: 1032)
+        navigation.open(.addCategory(id: nil), in: .planning)
+        #expect(navigation.inspector?.route == .addCategory(id: nil))
+        #expect(navigation.paths[.planning, default: []].isEmpty)
+    }
+
     @Test func changingSectionClosesForeignInspector() {
         let navigation = CashlyNavigation()
         navigation.open(.addTag(id: nil), in: .home, beside: true)

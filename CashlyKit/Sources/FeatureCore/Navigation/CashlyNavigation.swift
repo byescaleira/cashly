@@ -1,3 +1,4 @@
+import CashlyDesignSystem
 import CashlyDomain
 import Observation
 import SwiftUI
@@ -12,6 +13,7 @@ public final class CashlyNavigation {
     public var guide: Guide?
     public var shopItem: ShopItem?
     public var isShowingPaywall = false
+    public private(set) var opensBeside = false
     public init() {}
 
     public struct Inspector: Identifiable, Equatable {
@@ -26,6 +28,14 @@ public final class CashlyNavigation {
 
     public var isInspecting: Binding<Bool> {
         Binding(get: { self.inspector != nil }, set: { if !$0 { self.closeInspector() } })
+    }
+
+    public func fit(width: CGFloat) {
+        opensBeside = width >= .readableColumn + .inspectorIdeal
+    }
+
+    public func open(_ route: Route, in section: AppSection) {
+        open(route, in: section, beside: opensBeside)
     }
 
     public func open(_ route: Route, in section: AppSection, beside: Bool) {

@@ -812,3 +812,20 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Mac com arquivos escolhidos em leitura e escrita** (`ENABLE_USER_SELECTED_FILES = readwrite`): exportar backup e planilha grava onde a pessoa escolhe.
 - **Frases da Siri como conjunto** nos 9 idiomas, com a mesma quantidade de variações do inglês; o `needs_review` vinha do inglês ter virado `stringSet`.
 - **A 1.0 sai em iPhone, iPad, Mac e visionOS, com o inspector** (decisão do usuário).
+
+## 15/10/2026: inspector no lugar da folha lateral
+
+- **Pedido do usuário:** a folha lateral do iPad não agradava; em telas grandes as rotas devem abrir num inspector, de forma inteligente.
+- **Regra:** a rota abre ao lado só quando a janela comporta a coluna central (`.readableColumn`, 560 pt) mais o inspector na largura com que ele abre (`.inspectorIdeal`, 400 pt), ou seja, 960 pt ou mais. Abaixo disso ela é empurrada na pilha da aba. A decisão é pela largura da janela inteira (`CashlyNavigation.fit(width:)`), não pela plataforma nem pela classe de tamanho: iPad 13" em pé, iPad deitado, dobrável aberto (se passar de 960 pt) e Mac largo abrem ao lado; iPad 11" em pé, iPad mini em pé, iPhone deitado (até o Pro Max, 956 pt), Split View estreito e Mac estreito empurram. Se a pessoa arrastar o inspector até `.inspectorMax`, a coluna central pode ficar um pouco abaixo de 560 pt; é escolha dela.
+- **Apresentação:** `.inspector` no iPhone, iPad e Mac, com `.inspectorColumnWidth(320/400/480)`; o visionOS continua com `sheet`. Saem a `RouteSheet` e a `SideSheet` (folha com `presentationPlacement`, detents e fundo interativo).
+- **Ao redimensionar:** um inspector aberto fica onde está; a regra vale para a próxima rota. Mover a rota entre o inspector e a pilha recriaria o editor e perderia o que está sendo digitado. Abaixo da largura regular o próprio SwiftUI apresenta o inspector como folha.
+- **Mantidos como folha:** guias (`GuideSheet`), paywall, item da loja, onboarding e as folhas da Jornada, que são momentos modais e não rotas.
+
+## 17/10/2026: testes de interface para telas grandes
+
+- **Pedido do usuário:** girar o iPad com XCUIDevice e salvar capturas, para rodar aqui e no Xcode Cloud, porque o Mac de trabalho não gira o simulador (o Xcode 27 beta 6 trocou o Simulator pelo Device Hub, sem rotação pelo `simctl`), não abre o app de Mac (pede macOS 27) e não tem runtime de visionOS.
+- **Alvo `CashlyUITests`** em `Cashly/CashlyUITests`, numa pasta sincronizada como os outros alvos, com scheme compartilhado próprio e `scripts/ui-test.sh`. Isolamento padrão `nonisolated` (o `MainActor` padrão conflita com os inicializadores do `XCTestCase`) e `@MainActor` nos métodos.
+- **XCTest só aqui.** Num bundle de UI test, `import Testing` resolve para `_Testing_Unavailable` no Xcode 27 beta 6; o resto do projeto continua só com Swift Testing.
+- **O que o teste confere:** a rota abre ao lado exatamente quando a janela tem 960 pt ou mais; um inspector aberto continua aberto ao girar; e, já deitado, a próxima rota segue a largura nova. Anexa `XCUIScreen.main.screenshot()` (o `app.screenshot()` cortava a tela deitada) e as medidas das barras de navegação.
+- **Conferido no simulador do iPad Pro 13":** deitado (1376 pt), a barra lateral aparece, o Início fica no meio em uma coluna e o conversor ocupa o inspector de 400 pt (x 976); em pé (1032 pt), o inspector fica em x 632. Girar com o conversor aberto mantém o conversor nos dois sentidos.
+

@@ -50,6 +50,10 @@ O pacote não depende de nenhum outro módulo do app. Componentes que precisam d
 | `.medallion` | 112 | Medalhão animado da folha de conquista |
 | `.barHeight` | 10 | Barras de progresso e segmentadas |
 | `.rowHeight` | 44 | Altura mínima das linhas |
+| `.readableColumn` | 560 | Coluna central de formulários e páginas (`readableWidth()`) |
+| `.inspectorMin` | 320 | Largura mínima do inspector das rotas |
+| `.inspectorIdeal` | 400 | Largura com que o inspector abre; somada à coluna central, é a largura de janela a partir da qual rotas abrem ao lado (960 pt) |
+| `.inspectorMax` | 480 | Largura máxima do inspector |
 
 ### Tipografia (`Font`)
 
@@ -112,7 +116,7 @@ Símbolos com tamanho fixo usam `.font(.icon(_:weight:))`, nunca `.system(size:)
 | `primaryButton()` | Botão principal de tela: vidro, `controlSize(.large)`, largura flexível, `headline` bold arredondada. É o único estilo para a ação principal (guias, paywall, estados vazios, bloqueio, celebrações) |
 | `amountLine()` | Valor em uma linha, encolhendo até a metade |
 | `AdaptiveList`, `AdaptiveStack`, `AdaptiveRow` | Layout que vira colunas no iPad e no iPhone deitado |
-| `readableWidth(_:)` | Coluna central de até 560 pt para formulários |
+| `readableWidth(_:)` | Coluna central de até `.readableColumn` (560 pt) para formulários |
 | `SelectionMark(isSelected:)` | Marcador de seleção nas colunas |
 | `FlowLayout` | Itens que quebram linha (chips, cápsulas) |
 | `DisclosureLink`, `SurfaceContainer`, `FixedToolbarSpacer` | Navegação e barra |

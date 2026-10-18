@@ -19,7 +19,6 @@ public struct MainScreen: View {
     @Environment(StoreModel.self) private var store
     @Environment(LaunchProgress.self) private var launch
     @Environment(\.featureFlags) private var flags
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.locale) private var locale
     @Environment(\.scenePhase) private var scenePhase
     public init() {}
@@ -67,10 +66,15 @@ public struct MainScreen: View {
                 InspectorScreen(inspector: inspector)
             }
         }
+        .onGeometryChange(for: CGFloat.self) {
+            $0.size.width
+        } action: {
+            navigation.fit(width: $0)
+        }
         .environment(
             \.open,
             CashlyDestination { route, section in
-                navigation.open(route, in: section, beside: horizontalSizeClass == .regular)
+                navigation.open(route, in: section)
             }
         )
         .environment(\.routeView, RouteViewBuilder { RouteScreen(route: $0) })
