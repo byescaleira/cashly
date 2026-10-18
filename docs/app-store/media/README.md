@@ -77,3 +77,11 @@ Os vídeos usam só imagens gravadas do app (`simctl io recordVideo`), com corte
 ## Tamanhos aceitos em 17/10/2026
 
 O App Store Connect passou a exigir o iPhone "with Dynamic Island (medium display)", de 6,1" e 6,3": capturas de 1206×2622 ou 1179×2556 e previews de 886×1920. As capturas de `iphone/` (1320×2868) foram redimensionadas para `iphone-6.3/` com `sips -z 2622 1206` (mesma proporção). As de `iphone-6.3/` e o `preview/iphone-preview.mp4` foram enviadas em en-US; as outras localizações usam as do inglês.
+
+## Cabeçalho e resultados de busca (17/10/2026)
+
+Arte de marca sem texto e sem capturas, como pedem as boas práticas da Apple para esses ativos: o ícone do app sobre o laranja da marca, com as barras de ritmo do app como motivo gráfico (cabeçalho) ou um cartão de orçamentos com três barras e a marca do dia (busca). Sem texto, não há o que traduzir nas 10 localizações. Foco no centro, porque o corte varia por aparelho.
+
+- `python3 docs/app-store/media/source/keyart.py` gera `header/header-3840x1646.png`, `header/header-5244x2950.png`, `search/search-3840x2560.png` e `search/search-1920x1280.png`.
+- O ícone vem de `source/raw/keyart/icon.png`, exportado do `CashlyIcon.icon` com o `ictool` do Icon Composer (`--export-image --platform iOS --rendition Default --width 1024 --height 1024 --scale 1`).
+- Enviados em en-US: cabeçalho 5244×2950 e busca 3840×2560.
