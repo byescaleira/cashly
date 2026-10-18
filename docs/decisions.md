@@ -836,3 +836,14 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Design system do app no site:** paleta retrô clara e escura, laranja de destaque, tokens de espaço, raio e barra, fonte arredondada do sistema, chips, valores grandes e a barra de ritmo do app. As animações Lottie são as do app (`scripts/animations`), recoloridas pelo nome das camadas, paradas no último quadro com Reduzir movimento.
 - **Mockups em CSS** (pedido do usuário): iPhone 18 Pro Max bordô no herói (borda metálica, Dynamic Island, botões laterais, barra de status e a barra de abas flutuante do app) e, na seção "Every screen", um MacBook Pro com a janela do app (barra lateral, Início e uma transação no inspector) e um iPad Pro com Histórico e Metas lado a lado. Os aparelhos escalam por `container-type` e unidades `cqw`, com o conteúdo em `em`.
 - **Botões apontam para `apps.apple.com/app/id6821986667`,** que só abre depois do lançamento.
+
+## 17/10/2026: schema do CloudKit
+
+- **Schema gerado pelo `initializeCloudKitSchema()`** e não à mão no console: `CashlyDatabase.initializeCloudSchema()` (só em DEBUG) monta o `NSManagedObjectModel` a partir de `CashlySchemaV6.models`, abre um `NSPersistentCloudKitContainer` num arquivo temporário, inicializa o schema de desenvolvimento e apaga o arquivo. O app chama com o argumento `-CashlyInitializeCloudSchema`, fora do simulador. Foi o caminho documentado pela Apple para SwiftData e evita erro de tipo em 9 entidades.
+- **Publicação em produção feita pelo usuário,** por ser irreversível.
+
+## 17/10/2026: 1.0 só em iPhone e iPad
+
+- **Decisão do usuário:** a 1.0 sai em iPhone e iPad; Mac e Apple Vision Pro entram numa 1.x com capturas reais. Este Mac está no macOS 26.5 (o app exige 27) e não há simulador de visionOS, então as telas dessas plataformas mostravam a interface do iPad, o que a Apple pode recusar.
+- **No App Store Connect:** só a versão de iOS vai para revisão; as de macOS, visionOS e tvOS ficam em preparação. "iPhone e iPad em Macs com Apple silicon" e "no Apple Vision Pro" foram desligados, para a versão de iPad não aparecer nessas plataformas antes das nativas. Gratuito em 174 países, sem a China continental (exige registro ICP).
+- **Textos:** a linha de sincronização da descrição diz "iPhone e iPad" nos 10 idiomas; a landing marca Mac e Vision Pro como "em breve". O cabeçalho da página do produto passou a mostrar iPhone e iPad. As imagens de Mac e Vision saíram do repositório; o `compose.py` continua sabendo gerá-las.

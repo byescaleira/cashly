@@ -14,6 +14,9 @@ public enum CashlyTips {
             try? Tips.resetDatastore()
             Tips.showAllTipsForTesting()
         }
+        #if DEBUG
+            if defaults.bool(forKey: "cashly.developer.showcase") { Tips.hideAllTipsForTesting() }
+        #endif
         var options: [Tips.ConfigurationOption] = [.displayFrequency(.daily)]
         if let cloudContainer {
             options.append(.cloudKitContainer(.named(cloudContainer)))

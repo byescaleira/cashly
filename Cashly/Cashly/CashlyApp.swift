@@ -19,6 +19,11 @@ struct CashlyApp: App {
     @State private var lock: AppLockModel
 
     init() {
+        #if DEBUG && !targetEnvironment(simulator)
+            if CommandLine.arguments.contains("-CashlyInitializeCloudSchema") {
+                CashlyDatabase.initializeCloudSchema()
+            }
+        #endif
         #if targetEnvironment(simulator)
             let settings = SettingsModel(
                 cloudContainer: nil, rates: CashlyServices.shared.exchangeRates)
@@ -115,6 +120,9 @@ private final class CashlyBootstrap {
                 ) { try await SampleDatabase.seed(database) }
                 if UserDefaults.standard.bool(forKey: "cashly.developer.seed") {
                     try? await SampleDatabase.seed(database)
+                }
+                if UserDefaults.standard.bool(forKey: "cashly.developer.showcase") {
+                    try? await SampleDatabase.seedShowcase(database)
                 }
             #endif
             Task {

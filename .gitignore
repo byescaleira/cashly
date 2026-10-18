@@ -65,3 +65,6 @@ fastlane/test_output
 
 # Claude Code agent worktrees
 .claude/worktrees/
+
+brag-output*/
+docs/app-store/media/source/raw/
