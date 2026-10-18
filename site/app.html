@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cashly on the Web</title>
+<meta name="description" content="See your Cashly month on any computer. Scan the code with your iPhone; your data travels encrypted end to end.">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/assets/favicon.png">
+<link rel="apple-touch-icon" href="/assets/icon.png">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/web.css">
+<script src="/vendor/qrcode-generator-1.4.4.min.js" defer></script>
+<script type="module" src="/web.js"></script>
+</head>
+<body data-page="app">
+<nav class="nav">
+<div class="page">
+<a class="brand" href="/"><img class="icon-light" src="/assets/icon.png" alt=""><img class="icon-dark" src="/assets/icon-dark.png" alt="">Cashly</a>
+<div class="nav-links">
+<span class="web-updated footnote" data-slot="updated" hidden></span>
+<button class="button small quiet-small" type="button" data-action="sign-out" hidden data-t="signOut">Sign out</button>
+</div>
+</div>
+</nav>
+
+<main class="page web" aria-live="polite">
+<section class="web-pair" data-view="pair" hidden>
+<div class="web-pair-copy">
+<span class="chip capsule" data-t="proChip">Cashly Pro</span>
+<h1 data-t="pairTitle">See your month on this computer</h1>
+<p class="lead" data-t="pairLead">Scan the code with your iPhone. Your month travels encrypted end to end, straight from Cashly to this browser.</p>
+<ol class="web-steps">
+<li><b>1</b><span data-t="step1">Open the Camera on your iPhone, or Cashly › Settings › Cashly on the Web › Scan QR Code.</span></li>
+<li><b>2</b><span data-t="step2">Point it at this code.</span></li>
+<li><b>3</b><span data-t="step3">Tap Show in Cashly.</span></li>
+</ol>
+<p class="footnote" data-t="privacy">Only this browser holds the key. We can't read your data.</p>
+</div>
+<div class="web-qr-card">
+<div class="web-qr" data-slot="qr" role="img" aria-label="QR code"></div>
+<p class="web-waiting"><i></i><span data-slot="status" data-t="waiting">Waiting for your iPhone…</span></p>
+</div>
+</section>
+
+<section class="web-message" data-view="message" hidden>
+<h1 data-slot="message-title"></h1>
+<p class="lead" data-slot="message-text"></p>
+<button class="button" type="button" data-action="new-code" data-t="newCode">New code</button>
+</section>
+
+<section class="web-month" data-view="month" hidden>
+<header class="web-hero">
+<div class="month-header">
+<span class="chip capsule" data-slot="month-range"></span>
+<p class="subheadline" data-t="available">Available</p>
+<div class="amount-hero" data-slot="available"></div>
+<p class="footnote" data-slot="per-day"></p>
+</div>
+<div class="group"><div class="row">
+<div class="pace-head"><span class="subheadline" data-slot="used"></span><strong data-slot="pace"></strong></div>
+<div class="bar filled" data-slot="pace-bar"><i></i><b></b></div>
+</div><div class="row figures">
+<div><span class="footnote" data-t="planned">Planned</span><strong data-slot="planned"></strong></div>
+<div><span class="footnote" data-t="spent">Spent</span><strong data-slot="spent"></strong></div>
+<div><span class="footnote" data-t="income">Income</span><strong data-slot="income"></strong></div>
+</div></div>
+</header>
+<div class="web-columns">
+<div>
+<h2 class="web-section" data-t="budgets">Budgets</h2>
+<div class="group" data-slot="budgets"></div>
+<h2 class="web-section" data-t="upcoming">Upcoming</h2>
+<div class="group" data-slot="upcoming"></div>
+</div>
+<div>
+<h2 class="web-section" data-t="history">History</h2>
+<div data-slot="history"></div>
+</div>
+</div>
+</section>
+</main>
+</body>
+</html>
