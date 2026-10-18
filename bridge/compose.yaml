@@ -1,0 +1,16 @@
+services:
+  bridge:
+    build: .
+    image: cashly-bridge
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3110:3110"
+    environment:
+      ALLOWED_ORIGIN: https://cashly.byescaleira.com
+    read_only: true
+    mem_limit: 256m
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3110/bridge/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
