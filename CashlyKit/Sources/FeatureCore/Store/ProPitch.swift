@@ -5,6 +5,7 @@ public enum ProPitch: CaseIterable, Sendable {
     case recurring, budgetIdeas, future, variance, tags
     case backups, imports
     case askClaude, analyses, statements, approvals
+    case webMonth, webEncrypted, webTemporary
 
     public var title: LocalizedStringKey {
         switch self {
@@ -27,6 +28,9 @@ public enum ProPitch: CaseIterable, Sendable {
         case .analyses: "Analyses on request"
         case .statements: "Import statements in a conversation"
         case .approvals: "You approve every connection"
+        case .webMonth: "See your month on a computer"
+        case .webEncrypted: "Encrypted for that browser only"
+        case .webTemporary: "Ends on its own"
         }
     }
 
@@ -65,6 +69,10 @@ public enum ProPitch: CaseIterable, Sendable {
             "Share a bank statement with Claude and review every transaction before it's saved."
         case .approvals:
             "Only the connections you allow can read your data, and you can remove them anytime."
+        case .webMonth: "Plan, budgets, bills and history in any browser, read-only."
+        case .webEncrypted:
+            "Only the browser whose QR code you scan can open it. Our bridge can't read it."
+        case .webTemporary: "Each connection lasts 24 hours, and you can disconnect it anytime."
         }
     }
 
@@ -89,6 +97,9 @@ public enum ProPitch: CaseIterable, Sendable {
         case .analyses: "chart.xyaxis.line"
         case .statements: "doc.text.fill"
         case .approvals: "checkmark.shield.fill"
+        case .webMonth: "laptopcomputer"
+        case .webEncrypted: "lock.fill"
+        case .webTemporary: "clock.fill"
         }
     }
 }

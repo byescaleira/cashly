@@ -140,6 +140,7 @@ public struct MainScreen: View {
         .errorAlert($session.error)
         .modifier(PaywallOffer())
         .modifier(DeepLinks())
+        .modifier(WebSharingPresenter())
         .modifier(JourneyNotifications())
         .modifier(PrivacyShield())
         .sheet(isPresented: $navigation.isShowingPaywall) { PaywallScreen() }

@@ -73,7 +73,8 @@ private struct SettingsSections<Extra: View>: View {
         settings.entries(
             in: group, matching: query,
             showsGuides: showGuide != nil && flags?.isOn(.guides) != false,
-            showsJourneyEntry: flags?.isOn(.journey) != false)
+            showsJourneyEntry: flags?.isOn(.journey) != false,
+            showsWebEntry: flags?.isOn(.web) != false)
     }
 }
 

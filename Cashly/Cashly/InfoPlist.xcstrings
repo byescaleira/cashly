@@ -158,6 +158,72 @@
           }
         }
       }
+    },
+    "NSCameraUsageDescription" : {
+      "comment" : "Privacy - Camera Usage Description",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Cashly uses the camera to scan the QR code of Cashly on the Web on your computer."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Cashly usa a câmera para ler o QR code do Cashly na Web no seu computador."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly usa la cámara para escanear el código QR de Cashly en la web en tu ordenador."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly verwendet die Kamera, um den QR-Code von Cashly im Web auf deinem Computer zu scannen."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly utilise l’appareil photo pour scanner le code QR de Cashly sur le Web sur votre ordinateur."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly usa la fotocamera per scansionare il codice QR di Cashly sul Web sul tuo computer."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashlyはコンピュータに表示されたCashly WebのQRコードを読み取るためにカメラを使用します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly는 컴퓨터에 표시된 Cashly 웹의 QR 코드를 스캔하기 위해 카메라를 사용합니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly 使用相机扫描电脑上 Cashly 网页版的二维码。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly использует камеру, чтобы отсканировать QR-код Cashly в браузере на вашем компьютере."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

@@ -30,6 +30,8 @@ let package = Package(
         .target(name: "CashlyAnalyticsAI", dependencies: ["CashlyDomain", "CashlyAnalytics"]),
         .target(name: "CashlyMCP", dependencies: ["CashlyDomain", "CashlyAnalytics"]),
         .target(name: "CashlyGame", dependencies: ["CashlyDomain", "CashlyAnalytics"]),
+        .target(
+            name: "CashlyWeb", dependencies: ["CashlyDomain", "CashlyAnalytics", "CashlyGame"]),
         .target(name: "CashlyDesignSystem"),
         .target(name: "CashlyWidgetUI", dependencies: ["CashlyDomain", "CashlyDesignSystem"]),
         .target(name: "CashlyResource", resources: [.process("Assets")]),
@@ -81,7 +83,7 @@ let package = Package(
             name: "FeatureSettings",
             dependencies: [
                 "CashlyDomain", "CashlyDesignSystem", "CashlyGame", "CashlyResource",
-                "CashlyWidgetUI",
+                "CashlyWeb", "CashlyWidgetUI",
                 "FeatureCore", "FeatureStore",
             ]),
         .target(
@@ -121,6 +123,11 @@ let package = Package(
             name: "CashlyExchangeTests", dependencies: ["CashlyDomain", "CashlyExchange"]),
         .testTarget(
             name: "CashlyMCPTests", dependencies: ["CashlyDomain", "CashlyData", "CashlyMCP"]),
+        .testTarget(
+            name: "CashlyWebTests",
+            dependencies: [
+                "CashlyAnalytics", "CashlyDomain", "CashlyData", "CashlyGame", "CashlyWeb",
+            ]),
         .testTarget(
             name: "CashlyAnalyticsTests",
             dependencies: ["CashlyDomain", "CashlyData", "CashlyAnalytics"]),
@@ -171,8 +178,8 @@ let package = Package(
         .testTarget(
             name: "FeatureSettingsTests",
             dependencies: [
-                "CashlyAnalytics", "CashlyDomain", "CashlyData", "CashlyGame", "CashlyWidgetUI",
-                "FeatureCore", "FeatureSettings",
+                "CashlyAnalytics", "CashlyDomain", "CashlyData", "CashlyGame", "CashlyWeb",
+                "CashlyWidgetUI", "FeatureCore", "FeatureSettings",
             ]),
         .testTarget(
             name: "FeatureCoreTests",

@@ -3,23 +3,6 @@ import CashlyDomain
 import CashlyGame
 import SwiftUI
 
-extension GameLevel {
-    var title: String {
-        switch rank {
-        case 0: String(appLocalized: "Beginner")
-        case 1: String(appLocalized: "Tracker")
-        case 2: String(appLocalized: "Organizer")
-        case 3: String(appLocalized: "Planner")
-        case 4: String(appLocalized: "Saver")
-        case 5: String(appLocalized: "Strategist")
-        case 6: String(appLocalized: "Investor")
-        case 7: String(appLocalized: "Expert")
-        case 8: String(appLocalized: "Master")
-        default: String(appLocalized: "Legend")
-        }
-    }
-}
-
 extension Mission.Kind {
     var title: String {
         switch self {
@@ -70,12 +53,6 @@ extension Celebration {
         case .level: .retroTeal
         case .achievement(let achievement): achievement.tier.color
         }
-    }
-}
-
-extension GameLevel {
-    static func title(for number: Int) -> String {
-        GameLevel(xp: threshold(number)).title
     }
 }
 

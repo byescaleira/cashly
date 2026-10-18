@@ -235,6 +235,7 @@
   "privacy.meta.description": "Cashlyのデータの扱い：データはあなたのデバイスとあなた自身のiCloudに保存されます。",
   "privacy.meta.title": "Cashly プライバシーポリシー",
   "privacy.network.purchases": "<strong>購入。</strong>サブスクリプションとApp内課金は、App Storeを通じてAppleが処理します。当方が支払い情報を受け取ることはありません。",
+  "privacy.network.web": "<strong>Cashly Web(任意・Cashly Pro)</strong>cashly.byescaleira.com/app に表示されたQRコードを読み取ると、Cashlyは現在のプロフィールの今月の概要を、読み取ったQRコードのブラウザに向けてエンドツーエンドで暗号化し、cashly.byescaleira.com の中継サーバ経由で送信します。中継サーバでの保管は最長24時間で、内容を読むことはできません。開けるのはそのブラウザだけです。設定の「接続解除」ですぐに削除されます。私たちも第三者も内容にアクセスできないため、App Storeのラベルは「データの収集なし」のままです。",
   "privacy.network.rates": "<strong>為替レート。</strong>ほかの通貨や換算機能を使うと、Cashlyは公開されたレートサービス（jsDelivrとCloudflare Pages上のオープンソース通貨API、およびFrankfurter）に、ある日付のレートを問い合わせます。リクエストに含まれるのは通貨と日付だけで、金額や説明は含まれません。一般的なWebサイトと同様に、これらのサービスからはIPアドレスが見えます。",
   "privacy.network.settings": "<strong>アプリの設定。</strong>Cashlyは公開iCloudデータベースから機能の設定を読み込みます。あなたに関する情報は送信されません。",
   "privacy.network.title": "アプリが行う通信",

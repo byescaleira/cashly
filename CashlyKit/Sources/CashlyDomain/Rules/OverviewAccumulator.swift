@@ -54,6 +54,7 @@ public struct OverviewAccumulator {
         }
         for id in record.tagIDs {
             overview.tagExpenses[id] = try overview.tagExpenses[id, default: .zero].adding(amount)
+            overview.tagCounts[id, default: 0] += 1
         }
         recordDay(of: record)
         guard record.status != .canceled else { return }

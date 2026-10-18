@@ -235,6 +235,7 @@
   "privacy.meta.description": "Cashly 如何处理你的数据：数据保存在你的设备和你自己的 iCloud 中。",
   "privacy.meta.title": "Cashly 隐私政策",
   "privacy.network.purchases": "<strong>购买。</strong>订阅和 App 内购买由 Apple 通过 App Store 处理。我们不会收到你的付款信息。",
+  "privacy.network.web": "<strong>Cashly 网页版(可选，Cashly Pro)</strong>如果你扫描 cashly.byescaleira.com/app 上显示的二维码，Cashly 会把当前资料的本月概要，针对你扫描的二维码所在的浏览器进行端到端加密，经由我们在 cashly.byescaleira.com 的中转服务发送。中转服务最多保存 24 小时且无法读取内容；只有那个浏览器能打开。在设置中断开连接会立即删除。由于我们和任何第三方都无法访问内容，App Store 标签仍为\"未收集数据\"。",
   "privacy.network.rates": "<strong>汇率。</strong>当你使用其他货币或换算工具时，Cashly 会向公开的汇率服务（jsDelivr 和 Cloudflare Pages 上的开源货币 API，以及 Frankfurter）请求某一日期的汇率。请求只包含货币和日期，绝不包含金额或描述。与任何网站一样，这些服务可以看到你的 IP 地址。",
   "privacy.network.settings": "<strong>App 设置。</strong>Cashly 从一个公开的 iCloud 数据库读取功能设置，不会发送任何关于你的信息。",
   "privacy.network.title": "App 发出的网络请求",
