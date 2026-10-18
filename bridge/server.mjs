@@ -11,10 +11,10 @@ const PREFIX = '/bridge';
 
 const snapshots = new Map();
 const buckets = new Map();
-const LIMITS = { read: 60, miss: 10, write: 60 };
+const LIMITS = { read: 120, write: 60 };
 
 const sha256 = (value) => createHash('sha256').update(value).digest();
-const isID = (value) => /^[0-9a-f]{64}$/.test(value);
+const isID = (value) => /^[A-Za-z0-9_-]{22}$/.test(value);
 const clientIP = (request) =>
   (request.headers['x-forwarded-for'] ?? '').split(',')[0].trim() || request.socket.remoteAddress || 'unknown';
 
@@ -67,7 +67,7 @@ function readBody(request) {
 
 function validPackage(value) {
   const base64 = (text, min, max) => typeof text === 'string' && /^[A-Za-z0-9+/]+={0,2}$/.test(text) && text.length >= min && text.length <= max;
-  return value && value.v === 1 && base64(value.salt, 20, 32) && base64(value.nonce, 16, 24) && base64(value.ciphertext, 24, MAX_BODY);
+  return value && value.v === 2 && base64(value.appKey, 88, 88) && base64(value.nonce, 16, 16) && base64(value.ciphertext, 24, MAX_BODY);
 }
 
 function owner(request) {
@@ -93,10 +93,7 @@ export function handle(request, response, now = Date.now()) {
 
   if (request.method === 'GET') {
     if (!allow(ip, 'read', now)) return send(response, 429, { error: 'rate_limited' });
-    if (!entry) {
-      if (!allow(ip, 'miss', now)) return send(response, 429, { error: 'rate_limited' });
-      return send(response, 404, { error: 'not_found' });
-    }
+    if (!entry) return send(response, 404, { error: 'not_found' });
     if (request.headers['if-none-match'] === entry.etag) return send(response, 304, null, { ETag: entry.etag });
     return send(response, 200, { ...entry.payload, updatedAt: new Date(entry.updatedAt).toISOString(), expiresAt: new Date(entry.expiresAt).toISOString() }, { ETag: entry.etag });
   }
@@ -126,11 +123,11 @@ export function handle(request, response, now = Date.now()) {
       }
       if (!validPackage(payload)) return send(response, 400, { error: 'invalid_package' });
       if (!entry && snapshots.size >= MAX_SNAPSHOTS) return send(response, 503, { error: 'full' });
-      const clean = { v: 1, salt: payload.salt, nonce: payload.nonce, ciphertext: payload.ciphertext };
+      const clean = { v: 2, appKey: payload.appKey, nonce: payload.nonce, ciphertext: payload.ciphertext };
       const etag = `"${sha256(JSON.stringify(clean)).toString('hex').slice(0, 32)}"`;
       const expiresAt = entry ? entry.expiresAt : now + TTL_MS;
       snapshots.set(id, { ownerHash, payload: clean, etag, updatedAt: now, expiresAt });
-      console.log(`${new Date(now).toISOString()} ${entry ? 'update' : 'create'} ${id.slice(0, 8)} ${text.length}B`);
+      console.log(`${new Date(now).toISOString()} ${entry ? 'update' : 'create'} ${id.slice(0, 6)} ${text.length}B`);
       return send(response, entry ? 200 : 201, { expiresAt: new Date(expiresAt).toISOString() }, { ETag: etag });
     })
     .catch((error) => send(response, error.status ?? 400, { error: error.status === 413 ? 'too_large' : 'invalid_body' }));

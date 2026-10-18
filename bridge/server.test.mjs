@@ -1,11 +1,12 @@
 import { test, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:http';
+import { readFileSync } from 'node:fs';
 import { handle, store, rateBuckets } from './server.mjs';
 
-const ID = 'a'.repeat(64);
+const ID = 'ABEiM0RVZneImaq7zN3u_w';
 const OWNER = 'o'.repeat(43);
-const PACKAGE = { v: 1, salt: 'AAECAwQFBgcICQoLDA0ODw==', nonce: 'oKGio6SlpqeoqaqrrA==', ciphertext: 'c2VjcmV0LWNpcGhlcnRleHQtd2l0aC10YWc=' };
+const PACKAGE = JSON.parse(readFileSync(new URL('../docs/web-test-vector-v2.json', import.meta.url), 'utf8')).package;
 
 let clock = 1_000_000;
 
@@ -63,6 +64,8 @@ test('write without owner is rejected', async () => {
 
 test('invalid package and id', async () => {
   assert.equal((await request('PUT', `/bridge/v1/snapshots/${ID}`, { body: { v: 2 }, headers: auth() })).status, 400);
+  assert.equal((await request('PUT', `/bridge/v1/snapshots/${ID}`, { body: { ...PACKAGE, v: 1 }, headers: auth() })).status, 400);
+  assert.equal((await request('PUT', `/bridge/v1/snapshots/${ID}`, { body: { ...PACKAGE, appKey: 'AAAA' }, headers: auth() })).status, 400);
   assert.equal((await request('GET', '/bridge/v1/snapshots/not-an-id')).status, 404);
 });
 
@@ -79,9 +82,11 @@ test('delete by owner', async () => {
   assert.equal((await request('GET', `/bridge/v1/snapshots/${ID}`)).status, 404);
 });
 
-test('misses are rate limited per ip', async () => {
+test('waiting for the scan stays under the read limit and floods are limited', async () => {
+  const waiting = 'b'.repeat(22);
+  for (let index = 0; index < 30; index += 1) assert.equal((await request('GET', `/bridge/v1/snapshots/${waiting}`)).status, 404);
   let last;
-  for (let index = 0; index < 11; index += 1) last = await request('GET', `/bridge/v1/snapshots/${'b'.repeat(64)}`);
+  for (let index = 0; index < 91; index += 1) last = await request('GET', `/bridge/v1/snapshots/${waiting}`);
   assert.equal(last.status, 429);
 });
 
