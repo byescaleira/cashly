@@ -19,6 +19,11 @@ struct CashlyApp: App {
     @State private var lock: AppLockModel
 
     init() {
+        #if DEBUG && !targetEnvironment(simulator)
+            if CommandLine.arguments.contains("-CashlyInitializeCloudSchema") {
+                CashlyDatabase.initializeCloudSchema()
+            }
+        #endif
         #if targetEnvironment(simulator)
             let settings = SettingsModel(
                 cloudContainer: nil, rates: CashlyServices.shared.exchangeRates)
