@@ -11,6 +11,7 @@ const keyFile = env.CLOUDKIT_KEY_FILE ?? join(secretsDir, 'cloudkit.pem');
 
 const cloudkit = createCloudKit({
   keyID: env.CLOUDKIT_KEY_ID ?? '',
+  keyIDs: { development: env.CLOUDKIT_KEY_ID_DEVELOPMENT ?? '', production: env.CLOUDKIT_KEY_ID_PRODUCTION ?? '' },
   privateKeyPem: existsSync(keyFile) ? readFileSync(keyFile, 'utf8') : null,
   baseURL: env.CLOUDKIT_URL ?? 'https://api.apple-cloudkit.com',
   container: env.CLOUDKIT_CONTAINER ?? 'iCloud.cashly',

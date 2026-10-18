@@ -40,16 +40,18 @@ function flagFrom(record) {
   };
 }
 
-export function createCloudKit({ keyID, privateKeyPem, baseURL = 'https://api.apple-cloudkit.com', container = CONTAINER, fetch = globalThis.fetch, now = () => new Date() }) {
+export function createCloudKit({ keyID, keyIDs = {}, privateKeyPem, baseURL = 'https://api.apple-cloudkit.com', container = CONTAINER, fetch = globalThis.fetch, now = () => new Date() }) {
   const privateKey = privateKeyPem ? createPrivateKey(privateKeyPem) : null;
-  const configured = Boolean(privateKey && keyID);
+  const keyFor = (environment) => keyIDs[environment] || keyID;
+  const configured = Boolean(privateKey && (keyID || Object.values(keyIDs).some(Boolean)));
 
   async function call(environment, operation, payload) {
     if (!configured) throw new CloudKitError('NOT_CONFIGURED');
     if (!ENVIRONMENTS.includes(environment)) throw new CloudKitError('BAD_ENVIRONMENT');
+    if (!keyFor(environment)) throw new CloudKitError('NOT_CONFIGURED');
     const subpath = `/database/1/${container}/${environment}/public/${operation}`;
     const body = JSON.stringify(payload);
-    const { headers } = signRequest({ keyID, privateKey, subpath, body, date: now() });
+    const { headers } = signRequest({ keyID: keyFor(environment), privateKey, subpath, body, date: now() });
     let response;
     try {
       response = await fetch(`${baseURL}${subpath}`, {
