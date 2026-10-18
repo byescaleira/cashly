@@ -10,8 +10,8 @@ Painel web em `https://cashly.byescaleira.com/admin` para controlar o app sem pu
 ## Serviço
 
 - Container `cashly-admin` (Node 22, sem framework pesado), em `127.0.0.1:3120`, atrás do Caddy em `handle /admin*`.
-- Pasta `/opt/cashly-admin`, segredos em `/opt/cashly-admin/secrets` (chmod 600): chave server-to-server do CloudKit (PEM P-256 + key ID), hash da senha, credenciais de passkey e o segredo das sessões.
-- Conversa com a ponte por uma porta interna (`127.0.0.1:3111`, nunca exposta pelo Caddy) protegida por um token compartilhado.
+- Pasta `/opt/cashly-admin`, segredos em `/opt/cashly-admin/secrets` (chmod 600): chave server-to-server do CloudKit (PEM P-256; o key ID fica no `.env`), hash da senha e credenciais de passkey. As sessões ficam em memória (reiniciar encerra).
+- Conversa com a ponte pela porta interna `3111`, aberta só na rede Docker `cashly-control` (alias `cashly-bridge`), nunca publicada no host nem no Caddy, protegida por um token compartilhado (`BRIDGE_ADMIN_TOKEN`). Runbook em `admin/README.md` e `bridge/README.md`.
 
 ## Acesso (senha + passkey)
 
