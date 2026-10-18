@@ -1,72 +1,53 @@
 #if os(iOS)
     import CashlyDesignSystem
+    import FeatureCore
     import SwiftUI
     import VisionKit
 
     struct WebScannerScreen: View {
         @Environment(WebSharingModel.self) private var web
         @Environment(\.scenePhase) private var scenePhase
+        @Environment(\.openURL) private var openURL
 
         var body: some View {
-            NavigationStack {
-                Group {
+            GuideSheet(index: 0, count: 1, primary: primary, secondary: secondary) {
+                GuidePage(verbatim: web.scannerTitle, message: web.scannerMessage) {
                     if web.isCameraAvailable {
-                        QRScanner { web.receive(scanned: $0) }
-                            .ignoresSafeArea()
-                            .overlay(alignment: .bottom) { ScanMessage() }
+                        ScannerSlot()
                     } else {
-                        CameraUnavailableView()
-                    }
-                }
-                .navigationTitle("Scan QR Code")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("Cancel", systemImage: "xmark") { web.isScanning = false }
+                        CashlyAnimationView(.web)
                     }
                 }
             }
-            .fontDesign(.rounded)
+            .sensoryFeedback(.warning, trigger: web.scanMessage) { _, new in new != nil }
+            .onChange(of: web.scanMessage) { _, message in
+                if let message { AccessibilityNotification.Announcement(message).post() }
+            }
             .onChange(of: scenePhase) { _, phase in
                 if phase == .active { web.refreshCamera() }
             }
         }
-    }
 
-    private struct CameraUnavailableView: View {
-        @Environment(WebSharingModel.self) private var web
-        @Environment(\.openURL) private var openURL
-
-        var body: some View {
-            ContentUnavailableView {
-                Label("Camera Unavailable", systemImage: "camera")
-            } description: {
-                Text("Allow camera access for Cashly in the Settings app to scan the code.")
-            } actions: {
-                if let url = web.settingsURL {
-                    Button("Open Settings") { openURL(url) }
-                        .primaryButton()
-                }
+        private var primary: GuideAction {
+            guard let url = web.cameraSettingsURL else {
+                return GuideAction("Cancel") { web.isScanning = false }
             }
+            return GuideAction("Open Settings") { openURL(url) }
+        }
+
+        private var secondary: GuideAction? {
+            web.cameraSettingsURL.map { _ in GuideAction("Cancel") { web.isScanning = false } }
         }
     }
 
-    private struct ScanMessage: View {
+    private struct ScannerSlot: View {
         @Environment(WebSharingModel.self) private var web
 
         var body: some View {
-            if let message = web.scanMessage {
-                Text(verbatim: message)
-                    .font(.subheadline.weight(.semibold))
-                    .multilineTextAlignment(.center)
-                    .padding(.spaceL)
-                    .background(.sheetCard, in: .rect(cornerRadius: .radiusL))
-                    .padding(.spaceXL)
-                    .transition(.opacity)
-                    .onAppear {
-                        AccessibilityNotification.Announcement(message).post()
-                    }
-            }
+            QRScanner { web.receive(scanned: $0) }
+                .background(Color.secondary.opacity(.opacityFill))
+                .aspectRatio(4 / 3, contentMode: .fit)
+                .clipShape(.rect(cornerRadius: .radiusL))
         }
     }
 

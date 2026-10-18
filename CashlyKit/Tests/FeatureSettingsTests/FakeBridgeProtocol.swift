@@ -10,22 +10,42 @@ final class FakeBridgeProtocol: URLProtocol, @unchecked Sendable {
         let body: Data
     }
 
+    struct Reply: Sendable {
+        let status: Int
+        let body: Data
+
+        init(_ status: Int, body: Data = Data()) {
+            self.status = status
+            self.body = body
+        }
+
+        static let paused = Reply(503, body: Data(#"{"error":"paused"}"#.utf8))
+    }
+
     private struct Route: Sendable {
-        var statuses: [Int]
+        var replies: [Reply]
         var requests: [Request] = []
     }
 
     private static let routes = Mutex<[String: Route]>([:])
 
     static func session(statuses: [Int]) -> (URLSession, URL) {
+        session(replies: statuses.map { Reply($0) })
+    }
+
+    static func session(replies: [Reply]) -> (URLSession, URL) {
         let host = "\(UUID().uuidString.lowercased()).test"
-        routes.withLock { $0[host] = Route(statuses: statuses) }
+        routes.withLock { $0[host] = Route(replies: replies) }
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [FakeBridgeProtocol.self]
         return (
             URLSession(configuration: configuration),
             URL(string: "https://\(host)/bridge/v1") ?? URL(filePath: "/")
         )
+    }
+
+    static func reply(with replies: [Reply], to base: URL) {
+        routes.withLock { $0[base.host() ?? ""]?.replies = replies }
     }
 
     static func requests(to base: URL) -> [Request] {
@@ -42,20 +62,20 @@ final class FakeBridgeProtocol: URLProtocol, @unchecked Sendable {
             method: request.httpMethod ?? "", url: request.url ?? URL(filePath: "/"),
             authorization: request.value(forHTTPHeaderField: "Authorization"),
             contentType: request.value(forHTTPHeaderField: "Content-Type"), body: body())
-        let status = Self.routes.withLock { routes -> Int in
+        let reply = Self.routes.withLock { routes -> Reply in
             routes[host]?.requests.append(recorded)
-            guard let statuses = routes[host]?.statuses, let first = statuses.first else {
-                return 500
+            guard let replies = routes[host]?.replies, let first = replies.first else {
+                return Reply(500)
             }
-            if statuses.count > 1 { routes[host]?.statuses.removeFirst() }
+            if replies.count > 1 { routes[host]?.replies.removeFirst() }
             return first
         }
         guard let url = request.url,
             let response = HTTPURLResponse(
-                url: url, statusCode: status, httpVersion: "HTTP/1.1", headerFields: nil)
+                url: url, statusCode: reply.status, httpVersion: "HTTP/1.1", headerFields: nil)
         else { return }
         client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
-        client?.urlProtocol(self, didLoad: Data())
+        client?.urlProtocol(self, didLoad: reply.body)
         client?.urlProtocolDidFinishLoading(self)
     }
 

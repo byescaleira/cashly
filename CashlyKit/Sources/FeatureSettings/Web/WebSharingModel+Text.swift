@@ -19,6 +19,20 @@ extension WebSharingModel {
 
     public var pageAddress: String { endpoints.pageAddress }
 
+    var scannerTitle: String {
+        isCameraAvailable
+            ? String(appLocalized: "Scan QR Code") : String(appLocalized: "Camera Unavailable")
+    }
+
+    var scannerMessage: String {
+        guard isCameraAvailable else {
+            return String(
+                appLocalized: "Allow camera access for Cashly in the Settings app to scan the code."
+            )
+        }
+        return scanMessage ?? String(appLocalized: "Point at the code on the computer screen.")
+    }
+
     var steps: [String] {
         [
             String(appLocalized: "Open \(pageAddress) on any computer."),
@@ -39,6 +53,13 @@ extension WebSharingModel {
             appLocalized:
                 "Disconnecting deletes the summary from the bridge right away, and that browser goes back to the QR code."
         )
+        if isPro, !pausedIDs.isEmpty {
+            let paused = String(
+                appLocalized:
+                    "Cashly on the Web is paused for a few minutes. Your month is sent again when you open Cashly or change your data."
+            )
+            return "\(paused) \(disconnect)"
+        }
         guard !isPro else { return disconnect }
         let paused = String(
             appLocalized: "Without Cashly Pro, these computers stop receiving updates.")
@@ -83,13 +104,13 @@ extension WebSharingModel {
     }
 
     func statusColor(of session: WebSession) -> Color {
-        if !isPro { return .retroMustard }
+        if !isPro || pausedIDs.contains(session.id) { return .retroMustard }
         if failedIDs.contains(session.id) { return .negative }
         return session.lastSentAt == nil ? .secondary : .positive
     }
 
     func status(of session: WebSession, at date: Date) -> String {
-        if !isPro { return String(appLocalized: "Paused") }
+        if !isPro || pausedIDs.contains(session.id) { return String(appLocalized: "Paused") }
         if failedIDs.contains(session.id) { return String(appLocalized: "Retrying") }
         guard let sent = session.lastSentAt else { return String(appLocalized: "Not sent yet") }
         let ago = Date.RelativeFormatStyle(presentation: .named, locale: .app).format(
@@ -124,6 +145,9 @@ extension WebSharingModel {
             case .rateLimited:
                 String(appLocalized: "Too many attempts. Wait a minute and try again.")
             case .tooLarge: String(appLocalized: "This month is too large to send.")
+            case .paused:
+                String(
+                    appLocalized: "Cashly on the Web is paused for a few minutes. Try again later.")
             case .unauthorized, .notFound, .unavailable, nil:
                 String(
                     appLocalized: "Cashly on the Web isn't available right now. Try again later.")

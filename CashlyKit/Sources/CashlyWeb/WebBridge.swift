@@ -5,6 +5,7 @@ public enum WebBridgeError: Error, Equatable, Sendable {
     case notFound
     case tooLarge
     case rateLimited
+    case paused
     case unavailable(Int)
     case offline
 }
@@ -43,10 +44,10 @@ public struct WebBridge: Sendable {
         return request
     }
 
-    private func send(_ request: URLRequest) async throws -> Int {
+    private func send(_ request: URLRequest) async throws -> Reply {
         do {
-            let (_, response) = try await session.data(for: request)
-            return (response as? HTTPURLResponse)?.statusCode ?? 0
+            let (body, response) = try await session.data(for: request)
+            return Reply(status: (response as? HTTPURLResponse)?.statusCode ?? 0, body: body)
         } catch is CancellationError {
             throw CancellationError()
         } catch {
@@ -54,15 +55,31 @@ public struct WebBridge: Sendable {
         }
     }
 
-    private func check(_ status: Int, allowsMissing: Bool) throws {
-        switch status {
+    private func check(_ reply: Reply, allowsMissing: Bool) throws {
+        switch reply.status {
         case 200..<300: return
         case 404 where allowsMissing: return
         case 401, 403: throw WebBridgeError.unauthorized
         case 404: throw WebBridgeError.notFound
         case 413: throw WebBridgeError.tooLarge
         case 429: throw WebBridgeError.rateLimited
-        default: throw WebBridgeError.unavailable(status)
+        case 503 where reply.isPaused: throw WebBridgeError.paused
+        default: throw WebBridgeError.unavailable(reply.status)
         }
+    }
+
+    private struct Reply {
+        let status: Int
+        let body: Data
+
+        var isPaused: Bool {
+            (try? JSONDecoder().decode(Failure.self, from: body))?.error == Self.paused
+        }
+
+        static let paused = "paused"
+    }
+
+    private struct Failure: Decodable {
+        let error: String
     }
 }

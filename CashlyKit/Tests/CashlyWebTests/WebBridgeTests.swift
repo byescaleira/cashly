@@ -45,6 +45,27 @@ struct WebBridgeTests {
         }
     }
 
+    @Test func aPausedBridgeIsNotAFailure() async throws {
+        let (session, base) = FakeBridgeProtocol.session(replies: [.paused])
+        let bridge = WebBridge(base: base, session: session)
+        await #expect(throws: WebBridgeError.paused) {
+            try await bridge.put(package, id: "abc", ownerToken: "owner")
+        }
+        await #expect(throws: WebBridgeError.paused) {
+            try await bridge.delete(id: "abc", ownerToken: "owner")
+        }
+    }
+
+    @Test func anotherUnavailableReplyIsStillUnavailable() async throws {
+        let (session, base) = FakeBridgeProtocol.session(replies: [
+            FakeBridgeProtocol.Reply(503, body: Data(#"{"error":"busy"}"#.utf8))
+        ])
+        await #expect(throws: WebBridgeError.unavailable(503)) {
+            try await WebBridge(base: base, session: session)
+                .put(package, id: "abc", ownerToken: "owner")
+        }
+    }
+
     @Test func updatesAreAcceptedWithOK() async throws {
         let (session, base) = FakeBridgeProtocol.session(statuses: [201, 200])
         let bridge = WebBridge(base: base, session: session)

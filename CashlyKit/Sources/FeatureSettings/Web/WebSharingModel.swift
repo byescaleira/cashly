@@ -12,6 +12,7 @@ public final class WebSharingModel {
 
     public private(set) var sessions: [WebSession] = []
     public private(set) var failedIDs: Set<String> = []
+    public private(set) var pausedIDs: Set<String> = []
     public private(set) var isConnecting = false
     public private(set) var disconnectingID: String?
     public private(set) var isSending = false
@@ -31,16 +32,22 @@ public final class WebSharingModel {
             scheduleSend(after: .zero)
         }
     }
+    public var includesJourney = false {
+        didSet {
+            guard includesJourney != oldValue else { return }
+            scheduleSend(after: .zero)
+        }
+    }
     public let endpoints: WebEndpoints
-    @ObservationIgnored private let provider: any RepositoryProvider
-    @ObservationIgnored private let store: any WebSessionStoring
+    @ObservationIgnored let provider: any RepositoryProvider
+    @ObservationIgnored let store: any WebSessionStoring
     @ObservationIgnored private let bridge: WebBridge
-    @ObservationIgnored private let preference: UserPreference
+    @ObservationIgnored let preference: UserPreference
     @ObservationIgnored let now: @Sendable () -> Date
     @ObservationIgnored private var delivery: Task<Void, Never>?
-    @ObservationIgnored private var pending: Task<Void, Never>?
-    @ObservationIgnored private var expiry: Task<Void, Never>?
-    @ObservationIgnored private var listener: Task<Void, Never>?
+    @ObservationIgnored var pending: Task<Void, Never>?
+    @ObservationIgnored var expiry: Task<Void, Never>?
+    @ObservationIgnored var listener: Task<Void, Never>?
     @ObservationIgnored private var needsResend = false
 
     public init(
@@ -167,21 +174,6 @@ public final class WebSharingModel {
         delivery = nil
     }
 
-    public func resume() {
-        pruneExpired()
-        scheduleSend(after: .zero)
-    }
-
-    public func scheduleSend(after delay: Duration = WebSharingModel.debounce) {
-        guard !sessions.isEmpty else { return }
-        pending?.cancel()
-        pending = Task { [weak self] in
-            if delay > .zero { try? await Task.sleep(for: delay) }
-            guard !Task.isCancelled else { return }
-            await self?.send()
-        }
-    }
-
     func pruneExpired() {
         let expired = sessions.filter { $0.isExpired(at: now()) }
         guard !expired.isEmpty else { return }
@@ -205,6 +197,7 @@ public final class WebSharingModel {
                 plaintext = try await snapshot()
             } catch {
                 failedIDs.formUnion(targets.map(\.id))
+                pausedIDs.subtract(targets.map(\.id))
                 return
             }
             for session in targets {
@@ -214,65 +207,36 @@ public final class WebSharingModel {
                         session.seal(plaintext), id: session.id, ownerToken: session.ownerToken)
                     markSent(session.id)
                 } catch {
-                    failedIDs.insert(session.id)
+                    markFailed(session.id, error: error)
                 }
             }
             persist()
         } while needsResend
     }
 
-    private func snapshot() async throws -> Data {
-        let users = try await provider.repositories(for: nil).users.users()
-        let selected = preference.selectedUserID
-        guard let user = users.first(where: { $0.id == selected }) ?? users.first else {
-            throw CashlyError.missingRecord
-        }
-        return try await WebSnapshot.make(
-            repositories: provider.repositories(for: user.id),
-            context: WebSnapshot.Context(
-                user: user, today: now(), currency: Money.currencyCode, locale: .app)
-        ).encoded()
-    }
-
     private func markSent(_ id: String) {
         guard let index = sessions.firstIndex(where: { $0.id == id }) else { return }
         sessions[index].lastSentAt = now()
         failedIDs.remove(id)
+        pausedIDs.remove(id)
+    }
+
+    private func markFailed(_ id: String, error: any Error) {
+        if error as? WebBridgeError == .paused {
+            pausedIDs.insert(id)
+            failedIDs.remove(id)
+        } else {
+            failedIDs.insert(id)
+            pausedIDs.remove(id)
+        }
     }
 
     private func remove(_ ids: Set<String>) {
         sessions.removeAll { ids.contains($0.id) }
         failedIDs.subtract(ids)
+        pausedIDs.subtract(ids)
         persist()
         scheduleExpiry()
-    }
-
-    private func persist() {
-        do {
-            try store.save(sessions)
-        } catch {
-            self.error = .persistence(String(appLocalized: "Couldn't save the connection."))
-        }
-    }
-
-    private func scheduleExpiry() {
-        expiry?.cancel()
-        guard let next = sessions.map(\.expiresAt).min() else { return }
-        let delay = max(next.timeIntervalSince(now()), 0)
-        expiry = Task { [weak self] in
-            try? await Task.sleep(for: .seconds(delay))
-            guard !Task.isCancelled else { return }
-            self?.pruneExpired()
-        }
-    }
-
-    private func listen() {
-        let changes = provider.changes
-        listener = Task { [weak self] in
-            for await _ in changes.changes() {
-                self?.scheduleSend()
-            }
-        }
     }
 
     public static let debounce = Duration.seconds(2)

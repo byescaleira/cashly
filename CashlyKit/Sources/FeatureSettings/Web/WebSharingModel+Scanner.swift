@@ -23,6 +23,10 @@ extension WebSharingModel {
         #endif
     }
 
+    var cameraSettingsURL: URL? {
+        isCameraAvailable ? nil : settingsURL
+    }
+
     public func startScanning() async {
         #if os(iOS)
             if AVCaptureDevice.authorizationStatus(for: .video) == .notDetermined {
