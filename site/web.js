@@ -199,7 +199,9 @@ function renderMonth(snapshot) {
 
   slot('month-range').textContent = day(month.start, { month: 'long', year: 'numeric' });
   slot('available').textContent = money.format(month.available);
+  slot('available').style.color = month.available < 0 ? 'var(--negative)' : '';
   slot('per-day').textContent = t('perDay', { amount: money.format(month.perDay) });
+  slot('per-day').hidden = !(month.perDay > 0);
   slot('used').textContent = t('used', { percent: new Intl.NumberFormat(locale, { style: 'percent' }).format(month.usedRatio) });
   slot('pace').textContent = t(month.pace in { onTrack: 1, ahead: 1, over: 1 } ? month.pace : 'onTrack');
   slot('pace').style.color = paceColor;
