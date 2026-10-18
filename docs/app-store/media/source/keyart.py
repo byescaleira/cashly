@@ -299,98 +299,78 @@ def header(width, height):
 
 
 SCALE = 1320 / 414
-CROPS = {
-    "pace": ("goals", (20, 307, 394, 475)),
-    "budgets": ("goals", (20, 672, 394, 822)),
-    "forecast": ("home-forecast", (20, 222, 394, 525)),
-    "compared": ("home-unusual", (20, 219, 394, 470)),
-    "ordinary": ("home-unusual", (20, 530, 394, 598)),
-    "level": ("journey", (20, 307, 394, 467)),
-    "streak": ("journey", (20, 527, 394, 760)),
-    "category": ("editor", (20, 440, 394, 525)),
-}
+SCREEN_RATIO = 2868 / 1320
 
 
-def component(name):
-    from io import BytesIO
-    from PIL import Image
-    shot, box = CROPS[name]
-    image = Image.open(SOURCE / "raw" / "iphone" / f"{shot}.png").convert("RGB")
-    crop = image.crop(tuple(round(v * SCALE) for v in box))
-    buffer = BytesIO()
-    crop.save(buffer, "PNG")
-    return "data:image/png;base64," + base64.b64encode(buffer.getvalue()).decode(), crop.width / crop.height
-
-
-def shot(name, x, y, w, rotation, k):
-    uri, ratio = component(name)
-    h = w / ratio
-    return (
-        f"<div class='abs' style='left:{x * k}px;top:{y * k}px;width:{w * k}px;height:{h * k}px;"
-        f"border-radius:{w * k * 0.058}px;overflow:hidden;transform:rotate({rotation}deg);"
-        f"box-shadow:0 {28 * k}px {70 * k}px -{12 * k}px rgba(70,20,5,0.5)'>"
-        f"<img src='{uri}' style='width:100%;height:100%;display:block'></div>"
-    )
-
-
-def phone(x, y, width, screen):
-    uri = "data:image/png;base64," + base64.b64encode((SOURCE / "raw" / "iphone" / f"{screen}.png").read_bytes()).decode()
-    metal = width * 0.017
-    bezel = width * 0.024
-    radius = width * 0.165
-    return (
-        f"<div class='abs' style='left:{x}px;top:{y}px;width:{width}px;border-radius:{radius}px;padding:{metal}px;"
-        f"background:linear-gradient(90deg,#33080f,#8c3443 3%,#5c1a26 9%,#5c1a26 91%,#8c3443 97%,#33080f);"
-        f"box-shadow:0 {width * 0.07}px {width * 0.16}px -{width * 0.05}px rgba(60,10,20,0.6), inset 0 0 0 {width * 0.002}px rgba(255,255,255,0.2)'>"
-        f"<div style='background:#050505;border-radius:{radius - metal}px;padding:{bezel}px;position:relative'>"
-        f"<img src='{uri}' style='display:block;width:100%;border-radius:{radius - metal - bezel}px'>"
-        f"<span class='abs' style='left:50%;top:{bezel + width * 0.03}px;width:{width * 0.3}px;height:{width * 0.088}px;"
-        f"transform:translateX(-50%);border-radius:999px;background:#000'></span></div></div>"
-    )
-
-
-PANELS = [
-    ("goals", (14, 170, 400, 625)),
-    ("home-forecast", (14, 185, 400, 628)),
-    ("journey", (14, 170, 400, 600)),
-]
-
-
-def panel(x, y, w, screen, box):
+def crop_uri(screen, box):
     from io import BytesIO
     from PIL import Image
     image = Image.open(SOURCE / "raw" / "iphone" / f"{screen}.png").convert("RGB")
     crop = image.crop(tuple(round(v * SCALE) for v in box))
     buffer = BytesIO()
     crop.save(buffer, "PNG")
-    uri = "data:image/png;base64," + base64.b64encode(buffer.getvalue()).decode()
-    h = w * crop.height / crop.width
+    return "data:image/png;base64," + base64.b64encode(buffer.getvalue()).decode(), crop.width / crop.height
+
+
+def iphone(x, y, width, screen, rotation):
+    uri, _ = crop_uri(screen, (0, 0, 414, 899))
+    metal = width * 0.016
+    bezel = width * 0.022
+    inner = width - 2 * (metal + bezel)
+    height = inner * SCREEN_RATIO + 2 * (metal + bezel)
+    radius = width * 0.18
+    gradient = "linear-gradient(90deg,#33080f,#8c3443 3%,#5c1a26 9%,#5c1a26 91%,#8c3443 97%,#33080f)"
+    buttons = ""
+    for side, top, length in (("left", 0.17, 0.045), ("left", 0.245, 0.08), ("left", 0.34, 0.08), ("right", 0.27, 0.12), ("right", 0.58, 0.07)):
+        buttons += (
+            f"<span class='abs' style='{side}:-{width * 0.011}px;top:{height * top}px;width:{width * 0.014}px;height:{height * length}px;"
+            f"border-radius:{width * 0.006}px;background:linear-gradient(90deg,#33080f,#8c3443,#5c1a26)'></span>"
+        )
     return (
-        f"<div class='abs' style='left:{x}px;top:{y}px;width:{w}px;height:{h}px;border-radius:{w * 0.07}px;overflow:hidden;"
-        f"box-shadow:0 {w * 0.05}px {w * 0.12}px -{w * 0.03}px rgba(70,20,5,0.55), 0 0 0 {w * 0.004}px rgba(255,255,255,0.35)'>"
-        f"<img src='{uri}' style='display:block;width:100%;height:100%'></div>"
-    ), h
+        f"<div class='abs' style='left:{x}px;top:{y}px;width:{width}px;height:{height}px;transform:rotate({rotation}deg);transform-origin:50% 0'>{buttons}"
+        f"<div class='abs' style='inset:0;border-radius:{radius}px;padding:{metal}px;box-sizing:border-box;background:{gradient};"
+        f"box-shadow:inset 0 0 0 {width * 0.002}px rgba(255,255,255,0.2), inset 0 {width * 0.003}px {width * 0.004}px rgba(255,255,255,0.25), "
+        f"0 {width * 0.06}px {width * 0.16}px -{width * 0.04}px rgba(60,10,20,0.6)'>"
+        f"<div style='height:100%;box-sizing:border-box;background:#050505;border-radius:{radius - metal}px;padding:{bezel}px;position:relative'>"
+        f"<img src='{uri}' style='display:block;width:100%;border-radius:{radius - metal - bezel}px'>"
+        f"<span class='abs' style='left:50%;top:{bezel + inner * 0.028}px;width:{inner * 0.27}px;height:{inner * 0.082}px;"
+        f"transform:translateX(-50%);border-radius:999px;background:#000'></span></div></div></div>"
+    ), metal + bezel, inner / 414
+
+
+def lifted(x, y, width, screen, box, rotation):
+    uri, ratio = crop_uri(screen, box)
+    height = width / ratio
+    return (
+        f"<div class='abs' style='left:{x}px;top:{y}px;width:{width}px;height:{height}px;border-radius:{width * 0.055}px;overflow:hidden;"
+        f"transform:rotate({rotation}deg);box-shadow:0 {width * 0.05}px {width * 0.14}px -{width * 0.03}px rgba(60,15,5,0.6), "
+        f"0 0 0 {width * 0.003}px rgba(255,255,255,0.6)'><img src='{uri}' style='display:block;width:100%;height:100%'></div>"
+    )
+
+
+SHOWCASE = [
+    ("goals", 160, -4, (20, 307, 394, 475), 3),
+    ("home-forecast", -20, 0, (20, 222, 394, 484), 0),
+    ("journey", 60, 4, (20, 527, 394, 684), -3),
+]
 
 
 def search(width, height):
     k = width / 3840
-    w = 1080 * k
-    gap = 110 * k
-    left = (width - w * 3 - gap * 2) / 2
-    offsets = [70 * k, -90 * k, 70 * k]
-    parts = []
-    heights = []
-    for index, (screen, box) in enumerate(PANELS):
-        html, h = panel(left + (w + gap) * index, 0, w, screen, box)
-        parts.append((index, screen, box))
-        heights.append(h)
-    body = ""
-    for index, (screen, box) in enumerate(PANELS):
-        h = heights[index]
-        y = (height - h) / 2 + offsets[index]
-        html, _ = panel(left + (w + gap) * index, y, w, screen, box)
+    phone_w = 1100 * k
+    gap = 150 * k
+    left = (width - 3 * phone_w - 2 * gap) / 2
+    body = confetti(width, height, [(left - 60 * k, 120 * k, 3 * phone_w + 2 * gap + 120 * k, height)], 16, 220 * k, 3)
+    heroes = ""
+    for index, (screen, top, rotation, box, tilt) in enumerate(SHOWCASE):
+        x = left + index * (phone_w + gap)
+        y = 480 * k + top * k
+        html, inset, points = iphone(x, y, phone_w, screen, rotation)
         body += html
-    return page(width, height, body, rays=(width / 2, height * 0.5, 2600 * k))
+        hero_w = phone_w * 1.06
+        center = x + phone_w / 2 + math.sin(math.radians(-rotation)) * (inset + box[1] * points)
+        heroes += lifted(center - hero_w / 2, y + inset + box[1] * points - 30 * k, hero_w, screen, box, tilt)
+    return page(width, height, body + heroes, rays=(width / 2, height * 0.5, 2600 * k))
 
 
 TARGETS = {
