@@ -101,6 +101,9 @@ def dot(size, color, shape):
     return f"<svg width='{size}' height='{size}'><rect width='{size}' height='{size}' rx='{size * 0.2}' fill='{color}'/></svg>", size, size
 
 
+BOXES = []
+
+
 def overlaps(box, boxes, margin):
     x, y, w, h = box
     for bx, by, bw, bh in boxes:
@@ -136,6 +139,7 @@ def confetti(width, height, blocked, count, scale, seed, center=None, spread=Non
         if overlaps((x, y, w, h), placed, scale * 0.12):
             continue
         placed.append((x, y, w, h))
+        BOXES.append((x, y, w, h))
         rotation = rng.uniform(-35, 35)
         out += f"<div class='abs' style='left:{x}px;top:{y}px;transform:rotate({rotation:.1f}deg)'>{svg}</div>"
         count -= 1
@@ -232,19 +236,14 @@ def journey_card(x, y, w, h, u):
 
 def header(width, height):
     u = height
-    size = u * 0.52
+    size = u * 0.3
     cx, cy = width / 2, height / 2
-    gap = u * 0.06
-    side_w = min(u * 0.46, (width / 2 - size * 0.6 - gap - u * 0.06))
-    side_h = side_w * 0.62
-    left = (cx - size * 0.6 - gap - side_w, cy - side_h - u * 0.02)
-    right = (cx + size * 0.6 + gap, cy + u * 0.02)
-    blocked = [(cx - size * 0.6, cy - size * 0.6, size * 1.2, size * 1.2), (left[0], left[1], side_w, side_h), (right[0], right[1], side_w, side_h)]
-    body = confetti(width, height, blocked, 80, u * 0.1, 7, center=(cx, cy), spread=(size * 0.6, u * 0.95))
-    body += month_card(left[0], left[1], side_w, side_h, u)
-    body += budgets_card(right[0], right[1], side_w, side_h, u)
-    body += icon(cx, cy, size)
-    return page(width, height, body, rays=(cx, cy, u * 1.15))
+    blocked = [(cx - size * 0.58, cy - size * 0.58, size * 1.16, size * 1.16)]
+    inner = confetti(width, height, blocked, 60, u * 0.09, 7, center=(cx, cy), spread=(size * 0.56, u * 0.38))
+    blocked_inner = blocked + [box for box in BOXES]
+    outer = confetti(width, height, blocked_inner, 70, u * 0.1, 13, center=(cx, cy), spread=(u * 0.38, u * 1.0))
+    BOXES.clear()
+    return page(width, height, inner + outer + icon(cx, cy, size), rays=(cx, cy, u * 1.15))
 
 
 def search(width, height):
