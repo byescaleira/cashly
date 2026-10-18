@@ -30,7 +30,7 @@ Painel web em `https://cashly.byescaleira.com/admin` para controlar o app sem pu
 ## CloudKit
 
 - Requisições assinadas com a chave server-to-server (ECDSA P-256 sobre data, hash SHA-256 do corpo e caminho), nos endpoints `records/query` e `records/modify` do banco `public` do container `iCloud.cashly`.
-- O tipo `FeatureFlag` nasce em Desenvolvimento quando o admin grava o primeiro registro; o índice consultável de `name` e o `recordName` consultável (a consulta do app usa `TRUEPREDICATE`) são criados no CloudKit Console. A ida para Produção é o **Deploy Schema Changes**, que é irreversível e fica com o Rafael.
+- A chave server-to-server **não cria schema** (gravar num tipo inexistente dá `NOT_FOUND`). O tipo `FeatureFlag` (`name` String, `isOn` e `rollout` Int64), o índice consultável de `name` e o `recordName` consultável (a consulta do app usa `TRUEPREDICATE`) são criados no CloudKit Console em Development. A ida para Produção é o **Deploy Schema Changes**, que é irreversível e fica com o Rafael.
 - A chave server-to-server é criada no CloudKit Console (API Access › Server-to-Server Keys) a partir da chave pública gerada na VPS; a privada nunca sai da VPS.
 
 ## Capacidade

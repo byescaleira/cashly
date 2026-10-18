@@ -44,7 +44,7 @@ Chave do CloudKit:
 1. Gerada na VPS: `openssl ecparam -name prime256v1 -genkey -noout -out secrets/cloudkit.pem`, `chmod 600`, dono 1000.
 2. Chave pública para o CloudKit Console: `openssl ec -in secrets/cloudkit.pem -pubout`.
 3. No CloudKit Console, container `iCloud.cashly` › API Access › Server-to-Server Keys › nova chave com essa pública. Copiar o Key ID para `CLOUDKIT_KEY_ID` no `.env` e rodar `docker compose up -d`.
-4. O tipo `FeatureFlag` nasce em Desenvolvimento na primeira gravação. No Console, marcar `name` e `recordName` como consultáveis. Produção só depois do **Deploy Schema Changes** (irreversível).
+4. A chave do servidor não cria schema: criar no Console (Development) o tipo `FeatureFlag` com `name` (String), `isOn` e `rollout` (Int64) e os índices consultáveis de `name` e `recordName`. Produção só depois do **Deploy Schema Changes** (irreversível).
 
 Segurança:
 

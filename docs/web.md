@@ -107,13 +107,20 @@ Depois do primeiro teste real, o resumo ganhou as seções do Início, de Insigh
 
 ## Ponte pausada
 
-Quando o admin pausa a ponte, `PUT` e `GET` respondem `503 {"error":"paused"}`. A página mostra "O Cashly na Web está em pausa por alguns minutos" e tenta de novo a cada minuto; o app mostra o chip "Pausado" e reenvia quando voltar. A flag remota `web` desligada esconde a função no app sem tocar na VPS (o app lê as flags do CloudKit público).
+Quando o admin pausa a ponte, `PUT`, `GET` e `DELETE` respondem `503 {"error":"paused"}`. A página mostra "O Cashly na Web está em pausa por alguns minutos" e tenta de novo a cada minuto; o app mostra o chip "Pausado" e reenvia quando voltar. A flag remota `web` desligada esconde a função no app sem tocar na VPS (o app lê as flags do CloudKit público).
 
 No app, `503` com `{"error":"paused"}` em `PUT` ou `DELETE` vira `WebBridgeError.paused`, um estado próprio, separado de falha: a sessão fica guardada com o chip "Pausado" (mostarda, o mesmo termo e a mesma cor da sessão sem Pro) e o rodapé "O Cashly na Web está em pausa por alguns minutos. Seu mês é enviado de novo quando você abrir o Cashly ou mudar seus dados.". O reenvio acontece pelos gatilhos de sempre (voltar ao primeiro plano, mudança nos dados, perfil, moeda ou idioma), sem timer. Ao conectar ou desconectar com a ponte pausada, o alerta diz "O Cashly na Web está em pausa por alguns minutos. Tente de novo mais tarde.". Outro `503` continua sendo indisponibilidade comum.
 
 ## Página (W3)
 
-`/app` com o visual da landing e o mesmo módulo de `?locale=`: primeiro o QR grande com as instruções e "Aguardando o iPhone…"; quando o pacote chega, o mês (valor disponível, barra de ritmo com a marca do dia, planejado, gasto e restante), orçamentos com barras, próximas contas e o histórico por dia, com "Atualizado há X min" e "Sair". O QR é gerado no navegador (biblioteca pequena embutida, sem serviço externo). Recarregar a página mantém a sessão enquanto a chave estiver no IndexedDB e a ponte tiver o pacote.
+`/app` com o mesmo módulo de `?locale=` da landing. Antes do pareamento: o QR grande com os passos e "Aguardando o iPhone…". Depois: um **painel web** (não uma coluna de iPad), com o design system do app:
+
+- **Barra lateral** com o perfil (iniciais na cor do perfil e o mês), navegação (Visão geral, Transações, Orçamentos e Jornada, esta só quando o resumo traz `journey`), "Atualizado há X min" e "Sair". Abaixo de 860 px vira uma barra superior com abas roláveis.
+- **Visão geral:** linha de indicadores (disponível, gasto com a barra de ritmo e a marca do dia, receitas, planejado), gastos por dia, resumo rápido (previsão, economia, pontuação), últimos meses, próximas contas, transações recentes e maiores categorias.
+- **Transações:** tabela com busca (descrição, categoria e tag), filtro Todas/Despesas/Receitas e por categoria, ordenação por data ou valor, situação em chip e total do filtro; no celular cada linha vira um cartão.
+- **Orçamentos:** orçamentos com barra, valor e porcentagem; categorias com a barra de participação empilhada; tags.
+
+O QR é gerado no navegador (`qrcode-generator` em `site/vendor`). Recarregar mantém a sessão enquanto a chave estiver no IndexedDB e a ponte tiver o pacote.
 
 ## Privacidade
 
