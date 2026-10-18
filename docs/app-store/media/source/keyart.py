@@ -349,13 +349,48 @@ def phone(x, y, width, screen):
     )
 
 
+PANELS = [
+    ("goals", (14, 170, 400, 625)),
+    ("home-forecast", (14, 185, 400, 628)),
+    ("journey", (14, 170, 400, 600)),
+]
+
+
+def panel(x, y, w, screen, box):
+    from io import BytesIO
+    from PIL import Image
+    image = Image.open(SOURCE / "raw" / "iphone" / f"{screen}.png").convert("RGB")
+    crop = image.crop(tuple(round(v * SCALE) for v in box))
+    buffer = BytesIO()
+    crop.save(buffer, "PNG")
+    uri = "data:image/png;base64," + base64.b64encode(buffer.getvalue()).decode()
+    h = w * crop.height / crop.width
+    return (
+        f"<div class='abs' style='left:{x}px;top:{y}px;width:{w}px;height:{h}px;border-radius:{w * 0.07}px;overflow:hidden;"
+        f"box-shadow:0 {w * 0.05}px {w * 0.12}px -{w * 0.03}px rgba(70,20,5,0.55), 0 0 0 {w * 0.004}px rgba(255,255,255,0.35)'>"
+        f"<img src='{uri}' style='display:block;width:100%;height:100%'></div>"
+    ), h
+
+
 def search(width, height):
     k = width / 3840
-    phone_w = 2250 * k
-    left = width / 2 - phone_w / 2
-    body = confetti(width, height, [(left - 60 * k, 0, phone_w + 120 * k, height)], 14, 260 * k, 5)
-    body += phone(left, -900 * k, phone_w, "goals")
-    return page(width, height, body, rays=(width / 2, height * 0.45, 2400 * k))
+    w = 1080 * k
+    gap = 110 * k
+    left = (width - w * 3 - gap * 2) / 2
+    offsets = [70 * k, -90 * k, 70 * k]
+    parts = []
+    heights = []
+    for index, (screen, box) in enumerate(PANELS):
+        html, h = panel(left + (w + gap) * index, 0, w, screen, box)
+        parts.append((index, screen, box))
+        heights.append(h)
+    body = ""
+    for index, (screen, box) in enumerate(PANELS):
+        h = heights[index]
+        y = (height - h) / 2 + offsets[index]
+        html, _ = panel(left + (w + gap) * index, y, w, screen, box)
+        body += html
+    return page(width, height, body, rays=(width / 2, height * 0.5, 2600 * k))
 
 
 TARGETS = {
