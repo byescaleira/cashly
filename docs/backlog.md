@@ -13,6 +13,8 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 
 - **[P1] Validar CloudKit em dois aparelhos assinados:** offline e reconexão, referências que chegam em momentos diferentes, conflitos concorrentes, exclusões e troca de usuários. Só dá para fazer com dois aparelhos (fica com o usuário); o lado automático está coberto: `scripts/audit.sh`, os `ScenarioTests` e, desde 12/10/2026, a resolução de conflito usa um carimbo monotônico (`max(agora, último visto + 1)`), então uma escolha feita depois de ver a anterior vence mesmo com o relógio atrasado.
 
+- **[P2] Mac e Apple Vision Pro na 1.x.** Capturas reais do app nativo (macOS 27 e simulador ou aparelho de visionOS; `python3 docs/app-store/media/source/compose.py mac vision`), revisão visual dessas plataformas e envio das versões de macOS e visionOS que já existem no App Store Connect. Ao lançar, religar nada: as versões nativas substituem a de iPad.
+
 ## Desempenho e dados
 
 - **[P3] Adiar conta em outra moeda.** `IntentActions.postpone` muda a data e mantém a cotação da data original. Buscar a cotação da nova data ou avisar.
