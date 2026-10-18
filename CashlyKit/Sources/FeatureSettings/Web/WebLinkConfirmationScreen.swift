@@ -20,7 +20,7 @@ public struct WebLinkConfirmationScreen: View {
                 message:
                     "Cashly sends this month's summary, encrypted for that browser only. It updates when your data changes and ends in 24 hours."
             ) {
-                CashlyAnimationView(.connect)
+                CashlyAnimationView(.web)
             } content: {
                 GuideFeatureList {
                     GuideFeature(

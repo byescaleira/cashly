@@ -1,6 +1,8 @@
+import CashlyDesignSystem
 import CashlyDomain
 import CashlyWeb
 import Foundation
+import SwiftUI
 
 extension WebSharingModel {
     static var invalidLinkMessage: String {
@@ -17,15 +19,33 @@ extension WebSharingModel {
 
     public var pageAddress: String { endpoints.pageAddress }
 
-    var openPageDetail: String {
-        String(appLocalized: "On any computer, in any browser.")
+    var steps: [String] {
+        [
+            String(appLocalized: "Open \(pageAddress) on any computer."),
+            isScannerSupported
+                ? String(
+                    appLocalized: "Scan its QR code with the Camera app or Scan QR Code below.")
+                : String(
+                    appLocalized: "Scan its QR code with the Camera app on your iPhone or iPad."),
+            String(
+                appLocalized:
+                    "Confirm in Cashly. Your month opens there in a moment and stays up to date for 24 hours."
+            ),
+        ]
     }
 
-    var scanStepDetail: String {
-        isScannerSupported
-            ? String(appLocalized: "With the Camera app or Scan QR Code below.")
-            : String(appLocalized: "With the Camera app on your iPhone or iPad.")
+    var sessionsFooter: String {
+        let disconnect = String(
+            appLocalized:
+                "Disconnecting deletes the summary from the bridge right away, and that browser goes back to the QR code."
+        )
+        guard !isPro else { return disconnect }
+        let paused = String(
+            appLocalized: "Without Cashly Pro, these computers stop receiving updates.")
+        return "\(paused) \(disconnect)"
     }
+
+    public var connectedCount: Double { Double(sessions.count) }
 
     var heroTitle: String {
         sessions.isEmpty
@@ -39,10 +59,6 @@ extension WebSharingModel {
                 appLocalized:
                     "Open \(pageAddress) on a computer and scan its QR code. Nothing to type.")
             : String(appLocalized: "Your month updates there when your data changes.")
-    }
-
-    public var openPageTitle: String {
-        String(appLocalized: "Open \(pageAddress)")
     }
 
     public func title(of session: WebSession) -> String {
@@ -63,15 +79,18 @@ extension WebSharingModel {
             .formatted(
                 .units(allowed: [.hours, .minutes], width: .abbreviated, maximumUnitCount: 2)
                     .locale(.app))
-        let expiry = String(appLocalized: "Ends in \(remaining)")
-        return "\(expiry) · \(status(of: session, at: date))"
+        return String(appLocalized: "Ends in \(remaining)")
+    }
+
+    func statusColor(of session: WebSession) -> Color {
+        if !isPro { return .retroMustard }
+        if failedIDs.contains(session.id) { return .negative }
+        return session.lastSentAt == nil ? .secondary : .positive
     }
 
     func status(of session: WebSession, at date: Date) -> String {
-        if !isPro { return String(appLocalized: "Paused without Cashly Pro") }
-        if failedIDs.contains(session.id) {
-            return String(appLocalized: "Couldn't send, trying again soon")
-        }
+        if !isPro { return String(appLocalized: "Paused") }
+        if failedIDs.contains(session.id) { return String(appLocalized: "Retrying") }
         guard let sent = session.lastSentAt else { return String(appLocalized: "Not sent yet") }
         let ago = Date.RelativeFormatStyle(presentation: .named, locale: .app).format(
             min(sent, date))

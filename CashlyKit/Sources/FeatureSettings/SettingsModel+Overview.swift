@@ -27,7 +27,12 @@ extension SettingsModel {
         SettingsEntry.allCases.filter { entry in
             switch entry {
             case .data: if data == nil { return false }
-            case .web: if web == nil || !showsWebEntry { return false }
+            case .web:
+                #if os(iOS)
+                    if web == nil || !showsWebEntry { return false }
+                #else
+                    return false
+                #endif
             case .guides: if !showsGuides { return false }
             case .journey: if !showsJourneyEntry { return false }
             default: break

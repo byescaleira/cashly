@@ -1,7 +1,6 @@
 #if os(iOS)
     import CashlyDesignSystem
     import SwiftUI
-    import UIKit
     import VisionKit
 
     struct WebScannerScreen: View {
@@ -35,6 +34,7 @@
     }
 
     private struct CameraUnavailableView: View {
+        @Environment(WebSharingModel.self) private var web
         @Environment(\.openURL) private var openURL
 
         var body: some View {
@@ -43,7 +43,7 @@
             } description: {
                 Text("Allow camera access for Cashly in the Settings app to scan the code.")
             } actions: {
-                if let url = URL(string: UIApplication.openSettingsURLString) {
+                if let url = web.settingsURL {
                     Button("Open Settings") { openURL(url) }
                         .primaryButton()
                 }
@@ -60,7 +60,7 @@
                     .font(.subheadline.weight(.semibold))
                     .multilineTextAlignment(.center)
                     .padding(.spaceL)
-                    .contentSurface(in: .rect(cornerRadius: .radiusL))
+                    .background(.sheetCard, in: .rect(cornerRadius: .radiusL))
                     .padding(.spaceXL)
                     .transition(.opacity)
                     .onAppear {

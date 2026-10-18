@@ -10,7 +10,7 @@ struct WidgetsHowToSection: View {
     var body: some View {
         Section {
             ForEach(Array(widgets.addSteps.enumerated()), id: \.offset) { index, step in
-                WidgetStepRow(number: index + 1, text: step)
+                SettingsStepRow(number: index + 1, text: step)
             }
             if let showGuide, flags?.isOn(.guides) != false {
                 WidgetGuideRow { showGuide(.widgets) }
@@ -19,25 +19,6 @@ struct WidgetsHowToSection: View {
             Text("How to Add").sectionTitle()
         } footer: {
             Text(verbatim: widgets.galleryFooter)
-        }
-    }
-}
-
-private struct WidgetStepRow: View {
-    @Environment(\.appTint) private var appTint
-    let number: Int
-    let text: String
-
-    var body: some View {
-        HStack(alignment: .firstTextBaseline, spacing: .spaceM) {
-            Text(verbatim: "\(number)")
-                .font(.chipLabel)
-                .monospacedDigit()
-                .foregroundStyle(appTint)
-                .frame(width: .badgeS, height: .badgeS)
-                .background(appTint.opacity(.opacityTint), in: .circle)
-                .alignmentGuide(.firstTextBaseline) { $0[VerticalAlignment.center] + .space2XS }
-            Text(verbatim: text)
         }
     }
 }

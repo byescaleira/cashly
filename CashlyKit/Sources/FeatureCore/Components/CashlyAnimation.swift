@@ -42,6 +42,7 @@ public enum CashlyAnimation: String, Sendable {
     case shopFreeze
     case shopReroll
     case shopRestore
+    case web
 }
 
 public struct CashlyAnimationView: View {

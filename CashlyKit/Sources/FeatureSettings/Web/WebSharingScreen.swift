@@ -36,11 +36,11 @@ private struct WebHeroSection: View {
     var body: some View {
         Section {
             VStack(spacing: .spaceM) {
-                CashlyAnimationView(.connect).frame(maxWidth: 260)
+                CashlyAnimationView(.web).frame(maxWidth: 260)
                 VStack(spacing: .space2XS) {
                     Text(verbatim: web.heroTitle)
                         .font(.titleMedium)
-                        .contentTransition(.numericText())
+                        .contentTransition(.numericText(value: web.connectedCount))
                     Text(verbatim: web.heroMessage)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
@@ -58,20 +58,12 @@ private struct WebHeroSection: View {
 
 private struct WebStepsSection: View {
     @Environment(WebSharingModel.self) private var web
-    @Environment(\.appTint) private var appTint
 
     var body: some View {
         Section {
-            IconRow(
-                verbatim: web.openPageTitle, detail: web.openPageDetail,
-                symbol: "laptopcomputer", color: appTint)
-            IconRow(
-                title: Text("Scan the QR Code"), detail: Text(verbatim: web.scanStepDetail),
-                symbol: "qrcode.viewfinder", color: .companion)
-            IconRow(
-                "Confirm in Cashly",
-                detail: "Your month opens there in a moment and stays up to date for 24 hours.",
-                symbol: "checkmark", color: appTint)
+            ForEach(Array(web.steps.enumerated()), id: \.offset) { index, step in
+                SettingsStepRow(number: index + 1, text: step)
+            }
         } header: {
             Text("How It Works").sectionTitle()
         } footer: {
@@ -122,9 +114,7 @@ private struct WebSessionsSection: View {
             } header: {
                 Text("Connected Computers").sectionTitle()
             } footer: {
-                Text(
-                    "Disconnecting deletes the summary from the bridge right away, and that browser goes back to the QR code."
-                )
+                Text(verbatim: web.sessionsFooter)
             }
         }
     }
@@ -132,19 +122,27 @@ private struct WebSessionsSection: View {
 
 private struct WebSessionRow: View {
     @Environment(WebSharingModel.self) private var web
+    @Environment(\.appTint) private var appTint
     let session: WebSession
 
     var body: some View {
         TimelineView(.everyMinute) { context in
             VStack(alignment: .leading, spacing: .spaceS) {
-                IconRow(
-                    verbatim: web.title(of: session),
-                    detail: web.detail(of: session, at: context.date),
-                    symbol: "laptopcomputer", color: RetroColor.turquoise.color)
+                HStack(spacing: .spaceS) {
+                    IconRow(
+                        verbatim: web.title(of: session),
+                        detail: web.detail(of: session, at: context.date),
+                        symbol: "laptopcomputer", color: appTint)
+                    Chip(
+                        web.status(of: session, at: context.date),
+                        color: web.statusColor(of: session)
+                    )
+                    .fixedSize()
+                }
                 SettingsBar(
-                    value: web.remainingFraction(of: session, at: context.date),
-                    color: RetroColor.turquoise.color)
+                    value: web.remainingFraction(of: session, at: context.date), color: appTint)
             }
+            .accessibilityElement(children: .combine)
         }
     }
 }

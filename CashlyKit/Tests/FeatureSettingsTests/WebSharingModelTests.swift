@@ -135,6 +135,25 @@ struct WebSharingModelTests {
         #expect(model.overviewValue == String(appLocalized: "\(1) connected"))
     }
 
+    @Test func showsTheStateOfEachSessionWithItsColor() async throws {
+        let pairing = try WebLink(link, host: "cashly.byescaleira.com")
+        var sent = try WebSession.pair(with: pairing, at: start)
+        sent.lastSentAt = start
+        var unsent = sent
+        unsent.lastSentAt = nil
+        let (model, _) = try await model(statuses: [500], store: MemoryWebSessionStore([sent]))
+        #expect(model.status(of: sent, at: start) == String(appLocalized: "Paused"))
+        #expect(model.statusColor(of: sent) == .retroMustard)
+        model.isPro = true
+        #expect(model.statusColor(of: sent) == .positive)
+        #expect(model.status(of: sent, at: start) != String(appLocalized: "Paused"))
+        #expect(model.status(of: unsent, at: start) == String(appLocalized: "Not sent yet"))
+        #expect(model.statusColor(of: unsent) == .secondary)
+        await model.send()
+        #expect(model.status(of: sent, at: start) == String(appLocalized: "Retrying"))
+        #expect(model.statusColor(of: sent) == .negative)
+    }
+
     @Test func doesNotSendWithoutPro() async throws {
         let pairing = try WebLink(link, host: "cashly.byescaleira.com")
         let live = try WebSession.pair(with: pairing, at: start)

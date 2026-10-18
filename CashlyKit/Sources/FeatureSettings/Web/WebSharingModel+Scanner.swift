@@ -2,6 +2,7 @@ import Foundation
 
 #if os(iOS)
     import AVFoundation
+    import UIKit
     import VisionKit
 #endif
 
@@ -11,6 +12,14 @@ extension WebSharingModel {
             DataScannerViewController.isSupported
         #else
             false
+        #endif
+    }
+
+    public var settingsURL: URL? {
+        #if os(iOS)
+            URL(string: UIApplication.openSettingsURLString)
+        #else
+            nil
         #endif
     }
 
