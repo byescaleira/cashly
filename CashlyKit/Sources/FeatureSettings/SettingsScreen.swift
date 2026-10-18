@@ -45,6 +45,8 @@ extension SettingsScreen where Extra == EmptyView {
 
 private struct SettingsSections<Extra: View>: View {
     @Environment(SettingsModel.self) private var settings
+    @Environment(SessionModel.self) private var session: SessionModel?
+    @Environment(SharingModel.self) private var sharing: SharingModel?
     @Environment(\.showGuide) private var showGuide
     @Environment(\.featureFlags) private var flags
     let query: String
@@ -74,7 +76,8 @@ private struct SettingsSections<Extra: View>: View {
             in: group, matching: query,
             showsGuides: showGuide != nil && flags?.isOn(.guides) != false,
             showsJourneyEntry: flags?.isOn(.journey) != false,
-            showsWebEntry: flags?.isOn(.web) != false)
+            showsWebEntry: flags?.isOn(.web) != false,
+            showsSharingEntry: session != nil && sharing?.isEnabled == true)
     }
 }
 

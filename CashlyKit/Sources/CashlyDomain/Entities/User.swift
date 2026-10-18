@@ -2,11 +2,13 @@ public struct User: Identifiable, Hashable, Sendable {
     public var id: String
     public var name: String
     public var photo: ProfilePhoto
+    public var isShared: Bool
 
-    public init(id: String, name: String, photo: ProfilePhoto = .default) {
+    public init(id: String, name: String, photo: ProfilePhoto = .default, isShared: Bool = false) {
         self.id = id
         self.name = name
         self.photo = photo
+        self.isShared = isShared
     }
 
     public var initials: String {

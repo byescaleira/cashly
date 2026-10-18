@@ -90,6 +90,9 @@ let package = Package(
             name: "FeatureUsers",
             dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"]),
         .target(
+            name: "FeatureSharing",
+            dependencies: ["CashlyDomain", "CashlyDesignSystem", "FeatureCore"]),
+        .target(
             name: "AppShell",
             dependencies: [
                 "CashlyDomain", "CashlyData", "CashlyDesignSystem", "CashlyExchange", "FeatureCore",
@@ -98,7 +101,7 @@ let package = Package(
                 "FeatureJourney",
                 "FeatureMCP",
                 "FeatureOnboarding",
-                "FeatureSettings", "FeatureStore",
+                "FeatureSettings", "FeatureSharing", "FeatureStore",
                 "FeatureTags", "FeatureTransactions", "FeatureUsers",
             ]),
         .target(
@@ -108,7 +111,7 @@ let package = Package(
             dependencies: [
                 "AppShell", "CashlyMock", "FeatureBudgets", "FeatureCategories", "FeatureConverter",
                 "FeatureCore",
-                "FeatureDashboard", "FeatureJourney", "FeatureSettings",
+                "FeatureDashboard", "FeatureJourney", "FeatureSettings", "FeatureSharing",
                 "FeatureTags",
                 "FeatureTransactions", "FeatureUsers",
             ]),

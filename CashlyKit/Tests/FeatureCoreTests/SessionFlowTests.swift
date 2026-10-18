@@ -21,6 +21,20 @@ struct SessionFlowTests {
         return database
     }
 
+    @Test func participantsStayInsideTheSameKindOfProfile() async throws {
+        let library = try CashlyLibrary.inMemory()
+        let directory = library.repositories(for: nil).users
+        try await directory.save(owner)
+        try await directory.save(friend)
+        try await directory.save(User(id: "home", name: "Home", isShared: true))
+        let session = SessionModel(provider: library, preference: .disabled)
+        await session.selectUser(id: owner.id)
+        #expect(session.otherUsers.map(\.id) == [friend.id])
+        await session.selectUser(id: "home")
+        #expect(session.user?.isShared == true)
+        #expect(session.otherUsers.isEmpty)
+    }
+
     @Test func windowsKeepIndependentUsers() async throws {
         let database = try await database()
         let january = try #require(YearMonth(rawValue: 202_601)).startDate

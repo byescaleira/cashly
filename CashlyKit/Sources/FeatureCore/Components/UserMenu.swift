@@ -6,6 +6,7 @@ public struct UserMenu: View {
     @Environment(\.open) private var open
     @Environment(\.navigationSection) private var section
     @Environment(\.displayScale) private var displayScale
+    @Environment(SharingModel.self) private var sharing: SharingModel?
 
     public init() {}
 
@@ -17,6 +18,7 @@ public struct UserMenu: View {
                     ForEach(session.users) { user in
                         Label {
                             Text(user.name.capitalized)
+                            if user.isShared { Text("Shared") }
                         } icon: {
                             ProfileAvatar.image(for: user, size: .badgeS, scale: displayScale)
                                 .renderingMode(.original)
@@ -35,6 +37,11 @@ public struct UserMenu: View {
             }
             Button("Add Profile", systemImage: "plus") {
                 open(.addUser(id: nil), in: section)
+            }
+            if sharing?.isEnabled == true {
+                Button("New Shared Profile", systemImage: "person.2.badge.plus") {
+                    open(.addSharedProfile, in: section)
+                }
             }
         } label: {
             ProfileAvatar(session.user, size: .badgeM)

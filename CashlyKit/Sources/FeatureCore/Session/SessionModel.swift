@@ -20,6 +20,7 @@ public final class SessionModel {
     }
 
     public var repositories: Repositories { provider.repositories(for: user?.id) }
+    public var directory: any UserRepository { provider.repositories(for: nil).users }
 
     public var query: TransactionQuery { filter.query }
 
@@ -61,7 +62,12 @@ public final class SessionModel {
         }
     }
 
-    public var otherUsers: [User] { users.filter { $0.id != user?.id } }
+    public func user(id: String) -> User? { users.first { $0.id == id } }
+
+    public var otherUsers: [User] {
+        guard let user, !user.isShared else { return [] }
+        return users.filter { $0.id != user.id && !$0.isShared }
+    }
     public var needsOnboarding: Bool { hasLoadedUsers && users.isEmpty }
     public func isReady(_ finance: FinanceModel) -> Bool {
         hasLoadedUsers && (users.isEmpty || finance.hasLoaded)

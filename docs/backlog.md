@@ -78,3 +78,17 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 - `SettingsModel.cloudFooter` e `lastSyncText` ficaram usados só pelos testes depois que a página iCloud passou para `SettingsModel+Cloud`; remover junto com os testes quando ninguém mais estiver mexendo em `SettingsModel.swift`.
 
 - Funções grandes nas camadas de dados e domínio (`CashlyStore+Normalization`, `TransactionAllocation`): avaliar as regras `function_body_length` e `cyclomatic_complexity` do SwiftLint quando essas áreas forem tocadas, com testes cobrindo antes.
+
+## Social (perfil compartilhado)
+
+Fase 1 entregue em 18/10/2026 (ver [social.md](social.md)). Próximas fases e limites conhecidos:
+
+- **[P1] Fase 2, juntos no dia a dia:** "quem lançou" em cada transação, Jornada do perfil compartilhado (sincronizar `GameEvent` com deduplicação dos créditos únicos e sem levar meses de Pro de uma pessoa para outra), aviso quando outra pessoa registra.
+- **[P1] Validação em duas contas iCloud:** aceite, edição dos dois lados, offline e reconexão, conflito, sair, remover pessoa, parar de compartilhar e apagar para todos. Fica com o Rafael antes de ligar a flag `social` em Produção (e o Deploy Schema Changes dos tipos novos).
+- **[P2] Fase 3:** transformar um perfil pessoal em compartilhado (copiar para a zona e apagar do banco principal registro a registro).
+- **[P2] Campos novos nos registros:** um aparelho com versão antiga não reenvia o que recebe, mas, se editar a linha, envia sem os campos que não conhece. Preservar as chaves desconhecidas do payload do servidor antes da fase 2 mudar o formato.
+- **[P2] Desempenho da comparação:** cada gravação local recodifica e calcula o SHA-256 de todas as linhas dos perfis compartilhados, e o estado (com os campos de sistema de cada registro) é regravado inteiro. Limitar ao perfil alterado (o `CashlyChangeHub` descarta o `userID`) e guardar o estado por zona.
+- **[P2] Participantes da divisão entre pessoas:** hoje escondidos num perfil compartilhado; voltam na fase 2 com "quem lançou".
+- **[P3] Backup e "apagar tudo"** dos perfis compartilhados.
+- **[P3] Desenho C1 (cobrança com Pix)** e, se fizer sentido, desenho B (cartão de progresso para amigos).
+

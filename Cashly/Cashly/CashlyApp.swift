@@ -14,6 +14,11 @@ import SwiftUI
 
 @main
 struct CashlyApp: App {
+    #if os(macOS)
+        @NSApplicationDelegateAdaptor(CashlyAppDelegate.self) private var delegate
+    #else
+        @UIApplicationDelegateAdaptor(CashlyAppDelegate.self) private var delegate
+    #endif
     @State private var settings: SettingsModel
     @State private var bootstrap: CashlyBootstrap
     @State private var lock: AppLockModel
@@ -47,6 +52,7 @@ struct CashlyApp: App {
                 .environment(bootstrap)
                 .environment(lock)
                 .environment(bootstrap.mcp)
+                .environment(CashlyServices.shared.sharing)
                 .featureFlags(bootstrap.flags)
                 .cashlySettings(settings)
         }
@@ -63,7 +69,7 @@ struct CashlyApp: App {
 
 @MainActor @Observable
 private final class CashlyBootstrap {
-    private(set) var database: CashlyDatabase?
+    private(set) var library: CashlyLibrary?
     private(set) var error: String?
     private(set) var mcp: MCPModel?
     let flags: FeatureFlags
@@ -88,7 +94,7 @@ private final class CashlyBootstrap {
     }
 
     func prepare() async {
-        guard database == nil else { return }
+        guard library == nil else { return }
         error = nil
         LegacyIntelligenceFiles.remove()
         let cloudSync = settings.syncsAtLaunch
@@ -100,23 +106,33 @@ private final class CashlyBootstrap {
             }
         }
         do {
-            let database = try await CashlyServices.shared.database(cloudSync: cloudSync)
-            self.database = database
+            let library = try await CashlyServices.shared.library(cloudSync: cloudSync)
+            let database = library.main
+            self.library = library
             try? AppGroup.publish(
                 AppGroup.Manifest(
                     app: AppGroup.app, bundleIdentifier: Bundle.main.bundleIdentifier ?? "",
                     version: settings.info.version, urlScheme: "cashly",
                     files: [WidgetSnapshotStore.fileName, JourneySnapshotStore.fileName]))
             Task { await flags.refresh() }
+            #if targetEnvironment(simulator)
+                CashlyServices.shared.sharing.markUnavailable()
+            #else
+                if flags.isOn(.social) {
+                    Task { await CashlyServices.shared.startSharing(library) }
+                } else {
+                    CashlyServices.shared.sharing.markUnavailable()
+                }
+            #endif
             if flags.isOn(.mcpServer) {
-                mcp = MCPModel(provider: database, serviceName: Self.deviceName)
+                mcp = MCPModel(provider: library, serviceName: Self.deviceName)
             }
             let data = DataModel(
                 backup: database.backup, cloud: .container(CashlyDatabase.cloudContainer))
             settings.data = data
             #if os(iOS)
                 if flags.isOn(.web) {
-                    settings.web = WebSharingModel(provider: database)
+                    settings.web = WebSharingModel(provider: library)
                 }
             #endif
             #if DEBUG
@@ -167,9 +183,9 @@ private struct CashlyRootView: View {
             guard window == nil else { return }
             await bootstrap.prepare()
             guard !Task.isCancelled else { return }
-            if let database = bootstrap.database {
+            if let library = bootstrap.library {
                 window = CashlyWindow(
-                    provider: database, flags: bootstrap.flags)
+                    provider: library, flags: bootstrap.flags)
                 launch.finish(.database)
             }
         }

@@ -9,6 +9,7 @@ export const FLAGS = [
   { name: 'intelligence', title: 'Inteligência no aparelho', defaultValue: false },
   { name: 'summary', title: 'Resumo do Cashly', defaultValue: true },
   { name: 'web', title: 'Cashly na Web', defaultValue: true },
+  { name: 'social', title: 'Perfis compartilhados', defaultValue: false },
 ];
 
 export const FLAG_NAMES = FLAGS.map((flag) => flag.name);

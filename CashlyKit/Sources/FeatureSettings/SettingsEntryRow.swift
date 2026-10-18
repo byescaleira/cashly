@@ -7,6 +7,7 @@ struct SettingsEntryRow: View {
     @Environment(NotificationsModel.self) private var notifications
     @Environment(FinanceModel.self) private var finance: FinanceModel?
     @Environment(AppLockModel.self) private var lock: AppLockModel?
+    @Environment(SessionModel.self) private var session: SessionModel?
     @Environment(\.pro) private var pro
     let entry: SettingsEntry
 
@@ -32,6 +33,7 @@ struct SettingsEntryRow: View {
         case .about: settings.info.version
         case .data: settings.data?.overviewValue(now: .now)
         case .web: settings.web.map { pro.lockedValue ?? $0.overviewValue }
+        case .sharing: settings.sharingValue(session?.users ?? [])
         case .guides, .shop: nil
         }
     }
@@ -59,6 +61,7 @@ private struct SettingsDestination: View {
             if let web = settings.web {
                 WebSharingScreen().environment(web)
             }
+        case .sharing: SharedProfilesScreen()
         case .guides: GuidesHubScreen()
         case .about: AboutScreen()
         case .shop: RouteView(.shop)

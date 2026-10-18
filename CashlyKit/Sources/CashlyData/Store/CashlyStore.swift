@@ -74,7 +74,7 @@ public actor CashlyStore {
         guard values.count == 1, let row = values.first else { throw CashlyError.missingRecord }
         return row
     }
-    func commit(userID: String? = nil) throws {
+    func commit(userID: String? = nil, isRemote: Bool = false) throws {
         do {
             try modelContext.save()
             normalizedRevision = nil
@@ -83,7 +83,7 @@ public actor CashlyStore {
             } else {
                 datasetCache.removeAll()
             }
-            changeHub.publish(StorageChange(userID: userID))
+            changeHub.publish(StorageChange(userID: userID, isRemote: isRemote))
         } catch {
             modelContext.rollback()
             CashlyMetrics.failure("save", error: error)

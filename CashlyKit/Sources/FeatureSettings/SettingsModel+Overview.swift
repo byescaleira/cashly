@@ -22,7 +22,7 @@ struct PlanBadge: Equatable {
 extension SettingsModel {
     func entries(
         in group: SettingsGroup? = nil, matching query: String = "", showsGuides: Bool,
-        showsJourneyEntry: Bool, showsWebEntry: Bool = true
+        showsJourneyEntry: Bool, showsWebEntry: Bool = true, showsSharingEntry: Bool = false
     ) -> [SettingsEntry] {
         SettingsEntry.allCases.filter { entry in
             switch entry {
@@ -33,6 +33,7 @@ extension SettingsModel {
                 #else
                     return false
                 #endif
+            case .sharing: if !showsSharingEntry { return false }
             case .guides: if !showsGuides { return false }
             case .journey: if !showsJourneyEntry { return false }
             default: break

@@ -130,3 +130,6 @@ Símbolos com tamanho fixo usam `.font(.icon(_:weight:))`, nunca `.system(size:)
 - Componente usado em mais de uma feature e sem regra de negócio vai para o design system.
 - Barra de ferramentas sempre com símbolos sem `.fill`.
 - Estados vazios mostram exemplos preenchidos da feature. Guias mostram uma animação Lottie sem fundo (`GuideAnimationView` no `FeatureCore`), tingida com a paleta retrô e a cor de destaque.
+
+- **`GuideAction(_:sharing:preview:)`** (18/10/2026): variante do botão principal do `GuideSheet` que vira um `ShareLink` de um `SharedProfileInvite` (convite do CloudKit), com o mesmo `primaryButton()`. Usada pela folha "Invite Who Shares It"; se outra folha precisar compartilhar outro tipo, generalize para `Transferable`.
+

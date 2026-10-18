@@ -22,9 +22,14 @@ struct UserPhotoHeader: View {
                     .foregroundStyle(Color.primary)
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
-                Chip(model.photoCaption, color: model.captionColor ?? appTint, shape: .capsule)
-                    .textCase(.uppercase)
-                    .contentTransition(.opacity)
+                AdaptiveStack(stackedAlignment: .center, spacing: .spaceXS) {
+                    Chip(model.photoCaption, color: model.captionColor ?? appTint, shape: .capsule)
+                        .contentTransition(.opacity)
+                    if model.showsSharing {
+                        Chip("Shared", color: .retroTeal, shape: .capsule)
+                    }
+                }
+                .textCase(.uppercase)
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, .spaceL)

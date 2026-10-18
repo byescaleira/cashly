@@ -18,7 +18,7 @@ enum SettingsGroup: CaseIterable, Identifiable {
 
 enum SettingsEntry: String, CaseIterable, Identifiable {
     case appearance, language, currency, notifications, privacy, widgets, journey
-    case cloud, data, web
+    case cloud, data, web, sharing
     case guides, about
     case shop
 
@@ -28,7 +28,7 @@ enum SettingsEntry: String, CaseIterable, Identifiable {
         switch self {
         case .appearance, .language, .currency, .notifications, .privacy, .widgets, .journey:
             .general
-        case .cloud, .data, .web: .data
+        case .cloud, .data, .web, .sharing: .data
         case .guides, .about: .help
         case .shop: nil
         }
@@ -46,6 +46,7 @@ enum SettingsEntry: String, CaseIterable, Identifiable {
         case .cloud: String(appLocalized: "iCloud")
         case .data: String(appLocalized: "Data and Backup")
         case .web: String(appLocalized: "Cashly on the Web")
+        case .sharing: String(appLocalized: "Shared Profiles")
         case .guides: String(appLocalized: "Guides")
         case .about: String(appLocalized: "About Cashly")
         case .shop: String(appLocalized: "Shop")
@@ -70,6 +71,7 @@ enum SettingsEntry: String, CaseIterable, Identifiable {
         case .cloud: String(appLocalized: "sync, devices, account")
         case .data: String(appLocalized: "backup, export, import, spreadsheet, CSV, erase")
         case .web: String(appLocalized: "browser, computer, QR code, scan, share")
+        case .sharing: String(appLocalized: "family, partner, household, invite, people, share")
         case .guides: String(appLocalized: "help, tutorial, how to")
         case .about: String(appLocalized: "version, support, terms, what's new")
         case .shop: String(appLocalized: "store, buy, purchases, icons, colors, avatars, helps")
@@ -88,6 +90,7 @@ enum SettingsEntry: String, CaseIterable, Identifiable {
         case .cloud: "icloud"
         case .data: "externaldrive"
         case .web: "laptopcomputer"
+        case .sharing: "person.2"
         case .guides: "book"
         case .about: "info.circle"
         case .shop: "bag"
@@ -106,6 +109,7 @@ enum SettingsEntry: String, CaseIterable, Identifiable {
         case .cloud: .sky
         case .data: .slate
         case .web: .turquoise
+        case .sharing: .salmon
         case .guides: .avocado
         case .about: .indigo
         case .shop: .burntOrange

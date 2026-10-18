@@ -62,6 +62,8 @@ struct DeepLinks: ViewModifier {
                 in: .planning)
         case "budgets":
             navigation.open(.budgets, in: .planning)
+        case "profiles":
+            openProfile(Array(url.pathComponents.dropFirst()))
         case "journey":
             navigation.selectedSection = .journey
         case "shop":
@@ -70,6 +72,18 @@ struct DeepLinks: ViewModifier {
         default:
             navigation.selectedSection = .home
         }
+    }
+
+    private func openProfile(_ path: [String]) {
+        guard CashlyServices.shared.sharing.isEnabled else { return }
+        if path.first == "new-shared" {
+            open(.addSharedProfile, in: .home)
+            return
+        }
+        guard path.count == 2, path[1] == "people",
+            let id = path[0] == "current" ? session.user?.id : path[0]
+        else { return }
+        open(.sharedProfile(id: id), in: .home)
     }
 
     private func open(_ route: Route, in section: AppSection) {
