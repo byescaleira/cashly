@@ -77,7 +77,7 @@ extension JourneySnapshot {
 } timeline: {
     JourneyEntry(date: .now, snapshot: .sample)
     JourneyEntry(date: .now, snapshot: .sample.withoutChallenge)
-    JourneyEntry(date: .now, snapshot: .sample.with(status: .paused))
+    JourneyEntry(date: .now, snapshot: .sample.with(status: .hidden))
 }
 
 #Preview("Large", as: .systemLarge) {

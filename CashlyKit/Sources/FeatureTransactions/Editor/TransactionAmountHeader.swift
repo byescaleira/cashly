@@ -5,6 +5,7 @@ import SwiftUI
 
 struct TransactionAmountHeader: View {
     @Environment(TransactionEditorModel.self) private var model
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         @Bindable var model = model
@@ -18,21 +19,30 @@ struct TransactionAmountHeader: View {
                     )
                     .font(.headline.weight(.semibold))
                     .contentTransition(.numericText())
-                    .animation(.linear, value: model.draft.splitValue)
+                    .animation(reduceMotion ? nil : .linear, value: model.draft.splitValue)
                     .background(model.splitStatus.color.opacity(.opacityTint), in: .capsule)
                 }
                 VStack(spacing: 0) {
-                    CurrencyField(amount: $model.draft.amount)
+                    CurrencyField(amount: $model.amountInput, currencyCode: model.inputCurrency)
                         .font(.amountInput)
                         .foregroundStyle(Color.primary)
                         .multilineTextAlignment(.center)
                         .tint(.clear)
+                        .disabled(model.isAmountLocked)
+                    if let real = model.realAmount {
+                        Text(verbatim: real)
+                            .font(.headline)
+                            .foregroundStyle(Color.secondary)
+                            .contentTransition(.numericText())
+                            .animation(reduceMotion ? nil : .snappy, value: model.draft.amount)
+                            .amountLine()
+                    }
                     if let installments = model.installmentDescription {
                         Text(installments)
                             .font(.callout.weight(.medium))
                             .foregroundStyle(Color.secondary)
                             .contentTransition(.numericText())
-                            .animation(.bouncy, value: model.draft.amount)
+                            .animation(reduceMotion ? nil : .bouncy, value: model.draft.amount)
                     }
                 }
             }

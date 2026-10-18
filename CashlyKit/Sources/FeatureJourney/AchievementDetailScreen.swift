@@ -65,6 +65,7 @@ extension AchievementAction {
         case .guide(.importSpreadsheet): "Import a Spreadsheet"
         case .guide: "Read the Guide"
         case .challenge: "Choose a Challenge"
+        case .pro: "See Cashly Pro"
         }
     }
 }

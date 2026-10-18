@@ -46,6 +46,8 @@ struct BudgetMonthSection: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, .spaceL)
                 .accessibilityElement(children: .combine)
+            } footer: {
+                EstimatesNotice()
             }
         }
     }

@@ -27,6 +27,32 @@ public final class InsightsModel {
         public let daily: Double?
         public let daysLeft: Int?
         public let isUncertain: Bool
+        public let risk: Double?
+
+        public var riskText: String? {
+            risk.map {
+                (($0 * 10_000).rounded() / 10_000).formatted(
+                    .percent.precision(.fractionLength(0))
+                        .rounded(rule: isRiskHigh ? .toNearestOrAwayFromZero : .towardZero)
+                        .locale(.app))
+            }
+        }
+
+        public var isRiskHigh: Bool { (risk ?? 0) >= 0.5 }
+
+        public init(
+            spent: Double, remaining: Double, projected: Double, budgeted: Double?, daily: Double?,
+            daysLeft: Int?, isUncertain: Bool, risk: Double?
+        ) {
+            self.spent = spent
+            self.remaining = remaining
+            self.projected = projected
+            self.budgeted = budgeted
+            self.daily = daily
+            self.daysLeft = daysLeft
+            self.isUncertain = isUncertain
+            self.risk = risk
+        }
 
         public var gap: Double? { budgeted.map { projected - $0 } }
         public var scale: Double { max(projected, budgeted ?? 0, 1) }
@@ -40,10 +66,10 @@ public final class InsightsModel {
     }
 
     public struct Unusual: Equatable, Identifiable {
+        public let id: String
         public let name: String
         public let current: Double
         public let typical: Double
-        public var id: String { name }
 
         public var badge: String {
             guard typical > 0 else { return String(appLocalized: "New this month") }
@@ -66,20 +92,28 @@ public final class InsightsModel {
     }
 
     private var stored: [AnalysisID: AnalysisResult] = [:]
-    private var day = Calendar.current.startOfDay(for: .now)
+    private var feedback = InsightFeedback()
+    private(set) var month = YearMonth(.now)
+    private(set) var day = Calendar.current.startOfDay(for: .now)
     @ObservationIgnored private let session: SessionModel
     @ObservationIgnored private let engine = AnalysisEngine()
+    @ObservationIgnored private let store: InsightFeedbackStore
 
-    public init(session: SessionModel) {
+    public init(session: SessionModel, defaults: UserDefaults = .standard) {
         self.session = session
+        store = InsightFeedbackStore(defaults: defaults)
     }
 
     public var key: Key {
         Key(userID: session.user?.id, generation: session.generation, day: day)
     }
 
-    private var results: [AnalysisID: AnalysisResult] {
+    var results: [AnalysisID: AnalysisResult] {
         session.filter.isCustomized ? [:] : stored
+    }
+
+    var findings: [Finding] {
+        InsightRanking.rank(results.values.flatMap(\.findings), feedback: feedback, in: month)
     }
 
     public func checkDay() {
@@ -88,15 +122,17 @@ public final class InsightsModel {
     }
 
     public func load() async {
-        guard session.user != nil else {
+        guard let userID = session.user?.id else {
             stored = [:]
             return
         }
+        feedback = store.feedback(for: userID)
         do {
             let ledger = try await RepositoriesLedgerSource(repositories: session.repositories)
                 .ledger(today: .now)
             let all = await engine.runAll(on: ledger)
             guard !Task.isCancelled else { return }
+            month = ledger.currentMonth
             stored = Dictionary(all.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         } catch {
             stored = [:]
@@ -115,7 +151,8 @@ public final class InsightsModel {
             budgeted: pace.metric("budgeted")?.value,
             daily: allowance?.metric("daily")?.value,
             daysLeft: allowance?.metric("daysLeft").map { Int($0.value) },
-            isUncertain: pace.provenance.confidence == .low)
+            isUncertain: pace.provenance.confidence == .low,
+            risk: results[OverPlanRisk.id]?.metric("probability")?.value.nilIfOutside(0.01...0.99))
     }
 
     public var history: History? {
@@ -131,10 +168,37 @@ public final class InsightsModel {
             })
     }
 
+    var unusualFindings: [Finding] {
+        Array(findings.filter { $0.analysisID == UnusualCategories.id }.prefix(3))
+    }
+
+    var expectedSubjects: Set<String> {
+        Set(
+            (results[UnusualCategories.id]?.findings ?? [])
+                .filter { feedback.isExpected($0, in: month) }.map(\.subject))
+    }
+
     public var unusual: [Unusual] {
-        results[UnusualCategories.id]?.series.map {
-            Unusual(name: $0.label.capitalized, current: $0.value, typical: $0.reference ?? 0)
-        } ?? []
+        unusualFindings.map {
+            Unusual(
+                id: $0.id, name: $0.label.capitalized, current: $0.metric("current")?.value ?? 0,
+                typical: $0.metric("typical")?.value ?? 0)
+        }
+    }
+
+    func dismiss(_ id: String) {
+        guard let finding = findings.first(where: { $0.id == id }), let userID = session.user?.id
+        else { return }
+        feedback.dismiss(finding)
+        store.save(feedback, for: userID)
+    }
+
+    public func markExpected(_ item: Unusual) {
+        guard let finding = findings.first(where: { $0.id == item.id }),
+            let userID = session.user?.id
+        else { return }
+        feedback.markExpected(finding, in: month)
+        store.save(feedback, for: userID)
     }
 
     public var commitments: Commitments? {

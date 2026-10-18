@@ -11,7 +11,7 @@ struct GameFixture {
     var budgets: [Budget] = []
     var tags: [Tag] = []
     var today: Date
-    var guideCount = 0
+    var guides: Set<String> = []
 
     init(today: Int, month: Int = 10) {
         self.today = Self.date(today, month: month)
@@ -90,7 +90,7 @@ struct GameFixture {
                 transactions: transactions, categories: [market, cafe], tags: tags,
                 budgets: budgets,
                 revision: "r", today: today),
-            transactions: transactions, events: events, guideCount: guideCount)
+            transactions: transactions, events: events, guides: guides)
     }
 
     var progress: GameProgress { GameEngine.progress(snapshot) }

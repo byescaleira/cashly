@@ -54,9 +54,17 @@ private struct TransactionAmounts: View {
                     Text(list.billing(of: transaction).formatted)
                 }
             }
-            Text(transaction.money.formatted)
+            Text(verbatim: transaction.displayAmount)
                 .foregroundStyle(
-                    transaction.isSplitOrInstallment ? Color.secondary : Color.primary)
+                    transaction.isSplitOrInstallment ? Color.secondary : Color.primary
+                )
+                .accessibilityLabel(transaction.amountAccessibilityLabel)
+            if let original = transaction.originalAmount {
+                Text(verbatim: original)
+                    .font(.caption)
+                    .foregroundStyle(Color.secondary)
+                    .accessibilityHidden(true)
+            }
         }
         .font(.callout.weight(.semibold))
         .amountLine()

@@ -1,4 +1,5 @@
 import CashlyDomain
+import FeatureCore
 import Foundation
 
 extension DataModel {
@@ -65,7 +66,7 @@ extension DataModel {
     var eraseExtrasLabel: String { String(appLocalized: "Not in backups") }
 
     var eraseExtrasText: String {
-        String(appLocalized: "Journey progress, captured payments and intelligence models")
+        String(appLocalized: "Journey progress and captured payments")
     }
 
     var eraseBackupLabel: String { String(appLocalized: "Latest backup") }
@@ -85,9 +86,8 @@ extension DataModel {
 
     func eraseAll() async {
         await perform {
-            for userID in try await backup.eraseAll() {
-                try? await intelligence.clean(userID: userID)
-            }
+            InsightFeedbackStore(defaults: defaults).erase(try await backup.eraseAll())
+            LegacyIntelligenceFiles.remove()
             eraseStep = .done
         }
         await refreshInventory()

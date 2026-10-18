@@ -13,6 +13,7 @@ struct AppearanceScreen: View {
             PremiumColorSection(item: .accentMetallic, title: "Metallic")
             PremiumColorSection(item: .accentNeon, title: "Neon")
             if settings.supportsAppIcons { AppIconSection() }
+            ShopLinkSection()
         }
         .alert("Icon", isPresented: $settings.isShowingIconError) {
         } message: {

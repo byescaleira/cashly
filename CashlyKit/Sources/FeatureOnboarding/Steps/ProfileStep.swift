@@ -10,7 +10,8 @@ struct ProfileStep: View {
         @Bindable var model = model
         GuidePage(
             title: "What Should We Call You?",
-            message: "Your profile keeps your finances separate from other people at home."
+            message:
+                "Each profile keeps its own finances: a person, a business, a bank or anything else."
         ) {
             ProfileAvatar(photo: model.photo, initials: model.initials, size: .medallion)
                 .overlay(alignment: .bottomTrailing) {

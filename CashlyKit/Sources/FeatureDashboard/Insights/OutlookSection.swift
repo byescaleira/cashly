@@ -5,52 +5,82 @@ import SwiftUI
 
 struct OutlookSection: View {
     @Environment(InsightsModel.self) private var insights
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         if let outlook = insights.outlook {
-            let isOver = (outlook.gap ?? 0) > 0
-            Section {
-                VStack(spacing: .spaceM) {
-                    FigureBlock(
-                        caption: String(appLocalized: "The month should close at"),
-                        amount: outlook.projected,
-                        color: isOver ? .negative : .primary)
-                    if let gap = outlook.gap {
-                        Chip(
-                            gap > 0
-                                ? "\(gap.formatted(.appCurrency)) over plan"
-                                : "\((-gap).formatted(.appCurrency)) under plan",
-                            color: gap > 0 ? .negative : .positive)
-                    }
-                    OutlookBar(outlook: outlook)
-                        .padding(.top, .spaceS)
-                }
-                OutlookRow(
-                    title: "Already spent", value: outlook.spent, marker: .solid)
-                OutlookRow(
-                    title: "Still to go out", value: outlook.remaining, marker: .faded)
-                if let budgeted = outlook.budgeted {
-                    OutlookRow(title: "Planned", value: budgeted, marker: .line)
-                }
-                if let daily = outlook.daily, let days = outlook.daysLeft {
-                    LabeledContent {
-                        Text("\(daily.formatted(.appCurrency)) per day")
-                            .fontWeight(.semibold)
-                            .foregroundStyle(daily > 0 ? Color.positive : .negative)
-                    } label: {
-                        Text("You can spend")
-                        Text("over the next \(days) days without going over plan")
-                    }
-                }
-            } header: {
-                Text("Month Forecast").sectionTitle()
-            } footer: {
-                Text(
-                    outlook.isUncertain
-                        ? "There are still few days and little history; the forecast improves over time."
-                        : "Adds what already went out, scheduled bills and what you usually spend until the end of the month."
-                )
+            ProOnly {
+                OutlookContent(outlook: outlook)
+                    .animation(reduceMotion ? nil : .smooth, value: outlook)
             }
+        }
+    }
+}
+
+private struct OutlookContent: View {
+    let outlook: InsightsModel.Outlook
+
+    var body: some View {
+        Section {
+            OutlookHero(outlook: outlook)
+            OutlookRow(title: "Already spent", value: outlook.spent, marker: .solid)
+            OutlookRow(title: "Still to go out", value: outlook.remaining, marker: .faded)
+            if let budgeted = outlook.budgeted {
+                OutlookRow(title: "Planned", value: budgeted, marker: .line)
+            }
+            if let daily = outlook.daily, let days = outlook.daysLeft {
+                LabeledContent {
+                    Text("\(daily.formatted(.appCurrency)) per day")
+                        .fontWeight(.semibold)
+                        .foregroundStyle(daily > 0 ? Color.positive : .negative)
+                        .contentTransition(.numericText(value: daily))
+                } label: {
+                    Text("You can spend")
+                    Text("over the next \(days) days without going over plan")
+                }
+            }
+            if let risk = outlook.riskText, let value = outlook.risk {
+                LabeledContent {
+                    Text(risk)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(outlook.isRiskHigh ? Color.negative : .primary)
+                        .contentTransition(.numericText(value: value))
+                } label: {
+                    Text("Chance of going over plan")
+                    Text("Based on how much your daily spending usually varies")
+                }
+            }
+        } header: {
+            Text("Month Forecast").sectionTitle()
+        } footer: {
+            Text(
+                outlook.isUncertain
+                    ? "There are still few days and little history; the forecast improves over time."
+                    : "Adds what already went out, scheduled bills and what you usually spend until the end of the month."
+            )
+        }
+    }
+}
+
+private struct OutlookHero: View {
+    let outlook: InsightsModel.Outlook
+
+    var body: some View {
+        let gap = outlook.gap ?? 0
+        VStack(spacing: .spaceM) {
+            FigureBlock(
+                caption: String(appLocalized: "The month should close at"),
+                amount: outlook.projected,
+                color: gap > 0 ? .negative : .primary)
+            if let gap = outlook.gap {
+                Chip(
+                    gap > 0
+                        ? "\(gap.formatted(.appCurrency)) over plan"
+                        : "\((-gap).formatted(.appCurrency)) under plan",
+                    color: gap > 0 ? .negative : .positive)
+            }
+            OutlookBar(outlook: outlook)
+                .padding(.top, .spaceS)
         }
     }
 }
@@ -98,6 +128,7 @@ private struct PlannedDot: View {
 
 private struct OutlookBar: View {
     @Environment(\.appTint) private var appTint
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     let outlook: InsightsModel.Outlook
 
     var body: some View {
@@ -116,7 +147,7 @@ private struct OutlookBar: View {
             }
         }
         .frame(height: 14)
-        .animation(.smooth, value: outlook)
+        .animation(reduceMotion ? nil : .smooth, value: outlook)
         .accessibilityHidden(true)
     }
 }

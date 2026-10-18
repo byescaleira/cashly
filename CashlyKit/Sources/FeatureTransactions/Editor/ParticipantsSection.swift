@@ -35,7 +35,7 @@ struct ParticipantsSection: View {
                     }
                 }
             } header: {
-                Text("Participants").sectionTitle()
+                Text("Shared with").sectionTitle()
             } footer: {
                 Text(model.draft.splitMode?.description ?? "")
             }

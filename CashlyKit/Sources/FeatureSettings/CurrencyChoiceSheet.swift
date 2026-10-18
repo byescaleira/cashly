@@ -9,14 +9,19 @@ struct CurrencyChoiceSheet: View {
     var body: some View {
         GuideSheet(
             index: 0, count: 1,
-            primary: GuideAction("Use \(settings.currencyName(choice.to))") {
-                settings.confirmCurrencyChoice()
+            primary: GuideAction(
+                "Use \(settings.currencyName(choice.to))",
+                isEnabled: !settings.isFetchingCorrection
+            ) {
+                Task { await settings.confirmCurrencyChoice() }
             },
-            secondary: GuideAction("Cancel") { settings.cancelCurrencyChoice() }
+            secondary: GuideAction("Cancel", isEnabled: !settings.isFetchingCorrection) {
+                settings.cancelCurrencyChoice()
+            }
         ) {
             GuidePage(
                 title: "Switch to \(settings.currencyName(choice.to))?",
-                message: "Amounts aren't converted"
+                message: "Amounts are shown converted"
             ) {
                 CurrencySwapArt(choice: choice)
             } content: {
@@ -25,8 +30,12 @@ struct CurrencyChoiceSheet: View {
                         GuideFeature(title: $0.title, detail: $0.detail)
                     }
                 }
+                if settings.isFetchingCorrection {
+                    ProgressView("Getting exchange rates…")
+                }
             }
         }
+        .interactiveDismissDisabled(settings.isFetchingCorrection)
     }
 }
 

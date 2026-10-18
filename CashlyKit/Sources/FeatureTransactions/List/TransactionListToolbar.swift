@@ -81,7 +81,6 @@ private struct DoneButton: View {
 private struct SelectionActions: View {
     @Environment(SessionModel.self) private var session
     @Environment(TransactionListModel.self) private var list
-    @Environment(\.pro) private var pro
 
     var body: some View {
         @Bindable var list = list
@@ -89,7 +88,7 @@ private struct SelectionActions: View {
             Label("Share", systemImage: "square.and.arrow.up")
         }
         .disabled(list.selection.isEmpty)
-        Button("Delete", systemImage: "trash") { pro.perform { list.isConfirmingDelete = true } }
+        Button("Delete", systemImage: "trash") { list.isConfirmingDelete = true }
             .disabled(list.selection.isEmpty)
             .alert("Delete Transactions", isPresented: $list.isConfirmingDelete) {
                 Button("Cancel", role: .cancel) {}

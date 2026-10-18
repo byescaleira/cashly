@@ -7,7 +7,7 @@ import Foundation
 public struct AddExpenseIntent: AppIntent {
     public static let title: LocalizedStringResource = "Add Expense"
     public static let description = IntentDescription(
-        "Records an expense with everything the editor has: category, description, status, date, tags, participants, split and installments."
+        "Records an expense with everything the editor has: category, description, status, date, tags, shared profiles, split and installments."
     )
 
     @Parameter(title: "Amount", requestValueDialog: "How much did you spend?")
@@ -22,13 +22,13 @@ public struct AddExpenseIntent: AppIntent {
     public var date: Date?
     @Parameter(title: "Tags")
     public var tags: [TagEntity]?
-    @Parameter(title: "Participants", optionsProvider: ParticipantOptions())
+    @Parameter(title: "Shared with", optionsProvider: ParticipantOptions())
     public var participants: [ProfileEntity]?
     @Parameter(title: "Split Mode", default: .equal)
     public var splitMode: SplitModeOption
     @Parameter(
-        title: "Share per Participant",
-        description: "The percentage (0 to 100) or the amount each participant pays.")
+        title: "Share per Profile",
+        description: "The percentage (0 to 100) or the amount each profile pays.")
     public var share: Double?
     @Parameter(title: "Installments", inclusiveRange: (1, 1200))
     public var installments: Int?
@@ -85,12 +85,12 @@ public struct AddExpenseIntent: AppIntent {
             participantIDs: (participants ?? []).map(\.id), splitMode: splitMode.mode,
             share: share, installments: installments)
         if request.needsShare, splitMode == .percentage {
-            throw $share.needsValueError("What percentage does each participant pay?")
+            throw $share.needsValueError("What percentage does each profile pay?")
         }
         if request.needsShare {
-            throw $share.needsValueError("How much does each participant pay?")
+            throw $share.needsValueError("How much does each profile pay?")
         }
-        let saved = try await IntentWorkspace.actions(writing: true, profileID: profile?.id)
+        let saved = try await IntentWorkspace.actions(profileID: profile?.id)
             .add(request)
         await JourneyNotifier.reviewInBackground()
         return .result(dialog: "Added \(saved.money.formatted) in \(saved.category.name).")
@@ -139,7 +139,7 @@ public struct AddIncomeIntent: AppIntent {
             kind: .income, amount: amount, categoryID: category.id, summary: summary ?? "",
             date: date, status: status.request, tagIDs: Set((tags ?? []).map(\.id)),
             installments: installments)
-        let saved = try await IntentWorkspace.actions(writing: true, profileID: profile?.id)
+        let saved = try await IntentWorkspace.actions(profileID: profile?.id)
             .add(request)
         await JourneyNotifier.reviewInBackground()
         return .result(

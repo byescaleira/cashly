@@ -6,7 +6,7 @@ extension Guide {
             TutorialPage(
                 animation: .file, title: "Backups",
                 message:
-                    "A backup is one file with users, categories, tags, budgets and transactions. Turn on Automatic Backup, or save copies to iCloud Drive."
+                    "A backup is one file with profiles, categories, tags, budgets and transactions. Turn on Automatic Backup, or save copies to iCloud Drive."
             ),
             TutorialPage(
                 animation: .backup, title: "Sync with iCloud",

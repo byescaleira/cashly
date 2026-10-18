@@ -67,6 +67,8 @@ struct TransactionEditorTests {
         let fixture = try await TransactionFixture()
         let form = TransactionEditorModel(repositories: fixture.repositories)
         await form.load()
+        #expect(!form.isPredictingCategory)
+        form.isPro = true
         #expect(form.isPredictingCategory)
         form.chosenCategory = fixture.category
         #expect(!form.isPredictingCategory)

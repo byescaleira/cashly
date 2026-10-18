@@ -130,7 +130,7 @@ public struct IntentActions: Sendable {
         let users = try ids.map { id in
             guard let user = others.first(where: { $0.id == id }) else {
                 throw CashlyError.invalidInput(
-                    String(appLocalized: "Choose participants among the other profiles."))
+                    String(appLocalized: "Choose who splits it among the other profiles."))
             }
             return user
         }
@@ -153,14 +153,14 @@ public struct IntentActions: Sendable {
             guard let share = request.share, share.isFinite, (0...100).contains(share) else {
                 throw CashlyError.invalidInput(
                     String(
-                        appLocalized: "Tell each participant's share as a percentage from 0 to 100."
+                        appLocalized: "Tell each profile's share as a percentage from 0 to 100."
                     ))
             }
             return share / 100
         case .fixedAmount:
             guard let share = request.share, share.isFinite, share >= 0 else {
                 throw CashlyError.invalidInput(
-                    String(appLocalized: "Tell the amount each participant pays."))
+                    String(appLocalized: "Tell the amount each profile pays."))
             }
             return try Money(validating: share).doubleValue
         }

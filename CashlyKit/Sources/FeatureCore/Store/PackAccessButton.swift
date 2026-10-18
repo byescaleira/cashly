@@ -11,9 +11,9 @@ public struct PackAccessButton: View {
     }
 
     public var body: some View {
-        if let item = access.lockedItem {
+        if access.isLocked {
             Button {
-                shop.open(item)
+                shop.unlock(access)
             } label: {
                 PackAccessChip(access: access)
             }
@@ -36,14 +36,24 @@ public struct PackAccessChip: View {
     public var body: some View {
         if let label = access.label(price: access.lockedItem.flatMap(shop.price)) {
             HStack(spacing: .spaceXS) {
-                if access.lockedItem != nil {
+                if access.isLocked {
                     Image(systemName: "lock")
                         .font(.footnote.weight(.semibold))
                         .foregroundStyle(.secondary)
                 }
-                Chip(label, color: access == .owned ? .retroOlive : appTint)
+                Chip(label, color: color)
             }
             .accessibilityElement(children: .combine)
+            .accessibilityLabel(
+                access == .pro ? Text("Requires Cashly Pro") : Text(verbatim: label))
+        }
+    }
+
+    private var color: Color {
+        switch access {
+        case .owned: .retroOlive
+        case .pro: .retroMustard
+        default: appTint
         }
     }
 }

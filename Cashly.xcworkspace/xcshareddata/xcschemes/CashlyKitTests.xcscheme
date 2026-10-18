@@ -36,9 +36,49 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CashlyExchangeTests"
+               BuildableName = "CashlyExchangeTests"
+               BlueprintName = "CashlyExchangeTests"
+               ReferencedContainer = "container:CashlyKit">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FeatureConverterTests"
+               BuildableName = "FeatureConverterTests"
+               BlueprintName = "FeatureConverterTests"
+               ReferencedContainer = "container:CashlyKit">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "CashlyAnalyticsTests"
                BuildableName = "CashlyAnalyticsTests"
                BlueprintName = "CashlyAnalyticsTests"
+               ReferencedContainer = "container:CashlyKit">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CashlyAnalyticsMLTests"
+               BuildableName = "CashlyAnalyticsMLTests"
+               BlueprintName = "CashlyAnalyticsMLTests"
+               ReferencedContainer = "container:CashlyKit">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CashlyAnalyticsAITests"
+               BuildableName = "CashlyAnalyticsAITests"
+               BlueprintName = "CashlyAnalyticsAITests"
                ReferencedContainer = "container:CashlyKit">
             </BuildableReference>
          </TestableReference>

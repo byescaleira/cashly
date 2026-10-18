@@ -13,6 +13,8 @@ scripts/test.sh
 scripts/audit.sh
 ```
 
+Para o layout em telas grandes, `scripts/ui-test.sh` roda o scheme `CashlyUITests` (padrão: iPad Pro 13", iOS 27; outro destino com `CASHLY_TEST_DESTINATION`, um teste só com `-only-testing:CashlyUITests/<Classe>/<teste>`). No fim ele exporta capturas e medidas para a pasta impressa em `Captures:`. As capturas do iPad deitado saem giradas no arquivo, mas mostram a tela inteira.
+
 `scripts/audit.sh` compila o `CashlyAudit` em Release e roda `check`, que falha com código 1 se qualquer verificação divergir:
 
 | Grupo | O que confere |

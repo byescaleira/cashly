@@ -11,17 +11,20 @@ struct DataSection: View {
         Group {
             DataSummarySection()
             DataExportSection()
-            BackupScheduleSection()
-            BackupCloudSection()
-            SavedBackupsSection()
-            DataImportSection()
+            ProShowcaseSection(.data)
+            ProOnly {
+                BackupScheduleSection()
+                BackupCloudSection()
+                SavedBackupsSection()
+                DataImportSection()
+            }
             EraseSection()
         }
         .disabled(data.isWorking)
         .fileExporter(
             isPresented: $data.isExportingFromPage, document: data.document,
             contentType: data.exportType, defaultFilename: data.fileName,
-            onCompletion: data.finishExport
+            onCompletion: { result in Task { await data.finishExport(result) } }
         )
         .sheet(isPresented: $data.isRestoringBackup) { BackupImportScreen().environment(data) }
         .dataAlerts()
@@ -112,26 +115,19 @@ private struct DataImportSection: View {
     @Environment(DataModel.self) private var data
     @Environment(\.showGuide) private var showGuide
     @Environment(\.featureFlags) private var flags
-    @Environment(\.appTint) private var appTint
-    @Environment(\.pro) private var pro
 
     var body: some View {
         Section {
             Button {
-                pro.perform { data.startBackupImport() }
+                data.startBackupImport()
             } label: {
-                IconRow(
-                    "Import Backup", detail: "See what's new in the file before anything changes.",
-                    symbol: "square.and.arrow.down", color: appTint)
+                ImportBackupLabel()
             }
             if let showGuide, flags?.isOn(.spreadsheetImport) != false {
                 Button {
-                    pro.perform { showGuide(.importSpreadsheet) }
+                    showGuide(.importSpreadsheet)
                 } label: {
-                    IconRow(
-                        "Import Spreadsheet (CSV)",
-                        detail: "Bring transactions from your bank or another app.",
-                        symbol: "tablecells.badge.ellipsis", color: .companion)
+                    ImportSpreadsheetLabel()
                 }
             }
         } header: {
@@ -160,5 +156,23 @@ struct DataAlerts: ViewModifier {
 extension View {
     func dataAlerts() -> some View {
         modifier(DataAlerts())
+    }
+}
+
+private struct ImportBackupLabel: View {
+    @Environment(\.appTint) private var appTint
+
+    var body: some View {
+        IconRow(
+            "Import Backup", detail: "See what's new in the file before anything changes.",
+            symbol: "square.and.arrow.down", color: appTint)
+    }
+}
+
+private struct ImportSpreadsheetLabel: View {
+    var body: some View {
+        IconRow(
+            "Import Spreadsheet (CSV)", detail: "Bring transactions from your bank or another app.",
+            symbol: "tablecells.badge.ellipsis", color: .companion)
     }
 }

@@ -8,7 +8,7 @@ A Jornada transforma o hábito de cuidar do dinheiro em progresso visível: nív
 2. **Nunca incentivar gastar.** A sequência conta dias em que a pessoa *acompanhou* as finanças, não dias em que gastou: registrar algo ou marcar "hoje não gastei" mantém a sequência. Nenhum XP depende do valor gasto.
 3. **Sem pagar para vencer.** O que se compra é cosmético, conteúdo ou conveniência. Nível e conquistas não se compram.
 4. **Privado.** Tudo fica no aparelho e no iCloud da pessoa. Sem ranking, sem Game Center, sem terceiros. A Jornada pode ser desligada em Ajustes.
-5. **Comemorar com discrição.** Efeitos de SF Symbols, `sensoryFeedback` e confete curto, respeitando "Reduzir movimento".
+5. **Comemorar com discrição.** Efeitos de SF Symbols, `sensoryFeedback` e uma chuva curta de moedas e notas, respeitando "Reduzir movimento".
 
 ## Onde fica
 
@@ -19,7 +19,7 @@ Uma aba própria, **Jornada** (ícone `trophy`), proeminente no fim da barra, no
 - **Missões da semana:** três tarefas curtas, renovadas toda segunda; chip "feitas/3" no título, recompensa "+25 XP" sempre visível (cinza até concluir, oliva depois), barra que preenche ao abrir com "feito/meta", troca de símbolo e vibração ao concluir, e "Missões novas em n dias" no rodapé.
 - **Desafios:** sem desafio, a seção sugere três tipos (um fácil, um médio e um difícil, entre os liberados, trocando a cada semana) com símbolo na cor do tema, frase, chips de duração, dificuldade e XP, e o botão "Ver todos os desafios". O seletor é uma folha com pilha de navegação: no topo, quantos desafios existem e a regra de custo; depois uma seção por tema (Gastar menos, Limites, Hábitos, Orçamentos) com cabeçalho colorido e frase do tema, e cada tipo com símbolo, título, regra, chips e, quando não dá para começar, o motivo com cadeado; no fim, os desafios recentes (concluídos com "+XP", perdidos com "Perdido"). Tocar num tipo abre a configuração: herói com o símbolo animado, título, regra e chips; cartão de categoria (escolhida ou, em "Corte no maior gasto", a maior do mês passado) com o gasto do mês passado e, no teto, o campo de valor com a sugestão; cartão de resumo na cor do tema com a meta ("Até R$ 640 com Restaurantes neste mês"), o período ("De hoje até domingo, 18 de out."), a recompensa, o custo (grátis, troca ou sem trocas), o aviso de que encerra o desafio atual e o bloqueio; e o botão "Começar desafio" (ou "Obter trocas", que abre o item da loja na própria folha). O desafio ativo mostra símbolo e XP na cor do tema, a frase com a meta, a barra, os dias que faltam e a legenda da medida do tipo (dias sem gasto, dias acompanhados, gastos etiquetados, "R$ x de R$ y", nota…); nos desafios de gasto a barra ganha o marcador do período e o ritmo (do mês ou da semana).
 - **Conquistas:** barra geral de desbloqueadas, as três mais próximas (bloqueadas, não secretas, por progresso) com barra, "x de y" e XP, e uma grade por grupo (Primeiros passos, Constância, No azul…) com a contagem de cada grupo; bloqueadas em silhueta, as começadas tingidas na cor do nível com uma barrinha, e secretas como "?". A folha de detalhe segue o padrão dos guias (título e critério, medalhão animado em SwiftUI, até três linhas com estado, recompensa e dica, e "Concluído" com uma ação que leva à tela certa).
-- **Comemoração:** folha curta com o símbolo entrando com salto, chip "+XP" nas conquistas, vibração de sucesso e confete em `Canvas` por 2,5 s; tudo desligado com "Reduzir movimento".
+- **Comemoração** (refeita em 15/10/2026): folha no padrão de guia (`GuideSheet` + `GuidePage`), com título e frase em cima, a medalha animada da conquista (`AchievementMedallion`) ou a do nível (`LevelMedallion`, número sobre o degradê), chip "+XP" só quando há XP e "Continuar"; vibração de sucesso e chuva curta de moedas e notas no fundo da folha (`MoneyRainView`, `Canvas`, 60 peças por 2,5 s: moedas douradas girando no eixo vertical com o cifrão só de frente, notas verdes balançando); sem chuva com "Reduzir movimento".
 - **Loja:** os dois planos no alto e as vitrines (destaques do mês, ícones, personalização, ajudas, conteúdo). Toque abre o item; "Ver loja" mostra tudo.
 
 No iPhone deitado e no iPad, a aba usa o `AdaptiveList` como as outras.
@@ -56,15 +56,16 @@ No iPhone deitado e no iPad, a aba usa o `AdaptiveList` como as outras.
 
 Cerca de 40, em grupos e com níveis bronze, prata e ouro:
 
-- **Primeiros passos:** primeira transação, categoria, orçamento, tag, divisão, importação e backup.
+- **Primeiros passos:** primeira transação, categoria, orçamento, tag, divisão e backup (a de importação saiu em 15/10/2026, quando importar virou Pro).
 - **Constância:** sequência de 7, 30, 100 e 365 dias.
 - **No azul:** mês no nível saudável (≥ 895); 3, 6 e 12 meses seguidos; pontuação 1.000.
 - **Volume:** 100, 500, 1.000 e 5.000 transações.
 - **Organização:** 5 tags em uso; um orçamento para cada categoria no mês; todos os guias concluídos.
 - **Juntos:** 10 e 50 despesas divididas.
+- **Cashly Pro** (15/10/2026): 1 mês (bronze), 6 meses (prata), 1 ano e 2 anos (ouro) de Pro acumulado, teste grátis incluído e com pausas no meio. Só medalha, sem XP (nível não se compra), e fora das "próximas conquistas". É a única diferença da Jornada entre grátis e Pro.
 - **Secretas:** registrar exatamente 42,00 ou 1.234,56; registrar em 31/10 ou em 1/1; registrar às 4h44. Ligam-se aos easter eggs do roadmap.
 
-Algumas conquistas dão itens de presente, como o ícone "Ouro" para quem chega a 365 dias de sequência.
+Conquistas não dão itens de presente: a ideia do ícone "Ouro" para 365 dias de sequência caiu em 15/10/2026, quando a coleção Ouro virou exclusiva do Cashly Pro.
 
 ### Desafios
 
@@ -109,10 +110,11 @@ O Cashly tem vários perfis por aparelho. A Jornada (XP, sequência, conquistas,
 ### Regras
 
 - Itens são compras no app com dinheiro real: **não consumíveis** para o que é permanente e **consumíveis** para ajudas de jogo.
-- O que foi comprado é da pessoa para sempre e funciona com ou sem assinatura. Sem o Pro, a Jornada pausa (nada se ganha ou se perde), mas ícones, cores e conteúdos comprados continuam usáveis.
+- O que foi comprado é da pessoa para sempre e funciona com ou sem assinatura. Desde 15/10/2026 a Jornada é igual com ou sem o Pro (ver [subscription.md](subscription.md)), e ícones, cores e conteúdos comprados continuam usáveis.
 - Compartilhamento Familiar ligado nos não consumíveis.
 - Botão "Restaurar compras" na loja e em Ajustes › Cashly Pro.
-- Itens sem conteúdo pronto (molduras, comemorações e sons) ficam com `isAvailable = false` e fora das vitrines até existirem; os produtos já estão no App Store Connect e no `Cashly.storekit`.
+- **Onde a loja aparece** (desde 15/10/2026): o fim da Jornada ("Ver a loja") e a sacola na barra da Jornada e do Início; a linha "Loja" no topo dos Ajustes, encontrada também pela busca (ícones, cores, avatares); "Ver a loja" no fim de Aparência, Ícone do app e das fotos do perfil; o botão secundário "Ver a loja" na folha de conquista, aberto só depois que ela fecha; e o card "Da loja" no Início com o item do mês (`ShopCatalog.spotlight`: o pacote sazonal do mês ou, nos outros meses, um pacote permanente que a pessoa ainda não tem), dispensável até o mês seguinte. Itens bloqueados continuam abrindo a folha do próprio item.
+- Itens sem conteúdo pronto (molduras e sons) ficam com `isAvailable = false` e fora das vitrines até existirem; os produtos já estão no App Store Connect e no `Cashly.storekit`.
 - Os preços abaixo estão em reais, já revisados para cima em 12/10/2026 (mais que o dobro da primeira proposta). Os valores finais saem dos níveis de preço do App Store Connect.
 
 ### Catálogo
@@ -145,7 +147,6 @@ O Cashly tem vários perfis por aparelho. A Jornada (XP, sequência, conquistas,
 | Cores metálicas de destaque (Ouro, Prata, Bronze, Cobre) | `cashly.accent.metallic` | R$ 11,90 |
 | Cores neon de destaque | `cashly.accent.neon` | R$ 11,90 |
 | Molduras de avatar (6) | `cashly.avatar.frames` | R$ 11,90 |
-| Comemorações (confete, fogos, chuva de moedas ao fechar o mês) | `cashly.celebrations` | R$ 9,90 |
 | Sons e vibrações (caixa registradora ao salvar, moeda ao concluir) | `cashly.sounds` | R$ 7,90 |
 
 **Ajudas de jogo** (consumíveis)

@@ -28,7 +28,7 @@ public struct Provenance: Hashable, Sendable, Codable {
 
 public struct Metric: Hashable, Sendable, Codable {
     public enum Unit: String, Sendable, Codable {
-        case money, ratio, days, count
+        case money, ratio, days, count, month
     }
 
     public let key: String
@@ -59,6 +59,7 @@ public struct AnalysisResult: Sendable, Codable, Identifiable {
     public let summary: String
     public let metrics: [Metric]
     public let series: [SeriesPoint]
+    public let findings: [Finding]
     public let provenance: Provenance
 
     public func metric(_ key: String) -> Metric? {

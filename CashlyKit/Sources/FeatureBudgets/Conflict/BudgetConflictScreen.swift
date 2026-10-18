@@ -58,7 +58,6 @@ public struct BudgetConflictScreen: View {
 private struct ConflictOptionSection: View {
     @Environment(BudgetConflictModel.self) private var model
     @Environment(\.close) private var close
-    @Environment(\.pro) private var pro
     let budget: Budget
     let number: Int
 
@@ -75,7 +74,7 @@ private struct ConflictOptionSection: View {
             .padding(.vertical, .space2XS)
             .accessibilityElement(children: .combine)
             Button("Keep This Budget", systemImage: "checkmark.circle") {
-                pro.perform { Task { if await model.keep(budget) { close() } } }
+                Task { if await model.keep(budget) { close() } }
             }
             .font(.buttonLabel)
         } header: {

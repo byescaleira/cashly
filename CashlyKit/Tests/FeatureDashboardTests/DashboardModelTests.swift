@@ -9,7 +9,11 @@ import Testing
 struct DashboardModelTests {
     private let owner = User(id: "owner", name: "Perfil")
 
-    private func dashboard() async throws -> (DashboardModel, FinanceModel) {
+    private func dashboard(
+        defaults: UserDefaults = UserDefaults(suiteName: UUID().uuidString) ?? .standard
+    )
+        async throws -> (DashboardModel, FinanceModel)
+    {
         let database = try CashlyDatabase.open(inMemory: true)
         try await database.repositories(for: nil).users.save(owner)
         let repositories = database.repositories(for: owner.id)
@@ -35,7 +39,7 @@ struct DashboardModelTests {
         session.filter.startDate = month.startDate
         let finance = FinanceModel(session: session)
         await finance.load()
-        return (DashboardModel(session: session, finance: finance), finance)
+        return (DashboardModel(session: session, finance: finance, defaults: defaults), finance)
     }
 
     @Test func topSpendingCarriesShareOfExpenses() async throws {
@@ -55,5 +59,21 @@ struct DashboardModelTests {
         #expect(availability.available == 750)
         #expect(availability.remainingRatio == 0.75)
         #expect(dashboard.totalAvailable == 750)
+    }
+
+    @Test func shopSpotlightHidesUntilNextMonth() async throws {
+        let defaults = try #require(UserDefaults(suiteName: UUID().uuidString))
+        let (dashboard, _) = try await dashboard(defaults: defaults)
+        let october = try #require(YearMonth(rawValue: 202_610)).startDate.addingTimeInterval(
+            86_400 * 14)
+        let november = try #require(YearMonth(rawValue: 202_611)).startDate.addingTimeInterval(
+            86_400 * 14)
+        #expect(dashboard.shopSpotlight(owned: [], on: october) == .iconsHalloween)
+        #expect(dashboard.shopSpotlight(owned: [.iconsHalloween], on: october) != .iconsHalloween)
+        dashboard.hideShopSpotlight(on: october)
+        #expect(dashboard.shopSpotlight(owned: [], on: october) == nil)
+        #expect(dashboard.shopSpotlight(owned: [], on: november) != nil)
+        let (reopened, _) = try await self.dashboard(defaults: defaults)
+        #expect(reopened.shopSpotlight(owned: [], on: october) == nil)
     }
 }

@@ -64,7 +64,7 @@ struct ImportTool: MCPTool {
                 "A conferência está aberta no Cashly e ainda não foi confirmada. Peça para a pessoa revisar no app.\(skipped)"
         case .locked:
             return
-                "Registrar transações exige o Cashly Pro. Peça para a pessoa assinar no app, em Ajustes › Cashly Pro."
+                "Importar pelo Claude Code exige o Cashly Pro. Peça para a pessoa assinar no app, em Ajustes › Cashly Pro."
         }
     }
 

@@ -11,6 +11,7 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
     public var entitlement: Entitlement { simulation?.entitlement ?? storeEntitlement }
     public private(set) var hasLoaded = false
     public private(set) var hasRefreshed = false
+    public private(set) var proMonths = 0
     public private(set) var introEligible: Set<ShopItem> = []
     public private(set) var isBuying = false
     public private(set) var pending: Set<ShopItem> = []
@@ -79,6 +80,7 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
         storeOwned = owned
         storeEntitlement = if let plan { Entitlement(plan) } else { await lapsed() }
         hasRefreshed = true
+        proMonths = await tenure()
     }
 
     public func price(for item: ShopItem) -> String? {
@@ -209,6 +211,33 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
         await scheduler.replace(prefix: TrialReminder.id, with: [TrialReminder.reminder(at: fires)])
     }
 
+    public var tenureKey: String {
+        "\(session.user?.id ?? ""):\(proMonths)"
+    }
+
+    public func recordTenure() async {
+        guard proMonths > 0, session.user != nil,
+            let events = try? await session.repositories.game.events()
+        else { return }
+        let recorded = Set(events.filter { $0.kind == .proMonth }.map(\.count))
+        let missing = (1...proMonths).filter { !recorded.contains($0) }.map {
+            GameEvent(kind: .proMonth, value: "pro-month-\($0)", count: $0)
+        }
+        guard !missing.isEmpty else { return }
+        try? await session.repositories.game.record(missing)
+    }
+
+    private func tenure(now: Date = .now) async -> Int {
+        let plans = Set(ShopCatalog.plans.map(\.id))
+        let periods = await client.history().compactMap { transaction -> DateInterval? in
+            guard plans.contains(transaction.productID) else { return nil }
+            let end = min(transaction.expiration, transaction.revocationDate ?? .distantFuture, now)
+            return end > transaction.purchaseDate
+                ? DateInterval(start: transaction.purchaseDate, end: end) : nil
+        }
+        return ProTenure.months(of: periods)
+    }
+
     private func lapsed() async -> Entitlement {
         var latest: Date?
         for plan in ShopCatalog.plans {
@@ -228,7 +257,7 @@ enum TrialReminder {
             id: id, title: String(appLocalized: "Your Cashly Pro trial ends in 2 days"),
             body: String(
                 appLocalized:
-                    "Keep recording without a pause, or cancel in your Apple Account before the charge."
+                    "Keep insights, intelligence and backups, or cancel in your Apple Account before the charge."
             ),
             components: CashlyCalendar.current.dateComponents(
                 [.year, .month, .day, .hour, .minute], from: date))

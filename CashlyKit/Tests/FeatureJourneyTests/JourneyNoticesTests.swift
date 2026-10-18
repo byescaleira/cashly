@@ -38,7 +38,7 @@ struct JourneyNoticesTests {
                     status: .settled, splitMode: nil, splitValue: nil, paymentsPlan: nil))
         }
         try await repositories.game.record(events)
-        let source = RepositoriesGameSource(repositories: repositories, guideCount: 0)
+        let source = RepositoriesGameSource(repositories: repositories, guides: [])
         return GameEngine.progress(try await source.snapshot(today: today))
     }
 

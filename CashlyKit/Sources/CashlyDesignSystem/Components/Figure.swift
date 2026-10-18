@@ -61,6 +61,7 @@ public struct FigureBlock: View {
         .multilineTextAlignment(.center)
         .frame(maxWidth: .infinity)
         .padding(.vertical, .spaceS)
+        .accessibilityElement(children: .combine)
     }
 }
 

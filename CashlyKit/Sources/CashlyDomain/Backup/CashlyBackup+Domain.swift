@@ -20,12 +20,12 @@ extension CashlyBackup {
             LabelRecord(
                 id: $0.id, userID: $0.user.id, name: $0.name, color: $0.color, icon: $0.icon)
         }
-        self.budgets = budgets.map {
+        self.budgets = budgets.map(\.stored).map {
             BudgetRecord(
                 id: $0.id, categoryID: $0.category.id, month: $0.month.rawValue,
-                amount: $0.money.minorUnits, summary: $0.summary)
+                amount: $0.money.minorUnits, summary: $0.summary, currency: $0.currencyCode)
         }
-        self.transactions = transactions.map(TransactionRecord.init)
+        self.transactions = transactions.map { TransactionRecord($0.stored) }
     }
 
     public func entities() throws -> BackupEntities {
@@ -50,9 +50,12 @@ extension CashlyBackup {
             Budget(
                 id: $0.id, money: Money(minorUnits: $0.amount),
                 category: try require(categories[$0.categoryID]),
-                month: try require(YearMonth(rawValue: $0.month)), summary: $0.summary)
+                month: try require(YearMonth(rawValue: $0.month)), summary: $0.summary,
+                currencyCode: try supported($0.currency ?? currency))
         }
-        let transactions = try transactions.map { try $0.transaction(users, categories) }
+        let transactions = try transactions.map {
+            try $0.transaction(users, categories, currency: try supported($0.currency ?? currency))
+        }
         return BackupEntities(
             users: users.values.sorted { $0.id < $1.id },
             categories: categories.values.sorted { $0.id < $1.id }, tags: tags, budgets: budgets,
@@ -90,11 +93,16 @@ extension CashlyBackup.TransactionRecord {
                 id: $0.id, userID: $0.user.id, splitMode: $0.splitMode.rawValue,
                 splitValue: $0.splitValue, status: $0.status.rawValue)
         }
+        currency = transaction.currencyCode
+        paidCurrency = transaction.exchange?.currencyCode
+        paidAmount = transaction.exchange?.money.minorUnits
+        exchangeRate = transaction.exchange?.rate
+        exchangeRateDate = transaction.exchange?.date
     }
 
-    func transaction(_ users: [String: User], _ categories: [String: Category]) throws
-        -> Transaction
-    {
+    func transaction(
+        _ users: [String: User], _ categories: [String: Category], currency: String
+    ) throws -> Transaction {
         let participants = try participants.map {
             Participant(
                 id: $0.id, user: try require(users[$0.userID]),
@@ -108,8 +116,26 @@ extension CashlyBackup.TransactionRecord {
             status: try require(TransactionStatus(rawValue: status)),
             splitMode: try splitMode.map { try require(TransactionSplitMode(rawValue: $0)) },
             splitValue: splitValue, paymentsPlan: paymentsPlan, tagIDs: Set(tagIDs),
-            kind: try require(TransactionKind(rawValue: kind)))
+            kind: try require(TransactionKind(rawValue: kind)), currencyCode: currency,
+            exchange: exchange)
     }
+
+    private var exchange: TransactionExchange? {
+        guard let paidCurrency, let paidAmount, let exchangeRate, let exchangeRateDate else {
+            return nil
+        }
+        return TransactionExchange(
+            currencyCode: paidCurrency, money: Money(minorUnits: paidAmount), rate: exchangeRate,
+            date: exchangeRateDate)
+    }
+}
+
+private func supported(_ currency: String) throws -> String {
+    guard CurrencySetting.isSupported(currency) else {
+        throw CashlyError.invalidInput(
+            String(appLocalized: "This backup uses a currency that isn't supported yet."))
+    }
+    return currency
 }
 
 private func require<Value>(_ value: Value?) throws -> Value {

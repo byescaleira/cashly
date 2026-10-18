@@ -1,5 +1,6 @@
 import CashlyData
 import CashlyDomain
+import CashlyExchange
 import FeatureCore
 import FeatureSettings
 import FeatureStore
@@ -10,6 +11,7 @@ import Observation
 public final class CashlyServices {
     public static let shared = CashlyServices()
     public var pendingURL: URL?
+    public nonisolated let exchangeRates: any ExchangeRateProviding = ExchangeRateService.shared
     @ObservationIgnored private var opening: Task<CashlyDatabase, any Error>?
 
     private init() {}
@@ -38,9 +40,9 @@ public final class CashlyServices {
         #endif
     }
 
-    public func canWrite() async -> Bool {
+    public func isPro() async -> Bool {
         guard FeatureFlags().isOn(.pro) else { return true }
-        if let simulated = StoreOverride.entitlement() { return simulated.canWrite }
+        if let simulated = StoreOverride.entitlement() { return simulated.isActive }
         let plans = Set(ShopCatalog.plans.map(\.id))
         return await StoreKitClient().currentEntitlements().contains { transaction in
             plans.contains(transaction.productID) && transaction.revocationDate == nil

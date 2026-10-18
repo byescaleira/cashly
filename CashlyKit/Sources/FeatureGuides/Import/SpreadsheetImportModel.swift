@@ -127,9 +127,6 @@ public final class SpreadsheetImportModel {
                 imported += 1
             }
             await session.record(.spreadsheetImported)
-            if !isExternal {
-                await session.record(.guideCompleted, value: Guide.importSpreadsheet.rawValue)
-            }
             session.reload()
             step = .done
         } catch {

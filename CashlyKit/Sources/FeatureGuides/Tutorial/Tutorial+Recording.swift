@@ -49,12 +49,12 @@ extension Guide {
     static var sharingPages: [TutorialPage] {
         [
             TutorialPage(
-                animation: .participants, title: "Participants",
-                message: "In a transaction, add the people who split the bill with you."),
+                animation: .participants, title: "Shared with",
+                message: "In a transaction, add the profiles that split the bill with you."),
             TutorialPage(
                 animation: .splitModes, title: "How to Split",
                 message:
-                    "Equally, by fixed amount or by percentage. Cashly works out each person's share."
+                    "Equally, by fixed amount or by percentage. Cashly works out each profile's share."
             ),
             TutorialPage(
                 animation: .paid, title: "Who Paid",

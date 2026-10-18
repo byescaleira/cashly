@@ -12,14 +12,14 @@ public struct ProAccess {
         presenter = present
     }
 
-    public var canWrite: Bool { !isEnforced || entitlement.canWrite }
+    public var isPro: Bool { !isEnforced || entitlement.isActive }
 
     public func present() {
         presenter()
     }
 
     public func perform(_ action: () -> Void) {
-        if canWrite { action() } else { present() }
+        if isPro { action() } else { present() }
     }
 }
 

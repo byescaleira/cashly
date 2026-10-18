@@ -60,11 +60,9 @@ extension Celebration {
         }
     }
 
-    var symbol: String {
-        switch self {
-        case .level: "arrow.up.circle.fill"
-        case .achievement(let achievement): achievement.symbol
-        }
+    var levelText: String? {
+        guard case .level(let number) = self else { return nil }
+        return number.formatted(.number.locale(.app))
     }
 
     var color: Color {
@@ -92,6 +90,7 @@ extension Achievement.Group {
         case .together: String(appLocalized: "Together")
         case .challenges: String(appLocalized: "Challenges")
         case .levels: String(appLocalized: "Levels")
+        case .pro: String(appLocalized: "Cashly Pro")
         case .secret: String(appLocalized: "Secrets")
         }
     }

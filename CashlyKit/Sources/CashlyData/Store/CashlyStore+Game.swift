@@ -19,7 +19,9 @@ extension CashlyStore {
 
     public func recordGameEvents(_ events: [GameEvent], userID: String) throws {
         guard try getUser(id: userID) != nil else { throw CashlyError.missingRecord }
-        let unique = Set([GameEvent.Kind.freezesCredited, .streakRestored, .rerollsCredited])
+        let unique = Set([
+            GameEvent.Kind.freezesCredited, .streakRestored, .rerollsCredited, .proMonth,
+        ])
         let existing = Set(
             try getGameEvents(userID: userID).filter { unique.contains($0.kind) }.map(\.value))
         for event in events where !(unique.contains(event.kind) && existing.contains(event.value)) {

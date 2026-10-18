@@ -52,6 +52,16 @@ public actor StoreKitClient: StoreClient {
         return values
     }
 
+    public func history() async -> [StoreTransaction] {
+        var values: [StoreTransaction] = []
+        for await result in StoreKit.Transaction.all {
+            if case .verified(let transaction) = result {
+                values.append(StoreTransaction(transaction))
+            }
+        }
+        return values
+    }
+
     public func latest(for id: String) async -> StoreTransaction? {
         guard let result = await StoreKit.Transaction.latest(for: id) else { return nil }
         return keep(result)

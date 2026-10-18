@@ -4,7 +4,7 @@ import SwiftUI
 
 public struct ProfileIllustration: Identifiable, Hashable, Sendable {
     public enum Section: String, CaseIterable, Identifiable, Sendable {
-        case cats, dogs, forest, farm, ocean, birds, jungle, tiny, fantasy
+        case cats, dogs, forest, farm, ocean, birds, jungle, tiny, fantasy, gold
 
         public var id: String { rawValue }
 
@@ -19,20 +19,21 @@ public struct ProfileIllustration: Identifiable, Hashable, Sendable {
             case .jungle: String(appLocalized: "Jungle")
             case .tiny: String(appLocalized: "Tiny Friends")
             case .fantasy: String(appLocalized: "Fantasy")
+            case .gold: String(appLocalized: "Gold")
             }
         }
 
         public var count: Int {
             switch self {
             case .ocean, .jungle: 24
-            case .fantasy: 20
+            case .fantasy, .gold: 20
             case .cats, .dogs, .forest, .farm, .birds, .tiny: 22
             }
         }
 
         public var shopItem: ShopItem? {
             switch self {
-            case .cats, .dogs, .forest: nil
+            case .cats, .dogs, .forest, .gold: nil
             case .farm: .avatarsFarm
             case .ocean: .avatarsOcean
             case .birds: .avatarsBirds
@@ -41,6 +42,8 @@ public struct ProfileIllustration: Identifiable, Hashable, Sendable {
             case .fantasy: .avatarsFantasy
             }
         }
+
+        public var isProOnly: Bool { self == .gold }
 
         public var illustrations: [ProfileIllustration] {
             ProfileIllustration.available.filter { $0.section == self }

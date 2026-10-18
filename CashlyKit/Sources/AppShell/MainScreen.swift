@@ -19,7 +19,6 @@ public struct MainScreen: View {
     @Environment(StoreModel.self) private var store
     @Environment(LaunchProgress.self) private var launch
     @Environment(\.featureFlags) private var flags
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.locale) private var locale
     @Environment(\.scenePhase) private var scenePhase
     public init() {}
@@ -50,14 +49,11 @@ public struct MainScreen: View {
         .animation(.easeOut(duration: 0.4), value: launch.isDismissed)
         .sheet(item: $navigation.guide) { GuideScreen($0) }
         .sheet(item: $navigation.shopItem) { ShopItemScreen(item: $0) }
-        .environment(
-            \.shop,
-            ShopAccess(
-                owned: store.owned, price: { store.price(for: $0) },
-                open: { navigation.shopItem = $0 })
-        )
         .modifier(MCPImportPresenter())
-        .environment(\.showGuide, ShowGuideAction { navigation.guide = $0 })
+        .environment(
+            \.showGuide,
+            ShowGuideAction { [isPro = pro.isPro] in navigation.show($0, isPro: isPro) }
+        )
         .sheet(isPresented: $navigation.isOnboarding) {
             ModelHost(OnboardingModel(session: session)) { OnboardingScreen() }
         }
@@ -70,16 +66,18 @@ public struct MainScreen: View {
                 InspectorScreen(inspector: inspector)
             }
         }
+        .onGeometryChange(for: CGFloat.self) {
+            $0.size.width
+        } action: {
+            navigation.fit(width: $0)
+        }
         .environment(
             \.open,
-            CashlyDestination { [canWrite = pro.canWrite] route, section in
-                if route.requiresPro, !canWrite {
-                    navigation.isShowingPaywall = true
-                } else {
-                    navigation.open(route, in: section, beside: horizontalSizeClass == .regular)
-                }
+            CashlyDestination { route, section in
+                navigation.open(route, in: section)
             }
         )
+        .environment(\.routeView, RouteViewBuilder { RouteScreen(route: $0) })
         .environment(\.user, session.user)
         .environment(\.isLoading, finance.isLoading)
         .task { await session.start() }
@@ -96,13 +94,21 @@ public struct MainScreen: View {
             await notifications.reviewCaptures(
                 for: session.user, repositories: session.repositories,
                 categories: finance.allCategories)
-            await intelligence.loadModels(revision: finance.datasetRevision)
+        }
+        .task(id: intelligence.key(revision: finance.datasetRevision)) {
+            await intelligence.load()
         }
         .task(id: journeyKey) {
-            guard session.isReady(finance), store.hasRefreshed, scenePhase == .active else {
+            guard session.isReady(finance), scenePhase == .active else {
                 return
             }
             await JourneyModel.publish(session: session, status: journeyStatus)
+        }
+        .task(id: store.tenureKey) { await store.recordTenure() }
+        .task(id: exclusivesKey) {
+            guard store.hasRefreshed, session.hasLoadedUsers, !pro.isPro else { return }
+            await settings.dropProIcon()
+            await session.dropProPhotos()
         }
         .onChange(of: session.hasLoadedUsers, initial: true) {
             if session.hasLoadedUsers { launch.finish(.profiles) }
@@ -137,6 +143,13 @@ public struct MainScreen: View {
         .modifier(JourneyNotifications())
         .modifier(PrivacyShield())
         .sheet(isPresented: $navigation.isShowingPaywall) { PaywallScreen() }
+        .environment(
+            \.shop,
+            ShopAccess(
+                owned: store.owned, isPro: pro.isPro, price: { store.price(for: $0) },
+                open: { navigation.shopItem = $0 },
+                presentPro: { navigation.isShowingPaywall = true })
+        )
         .environment(\.pro, pro)
     }
 
@@ -145,11 +158,15 @@ public struct MainScreen: View {
     }
 
     private var journeyKey: String {
-        "\(extrasKey):\(journeyStatus.rawValue):\(store.hasRefreshed):\(scenePhase == .active)"
+        "\(extrasKey):\(journeyStatus.rawValue):\(scenePhase == .active)"
+    }
+
+    private var exclusivesKey: String {
+        "\(store.hasRefreshed):\(session.hasLoadedUsers):\(pro.isPro)"
     }
 
     private var journeyStatus: JourneySnapshot.Status {
-        !sections.contains(.journey) ? .hidden : pro.canWrite ? .active : .paused
+        sections.contains(.journey) ? .active : .hidden
     }
 
     private var pro: ProAccess {
@@ -174,13 +191,14 @@ private struct PaywallOffer: ViewModifier {
 
     private var isDue: Bool {
         store.hasRefreshed && session.isReady(finance) && !session.needsOnboarding
-            && !navigation.isOnboarding && !pro.canWrite
+            && !navigation.isOnboarding && !pro.isPro
     }
 
     func body(content: Content) -> some View {
         content.onChange(of: isDue, initial: true) { _, due in
-            guard due, !hasOffered else { return }
+            guard due, !hasOffered, store.isPaywallOfferDue() else { return }
             hasOffered = true
+            store.markPaywallOffered()
             Task {
                 try? await Task.sleep(for: .milliseconds(500))
                 navigation.isShowingPaywall = true

@@ -9,22 +9,31 @@ public final class TransactionEditorModel {
     public let status = EditorStatus()
     @ObservationIgnored private let repositories: Repositories
     @ObservationIgnored private let capture: Capture?
+    @ObservationIgnored let rates: any ExchangeRateProviding
+    public internal(set) var paidCurrencies: [String] = CurrencySetting.supported
+    public internal(set) var isFetchingRate = false
+    public internal(set) var rateFailed = false
     @ObservationIgnored private var original: CashlyDomain.Transaction?
     private var predictsCategory: Bool?
+    public var isPro = false
     @ObservationIgnored private var keptTagIDs: Set<String>?
     @ObservationIgnored private var dismissedTagIDs: Set<String> = []
 
     public init(
-        draft: TransactionDraft = .new(), repositories: Repositories, capture: Capture? = nil
+        draft: TransactionDraft = .new(), repositories: Repositories, capture: Capture? = nil,
+        rates: any ExchangeRateProviding = UnavailableExchangeRates()
     ) {
         self.draft = draft
         self.repositories = repositories
         self.capture = capture
+        self.rates = rates
     }
 
-    public var canSave: Bool { status.isLoaded && !status.isLocked && draft.canSave }
+    public var canSave: Bool {
+        status.isLoaded && !status.isLocked && !isFetchingRate && draft.canSave
+    }
     public var canRemove: Bool { !draft.isNew && !status.isBusy }
-    public var isPredictingCategory: Bool { predictsCategory ?? draft.isNew }
+    public var isPredictingCategory: Bool { isPro && (predictsCategory ?? draft.isNew) }
 
     public var chosenCategory: CashlyDomain.Category? {
         get { draft.category }
@@ -49,6 +58,14 @@ public final class TransactionEditorModel {
             }
             if newValue == .income { selectParticipants([]) }
         }
+    }
+
+    var keptExchange: TransactionExchange? {
+        guard let original, original.estimate == nil, let exchange = original.exchange,
+            exchange.currencyCode == draft.paidCurrency,
+            ExchangeTable.day(for: original.date) == ExchangeTable.day(for: draft.date)
+        else { return nil }
+        return exchange
     }
 
     public var splitStatus: TransactionStatus {
@@ -99,7 +116,7 @@ public final class TransactionEditorModel {
     }
 
     public func canEnablePrediction(with intelligence: IntelligenceModel) -> Bool {
-        repositories.userID != nil && intelligence.hasModel(.categoryName) && !isPredictingCategory
+        repositories.userID != nil && intelligence.canSuggestCategory && !isPredictingCategory
     }
 
     public func enablePrediction() {
@@ -108,12 +125,10 @@ public final class TransactionEditorModel {
 
     public func predictCategory(with intelligence: IntelligenceModel) async {
         guard isPredictingCategory, draft.kind == .expense, !draft.summary.isEmpty,
-            repositories.userID != nil, intelligence.hasModel(.categoryName)
+            repositories.userID != nil, intelligence.canSuggestCategory
         else { return }
         try? await Task.sleep(for: .milliseconds(350))
-        guard !Task.isCancelled else { return }
-        let prediction = await intelligence.predict(.text(draft.summary))
-        guard !Task.isCancelled, case .textClassification(let id) = prediction,
+        guard !Task.isCancelled, let id = intelligence.category(for: draft.summary),
             let category = draft.categories.first(where: { $0.id == id })
         else { return }
         draft.category = category

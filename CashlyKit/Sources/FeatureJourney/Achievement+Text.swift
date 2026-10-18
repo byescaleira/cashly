@@ -12,6 +12,7 @@ extension Achievement {
         case .inTheBlue: blueTitle
         case .volume: volumeTitle
         case .secret: secretTitle
+        case .pro: proTitle
         case .organization, .together, .challenges, .levels: milestoneTitle
         }
     }
@@ -28,6 +29,7 @@ extension Achievement {
         case .volume:
             String(appLocalized: "Record \(target) transactions in total, expenses and income.")
         case .secret: secretDetail
+        case .pro: proDetail
         case .organization, .together, .challenges, .levels: milestoneDetail
         }
     }
@@ -42,6 +44,7 @@ extension Achievement {
         case .together: "person.2.fill"
         case .challenges: "flag.checkered"
         case .levels: "arrow.up.circle.fill"
+        case .pro: "crown.fill"
         case .secret: "sparkles"
         }
     }
@@ -52,7 +55,6 @@ extension Achievement {
         case .firstBudget: String(appLocalized: "The Plan")
         case .firstTag: String(appLocalized: "Tag, You're It")
         case .firstSplit: String(appLocalized: "Fair Share")
-        case .firstImport: String(appLocalized: "Moving In")
         case .firstBackup: String(appLocalized: "Safety Net")
         default: String(appLocalized: "Day One")
         }
@@ -101,6 +103,24 @@ extension Achievement {
         }
     }
 
+    private var proTitle: String {
+        switch self {
+        case .proMonth1: String(appLocalized: "Supporter")
+        case .proMonth6: String(appLocalized: "Patron")
+        case .proYear1: String(appLocalized: "Gold Member")
+        default: String(appLocalized: "Hall of Fame")
+        }
+    }
+
+    private var proDetail: String {
+        switch self {
+        case .proMonth1: String(appLocalized: "Have Cashly Pro for a month in total.")
+        case .proMonth6: String(appLocalized: "Have Cashly Pro for six months in total.")
+        case .proYear1: String(appLocalized: "Have Cashly Pro for a year in total.")
+        default: String(appLocalized: "Have Cashly Pro for two years in total.")
+        }
+    }
+
     private var secretTitle: String {
         switch self {
         case .theAnswer: String(appLocalized: "The Answer")
@@ -117,8 +137,7 @@ extension Achievement {
         case .firstBudget: String(appLocalized: "Plan a budget for any category, in any month.")
         case .firstTag: String(appLocalized: "Create your first tag.")
         case .firstSplit:
-            String(appLocalized: "Record an expense split with at least one other person.")
-        case .firstImport: String(appLocalized: "Import transactions from a CSV spreadsheet.")
+            String(appLocalized: "Record an expense split with at least one other profile.")
         case .firstBackup: String(appLocalized: "Export a backup of your data.")
         default: String(appLocalized: "Record your first transaction, an expense or an income.")
         }
@@ -142,9 +161,9 @@ extension Achievement {
             String(appLocalized: "Use \(target) different tags on your transactions.")
         case .fullyBudgeted:
             String(appLocalized: "Give every category a budget in the current month.")
-        case .allGuides: String(appLocalized: "Finish all \(Guide.allCases.count) guides.")
+        case .allGuides: String(appLocalized: "Finish all \(Guide.free.count) guides.")
         case .splits10, .splits50:
-            String(appLocalized: "Record \(target) expenses split with other people.")
+            String(appLocalized: "Record \(target) expenses split with other profiles.")
         case .challenges1: String(appLocalized: "Complete a challenge before it ends.")
         case .challenges5, .challenges12: String(appLocalized: "Complete \(target) challenges.")
         default:
@@ -175,7 +194,6 @@ extension Achievement {
         case .firstBudget: "chart.pie.fill"
         case .firstTag: "tag.fill"
         case .firstSplit: "person.2.fill"
-        case .firstImport: "tablecells.fill"
         case .firstBackup: "externaldrive.fill"
         default: "plus.circle.fill"
         }

@@ -6,6 +6,7 @@ public struct BudgetEditorScreen: View {
     @Environment(BudgetEditorModel.self) private var model
     @Environment(FinanceModel.self) private var finance
     @Environment(IntelligenceModel.self) private var intelligence
+    @Environment(\.pro) private var pro
 
     public init() {}
 
@@ -22,8 +23,11 @@ public struct BudgetEditorScreen: View {
             if model.canSuggestAmount(with: intelligence) {
                 ToolbarItem {
                     Button("Suggest Amount", systemImage: "bolt") {
-                        Task { await model.suggestAmount(with: intelligence) }
+                        pro.perform { model.suggestAmount(with: intelligence) }
                     }
+                    .accessibilityValue(
+                        pro.isPro ? "" : String(appLocalized: "Requires Cashly Pro")
+                    )
                     .tint(.retroMustard)
                 }
             }

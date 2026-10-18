@@ -11,18 +11,22 @@ struct AutoBackupTests {
     private let folder = BackupFolder(
         url: FileManager.default.temporaryDirectory.appending(path: UUID().uuidString), keeping: 2)
 
-    private func model() async throws -> DataModel {
+    private func model() async throws -> (DataModel, CashlyDatabase) {
         let database = try CashlyDatabase.open(inMemory: true)
         try await database.repositories(for: nil).users.save(
             User(id: "owner", name: "Perfil"))
-        let intelligence = LocalIntelligenceService(
-            directory: FileManager.default.temporaryDirectory.appending(path: UUID().uuidString))
-        return DataModel(
-            backup: database.backup, intelligence: intelligence, defaults: defaults, folder: folder)
+        let data = DataModel(
+            backup: database.backup, defaults: defaults, folder: folder)
+        return (data, database)
+    }
+
+    private func backups(_ database: CashlyDatabase) async throws -> Int {
+        try await database.repositories(for: "owner").game.events()
+            .filter { $0.kind == .backupCreated }.count
     }
 
     @Test func weeklyCopiesKeepTheNewest() async throws {
-        let data = try await model()
+        let (data, database) = try await model()
         await data.runAutoBackupIfNeeded()
         #expect((try? folder.files()) == nil)
 
@@ -43,10 +47,19 @@ struct AutoBackupTests {
         #expect(saved.users.map(\.id) == ["owner"])
         #expect(data.autoBackupFooter.hasPrefix("One copy a week"))
         #expect(data.latestBackup == latest)
+        #expect(try await backups(database) == 3)
+    }
+
+    @Test func backUpNowRecordsTheBackup() async throws {
+        let (data, database) = try await model()
+        #expect(try await backups(database) == 0)
+        await data.backUpNow()
+        #expect(try folder.files().count == 1)
+        #expect(try await backups(database) == 1)
     }
 
     @Test func scheduleShowsLastAndNextCopy() async throws {
-        let data = try await model()
+        let (data, _) = try await model()
         #expect(data.backupSchedule(now: .now) == nil)
         #expect(data.overviewValue(now: .now) == nil)
         await data.setAutoBackup(true)
@@ -67,13 +80,14 @@ struct AutoBackupTests {
     }
 
     @Test func spreadsheetExportUsesCSV() async throws {
-        let data = try await model()
+        let (data, database) = try await model()
         await data.prepareExport(as: .commaSeparatedText)
         #expect(data.exportType == .commaSeparatedText)
         #expect(data.fileName.hasPrefix("Cashly transactions"))
         let text = String(decoding: try #require(data.document).data, as: UTF8.self)
-        #expect(text.hasPrefix("Date;User;"))
-        data.finishExport(.success(URL(filePath: "/tmp/a.csv")))
+        #expect(text.hasPrefix("Date;Profile;"))
+        await data.finishExport(.success(URL(filePath: "/tmp/a.csv")))
         #expect(data.message == "Spreadsheet saved.")
+        #expect(try await backups(database) == 0)
     }
 }

@@ -9,6 +9,7 @@ public struct TransactionEditorScreen: View {
     @Environment(SessionModel.self) private var session
     @Environment(FinanceModel.self) private var finance
     @Environment(IntelligenceModel.self) private var intelligence
+    @Environment(\.pro) private var pro
 
     public init() {}
 
@@ -20,8 +21,9 @@ public struct TransactionEditorScreen: View {
             BudgetConflictLink()
             TransactionCategorySection()
             TransactionDateSection()
-            InstallmentSection()
-            ParticipantsSection()
+            TransactionCurrencySection()
+            InstallmentSection().disabled(model.isAmountLocked)
+            ParticipantsSection().disabled(model.isAmountLocked)
         }
         .fontDesign(.rounded)
         .readableWidth()
@@ -39,12 +41,14 @@ public struct TransactionEditorScreen: View {
                 .tint(Color.primary)
                 if model.canEnablePrediction(with: intelligence) {
                     Button("Suggest Category", systemImage: "bolt") {
-                        model.enablePrediction()
+                        pro.perform { model.enablePrediction() }
                     }
+                    .accessibilityValue(
+                        pro.isPro ? "" : String(appLocalized: "Requires Cashly Pro"))
                 }
-                if !session.otherUsers.isEmpty && model.draft.kind == .expense {
+                if !session.otherUsers.isEmpty && model.canEditParticipants {
                     MultiSelectMenu(
-                        "Participants", systemImage: "person.2.badge.plus",
+                        "Shared with", systemImage: "person.2.badge.plus",
                         items: session.otherUsers, selection: $model.participantUsers,
                         showsCount: false
                     ) { Text($0.name.capitalized) }
@@ -58,9 +62,13 @@ public struct TransactionEditorScreen: View {
                 await model.remove()
             }
         }
+        .onChange(of: pro.isPro, initial: true) { model.isPro = $1 }
         .onChange(of: model.draft.summary) { model.matchTags() }
         .onChange(of: model.draft.participants) { model.updateShares() }
         .onChange(of: model.draft.amount) { model.updateShares() }
+        .onChange(of: model.draft.paidAmount) { model.convertPaidAmount() }
+        .task { await model.loadPaidCurrencies() }
+        .task(id: model.rateRequest) { await model.updateRate() }
         .onChange(of: model.draft.splitMode) { model.changeSplitMode() }
         .task(
             id: PredictionRequest(

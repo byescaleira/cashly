@@ -4,13 +4,7 @@ import FeatureCore
 import Foundation
 
 enum IntentWorkspace {
-    @MainActor static func actions(writing: Bool = false, profileID: String? = nil) async throws
-        -> IntentActions
-    {
-        if writing, await !CashlyServices.shared.canWrite() {
-            throw CashlyError.invalidInput(
-                String(appLocalized: "Recording needs Cashly Pro. Open Cashly to subscribe."))
-        }
+    @MainActor static func actions(profileID: String? = nil) async throws -> IntentActions {
         let (repositories, user) = try await CashlyServices.shared.workspace(userID: profileID)
         return IntentActions(repositories: repositories, user: user)
     }

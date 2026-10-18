@@ -7,13 +7,15 @@ struct AppIconScreen: View {
     @Environment(\.shop) private var shop
 
     var body: some View {
-        let collections = settings.iconCollections(on: .now)
+        let collections = settings.iconCollections(on: settings.today)
         SettingsPage("App Icon") {
             CurrentIconSection()
             ForEach(collections.prefix(1), id: \.self) { IconCollectionSection(collection: $0) }
             if settings.offersAllIcons(in: shop) { AllIconsSection() }
             ForEach(collections.dropFirst(), id: \.self) { IconCollectionSection(collection: $0) }
+            ShopLinkSection()
         }
+        .task { await settings.followDayChanges() }
     }
 }
 
@@ -51,7 +53,7 @@ private struct IconCollectionSection: View {
     let collection: AppIcon.Collection
 
     var body: some View {
-        let isFeatured = settings.isFeatured(collection, on: .now)
+        let isFeatured = settings.isFeatured(collection, on: settings.today)
         Section {
             AppIconGrid(icons: collection.icons)
         } header: {
@@ -65,7 +67,11 @@ private struct IconCollectionSection: View {
             }
             .textCase(nil)
         } footer: {
-            if isFeatured { Text("Featured this month and available all year.") }
+            if isFeatured {
+                Text("Featured this month and available all year.")
+            } else if collection.isProOnly {
+                Text("Exclusive to Cashly Pro.")
+            }
         }
     }
 }

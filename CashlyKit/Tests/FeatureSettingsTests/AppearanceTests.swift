@@ -18,9 +18,12 @@ private final class IconSpy: AppIconSwitching {
 @MainActor
 private final class ShopSpy {
     var opened: [ShopItem] = []
+    var proPresented = 0
 
-    func access(owning owned: Set<ShopItem> = []) -> ShopAccess {
-        ShopAccess(owned: owned) { self.opened.append($0) }
+    func access(owning owned: Set<ShopItem> = [], isPro: Bool = false) -> ShopAccess {
+        ShopAccess(
+            owned: owned, isPro: isPro, open: { self.opened.append($0) },
+            presentPro: { self.proPresented += 1 })
     }
 }
 
@@ -101,5 +104,20 @@ struct AppearanceTests {
         #expect(settings.themeFooter != automatic)
         #expect(settings.themeSample.rows.count == 2)
         #expect(settings.themeSample.rows.allSatisfy { (0...1).contains($0.fraction) })
+    }
+
+    @Test func goldIconsNeedProAndLeaveWhenItEnds() async {
+        let settings = makeSettings()
+        #expect(settings.access(to: .gold, in: shop.access(owning: [.iconsAll])) == .pro)
+        await settings.choose(.blackGold, in: shop.access(owning: [.iconsAll]))
+        #expect(settings.appIcon == .standard)
+        #expect(shop.proPresented == 1)
+        #expect(shop.opened.isEmpty)
+        await settings.choose(.blackGold, in: shop.access(isPro: true))
+        #expect(settings.appIcon == .blackGold)
+        #expect(icons.current == "CashlyIconBlackGold")
+        await settings.dropProIcon()
+        #expect(settings.appIcon == .standard)
+        #expect(!settings.offersAllIcons(in: shop.access(owning: [.iconsAll])))
     }
 }

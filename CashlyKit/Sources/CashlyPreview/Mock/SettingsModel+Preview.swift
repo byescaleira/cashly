@@ -8,7 +8,7 @@ extension SettingsModel {
             cloudContainer: nil,
             info: AppInfo(info: [
                 "CFBundleShortVersionString": "1.0", "CFBundleVersion": "1",
-                "CashlyAppStoreID": "0", "CashlySupportEmail": "suporte@cashly.app",
+                "CashlyAppStoreID": "0", "CashlySupportEmail": "support@byescaleira.com",
             ]))
     }
 }

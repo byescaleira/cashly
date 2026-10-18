@@ -9,6 +9,8 @@ public struct BudgetDraft: Hashable {
     public var date: Date
     public var summary: String
     public var isNew: Bool
+    public var currencyCode = Money.currencyCode
+    public var estimate: CurrencyEstimate?
 
     public var user: User? {
         category?.user
@@ -45,8 +47,10 @@ public struct BudgetDraft: Hashable {
         BudgetDraft(date: date)
     }
 
-    public static func new(category: CashlyDomain.Category, date: Date) -> BudgetDraft {
-        BudgetDraft(category: category, date: date)
+    public static func new(category: CashlyDomain.Category, date: Date, amount: Double = 0)
+        -> BudgetDraft
+    {
+        BudgetDraft(amount: amount, category: category, date: date)
     }
 
     public static func edit(id: String) -> BudgetDraft {
@@ -57,7 +61,8 @@ public struct BudgetDraft: Hashable {
         guard canSave, let category else { throw CashlyError.onSave }
         return Budget(
             id: id, money: try Money(validating: amount), category: category, month: month,
-            summary: summary.trimmingCharacters(in: .whitespacesAndNewlines))
+            summary: summary.trimmingCharacters(in: .whitespacesAndNewlines),
+            currencyCode: currencyCode, estimate: estimate)
     }
 
     public mutating func apply(_ budget: Budget?, categories: [CashlyDomain.Category]) {
@@ -68,6 +73,8 @@ public struct BudgetDraft: Hashable {
             category = budget.category
             date = budget.month.startDate
             summary = budget.summary
+            currencyCode = budget.currencyCode
+            estimate = budget.estimate
         } else {
             category = category ?? categories.first
         }

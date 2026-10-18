@@ -32,18 +32,7 @@ private struct CurrencyHeroSection: View {
 
     var body: some View {
         Section {
-            HStack(spacing: .spaceM) {
-                SymbolBadge("equal", color: .retroOlive, size: .badgeM)
-                VStack(alignment: .leading, spacing: .spaceHairline) {
-                    Text("Amounts aren't converted").font(.rowTitle)
-                    Text(
-                        "Changing the currency changes only the symbol. The numbers you recorded stay the same, and new records use the new currency."
-                    )
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                }
-            }
-            .padding(.vertical, .space2XS)
+            CurrencyCorrectionRow()
         } header: {
             SettingsHero {
                 Chip(settings.currency, color: appTint, shape: .capsule)
@@ -57,6 +46,39 @@ private struct CurrencyHeroSection: View {
                     .foregroundStyle(.secondary)
             }
             .animation(.smooth, value: settings.currency)
+        }
+    }
+}
+
+private struct CurrencyCorrectionRow: View {
+    @Environment(SettingsModel.self) private var settings
+
+    var body: some View {
+        let status = settings.correctionStatus
+        HStack(spacing: .spaceM) {
+            SymbolBadge(status.symbol, color: status.color, size: .badgeM)
+            VStack(alignment: .leading, spacing: .spaceHairline) {
+                Text(status.title).font(.rowTitle)
+                Text(status.detail)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .padding(.vertical, .space2XS)
+        .accessibilityElement(children: .combine)
+        if status.canRetry {
+            Button {
+                Task { await settings.retryCorrection() }
+            } label: {
+                HStack {
+                    Text("Try Again")
+                    if settings.isFetchingCorrection {
+                        Spacer()
+                        ProgressView()
+                    }
+                }
+            }
+            .disabled(settings.isFetchingCorrection)
         }
     }
 }
@@ -119,23 +141,5 @@ private struct CurrencyRow: View {
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(isSelected ? .isSelected : [])
-    }
-}
-
-struct CurrencySymbolBadge: View {
-    @Environment(\.appTint) private var appTint
-    let symbol: String
-    let size: CGFloat
-
-    var body: some View {
-        Text(verbatim: symbol)
-            .font(size > .badgeL ? .titleMedium : .callout.weight(.semibold))
-            .lineLimit(1)
-            .minimumScaleFactor(0.4)
-            .padding(.horizontal, .space2XS)
-            .foregroundStyle(appTint)
-            .frame(width: size, height: size)
-            .background(appTint.opacity(.opacityTint), in: .rect(cornerRadius: .radiusS))
-            .accessibilityHidden(true)
     }
 }

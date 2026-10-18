@@ -29,19 +29,17 @@ public final class DataModel {
     private(set) var exportType: UTType = .json
     private var skipped = 0
     @ObservationIgnored let backup: any BackupRepository
-    @ObservationIgnored let intelligence: any IntelligenceService
     @ObservationIgnored let defaults: UserDefaults
     @ObservationIgnored let folder: BackupFolder
     @ObservationIgnored let cloud: BackupCloud
     @ObservationIgnored var cloudFolder: BackupFolder?
 
     public init(
-        backup: any BackupRepository, intelligence: any IntelligenceService,
-        defaults: UserDefaults = .standard, folder: BackupFolder = .standard,
+        backup: any BackupRepository, defaults: UserDefaults = .standard,
+        folder: BackupFolder = .standard,
         cloud: BackupCloud = .unavailable
     ) {
         self.backup = backup
-        self.intelligence = intelligence
         self.defaults = defaults
         self.folder = folder
         self.cloud = cloud
@@ -166,9 +164,10 @@ public final class DataModel {
         await runAutoBackupIfNeeded()
     }
 
-    func finishExport(_ result: Result<URL, any Error>) {
+    func finishExport(_ result: Result<URL, any Error>) async {
         document = nil
         guard case .success = result else { return }
+        if exportType == .json { try? await backup.recordBackup() }
         if isErasing {
             exportedBeforeErase = true
             return
@@ -220,6 +219,7 @@ public final class DataModel {
         try await Task.detached(priority: .utility) {
             try destination.save(data, on: date)
         }.value
+        try? await backup.recordBackup()
         return export.skipped
     }
 

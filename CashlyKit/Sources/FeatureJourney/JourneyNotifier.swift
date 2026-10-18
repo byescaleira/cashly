@@ -57,7 +57,7 @@ public struct JourneyNotifier {
 
     private func progress(_ repositories: Repositories, now: Date) async -> GameProgress? {
         let source = RepositoriesGameSource(
-            repositories: repositories, guideCount: Guide.allCases.count)
+            repositories: repositories, guides: Guide.journeyIDs)
         return (try? await source.snapshot(today: now)).map(GameEngine.progress)
     }
 

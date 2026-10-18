@@ -52,7 +52,12 @@ public final class MCPModel {
     public private(set) var trusted: [String]
     public private(set) var state = State.off
     public var pending: PendingImport?
-    public var canWrite = true
+    public var isPro = false {
+        didSet {
+            guard isPro != oldValue else { return }
+            isPro ? resume() : stop()
+        }
+    }
     public var connection: ConnectionRequest?
 
     public var prompt: Prompt? {
@@ -162,7 +167,7 @@ public final class MCPModel {
     }
 
     public func resume() {
-        guard isEnabled, state != .ready, state != .starting else { return }
+        guard isEnabled, isPro, state != .ready, state != .starting else { return }
         restart()
     }
 
@@ -178,7 +183,7 @@ public final class MCPModel {
     }
 
     private func start() {
-        guard server == nil else { return }
+        guard server == nil, isPro else { return }
         let provider = provider
         let context = CashlyContext(
             workspace: { try await Self.workspace(provider) }, importer: Importer(model: self))
@@ -251,7 +256,13 @@ private struct Importer: TransactionImporting {
 
     func requestImport(_ preview: SpreadsheetPreview, source: String) async -> ImportOutcome {
         guard let model else { return .declined }
-        guard await model.canWrite else { return .locked }
+        guard await model.isPro else { return .locked }
         return await model.present(preview, source: source)
+    }
+}
+
+extension MCPModel {
+    public var overviewValue: String {
+        isEnabled ? String(appLocalized: "On") : String(appLocalized: "Off")
     }
 }

@@ -20,10 +20,13 @@ struct CashlyApp: App {
 
     init() {
         #if targetEnvironment(simulator)
-            let settings = SettingsModel(cloudContainer: nil)
+            let settings = SettingsModel(
+                cloudContainer: nil, rates: CashlyServices.shared.exchangeRates)
             CashlyTips.configure(cloudContainer: nil)
         #else
-            let settings = SettingsModel(cloudContainer: CashlyDatabase.cloudContainer)
+            let settings = SettingsModel(
+                cloudContainer: CashlyDatabase.cloudContainer,
+                rates: CashlyServices.shared.exchangeRates)
             CashlyTips.configure(cloudContainer: CashlyDatabase.cloudContainer)
         #endif
         _settings = State(initialValue: settings)
@@ -59,7 +62,6 @@ private final class CashlyBootstrap {
     private(set) var error: String?
     private(set) var mcp: MCPModel?
     let flags: FeatureFlags
-    let intelligence = LocalIntelligenceService()
     private let settings: SettingsModel
     @ObservationIgnored private var isListeningToSync = false
 
@@ -83,6 +85,7 @@ private final class CashlyBootstrap {
     func prepare() async {
         guard database == nil else { return }
         error = nil
+        LegacyIntelligenceFiles.remove()
         let cloudSync = settings.syncsAtLaunch
         if cloudSync && !isListeningToSync {
             isListeningToSync = true
@@ -104,8 +107,7 @@ private final class CashlyBootstrap {
                 mcp = MCPModel(provider: database, serviceName: Self.deviceName)
             }
             let data = DataModel(
-                backup: database.backup, intelligence: intelligence,
-                cloud: .container(CashlyDatabase.cloudContainer))
+                backup: database.backup, cloud: .container(CashlyDatabase.cloudContainer))
             settings.data = data
             #if DEBUG
                 settings.developer = DeveloperModel(
@@ -115,7 +117,10 @@ private final class CashlyBootstrap {
                     try? await SampleDatabase.seed(database)
                 }
             #endif
-            Task { await data.runAutoBackupIfNeeded() }
+            Task {
+                if await CashlyServices.shared.isPro() { await data.runAutoBackupIfNeeded() }
+            }
+            Task { [settings] in await settings.prepareCorrection() }
         } catch {
             self.error = error.localizedDescription
         }
@@ -151,8 +156,7 @@ private struct CashlyRootView: View {
             guard !Task.isCancelled else { return }
             if let database = bootstrap.database {
                 window = CashlyWindow(
-                    provider: database, intelligence: bootstrap.intelligence,
-                    flags: bootstrap.flags)
+                    provider: database, flags: bootstrap.flags)
                 launch.finish(.database)
             }
         }

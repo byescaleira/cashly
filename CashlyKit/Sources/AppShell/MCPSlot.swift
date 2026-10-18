@@ -9,6 +9,7 @@ import SwiftUI
 public struct MCPSettingsSlot: View {
     @Environment(MCPModel.self) private var mcp: MCPModel?
     @Environment(\.featureFlags) private var flags
+    @Environment(\.pro) private var pro
 
     public init() {}
 
@@ -17,9 +18,15 @@ public struct MCPSettingsSlot: View {
             ClaudeCodeTipView(isConnected: mcp.isEnabled)
             SettingsRow(
                 "Claude Code", symbol: "terminal", color: RetroColor.terracotta.color,
-                value: mcp.isEnabled ? String(appLocalized: "On") : String(appLocalized: "Off")
+                value: pro.lockedValue ?? mcp.overviewValue
             ) {
-                SettingsPage("Claude Code") { MCPSettingsSection() }.environment(mcp)
+                SettingsPage("Claude Code") {
+                    ProOnly {
+                        MCPSettingsSection()
+                    }
+                    ProShowcaseSection(.claudeCode)
+                }
+                .environment(mcp)
             }
         }
     }
@@ -47,7 +54,7 @@ struct MCPImportPresenter: ViewModifier {
                 }
             }
             .onChange(of: mcp?.prompt?.id, initial: true) { present() }
-            .onChange(of: pro.canWrite, initial: true) { mcp?.canWrite = $1 }
+            .onChange(of: pro.isPro, initial: true) { mcp?.isPro = $1 }
             .onChange(of: scenePhase) { _, phase in
                 switch phase {
                 case .active: mcp?.resume()

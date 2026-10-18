@@ -99,11 +99,13 @@ struct GameEngineTests {
 
     @Test func allGuidesNeedsEveryGuideOnce() {
         var game = GameFixture(today: 5)
-        game.guideCount = 2
+        game.guides = ["a", "b"]
         game.event(.guideCompleted, day: 1, value: "a")
         game.event(.guideCompleted, day: 2, value: "a")
         #expect(game.achievement(.allGuides)?.isUnlocked == false)
-        game.event(.guideCompleted, day: 3, value: "b")
+        game.event(.guideCompleted, day: 3, value: "retired")
+        #expect(game.achievement(.allGuides)?.isUnlocked == false)
+        game.event(.guideCompleted, day: 4, value: "b")
         #expect(game.achievement(.allGuides)?.isUnlocked == true)
     }
 }

@@ -107,7 +107,7 @@ struct AnalysesTests {
         let snapshot = ledger([transaction("a", 10_000, day: 2)], budget: 50_000)
         let all = await engine.runAll(on: snapshot)
         #expect(Set(all.map(\.id)) == ["month-pace", "daily-allowance"])
-        #expect(engine.catalog.count == 5)
+        #expect(engine.catalog.count == AnalysisEngine.standard.count)
         #expect(await engine.run("unknown", on: snapshot) == nil)
     }
 
@@ -135,6 +135,23 @@ struct AnalysesTests {
         #expect(result.series.first?.label == "Mercado")
         #expect(result.series.first?.value == 400)
         #expect(result.series.first?.reference == 100)
+        let finding = try #require(result.findings.first)
+        #expect(finding.id == "unusual-categories|market")
+        #expect(finding.topic == .spending)
+        #expect(finding.impact == 30_000)
+        #expect(
+            finding.recommendation == Recommendation(action: .returnToUsual, monthlySaving: 30_000))
+    }
+
+    @Test func monthPaceFindsOnlyAForecastOverPlan() throws {
+        let over = try #require(
+            MonthPace().run(ledger([transaction("a", 40_000, day: 9)], budget: 50_000)))
+        #expect(over.findings.map(\.subject) == ["over-plan"])
+        let projected = try #require(over.metric("projected")?.value)
+        #expect(over.findings.first?.impact == Int64((projected * 100).rounded()) - 50_000)
+        let under = try #require(
+            MonthPace().run(ledger([transaction("a", 1_000, day: 9)], budget: 50_000)))
+        #expect(under.findings.isEmpty)
     }
 
     @Test func unusualCategoryIgnoresABillPaidEarlierThanUsual() {

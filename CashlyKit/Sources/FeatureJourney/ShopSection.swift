@@ -40,11 +40,11 @@ struct ShopRow: View {
             HStack(spacing: .spaceM) {
                 ShopThumbnail(item: item)
                 VStack(alignment: .leading, spacing: .spaceHairline) {
-                    HStack(spacing: .spaceXS) {
-                        Text(item.title).font(.rowTitle)
-                        if let badge { Chip(badge, color: item.color).fixedSize() }
-                    }
+                    Text(item.title).font(.rowTitle)
                     Text(store.caption(for: item)).font(.footnote).foregroundStyle(.secondary)
+                    if let badge {
+                        Chip(badge, color: item.color).fixedSize().padding(.top, .space2XS)
+                    }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 if store.owns(item) {
@@ -57,19 +57,6 @@ struct ShopRow: View {
         }
         .tint(Color.primary)
         .accessibilityElement(children: .combine)
-    }
-}
-
-extension ShopItem {
-    static func featured(on date: Date, calendar: Calendar = .current) -> ShopItem? {
-        switch calendar.component(.month, from: date) {
-        case 1: .iconsSummer
-        case 2: .iconsCarnival
-        case 6: .iconsJunina
-        case 10: .iconsHalloween
-        case 12: .iconsChristmas
-        default: nil
-        }
     }
 }
 

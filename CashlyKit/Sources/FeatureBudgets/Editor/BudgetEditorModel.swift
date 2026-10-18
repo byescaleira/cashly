@@ -60,15 +60,23 @@ public final class BudgetEditorModel {
                 "\(name) already has a budget in \(month). Pick another month or edit that budget.")
     }
 
-    public func canSuggestAmount(with intelligence: IntelligenceModel) -> Bool {
-        repositories.userID != nil && intelligence.hasModel(.budgetValue)
+    public var isAmountLocked: Bool { draft.estimate != nil }
+
+    public var estimateDescription: String? {
+        guard let estimate = draft.estimate else { return nil }
+        return CurrencyText.estimate(estimate) + " "
+            + String(appLocalized: "The amount can't be changed here.")
     }
 
-    public func suggestAmount(with intelligence: IntelligenceModel) async {
-        guard canSuggestAmount(with: intelligence), let category = draft.category else { return }
-        let prediction = await intelligence.predict(
-            .budget(month: draft.month, categoryID: category.id))
-        if case .tabularRegression(let value) = prediction { draft.amount = value }
+    public func canSuggestAmount(with intelligence: IntelligenceModel) -> Bool {
+        !isAmountLocked && repositories.userID != nil && intelligence.canSuggestBudget
+    }
+
+    public func suggestAmount(with intelligence: IntelligenceModel) {
+        guard canSuggestAmount(with: intelligence), let category = draft.category,
+            let value = intelligence.budget(categoryID: category.id, month: draft.month)
+        else { return }
+        draft.amount = value
     }
 
     public func loadOrRefresh() async {

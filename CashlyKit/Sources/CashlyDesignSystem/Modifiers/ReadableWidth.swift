@@ -1,7 +1,7 @@
 import SwiftUI
 
 extension View {
-    public func readableWidth(_ width: CGFloat = 560) -> some View {
+    public func readableWidth(_ width: CGFloat = .readableColumn) -> some View {
         modifier(ReadableWidth(width: width))
     }
 }

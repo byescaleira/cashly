@@ -31,6 +31,10 @@ public class TransactionEntity {
     public var splitMode: Int?
     public var splitValue: Double?
     public var paymentsPlan: Int?
+    public var paidCurrencyCode: String?
+    public var paidMinorUnits: Int64?
+    public var exchangeRate: String?
+    public var exchangeRateDate: Double?
 
     public init(
         id: String,

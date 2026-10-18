@@ -12,20 +12,41 @@ struct DataModelTests {
     private func model() async throws -> (DataModel, CashlyDatabase) {
         let database = try CashlyDatabase.open(inMemory: true)
         try await database.repositories(for: nil).users.save(owner)
-        let intelligence = LocalIntelligenceService(
-            directory: FileManager.default.temporaryDirectory.appending(path: UUID().uuidString))
-        return (DataModel(backup: database.backup, intelligence: intelligence), database)
+        return (DataModel(backup: database.backup), database)
+    }
+
+    private func backups(_ database: CashlyDatabase) async throws -> Int {
+        try await database.repositories(for: owner.id).game.events()
+            .filter { $0.kind == .backupCreated }.count
     }
 
     @Test func exportPreparesDocumentAndReportsSaving() async throws {
-        let (data, _) = try await model()
+        let (data, database) = try await model()
         await data.prepareExport()
         #expect(data.isExporting)
         let document = try #require(data.document)
         #expect(try CashlyBackup(data: document.data).users.map(\.id) == ["owner"])
-        data.finishExport(.success(URL(filePath: "/tmp/backup.json")))
+        #expect(try await backups(database) == 0)
+        await data.finishExport(.success(URL(filePath: "/tmp/backup.json")))
         #expect(data.document == nil)
         #expect(data.message == "Backup saved.")
+        #expect(try await backups(database) == 1)
+    }
+
+    @Test func measuringInventoryRecordsNoBackup() async throws {
+        let (data, database) = try await model()
+        await data.load()
+        await data.refreshInventory()
+        #expect(data.inventory?.count(.profiles) == 1)
+        #expect(try await database.repositories(for: owner.id).game.events().isEmpty)
+    }
+
+    @Test func cancelledExportRecordsNoBackup() async throws {
+        let (data, database) = try await model()
+        await data.prepareExport()
+        await data.finishExport(.failure(CocoaError(.userCancelled)))
+        #expect(data.message == nil)
+        #expect(try await backups(database) == 0)
     }
 
     @Test func backupImportReviewsBeforeRestoring() async throws {
@@ -84,7 +105,7 @@ struct DataModelTests {
         await data.prepareExport()
         #expect(data.isExportingFromErase)
         #expect(!data.isExportingFromPage)
-        data.finishExport(.success(URL(filePath: "/tmp/backup.json")))
+        await data.finishExport(.success(URL(filePath: "/tmp/backup.json")))
         #expect(data.message == nil)
         #expect(data.exportedBeforeErase)
         #expect(data.eraseBackupState(now: .now) == .init(text: "Exported just now", isSafe: true))

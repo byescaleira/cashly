@@ -5,28 +5,6 @@ import FeatureCore
 import Foundation
 import Testing
 
-private struct EstimatingService: IntelligenceService {
-    func models(userID: String) async throws -> [IntelligenceModelInfo] {
-        [
-            IntelligenceModelInfo(
-                kind: .budgetValue, updateDate: .now, sampleCount: 5, datasetRevision: "r1")
-        ]
-    }
-
-    func train(
-        userID: String, transactions: [CashlyDomain.Transaction], tags: [CashlyDomain.Tag],
-        revision: String
-    )
-        async throws -> [IntelligenceModelInfo]
-    { try await models(userID: userID) }
-
-    func predict(userID: String, input: CashlyPredictionInput, revision: String) async throws
-        -> CashlyPredictionResult
-    { .tabularRegression(321) }
-
-    func clean(userID: String) async throws {}
-}
-
 @MainActor
 struct BudgetMonthTests {
     private let owner = User(id: "owner", name: "Perfil")
@@ -120,18 +98,27 @@ struct BudgetMonthTests {
         let repositories = database.repositories(for: owner.id)
         let session = SessionModel(provider: database, preference: .disabled)
         await session.selectUser(id: owner.id)
+        for (offset, cents) in [(-1, 30_000), (-2, 34_200)] {
+            try await repositories.transactions.save(
+                Transaction(
+                    id: "market\(offset)", participants: [], category: market,
+                    money: Money(minorUnits: Int64(cents)),
+                    date: YearMonth(.now).adding(months: offset).startDate, summary: "Feira",
+                    status: .settled, splitMode: nil, splitValue: nil, paymentsPlan: nil))
+        }
         let flags = FeatureFlags(defaults: UserDefaults(suiteName: UUID().uuidString) ?? .standard)
-        let intelligence = IntelligenceModel(
-            service: EstimatingService(), session: session, flags: flags)
-        await intelligence.loadModels(revision: "r1")
+        let intelligence = IntelligenceModel(session: session, flags: flags)
         let editor = BudgetEditorModel(repositories: repositories)
         await editor.load()
+        editor.draft.category = market
+        await intelligence.load()
         #expect(!editor.canSuggestAmount(with: intelligence))
-        await editor.suggestAmount(with: intelligence)
+        editor.suggestAmount(with: intelligence)
         #expect(editor.draft.amount == 0)
         flags.override(.intelligence, true)
+        await intelligence.load()
         #expect(editor.canSuggestAmount(with: intelligence))
-        await editor.suggestAmount(with: intelligence)
-        #expect(editor.draft.amount == 321)
+        editor.suggestAmount(with: intelligence)
+        #expect(editor.draft.amount == 330)
     }
 }

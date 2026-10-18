@@ -2,8 +2,7 @@ import CashlyDomain
 import Foundation
 
 public enum Achievement: String, CaseIterable, Identifiable, Sendable {
-    case firstTransaction, firstCategory, firstBudget, firstTag, firstSplit, firstImport,
-        firstBackup
+    case firstTransaction, firstCategory, firstBudget, firstTag, firstSplit, firstBackup
     case streak7, streak30, streak100, streak365
     case blueMonth, blueRun3, blueRun6, blueRun12, perfectMonth
     case transactions100, transactions500, transactions1000, transactions5000
@@ -11,11 +10,12 @@ public enum Achievement: String, CaseIterable, Identifiable, Sendable {
     case splits10, splits50
     case challenges1, challenges5, challenges12
     case level10, level25
+    case proMonth1, proMonth6, proYear1, proYear2
     case theAnswer, sequence, halloween, newYear, earlyBird
 
     public enum Group: CaseIterable, Sendable {
         case firstSteps, consistency, inTheBlue, volume, organization, together, challenges, levels
-        case secret
+        case pro, secret
     }
 
     public enum Tier: Int, Comparable, Sendable {
@@ -28,8 +28,7 @@ public enum Achievement: String, CaseIterable, Identifiable, Sendable {
 
     public var group: Group {
         switch self {
-        case .firstTransaction, .firstCategory, .firstBudget, .firstTag, .firstSplit, .firstImport,
-            .firstBackup:
+        case .firstTransaction, .firstCategory, .firstBudget, .firstTag, .firstSplit, .firstBackup:
             .firstSteps
         case .streak7, .streak30, .streak100, .streak365: .consistency
         case .blueMonth, .blueRun3, .blueRun6, .blueRun12, .perfectMonth: .inTheBlue
@@ -38,6 +37,7 @@ public enum Achievement: String, CaseIterable, Identifiable, Sendable {
         case .splits10, .splits50: .together
         case .challenges1, .challenges5, .challenges12: .challenges
         case .level10, .level25: .levels
+        case .proMonth1, .proMonth6, .proYear1, .proYear2: .pro
         case .theAnswer, .sequence, .halloween, .newYear, .earlyBird: .secret
         }
     }
@@ -45,10 +45,10 @@ public enum Achievement: String, CaseIterable, Identifiable, Sendable {
     public var tier: Tier {
         switch self {
         case .streak30, .blueRun3, .perfectMonth, .transactions500, .fullyBudgeted, .allGuides,
-            .splits50, .challenges5, .level10:
+            .splits50, .challenges5, .level10, .proMonth6:
             .silver
         case .streak100, .streak365, .blueRun6, .blueRun12, .transactions1000, .transactions5000,
-            .challenges12, .level25:
+            .challenges12, .level25, .proYear1, .proYear2:
             .gold
         default: .bronze
         }
@@ -56,6 +56,7 @@ public enum Achievement: String, CaseIterable, Identifiable, Sendable {
 
     public var xp: Int {
         switch (group, tier) {
+        case (.pro, _): 0
         case (.firstSteps, _), (.secret, _): 50
         case (_, .bronze): 100
         case (_, .silver): 250
@@ -84,6 +85,9 @@ public enum Achievement: String, CaseIterable, Identifiable, Sendable {
         case .splits50: 50
         case .challenges12: 12
         case .level25: 25
+        case .proMonth6: 6
+        case .proYear1: 12
+        case .proYear2: 24
         default: 1
         }
     }
@@ -118,7 +122,6 @@ struct AchievementFacts {
         case .firstTag: return ledger.tags.count
         case .firstSplit, .splits10, .splits50:
             return transactions.filter { !$0.participants.isEmpty }.count
-        case .firstImport: return snapshot.events(.spreadsheetImported).count
         case .firstBackup: return snapshot.events(.backupCreated).count
         case .streak7, .streak30, .streak100, .streak365: return bestStreak
         case .blueMonth: return blueMonths.count
@@ -131,10 +134,13 @@ struct AchievementFacts {
             return !ledger.categories.isEmpty
                 && ledger.categories.allSatisfy { budgeted.contains($0.id) } ? 1 : 0
         case .allGuides:
-            let done = Set(snapshot.events(.guideCompleted).map(\.value)).count
-            return snapshot.guideCount > 0 && done >= snapshot.guideCount ? 1 : 0
+            let done = Set(snapshot.events(.guideCompleted).map(\.value)).intersection(
+                snapshot.guides)
+            return !snapshot.guides.isEmpty && done == snapshot.guides ? 1 : 0
         case .challenges1, .challenges5, .challenges12: return completedChallenges
         case .level10, .level25: return level
+        case .proMonth1, .proMonth6, .proYear1, .proYear2:
+            return snapshot.events(.proMonth).map(\.count).max() ?? 0
         case .theAnswer: return transactions.contains { $0.money.minorUnits == 4_200 } ? 1 : 0
         case .sequence: return transactions.contains { $0.money.minorUnits == 123_456 } ? 1 : 0
         case .halloween: return transactions.contains { isDay($0.date, day: 31, month: 10) } ? 1 : 0

@@ -22,10 +22,12 @@ extension Analysis {
 
     func result(
         _ ledger: LedgerSnapshot, summary: String, metrics: [Metric], series: [SeriesPoint] = [],
-        method: String, confidence: Provenance.Confidence, evidence: [String] = []
+        findings: [Finding] = [], method: String, confidence: Provenance.Confidence,
+        evidence: [String] = []
     ) -> AnalysisResult {
         AnalysisResult(
             id: Self.id, title: Self.title, summary: summary, metrics: metrics, series: series,
+            findings: findings,
             provenance: provenance(
                 ledger, method: method, confidence: confidence, evidence: evidence))
     }

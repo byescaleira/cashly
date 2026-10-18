@@ -116,7 +116,7 @@ private struct GuidesCategory: View {
             HStack(alignment: .firstTextBaseline) {
                 Text(verbatim: category.title).font(.headline)
                 Spacer()
-                Text(verbatim: "\(guides.doneCount(in: category))/\(category.guides.count)")
+                Text(verbatim: "\(guides.doneCount(in: category))/\(guides.total(in: category))")
                     .font(.rowDetail)
                     .foregroundStyle(.secondary)
                     .monospacedDigit()
@@ -131,6 +131,7 @@ private struct GuideCard: View {
     @Environment(GuidesModel.self) private var guides
     @Environment(\.showGuide) private var showGuide
     @Environment(\.appTint) private var appTint
+    @Environment(\.pro) private var pro
     let guide: Guide
 
     var body: some View {
@@ -152,7 +153,11 @@ private struct GuideCard: View {
                         .foregroundStyle(.secondary)
                 }
                 Spacer(minLength: .spaceS)
-                GuideMark(isDone: isDone)
+                if guide.requiresPro, !pro.isPro {
+                    Chip("Pro", color: .retroMustard)
+                } else {
+                    GuideMark(isDone: isDone)
+                }
             }
             .multilineTextAlignment(.leading)
             .padding(.spaceM)
@@ -160,7 +165,14 @@ private struct GuideCard: View {
         }
         .buttonStyle(.plain)
         .background(.groupedRow, in: .rect(cornerRadius: .radiusM))
-        .accessibilityValue(isDone ? Text("Done") : Text(verbatim: ""))
+        .accessibilityValue(value(isDone: isDone))
+    }
+}
+
+extension GuideCard {
+    fileprivate func value(isDone: Bool) -> Text {
+        if guide.requiresPro, !pro.isPro { return Text("Requires Cashly Pro") }
+        return isDone ? Text("Done") : Text(verbatim: "")
     }
 }
 

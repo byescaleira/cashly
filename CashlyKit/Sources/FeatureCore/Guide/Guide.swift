@@ -11,7 +11,7 @@ public enum Guide: String, CaseIterable, Identifiable, Sendable {
         switch self {
         case .tour: String(appLocalized: "Meet Cashly")
         case .recording: String(appLocalized: "Record an Expense Fast")
-        case .sharing: String(appLocalized: "Split with People")
+        case .sharing: String(appLocalized: "Split with Other Profiles")
         case .bills: String(appLocalized: "Pending Bills")
         case .budgets: String(appLocalized: "Budgets That Work")
         case .score: String(appLocalized: "Health Score")
@@ -31,7 +31,7 @@ public enum Guide: String, CaseIterable, Identifiable, Sendable {
         switch self {
         case .tour: String(appLocalized: "The tabs and what each one shows")
         case .recording: String(appLocalized: "The editor, amounts, categories and tags")
-        case .sharing: String(appLocalized: "Participants, split modes and who paid")
+        case .sharing: String(appLocalized: "Shared profiles, split modes and who paid")
         case .bills: String(appLocalized: "Record ahead, get reminded, mark as paid")
         case .budgets: String(appLocalized: "Plan per category and follow the pace")
         case .score: String(appLocalized: "What it means and how to raise it")
@@ -123,4 +123,12 @@ public struct ShowGuideAction {
 
 extension EnvironmentValues {
     @Entry public var showGuide: ShowGuideAction?
+}
+
+extension Guide {
+    public var requiresPro: Bool { self == .importSpreadsheet }
+
+    public static var free: [Guide] { allCases.filter { !$0.requiresPro } }
+
+    public static var journeyIDs: Set<String> { Set(free.map(\.rawValue)) }
 }

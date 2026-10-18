@@ -7,7 +7,6 @@ import TipKit
 struct ChallengeSection: View {
     @Environment(JourneyModel.self) private var journey
     @Environment(\.shop) private var shop
-    @Environment(\.pro) private var pro
 
     var body: some View {
         @Bindable var journey = journey
@@ -17,12 +16,12 @@ struct ChallengeSection: View {
                     ChallengeRow(state: state)
                         .swipeActions {
                             Button("Give Up", systemImage: "xmark", role: .destructive) {
-                                pro.perform { journey.isConfirmingAbandon = true }
+                                journey.isConfirmingAbandon = true
                             }
                         }
                         .contextMenu {
                             Button("Give Up", systemImage: "xmark", role: .destructive) {
-                                pro.perform { journey.isConfirmingAbandon = true }
+                                journey.isConfirmingAbandon = true
                             }
                         }
                     Button(
@@ -30,12 +29,10 @@ struct ChallengeSection: View {
                         systemImage: progress.canStartChallenge
                             ? "arrow.triangle.2.circlepath" : "lock"
                     ) {
-                        pro.perform {
-                            if progress.canStartChallenge {
-                                journey.chooseChallenge()
-                            } else {
-                                shop.open(.challengeRerolls)
-                            }
+                        if progress.canStartChallenge {
+                            journey.chooseChallenge()
+                        } else {
+                            shop.open(.challengeRerolls)
                         }
                     }
                     .font(.buttonLabel)
@@ -47,7 +44,7 @@ struct ChallengeSection: View {
                             .cascade(index)
                     }
                     Button("See All Challenges", systemImage: "square.grid.2x2") {
-                        pro.perform { journey.chooseChallenge() }
+                        journey.chooseChallenge()
                     }
                     .font(.buttonLabel)
                 }
@@ -74,15 +71,12 @@ struct ChallengeSection: View {
 private struct ChallengeOption: View {
     @Environment(JourneyModel.self) private var journey
     @Environment(\.shop) private var shop
-    @Environment(\.pro) private var pro
     let kind: Challenge.Kind
     let isLocked: Bool
 
     var body: some View {
         Button {
-            pro.perform {
-                if isLocked { shop.open(.challengeRerolls) } else { journey.chooseChallenge(kind) }
-            }
+            if isLocked { shop.open(.challengeRerolls) } else { journey.chooseChallenge(kind) }
         } label: {
             HStack(alignment: .top, spacing: .spaceM) {
                 SymbolBadge(kind.symbol, color: kind.color, size: .badgeM)

@@ -23,6 +23,17 @@ public struct AchievementDetail: Equatable {
 }
 
 extension JourneyModel {
+    public func state(of achievement: Achievement) -> AchievementState? {
+        progress?.achievements.first { $0.achievement == achievement }
+    }
+
+    public func reward(for celebration: Celebration) -> String? {
+        guard case .achievement(let achievement) = celebration, achievement.xp > 0 else {
+            return nil
+        }
+        return String(appLocalized: "+\(achievement.xp) XP")
+    }
+
     public func achievementDetail(_ state: AchievementState) -> AchievementDetail {
         AchievementDetail(
             title: state.title, message: state.detail, rows: rows(of: state),
@@ -53,6 +64,7 @@ extension JourneyModel {
 
     public func action(for state: AchievementState) -> AchievementAction? {
         guard !state.isUnlocked, let action = state.achievement.action else { return nil }
+        if action == .pro, isPro { return nil }
         if action == .challenge, progress?.challenge != nil || progress?.canStartChallenge == false
         {
             return nil
@@ -81,19 +93,22 @@ extension JourneyModel {
         selected = nil
     }
 
+    var offersShopAfterCelebration: Bool { celebrations.count == 1 }
+
+    func browseShopAfterCelebration() {
+        pendingAction = .open(.shop)
+    }
+
     public func performPendingAction(
         pro: ProAccess, open: (Route) -> Void, guide: (Guide) -> Void
     ) {
         guard let action = pendingAction else { return }
         pendingAction = nil
-        if action.requiresPro, !pro.canWrite {
-            pro.present()
-            return
-        }
         switch action {
         case .open(let route): open(route)
         case .guide(let item): guide(item)
         case .challenge: chooseChallenge()
+        case .pro: pro.present()
         }
     }
 
@@ -123,7 +138,9 @@ extension JourneyModel {
         let achievement = state.achievement
         let reward = AchievementDetail.Row(
             label: String(appLocalized: "Reward"),
-            value: String(appLocalized: "\(achievement.tier.title) · \(achievement.xp) XP"),
+            value: achievement.xp > 0
+                ? String(appLocalized: "\(achievement.tier.title) · \(achievement.xp) XP")
+                : achievement.tier.title,
             tone: .tier)
         guard state.isUnlocked else { return [progressRow(of: state), reward] }
         var rows = [unlockRow(of: state), reward]
@@ -157,7 +174,7 @@ extension JourneyModel {
     }
 
     private static let seriesGroups: Set<Achievement.Group> = [
-        .consistency, .inTheBlue, .volume, .together, .challenges, .levels,
+        .consistency, .inTheBlue, .volume, .together, .challenges, .levels, .pro,
     ]
 }
 

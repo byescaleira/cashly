@@ -4,35 +4,49 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 
 ## Antes de distribuir
 
+- **[P1] Build de envio pelo Xcode Cloud (feito pelo usuário),** com o Xcode 27 final: o Xcode local é o 27.0 beta 6, e a App Store recusa builds feitos com beta. O Xcode Cloud só vê o que estiver no GitHub.
+- **[P1] Completar o App Store Connect** com os textos de `docs/app-store/metadata.json` nas 10 localizações: URLs de suporte, marketing e privacidade, classificação etária, rótulo "Dados não coletados", notas de revisão, capturas de iPhone, iPad, Mac e visionOS, e nome, descrição e captura de revisão de cada compra no app nos 10 idiomas. Molduras (`cashly.avatar.frames`) e Sons (`cashly.sounds`) não vão para revisão. Excluir as sobras `cashly.avatar.pack` e o produto com erro de digitação 6823243930.
+
+- **[P1] Publicar o schema V6 no CloudKit de produção** (moeda paga e cotação da transação) no CloudKit Console antes de distribuir uma build com a branch de moedas.
+- **[P1] Testar moedas no iPhone físico** (etapa e de [currency.md](currency.md)): a instalação migra o banco do aparelho para o V6, e as branches que ainda estão no V5 deixam de abrir esse banco. Por decisão do usuário em 15/10/2026, o teste fica para depois do merge.
+
 - **[P1] Validar CloudKit em dois aparelhos assinados:** offline e reconexão, referências que chegam em momentos diferentes, conflitos concorrentes, exclusões e troca de usuários. Só dá para fazer com dois aparelhos (fica com o usuário); o lado automático está coberto: `scripts/audit.sh`, os `ScenarioTests` e, desde 12/10/2026, a resolução de conflito usa um carimbo monotônico (`max(agora, último visto + 1)`), então uma escolha feita depois de ver a anterior vence mesmo com o relógio atrasado.
 
 ## Desempenho e dados
 
-- **[P2] Agregação proporcional ao volume.** Lista e detalhe são paginados e indexados, mas o resumo do período e a revisão do treino leem tudo, no mesmo actor das gravações. Medição anterior: 50 mil transações no mesmo mês levaram 12,1 s no resumo. Se esse volume for requisito, criar projeções mensais reconstruíveis e revisão persistida.
+- **[P3] Adiar conta em outra moeda.** `IntentActions.postpone` muda a data e mantém a cotação da data original. Buscar a cotação da nova data ou avisar.
+- **[P3] Orçamento estimado sem "≈" na linha.** Metas mostra o aviso de estimativa no rodapé do mês, mas as linhas de orçamento não marcam qual valor foi convertido.
+
+- **[P2] Agregação proporcional ao volume.** Lista e detalhe são paginados e indexados, mas o resumo do período e o retrato do motor leem tudo, no mesmo actor das gravações. Medição anterior: 50 mil transações no mesmo mês levaram 12,1 s no resumo. Se esse volume for requisito, criar projeções mensais reconstruíveis e revisão persistida.
 - **[P2] Competência depende do fuso do aparelho.** Separar instante, data civil, competência, vencimento e pagamento; persistir a competência escolhida.
 - **[P2] Responsabilidades sobrepostas.** `Participant` aponta para `User`, que também é perfil financeiro; não há pagador, vencimento ou liquidação parcial. Proposta: `FinancialProfile`, `Counterparty`, `ExpenseAllocation`, `Obligation`, `Settlement`.
 - **[P2] Fonte de verdade por associação.** Transação e participante guardam referências nos dois sentidos, e valores coexistem em quatro campos. Separar dados canônicos, legado de migração e projeções.
 - **[P2] Resumo de Dados e Backup lê o banco inteiro.** `DataModel.refreshInventory()` usa `backup.export()` para contar registros, período e tamanho a cada visita à página. Em 15/10/2026 isso, somado à recarga a cada mudança do banco (sincronização do iCloud), fez a página piscar e travar no iPhone; a recarga passou a ser só ao abrir e ao trocar de perfil. Trocar por contagens no repositório e estimar o tamanho.
 - **[P3] Data do arquivo de backup em UTC.** `BackupFolder.name(on:)` usa `.iso8601`, que formata em GMT; à noite no Brasil a cópia leva o dia seguinte no nome. As datas relativas da página usam o mesmo calendário GMT para não divergir do nome.
 - **[P2] Atualização duplicada após salvar.** `.editorLifecycle` recarrega a sessão e o `CashlyChangeHub` também avisa; centralizar o refresh.
-- **[P3] Múltiplas moedas.** O app tem uma moeda escolhida nos Ajustes, e cada registro grava a moeda em que foi salvo, mas os totais somam tudo sem conversão. Se contas em moedas diferentes entrarem no escopo, incluir a moeda no `Money` e tratar câmbio como operação explícita.
 
 ## Inteligência e integrações
 
-- **[P2] Separar capacidades de inteligência.** Interpretação de texto, sugestão de categoria, explicação e previsão estatística precisam de contratos próprios antes de entrar Foundation Models. O serviço atual (médias e Naive Bayes) continua como implementação estatística.
 - **[P2] Serviços fora da janela.** App Intents rodam sem tela; o bootstrap precisa de uma raiz de composição compartilhada, com perfil e conta como parâmetros explícitos.
 - **[P3] Testes do StoreKit hospedados pelo app.** O `SKTestSession` falha nos testes do pacote (`xctest` não é um app instalado; `storekitd` responde `SKServiceErrorDomain 2`). Para exercitar o `Cashly.storekit` de verdade (compra, reembolso, expiração), criar um alvo de testes no `Cashly.xcodeproj` com o app como hospedeiro.
 - **[P3] Sequência durante a pausa do Pro.** Sem assinatura a Jornada pausa, mas o motor continua contando os dias sem registro como perdidos; para "nada se perde" de verdade, o `GameSnapshot` precisa receber os períodos sem assinatura e tratá-los como cobertos.
 - **[P3] Jornada no backup.** Os eventos da Jornada (`GameEventEntity`) sincronizam pelo iCloud, mas não entram no arquivo de backup; apagar tudo e restaurar zera dias acompanhados e desafios. O XP de transações, orçamentos e meses volta, porque é recalculado dos dados.
-- **[P2] Ligar a inteligência.** A flag `intelligence` esconde sugestão de valor, de categoria e a tela de treino. Antes de ligar por padrão: treino automático (hoje é manual nos Ajustes), estado vazio e explicação na primeira sugestão, e a medição de qualidade abaixo.
+- **[P2] Ligar a inteligência.** A flag `intelligence` esconde a sugestão de valor do orçamento e a de categoria no editor. Elas já são calculadas do histórico, sem treino. Antes de ligar por padrão: explicação na primeira sugestão e a medição abaixo; desde a I4, embeddings de frase disputam com o Naive Bayes pela precisão nos dados da própria pessoa ([analytics.md](analytics.md)).
+- **[P3] Previsão do mês com parcelas novas.** A `MonthPace` usa `max(agendado, típico)`: uma parcela nova perto do fim do mês esconde o gasto variável que ainda vem. Trocar por `parcelas agendadas + max(avulsas agendadas, típico sem parcelas)`; a chance de passar do planejado acompanha, porque gira em torno dela.
+- **[P2] Conferir o Resumo do Cashly na tela.** Na rodada final de capturas: se o modelo do sistema escreve um texto que passa na validação com dados de exemplo (pt-BR e en), a entrada da seção com e sem Reduzir movimento, no iPhone e no iPad. Um "Ocultar" no Resumo fica como decisão do usuário.
+- **[P3] Resumo semanal por notificação.** O texto do Resumo do Cashly é gerado com o app aberto; uma notificação semanal precisaria gerar em segundo plano (`BGAppRefreshTask` não garante horário) ou cair para um texto de modelo pronto. Decidir com o usuário qual dos dois.
+- **[P3] Boosted trees na previsão.** O `MLBoostedTreeRegressor` (Create ML) ficou fora da I4: com o histórico de uma pessoa, os modelos estatísticos ganham no backtest. Entra no `Forecaster` como candidato quando houver meses suficientes para medir.
 - **[P3] Qualidade das sugestões.** Medir precisão por usuário e categoria antes de mostrar confiança ou automatizar escolhas.
 
 ## Produto
 
-- **Configuração da distribuição.** Preencher no `Info.plist` as chaves de links (`CashlyAppStoreID`, `CashlySupportEmail`, `CashlyHelpURL`, `CashlyPrivacyURL`, `CashlyTermsURL`, `CashlyWebsiteURL`). Sem elas, Ajustes › Sobre mostra só "Avaliar" (pelo `requestReview`) e "Novidades", e o compartilhar manda só o texto; o id 6821986667 do App Store Connect só deve entrar quando a página do app estiver no ar. A cada versão, acrescentar um `Release` em `Release.all` (a tela Novidades destaca a versão instalada e lista as anteriores).
+- **[P3] Vitrine do Pro no Início com 13 argumentos.** Cada análise do Início tem um argumento; para quem não assina, a lista ficou longa. Decidir com o usuário se fica um argumento por pergunta (como está o mês, para onde vai, onde economizar, o que vem aí).
+- **[P3] Reajuste de cobrança recorrente.** Acima de 15% a cobrança abre uma faixa nova e só reaparece depois de três meses no preço novo; detectar a continuação pela descrição e avisar do reajuste. Tolerar uma compra extra na mesma faixa (aceitar a faixa quando tirar uma única compra deixa os intervalos regulares).
+- **A cada versão,** acrescentar um `Release` em `Release.all` (a tela Novidades destaca a versão instalada e lista as anteriores) e atualizar `docs/app-store/metadata.json` (novidades nos 10 idiomas).
 - **Integrações, assinatura e novas features.** Planejadas por fase em [roadmap.md](roadmap.md). Antes de App Intents e widgets, resolver "Serviços fora da janela" acima. Servidor MCP para o Claude Code continua como ideia futura.
 - **[P3] Acessibilidade e restauração.** Dynamic Type conferido no iPhone até o tamanho de acessibilidade AX3; falta VoiceOver, principalmente gráficos e seletores de ícones. Rotas pequenas permitem deep links e restauração.
 - **[P3] Seletor de mês além do orçamento.** O `MonthPicker` novo só é usado no editor de orçamento; avaliar o filtro de período (`FilterMenu`) e a escolha de mês das telas de Metas com o mesmo componente.
+- **[P2] Telas grandes e multiplataforma.** As rotas abrem num `.inspector` quando a janela comporta coluna e inspector (ver decisions.md, 15/10/2026); o visual foi aprovado e a regra já está no apple-sdd (adaptive-layout.md §7.2). Conferido no simulador do iPad 13" (em pé, deitado e girando com o inspector aberto, pelo `CashlyUITests`) e do 11" em pé. Falta rodar o `CashlyUITests` no Xcode Cloud nos destinos que o Mac de trabalho não roda (iPad 11" deitado, iPhone dobrável, Mac e Apple Vision Pro: o app de Mac pede macOS 27 e não há runtime de visionOS aqui) e conferir Split View e Stage Manager, que o teste não cobre.
 - **Ações de retry** nos editores quando a carga inicial falha (hoje é preciso fechar e abrir).
 
 ## Widgets
@@ -60,4 +74,4 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 
 - `SettingsModel.cloudFooter` e `lastSyncText` ficaram usados só pelos testes depois que a página iCloud passou para `SettingsModel+Cloud`; remover junto com os testes quando ninguém mais estiver mexendo em `SettingsModel.swift`.
 
-- Funções grandes nas camadas de dados e domínio (`CashlyStore+Normalization`, `TransactionAllocation`, `LocalIntelligenceService`): avaliar as regras `function_body_length` e `cyclomatic_complexity` do SwiftLint quando essas áreas forem tocadas, com testes cobrindo antes.
+- Funções grandes nas camadas de dados e domínio (`CashlyStore+Normalization`, `TransactionAllocation`): avaliar as regras `function_body_length` e `cyclomatic_complexity` do SwiftLint quando essas áreas forem tocadas, com testes cobrindo antes.

@@ -25,6 +25,9 @@ public struct SettingsScreen<Extra: View>: View {
             #endif
         }
         .navigationTitle("Settings")
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) { AddUserButton() }
+        }
         .task { await settings.loadCloudAccount() }
         .task { await notifications.refreshStatus() }
         .task(id: session?.generation) {
@@ -53,10 +56,7 @@ private struct SettingsSections<Extra: View>: View {
             ForEach(SettingsGroup.allCases) { group in
                 Section {
                     ForEach(entries(in: group)) { SettingsEntryRow(entry: $0) }
-                    if group == .data {
-                        IntelligenceRow()
-                        extra
-                    }
+                    if group == .data { extra }
                 } header: {
                     Text(verbatim: group.title)
                 }
@@ -105,5 +105,17 @@ private struct DevelopmentRow: View {
                 }
             }
         #endif
+    }
+}
+
+private struct AddUserButton: View {
+    @Environment(\.open) private var open
+    @Environment(\.navigationSection) private var section
+
+    var body: some View {
+        Button("Add Profile", systemImage: "person.badge.plus") {
+            open(.addUser(id: nil), in: section)
+        }
+        .tint(Color.primary)
     }
 }

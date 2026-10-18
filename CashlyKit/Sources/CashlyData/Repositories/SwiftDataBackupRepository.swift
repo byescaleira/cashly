@@ -7,6 +7,10 @@ struct SwiftDataBackupRepository: BackupRepository {
         try await store.exportBackup()
     }
 
+    func recordBackup() async throws {
+        try await store.recordBackup()
+    }
+
     func restore(_ backup: CashlyBackup) async throws {
         try await store.restore(backup)
     }

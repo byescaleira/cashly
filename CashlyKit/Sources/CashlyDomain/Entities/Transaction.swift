@@ -15,12 +15,17 @@ public struct Transaction: Identifiable, Hashable, Sendable {
     public var splitMode: TransactionSplitMode?
     public var splitValue: Double?
     public var paymentsPlan: Int?
+    public var currencyCode: String
+    public var exchange: TransactionExchange?
+    public var estimate: CurrencyEstimate?
 
     public init(
         id: String, participants: [Participant], category: Category, money: Money, date: Date,
         summary: String, status: TransactionStatus, splitMode: TransactionSplitMode?,
         splitValue: Double?, paymentsPlan: Int?, ownerMoney: Money? = nil,
-        tagIDs: Set<String> = [], kind: TransactionKind = .expense
+        tagIDs: Set<String> = [], kind: TransactionKind = .expense,
+        currencyCode: String = Money.currencyCode, exchange: TransactionExchange? = nil,
+        estimate: CurrencyEstimate? = nil
     ) {
         self.id = id
         self.ownerID = category.user.id
@@ -36,5 +41,19 @@ public struct Transaction: Identifiable, Hashable, Sendable {
         self.splitMode = splitMode
         self.splitValue = splitValue
         self.paymentsPlan = paymentsPlan
+        self.currencyCode = currencyCode
+        self.exchange = exchange
+        self.estimate = estimate
+    }
+
+    public var stored: Transaction {
+        guard let estimate else { return self }
+        var value = self
+        value.money = estimate.money
+        value.ownerMoney = estimate.ownerMoney
+        if !participants.isEmpty { value.splitValue = estimate.ownerMoney?.doubleValue }
+        value.currencyCode = estimate.currencyCode
+        value.estimate = nil
+        return value
     }
 }

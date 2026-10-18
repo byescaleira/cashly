@@ -6,7 +6,8 @@ struct StoreScope: Sendable {
 
     func requireUserID() throws -> String {
         guard let userID else {
-            throw CashlyError.invalidInput(String(appLocalized: "Select a user before continuing."))
+            throw CashlyError.invalidInput(
+                String(appLocalized: "Select a profile before continuing."))
         }
         return userID
     }

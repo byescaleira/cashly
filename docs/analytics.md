@@ -89,7 +89,7 @@ flowchart TB
 
 **ML no aparelho (`CashlyAnalyticsML`, implementando protocolos do L3):**
 - **Modelo global de previsão:** `MLBoostedTreeRegressor` (Create ML, roda no iPhone) treinado com os atributos do L1 de todas as categorias da pessoa. Entra no ensemble só quando vence o backtest.
-- **Texto e estabelecimentos:** `NLContextualEmbedding` para agrupar descrições parecidas ("NETFLIX.COM", "Netflix *123") e sugerir categoria por vizinhos próximos. Substitui o Naive Bayes atual quando medir melhor.
+- **Texto e estabelecimentos:** embeddings de frase do NaturalLanguage (`NLEmbedding.sentenceEmbedding`, que vem no sistema; o `NLContextualEmbedding` pede download de recursos e devolve vetores por token) para agrupar descrições parecidas ("NETFLIX.COM", "Netflix *123") e sugerir categoria por vizinhos próximos. Substitui o Naive Bayes atual quando medir melhor.
 - **Modelos pré-treinados (Core ML):** um classificador de descrição → categoria treinado fora do aparelho com dados sintéticos e públicos brasileiros, personalizado no aparelho pelos vizinhos da própria pessoa.
 
 ### L4 Motor
@@ -192,15 +192,36 @@ FeatureInsights/          destaques, detalhe com "Como calculamos", assistente
 | Risco de fechar no vermelho | Preditiva | Monte Carlo |
 | Decomposição da variação do mês | Diagnóstica | Contribuição por categoria |
 
+## Início organizado por perguntas
+
+Em 16/10/2026 o Início passou a responder a quatro perguntas, e a inteligência foi replanejada em etapas I1 a I6. Até então o motor tinha cinco análises de conta direta, só sobre quanto se gastou em relação ao plano, e uma inteligência paralela (médias e Naive Bayes com treino manual) fora dele.
+
+| Bloco | O que responde | Etapa |
+| --- | --- | --- |
+| Resumo do Cashly | duas ou três frases e uma ação, narradas a partir dos fatos do mês (Pro) | I5 |
+| Como está o mês | resumo, previsão, disponível e saúde | já existe |
+| Para onde vai o dinheiro | variação por frequência × valor, estabelecimentos, pequenos gastos que somam, dia da semana | I2 |
+| Onde dá para economizar | cobranças recorrentes com custo anual e orçamentos para criar; a volta ao padrão continua como recomendação do Fora do padrão | I3 |
+| O que vem aí | parcelas, quanto fica livre quando terminam e risco de fechar no vermelho | I3 e I4 |
+
+### Fatos, recomendações e ranqueamento
+
+- **`Finding`:** um fato relevante de uma análise, com assunto (categoria, estabelecimento), tema (`month`, `spending`, `saving`, `upcoming`), impacto mensal em centavos, confiança e evidências. Pode trazer uma `Recommendation` com a economia mensal estimada.
+- **`InsightRanking`:** ordena os fatos por impacto × confiança × retorno da pessoa. Usado onde a pessoa dá retorno (Fora do padrão e, na I3, Onde dá para economizar); as seções descritivas da I2 mostram os fatos na ordem da própria análise.
+- **`InsightFeedback`:** a pessoa marca um fato como esperado neste mês e ele some até o mês seguinte. Fica só no aparelho, por perfil. Nas sugestões de economia, "Manter" (cobrança recorrente) e "Não sugerir" (orçamento para criar) escondem a sugestão de vez (`dismissed`).
+- **Sugestões sem treino (`Suggestions`):** valor de orçamento pelo `BudgetRule` (mediana dos meses com gasto entre os seis meses do calendário anteriores, arredondada para cima à dezena) e categoria pela descrição (Naive Bayes), calculados do retrato na hora. O treino manual, a tela Ajustes › Inteligência e a previsão por etiqueta (que nada usava) saíram; as sugestões continuam atrás da flag `intelligence`.
+
 ## Fases
 
 | Fase | Entrega |
 | --- | --- |
-| A. Fundação | `CashlyAnalytics` com dataset, séries, matemática, motor e origem; `LedgerSource` no `CashlyData`; personas sintéticas; `CashlyAudit analytics`; três análises certas (parcelas, ritmo, quanto posso gastar) |
-| B. Previsão | Forecasters, backtest, seleção automática e intervalos; substitui a previsão atual e o botão "Treinar" |
-| A+. Início (feito) | Comparação no mesmo ponto do mês e categorias fora do padrão; seções Este mês, Comparado aos outros meses, Fora do padrão e Próximos meses no Início |
-| C. Detecção | Atípicos, mudança de patamar, recorrências e assinaturas, embeddings de descrição |
-| D. Matemática aplicada | CET, plano de dívidas, Monte Carlo, metas, orçamento sugerido |
-| E. ML | Modelo global com boosted trees, classificador pré-treinado, personalização |
-| F. Linguagem | Narrador, assistente com ferramentas, PCC, avaliação contínua |
-| G. Interface | `FeatureInsights`, "Como calculamos", gráficos com faixa, superfícies nas features |
+| A. Fundação (feita) | `CashlyAnalytics` com dataset, séries, matemática, motor e origem; `LedgerSource` no `CashlyData`; três análises certas (parcelas, ritmo, quanto posso gastar) |
+| A+. Início (feita) | Comparação no mesmo ponto do mês e categorias fora do padrão; seções Este mês, Comparado aos outros meses, Fora do padrão e Próximos meses no Início |
+| I1. Fatos e ranqueamento (feita) | `Finding`, `Recommendation`, `InsightRanking` e `InsightFeedback`; análises atuais emitem fatos; "Esperado neste mês" no Fora do padrão; sugestões calculadas do retrato no lugar do serviço treinado |
+| I2. Para onde vai o dinheiro (feita) | `SpendingDrivers` (frequência × valor), `TopMerchants`, `SmallPurchases`, `WeekdayPattern`; seções O que mudou, Compras que se repetem, Compras pequenas e Por dia da semana no Início |
+| I3. Onde economizar (feita) | `RecurringCharges` (assinaturas e contas fixas com custo anual), `SuggestedBudgets`, `EndingInstallments`; seções Cobranças recorrentes e Orçamentos para criar, e "Livre a partir de" em Próximos meses; "Manter" e "Não sugerir" escondem a sugestão de vez |
+| I4. Modelos (feita) | `Forecaster` (ingênuo, sazonal, mediana, suavização exponencial e Croston, escolhidos por backtest com faixa p10–p90) e `NextMonthForecast` em Próximos meses; `OverPlanRisk` (Monte Carlo com gerador semeado) na Previsão do mês; `CashlyAnalyticsML` com `EmbeddingClassifier` (embeddings de frase do NaturalLanguage) disputando com o Naive Bayes pela precisão nos dados da própria pessoa |
+| I5. Narração (feita) | `CashlyAnalyticsAI`: Resumo do Cashly no topo do Início, escrito no aparelho pelo `SystemLanguageModel` com `@Generable` a partir dos fatos que as seções mostram, sem números; cada frase precisa citar o nome do fato e aparece sob o nome da seção de onde ele vem. Qualquer dígito, símbolo de moeda, percentual ou fato inexistente descarta o texto, e a seção some. O resumo semanal por notificação foi para o backlog |
+| I6. Pergunte ao Cashly | assistente com `Tool`s do motor no Private Cloud Compute; comprovante por imagem |
+
+As fases B a G anteriores foram redistribuídas: previsão e ML em I4, detecção em I2 e I3, matemática aplicada em I3 e I4, linguagem em I5 e I6, interface em cada etapa.

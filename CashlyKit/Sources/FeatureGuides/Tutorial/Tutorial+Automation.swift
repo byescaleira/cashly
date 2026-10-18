@@ -37,7 +37,7 @@ extension Guide {
             TutorialPage(
                 animation: .capture, title: "In Shortcuts",
                 message:
-                    "In the Shortcuts app, Add Expense has every field of the editor: description, status, date, tags, participants, split, installments and profile. Chain them: a shortcut that records your commute every weekday."
+                    "In the Shortcuts app, Add Expense has every field of the editor: description, status, date, tags, shared profiles, split, installments and profile. Chain them: a shortcut that records your commute every weekday."
             ),
         ]
     }

@@ -60,15 +60,20 @@ extension SettingsModel {
     }
 
     func access(to collection: AppIcon.Collection, in shop: ShopAccess) -> PackAccess {
-        access(to: collection.shopItem, in: shop)
+        shop.access(to: collection.shopItem, proOnly: collection.isProOnly)
     }
 
     func choose(_ icon: AppIcon, in shop: ShopAccess) async {
-        if let item = access(to: icon.shopItem, in: shop).lockedItem {
-            shop.open(item)
+        let access = access(to: icon.collection, in: shop)
+        if access.isLocked {
+            shop.unlock(access)
         } else {
             await setAppIcon(icon)
         }
+    }
+
+    public func dropProIcon() async {
+        if appIcon.collection.isProOnly { await setAppIcon(.standard) }
     }
 
     func iconCollections(on date: Date, calendar: Calendar = .current) -> [AppIcon.Collection] {
@@ -79,6 +84,13 @@ extension SettingsModel {
 
     func isFeatured(_ collection: AppIcon.Collection, on date: Date) -> Bool {
         AppIcon.featured(on: date) == collection
+    }
+
+    func followDayChanges() async {
+        today = .now
+        for await _ in NotificationCenter.default.notifications(named: .NSCalendarDayChanged) {
+            today = .now
+        }
     }
 
     func offersAllIcons(in shop: ShopAccess) -> Bool {

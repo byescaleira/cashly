@@ -45,6 +45,8 @@ public struct PeriodSummaryHeader: View {
             .multilineTextAlignment(.center)
             .frame(maxWidth: .infinity)
             .padding(.top, .spaceL)
+        } footer: {
+            EstimatesNotice()
         }
     }
 }
