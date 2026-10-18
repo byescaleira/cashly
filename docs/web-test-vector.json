@@ -1,0 +1,99 @@
+{
+  "description": "Shared Cashly Web test vector (docs/web.md). Code normalized, PBKDF2-HMAC-SHA256 310000 iterations, AES-256-GCM with AAD = UTF-8 of id, ciphertext = ct || tag.",
+  "code": "K7QF2M9X",
+  "displayCode": "K7QF-2M9X",
+  "id": "239534c209234cdd641eeabba850d035fc038d130b81c11bc6456e63f3fe9798",
+  "iterations": 310000,
+  "keyHex": "7f5b435c0c0874e6282a902fd167286e340ef7e7a7a7eadc8495df43f1164917",
+  "package": {
+    "v": 1,
+    "salt": "AAECAwQFBgcICQoLDA0ODw==",
+    "nonce": "oKGio6Slpqeoqaqr",
+    "ciphertext": "5T2EMDTCeI34w7I0juJC+KUMjHfDwj2LnwCwExFl9qjd95xX+qvOU+vq+k2Kp9c0d/rwjDp7OOgAikKii3f+DZZXOkpSJroELtT67OpvkMAlcS7TqR+1dIGLTh62Cyh4vS8HXE4wObkW13J18g2QZcWv8kOn3zC63aKXIasozsbxS+yQ//XTjNuvpDrpsaxKSMFNCgM7IPpNTg2ZzxcasflwzQXk1IpIQRyVa5sM0igO7nbu9cBaVfnWYv3yK0c5CcK8AOn9WsPukrNcPG4i6JWoU26NM35e4WfDQEfBZEC+T2/EUWnINd4xCA/Oo96CCM/PZXdu3hdWvHm7OIfgdagtTj/xwGfagYCZ+hiQR1+lAkCMSquqTu9xYdqZg9erHK/NRKuEnNGr2KvKupqJA4MJmWdS2WOdliJ5IogG6HjxsFgicnBCJ2TI8OMuiZIV3EEIcv8Mi9HrD/UNN4o2jqm0aoy8fYHiu8Rv1aOgn6MvP3SgnuuT+Mkhg9tphOdNl1yCLfQCjBeAEY4eWOQhhcpYxgsoe6ntTe+EVCoAlMfLGc9v34forHajxcxZUvgwQaZlY8oeaWDITfcsnZFOmfiKwbVno7OS7L++gpip7hT4x/fviaffiP4cikJ5/MGDBPVSi/VkC7eri3RW/wmbZSgDWQQBHC+BVMg4Waas0JpvwCWFsNcyzFiKK3G+of/6JmZqgglCNByeY4oRzgeUNep1RF7vlLdgtIGNMa/baLpxM57MxT+mjw56lyxAThk4ZWWA2Ho7XSYOTzs6CHMme7QDTMx66/NGFHQ78thNacHBMyPV3DlHvfPP/GLnSF75R/ZDbxMa0kgcbwBjYOVm5S83iWAZIq0oGoOURJyHiDRkR9KJGTBfxYUFUSEsxIijRgnMrhMB7aEQKq0csSa9/HDBl4u20BWyz2oKKUubFBv62T704Yk2zeY58eMgqQVHNkkR2bYB+FC6X8eSjiB1vGZpUHpq53eaMlTxM/C7uvnVE4ppl/QgZuZbbBYsJlcuUHOmbf6PXQpt1f5LI9WrBqkAkSolMWFB7Ghth8RZDvuE+hM/tSl2qSWla2nd04H3x3b8xCv8X2khto9iMHsPswgLbS4E0qsvZwpvZ3Bv19O/5fKCnEim2qRqueLoOMvgNiYX5vYli8kTaw/l6ZVk43R5InlsynMFOzwTx/mWSSDKQ+V+tImunfTdzHlTo6Xoktzsu3iGeAqLGFx0+I4d90H/3o5XdfMnXOsMG30XF69OdTK1ZH47+u+/06jGxUamgCW+3A3uqNtA4G0ieRcsWvc5BlFEexYTohpw+kuPMH/M/YOVxcNwPu3EznSs16c0HBefJAHzCt5DO5h1HXPhy5YXSeUg+JjEptRXsJDWTw=="
+  },
+  "plaintext": "{\"v\":1,\"generatedAt\":\"2026-10-18T09:41:00Z\",\"locale\":\"en-US\",\"currency\":\"USD\",\"profile\":{\"name\":\"Dana\",\"initials\":\"DT\",\"color\":\"teal\"},\"month\":{\"start\":\"2026-10-01\",\"end\":\"2026-10-31\",\"today\":\"2026-10-17\",\"planned\":3200,\"spent\":1915,\"income\":4200,\"available\":1285,\"usedRatio\":0.6,\"elapsedRatio\":0.55,\"pace\":\"onTrack\",\"perDay\":91},\"budgets\":[{\"name\":\"Groceries\",\"symbol\":\"cart\",\"color\":\"olive\",\"planned\":600,\"spent\":412},{\"name\":\"Dining out\",\"symbol\":\"fork.knife\",\"color\":\"mustard\",\"planned\":220,\"spent\":198},{\"name\":\"Transport\",\"symbol\":\"car\",\"color\":\"rust\",\"planned\":250,\"spent\":271}],\"transactions\":[{\"date\":\"2026-10-17\",\"description\":\"Farmers market\",\"kind\":\"expense\",\"status\":\"paid\",\"amount\":48.2,\"category\":{\"name\":\"Groceries\",\"symbol\":\"cart\",\"color\":\"olive\"},\"tags\":[\"Home\"]},{\"date\":\"2026-10-16\",\"description\":\"Salary\",\"kind\":\"income\",\"status\":\"paid\",\"amount\":4200,\"category\":{\"name\":\"Income\",\"symbol\":\"arrow.up\",\"color\":\"teal\"},\"tags\":[]}],\"upcoming\":[{\"description\":\"Internet\",\"dueDate\":\"2026-10-20\",\"amount\":59}]}",
+  "snapshot": {
+    "v": 1,
+    "generatedAt": "2026-10-18T09:41:00Z",
+    "locale": "en-US",
+    "currency": "USD",
+    "profile": {
+      "name": "Dana",
+      "initials": "DT",
+      "color": "teal"
+    },
+    "month": {
+      "start": "2026-10-01",
+      "end": "2026-10-31",
+      "today": "2026-10-17",
+      "planned": 3200,
+      "spent": 1915,
+      "income": 4200,
+      "available": 1285,
+      "usedRatio": 0.6,
+      "elapsedRatio": 0.55,
+      "pace": "onTrack",
+      "perDay": 91
+    },
+    "budgets": [
+      {
+        "name": "Groceries",
+        "symbol": "cart",
+        "color": "olive",
+        "planned": 600,
+        "spent": 412
+      },
+      {
+        "name": "Dining out",
+        "symbol": "fork.knife",
+        "color": "mustard",
+        "planned": 220,
+        "spent": 198
+      },
+      {
+        "name": "Transport",
+        "symbol": "car",
+        "color": "rust",
+        "planned": 250,
+        "spent": 271
+      }
+    ],
+    "transactions": [
+      {
+        "date": "2026-10-17",
+        "description": "Farmers market",
+        "kind": "expense",
+        "status": "paid",
+        "amount": 48.2,
+        "category": {
+          "name": "Groceries",
+          "symbol": "cart",
+          "color": "olive"
+        },
+        "tags": [
+          "Home"
+        ]
+      },
+      {
+        "date": "2026-10-16",
+        "description": "Salary",
+        "kind": "income",
+        "status": "paid",
+        "amount": 4200,
+        "category": {
+          "name": "Income",
+          "symbol": "arrow.up",
+          "color": "teal"
+        },
+        "tags": []
+      }
+    ],
+    "upcoming": [
+      {
+        "description": "Internet",
+        "dueDate": "2026-10-20",
+        "amount": 59
+      }
+    ]
+  }
+}
