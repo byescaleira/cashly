@@ -56,11 +56,16 @@ function renderHighlights(snapshot, kit) {
   }
   const savings = snapshot.savings;
   if (savings) {
+    const saved = savings.saved ?? 0;
     const percent = new Intl.NumberFormat(kit.locale, { style: 'percent' });
-    const detail = savings.averageRate === undefined
-      ? kit.t('savingsRateOnly', { percent: percent.format(savings.rate ?? 0) })
-      : kit.t('savingsRate', { percent: percent.format(savings.rate ?? 0), average: percent.format(savings.averageRate) });
-    cards.push(card(kit, kit.t('savingsTitle'), kit.money.format(savings.saved ?? 0), detail, (savings.saved ?? 0) < 0 ? 'var(--negative)' : 'var(--positive)'));
+    const sane = (value) => typeof value === 'number' && Math.abs(value) <= 1;
+    let detail = '';
+    if (saved >= 0 && sane(savings.rate)) {
+      detail = sane(savings.averageRate)
+        ? kit.t('savingsRate', { percent: percent.format(savings.rate), average: percent.format(savings.averageRate) })
+        : kit.t('savingsRateOnly', { percent: percent.format(savings.rate) });
+    }
+    cards.push(card(kit, kit.t(saved < 0 ? 'savingsShortTitle' : 'savingsTitle'), kit.money.format(Math.abs(saved)), detail, saved < 0 ? 'var(--negative)' : 'var(--positive)'));
   }
   const score = snapshot.score;
   if (score) {
@@ -205,7 +210,7 @@ function renderJourney(snapshot, kit) {
   head.append(kit.element('span', '', [kit.t('level', { level: journey.level ?? 1 }), journey.levelTitle].filter(Boolean).join(' · ')), kit.element('span', '', new Intl.NumberFormat(kit.locale, { style: 'percent' }).format(clamp(journey.progress))));
   level.append(head, kit.bar('var(--mustard)', clamp(journey.progress)));
   rows.push(level);
-  if (journey.streak !== undefined) {
+  if (journey.streak > 0) {
     const streak = kit.element('div', 'row web-pair-row');
     streak.append(kit.element('span', '', kit.t('streak')), kit.element('strong', '', new Intl.NumberFormat(kit.locale, { style: 'unit', unit: 'day', unitDisplay: 'long' }).format(journey.streak)));
     rows.push(streak);
