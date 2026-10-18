@@ -10,7 +10,7 @@ Painel em `https://cashly.byescaleira.com/admin` para flags remotas (CloudKit p�
 
 - Pasta `/opt/cashly-admin` com `Dockerfile`, `compose.yaml`, `package.json`, `package-lock.json`, `src/`, `public/`.
 - Container `cashly-admin` em `127.0.0.1:3120`, `read_only`, usuário `node` (uid 1000), sem capabilities. Só `secrets/` e `data/` são graváveis (pastas do host, dono 1000, `chmod 700`).
-- `.env` (chmod 600): `BRIDGE_ADMIN_TOKEN` (o mesmo de `/opt/cashly-bridge/.env`) e `CLOUDKIT_KEY_ID`.
+- `.env` (chmod 600): `BRIDGE_ADMIN_TOKEN` (o mesmo de `/opt/cashly-bridge/.env`), `CLOUDKIT_KEY_ID_DEVELOPMENT` e `CLOUDKIT_KEY_ID_PRODUCTION` (o CloudKit cria uma chave server-to-server por ambiente; as duas usam a mesma chave pública). `CLOUDKIT_KEY_ID` vale para os dois se os específicos estiverem vazios.
 - `secrets/cloudkit.pem`: chave privada P-256 do CloudKit (chmod 600, nunca sai da VPS). `secrets/auth.json`: hash scrypt da senha e a passkey.
 - `data/audit.log`: registro das ações do admin, uma linha JSON por ação.
 - Conversa com a ponte pela rede Docker `cashly-control` em `http://cashly-bridge:3111` (porta interna da ponte, nunca publicada no host nem no Caddy). A ponte precisa subir antes, porque é ela que cria a rede.

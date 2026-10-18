@@ -37,3 +37,9 @@ Painel web em `https://cashly.byescaleira.com/admin` para controlar o app sem pu
 
 - Pacote médio do resumo: 20–80 KB. Com o limite padrão de 5.000 sessões, a memória da ponte fica abaixo de ~400 MB no pior caso realista; o admin mostra a ocupação e permite baixar o limite.
 - A página espera o QR com uma busca a cada 2 s (até 10 min) e depois a cada 30 s; o app só envia quando os dados mudam. Se a carga apertar, a ordem é: baixar o rollout da flag `web` no CloudKit, depois pausar a ponte.
+
+## Estado em 18/10/2026
+
+- Chaves server-to-server cadastradas em Development e Produção (mesma pública, nome "Cashly admin (VPS)").
+- `FeatureFlag` criado em Development (campos `name`, `isOn`, `rollout`; `recordName` e `name` consultáveis) e publicado em Produção pelo Rafael (Deploy Schema Changes).
+- Flag `web` gravada em Development (ligada, 100 %); Produção ainda sem registros, então o app usa os padrões.
