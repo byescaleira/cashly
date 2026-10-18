@@ -121,6 +121,9 @@ private final class CashlyBootstrap {
                 if UserDefaults.standard.bool(forKey: "cashly.developer.seed") {
                     try? await SampleDatabase.seed(database)
                 }
+                if UserDefaults.standard.bool(forKey: "cashly.developer.showcase") {
+                    try? await SampleDatabase.seedShowcase(database)
+                }
             #endif
             Task {
                 if await CashlyServices.shared.isPro() { await data.runAutoBackupIfNeeded() }

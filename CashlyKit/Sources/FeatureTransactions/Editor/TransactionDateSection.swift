@@ -15,7 +15,7 @@ struct TransactionDateSection: View {
             )
             .datePickerStyle(.compact)
         } header: {
-            Text("Data").sectionTitle()
+            Text("Date").sectionTitle()
         }
     }
 }
