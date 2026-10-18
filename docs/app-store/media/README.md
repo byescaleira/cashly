@@ -50,10 +50,23 @@ Capturas de marketing, imagens de cabeçalho e App Preview. Textos das imagens e
 |---|---|---|
 | `preview/iphone-preview.mp4` | H.264 High, 886×1920, 30 fps constantes, AAC estéreo silencioso, 25,3 s, 19,8 MB | Home → Goals com a pace bar → novo gasto em 3 toques (valor, categoria, descrição, salvar) → Home com projeção e análises → Journey |
 | `preview/poster.png` | 886×1920 | Quadro do Goals com a pace bar (4 s) |
-| `preview/ipad-preview.mp4` | H.264 High, 1600×1200 (paisagem), 30 fps, AAC estéreo silencioso, 15,3 s, 9 MB | Home → Goals → Histórico com inspetor → Journey |
-| `preview/ipad-poster.png` | 1600×1200 | Quadro do Goals |
+| `preview/ipad-preview.mp4` | H.264 High, 1200×1600 (retrato), 30 fps constantes, AAC estéreo silencioso, 22,6 s, 13,2 MB | Goals com a pace bar → Home com a projeção do mês → Histórico → Journey, gravado no iPad Pro 13" (M5) em retrato |
+| `preview/ipad-poster.png` | 1200×1600 | Quadro do Goals com a pace bar e a legenda (2,5 s) |
 
 Os vídeos usam só imagens gravadas do app (`simctl io recordVideo`), com cortes, aceleração leve e legendas curtas em pílulas laranja.
+
+### Capturas de revisão das compras no app (campo "Review Screenshot")
+
+Capturas cruas do iPhone 17 Pro Max (1320×2868, PNG RGB, sem moldura nem texto), com o plano gratuito simulado (`CASHLY_PLAN=free`) para os itens aparecerem à venda.
+
+| Arquivo | Tela | Produtos |
+|---|---|---|
+| `review/01-paywall.png` | Paywall do Cashly Pro com os planos Annual ($14.99/ano) e Monthly ($1.99/mês) | 2 assinaturas |
+| `review/02-shop.png` | Journey › See the Shop: fim de Avatars (All Avatars), Personalization (Metallic e Neon) e o começo de Journey Helps | pacotes de avatar e cores |
+| `review/03-icons.png` | Tela do pacote Fashion Icons com o botão "Buy for $1.99" | pacotes de ícones |
+| `review/04-avatars.png` | Tela do pacote Fantasy Avatars | pacotes de avatar |
+| `review/05-colors.png` | Tela do pacote Metallic Colors | pacotes de cores |
+| `review/06-helps.png` | Tela de 3 Streak Freezes | ajudas da Journey |
 
 ## Como refazer
 
@@ -71,7 +84,8 @@ Os vídeos usam só imagens gravadas do app (`simctl io recordVideo`), com corte
 - **Tela 7 (dividir):** a lista rolou sob a barra de navegação, então o título "Category" aparece desfocado ao lado das 9:41. É o efeito real da borda de rolagem, mas uma recaptura com a lista parada mais abaixo fica mais limpa.
 - **Data e hora reais.** As telas mostram outubro de 2026 (dia 17); o horário do editor (10:13 PM) e o "Saturday" vêm do relógio do Mac na hora da captura.
 - **App Preview do iPhone:** a gravação do simulador sai em taxa variável; o script normaliza para 30 fps constantes. O trecho do teclado mostra o teclado em inglês do simulador. Não conferi o envio no App Store Connect.
-- **App Preview do iPad** saiu em paisagem 1600×1200 (formato aceito para iPad 13"), não em retrato 1200×1600.
+- **App Preview do iPad:** o canto inferior direito mostra a alça de redimensionar janela do iPadOS (é da interface real do sistema). A Journey leva meio segundo para montar ao abrir, então o corte começa depois disso.
+- **Loja numa captura só:** a lista da loja é longa demais para mostrar ícones, avatares e cores no mesmo quadro; `02-shop.png` mostra avatares, cores e o título das ajudas, e os ícones aparecem em `03-icons.png`.
 - **Ícone no cabeçalho** é uma reconstrução em CSS das camadas SVG do `CashlyIcon.icon` (sem o efeito de vidro do Icon Composer).
 
 ## Tamanhos aceitos em 17/10/2026

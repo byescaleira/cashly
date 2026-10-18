@@ -25,15 +25,15 @@ IPHONE = {
 }
 
 IPAD = {
-    "size": (1600, 1200),
+    "size": (1200, 1600),
     "output": "ipad-preview.mp4",
-    "poster": ("ipad-poster.png", 6.3),
-    "caption": {"top": 1060, "font": 36, "hold": 2.6},
+    "poster": ("ipad-poster.png", 2.5),
+    "caption": {"top": 1440, "font": 40, "hold": 2.8},
     "segments": [
-        ("Know where your money goes", [(0.2, 5.6, 0.9)]),
-        ("Every budget has a pace bar", [(6.0, 8.3, 0.7)]),
-        ("Every expense in its place", [(9.0, 10.3, 0.7)]),
-        ("Make good habits a game", [(12.2, 15.3, 0.6)]),
+        ("Every budget has a pace bar", [(3.5, 10.2, 1.25)]),
+        ("See where the month lands", [(13.9, 22.5, 1.3)]),
+        ("Every expense in its place", [(24.2, 31.0, 1.2)]),
+        ("Make good habits a game", [(35.0, 42.5, 1.25)]),
     ],
 }
 
