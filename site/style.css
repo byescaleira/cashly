@@ -566,6 +566,201 @@ footer.site a:first-child { margin-left: 0; }
 .value strong { display: block; font-size: 28px; font-weight: 900; color: var(--accent); line-height: 1.15; }
 .value span { color: var(--secondary); font-size: 15px; }
 
+.everywhere { padding: 64px 0; border-top: 1px solid var(--separator); }
+
+.devices { position: relative; padding-bottom: 6%; }
+
+.macbook { width: 86%; margin-left: auto; }
+
+.mac-lid {
+  container-type: inline-size;
+  aspect-ratio: 1.54;
+  padding: 1.6% 1.6% 2.2%;
+  border-radius: 3.2% / 4.9%;
+  background: #0b0b0c;
+  box-shadow: inset 0 0 0 2px #c9cacc, 0 30px 60px -30px rgba(0, 0, 0, 0.45);
+}
+
+.mac-display {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 1.6% / 2.5%;
+  font-size: calc(100cqw / 84);
+  background:
+    radial-gradient(120% 90% at 10% 0%, color-mix(in srgb, var(--orange) 55%, transparent), transparent 60%),
+    radial-gradient(100% 80% at 100% 100%, color-mix(in srgb, var(--plum) 55%, transparent), transparent 60%),
+    linear-gradient(160deg, var(--mustard), var(--teal));
+  color: var(--label);
+}
+
+.menubar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 2.4em;
+  padding: 0 1.2em;
+  font-size: 1em;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  background: color-mix(in srgb, var(--background) 55%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.menubar > span:first-child { display: flex; gap: 1.6em; }
+
+.notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 14%;
+  height: 2.4em;
+  transform: translateX(-50%);
+  border-radius: 0 0 0.9em 0.9em;
+  background: #0b0b0c;
+}
+
+.window {
+  position: absolute;
+  top: 4.4em;
+  left: 4%;
+  right: 4%;
+  bottom: 4%;
+  display: grid;
+  grid-template-columns: 18% minmax(0, 1fr) 30%;
+  border-radius: 1.4em;
+  overflow: hidden;
+  background: var(--background);
+  box-shadow: 0 2em 4em -1em rgba(0, 0, 0, 0.45), 0 0 0 0.08em color-mix(in srgb, var(--label) 18%, transparent);
+}
+
+.mac-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  padding: 1.2em 0.8em;
+  margin: 0.6em;
+  border-radius: 1em;
+  background: color-mix(in srgb, var(--row) 70%, transparent);
+  box-shadow: 0 0 0 0.08em color-mix(in srgb, var(--label) 8%, transparent);
+}
+
+.lights { display: flex; gap: 0.6em; margin: 0 0 1.4em 0.4em; }
+.lights i { width: 1.1em; height: 1.1em; border-radius: 50%; background: #ff5f57; }
+.lights i:nth-child(2) { background: #febc2e; }
+.lights i:nth-child(3) { background: #28c840; }
+
+.side-item { display: flex; align-items: center; gap: 0.6em; padding: 0.5em 0.6em; border-radius: 0.7em; font-size: 1.15em; font-weight: 600; }
+.side-item.selected { background: color-mix(in srgb, var(--tint) 18%, transparent); color: var(--tint); }
+.side-item svg, .d-badge svg { width: 1.4em; height: 1.4em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.mac-content, .mac-inspector { padding: 1.6em 1.4em; display: flex; flex-direction: column; gap: 1em; min-width: 0; }
+.mac-content > *, .mac-inspector > * { flex-shrink: 0; }
+.mac-inspector { border-left: 0.08em solid var(--separator); background: color-mix(in srgb, var(--row) 45%, var(--background)); }
+
+.d-title { margin: 0; font-size: 2.2em; font-weight: 800; }
+.d-caption { margin: 0.4em 0 0; font-size: 1.05em; font-weight: 700; color: var(--secondary); }
+
+.d-hero { display: grid; justify-items: center; gap: 0.3em; padding: 0.4em 0; text-align: center; }
+.d-hero .chip { font-size: 0.9em; }
+.d-hero strong { font-size: 3.2em; font-weight: 900; line-height: 1.05; font-variant-numeric: tabular-nums; }
+.d-hero span:last-child { font-size: 1.1em; color: var(--secondary); }
+.d-hero.small strong { font-size: 2.6em; }
+
+.d-group { background: var(--row); border-radius: 1.4em; padding: 0.9em 1.1em; display: grid; gap: 0.7em; }
+.d-group .bar { height: 0.8em; }
+
+.d-row { display: grid; grid-template-columns: 2.6em minmax(0, 1fr); gap: 0.8em; align-items: center; }
+.d-badge { display: grid; place-items: center; width: 2.6em; height: 2.6em; border-radius: 0.8em; background: color-mix(in srgb, var(--badge) 20%, transparent); color: var(--badge); }
+.d-grow { display: grid; gap: 0.35em; min-width: 0; }
+.d-grow small { font-size: 0.95em; color: var(--secondary); }
+
+.d-line { display: flex; justify-content: space-between; gap: 0.8em; font-size: 1.15em; }
+.d-line span { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.d-line b { font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.d-line.d-plain span { font-weight: 500; color: var(--secondary); }
+.d-line.d-plain b { font-weight: 700; }
+.pos { color: var(--positive); }
+
+.mac-inspector .chips { gap: 0.5em; }
+.mac-inspector .chip { font-size: 0.95em; }
+
+.mac-base {
+  position: relative;
+  width: 108%;
+  margin-left: -4%;
+  aspect-ratio: 30;
+  border-radius: 0 0 40% 40% / 0 0 100% 100%;
+  background: linear-gradient(#e3e4e6, #b9babd 70%, #8f9093);
+}
+
+.mac-base::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 14%;
+  height: 40%;
+  transform: translateX(-50%);
+  border-radius: 0 0 1em 1em;
+  background: linear-gradient(#a9aaad, #c8c9cb);
+}
+
+.ipad {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 46%;
+  container-type: inline-size;
+  aspect-ratio: 1.39;
+  padding: 1.7%;
+  border-radius: 5.4% / 7.5%;
+  background: #0b0b0c;
+  box-shadow: inset 0 0 0 0.35em #c9cacc, 0 40px 70px -30px rgba(0, 0, 0, 0.55);
+}
+
+.ipad-display {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 3.6% / 5%;
+  font-size: calc(100cqw / 58);
+  background: var(--background);
+  color: var(--label);
+}
+
+.ipad-camera { position: absolute; top: 0.7em; left: 50%; width: 0.7em; height: 0.7em; transform: translateX(-50%); border-radius: 50%; background: #1d1d20; z-index: 1; }
+
+.ipad-status { display: flex; justify-content: space-between; align-items: center; padding: 0.9em 2em 0; font-size: 1.05em; font-weight: 700; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; }
+.ipad-status .battery { width: 2.2em; height: 1.1em; }
+.ipad-status .status-icons svg { height: 1em; }
+
+.ipad-tabs {
+  display: flex;
+  gap: 0.2em;
+  width: fit-content;
+  margin: 0.6em auto 0;
+  padding: 0.3em;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--row) 80%, transparent);
+  box-shadow: 0 0.4em 1.2em rgba(0, 0, 0, 0.1), inset 0 0 0 0.06em color-mix(in srgb, var(--label) 12%, transparent);
+  font-size: 1.05em;
+  font-weight: 600;
+}
+
+.ipad-tabs span { padding: 0.35em 0.9em; border-radius: 999px; }
+.ipad-tabs span.selected { background: color-mix(in srgb, var(--secondary) 16%, transparent); color: var(--tint); }
+
+.ipad-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.4em; padding: 0.8em 1.8em; }
+.ipad-columns > div { display: grid; gap: 0.7em; align-content: start; min-width: 0; }
+.ipad-columns .d-group { gap: 0.6em; }
+
+.d-figures { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); text-align: center; font-size: 0.95em; color: var(--secondary); }
+.d-figures b { display: block; color: var(--label); font-size: 1.25em; font-weight: 800; }
+.d-figures b.pos { color: var(--positive); }
+
+.ipad-indicator { bottom: 1.5%; width: 26%; height: 0.4em; }
+
 .explore, .versus, .tips, .pricing, .faq { padding: 64px 0; border-top: 1px solid var(--separator); }
 
 .tabs {
@@ -675,6 +870,9 @@ footer.site a:first-child { margin-left: 0; }
 
 @media (max-width: 860px) {
   .hero, section.feature, .panel, .plans { grid-template-columns: minmax(0, 1fr); }
+  .devices { display: grid; gap: var(--space-2xl); padding-bottom: 0; }
+  .macbook { width: 100%; }
+  .ipad { position: relative; width: 100%; }
   .values { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tip-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tabs { width: auto; margin-left: calc(var(--space-l) * -1); margin-right: calc(var(--space-l) * -1); border-radius: 0; background: transparent; padding: 0 var(--space-l); }
