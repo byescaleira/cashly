@@ -65,9 +65,12 @@ function renderHighlights(snapshot, kit) {
   const score = snapshot.score;
   if (score) {
     const value = Math.round(score.value ?? 0);
-    const color = value >= 70 ? 'var(--positive)' : value >= 40 ? 'var(--warning)' : 'var(--negative)';
+    const max = score.max ?? 100;
+    const min = max === 1000 ? 200 : 0;
+    const ratio = clamp((value - min) / (max - min));
+    const color = ratio >= 0.7 ? 'var(--positive)' : ratio >= 0.4 ? 'var(--warning)' : 'var(--negative)';
     const node = card(kit, kit.t('scoreTitle'), `${new Intl.NumberFormat(kit.locale).format(value)}${score.label ? ` · ${score.label}` : ''}`, score.detail, color);
-    node.append(kit.bar(color, value / 100));
+    node.append(kit.bar(color, ratio));
     cards.push(node);
   }
   slot('highlights').replaceChildren(...cards);
