@@ -333,21 +333,29 @@ def shot(name, x, y, w, rotation, k):
     )
 
 
+def phone(x, y, width, screen):
+    uri = "data:image/png;base64," + base64.b64encode((SOURCE / "raw" / "iphone" / f"{screen}.png").read_bytes()).decode()
+    metal = width * 0.017
+    bezel = width * 0.024
+    radius = width * 0.165
+    return (
+        f"<div class='abs' style='left:{x}px;top:{y}px;width:{width}px;border-radius:{radius}px;padding:{metal}px;"
+        f"background:linear-gradient(90deg,#33080f,#8c3443 3%,#5c1a26 9%,#5c1a26 91%,#8c3443 97%,#33080f);"
+        f"box-shadow:0 {width * 0.07}px {width * 0.16}px -{width * 0.05}px rgba(60,10,20,0.6), inset 0 0 0 {width * 0.002}px rgba(255,255,255,0.2)'>"
+        f"<div style='background:#050505;border-radius:{radius - metal}px;padding:{bezel}px;position:relative'>"
+        f"<img src='{uri}' style='display:block;width:100%;border-radius:{radius - metal - bezel}px'>"
+        f"<span class='abs' style='left:50%;top:{bezel + width * 0.03}px;width:{width * 0.3}px;height:{width * 0.088}px;"
+        f"transform:translateX(-50%);border-radius:999px;background:#000'></span></div></div>"
+    )
+
+
 def search(width, height):
     k = width / 3840
-    layout = [
-        ("pace", 150, 230, 1020, -3),
-        ("budgets", 230, 900, 960, 2),
-        ("ordinary", 170, 1460, 980, -2),
-        ("category", 210, 1820, 1000, 2),
-        ("level", 1440, 150, 960, 2),
-        ("compared", 1520, 1470, 860, -2),
-        ("forecast", 2650, 170, 830, 3),
-        ("streak", 2620, 1080, 860, -2),
-    ]
-    body = "".join(shot(name, x, y, w, r, k) for name, x, y, w, r in layout)
-    body += icon(1920 * k, 1040 * k, 560 * k)
-    return page(width, height, body, rays=(1920 * k, 1040 * k, 1500 * k))
+    phone_w = 2250 * k
+    left = width / 2 - phone_w / 2
+    body = confetti(width, height, [(left - 60 * k, 0, phone_w + 120 * k, height)], 14, 260 * k, 5)
+    body += phone(left, -900 * k, phone_w, "goals")
+    return page(width, height, body, rays=(width / 2, height * 0.45, 2400 * k))
 
 
 TARGETS = {
