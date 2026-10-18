@@ -1,12 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-US">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cashly Privacy Policy</title>
-<meta name="description" content="How Cashly handles your data: it stays on your devices and in your own iCloud.">
+<title data-i18n="privacy.meta.title">Cashly Privacy Policy</title>
+<meta name="description" data-i18n-content="privacy.meta.description" content="How Cashly handles your data: it stays on your devices and in your own iCloud.">
 <link rel="icon" href="/assets/favicon.png">
 <link rel="apple-touch-icon" href="/assets/icon.png">
+<script src="/i18n.js"></script>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -14,57 +15,58 @@
 <div class="page">
 <a class="brand" href="/"><img class="icon-light" src="/assets/icon.png" alt=""><img class="icon-dark" src="/assets/icon-dark.png" alt="">Cashly</a>
 <div class="nav-links">
-<a class="optional" href="/#features">Features</a>
-<a class="optional" href="/#pricing">Pricing</a>
-<a href="/support">Support</a>
+<a class="optional" href="/#features" data-i18n="common.nav.features">Features</a>
+<a class="optional" href="/#pricing" data-i18n="common.nav.pricing">Pricing</a>
+<a href="/support" data-i18n="common.footer.support">Support</a>
 </div>
 </div>
 </nav>
 <main class="doc">
 
 <article>
-<h1>Privacy Policy</h1>
-<p class="updated footnote">Effective October 17, 2026</p>
-<p class="lead">Cashly is a personal finance app made by Rafael Escaleira (byescaleira). Your financial data belongs to you: it stays on your devices and in your own iCloud account. We do not run servers that receive it, and we never see it.</p>
+<p class="notice footnote" data-i18n-html="common.legalNotice" hidden>This translation is provided for convenience. If it differs from the <a href="?locale=en-US">English version</a>, the English version prevails.</p>
+<h1 data-i18n="common.privacyPolicy">Privacy Policy</h1>
+<p class="updated footnote" data-i18n="common.effective">Effective <data data-slot="date" data-date="2026-10-17" data-format="long">October 17, 2026</data></p>
+<p class="lead" data-i18n="privacy.lead">Cashly is a personal finance app made by Rafael Escaleira (byescaleira). Your financial data belongs to you: it stays on your devices and in your own iCloud account. We do not run servers that receive it, and we never see it.</p>
 
-<h2>Data we collect</h2>
-<p>None. Cashly has no account sign-up, no advertising, no analytics or crash-reporting SDKs and no tracking across apps or websites.</p>
+<h2 data-i18n="privacy.collect.title">Data we collect</h2>
+<p data-i18n="privacy.collect.text">None. Cashly has no account sign-up, no advertising, no analytics or crash-reporting SDKs and no tracking across apps or websites.</p>
 
-<h2>Where your data lives</h2>
+<h2 data-i18n="privacy.where.title">Where your data lives</h2>
 <ul>
-<li><strong>On your device.</strong> Transactions, budgets, goals, categories, tags, profiles and settings are stored locally.</li>
-<li><strong>In your iCloud.</strong> If iCloud is on, Cashly syncs that data through your private iCloud database, and backups you create are saved to your iCloud Drive. Apple stores it under your Apple Account; we cannot access it.</li>
-<li><strong>Files you export.</strong> Backups and spreadsheets go only where you choose to save or share them.</li>
+<li data-i18n-html="privacy.where.device"><strong>On your device.</strong> Transactions, budgets, goals, categories, tags, profiles and settings are stored locally.</li>
+<li data-i18n-html="privacy.where.icloud"><strong>In your iCloud.</strong> If iCloud is on, Cashly syncs that data through your private iCloud database, and backups you create are saved to your iCloud Drive. Apple stores it under your Apple Account; we cannot access it.</li>
+<li data-i18n-html="privacy.where.exports"><strong>Files you export.</strong> Backups and spreadsheets go only where you choose to save or share them.</li>
 </ul>
 
-<h2>Network requests the app makes</h2>
+<h2 data-i18n="privacy.network.title">Network requests the app makes</h2>
 <ul>
-<li><strong>Exchange rates.</strong> When you use another currency or the converter, Cashly asks public rate services (the open-source currency API on jsDelivr and Cloudflare Pages, and Frankfurter) for the rates of a date. The request carries only the currencies and the date, never amounts or descriptions. Like any website, these services can see your IP address.</li>
-<li><strong>App settings.</strong> Cashly reads feature settings from a public iCloud database. Nothing about you is sent.</li>
-<li><strong>Purchases.</strong> Subscriptions and in-app purchases are handled by Apple through the App Store. We do not receive your payment details.</li>
+<li data-i18n-html="privacy.network.rates"><strong>Exchange rates.</strong> When you use another currency or the converter, Cashly asks public rate services (the open-source currency API on jsDelivr and Cloudflare Pages, and Frankfurter) for the rates of a date. The request carries only the currencies and the date, never amounts or descriptions. Like any website, these services can see your IP address.</li>
+<li data-i18n-html="privacy.network.settings"><strong>App settings.</strong> Cashly reads feature settings from a public iCloud database. Nothing about you is sent.</li>
+<li data-i18n-html="privacy.network.purchases"><strong>Purchases.</strong> Subscriptions and in-app purchases are handled by Apple through the App Store. We do not receive your payment details.</li>
 </ul>
 
-<h2>On-device features</h2>
+<h2 data-i18n="privacy.device.title">On-device features</h2>
 <ul>
-<li><strong>Face ID and Touch ID</strong> are checked by the system. Cashly only learns whether unlocking succeeded.</li>
-<li><strong>Cashly Summary and suggestions</strong> are computed on your device, including text written by Apple's on-device language model. Your data is not sent to any AI service.</li>
-<li><strong>Notifications</strong> are scheduled locally on your device.</li>
-<li><strong>Claude Code connection (optional).</strong> If you turn it on in Settings, Cashly opens a connection on your device or local network so Claude Code on your own computer can read data or propose transactions. Every connection and every import needs your approval in the app. It is off until you enable it.</li>
+<li data-i18n-html="privacy.device.faceId"><strong>Face ID and Touch ID</strong> are checked by the system. Cashly only learns whether unlocking succeeded.</li>
+<li data-i18n-html="privacy.device.summary"><strong>Cashly Summary and suggestions</strong> are computed on your device, including text written by Apple's on-device language model. Your data is not sent to any AI service.</li>
+<li data-i18n-html="privacy.device.notifications"><strong>Notifications</strong> are scheduled locally on your device.</li>
+<li data-i18n-html="privacy.device.claude"><strong>Claude Code connection (optional).</strong> If you turn it on in Settings, Cashly opens a connection on your device or local network so Claude Code on your own computer can read data or propose transactions. Every connection and every import needs your approval in the app. It is off until you enable it.</li>
 </ul>
 
-<h2>Diagnostics</h2>
-<p>If you choose to share analytics with app developers in your device settings, Apple may provide us with aggregated, anonymous usage and crash data through App Store Connect.</p>
+<h2 data-i18n="privacy.diagnostics.title">Diagnostics</h2>
+<p data-i18n="privacy.diagnostics.text">If you choose to share analytics with app developers in your device settings, Apple may provide us with aggregated, anonymous usage and crash data through App Store Connect.</p>
 
-<h2>Deleting your data</h2>
-<p>Use Settings › Data and Backup › Delete All Data in Cashly. It also removes the data from your iCloud. You can manage storage for Cashly in your device's iCloud settings. Deleting the app removes local data.</p>
+<h2 data-i18n="privacy.delete.title">Deleting your data</h2>
+<p data-i18n="privacy.delete.text">Use Settings › Data and Backup › Delete All Data in Cashly. It also removes the data from your iCloud. You can manage storage for Cashly in your device's iCloud settings. Deleting the app removes local data.</p>
 
-<h2>Children</h2>
-<p>Cashly is not directed at children under 13 and collects no data from anyone.</p>
+<h2 data-i18n="privacy.children.title">Children</h2>
+<p data-i18n="privacy.children.text">Cashly is not directed at children under 13 and collects no data from anyone.</p>
 
-<h2>Changes</h2>
-<p>If this policy changes, we will update this page and the date above.</p>
+<h2 data-i18n="common.changes">Changes</h2>
+<p data-i18n="privacy.changes.text">If this policy changes, we will update this page and the date above.</p>
 
-<h2>Contact</h2>
+<h2 data-i18n="common.contact">Contact</h2>
 <p><a href="mailto:support@byescaleira.com">support@byescaleira.com</a></p>
 </article>
 
@@ -73,7 +75,24 @@
 <footer class="site">
 <div class="page">
 <span>© 2026 Rafael Escaleira</span>
-<span><a href="/support">Support</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></span>
+<div class="footer-end">
+<span><a href="/support" data-i18n="common.footer.support">Support</a><a href="/privacy" data-i18n="common.footer.privacy">Privacy</a><a href="/terms" data-i18n="common.footer.terms">Terms</a></span>
+<details class="locale-picker">
+<summary><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9M12 3c-2.5 2.6-3.8 5.6-3.8 9s1.3 6.4 3.8 9"/></svg><span class="label" data-i18n="common.language">Language</span><span data-locale-name>English</span></summary>
+<ul>
+<li><a href="?locale=en-US" data-locale="en-US" hreflang="en-US" lang="en-US">English</a></li>
+<li><a href="?locale=pt-BR" data-locale="pt-BR" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a></li>
+<li><a href="?locale=es-ES" data-locale="es-ES" hreflang="es-ES" lang="es-ES">Español</a></li>
+<li><a href="?locale=de-DE" data-locale="de-DE" hreflang="de-DE" lang="de-DE">Deutsch</a></li>
+<li><a href="?locale=fr-FR" data-locale="fr-FR" hreflang="fr-FR" lang="fr-FR">Français</a></li>
+<li><a href="?locale=it-IT" data-locale="it-IT" hreflang="it-IT" lang="it-IT">Italiano</a></li>
+<li><a href="?locale=ja-JP" data-locale="ja-JP" hreflang="ja-JP" lang="ja-JP">日本語</a></li>
+<li><a href="?locale=ko-KR" data-locale="ko-KR" hreflang="ko-KR" lang="ko-KR">한국어</a></li>
+<li><a href="?locale=zh-CN" data-locale="zh-CN" hreflang="zh-CN" lang="zh-CN">简体中文</a></li>
+<li><a href="?locale=ru-RU" data-locale="ru-RU" hreflang="ru-RU" lang="ru-RU">Русский</a></li>
+</ul>
+</details>
+</div>
 </div>
 </footer>
 </body>
