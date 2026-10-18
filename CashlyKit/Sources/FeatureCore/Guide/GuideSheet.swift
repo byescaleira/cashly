@@ -138,14 +138,22 @@ private struct GuideButtons: View {
 
     var body: some View {
         VStack(spacing: .spaceM) {
-            Button(action: primary.perform) {
-                ZStack {
-                    Text(primary.title).opacity(isWorking ? 0 : 1)
-                    if isWorking { ProgressView() }
+            if let invite = primary.invite {
+                ShareLink(item: invite, preview: SharePreview(primary.preview)) {
+                    Text(primary.title)
                 }
+                .primaryButton()
+                .disabled(isWorking)
+            } else {
+                Button(action: primary.perform) {
+                    ZStack {
+                        Text(primary.title).opacity(isWorking ? 0 : 1)
+                        if isWorking { ProgressView() }
+                    }
+                }
+                .primaryButton()
+                .disabled(!primary.isEnabled || isWorking)
             }
-            .primaryButton()
-            .disabled(!primary.isEnabled || isWorking)
             if let secondary {
                 Button(secondary.title, action: secondary.perform)
                     .font(.buttonLabel)

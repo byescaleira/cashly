@@ -2,6 +2,7 @@ import AppShell
 import CashlyData
 import CashlyDomain
 import CashlyMock
+import FeatureCore
 import FeatureSettings
 import Foundation
 import SwiftUI
@@ -10,6 +11,7 @@ struct MockModifier: ViewModifier {
     var includeSampleData = true
     @State private var window: CashlyWindow?
     @State private var settings = SettingsModel.preview
+    @State private var sharing = SharingModel(service: PreviewSharing())
     @State private var error: String?
 
     func body(content: Content) -> some View {
@@ -17,6 +19,7 @@ struct MockModifier: ViewModifier {
             if let window {
                 content.cashlyWindow(window)
                     .cashlySettings(settings)
+                    .environment(sharing)
                     .task {
                         await window.session.refreshUsers()
                         await window.finance.load()

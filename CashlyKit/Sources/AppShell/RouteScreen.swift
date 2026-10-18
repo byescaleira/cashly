@@ -4,6 +4,7 @@ import FeatureCategories
 import FeatureConverter
 import FeatureCore
 import FeatureJourney
+import FeatureSharing
 import FeatureTags
 import FeatureTransactions
 import FeatureUsers
@@ -12,6 +13,7 @@ import SwiftUI
 struct RouteScreen: View {
     @Environment(SessionModel.self) private var session
     @Environment(FinanceModel.self) private var finance
+    @Environment(SharingModel.self) private var sharing
     @Environment(\.exchangeRates) private var rates
     let route: Route
 
@@ -20,8 +22,18 @@ struct RouteScreen: View {
         switch route {
         case .addUser(let id):
             ModelHost(
-                UserEditorModel(draft: id.map(UserDraft.edit) ?? .new(), users: repositories.users)
+                UserEditorModel(
+                    draft: id.map(UserDraft.edit) ?? .new(),
+                    users: id == nil ? session.directory : repositories.users)
             ) { UserEditorScreen() }
+        case .addSharedProfile:
+            ModelHost(
+                UserEditorModel(
+                    draft: .new(shared: true), users: session.directory, sharing: sharing,
+                    sourceCategories: finance.allCategories, sourceName: session.user?.name)
+            ) { UserEditorScreen() }
+        case .sharedProfile(let id):
+            SharedProfileScreen(profileID: id)
         case .addCategory(let id):
             ModelHost(
                 CategoryEditorModel(

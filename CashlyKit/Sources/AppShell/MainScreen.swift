@@ -50,6 +50,7 @@ public struct MainScreen: View {
         .sheet(item: $navigation.guide) { GuideScreen($0) }
         .sheet(item: $navigation.shopItem) { ShopItemScreen(item: $0) }
         .modifier(MCPImportPresenter())
+        .modifier(SharingPresenter())
         .environment(
             \.showGuide,
             ShowGuideAction { [isPro = pro.isPro] in navigation.show($0, isPro: isPro) }

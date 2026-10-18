@@ -1,5 +1,6 @@
 import CashlyData
 import CashlyDomain
+import CloudKit
 import FeatureCore
 import FeatureUsers
 import Foundation
@@ -149,4 +150,100 @@ struct UserEditorTests {
         let saved = try await database.repositories(for: nil).users.user(id: editor.draft.id)
         #expect(saved?.photo == .suggested(for: editor.draft.id))
     }
+}
+
+@MainActor
+struct SharedProfileEditorTests {
+    @Test func newSharedProfilesGoThroughSharing() async throws {
+        let users = try CashlyDatabase.open(inMemory: true).repositories(for: nil).users
+        let service = EditorSharing()
+        let sharing = SharingModel(service: service)
+        await sharing.checkAccount()
+        let owner = User(id: "me", name: "Rafael")
+        let category = Category(id: "c", user: owner, name: "Food", color: "C2602A", icon: "cart")
+        let editor = UserEditorModel(
+            draft: .new(shared: true), users: users, sharing: sharing,
+            sourceCategories: [category], sourceName: "Rafael")
+        await editor.load()
+        editor.draft.name = "Home"
+        #expect(editor.createsShared)
+        #expect(editor.canCopyCategories)
+        #expect(editor.copyCategoriesTitle == "Copy Categories from Rafael")
+        await editor.save()
+        #expect(editor.status.isSaved)
+        #expect(await service.copied == 1)
+        #expect(try await users.user(id: editor.draft.id) == nil)
+        #expect(sharing.inviting?.name == "Home")
+    }
+
+    @Test func copyingCategoriesCanBeTurnedOff() async throws {
+        let users = try CashlyDatabase.open(inMemory: true).repositories(for: nil).users
+        let service = EditorSharing()
+        let sharing = SharingModel(service: service)
+        await sharing.checkAccount()
+        let owner = User(id: "me", name: "Rafael")
+        let category = Category(id: "c", user: owner, name: "Food", color: "C2602A", icon: "cart")
+        let editor = UserEditorModel(
+            draft: .new(shared: true), users: users, sharing: sharing,
+            sourceCategories: [category])
+        await editor.load()
+        editor.draft.name = "Home"
+        editor.draft.copiesCategories = false
+        await editor.save()
+        #expect(await service.copied == 0)
+    }
+
+    @Test func sharedProfilesAreNotRemovedFromTheEditor() async throws {
+        let users = try CashlyDatabase.open(inMemory: true).repositories(for: nil).users
+        try await users.save(User(id: "home", name: "Home", isShared: true))
+        let editor = UserEditorModel(draft: .edit(id: "home"), users: SharedMarking(base: users))
+        await editor.load()
+        #expect(editor.showsSharing)
+        #expect(!editor.canRemove)
+        #expect(!editor.createsShared)
+    }
+
+    @Test func sharedCreationWaitsForICloud() async throws {
+        let users = try CashlyDatabase.open(inMemory: true).repositories(for: nil).users
+        let editor = UserEditorModel(
+            draft: .new(shared: true), users: users, sharing: SharingModel())
+        await editor.load()
+        editor.draft.name = "Home"
+        #expect(!editor.canSave)
+    }
+}
+
+private struct SharedMarking: UserRepository {
+    let base: any UserRepository
+    func users() async throws -> [User] { try await base.users() }
+    func user(id: String) async throws -> User? {
+        try await base.user(id: id).map {
+            User(id: $0.id, name: $0.name, photo: $0.photo, isShared: true)
+        }
+    }
+    func save(_ user: User) async throws { try await base.save(user) }
+    func delete(id: String) async throws { try await base.delete(id: id) }
+}
+
+private actor EditorSharing: ProfileSharing {
+    var copied: Int?
+    nonisolated var container: CKContainer { CKContainer(identifier: "iCloud.cashly") }
+    func accountAvailable() async -> Bool { true }
+    func isOwner(of profileID: String) async -> Bool { true }
+    func createProfile(_ user: User, copying categories: [CashlyDomain.Category]) async throws {
+        copied = categories.count
+    }
+    func share(profileID: String, title: String) async throws -> CKShare {
+        throw CashlyError.onSave
+    }
+    func details(profileID: String) async throws -> SharedProfileDetails {
+        SharedProfileDetails(profileID: profileID, isOwner: true, isShared: false, members: [])
+    }
+    func removeMember(_ memberID: String, profileID: String) async throws {}
+    func stopSharing(profileID: String) async throws {}
+    func leave(profileID: String) async throws {}
+    func deleteForEveryone(profileID: String) async throws {}
+    func accept(_ metadata: CKShare.Metadata) async throws -> String { "" }
+    func refresh() async {}
+    func status() async -> SharingSyncStatus { SharingSyncStatus() }
 }

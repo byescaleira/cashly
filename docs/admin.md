@@ -23,7 +23,7 @@ Painel web em `https://cashly.byescaleira.com/admin` para controlar o app sem pu
 ## Telas
 
 1. **Visão geral:** estado da ponte (ativa/pausada), sessões guardadas agora, leituras e escritas por minuto, `429` e `503` por minuto, memória, tempo no ar; gráfico da última hora.
-2. **Flags:** a lista do `FeatureFlag` do app (`mcpServer`, `mcpLocalNetwork`, `spreadsheetImport`, `guides`, `analytics`, `journey`, `pro`, `intelligence`, `summary`, `web`) com o padrão do app, o valor remoto em **Desenvolvimento** e em **Produção** (abas), interruptor e rollout de 0 a 100 %. Salvar grava no CloudKit público do ambiente escolhido. Mostra quando foi a última leitura e avisa que o app só pega o novo valor na próxima abertura.
+2. **Flags:** a lista do `FeatureFlag` do app (`mcpServer`, `mcpLocalNetwork`, `spreadsheetImport`, `guides`, `analytics`, `journey`, `pro`, `intelligence`, `summary`, `web`, `social`) com o padrão do app, o valor remoto em **Desenvolvimento** e em **Produção** (abas), interruptor e rollout de 0 a 100 %. Salvar grava no CloudKit público do ambiente escolhido. Mostra quando foi a última leitura e avisa que o app só pega o novo valor na próxima abertura.
 3. **Ponte:** pausar/retomar, limite de sessões guardadas, leituras e escritas por minuto por IP, tamanho máximo do pacote e validade (até 24 h). Mudanças valem na hora, sem reiniciar.
 4. **Registro:** quem mudou o quê e quando (só ações do admin, sem dados de usuários).
 

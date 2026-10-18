@@ -21,7 +21,7 @@ flowchart TD
 | Target | Responsabilidade | Depende de |
 | --- | --- | --- |
 | `CashlyDomain` | Entidades (`Transaction`, `Budget`, `Category`…), valores (`Money` em centavos, `YearMonth`), regras puras (`BudgetUsage`, `BudgetHealth`, `TransactionAllocation`…), formato de backup (`CashlyBackup`), protocolos de repositório | nada |
-| `CashlyData` | `CashlyDatabase`, `CashlyStore` (`@ModelActor`), schemas V1 a V5 congelados e V6 atual (moeda paga e cotação da transação; ver [currency.md](currency.md)), repositórios por agregado, backup (`CashlyDatabase.backup`), `CashlyChangeHub`| Domain |
+| `CashlyData` | `CashlyDatabase`, `CashlyStore` (`@ModelActor`), schemas V1 a V5 congelados e V6 atual (moeda paga e cotação da transação; ver [currency.md](currency.md)), repositórios por agregado, backup (`CashlyDatabase.backup`), `CashlyChangeHub`; `CashlyLibrary` (o `RepositoryProvider` do app, que junta o banco principal e o dos perfis compartilhados) e `SharingCoordinator` com os dois `CKSyncEngine` (ver [social.md](social.md)) | Domain |
 | `CashlyAnalyticsML` | Modelos que usam frameworks da Apple sobre o motor: `EmbeddingSpace` e `EmbeddingClassifier` (embeddings de frase do NaturalLanguage) e `CategoryModels`, que escolhe o classificador de categoria pela precisão nos dados da pessoa | Domain, Analytics |
 | `CashlyAnalyticsAI` | Foundation Models sobre o motor: `NarrationFact`, `NarrationPrompt`, `NarrationCheck` (validação sem números) e `SystemNarrator` (`SystemLanguageModel`, geração guiada) | Domain, Analytics |
 | `CashlyDesignSystem` | `Styles/` (extensions de `ShapeStyle`, paleta retrô em `Color+Retro`, `Color(hex:)`, `\.appTint`), `Modifiers/` (extensions de `View`, como `.amountLine()`), `Layout/` (`AdaptiveList`, `AdaptiveStack`, `AdaptiveRow`, `SurfaceContainer`) | nada |
@@ -58,7 +58,8 @@ Regras de dependência:
 | `FeatureCategories` | Lista, detalhe e editor de categoria |
 | `FeatureBudgets` | Editor de orçamento e resolução de conflito |
 | `FeatureTags` | Editor de tag |
-| `FeatureUsers` | Editor de usuário |
+| `FeatureUsers` | Editor de usuário, inclusive criar um perfil compartilhado |
+| `FeatureSharing` | Tela do perfil compartilhado (pessoas, convite, iCloud, sair) e as folhas de convite, entrada e confirmação, sobre o `SharingModel` do `FeatureCore` |
 | `FeatureSettings` | Aparência e ícone, moeda, notificações, iCloud (estado e última sincronização), dados (backup, planilha CSV, backup automático, importar, apagar tudo), ajuda, sobre e novidades |
 
 ## Estado e fluxo de dados
@@ -67,6 +68,7 @@ Regras de dependência:
 - **Janela.** `CashlyWindow` cria, por janela, `SessionModel` (usuário selecionado, filtro, repositórios do usuário), `FinanceModel` (resumo do período), `TransactionListModel`, `IntelligenceModel` e `CashlyNavigation`, e os injeta no ambiente. Duas janelas podem ter usuários diferentes.
 - **Escopo.** `SessionModel.repositories` entrega repositórios presos ao usuário da janela; o store recusa leitura e escrita de outro dono.
 - **Lembretes.** `NotificationsModel` (em `FeatureCore`, porque o `AppShell` agenda e os Ajustes mostram) fala com o sistema por `NotificationScheduling`. O `MainScreen` reagenda os vencimentos do usuário da janela sempre que a sessão recarrega; `PaymentSchedule` (domínio) escolhe as 50 parcelas pendentes mais próximas, às 9h do dia. A cada revisão dos dados o `MainScreen` também chama `reviewCaptures`, que registra de novo as categorias de notificação de captura com as categorias do perfil e atualiza o contador do ícone com as capturas pendentes.
+- **Perfis compartilhados.** O app recebe uma `CashlyLibrary`, não um banco: perfis pessoais vão para o banco principal (SwiftData + CloudKit privado) e os compartilhados para um segundo banco local sincronizado por `CKSyncEngine` (zonas `profile.<id>` com `CKShare`). `User.isShared` marca os compartilhados no diretório. Detalhes em [social.md](social.md).
 - **Mudanças.** O `CashlyChangeHub` avisa a sessão quando o banco muda (inclusive por CloudKit), e a sessão recarrega o que estiver na tela.
 - **Editores.** Cada rota de edição recebe um model novo por `ModelHost`, com `EditorStatus` para carregar, salvar e excluir com proteção contra respostas atrasadas. `.editorLifecycle` cuida de carregar, fechar ao salvar e mostrar erros.
 - **Dinheiro.** Valores são `Money` em centavos inteiros; `Double` só existe na borda da interface. A moeda exibida e gravada nos registros novos vem de `CurrencySetting.shared`, observável e segura entre threads; a formatação (`.appCurrency`, `Money.formatted`) lê dela, então as telas se atualizam quando ela muda.
