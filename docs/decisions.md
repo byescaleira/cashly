@@ -829,3 +829,10 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **O que o teste confere:** a rota abre ao lado exatamente quando a janela tem 960 pt ou mais; um inspector aberto continua aberto ao girar; e, já deitado, a próxima rota segue a largura nova. Anexa `XCUIScreen.main.screenshot()` (o `app.screenshot()` cortava a tela deitada) e as medidas das barras de navegação.
 - **Conferido no simulador do iPad Pro 13":** deitado (1376 pt), a barra lateral aparece, o Início fica no meio em uma coluna e o conversor ocupa o inspector de 400 pt (x 976); em pé (1032 pt), o inspector fica em x 632. Girar com o conversor aberto mantém o conversor nos dois sentidos.
 
+
+## 17/10/2026: landing page de venda
+
+- **Objetivo é vender o app** (pedido do usuário): título de benefício ("Know where your money goes before the month ends"), botão de download fixo no topo e repetido, faixa de números, explorador de features em abas, comparação com planilha e com apps ligados ao banco, dicas filtráveis tiradas dos guias do app, planos Grátis × Pro, perguntas frequentes e chamada final. Sem avaliações ou depoimentos inventados.
+- **Design system do app no site:** paleta retrô clara e escura, laranja de destaque, tokens de espaço, raio e barra, fonte arredondada do sistema, chips, valores grandes e a barra de ritmo do app. As animações Lottie são as do app (`scripts/animations`), recoloridas pelo nome das camadas, paradas no último quadro com Reduzir movimento.
+- **Mockup em iPhone 18 Pro Max bordô** desenhado em CSS (pedido do usuário): borda metálica, Dynamic Island, botões laterais, barra de status e a barra de abas flutuante do app.
+- **Botões apontam para `apps.apple.com/app/id6821986667`,** que só abre depois do lançamento.
