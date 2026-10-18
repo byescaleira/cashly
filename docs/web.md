@@ -50,6 +50,7 @@ Os registros são os do SwiftData no CloudKit, na zona `com.apple.coredata.cloud
 - **Tokens de API criados** no CloudKit Console, em desenvolvimento e produção, ambos com origem restrita a `cashly.byescaleira.com`.
 - **O app gera o token web:** um build de Debug no iPhone com `CKFetchWebAuthTokenOperation(apiToken:)` devolveu um token de 348 caracteres.
 - **Leitura bloqueada pela conta:** `records/query` no banco privado respondeu `403 ACCESS_DENIED`, "private db access disabled for this account". O iCloud da pessoa precisa estar com **Ajustes › [nome] › iCloud › Acessar Dados do iCloud na Web** ligado, o que vem desligado com a Proteção Avançada de Dados. Isso entra no guia do app como requisito, com um teste antes de mostrar o código.
+- **Segundo teste (18/10/2026, 00:43):** com o usuário dizendo ter ligado o acesso web, um token novo continuou recebendo "private db access disabled for this account". Ou a mudança ainda não tinha chegado aos servidores, ou a conta tem a Proteção Avançada de Dados, com a qual o acesso web vale só para o icloud.com. Se for a segunda, o Cashly Web não funciona para quem usa essa proteção, e o guia do app precisa dizer isso antes de gerar o código.
 - **Falta confirmar,** com o acesso ligado: leitura dos registros `CD_*`, token novo a cada resposta, rejeição do token antigo e cabeçalhos de CORS.
 
 ## Decisões pendentes
