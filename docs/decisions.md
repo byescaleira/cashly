@@ -836,3 +836,8 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Design system do app no site:** paleta retrô clara e escura, laranja de destaque, tokens de espaço, raio e barra, fonte arredondada do sistema, chips, valores grandes e a barra de ritmo do app. As animações Lottie são as do app (`scripts/animations`), recoloridas pelo nome das camadas, paradas no último quadro com Reduzir movimento.
 - **Mockups em CSS** (pedido do usuário): iPhone 18 Pro Max bordô no herói (borda metálica, Dynamic Island, botões laterais, barra de status e a barra de abas flutuante do app) e, na seção "Every screen", um MacBook Pro com a janela do app (barra lateral, Início e uma transação no inspector) e um iPad Pro com Histórico e Metas lado a lado. Os aparelhos escalam por `container-type` e unidades `cqw`, com o conteúdo em `em`.
 - **Botões apontam para `apps.apple.com/app/id6821986667`,** que só abre depois do lançamento.
+
+## 17/10/2026: schema do CloudKit
+
+- **Schema gerado pelo `initializeCloudKitSchema()`** e não à mão no console: `CashlyDatabase.initializeCloudSchema()` (só em DEBUG) monta o `NSManagedObjectModel` a partir de `CashlySchemaV6.models`, abre um `NSPersistentCloudKitContainer` num arquivo temporário, inicializa o schema de desenvolvimento e apaga o arquivo. O app chama com o argumento `-CashlyInitializeCloudSchema`, fora do simulador. Foi o caminho documentado pela Apple para SwiftData e evita erro de tipo em 9 entidades.
+- **Publicação em produção feita pelo usuário,** por ser irreversível.
