@@ -63,6 +63,7 @@ export async function fetchPackage(sessionID, etag, base = '/bridge') {
   if (response.status === 304) return { status: 'unchanged' };
   if (response.status === 404) return { status: 'missing' };
   if (response.status === 429) return { status: 'limited' };
+  if (response.status === 503) return { status: 'paused' };
   if (!response.ok) return { status: 'error' };
   return { status: 'ok', etag: response.headers.get('ETag'), pack: await response.json() };
 }

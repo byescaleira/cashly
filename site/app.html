@@ -53,6 +53,7 @@
 </section>
 
 <section class="web-month" data-view="month" hidden>
+<p class="web-notice" data-slot="paused" data-t="pausedNotice" hidden>Cashly on the Web is paused for a few minutes. This page tries again on its own.</p>
 <header class="web-hero">
 <div class="month-header">
 <span class="chip capsule" data-slot="month-range"></span>
@@ -69,10 +70,31 @@
 <div><span class="footnote" data-t="income">Income</span><strong data-slot="income"></strong></div>
 </div></div>
 </header>
+<div class="web-highlights" data-slot="highlights"></div>
+<section class="web-block" data-block="daily" hidden>
+<h2 class="web-section" data-t="dailyTitle">Spending by day</h2>
+<div class="group web-chart" data-slot="daily"></div>
+</section>
 <div class="web-columns">
 <div>
 <h2 class="web-section" data-t="budgets">Budgets</h2>
 <div class="group" data-slot="budgets"></div>
+<section data-block="categories" hidden>
+<h2 class="web-section" data-t="categoriesTitle">Top categories</h2>
+<div class="group" data-slot="categories"></div>
+</section>
+<section data-block="tags" hidden>
+<h2 class="web-section" data-t="tagsTitle">Tags</h2>
+<div class="group" data-slot="tags"></div>
+</section>
+<section data-block="months" hidden>
+<h2 class="web-section" data-t="monthsTitle">Last months</h2>
+<div class="group web-chart" data-slot="months"></div>
+</section>
+<section data-block="journey" hidden>
+<h2 class="web-section" data-t="journeyTitle">Journey</h2>
+<div class="group" data-slot="journey"></div>
+</section>
 <h2 class="web-section" data-t="upcoming">Upcoming</h2>
 <div class="group" data-slot="upcoming"></div>
 </div>

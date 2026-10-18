@@ -1,8 +1,10 @@
 import { strings, locales } from './web-strings.js';
+import { renderSections } from './web-sections.js';
 import { createSessionID, generateKeyPair, pairingLink, openPackage, fetchPackage } from './web-crypto.js';
 
 const WAIT_INTERVAL = 2000;
 const WATCH_INTERVAL = 30000;
+const PAUSED_INTERVAL = 60000;
 const CODE_LIFETIME = 10 * 60 * 1000;
 const DATABASE = 'cashly-web';
 const STORE = 'session';
@@ -133,6 +135,7 @@ async function poll() {
       return message('brokenTitle', 'brokenText');
     }
     state.etag = result.etag;
+    slot('paused').hidden = true;
     state.updatedAt = Date.parse(result.pack.updatedAt) || Date.now();
     if (!session.paired) {
       session.paired = true;
@@ -140,6 +143,11 @@ async function poll() {
     }
     renderMonth(state.snapshot);
     show('month');
+  } else if (result.status === 'paused') {
+    if (session.paired) slot('paused').hidden = false;
+    else slot('status').textContent = t('pausedStatus');
+    renderUpdated();
+    return schedule(PAUSED_INTERVAL);
   } else if (result.status === 'missing' && session.paired) {
     await clearSession();
     return message('endedTitle', 'endedText');
@@ -224,6 +232,8 @@ function renderMonth(snapshot) {
     row.append(badge(budget.name, budget.color), body);
     return row;
   }) : [emptyRow('noBudgets')]));
+
+  renderSections(snapshot, { t, money, locale, element, palette, badge, bar, day });
 
   const upcoming = slot('upcoming');
   upcoming.replaceChildren(...(snapshot.upcoming?.length ? snapshot.upcoming.map((item) => {
