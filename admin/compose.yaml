@@ -11,6 +11,8 @@ services:
       BRIDGE_URL: http://cashly-bridge:3111
       BRIDGE_ADMIN_TOKEN: ${BRIDGE_ADMIN_TOKEN:?BRIDGE_ADMIN_TOKEN is required}
       CLOUDKIT_KEY_ID: ${CLOUDKIT_KEY_ID:-}
+      CLOUDKIT_KEY_ID_DEVELOPMENT: ${CLOUDKIT_KEY_ID_DEVELOPMENT:-}
+      CLOUDKIT_KEY_ID_PRODUCTION: ${CLOUDKIT_KEY_ID_PRODUCTION:-}
     volumes:
       - ./secrets:/secrets
       - ./data:/data
