@@ -74,6 +74,40 @@ Serviço mínimo em Node, num container na VPS, atrás do Caddy em `https://cash
 - Somente o perfil atual e o mês atual; até 300 transações (as mais recentes).
 - `kind` é `expense` ou `income`; `status` é `paid`, `toPay`, `toReceive` ou `canceled`. `upcoming` são as despesas a pagar do mês, em ordem de vencimento. As chaves do JSON saem em ordem alfabética (o conteúdo é o mesmo).
 
+## Seções extras do resumo (W5, 18/10/2026)
+
+Depois do primeiro teste real, o resumo ganhou as seções do Início, de Insights e da Jornada. Todas são **opcionais**: o app manda o que tiver e a página esconde o que faltar. O `v` de dentro do resumo continua `1` (só campos novos).
+
+```json
+{
+  "daily": [ { "date": "2026-10-01", "spent": 120.5 } ],
+  "forecast": { "spent": 3550.0, "available": -350.0, "outcome": "over", "planned": 3200.0 },
+  "categories": [ { "name": "Mercado", "symbol": "cart", "color": "olive", "spent": 412.0, "share": 0.21 } ],
+  "tags": [ { "name": "Casa", "spent": 230.0, "count": 6 } ],
+  "history": [ { "month": "2026-05", "planned": 3200.0, "spent": 2980.0, "income": 4200.0 } ],
+  "savings": { "saved": 1285.0, "rate": 0.31, "averageRate": 0.24 },
+  "score": { "value": 72, "label": "Good", "detail": "Spending close to the plan" },
+  "journey": {
+    "level": 4, "levelTitle": "Saver", "progress": 0.4, "streak": 12,
+    "challenge": { "title": "No delivery this week", "progress": 0.5, "endsOn": "2026-10-25" }
+  }
+}
+```
+
+- `daily`: gasto de cada dia do mês até hoje (despesas pagas e a pagar, como o gráfico do Início). A página desenha barras por dia e a linha do ritmo planejado (`month.planned / dias do mês`, acumulado).
+- `forecast`: a mesma previsão do Início/Insights (onde o mês fecha). `outcome` é `under`, `onPlan` ou `over`.
+- `categories`: até 8 categorias por gasto do mês, a 9ª soma o resto como `Other` (nome já traduzido pelo app); `share` é a fração do gasto total.
+- `tags`: até 8 tags por gasto do mês.
+- `history`: os últimos 6 meses, do mais antigo ao atual, para o comparativo lado a lado.
+- `savings`: o que sobrou no mês (`income - spent`, podendo ser negativo), a taxa sobre a receita e a média dos meses de `history`.
+- `score`: a pontuação do mês do Início (0–100), com `label` e `detail` já traduzidos no idioma do app.
+- `journey`: nível, título do nível (traduzido), progresso até o próximo nível (0–1), sequência em dias e o desafio ativo, se houver. Fica de fora se a Jornada estiver desligada.
+- Textos que vêm prontos do app (`label`, `detail`, `levelTitle`, `challenge.title`, `Other`) seguem o `locale` do resumo; o resto da página segue o `?locale=`.
+
+## Ponte pausada
+
+Quando o admin pausa a ponte, `PUT` e `GET` respondem `503 {"error":"paused"}`. A página mostra "O Cashly na Web está em pausa por alguns minutos" e tenta de novo a cada minuto; o app mostra o chip "Em pausa" e reenvia quando voltar. A flag remota `web` desligada esconde a função no app sem tocar na VPS (o app lê as flags do CloudKit público).
+
 ## Página (W3)
 
 `/app` com o visual da landing e o mesmo módulo de `?locale=`: primeiro o QR grande com as instruções e "Aguardando o iPhone…"; quando o pacote chega, o mês (valor disponível, barra de ritmo com a marca do dia, planejado, gasto e restante), orçamentos com barras, próximas contas e o histórico por dia, com "Atualizado há X min" e "Sair". O QR é gerado no navegador (biblioteca pequena embutida, sem serviço externo). Recarregar a página mantém a sessão enquanto a chave estiver no IndexedDB e a ponte tiver o pacote.
