@@ -251,11 +251,13 @@ function renderMonth(snapshot) {
       const body = element('div');
       const detail = element('div', 'web-item-detail');
       if (transaction.category?.name) detail.append(element('span', '', transaction.category.name));
-      if (transaction.status === 'pending') {
-        const chip = element('span', 'chip', t('pending'));
-        chip.style.setProperty('--chip', 'var(--warning)');
+      const status = { toPay: ['toPay', 'var(--warning)'], toReceive: ['toReceive', 'var(--teal)'], canceled: ['canceled', 'var(--secondary)'] }[transaction.status];
+      if (status) {
+        const chip = element('span', 'chip', t(status[0]));
+        chip.style.setProperty('--chip', status[1]);
         detail.append(chip);
       }
+      if (transaction.status === 'canceled') row.classList.add('canceled');
       for (const tag of transaction.tags ?? []) {
         const chip = element('span', 'chip', tag);
         chip.style.setProperty('--chip', 'var(--secondary)');
