@@ -234,16 +234,68 @@ def journey_card(x, y, w, h, u):
     return out
 
 
+ASSETS = SOURCE.parents[3] / "Cashly" / "Cashly" / "CashlyIcon.icon" / "Assets"
+
+
+def asset_path(name):
+    import re
+    return re.search(r' d="([^"]+)"', (ASSETS / f"{name}.svg").read_text()).group(1)
+
+
+def plan_card(w, h):
+    pad = w * 0.09
+    v = h * 0.5
+    out = f"<div class='abs' style='left:0;top:0;width:{w}px;height:{h}px;border-radius:{w * 0.09}px;background:{PAPER};box-shadow:0 {w * 0.04}px {w * 0.1}px -{w * 0.02}px rgba(70,20,5,0.45)'></div>"
+    out += line(w * 0.33, v * 0.1, w * 0.34, v * 0.075, f"color-mix(in srgb, {RUST} 30%, {PAPER})")
+    out += line(w * 0.18, v * 0.23, w * 0.64, v * 0.14, INK, 0.9)
+    out += bar(pad, v * 0.47, w - pad * 2, v * 0.075, OLIVE, 0.62, 0.55)
+    col = (w - pad * 2) / 3
+    for i in range(3):
+        cx = pad + col * i + col / 2
+        out += line(cx - col * 0.28, v * 0.66, col * 0.56, v * 0.045, "#b9ab95")
+        out += line(cx - col * 0.36, v * 0.75, col * 0.72, v * 0.08, OLIVE if i == 2 else INK, 0.85)
+    rows = [("cart", "#5f7a2e", 0.62), ("fork", "#b8841c", 0.88), ("car", RUST, 1.0)]
+    size = h * 0.075
+    for i, (glyph, color, fill) in enumerate(rows):
+        ry = v * 0.98 + i * size * 1.45
+        out += badge(pad, ry, size, color, glyph)
+        bx = pad + size * 1.35
+        out += bar(bx, ry + size * 0.38, w - pad - bx, size * 0.26, color, fill)
+    return out
+
+
+def wallet(x, y, size):
+    k = size / 1024
+    back = asset_path("Rectangle 2")
+    pocket = asset_path("Rectangle 4")
+    star = asset_path("Star")
+    card_w, card_h = 640 * k, 960 * k
+    out = f"<div class='abs' style='left:{x}px;top:{y}px;width:{size}px;height:{size}px'>"
+    out += (
+        f"<div class='abs' style='inset:0;border-radius:{size * 0.2237}px;background:linear-gradient(#f6ebd3,#ebd9b6);"
+        f"box-shadow:0 {size * 0.05}px {size * 0.1}px -{size * 0.02}px rgba(70,20,5,0.5), inset 0 0 0 {size * 0.006}px rgba(255,255,255,0.6)'></div>"
+    )
+    out += f"<svg class='abs' style='left:{412 * k}px;top:{-18 * k}px' width='{620 * k}' height='{620 * k}' viewBox='0 0 1000 1000'><path d='{star}' fill='#d69e2e'/></svg>"
+    out += f"<svg class='abs' style='left:{100 * k}px;top:{100 * k}px' width='{824 * k}' height='{824 * k}' viewBox='0 0 824 824'><path d='{back}' fill='#c8642b'/></svg>"
+    out += f"<div class='abs' style='left:{(1024 * k - card_w) / 2}px;top:{-190 * k}px;width:{card_w}px;height:{card_h}px;transform:rotate(-4deg)'>{plan_card(card_w, card_h)}</div>"
+    out += (
+        f"<svg class='abs' style='left:{80 * k}px;top:{544 * k}px;filter:drop-shadow(0 -{12 * k}px {22 * k}px rgba(70,20,5,0.28))' width='{864 * k}' height='{400 * k}' viewBox='0 0 864 400'>"
+        f"<defs><linearGradient id='pk' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#fbf4e6'/><stop offset='1' stop-color='#f1e3c6'/></linearGradient></defs>"
+        f"<path d='{pocket}' fill='url(#pk)'/></svg>"
+    )
+    return out + "</div>"
+
+
 def header(width, height):
     u = height
-    size = u * 0.3
-    cx, cy = width / 2, height / 2
-    blocked = [(cx - size * 0.58, cy - size * 0.58, size * 1.16, size * 1.16)]
-    inner = confetti(width, height, blocked, 60, u * 0.09, 7, center=(cx, cy), spread=(size * 0.56, u * 0.38))
-    blocked_inner = blocked + [box for box in BOXES]
-    outer = confetti(width, height, blocked_inner, 70, u * 0.1, 13, center=(cx, cy), spread=(u * 0.38, u * 1.0))
-    BOXES.clear()
-    return page(width, height, inner + outer + icon(cx, cy, size), rays=(cx, cy, u * 1.15))
+    size = u * 0.66
+    x = width / 2 - size / 2
+    y = u * 0.27
+    top = y - size * 0.24
+    blocked = [(x - size * 0.04, top, size * 1.08, y + size - top + size * 0.04)]
+    body = confetti(width, height, blocked, 95, u * 0.1, 7, center=(width / 2, u * 0.5), spread=(size * 0.55, u * 1.0))
+    body += wallet(x, y, size)
+    return page(width, height, body, rays=(width / 2, y + size * 0.05, u * 1.2))
 
 
 SCALE = 1320 / 414
