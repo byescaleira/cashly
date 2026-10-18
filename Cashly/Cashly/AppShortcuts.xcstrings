@@ -5,9 +5,12 @@
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Ausgabe in ${applicationName} erfassen"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Ausgabe in ${applicationName} erfassen",
+              "Ausgabe in ${applicationName} hinzufügen"
+            ]
           }
         },
         "en" : {
@@ -20,51 +23,75 @@
           }
         },
         "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Añadir un gasto en ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Añadir un gasto en ${applicationName}",
+              "Registrar un gasto en ${applicationName}"
+            ]
           }
         },
         "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Ajouter une dépense dans ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Ajouter une dépense dans ${applicationName}",
+              "Noter une dépense dans ${applicationName}"
+            ]
           }
         },
         "it" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Aggiungi una spesa in ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Aggiungi una spesa in ${applicationName}",
+              "Registra una spesa in ${applicationName}"
+            ]
           }
         },
         "ja" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "${applicationName}で支出を追加"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}で支出を追加",
+              "${applicationName}で出費を記録"
+            ]
           }
         },
         "ko" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "${applicationName}에 지출 추가"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}에 지출 추가",
+              "${applicationName}에 지출 기록"
+            ]
           }
         },
         "pt-BR" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Registrar um gasto no ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Registrar um gasto no ${applicationName}",
+              "Anotar uma despesa no ${applicationName}"
+            ]
           }
         },
         "ru" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Добавить расход в ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Добавить расход в ${applicationName}",
+              "Записать трату в ${applicationName}"
+            ]
           }
         },
         "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "在${applicationName}中添加支出"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "在${applicationName}中添加支出",
+              "在${applicationName}中记一笔支出"
+            ]
           }
         }
       }
@@ -131,9 +158,11 @@
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Zahlung in ${applicationName} erfassen"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Zahlung in ${applicationName} erfassen"
+            ]
           }
         },
         "en" : {
@@ -145,51 +174,67 @@
           }
         },
         "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Capturar un pago en ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Capturar un pago en ${applicationName}"
+            ]
           }
         },
         "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Capturer un paiement dans ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Capturer un paiement dans ${applicationName}"
+            ]
           }
         },
         "it" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Cattura un pagamento in ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Cattura un pagamento in ${applicationName}"
+            ]
           }
         },
         "ja" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "${applicationName}で支払いを取り込む"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}で支払いを取り込む"
+            ]
           }
         },
         "ko" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "${applicationName}에 결제 담기"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}에 결제 담기"
+            ]
           }
         },
         "pt-BR" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Capturar um pagamento no ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Capturar um pagamento no ${applicationName}"
+            ]
           }
         },
         "ru" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Сохранить платёж в ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Сохранить платёж в ${applicationName}"
+            ]
           }
         },
         "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "在${applicationName}中捕获付款"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "在${applicationName}中记录付款"
+            ]
           }
         }
       }
@@ -198,9 +243,12 @@
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Wie viel habe ich diesen Monat in ${applicationName} ausgegeben"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Wie viel habe ich diesen Monat in ${applicationName} ausgegeben",
+              "Was habe ich in ${applicationName} ausgegeben"
+            ]
           }
         },
         "en" : {
@@ -213,51 +261,75 @@
           }
         },
         "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Cuánto gasté este mes en ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Cuánto gasté este mes en ${applicationName}",
+              "Qué gasté en ${applicationName}"
+            ]
           }
         },
         "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Combien j’ai dépensé ce mois-ci dans ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Combien j’ai dépensé ce mois-ci dans ${applicationName}",
+              "Qu’ai-je dépensé dans ${applicationName}"
+            ]
           }
         },
         "it" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Quanto ho speso questo mese in ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Quanto ho speso questo mese in ${applicationName}",
+              "Cosa ho speso in ${applicationName}"
+            ]
           }
         },
         "ja" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "${applicationName}で今月いくら使った"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}で今月いくら使った",
+              "${applicationName}で何に使った"
+            ]
           }
         },
         "ko" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "${applicationName}에서 이번 달 지출"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}에서 이번 달 지출",
+              "${applicationName}에서 얼마 썼어"
+            ]
           }
         },
         "pt-BR" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Quanto gastei este mês no ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Quanto gastei este mês no ${applicationName}",
+              "O que gastei no ${applicationName}"
+            ]
           }
         },
         "ru" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Сколько я потратил в этом месяце в ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Сколько я потратил в этом месяце в ${applicationName}",
+              "Что я потратил в ${applicationName}"
+            ]
           }
         },
         "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "${applicationName}本月花了多少"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}本月花了多少",
+              "我在${applicationName}花了什么"
+            ]
           }
         }
       }
@@ -266,9 +338,12 @@
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Wie viel bleibt in ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Wie viel bleibt in ${applicationName}",
+              "Wie viel bleibt für ${category} in ${applicationName}"
+            ]
           }
         },
         "en" : {
@@ -281,51 +356,75 @@
           }
         },
         "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Cuánto queda en ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Cuánto queda en ${applicationName}",
+              "Cuánto queda en ${category} en ${applicationName}"
+            ]
           }
         },
         "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Combien reste-t-il dans ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Combien reste-t-il dans ${applicationName}",
+              "Combien reste-t-il pour ${category} dans ${applicationName}"
+            ]
           }
         },
         "it" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Quanto resta in ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Quanto resta in ${applicationName}",
+              "Quanto resta per ${category} in ${applicationName}"
+            ]
           }
         },
         "ja" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "${applicationName}の残りは"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}の残りは",
+              "${applicationName}で${category}の残りは"
+            ]
           }
         },
         "ko" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "${applicationName} 잔여 예산"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName} 잔여 예산",
+              "${applicationName}에서 ${category} 남은 금액"
+            ]
           }
         },
         "pt-BR" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Quanto sobra no ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Quanto sobra no ${applicationName}",
+              "Quanto sobra em ${category} no ${applicationName}"
+            ]
           }
         },
         "ru" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Сколько осталось в ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Сколько осталось в ${applicationName}",
+              "Сколько осталось на ${category} в ${applicationName}"
+            ]
           }
         },
         "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "${applicationName}还剩多少"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}还剩多少",
+              "${applicationName}里${category}还剩多少"
+            ]
           }
         }
       }
@@ -334,9 +433,11 @@
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Rechnung in ${applicationName} als bezahlt markieren"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Rechnung in ${applicationName} als bezahlt markieren"
+            ]
           }
         },
         "en" : {
@@ -348,51 +449,67 @@
           }
         },
         "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Marcar una cuenta como pagada en ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Marcar una cuenta como pagada en ${applicationName}"
+            ]
           }
         },
         "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Marquer une facture comme payée dans ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Marquer une facture comme payée dans ${applicationName}"
+            ]
           }
         },
         "it" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Segna un conto come pagato in ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Segna un conto come pagato in ${applicationName}"
+            ]
           }
         },
         "ja" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "${applicationName}で請求を支払い済みにする"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}で請求を支払い済みにする"
+            ]
           }
         },
         "ko" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "${applicationName}에서 청구서 결제 완료"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "${applicationName}에서 청구서 결제 완료"
+            ]
           }
         },
         "pt-BR" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Marcar uma conta como paga no ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Marcar uma conta como paga no ${applicationName}"
+            ]
           }
         },
         "ru" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Отметить счёт оплаченным в ${applicationName}"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "Отметить счёт оплаченным в ${applicationName}"
+            ]
           }
         },
         "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "在${applicationName}中将账单标记为已付"
+          "stringSet" : {
+            "state" : "translated",
+            "values" : [
+              "在${applicationName}中将账单标记为已付"
+            ]
           }
         }
       }

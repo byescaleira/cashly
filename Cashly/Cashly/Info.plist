@@ -14,17 +14,19 @@
 		</dict>
 	</array>
 	<key>CashlyAppStoreID</key>
-	<string></string>
+	<string>6821986667</string>
 	<key>CashlyHelpURL</key>
-	<string></string>
+	<string>https://cashly.byescaleira.com/support</string>
 	<key>CashlyPrivacyURL</key>
-	<string></string>
+	<string>https://cashly.byescaleira.com/privacy</string>
 	<key>CashlySupportEmail</key>
-	<string></string>
+	<string>support@byescaleira.com</string>
 	<key>CashlyTermsURL</key>
-	<string></string>
+	<string>https://cashly.byescaleira.com/terms</string>
 	<key>CashlyWebsiteURL</key>
-	<string></string>
+	<string>https://cashly.byescaleira.com</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
 	<key>NSBonjourServices</key>
@@ -52,8 +54,6 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
-		<string>processing</string>
-		<string>fetch</string>
 	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>

@@ -800,3 +800,15 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Sem argumento na vitrine do Pro:** em aparelhos sem Apple Intelligence a seção nunca aparece, e usar a marca para vender a assinatura pode sugerir endosso.
 - **Por dia da semana fica fora do Resumo,** porque o fato dele não se descreve bem sem o dia.
 - **Resumo semanal por notificação adiado** (backlog): o texto precisa do app aberto.
+
+## 17/10/2026: preparação da versão 1.0
+
+- **Páginas públicas em `site/`,** só em inglês (público internacional): início, suporte, privacidade e termos, servidas pelo Caddy da VPS em `cashly.byescaleira.com` (`/opt/cashly-site/public`, `try_files` para URLs sem `.html`). Os termos usam o EULA padrão da Apple e acrescentam só o que é do Cashly (assinatura, compras, dados, não é aconselhamento financeiro). A privacidade descreve "Dados não coletados" e as únicas saídas de rede: cotações (jsDelivr, Cloudflare Pages, Frankfurter), flags no banco público do iCloud e compras pela Apple.
+- **Suporte em `support@byescaleira.com`,** alias do domínio no iCloud; nada de e-mail pessoal no app ou na loja.
+- **Links no `Info.plist` preenchidos,** inclusive o `CashlyAppStoreID` 6821986667: o build enviado à revisão é o que vai para a loja, e sem o id "Avaliar" e "Compartilhar" ficariam sem link depois do lançamento.
+- **Manifesto de privacidade** (`PrivacyInfo.xcprivacy`) no app e nos widgets: sem rastreamento, sem dados coletados, `UserDefaults` com o motivo `CA92.1` (só o próprio app lê).
+- **Modos de segundo plano só com `remote-notification`** (CloudKit). `processing` e `fetch` estavam declarados sem nenhuma tarefa agendada, o que barra o envio (`processing` exige `BGTaskSchedulerPermittedIdentifiers`) e arrisca a diretriz 2.5.4.
+- **`ITSAppUsesNonExemptEncryption = NO`:** o app só usa a criptografia do sistema (HTTPS, CloudKit).
+- **Mac com arquivos escolhidos em leitura e escrita** (`ENABLE_USER_SELECTED_FILES = readwrite`): exportar backup e planilha grava onde a pessoa escolhe.
+- **Frases da Siri como conjunto** nos 9 idiomas, com a mesma quantidade de variações do inglês; o `needs_review` vinha do inglês ter virado `stringSet`.
+- **A 1.0 sai em iPhone, iPad, Mac e visionOS, com o inspector** (decisão do usuário).
