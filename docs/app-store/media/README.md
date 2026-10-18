@@ -101,3 +101,7 @@ Ilustração de marca, sem texto e sem capturas: sem texto não há o que traduz
 - `python3 docs/app-store/media/source/keyart.py` gera `header/header-3840x1646.png`, `header/header-5244x2950.png`, `search/search-3840x2560.png` e `search/search-1920x1280.png`. O confete é posicionado com semente fixa e sem encostar no ícone nem nos cartões.
 - O ícone vem de `source/raw/keyart/icon.png`, exportado do `CashlyIcon.icon` com o `ictool` do Icon Composer (`--export-image --platform iOS --rendition Default --width 1024 --height 1024 --scale 1`).
 - Enviados em en-US: cabeçalho 5244×2950 e busca 3840×2560. A página do App Store Connect não baixa de outros domínios; o envio usou uma página auxiliar temporária em `cashly.byescaleira.com/_upload/` que entrega os arquivos por `postMessage`, apagada em seguida.
+
+## App Preview montado (18/10/2026)
+
+`preview/iphone-preview-montage.mp4` (886×1920, 23 s, música "Happy Beats & Business Moves Vol. 11" de Sascha Ende, CC BY 4.0) é o vídeo de venda feito no estilo brag, com telas montadas e a identidade do app. Foi enviado como App Preview do iPhone por decisão do usuário, ciente de que a diretriz 2.3.4 pede só gravações reais; se a revisão recusar, troca-se pela gravação real (`preview/iphone-preview.mp4`). A versão 1080×1920 para redes fica fora do repositório, em `brag-output-vertical/`.
