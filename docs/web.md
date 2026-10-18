@@ -72,6 +72,7 @@ Serviço mínimo em Node, num container na VPS, atrás do Caddy em `https://cash
 - Valores em unidades da moeda do perfil (já convertidos como o app mostra), com os números calculados pelo próprio app (os mesmos do Início e de Metas). A web não recalcula nada.
 - `pace` é `onTrack`, `ahead` (gastando mais rápido que o mês) ou `over` (passou do planejado). `color` usa os nomes da paleta (`olive`, `rust`, `mustard`, `teal`, `denim`, `plum`, `brown`, `orange`). `symbol` é o nome do SF Symbol; a web desenha um ícone próprio quando conhece o nome e a inicial da categoria quando não conhece.
 - Somente o perfil atual e o mês atual; até 300 transações (as mais recentes).
+- `kind` é `expense` ou `income`; `status` é `paid`, `toPay`, `toReceive` ou `canceled`. `upcoming` são as despesas a pagar do mês, em ordem de vencimento. As chaves do JSON saem em ordem alfabética (o conteúdo é o mesmo).
 
 ## Página (W3)
 

@@ -235,6 +235,7 @@
   "privacy.meta.description": "Como o Cashly trata seus dados: eles ficam nos seus aparelhos e no seu próprio iCloud.",
   "privacy.meta.title": "Política de Privacidade do Cashly",
   "privacy.network.purchases": "<strong>Compras.</strong> Assinaturas e compras dentro do app são processadas pela Apple, pela App Store. Não recebemos seus dados de pagamento.",
+  "privacy.network.web": "<strong>Cashly na Web (opcional, Cashly Pro).</strong> Se você ler o QR code exibido em cashly.byescaleira.com/app, o Cashly envia um resumo do mês atual do perfil atual, cifrado de ponta a ponta para o navegador cujo QR code você leu, pela nossa ponte em cashly.byescaleira.com. A ponte guarda o resumo por no máximo 24 horas e não consegue lê-lo; só aquele navegador consegue abri-lo. Desconectar em Ajustes apaga na hora. O rótulo da App Store continua \"Dados não coletados\", porque nem nós nem terceiros têm acesso ao conteúdo.",
   "privacy.network.rates": "<strong>Cotações.</strong> Quando você usa outra moeda ou o conversor, o Cashly pede a serviços públicos de cotação (a API de moedas de código aberto no jsDelivr e no Cloudflare Pages, e o Frankfurter) as cotações de uma data. O pedido leva só as moedas e a data, nunca valores ou descrições. Como qualquer site, esses serviços podem ver seu endereço IP.",
   "privacy.network.settings": "<strong>Configurações do app.</strong> O Cashly lê configurações de recursos de um banco de dados público do iCloud. Nada sobre você é enviado.",
   "privacy.network.title": "Conexões de rede que o app faz",

@@ -502,6 +502,18 @@ def connect():
     return [terminal, card] + dots + [link]
 
 
+def web():
+    laptop = icon("laptopcomputer", "tint", 80, move([(0, (104, 96)), (40, (96, 96))]), delay=0)
+    code = icon("qrcode", "ink", 50, move([(24, (248, 84)), (64, (240, 84))]), delay=24, alpha=45)
+    code["ks"]["s"] = appear(24, overshoot=112, start=40)
+    dots = []
+    for index, x in enumerate([180, 192, 204]):
+        dots.append(icon("circle.fill", "ink", 7, (x, 90), delay=64 + index * 6, alpha=35))
+    lock = icon("lock.fill", "olive", 32, (272, 118), delay=48, rotation=settle(48, [-12, 5]))
+    lock["ks"]["s"] = appear(48, overshoot=116, start=40)
+    return [laptop, code] + dots + [lock]
+
+
 def discreet():
     note = icon("banknote.fill", "tint", 80, (136, 90), delay=0)
     note["ks"]["o"] = anim([(0, 0), (12, 100), (50, 100), (70, 30), (110, 30), (130, 100)])
@@ -676,6 +688,7 @@ ANIMATIONS = {
     "file": file_import,
     "done": done,
     "connect": connect,
+    "web": web,
     "pro": pro,
     "profile": profile,
     "paywall": paywall,
