@@ -48,12 +48,12 @@ Capturas de marketing, imagens de cabeçalho e App Preview. Textos das imagens e
 
 | Arquivo | Formato | O que mostra |
 |---|---|---|
-| `preview/iphone-preview.mp4` | H.264 High, 886×1920, 30 fps constantes, AAC estéreo silencioso, 25,3 s, 19,8 MB | Home → Goals com a pace bar → novo gasto em 3 toques (valor, categoria, descrição, salvar) → Home com projeção e análises → Journey |
-| `preview/poster.png` | 886×1920 | Quadro do Goals com a pace bar (4 s) |
-| `preview/ipad-preview.mp4` | H.264 High, 1600×1200 (paisagem), 30 fps, AAC estéreo silencioso, 15,3 s, 9 MB | Home → Goals → Histórico com inspetor → Journey |
-| `preview/ipad-poster.png` | 1600×1200 | Quadro do Goals |
+| `preview/iphone-preview.mp4` | H.264 High, 886×1920, 30 fps, AAC estéreo 48 kHz, 28,97 s, 11,8 MB | Goals com a pace bar → novo gasto (valor, descrição, categoria, salvar) → Home com projeção e "Out of the Ordinary" → Journey → Home |
+| `preview/poster.png` | 886×1920 | Goals com a legenda já assentada (4,4 s) |
+| `preview/ipad-preview.mp4` | H.264 High, 1200×1600 (retrato), 30 fps, AAC estéreo 48 kHz, 28,97 s, 10,3 MB | Mesmo roteiro, com o editor no inspetor lateral |
+| `preview/ipad-poster.png` | 1200×1600 | Goals com a legenda já assentada (4,4 s) |
 
-Os vídeos usam só imagens gravadas do app (`simctl io recordVideo`), com cortes, aceleração leve e legendas curtas em pílulas laranja.
+Os vídeos usam só gravações de tela do app (`simctl io recordVideo`), sem moldura de aparelho: cortes secos no ritmo da música, trechos parados retirados, aceleração leve na digitação e legendas de benefício em SF Pro Rounded Heavy #fbf5ea sobre laranja #c2602a. No iPhone a legenda fica numa faixa fixa sobre a barra de status (a barra de abas está embaixo); no iPad, numa pílula fixa no rodapé (a barra de abas está no topo). Cada legenda entra subindo 30 px com fade de 0,3 s. Música: "Happy Beats Business Moves Vol. 11", Sascha Ende (ende.app), CC BY 4.0; cortes nas batidas do arquivo de cues, -16 LUFS integrado e fade-out de 1,5 s.
 
 ## Como refazer
 
@@ -61,7 +61,8 @@ Os vídeos usam só imagens gravadas do app (`simctl io recordVideo`), com corte
 2. `scripts/simulator.sh acquire <udid>` e depois `docs/app-store/media/source/launch.sh <udid> fresh`. O script instala o app e abre com `-cashly.developer.showcase YES` (dados de exemplo em USD com datas relativas a hoje, dicas do TipKit ocultas), plano Pro simulado (`CASHLY_PLAN=free` para o paywall), perfil dono, status bar 9:41 e idioma inglês.
 3. Navegar e capturar com `xcrun simctl io <udid> screenshot`. As capturas usadas ficam em `source/raw/iphone` e `source/raw/ipad`.
 4. `python3 docs/app-store/media/source/compose.py [iphone ipad mac vision header]` gera as imagens finais com o Chrome headless (layout em `compose.py`, estilo em `style.css`, fonte SF Pro Rounded de `/Library/Fonts`).
-5. `python3 docs/app-store/media/source/preview.py iphone <gravação.mp4>` (ou `ipad`) monta o App Preview com ffmpeg. Os cortes estão nas listas `segments`; mudam a cada gravação nova.
+5. Gravar com `xcrun simctl io <udid> recordVideo --codec=h264 --force source/raw/recordings/<nome>.mp4` enquanto o app é conduzido, e parar com SIGINT.
+6. `python3 docs/app-store/media/source/preview.py iphone` (ou `ipad`) monta o App Preview com ffmpeg a partir de `source/raw/recordings/iphone-take2.mp4` e `ipad-take1.mp4`. `cuts` são os cortes na linha do tempo final (batidas da música); `segments` lista, por legenda, os trechos da gravação bruta (início, fim, velocidade). O último trecho de cada legenda estica até o próximo corte. Os tempos mudam a cada gravação nova.
 
 ## O que não ficou perfeito
 
@@ -70,6 +71,8 @@ Os vídeos usam só imagens gravadas do app (`simctl io recordVideo`), com corte
 - **Prévias de widget, não widgets na Tela de Início.** A tela 5 usa as prévias reais de Ajustes › Widgets; não há captura da Tela de Início com widgets nem da Siri ou da captura de Apple Pay.
 - **Tela 7 (dividir):** a lista rolou sob a barra de navegação, então o título "Category" aparece desfocado ao lado das 9:41. É o efeito real da borda de rolagem, mas uma recaptura com a lista parada mais abaixo fica mais limpa.
 - **Data e hora reais.** As telas mostram outubro de 2026 (dia 17); o horário do editor (10:13 PM) e o "Saturday" vêm do relógio do Mac na hora da captura.
-- **App Preview do iPhone:** a gravação do simulador sai em taxa variável; o script normaliza para 30 fps constantes. O trecho do teclado mostra o teclado em inglês do simulador. Não conferi o envio no App Store Connect.
-- **App Preview do iPad** saiu em paisagem 1600×1200 (formato aceito para iPad 13"), não em retrato 1200×1600.
+- **"Record in 3 taps"** é a legenda pedida, mas o editor só salva com descrição de 3 letras ou mais; o vídeo mostra a descrição sendo digitada entre o valor e a categoria.
+- **Pace bar:** ao abrir o Goals a barra já aparece quase no comprimento final e o que anima é a espessura e a cor; o início do trecho está em 0,5× para a animação ser vista, mas não é um enchimento da esquerda para a direita.
+- **App Preview do iPad:** gravado depois da meia-noite, então mostra dia 18 e valores do modo vitrine recalculados para esse dia (o iPhone mostra dia 17). No trecho da Home, a rolagem passa o conteúdo por baixo da barra de status e da barra de abas (efeito real da borda de rolagem). O canto inferior direito tem a alça de redimensionar janela do iPadOS.
+- **Não conferi o envio no App Store Connect.**
 - **Ícone no cabeçalho** é uma reconstrução em CSS das camadas SVG do `CashlyIcon.icon` (sem o efeito de vidro do Icon Composer).

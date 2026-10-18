@@ -1,4 +1,5 @@
 import argparse
+import json
 import pathlib
 import subprocess
 import tempfile
@@ -7,117 +8,210 @@ from render import chrome
 
 SOURCE = pathlib.Path(__file__).resolve().parent
 MEDIA = SOURCE.parent
+RECORDINGS = SOURCE / "raw" / "recordings"
 FFMPEG = "/opt/homebrew/bin/ffmpeg"
-FADE = 0.35
+MUSIC = pathlib.Path.home() / ".claude/plugins/cache/brag/brag/0.4.0/skills/brag/assets/music"
+TRACK = MUSIC / "happy-beats-business-moves-vol-11-by-ende-dot-app.mp3"
+CUES = MUSIC / "cues" / "happy-beats-business-moves-vol-11-by-ende-dot-app.music-cues.json"
+RISE = 30
+ENTER_DELAY = 0.12
+ENTER = 0.3
+EXIT = 0.2
+MUSIC_FADE = 1.5
+LOUDNESS = -16
 
 IPHONE = {
     "size": (886, 1920),
+    "recording": "iphone-take2.mp4",
     "output": "iphone-preview.mp4",
-    "poster": ("poster.png", 4.0),
-    "caption": {"top": 1640, "font": 44, "hold": 2.6},
+    "poster": ("poster.png", 4.4),
+    "caption": {"style": "band", "height": 112, "font": 44},
+    "cuts": [0.0, 5.282, 13.700, 20.538, 24.753, 28.967],
     "segments": [
-        ("Know where your money goes", [(0.3, 2.7, 1.0)]),
-        ("Every budget has a pace bar", [(3.0, 7.7, 1.0)]),
-        ("Record in 3 taps", [(11.5, 12.5, 1.0), (14.3, 17.0, 1.3), (21.8, 26.5, 1.6)]),
-        ("See where the month lands", [(30.2, 39.6, 1.3)]),
-        ("Make good habits a game", [(41.6, 49.5, 1.25)]),
+        ("Know where your money goes", [(2.34, 3.0, 0.5), (3.0, None, 1)]),
+        ("Record in 3 taps", [
+            (17.8, 18.9, 1), (21.1, 22.0, 1), (28.3, 32.7, 2),
+            (33.8, 34.4, 1), (35.6, 36.7, 1), (44.0, None, 1)]),
+        ("See where the month lands", [
+            (54.25, 54.95, 1), (61.95, 64.6, 1), (73.45, 75.2, 1.25), (76.75, None, 1)]),
+        ("Make good habits a game", [(87.75, None, 1)]),
+        ("Your data, your iCloud", [(101.6, None, 1)]),
     ],
 }
 
 IPAD = {
-    "size": (1600, 1200),
+    "size": (1200, 1600),
+    "recording": "ipad-take1.mp4",
     "output": "ipad-preview.mp4",
-    "poster": ("ipad-poster.png", 6.3),
-    "caption": {"top": 1060, "font": 36, "hold": 2.6},
+    "poster": ("ipad-poster.png", 4.4),
+    "caption": {"style": "pill", "top": 1452, "font": 44},
+    "cuts": [0.0, 5.282, 13.700, 20.538, 24.753, 28.967],
     "segments": [
-        ("Know where your money goes", [(0.2, 5.6, 0.9)]),
-        ("Every budget has a pace bar", [(6.0, 8.3, 0.7)]),
-        ("Every expense in its place", [(9.0, 10.3, 0.7)]),
-        ("Make good habits a game", [(12.2, 15.3, 0.6)]),
+        ("Know where your money goes", [(4.22, 5.0, 0.5), (5.0, None, 1)]),
+        ("Record in 3 taps", [
+            (21.2, 22.0, 1), (23.3, 24.0, 1), (28.9, 33.0, 2.5),
+            (41.3, 41.9, 1), (43.6, 44.2, 1), (62.8, 64.0, 1), (69.6, None, 1)]),
+        ("See where the month lands", [(80.75, 83.25, 1), (92.5, None, 1)]),
+        ("Make good habits a game", [(104.25, None, 1)]),
+        ("Your data, your iCloud", [(123.0, None, 1)]),
     ],
 }
 
 
-def caption_png(text, size, top, font, path):
+SHADOW = "0 14px 34px -12px rgba(60,20,5,0.5),0 3px 8px rgba(60,20,5,0.18)"
+
+
+def layer_png(size, body, path):
     width, height = size
     html = path.with_suffix(".html")
     html.write_text(
         "<!doctype html><html><head><meta charset='utf-8'>"
         f"<link rel='stylesheet' href='{(SOURCE / 'style.css').as_uri()}'>"
         f"<style>:root{{--w:{width}px;--h:{height}px}}body{{background:transparent}}"
-        f".pill{{position:absolute;left:50%;top:{top}px;transform:translateX(-50%);white-space:nowrap;"
-        f"padding:{font * 0.48:.0f}px {font * 0.9:.0f}px;border-radius:999px;background:var(--orange);"
-        f"color:var(--paper);font:800 {font}px/1.05 'Cashly Rounded';letter-spacing:-0.01em;"
-        "box-shadow:0 18px 40px -16px rgba(60,20,5,0.55)}</style></head>"
-        f"<body><div class='pill'>{text}</div></body></html>"
+        ".band{position:absolute;left:0;right:0;top:0;background:var(--orange);"
+        f"box-shadow:{SHADOW}}}"
+        ".pill{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap;"
+        f"border-radius:999px;background:var(--orange);box-shadow:{SHADOW}}}"
+        ".text{position:absolute;left:0;right:0;text-align:center;white-space:nowrap;"
+        "color:var(--paper);font-weight:800;line-height:1;letter-spacing:-0.01em}"
+        f"</style></head><body>{body}</body></html>"
     )
     chrome(html, path, width, height, transparent=True)
 
 
-def build(config, recording):
+def backdrop_png(config, path):
+    caption = config["caption"]
+    if caption["style"] != "band":
+        return None
+    layer_png(config["size"], f"<div class='band' style='height:{caption['height']}px'></div>", path)
+    return path
+
+
+def caption_png(config, text, path):
+    caption = config["caption"]
+    font = caption["font"]
+    if caption["style"] == "band":
+        body = (f"<div class='text' style='top:{caption['height'] / 2 + caption.get('nudge', 0) - font * 0.5:.0f}px;"
+                f"font-size:{font}px'>{text}</div>")
+    else:
+        body = (f"<div class='pill' style='top:{caption['top']}px;padding:{font * 0.46:.0f}px {font * 0.86:.0f}px;"
+                f"color:var(--paper);font:800 {font}px/1.08 \"Cashly Rounded\";letter-spacing:-0.01em'>{text}</div>")
+    layer_png(config["size"], body, path)
+
+
+def run(command):
+    return subprocess.run(command, check=True, capture_output=True, text=True)
+
+
+def beats():
+    return [beat["time"] for beat in json.loads(CUES.read_text())["beats"]]
+
+
+def resolve(config):
+    cuts = config["cuts"]
+    plan = []
+    for index, (text, ranges) in enumerate(config["segments"]):
+        target = cuts[index + 1] - cuts[index]
+        fixed = sum((end - start) / speed for start, end, speed in ranges if end is not None)
+        clips = []
+        for start, end, speed in ranges:
+            if end is None:
+                end = start + (target - fixed) * speed
+            clips.append((start, end, speed))
+        plan.append((text, clips, target))
+    return plan
+
+
+def steady(config, work):
     width, height = config["size"]
+    path = work / "steady.mp4"
+    run([FFMPEG, "-v", "error", "-y", "-i", str(RECORDINGS / config["recording"]), "-vf",
+         f"fps=60,scale={width}:-2:flags=lanczos,crop={width}:{height}:0:(ih-{height})/2,setsar=1",
+         "-fps_mode", "cfr", "-c:v", "libx264", "-crf", "8", "-preset", "fast", "-an", str(path)])
+    return path
+
+
+def music(total, work):
+    path = work / "music.wav"
+    shape = f"atrim=0:{total:.3f},asetpts=PTS-STARTPTS,afade=t=out:st={total - MUSIC_FADE:.3f}:d={MUSIC_FADE}"
+    probe = run([FFMPEG, "-hide_banner", "-i", str(TRACK), "-af",
+                 f"{shape},loudnorm=I={LOUDNESS}:TP=-1.5:LRA=11:print_format=json", "-f", "null", "-"])
+    stats = json.loads(probe.stderr[probe.stderr.rindex("{"):probe.stderr.rindex("}") + 1])
+    run([FFMPEG, "-v", "error", "-y", "-i", str(TRACK), "-af",
+         f"{shape},loudnorm=I={LOUDNESS}:TP=-1.5:LRA=11:measured_I={stats['input_i']}:"
+         f"measured_TP={stats['input_tp']}:measured_LRA={stats['input_lra']}:"
+         f"measured_thresh={stats['input_thresh']}:offset={stats['target_offset']}:linear=true,"
+         "aresample=48000", "-ac", "2", "-ar", "48000", str(path)])
+    return path
+
+
+def build(config):
     out_dir = MEDIA / "preview"
-    out_dir.mkdir(parents=True, exist_ok=True)
+    plan = resolve(config)
+    total = config["cuts"][-1]
+    grid = beats()
+    for cut in config["cuts"][1:-1]:
+        print(f"cut {cut:.3f}s, nearest beat {min(grid, key=lambda beat: abs(beat - cut)):.3f}s")
     with tempfile.TemporaryDirectory() as work:
         work = pathlib.Path(work)
-        steady = work / "steady.mp4"
-        subprocess.run(
-            [FFMPEG, "-v", "error", "-y", "-i", str(recording), "-vf",
-             f"fps=30,scale={width}:-2:flags=lanczos,crop={width}:{height}:0:0,setsar=1",
-             "-fps_mode", "cfr", "-c:v", "libx264", "-crf", "10", "-preset", "fast", "-an", str(steady)],
-            check=True)
-        inputs, filters, labels, durations = ["-i", str(steady)], [], [], []
-        for index, (text, ranges) in enumerate(config["segments"]):
-            png = work / f"caption-{index}.png"
-            caption_png(text, config["size"], config["caption"]["top"], config["caption"]["font"], png)
-            inputs += ["-loop", "1", "-i", str(png)]
+        source = steady(config, work)
+        inputs, filters, labels = ["-i", str(source)], [], []
+        for index, (text, clips, duration) in enumerate(plan):
             parts = []
-            total = 0.0
-            for part, (start, end, speed) in enumerate(ranges):
+            for part, (start, end, speed) in enumerate(clips):
                 label = f"s{index}p{part}"
                 filters.append(
-                    f"[0:v]trim={start}:{end},setpts=(PTS-STARTPTS)/{speed},fps=30[{label}]")
+                    f"[0:v]trim={start:.3f}:{end:.3f},setpts=(PTS-STARTPTS)/{speed},fps=30[{label}]")
                 parts.append(f"[{label}]")
-                total += (end - start) / speed
-            filters.append(f"{''.join(parts)}concat=n={len(parts)}:v=1:a=0[c{index}]")
+            filters.append(f"{''.join(parts)}concat=n={len(parts)}:v=1:a=0,"
+                           f"trim=0:{duration:.3f},setpts=PTS-STARTPTS,format=yuv420p[c{index}]")
+            labels.append(f"[c{index}]")
+        filters.append(f"{''.join(labels)}concat=n={len(labels)}:v=1:a=0,format=rgba[base]")
+        layers = []
+        backdrop = backdrop_png(config, work / "backdrop.png")
+        if backdrop:
+            layers.append((backdrop, 0.0, total, False))
+        cuts = config["cuts"]
+        for index, (text, _, _) in enumerate(plan):
+            png = work / f"caption-{index}.png"
+            caption_png(config, text, png)
+            layers.append((png, cuts[index], cuts[index + 1], index != len(plan) - 1))
+        current = "[base]"
+        for index, (png, start, end, leaves) in enumerate(layers):
+            inputs += ["-loop", "1", "-framerate", "30", "-t", f"{total:.3f}", "-i", str(png)]
+            enter = start + (ENTER_DELAY if start > 0 or not backdrop else 0)
+            fades = f"fade=t=in:st={enter:.3f}:d={ENTER}:alpha=1"
+            if leaves:
+                fades += f",fade=t=out:st={end - EXIT:.3f}:d={EXIT}:alpha=1"
+            filters.append(f"[{index + 1}:v]format=rgba,{fades}[l{index}]")
+            rise = f"{RISE}*pow(1-min(max((t-{enter:.3f})/{ENTER},0),1),3)"
+            target = f"[o{index}]"
             filters.append(
-                f"[{index + 1}:v]format=rgba,trim=0:{total:.3f},setpts=PTS-STARTPTS,fps=30,"
-                f"fade=t=in:st=0.15:d=0.3:alpha=1,fade=t=out:st={min(config['caption']['hold'], total - 0.45):.3f}:d=0.3:alpha=1[t{index}]")
-            filters.append(f"[c{index}][t{index}]overlay=0:0:shortest=1,format=yuv420p[v{index}]")
-            labels.append(f"[v{index}]")
-            durations.append(total)
-        current, offset = labels[0], 0.0
-        for index in range(1, len(labels)):
-            offset += durations[index - 1] - FADE
-            target = f"[x{index}]"
-            filters.append(f"{current}{labels[index]}xfade=transition=fade:duration={FADE}:offset={offset:.3f}{target}")
+                f"{current}[l{index}]overlay=x=0:y='{rise}':eval=frame:shortest=1:"
+                f"enable='between(t,{start:.3f},{end:.3f})'{target}")
             current = target
-        total = sum(durations) - FADE * (len(durations) - 1)
+        filters.append(f"{current}format=yuv420p[video]")
+        audio = music(total, work)
+        inputs += ["-i", str(audio)]
         output = out_dir / config["output"]
-        command = [
-            FFMPEG, "-v", "error", "-y", *inputs,
-            "-f", "lavfi", "-t", f"{total:.3f}", "-i", "anullsrc=channel_layout=stereo:sample_rate=44100",
-            "-filter_complex", ";".join(filters),
-            "-map", current, "-map", f"{len(config['segments']) + 1}:a",
-            "-c:v", "libx264", "-profile:v", "high", "-level", "4.0", "-pix_fmt", "yuv420p",
-            "-r", "30", "-b:v", "10M", "-maxrate", "12M", "-bufsize", "20M",
-            "-c:a", "aac", "-b:a", "256k", "-ac", "2", "-ar", "44100",
-            "-t", f"{total:.3f}", "-movflags", "+faststart", str(output),
-        ]
-        subprocess.run(command, check=True)
+        run([FFMPEG, "-v", "error", "-y", *inputs,
+             "-filter_complex", ";".join(filters),
+             "-map", "[video]", "-map", f"{len(layers) + 1}:a",
+             "-c:v", "libx264", "-profile:v", "high", "-level", "4.2", "-pix_fmt", "yuv420p",
+             "-r", "30", "-b:v", "10M", "-maxrate", "12M", "-bufsize", "20M",
+             "-c:a", "aac", "-b:a", "256k", "-ac", "2", "-ar", "48000",
+             "-t", f"{total:.3f}", "-movflags", "+faststart", str(output)])
         poster, at = config["poster"]
-        subprocess.run(
-            [FFMPEG, "-v", "error", "-y", "-ss", str(at), "-i", str(output), "-frames:v", "1",
-             "-pix_fmt", "rgb24", str(out_dir / poster)], check=True)
+        run([FFMPEG, "-v", "error", "-y", "-ss", str(at), "-i", str(output), "-frames:v", "1",
+             "-pix_fmt", "rgb24", str(out_dir / poster)])
         print(output, f"{total:.2f}s")
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("device", choices=["iphone", "ipad"])
-    parser.add_argument("recording", type=pathlib.Path)
     args = parser.parse_args()
-    build(IPHONE if args.device == "iphone" else IPAD, args.recording)
+    build(IPHONE if args.device == "iphone" else IPAD)
 
 
 if __name__ == "__main__":
