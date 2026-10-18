@@ -1,0 +1,103 @@
+{
+  "description": "Shared Cashly Web v2 test vector (docs/web.md). ECDH P-256 shared secret (x coordinate, 32 bytes) -> HKDF-SHA256(salt = raw session bytes, info = \"cashly-web:v2\", 32 bytes) -> AES-256-GCM, AAD = UTF-8 of the base64url session id, ciphertext = ct || tag. Public keys are raw uncompressed (65 bytes).",
+  "webPrivateKeyHex": "1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f",
+  "webPublicKey": "BGv4XV_oRZixDKYZnsCczX013NcZX90dx3N6DGcAbvJRuVLyXuwd7tH8oZGDiZBGY1fTFK37fpdguNmvyPOala0",
+  "appPrivateKeyHex": "2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e",
+  "appPublicKey": "BAObhS22IkCKvlihjA8FZjGmykss_uwZiq4lAXytCdTo4gi2FuDcV3Wl2EB3XTja_UZ22jQQAhXovoV77SukrDA",
+  "sessionHex": "00112233445566778899aabbccddeeff",
+  "sessionID": "ABEiM0RVZneImaq7zN3u_w",
+  "link": "https://cashly.byescaleira.com/link?s=ABEiM0RVZneImaq7zN3u_w&k=BGv4XV_oRZixDKYZnsCczX013NcZX90dx3N6DGcAbvJRuVLyXuwd7tH8oZGDiZBGY1fTFK37fpdguNmvyPOala0",
+  "sharedSecretHex": "8ff9d3b60959e96d66f6099897f6a9ef3c905352d6deb18885c22cdcc693b073",
+  "keyHex": "6164cd064f83715a610559a6c42dc60e55aaa8b9ec10792710b8c5aa56db0bf1",
+  "package": {
+    "v": 2,
+    "appKey": "BAObhS22IkCKvlihjA8FZjGmykss/uwZiq4lAXytCdTo4gi2FuDcV3Wl2EB3XTja/UZ22jQQAhXovoV77SukrDA=",
+    "nonce": "sLGys7S1tre4ubq7",
+    "ciphertext": "WbEPsjV+Yo9tFXYtqSny3PRQitWEAnR4DHC5GewSOrE0UQKIm5K9/PuV5RwQDGKOvpiiF/lHmUZ+JWsQKpMZnQXaJpwwlMfF+n8MYL8e7K4od1GWKySNIx3lV12f222pCluVW2BxJdoPV4CzC33Pr5v3pEMDChwhS1QhYtxjnXktLuU1k03GAyi3+7dsDjRURgzCumLRJ9Q+OZ4RrOwqp9YaFZIa/JPRMyun4PZMuJN2/Bh3N7lmFEk0Rjqioy7R6yEB6P8goZoBZDqJFoUgVtM83N9G549tqh/pUb7TU9rszMRvrPEBGetrWLseffVlZgChB+Oo3aG37554X03BVlec6oga3OViOovaJ4gC0VN/bbFZQbBxrzaEescKUJes71TtObrUjJZsQLyZI00vg1GpBGWaDw/mj+4P6B1oJkRHVDHD+/S0xC37BL/abAI+isbTLNZdgZYtqkpyP5QdXmZkvNRxvm4M1TPIOqfNVJVEUUgGuzoqzSKUDybvFF+XwK+ROTt+UV6BVNZ9PIXxg5kBQyf0D55GHOzCZKMEUetUbshQWex3dgTAkVQG+Zcal7NVO+6Q5HewEYHvLlQkzNoNVLtQ9y2mVwVuOifGMlpdlIqV1YBsTFFoC/NByy66jUoOgw6GYstOKFWkpGtukIRNTlrYSMXiwLGZWdTyS51jJxGyowShDL+cSEURaYEdQhp5Jrdiy2GdJofz3ukpfEqpd/aYnlchy5Y5Mc4t9wPTRdgZ8Txvq95LgtCGjMZViY2xN5ZpGdWVj5YaERGv17XNn6P2ng6Jo3TpPvQZvuH7EQm7ONdRK92N8QXdrBfO2B3WeKFnAEGMCWh2KDYEjstYTpjA8NIqzfFoKLZ7JgSOFyDKvB3tlFTW30mp6e7b66sVjnbJ8hB0rToGKj+kVyCAwF+hAVWoCnHzeQmROTGM49iMPR5EOVzKA7DHxlrcY3EaoNSVNMKhopk6SDM/oRdRN12chEDJcho1Oj/0Bn9VF5qDJNeZRlk2HKM24kctxrUMbjTyrNwMl6bHHq/gfq4OhcxjdZHYhIRdynza4ABasSnsZmByCD5HjgFyKfE5aqBENFvJVGb1klG5nAzDcZw6vKhIM2LD5jqz5SKl65VLgYYnhDRJwK1Rx4jNvwuSk4vTW3mAk3fS0EGMkL5rVc+6PmgwirRNuUMwEcJQuo/DE4xTZMXY+Ec3l8HWiI9nMkzoogL4dsqLgiTLVAUA4nplagRvgF0SuWQUmq+h8gMwg3xkLt0bkYc0nWDP5LXaQJDew0jjJTTG2TKvoGHfxeWA2CLb/9Qy97u/8tRxCYL1aBf72UzAFOg8Gr+zTmAmni80iOjZtumRR+owChmWEpagOG15rxu2c1DlMyfYhg=="
+  },
+  "plaintext": "{\"v\":1,\"generatedAt\":\"2026-10-18T09:41:00Z\",\"locale\":\"en-US\",\"currency\":\"USD\",\"profile\":{\"name\":\"Dana\",\"initials\":\"DT\",\"color\":\"teal\"},\"month\":{\"start\":\"2026-10-01\",\"end\":\"2026-10-31\",\"today\":\"2026-10-17\",\"planned\":3200,\"spent\":1915,\"income\":4200,\"available\":1285,\"usedRatio\":0.6,\"elapsedRatio\":0.55,\"pace\":\"onTrack\",\"perDay\":91},\"budgets\":[{\"name\":\"Groceries\",\"symbol\":\"cart\",\"color\":\"olive\",\"planned\":600,\"spent\":412},{\"name\":\"Dining out\",\"symbol\":\"fork.knife\",\"color\":\"mustard\",\"planned\":220,\"spent\":198},{\"name\":\"Transport\",\"symbol\":\"car\",\"color\":\"rust\",\"planned\":250,\"spent\":271}],\"transactions\":[{\"date\":\"2026-10-17\",\"description\":\"Farmers market\",\"kind\":\"expense\",\"status\":\"paid\",\"amount\":48.2,\"category\":{\"name\":\"Groceries\",\"symbol\":\"cart\",\"color\":\"olive\"},\"tags\":[\"Home\"]},{\"date\":\"2026-10-16\",\"description\":\"Salary\",\"kind\":\"income\",\"status\":\"paid\",\"amount\":4200,\"category\":{\"name\":\"Income\",\"symbol\":\"arrow.up\",\"color\":\"teal\"},\"tags\":[]}],\"upcoming\":[{\"description\":\"Internet\",\"dueDate\":\"2026-10-20\",\"amount\":59}]}",
+  "snapshot": {
+    "v": 1,
+    "generatedAt": "2026-10-18T09:41:00Z",
+    "locale": "en-US",
+    "currency": "USD",
+    "profile": {
+      "name": "Dana",
+      "initials": "DT",
+      "color": "teal"
+    },
+    "month": {
+      "start": "2026-10-01",
+      "end": "2026-10-31",
+      "today": "2026-10-17",
+      "planned": 3200,
+      "spent": 1915,
+      "income": 4200,
+      "available": 1285,
+      "usedRatio": 0.6,
+      "elapsedRatio": 0.55,
+      "pace": "onTrack",
+      "perDay": 91
+    },
+    "budgets": [
+      {
+        "name": "Groceries",
+        "symbol": "cart",
+        "color": "olive",
+        "planned": 600,
+        "spent": 412
+      },
+      {
+        "name": "Dining out",
+        "symbol": "fork.knife",
+        "color": "mustard",
+        "planned": 220,
+        "spent": 198
+      },
+      {
+        "name": "Transport",
+        "symbol": "car",
+        "color": "rust",
+        "planned": 250,
+        "spent": 271
+      }
+    ],
+    "transactions": [
+      {
+        "date": "2026-10-17",
+        "description": "Farmers market",
+        "kind": "expense",
+        "status": "paid",
+        "amount": 48.2,
+        "category": {
+          "name": "Groceries",
+          "symbol": "cart",
+          "color": "olive"
+        },
+        "tags": [
+          "Home"
+        ]
+      },
+      {
+        "date": "2026-10-16",
+        "description": "Salary",
+        "kind": "income",
+        "status": "paid",
+        "amount": 4200,
+        "category": {
+          "name": "Income",
+          "symbol": "arrow.up",
+          "color": "teal"
+        },
+        "tags": []
+      }
+    ],
+    "upcoming": [
+      {
+        "description": "Internet",
+        "dueDate": "2026-10-20",
+        "amount": 59
+      }
+    ]
+  }
+}
