@@ -21,8 +21,7 @@
 <div class="page">
 <a class="brand" href="/"><img class="icon-light" src="/assets/icon.png" alt=""><img class="icon-dark" src="/assets/icon-dark.png" alt="">Cashly</a>
 <div class="nav-links">
-<span class="web-updated footnote" data-slot="updated" hidden></span>
-<button class="button small quiet-small" type="button" data-action="sign-out" hidden data-t="signOut">Sign out</button>
+<a class="button small" href="https://apps.apple.com/app/id6821986667" data-t="getCashlyShort">Get Cashly</a>
 </div>
 </div>
 </nav>
@@ -52,58 +51,92 @@
 <button class="button" type="button" data-action="new-code" data-t="newCode">New code</button>
 </section>
 
-<section class="web-month" data-view="month" hidden>
-<p class="web-notice" data-slot="paused" data-t="pausedNotice" hidden>Cashly on the Web is paused for a few minutes. This page tries again on its own.</p>
-<header class="web-hero">
-<div class="month-header">
-<span class="chip capsule" data-slot="month-range"></span>
-<p class="subheadline" data-t="available">Available</p>
-<div class="amount-hero" data-slot="available"></div>
-<p class="footnote" data-slot="per-day"></p>
-</div>
-<div class="group"><div class="row">
-<div class="pace-head"><span class="subheadline" data-slot="used"></span><strong data-slot="pace"></strong></div>
-<div class="bar filled" data-slot="pace-bar"><i></i><b></b></div>
-</div><div class="row figures">
-<div><span class="footnote" data-t="planned">Planned</span><strong data-slot="planned"></strong></div>
-<div><span class="footnote" data-t="spent">Spent</span><strong data-slot="spent"></strong></div>
-<div><span class="footnote" data-t="income">Income</span><strong data-slot="income"></strong></div>
-</div></div>
-</header>
-<div class="web-highlights" data-slot="highlights"></div>
-<section class="web-block" data-block="daily" hidden>
-<h2 class="web-section" data-t="dailyTitle">Spending by day</h2>
-<div class="group web-chart" data-slot="daily"></div>
-</section>
-<div class="web-columns">
-<div>
-<h2 class="web-section" data-t="budgets">Budgets</h2>
-<div class="group" data-slot="budgets"></div>
-<section data-block="categories" hidden>
-<h2 class="web-section" data-t="categoriesTitle">Top categories</h2>
-<div class="group" data-slot="categories"></div>
-</section>
-<section data-block="tags" hidden>
-<h2 class="web-section" data-t="tagsTitle">Tags</h2>
-<div class="group" data-slot="tags"></div>
-</section>
-<section data-block="months" hidden>
-<h2 class="web-section" data-t="monthsTitle">Last months</h2>
-<div class="group web-chart" data-slot="months"></div>
-</section>
-<section data-block="journey" hidden>
-<h2 class="web-section" data-t="journeyTitle">Journey</h2>
-<div class="group" data-slot="journey"></div>
-</section>
-<h2 class="web-section" data-t="upcoming">Upcoming</h2>
-<div class="group" data-slot="upcoming"></div>
-</div>
-<div>
-<h2 class="web-section" data-t="history">History</h2>
-<div data-slot="history"></div>
-</div>
-</div>
-</section>
+
 </main>
+
+<div class="dash" data-view="month" hidden>
+<aside class="dash-side">
+<a class="brand" href="/"><img class="icon-light" src="/assets/icon.png" alt=""><img class="icon-dark" src="/assets/icon-dark.png" alt="">Cashly</a>
+<div class="dash-profile">
+<span class="dash-avatar" data-slot="avatar"></span>
+<div><strong data-slot="profile-name"></strong><span class="footnote" data-slot="side-month"></span></div>
+</div>
+<nav class="dash-nav" aria-label="Cashly">
+<a href="#overview" data-route="overview"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13h6V4H4zM14 20h6v-9h-6zM4 20h6v-4H4zM14 4v4h6V4z"/></svg><span data-t="navOverview">Overview</span></a>
+<a href="#transactions" data-route="transactions"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span data-t="navTransactions">Transactions</span><span class="dash-count" data-slot="tx-count"></span></a>
+<a href="#budgets" data-route="budgets"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg><span data-t="navBudgets">Budgets</span></a>
+<a href="#journey" data-route="journey" data-nav="journey"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z"/></svg><span data-t="journeyTitle">Journey</span></a>
+</nav>
+<div class="dash-side-foot">
+<span class="footnote" data-slot="updated"></span>
+<button class="button small quiet-small" type="button" data-action="sign-out" data-t="signOut">Sign out</button>
+</div>
+</aside>
+<div class="dash-main">
+<p class="web-notice" data-slot="paused" data-t="pausedNotice" hidden>Cashly on the Web is paused for a few minutes. This page tries again on its own.</p>
+<header class="dash-head">
+<div><span class="eyebrow" data-slot="head-month"></span><h1 data-slot="route-title"></h1></div>
+<span class="chip capsule" data-slot="pace"></span>
+</header>
+
+<section data-route-view="overview">
+<div class="dash-kpis">
+<div class="dash-kpi"><span class="footnote" data-t="available">Available</span><strong data-slot="available"></strong><span class="footnote" data-slot="per-day"></span></div>
+<div class="dash-kpi"><span class="footnote" data-t="spent">Spent</span><strong data-slot="spent"></strong><div class="bar filled" data-slot="pace-bar"><i></i><b></b></div><span class="footnote" data-slot="used"></span></div>
+<div class="dash-kpi"><span class="footnote" data-t="income">Income</span><strong data-slot="income"></strong></div>
+<div class="dash-kpi"><span class="footnote" data-t="planned">Planned</span><strong data-slot="planned"></strong></div>
+</div>
+<div class="dash-grid">
+<article class="dash-panel span-2" data-block="daily" hidden><h2 data-t="dailyTitle">Spending by day</h2><div data-slot="daily"></div></article>
+<article class="dash-panel"><h2 data-t="glanceTitle">At a glance</h2><div class="dash-glance" data-slot="highlights"></div></article>
+<article class="dash-panel span-2" data-block="months" hidden><h2 data-t="monthsTitle">Last months</h2><div data-slot="months"></div></article>
+<article class="dash-panel"><h2 data-t="upcoming">Upcoming</h2><div data-slot="upcoming"></div></article>
+<article class="dash-panel span-2"><div class="panel-head"><h2 data-t="recentTitle">Recent transactions</h2><a href="#transactions" data-t="seeAll">See all</a></div><div data-slot="recent"></div></article>
+<article class="dash-panel" data-block="categories" hidden><div class="panel-head"><h2 data-t="categoriesTitle">Top categories</h2><a href="#budgets" data-t="seeAll">See all</a></div><div data-slot="categories-top"></div></article>
+</div>
+</section>
+
+<section data-route-view="transactions" hidden>
+<div class="dash-toolbar">
+<label class="dash-search"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14zM20 20l-4-4"/></svg><input type="search" data-slot="search" data-t-placeholder="searchPlaceholder" placeholder="Search transactions"></label>
+<div class="dash-segment" role="group" data-slot="kind">
+<button type="button" data-kind="all" aria-pressed="true" data-t="filterAll">All</button>
+<button type="button" data-kind="expense" aria-pressed="false" data-t="filterExpenses">Expenses</button>
+<button type="button" data-kind="income" aria-pressed="false" data-t="income">Income</button>
+</div>
+<select class="dash-select" data-slot="category-filter" aria-label="Category"></select>
+<span class="footnote dash-summary" data-slot="tx-summary"></span>
+</div>
+<div class="dash-panel dash-table-wrap">
+<table class="dash-table">
+<thead><tr>
+<th><button type="button" data-sort="date" data-t="colDate">Date</button></th>
+<th data-t="colDescription">Description</th>
+<th data-t="colCategory">Category</th>
+<th data-t="colStatus">Status</th>
+<th class="num"><button type="button" data-sort="amount" data-t="colAmount">Amount</button></th>
+</tr></thead>
+<tbody data-slot="tx-body"></tbody>
+</table>
+<p class="web-empty dash-empty" data-slot="tx-empty" data-t="noResults" hidden>No transactions match.</p>
+</div>
+</section>
+
+<section data-route-view="budgets" hidden>
+<div class="dash-grid">
+<article class="dash-panel span-3"><h2 data-t="budgets">Budgets</h2><div data-slot="budgets"></div></article>
+<article class="dash-panel span-2" data-block="categories-all" hidden><h2 data-t="categoriesTitle">Top categories</h2><div class="dash-share" data-slot="category-share"></div><div data-slot="categories"></div></article>
+<article class="dash-panel" data-block="tags" hidden><h2 data-t="tagsTitle">Tags</h2><div data-slot="tags"></div></article>
+</div>
+</section>
+
+<section data-route-view="journey" hidden>
+<div class="dash-grid">
+<article class="dash-panel span-2" data-block="journey" hidden><h2 data-t="journeyTitle">Journey</h2><div data-slot="journey"></div></article>
+</div>
+</section>
+</div>
+</div>
+
 </body>
 </html>

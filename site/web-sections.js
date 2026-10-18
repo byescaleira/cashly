@@ -79,7 +79,7 @@ function renderHighlights(snapshot, kit) {
     cards.push(node);
   }
   slot('highlights').replaceChildren(...cards);
-  slot('highlights').hidden = !cards.length;
+  slot('highlights').closest('.dash-panel').hidden = !cards.length;
 }
 
 function renderDaily(snapshot, kit) {
@@ -131,18 +131,31 @@ function legendItem(kit, color, text, line) {
   return item;
 }
 
+function categoryRow(category, kit, percent) {
+  const row = kit.element('div', 'dash-category-row');
+  const top = kit.element('div', 'budget-top');
+  const name = kit.element('span', 'dash-budget-name');
+  name.append(kit.badge(category.name, category.color), kit.element('span', '', category.name));
+  top.append(name, kit.element('span', '', `${kit.money.format(category.spent)} · ${percent.format(category.share ?? 0)}`));
+  row.append(top, kit.bar(kit.palette(category.color), clamp(category.share)));
+  return row;
+}
+
 function renderCategories(snapshot, kit) {
   const categories = snapshot.categories ?? [];
-  if (!block('categories', categories.length > 0)) return;
+  const visible = categories.length > 0;
+  block('categories', visible);
+  block('categories-all', visible);
+  if (!visible) return;
   const percent = new Intl.NumberFormat(kit.locale, { style: 'percent' });
-  slot('categories').replaceChildren(...categories.map((category) => {
-    const row = kit.element('div', 'row budget');
-    const body = kit.element('div');
-    const top = kit.element('div', 'budget-top');
-    top.append(kit.element('span', '', category.name), kit.element('span', '', `${kit.money.format(category.spent)} · ${percent.format(category.share ?? 0)}`));
-    body.append(top, kit.bar(kit.palette(category.color), clamp(category.share)));
-    row.append(kit.badge(category.name, category.color), body);
-    return row;
+  slot('categories-top').replaceChildren(...categories.slice(0, 5).map((category) => categoryRow(category, kit, percent)));
+  slot('categories').replaceChildren(...categories.map((category) => categoryRow(category, kit, percent)));
+  slot('category-share').replaceChildren(...categories.map((category) => {
+    const part = kit.element('i');
+    part.style.flexGrow = String(Math.max(category.share ?? 0, 0.001));
+    part.style.background = kit.palette(category.color);
+    part.title = `${category.name} · ${percent.format(category.share ?? 0)}`;
+    return part;
   }));
 }
 
@@ -165,10 +178,10 @@ function renderMonths(snapshot, kit) {
   const months = snapshot.history ?? [];
   if (!block('months', months.length > 1)) return;
   const max = Math.max(...months.flatMap((month) => [month.planned ?? 0, month.spent ?? 0, month.income ?? 0]), 1);
-  const width = 320;
-  const height = 110;
+  const width = 640;
+  const height = 150;
   const slotWidth = width / months.length;
-  const barWidth = Math.min(slotWidth / 4.5, 14);
+  const barWidth = Math.min(slotWidth / 4.5, 22);
   const chart = svg('svg', { viewBox: `0 0 ${width} ${height}`, role: 'img', 'aria-label': kit.t('monthsTitle'), class: 'web-svg' });
   const axis = kit.element('div', 'web-axis-row months');
   axis.style.gridTemplateColumns = `repeat(${months.length}, minmax(0, 1fr))`;
@@ -182,7 +195,7 @@ function renderMonths(snapshot, kit) {
     ];
     bars.forEach((bar, position) => {
       const barHeight = Math.max(((bar.value ?? 0) / max) * height, 1);
-      const rect = svg('rect', { x: center + (position - 1.5) * barWidth + (position - 1) * 1.5, y: height - barHeight, width: barWidth, height: barHeight, rx: Math.min(barWidth / 2, 3) });
+      const rect = svg('rect', { x: center + (position - 1.5) * barWidth + (position - 1) * 1.5, y: height - barHeight, width: barWidth, height: barHeight, rx: Math.min(barWidth / 2, 4) });
       rect.style.fill = bar.color;
       const title = svg('title');
       title.textContent = `${bar.label}: ${kit.money.format(bar.value ?? 0)}`;

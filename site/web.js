@@ -1,5 +1,5 @@
 import { strings, locales } from './web-strings.js';
-import { renderSections } from './web-sections.js';
+import { renderDashboard, bindDashboard } from './web-dashboard.js';
 import { createSessionID, generateKeyPair, pairingLink, openPackage, fetchPackage } from './web-crypto.js';
 
 const WAIT_INTERVAL = 2000;
@@ -35,6 +35,7 @@ const slot = (name) => document.querySelector(`[data-slot="${name}"]`);
 function translatePage() {
   document.documentElement.lang = locale;
   document.querySelectorAll('[data-t]').forEach((element) => { element.textContent = t(element.dataset.t); });
+  document.querySelectorAll('[data-t-placeholder]').forEach((element) => { element.placeholder = t(element.dataset.tPlaceholder); });
   if (document.body.dataset.page === 'app') document.title = t('pageTitle');
   if (document.body.dataset.page === 'link') document.title = t('linkTitle');
 }
@@ -69,8 +70,7 @@ const state = { session: null, etag: null, timer: null, snapshot: null, updatedA
 
 function show(view) {
   document.querySelectorAll('[data-view]').forEach((element) => { element.hidden = element.dataset.view !== view; });
-  document.querySelector('[data-action="sign-out"]').hidden = view !== 'month';
-  slot('updated').hidden = view !== 'month';
+  document.body.classList.toggle('is-dashboard', view === 'month');
 }
 
 function message(title, body) {
@@ -194,95 +194,12 @@ function bar(color, ratio) {
   return node;
 }
 
-function emptyRow(key) {
-  const row = element('div', 'row');
-  row.append(element('p', 'web-empty', t(key)));
-  return row;
+function kit(snapshot) {
+  return { t, money: currency(snapshot), locale, element, palette, badge, bar, day };
 }
 
 function renderMonth(snapshot) {
-  const money = currency(snapshot);
-  const month = snapshot.month;
-  const paceColor = { onTrack: 'var(--positive)', ahead: 'var(--warning)', over: 'var(--negative)' }[month.pace] ?? 'var(--positive)';
-
-  slot('month-range').textContent = day(month.start, { month: 'long', year: 'numeric' });
-  slot('available').textContent = money.format(month.available);
-  slot('available').style.color = month.available < 0 ? 'var(--negative)' : '';
-  slot('per-day').textContent = t('perDay', { amount: money.format(month.perDay) });
-  slot('per-day').hidden = !(month.perDay > 0);
-  slot('used').textContent = t('used', { percent: new Intl.NumberFormat(locale, { style: 'percent' }).format(month.usedRatio) });
-  slot('pace').textContent = t(month.pace in { onTrack: 1, ahead: 1, over: 1 } ? month.pace : 'onTrack');
-  slot('pace').style.color = paceColor;
-  const paceBar = slot('pace-bar');
-  paceBar.style.setProperty('--bar', paceColor);
-  paceBar.style.setProperty('--value', `${Math.min(Math.max(month.usedRatio, 0), 1) * 100}%`);
-  paceBar.style.setProperty('--elapsed', `${Math.min(Math.max(month.elapsedRatio, 0), 1) * 100}%`);
-  slot('planned').textContent = money.format(month.planned);
-  slot('spent').textContent = money.format(month.spent);
-  slot('income').textContent = money.format(month.income);
-
-  const budgets = slot('budgets');
-  budgets.replaceChildren(...(snapshot.budgets?.length ? snapshot.budgets.map((budget) => {
-    const row = element('div', 'row budget');
-    const body = element('div');
-    const top = element('div', 'budget-top');
-    top.append(element('span', '', budget.name), element('span', '', t('budgetOf', { spent: money.format(budget.spent), planned: money.format(budget.planned) })));
-    const ratio = budget.planned > 0 ? budget.spent / budget.planned : 0;
-    body.append(top, bar(ratio > 1 ? 'var(--negative)' : palette(budget.color), ratio));
-    row.append(badge(budget.name, budget.color), body);
-    return row;
-  }) : [emptyRow('noBudgets')]));
-
-  renderSections(snapshot, { t, money, locale, element, palette, badge, bar, day });
-
-  const upcoming = slot('upcoming');
-  upcoming.replaceChildren(...(snapshot.upcoming?.length ? snapshot.upcoming.map((item) => {
-    const row = element('div', 'row web-item');
-    const body = element('div');
-    body.append(element('div', 'web-item-title', item.description), element('div', 'web-item-detail', t('due', { date: day(item.dueDate, { day: 'numeric', month: 'short' }) })));
-    row.append(badge(item.description, 'denim'), body, element('span', 'web-item-amount', money.format(item.amount)));
-    return row;
-  }) : [emptyRow('noUpcoming')]));
-
-  const history = slot('history');
-  const days = new Map();
-  for (const transaction of snapshot.transactions ?? []) {
-    if (!days.has(transaction.date)) days.set(transaction.date, []);
-    days.get(transaction.date).push(transaction);
-  }
-  if (!days.size) {
-    const group = element('div', 'group');
-    group.append(emptyRow('noHistory'));
-    history.replaceChildren(group);
-    return;
-  }
-  history.replaceChildren(...[...days.entries()].sort(([a], [b]) => b.localeCompare(a)).flatMap(([date, items]) => {
-    const group = element('div', 'group');
-    group.append(...items.map((transaction) => {
-      const row = element('div', 'row web-item');
-      const body = element('div');
-      const detail = element('div', 'web-item-detail');
-      if (transaction.category?.name) detail.append(element('span', '', transaction.category.name));
-      const status = { toPay: ['toPay', 'var(--warning)'], toReceive: ['toReceive', 'var(--teal)'], canceled: ['canceled', 'var(--secondary)'] }[transaction.status];
-      if (status) {
-        const chip = element('span', 'chip', t(status[0]));
-        chip.style.setProperty('--chip', status[1]);
-        detail.append(chip);
-      }
-      if (transaction.status === 'canceled') row.classList.add('canceled');
-      for (const tag of transaction.tags ?? []) {
-        const chip = element('span', 'chip', tag);
-        chip.style.setProperty('--chip', 'var(--secondary)');
-        detail.append(chip);
-      }
-      body.append(element('div', 'web-item-title', transaction.description), detail);
-      const income = transaction.kind === 'income';
-      const amount = element('span', `web-item-amount${income ? ' positive' : ''}`, (income ? '+' : '−') + money.format(Math.abs(transaction.amount)));
-      row.append(badge(transaction.category?.name || transaction.description, transaction.category?.color), body, amount);
-      return row;
-    }));
-    return [element('h3', 'web-day', day(date, { weekday: 'long', day: 'numeric', month: 'long' })), group];
-  }));
+  renderDashboard(snapshot, kit(snapshot));
 }
 
 function renderUpdated() {
@@ -298,6 +215,7 @@ async function start() {
   if (document.body.dataset.page !== 'app') return;
   document.querySelector('[data-action="new-code"]').addEventListener('click', newSession);
   document.querySelector('[data-action="sign-out"]').addEventListener('click', newSession);
+  bindDashboard({ t, locale, element, palette, badge, bar, day });
   document.addEventListener('visibilitychange', () => { if (!document.hidden && state.session) schedule(0); });
   if (!window.crypto?.subtle || !window.indexedDB || typeof qrcode !== 'function') {
     return message('unsupportedTitle', 'unsupportedText');
