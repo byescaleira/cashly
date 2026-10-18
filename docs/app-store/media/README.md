@@ -73,3 +73,7 @@ Os vídeos usam só imagens gravadas do app (`simctl io recordVideo`), com corte
 - **App Preview do iPhone:** a gravação do simulador sai em taxa variável; o script normaliza para 30 fps constantes. O trecho do teclado mostra o teclado em inglês do simulador. Não conferi o envio no App Store Connect.
 - **App Preview do iPad** saiu em paisagem 1600×1200 (formato aceito para iPad 13"), não em retrato 1200×1600.
 - **Ícone no cabeçalho** é uma reconstrução em CSS das camadas SVG do `CashlyIcon.icon` (sem o efeito de vidro do Icon Composer).
+
+## Tamanhos aceitos em 17/10/2026
+
+O App Store Connect passou a exigir o iPhone "with Dynamic Island (medium display)", de 6,1" e 6,3": capturas de 1206×2622 ou 1179×2556 e previews de 886×1920. As capturas de `iphone/` (1320×2868) foram redimensionadas para `iphone-6.3/` com `sips -z 2622 1206` (mesma proporção). As de `iphone-6.3/` e o `preview/iphone-preview.mp4` foram enviadas em en-US; as outras localizações usam as do inglês.
