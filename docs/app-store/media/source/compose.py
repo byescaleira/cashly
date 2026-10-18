@@ -263,10 +263,9 @@ def header(size):
         f"<h1 style='font-size:{138 * unit:.0f}px'>Know where your money goes</h1>"
         f"<p style='font-size:{54 * unit:.0f}px'>See if every budget is on pace before the month ends. No account, no bank login.</p></div>"
     )
-    mac_width = 1300 * unit
-    mac_left = width / 2 + 30 * unit
-    body += macbook("ipad/landscape-home.png", mac_left, middle - 470 * unit, mac_width, mac_width * 0.84)
-    body += iphone("iphone/goals.png", mac_left - 140 * unit, middle - 360 * unit, 380 * unit)
+    ipad_left = width / 2 + 60 * unit
+    body += ipad("ipad/landscape-home.png", ipad_left, middle - 430 * unit, 1240 * unit)
+    body += iphone("iphone/goals.png", ipad_left - 150 * unit, middle - 330 * unit, 380 * unit)
     return page(size, "var(--orange)", body)
 
 
@@ -284,7 +283,7 @@ def build(device, slides, folder, builder):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("targets", nargs="*", default=["iphone", "ipad", "mac", "vision", "header"])
+    parser.add_argument("targets", nargs="*", default=["iphone", "ipad", "header"])
     args = parser.parse_args()
     if "iphone" in args.targets:
         build("iphone", [(*s[:5], "iphone/" + s[5], [("iphone/" + c[0], *c[1:]) for c in s[6]]) for s in IPHONE], "iphone", iphone_slide)
