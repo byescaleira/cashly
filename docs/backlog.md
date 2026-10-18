@@ -4,6 +4,9 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 
 ## Antes de distribuir
 
+- **[P1] Enviar o build pelo Xcode Cloud com o Xcode 27 final.** O Xcode local é o 27.0 beta 6, e a App Store recusa builds feitos com beta. Criar o fluxo "Release" (esquema `Production`, ação Archive para iOS, macOS e visionOS, distribuição no TestFlight interno) no App Store Connect.
+- **[P1] Completar o App Store Connect** com os textos de `docs/app-store/metadata.json` nas 10 localizações: URLs de suporte, marketing e privacidade, classificação etária, rótulo "Dados não coletados", notas de revisão, capturas de iPhone, iPad, Mac e visionOS, e nome, descrição e captura de revisão de cada compra no app nos 10 idiomas. Molduras (`cashly.avatar.frames`) e Sons (`cashly.sounds`) não vão para revisão. Excluir as sobras `cashly.avatar.pack` e o produto com erro de digitação 6823243930.
+
 - **[P1] Publicar o schema V6 no CloudKit de produção** (moeda paga e cotação da transação) no CloudKit Console antes de distribuir uma build com a branch de moedas.
 - **[P1] Testar moedas no iPhone físico** (etapa e de [currency.md](currency.md)): a instalação migra o banco do aparelho para o V6, e as branches que ainda estão no V5 deixam de abrir esse banco. Por decisão do usuário em 15/10/2026, o teste fica para depois do merge.
 
@@ -39,7 +42,7 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 
 - **[P3] Vitrine do Pro no Início com 13 argumentos.** Cada análise do Início tem um argumento; para quem não assina, a lista ficou longa. Decidir com o usuário se fica um argumento por pergunta (como está o mês, para onde vai, onde economizar, o que vem aí).
 - **[P3] Reajuste de cobrança recorrente.** Acima de 15% a cobrança abre uma faixa nova e só reaparece depois de três meses no preço novo; detectar a continuação pela descrição e avisar do reajuste. Tolerar uma compra extra na mesma faixa (aceitar a faixa quando tirar uma única compra deixa os intervalos regulares).
-- **Configuração da distribuição.** Preencher no `Info.plist` as chaves de links (`CashlyAppStoreID`, `CashlySupportEmail`, `CashlyHelpURL`, `CashlyPrivacyURL`, `CashlyTermsURL`, `CashlyWebsiteURL`). Sem elas, Ajustes › Sobre mostra só "Avaliar" (pelo `requestReview`) e "Novidades", e o compartilhar manda só o texto; o id 6821986667 do App Store Connect só deve entrar quando a página do app estiver no ar. A cada versão, acrescentar um `Release` em `Release.all` (a tela Novidades destaca a versão instalada e lista as anteriores).
+- **A cada versão,** acrescentar um `Release` em `Release.all` (a tela Novidades destaca a versão instalada e lista as anteriores) e atualizar `docs/app-store/metadata.json` (novidades nos 10 idiomas).
 - **Integrações, assinatura e novas features.** Planejadas por fase em [roadmap.md](roadmap.md). Antes de App Intents e widgets, resolver "Serviços fora da janela" acima. Servidor MCP para o Claude Code continua como ideia futura.
 - **[P3] Acessibilidade e restauração.** Dynamic Type conferido no iPhone até o tamanho de acessibilidade AX3; falta VoiceOver, principalmente gráficos e seletores de ícones. Rotas pequenas permitem deep links e restauração.
 - **[P3] Seletor de mês além do orçamento.** O `MonthPicker` novo só é usado no editor de orçamento; avaliar o filtro de período (`FilterMenu`) e a escolha de mês das telas de Metas com o mesmo componente.
