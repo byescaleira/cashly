@@ -128,7 +128,7 @@ private struct WebSessionRow: View {
     var body: some View {
         TimelineView(.everyMinute) { context in
             VStack(alignment: .leading, spacing: .spaceS) {
-                HStack(spacing: .spaceS) {
+                AdaptiveRow(spacing: .spaceS) {
                     IconRow(
                         verbatim: web.title(of: session),
                         detail: web.detail(of: session, at: context.date),
