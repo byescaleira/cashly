@@ -1,37 +1,55 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { normalizeCode, snapshotID, deriveKey, openPackage } from './web-crypto.js';
+import { createSessionID, generateKeyPair, pairingLink, sharedSecret, deriveKey, openPackage } from './web-crypto.js';
 
-const vector = JSON.parse(readFileSync(new URL('../docs/web-test-vector.json', import.meta.url), 'utf8'));
+const vector = JSON.parse(readFileSync(new URL('../docs/web-test-vector-v2.json', import.meta.url), 'utf8'));
+const url = (bytes) => Buffer.from(bytes).toString('base64url');
+const hex = (bytes) => Buffer.from(bytes).toString('hex');
 
-test('normalizes typed codes', () => {
-  assert.equal(normalizeCode('k7qf-2m9x'), 'K7QF2M9X');
-  assert.equal(normalizeCode(' K7QF 2M9X '), 'K7QF2M9X');
-  assert.equal(normalizeCode('K7QF-2M9'), null);
-  assert.equal(normalizeCode('K7QF-2M90'), null);
-  assert.equal(normalizeCode('K7QF-2M9I'), null);
+async function webKeys() {
+  const raw = Buffer.from(vector.webPublicKey.replace(/-/g, '+').replace(/_/g, '/'), 'base64');
+  const jwk = { kty: 'EC', crv: 'P-256', d: url(Buffer.from(vector.webPrivateKeyHex, 'hex')), x: url(raw.subarray(1, 33)), y: url(raw.subarray(33)) };
+  const privateKey = await crypto.subtle.importKey('jwk', jwk, { name: 'ECDH', namedCurve: 'P-256' }, false, ['deriveBits']);
+  const publicKey = await crypto.subtle.importKey('raw', raw, { name: 'ECDH', namedCurve: 'P-256' }, true, []);
+  return { privateKey, publicKey };
+}
+
+test('session id from the shared bytes', () => {
+  assert.equal(createSessionID(Buffer.from(vector.sessionHex, 'hex')), vector.sessionID);
+  assert.match(createSessionID(), /^[A-Za-z0-9_-]{22}$/);
 });
 
-test('matches the shared id', async () => {
-  assert.equal(await snapshotID(vector.code), vector.id);
+test('pairing link matches the shared link', async () => {
+  const { publicKey } = await webKeys();
+  assert.equal(await pairingLink(vector.sessionID, publicKey), vector.link);
 });
 
-test('derives the shared key', async () => {
-  const key = await deriveKey(vector.code, Buffer.from(vector.package.salt, 'base64'));
-  const raw = Buffer.from(await crypto.subtle.exportKey('raw', key)).toString('hex');
-  assert.equal(raw, vector.keyHex);
+test('shared secret and key match', async () => {
+  const { privateKey } = await webKeys();
+  const secret = await sharedSecret(privateKey, vector.package.appKey);
+  assert.equal(hex(secret), vector.sharedSecretHex);
+  const key = await deriveKey(secret, vector.sessionID);
+  assert.equal(hex(await crypto.subtle.exportKey('raw', key)), vector.keyHex);
 });
 
 test('opens the shared package', async () => {
-  const { snapshot } = await openPackage(vector.code, vector.id, vector.package);
-  assert.deepEqual(snapshot, vector.snapshot);
+  const { privateKey } = await webKeys();
+  assert.deepEqual(await openPackage(privateKey, vector.sessionID, vector.package), vector.snapshot);
 });
 
-test('rejects a wrong code', async () => {
-  await assert.rejects(openPackage('K7QF2M9Y', vector.id, vector.package));
+test('rejects another browser key', async () => {
+  const other = await generateKeyPair();
+  await assert.rejects(openPackage(other.privateKey, vector.sessionID, vector.package));
 });
 
-test('rejects a package moved to another id', async () => {
-  await assert.rejects(openPackage(vector.code, 'f'.repeat(64), vector.package));
+test('rejects a package moved to another session', async () => {
+  const { privateKey } = await webKeys();
+  await assert.rejects(openPackage(privateKey, 'A'.repeat(22), vector.package));
+});
+
+test('generated private keys are not extractable', async () => {
+  const pair = await generateKeyPair();
+  assert.equal(pair.privateKey.extractable, false);
+  await assert.rejects(crypto.subtle.exportKey('jwk', pair.privateKey));
 });

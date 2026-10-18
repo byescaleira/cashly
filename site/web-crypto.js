@@ -1,34 +1,42 @@
-const ALPHABET = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
-const PREFIX = 'cashly-web:v1:';
-const ITERATIONS = 310000;
-
-export function normalizeCode(input) {
-  const code = String(input ?? '').toUpperCase().replace(/[^0-9A-Z]/g, '');
-  if (code.length !== 8 || [...code].some((character) => !ALPHABET.includes(character))) return null;
-  return code;
-}
-
+const INFO = 'cashly-web:v2';
+const LINK = 'https://cashly.byescaleira.com/link';
 const encoder = new TextEncoder();
 
 function fromBase64(text) {
-  const binary = atob(text);
+  const binary = atob(text.replace(/-/g, '+').replace(/_/g, '/'));
   const bytes = new Uint8Array(binary.length);
   for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
   return bytes;
 }
 
-function toHex(buffer) {
-  return [...new Uint8Array(buffer)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
+function toBase64URL(buffer) {
+  let binary = '';
+  for (const byte of new Uint8Array(buffer)) binary += String.fromCharCode(byte);
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 
-export async function snapshotID(code) {
-  return toHex(await crypto.subtle.digest('SHA-256', encoder.encode(PREFIX + code)));
+export function createSessionID(bytes = crypto.getRandomValues(new Uint8Array(16))) {
+  return toBase64URL(bytes);
 }
 
-export async function deriveKey(code, salt) {
-  const material = await crypto.subtle.importKey('raw', encoder.encode(code), 'PBKDF2', false, ['deriveKey']);
+export function generateKeyPair() {
+  return crypto.subtle.generateKey({ name: 'ECDH', namedCurve: 'P-256' }, false, ['deriveBits']);
+}
+
+export async function pairingLink(sessionID, publicKey) {
+  const raw = await crypto.subtle.exportKey('raw', publicKey);
+  return `${LINK}?s=${sessionID}&k=${toBase64URL(raw)}`;
+}
+
+export async function sharedSecret(privateKey, appKey) {
+  const publicKey = await crypto.subtle.importKey('raw', fromBase64(appKey), { name: 'ECDH', namedCurve: 'P-256' }, false, []);
+  return new Uint8Array(await crypto.subtle.deriveBits({ name: 'ECDH', public: publicKey }, privateKey, 256));
+}
+
+export async function deriveKey(secret, sessionID) {
+  const material = await crypto.subtle.importKey('raw', secret, 'HKDF', false, ['deriveKey']);
   return crypto.subtle.deriveKey(
-    { name: 'PBKDF2', hash: 'SHA-256', salt, iterations: ITERATIONS },
+    { name: 'HKDF', hash: 'SHA-256', salt: fromBase64(sessionID), info: encoder.encode(INFO) },
     material,
     { name: 'AES-GCM', length: 256 },
     true,
@@ -36,19 +44,19 @@ export async function deriveKey(code, salt) {
   );
 }
 
-export async function openPackage(code, id, pack, key) {
-  if (!pack || pack.v !== 1) throw new Error('unsupported');
-  const cryptoKey = key ?? (await deriveKey(code, fromBase64(pack.salt)));
+export async function openPackage(privateKey, sessionID, pack) {
+  if (!pack || pack.v !== 2) throw new Error('unsupported');
+  const key = await deriveKey(await sharedSecret(privateKey, pack.appKey), sessionID);
   const plain = await crypto.subtle.decrypt(
-    { name: 'AES-GCM', iv: fromBase64(pack.nonce), additionalData: encoder.encode(id), tagLength: 128 },
-    cryptoKey,
+    { name: 'AES-GCM', iv: fromBase64(pack.nonce), additionalData: encoder.encode(sessionID), tagLength: 128 },
+    key,
     fromBase64(pack.ciphertext)
   );
-  return { snapshot: JSON.parse(new TextDecoder().decode(plain)), key: cryptoKey };
+  return JSON.parse(new TextDecoder().decode(plain));
 }
 
-export async function fetchPackage(id, etag, base = '/bridge') {
-  const response = await fetch(`${base}/v1/snapshots/${id}`, {
+export async function fetchPackage(sessionID, etag, base = '/bridge') {
+  const response = await fetch(`${base}/v1/snapshots/${sessionID}`, {
     headers: etag ? { 'If-None-Match': etag } : {},
     cache: 'no-store'
   });
