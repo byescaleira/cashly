@@ -30,7 +30,8 @@ let package = Package(
         .target(name: "CashlyAnalyticsAI", dependencies: ["CashlyDomain", "CashlyAnalytics"]),
         .target(name: "CashlyMCP", dependencies: ["CashlyDomain", "CashlyAnalytics"]),
         .target(name: "CashlyGame", dependencies: ["CashlyDomain", "CashlyAnalytics"]),
-        .target(name: "CashlyWeb", dependencies: ["CashlyDomain"]),
+        .target(
+            name: "CashlyWeb", dependencies: ["CashlyDomain", "CashlyAnalytics", "CashlyGame"]),
         .target(name: "CashlyDesignSystem"),
         .target(name: "CashlyWidgetUI", dependencies: ["CashlyDomain", "CashlyDesignSystem"]),
         .target(name: "CashlyResource", resources: [.process("Assets")]),
@@ -123,7 +124,10 @@ let package = Package(
         .testTarget(
             name: "CashlyMCPTests", dependencies: ["CashlyDomain", "CashlyData", "CashlyMCP"]),
         .testTarget(
-            name: "CashlyWebTests", dependencies: ["CashlyDomain", "CashlyData", "CashlyWeb"]),
+            name: "CashlyWebTests",
+            dependencies: [
+                "CashlyAnalytics", "CashlyDomain", "CashlyData", "CashlyGame", "CashlyWeb",
+            ]),
         .testTarget(
             name: "CashlyAnalyticsTests",
             dependencies: ["CashlyDomain", "CashlyData", "CashlyAnalytics"]),

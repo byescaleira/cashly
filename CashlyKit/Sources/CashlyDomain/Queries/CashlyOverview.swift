@@ -5,6 +5,7 @@ public struct CashlyOverview: Sendable {
     public var categoryExpenses: [String: Money] = [:]
     public var budgetExpenses: [String: Money] = [:]
     public var tagExpenses: [String: Money] = [:]
+    public var tagCounts: [String: Int] = [:]
     public var budgetsTotal: Money = .zero
     public var expensesTotal: Money = .zero
     public var incomeTotal: Money = .zero

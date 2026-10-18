@@ -67,6 +67,14 @@ public struct WebSnapshot: Codable, Equatable, Sendable {
     public let budgets: [Budget]
     public let transactions: [Entry]
     public let upcoming: [Bill]
+    public var daily: [Day]?
+    public var forecast: Forecast?
+    public var categories: [CategorySpending]?
+    public var tags: [TagSpending]?
+    public var history: [MonthTotals]?
+    public var savings: Savings?
+    public var score: Score?
+    public var journey: Journey?
 
     public func encoded() throws -> Data {
         let encoder = JSONEncoder()

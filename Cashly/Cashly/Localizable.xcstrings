@@ -128764,6 +128764,122 @@
           }
         }
       }
+    },
+    "Cashly on the Web is paused for a few minutes. Try again later." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Cashly na Web está em pausa por alguns minutos. Tente de novo mais tarde."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly en la Web está en pausa unos minutos. Vuelve a intentarlo más tarde."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly im Web ist für ein paar Minuten pausiert. Versuche es später noch einmal."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly sur le Web est en pause pour quelques minutes. Réessayez plus tard."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly sul Web è in pausa per qualche minuto. Riprova più tardi."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly on the Webは数分間一時停止しています。しばらくしてからもう一度お試しください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "웹용 Cashly가 몇 분 동안 일시 중지되었습니다. 나중에 다시 시도하세요."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "网页版 Cashly 暂停几分钟。请稍后再试。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly в вебе приостановлен на несколько минут. Повторите попытку позже."
+          }
+        }
+      }
+    },
+    "Cashly on the Web is paused for a few minutes. Your month is sent again when you open Cashly or change your data." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Cashly na Web está em pausa por alguns minutos. Seu mês é enviado de novo quando você abrir o Cashly ou mudar seus dados."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly en la Web está en pausa unos minutos. Tu mes se vuelve a enviar cuando abras Cashly o cambies tus datos."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly im Web ist für ein paar Minuten pausiert. Dein Monat wird erneut gesendet, wenn du Cashly öffnest oder deine Daten änderst."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly sur le Web est en pause pour quelques minutes. Votre mois est renvoyé quand vous ouvrez Cashly ou modifiez vos données."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly sul Web è in pausa per qualche minuto. Il tuo mese viene inviato di nuovo quando apri Cashly o modifichi i tuoi dati."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly on the Webは数分間一時停止しています。Cashlyを開くかデータを変更すると、月の内容がもう一度送信されます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "웹용 Cashly가 몇 분 동안 일시 중지되었습니다. Cashly를 열거나 데이터를 변경하면 이번 달 내용이 다시 전송됩니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "网页版 Cashly 暂停几分钟。打开 Cashly 或更改数据时，会重新发送你的当月内容。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cashly в вебе приостановлен на несколько минут. Ваш месяц будет отправлен снова, когда вы откроете Cashly или измените данные."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

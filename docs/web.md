@@ -11,7 +11,7 @@ O iPhone já tem os dados legíveis. Então o app monta um **resumo do mês**, c
 ## Como a pessoa usa (como o WhatsApp Web)
 
 1. No computador, `cashly.byescaleira.com/app` mostra um **QR code** e "Abra a câmera do iPhone e aponte para o código" (ou "No Cashly, Ajustes › Cashly na Web › Ler QR code").
-2. O iPhone lê o QR: pela **Câmera do sistema** (o QR é um link universal `https://cashly.byescaleira.com/link?s=…&k=…` que abre o Cashly) ou pelo botão **Ler QR code** dentro de Ajustes › Cashly na Web. O app pergunta "Mostrar seu mês neste computador?" (Pro; sem Pro, abre o paywall).
+2. O iPhone lê o QR: pela **Câmera do sistema** (o QR é um link universal `https://cashly.byescaleira.com/link?s=…&k=…` que abre o Cashly) ou pelo botão **Ler QR code** dentro de Ajustes › Cashly na Web, que abre uma folha de guia com título e texto em cima, a câmera ao vivo (só QR) no lugar da animação e "Cancelar"; um QR que não é do Cashly troca o texto pelo aviso, e sem permissão da câmera a mesma folha oferece "Abrir Ajustes". O app pergunta "Mostrar seu mês neste computador?" (Pro; sem Pro, abre o paywall).
 3. Em até 2 segundos, a página troca o QR pelo mês. Nada é digitado.
 4. Enquanto a sessão vale (24 horas), o app reenvia o resumo quando os dados mudam e a página busca a versão nova a cada 30 segundos.
 5. **Encerrar:** em Ajustes › Cashly na Web, o app lista as sessões abertas (computador, desde quando) com "Desconectar", que apaga o pacote na ponte. Na página, "Sair" apaga a chave do navegador e volta ao QR.
@@ -86,7 +86,7 @@ Depois do primeiro teste real, o resumo ganhou as seções do Início, de Insigh
   "tags": [ { "name": "Casa", "spent": 230.0, "count": 6 } ],
   "history": [ { "month": "2026-05", "planned": 3200.0, "spent": 2980.0, "income": 4200.0 } ],
   "savings": { "saved": 1285.0, "rate": 0.31, "averageRate": 0.24 },
-  "score": { "value": 72, "label": "Good", "detail": "Spending close to the plan" },
+  "score": { "value": 812, "max": 1000, "label": "Over budget", "detail": "You went over the planned budget…" },
   "journey": {
     "level": 4, "levelTitle": "Saver", "progress": 0.4, "streak": 12,
     "challenge": { "title": "No delivery this week", "progress": 0.5, "endsOn": "2026-10-25" }
@@ -94,19 +94,22 @@ Depois do primeiro teste real, o resumo ganhou as seções do Início, de Insigh
 }
 ```
 
-- `daily`: gasto de cada dia do mês até hoje (despesas pagas e a pagar, como o gráfico do Início). A página desenha barras por dia e a linha do ritmo planejado (`month.planned / dias do mês`, acumulado).
-- `forecast`: a mesma previsão do Início/Insights (onde o mês fecha). `outcome` é `under`, `onPlan` ou `over`.
-- `categories`: até 8 categorias por gasto do mês, a 9ª soma o resto como `Other` (nome já traduzido pelo app); `share` é a fração do gasto total.
-- `tags`: até 8 tags por gasto do mês.
-- `history`: os últimos 6 meses, do mais antigo ao atual, para o comparativo lado a lado.
-- `savings`: o que sobrou no mês (`income - spent`, podendo ser negativo), a taxa sobre a receita e a média dos meses de `history`.
-- `score`: a pontuação do mês do Início (0–100), com `label` e `detail` já traduzidos no idioma do app.
-- `journey`: nível, título do nível (traduzido), progresso até o próximo nível (0–1), sequência em dias e o desafio ativo, se houver. Fica de fora se a Jornada estiver desligada.
+- `daily`: gasto de cada dia do mês, do dia 1 até hoje (despesas pagas e a pagar, sem as canceladas), pelo mesmo razão do motor de análise (`LedgerSnapshot.spent(in:throughDay:)`). A soma dá o "já gasto" da previsão; pode ser menor que `month.spent`, que inclui despesas com data depois de hoje. A página desenha barras por dia e a linha do ritmo planejado (`month.planned / dias do mês`, acumulado).
+- `forecast`: a mesma previsão do Início/Insights (`MonthPace`, onde o mês fecha). `spent` é o valor previsto para o fim do mês, `planned` é o planejado que a previsão usa (todos os orçamentos do mês) e `available = planned - spent`. `outcome` é `over` quando a previsão passa do planejado, `under` quando fica abaixo e `onPlan` quando fecha exatamente nele (em centavos), como o chip "acima/abaixo do plano" do app. **Só vem quando o mês tem planejamento** (sem plano, o app não tem com o que comparar).
+- `categories`: até 8 categorias por gasto do mês (os mesmos `categoryExpenses` do Início), em ordem decrescente; o que sobra, inclusive categorias que não existem mais, vira um 9º item `Other` (nome já traduzido pelo app, `symbol` `ellipsis`, `color` `brown`). `share` é a fração do gasto total do mês. Fica de fora sem gasto.
+- `tags`: até 8 tags por gasto do mês (`tagExpenses` do Início); `count` é quantas despesas do mês têm a tag. Fica de fora sem tag com gasto.
+- `history`: até 6 meses, do mais antigo ao atual, cada um com o planejado, o gasto e o recebido do mesmo resumo que o Início mostra para aquele mês. Começa no primeiro mês com algum dado (o atual sempre vem), para quem começou há pouco não ver colunas vazias.
+- `savings`: o que sobrou no mês (`income - spent`, o `netTotal` do Início, podendo ser negativo), a taxa sobre a receita e a média das taxas dos meses de `history` que tiveram receita. **Só vem quando o mês atual tem receita** (sem receita não há taxa).
+- `score`: a pontuação do mês do Início, **na mesma escala do app: de 200 a 1000 (`max` = 1000)**, não 0–100, com `label` (o nível: Healthy, Over budget, At risk, Critical) e `detail` (a frase do nível) já traduzidos no idioma do app.
+- `journey`: nível, título do nível (traduzido), progresso até o próximo nível (0–1), sequência atual em dias e o desafio ativo, se houver: `title` é o nome do desafio, `progress` é a barra do app (0–1; nos desafios de limite, a fração do limite já usada) e `endsOn` é o último dia do desafio. Fica de fora se a Jornada estiver desligada (flag remota `journey` ou o ajuste "Mostrar Jornada").
+- Proporções (`share`, `rate`, `averageRate`, `progress`) arredondadas em 2 casas, como as do mês. As seções que dependem do histórico inteiro (`daily`, `forecast`, `journey`) ficam de fora enquanto o iCloud ainda está trazendo dados.
 - Textos que vêm prontos do app (`label`, `detail`, `levelTitle`, `challenge.title`, `Other`) seguem o `locale` do resumo; o resto da página segue o `?locale=`.
 
 ## Ponte pausada
 
-Quando o admin pausa a ponte, `PUT` e `GET` respondem `503 {"error":"paused"}`. A página mostra "O Cashly na Web está em pausa por alguns minutos" e tenta de novo a cada minuto; o app mostra o chip "Em pausa" e reenvia quando voltar. A flag remota `web` desligada esconde a função no app sem tocar na VPS (o app lê as flags do CloudKit público).
+Quando o admin pausa a ponte, `PUT` e `GET` respondem `503 {"error":"paused"}`. A página mostra "O Cashly na Web está em pausa por alguns minutos" e tenta de novo a cada minuto; o app mostra o chip "Pausado" e reenvia quando voltar. A flag remota `web` desligada esconde a função no app sem tocar na VPS (o app lê as flags do CloudKit público).
+
+No app, `503` com `{"error":"paused"}` em `PUT` ou `DELETE` vira `WebBridgeError.paused`, um estado próprio, separado de falha: a sessão fica guardada com o chip "Pausado" (mostarda, o mesmo termo e a mesma cor da sessão sem Pro) e o rodapé "O Cashly na Web está em pausa por alguns minutos. Seu mês é enviado de novo quando você abrir o Cashly ou mudar seus dados.". O reenvio acontece pelos gatilhos de sempre (voltar ao primeiro plano, mudança nos dados, perfil, moeda ou idioma), sem timer. Ao conectar ou desconectar com a ponte pausada, o alerta diz "O Cashly na Web está em pausa por alguns minutos. Tente de novo mais tarde.". Outro `503` continua sendo indisponibilidade comum.
 
 ## Página (W3)
 

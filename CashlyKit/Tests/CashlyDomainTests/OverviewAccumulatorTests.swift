@@ -66,6 +66,23 @@ struct OverviewAccumulatorTests {
         #expect(overview.pendingReferences == 2)
     }
 
+    @Test func countsExpensesPerTag() throws {
+        let january = try month(2026, 1)
+        var accumulator = try OverviewAccumulator(
+            budgets: [], month: january, categoryIDs: [], pendingReferences: 0)
+        try accumulator.add(
+            transaction("t1", food, cents: 1000, on: january.startDate, tags: ["trip", "home"]))
+        try accumulator.add(
+            transaction("t2", food, cents: 500, on: january.startDate, tags: ["trip"]))
+        try accumulator.add(
+            transaction(
+                "t3", home, cents: 9000, on: january.startDate, kind: .income, tags: ["trip"]))
+        let overview = try accumulator.result()
+
+        #expect(overview.tagCounts == ["trip": 2, "home": 1])
+        #expect(overview.tagExpenses["trip"]?.minorUnits == 1500)
+    }
+
     @Test func installmentsReachBudgetsOfEveryMonthWithoutFilter() throws {
         let january = try month(2026, 1)
         let february = january.adding(months: 1)

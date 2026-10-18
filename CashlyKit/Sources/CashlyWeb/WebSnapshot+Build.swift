@@ -8,15 +8,20 @@ extension WebSnapshot {
         public let currency: String
         public let locale: Locale
         public let generatedAt: Date
+        public let includesJourney: Bool
+        public let guides: Set<String>
 
         public init(
-            user: User, today: Date, currency: String, locale: Locale, generatedAt: Date? = nil
+            user: User, today: Date, currency: String, locale: Locale, generatedAt: Date? = nil,
+            includesJourney: Bool = false, guides: Set<String> = []
         ) {
             self.user = user
             self.today = today
             self.currency = currency
             self.locale = locale
             self.generatedAt = generatedAt ?? today
+            self.includesJourney = includesJourney
+            self.guides = guides
         }
     }
 
@@ -32,9 +37,12 @@ extension WebSnapshot {
             query: TransactionQuery(month: month, statuses: [.pendingToPay], kinds: [.expense]),
             after: nil, limit: transactionLimit
         ).items
-        return WebSnapshot(
+        var snapshot = WebSnapshot(
             context: context, month: month, overview: overview, transactions: recent,
             tags: catalog.tags, pending: pending)
+        await snapshot.addSections(
+            repositories: repositories, context: context, overview: overview, catalog: catalog)
+        return snapshot
     }
 
     public init(
