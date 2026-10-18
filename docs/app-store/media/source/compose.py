@@ -283,7 +283,7 @@ def build(device, slides, folder, builder):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("targets", nargs="*", default=["iphone", "ipad", "header"])
+    parser.add_argument("targets", nargs="*", default=["iphone", "ipad"])
     args = parser.parse_args()
     if "iphone" in args.targets:
         build("iphone", [(*s[:5], "iphone/" + s[5], [("iphone/" + c[0], *c[1:]) for c in s[6]]) for s in IPHONE], "iphone", iphone_slide)
