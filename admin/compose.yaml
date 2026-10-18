@@ -1,0 +1,35 @@
+services:
+  cashly-admin:
+    build: .
+    image: cashly-admin
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3120:3120"
+    environment:
+      ORIGIN: https://cashly.byescaleira.com
+      RP_ID: cashly.byescaleira.com
+      BRIDGE_URL: http://cashly-bridge:3111
+      BRIDGE_ADMIN_TOKEN: ${BRIDGE_ADMIN_TOKEN:?BRIDGE_ADMIN_TOKEN is required}
+      CLOUDKIT_KEY_ID: ${CLOUDKIT_KEY_ID:-}
+    volumes:
+      - ./secrets:/secrets
+      - ./data:/data
+    networks:
+      - default
+      - control
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 256m
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3120/admin/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+networks:
+  control:
+    name: cashly-control
+    external: true
