@@ -4,7 +4,7 @@ O que falta, por prioridade. Itens concluídos saem daqui; o motivo das decisõe
 
 ## Antes de distribuir
 
-- **[P1] Enviar o build pelo Xcode Cloud com o Xcode 27 final.** O Xcode local é o 27.0 beta 6, e a App Store recusa builds feitos com beta. Criar o fluxo "Release" (esquema `Production`, ação Archive para iOS, macOS e visionOS, distribuição no TestFlight interno) no App Store Connect.
+- **[P1] Build de envio pelo Xcode Cloud (feito pelo usuário),** com o Xcode 27 final: o Xcode local é o 27.0 beta 6, e a App Store recusa builds feitos com beta. O Xcode Cloud só vê o que estiver no GitHub.
 - **[P1] Completar o App Store Connect** com os textos de `docs/app-store/metadata.json` nas 10 localizações: URLs de suporte, marketing e privacidade, classificação etária, rótulo "Dados não coletados", notas de revisão, capturas de iPhone, iPad, Mac e visionOS, e nome, descrição e captura de revisão de cada compra no app nos 10 idiomas. Molduras (`cashly.avatar.frames`) e Sons (`cashly.sounds`) não vão para revisão. Excluir as sobras `cashly.avatar.pack` e o produto com erro de digitação 6823243930.
 
 - **[P1] Publicar o schema V6 no CloudKit de produção** (moeda paga e cotação da transação) no CloudKit Console antes de distribuir uma build com a branch de moedas.
