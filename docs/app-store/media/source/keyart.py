@@ -246,31 +246,56 @@ def header(width, height):
     return page(width, height, inner + outer + icon(cx, cy, size), rays=(cx, cy, u * 1.15))
 
 
+SCALE = 1320 / 414
+CROPS = {
+    "pace": ("goals", (20, 307, 394, 475)),
+    "budgets": ("goals", (20, 672, 394, 822)),
+    "forecast": ("home-forecast", (20, 222, 394, 525)),
+    "compared": ("home-unusual", (20, 219, 394, 470)),
+    "ordinary": ("home-unusual", (20, 530, 394, 598)),
+    "level": ("journey", (20, 307, 394, 467)),
+    "streak": ("journey", (20, 527, 394, 760)),
+    "category": ("editor", (20, 440, 394, 525)),
+}
+
+
+def component(name):
+    from io import BytesIO
+    from PIL import Image
+    shot, box = CROPS[name]
+    image = Image.open(SOURCE / "raw" / "iphone" / f"{shot}.png").convert("RGB")
+    crop = image.crop(tuple(round(v * SCALE) for v in box))
+    buffer = BytesIO()
+    crop.save(buffer, "PNG")
+    return "data:image/png;base64," + base64.b64encode(buffer.getvalue()).decode(), crop.width / crop.height
+
+
+def shot(name, x, y, w, rotation, k):
+    uri, ratio = component(name)
+    h = w / ratio
+    return (
+        f"<div class='abs' style='left:{x * k}px;top:{y * k}px;width:{w * k}px;height:{h * k}px;"
+        f"border-radius:{w * k * 0.058}px;overflow:hidden;transform:rotate({rotation}deg);"
+        f"box-shadow:0 {28 * k}px {70 * k}px -{12 * k}px rgba(70,20,5,0.5)'>"
+        f"<img src='{uri}' style='width:100%;height:100%;display:block'></div>"
+    )
+
+
 def search(width, height):
-    u = min(width / 3, height / 2) * 2
-    gap = u * 0.035
-    size = u * 0.3
-    card_w = u * 0.44
-    card_h = u * 0.27
-    grid_w = card_w * 2 + gap
-    total = size + gap * 2.2 + grid_w
-    left = (width - total) / 2
-    icon_cx = left + size / 2
-    grid_x = left + size + gap * 2.2
-    grid_y = height / 2 - card_h - gap / 2
-    boxes = [
-        (grid_x, grid_y), (grid_x + card_w + gap, grid_y),
-        (grid_x, grid_y + card_h + gap), (grid_x + card_w + gap, grid_y + card_h + gap),
+    k = width / 3840
+    layout = [
+        ("pace", 150, 230, 1020, -3),
+        ("budgets", 230, 900, 960, 2),
+        ("ordinary", 170, 1460, 980, -2),
+        ("category", 210, 1820, 1000, 2),
+        ("level", 1440, 150, 960, 2),
+        ("compared", 1520, 1470, 860, -2),
+        ("forecast", 2650, 170, 830, 3),
+        ("streak", 2620, 1080, 860, -2),
     ]
-    blocked = [(left - size * 0.08, height / 2 - size * 0.58, size * 1.16, size * 1.16)]
-    blocked += [(bx, by, card_w, card_h) for bx, by in boxes]
-    body = confetti(width, height, blocked, 26, u * 0.07, 11)
-    body += month_card(*boxes[0], card_w, card_h, u * 0.5)
-    body += budgets_card(*boxes[1], card_w, card_h, u * 0.5)
-    body += categories_card(*boxes[2], card_w, card_h, u * 0.5)
-    body += journey_card(*boxes[3], card_w, card_h, u * 0.5)
-    body += icon(icon_cx, height / 2, size)
-    return page(width, height, body, rays=(icon_cx, height / 2, size * 1.4))
+    body = "".join(shot(name, x, y, w, r, k) for name, x, y, w, r in layout)
+    body += icon(1920 * k, 1040 * k, 560 * k)
+    return page(width, height, body, rays=(1920 * k, 1040 * k, 1500 * k))
 
 
 TARGETS = {

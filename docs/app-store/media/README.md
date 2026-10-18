@@ -96,8 +96,8 @@ O App Store Connect passou a exigir o iPhone "with Dynamic Island (medium displa
 
 Ilustração de marca, sem texto e sem capturas: sem texto não há o que traduzir, e as telas reais já estão no carrossel.
 
-- **Cabeçalho (chamativo):** o ícone do app no centro, sobre raios de sol (o motivo de estrela do ícone), com uma chuva de notas, moedas e confete na paleta, e dois componentes simplificados nas laterais (mês com a barra de ritmo, orçamentos).
-- **Busca (o propósito num relance):** o ícone à esquerda e quatro cartões simplificados lado a lado, sem sobreposição: mês, orçamentos, categorias e Jornada. Rótulos viram traços arredondados.
+- **Cabeçalho (chamativo):** o ícone do app menor, no centro, sobre raios de sol (o motivo de estrela do ícone), com uma chuva de notas, moedas e confete na paleta, mais densa perto do ícone para aparecer no corte do iPhone, que mostra só o miolo.
+- **Busca (o propósito num relance):** o ícone no centro e oito componentes reais recortados das capturas cruas (`source/raw/iphone/`: barra de ritmo, orçamentos, previsão, comparação com outros meses, fora do comum, nível, sequência e categorias), espalhados com leve inclinação e sem sobreposição. Recortes em `CROPS` no `keyart.py`.
 - `python3 docs/app-store/media/source/keyart.py` gera `header/header-3840x1646.png`, `header/header-5244x2950.png`, `search/search-3840x2560.png` e `search/search-1920x1280.png`. O confete é posicionado com semente fixa e sem encostar no ícone nem nos cartões.
 - O ícone vem de `source/raw/keyart/icon.png`, exportado do `CashlyIcon.icon` com o `ictool` do Icon Composer (`--export-image --platform iOS --rendition Default --width 1024 --height 1024 --scale 1`).
 - Enviados em en-US: cabeçalho 5244×2950 e busca 3840×2560. A página do App Store Connect não baixa de outros domínios; o envio usou uma página auxiliar temporária em `cashly.byescaleira.com/_upload/` que entrega os arquivos por `postMessage`, apagada em seguida.
