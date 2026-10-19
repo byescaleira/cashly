@@ -87,3 +87,20 @@ public enum GameEngine {
         return (0..<max(current.months(since: first), 0)).map { first.adding(months: $0) }
     }
 }
+
+extension GameProgress {
+    public static let nextAchievementCount = 3
+
+    public var nextAchievements: [AchievementState] {
+        let locked = achievements.filter {
+            !$0.isUnlocked && !$0.achievement.isSecret && $0.achievement.group != .pro
+        }
+        return Array(
+            locked.sorted {
+                ($0.progress, -$0.achievement.target) > ($1.progress, -$1.achievement.target)
+            }
+            .prefix(Self.nextAchievementCount))
+    }
+
+    public var unlockedCount: Int { achievements.filter(\.isUnlocked).count }
+}

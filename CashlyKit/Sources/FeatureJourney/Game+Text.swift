@@ -4,18 +4,6 @@ import CashlyGame
 import SwiftUI
 
 extension Mission.Kind {
-    var title: String {
-        switch self {
-        case .recordFive, .recordTen: String(appLocalized: "Record \(target) transactions")
-        case .trackFourDays, .trackSixDays:
-            String(appLocalized: "Follow your money on \(target) days")
-        case .noSpendDay: String(appLocalized: "Mark a no-spend day")
-        case .useTags: String(appLocalized: "Tag \(target) new transactions")
-        case .splitExpense: String(appLocalized: "Split an expense")
-        case .backup: String(appLocalized: "Make a backup")
-        }
-    }
-
     var symbol: String {
         switch self {
         case .recordFive, .recordTen: "plus.circle.fill"

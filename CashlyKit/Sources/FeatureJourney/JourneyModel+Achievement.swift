@@ -113,7 +113,7 @@ extension JourneyModel {
     }
 
     func stampUnlocks(_ fresh: [Achievement], unlocked: [Achievement], userID: String) {
-        let key = "cashly.journey.unlocked." + userID
+        let key = AchievementUnlocks.key(for: userID)
         let stored = defaults.dictionary(forKey: key) as? [String: Double] ?? [:]
         let kept = Set(unlocked.map(\.rawValue))
         var dates = stored.filter { kept.contains($0.key) }
@@ -121,10 +121,7 @@ extension JourneyModel {
             dates[achievement.rawValue] = now().timeIntervalSince1970
         }
         defaults.set(dates, forKey: key)
-        unlockDates = Dictionary(
-            uniqueKeysWithValues: dates.compactMap { raw, time in
-                Achievement(rawValue: raw).map { ($0, Date(timeIntervalSince1970: time)) }
-            })
+        unlockDates = AchievementUnlocks.dates(dates)
     }
 
     private func rows(of state: AchievementState) -> [AchievementDetail.Row] {

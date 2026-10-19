@@ -57,12 +57,70 @@ extension WebSnapshot {
         public let progress: Double
         public let streak: Int
         public let challenge: ActiveChallenge?
+        public let xp: Int?
+        public let nextTitle: String?
+        public let best: Int?
+        public let freezes: Int?
+        public let trackedToday: Bool?
+        public let days: [StreakDay]?
+        public let missions: Missions?
+        public let achievements: Achievements?
     }
 
     public struct ActiveChallenge: Codable, Equatable, Sendable {
         public let title: String
         public let progress: Double
         public let endsOn: String
+        public let xp: Int?
+        public let detail: String?
+    }
+
+    public enum DayState: String, Codable, Sendable {
+        case tracked, frozen, missed, pending
+    }
+
+    public struct StreakDay: Codable, Equatable, Sendable {
+        public let date: String
+        public let state: DayState
+    }
+
+    public struct Missions: Codable, Equatable, Sendable {
+        public let renewsOn: String
+        public let items: [MissionItem]
+    }
+
+    public struct MissionItem: Codable, Equatable, Sendable {
+        public let title: String
+        public let done: Int
+        public let target: Int
+        public let xp: Int
+    }
+
+    public enum Tier: String, Codable, Sendable {
+        case bronze, silver, gold
+    }
+
+    public struct Achievements: Codable, Equatable, Sendable {
+        public let unlocked: Int
+        public let total: Int
+        public let next: [NextAchievement]
+        public let recent: [RecentAchievement]
+    }
+
+    public struct NextAchievement: Codable, Equatable, Sendable {
+        public let title: String
+        public let detail: String
+        public let progress: Double
+        public let done: Int?
+        public let target: Int?
+        public let xp: Int?
+    }
+
+    public struct RecentAchievement: Codable, Equatable, Sendable {
+        public let title: String
+        public let tier: Tier
+        public let unlockedOn: String?
+        public let xp: Int?
     }
 
     public static let categoryLimit = 8
@@ -70,4 +128,5 @@ extension WebSnapshot {
     public static let historyLength = 6
     public static let otherSymbol = "ellipsis"
     public static let otherColor = "brown"
+    public static let recentAchievementCount = 3
 }

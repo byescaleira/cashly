@@ -1,10 +1,8 @@
 import CashlyDomain
-import CashlyGame
-import FeatureCore
 import Foundation
 
 extension ChallengeState {
-    var caption: String {
+    public var caption: String {
         let shown = min(measure.value, measure.target)
         switch challenge.kind {
         case .lessThanLastMonth:
@@ -36,6 +34,6 @@ extension ChallengeState {
     }
 
     private func money(_ minorUnits: Int64) -> String {
-        Money(minorUnits: minorUnits).doubleValue.formatted(.appCurrency)
+        GameMoney.text(minorUnits)
     }
 }

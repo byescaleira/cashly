@@ -1,4 +1,5 @@
 import CashlyDomain
+import CashlyGame
 import CashlyWeb
 import FeatureCore
 import Foundation
@@ -29,7 +30,8 @@ extension WebSharingModel {
             repositories: provider.repositories(for: user.id),
             context: WebSnapshot.Context(
                 user: user, today: now(), currency: Money.currencyCode, locale: .app,
-                includesJourney: includesJourney, guides: Guide.journeyIDs)
+                includesJourney: includesJourney, guides: Guide.journeyIDs,
+                unlocks: AchievementUnlocks.dates(for: user.id, in: .standard))
         ).encoded()
     }
 
