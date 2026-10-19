@@ -158,8 +158,10 @@ struct AppUpdateModelTests {
         let source = FakeReleaseSource(try policy(minimum: "1.1.0", recommended: "1.2.0"))
         let update = model(source)
         await update.refresh()
-        #expect(update.requiredMessage.contains("1.0"))
-        #expect(update.requiredMessage.contains("1.1.0"))
+        #expect(
+            update.requiredMessage
+                == "Version 1.0 is no longer supported. Update to 1.1.0 or later. You can still export your data."
+        )
         #expect(update.recommendedMessage.contains("1.2.0"))
         #expect(!update.recommendedMessage.contains("("))
         let byBuild = AppRelease(
@@ -172,9 +174,16 @@ struct AppUpdateModelTests {
         #expect(update.recommendedMessage.contains("1.0.0 (80)"))
         let simulated = model(source, enforces: false)
         simulated.simulate(.required)
-        #expect(!simulated.requiredMessage.contains("1.0"))
-        simulated.simulate(.recommended)
-        #expect(!simulated.recommendedMessage.contains("1.0"))
+        #expect(simulated.requiredMessage.contains("1.0.0 (70)"))
+        let empty = AppUpdateModel(
+            store: AppReleaseStore(
+                directory: FileManager.default.temporaryDirectory.appending(
+                    path: UUID().uuidString)),
+            installed: installed, enforces: false, defaults: defaults)
+        empty.simulate(.required)
+        #expect(!empty.requiredMessage.contains("1.0"))
+        empty.simulate(.recommended)
+        #expect(!empty.recommendedMessage.contains("1.0"))
     }
 
     @Test func storeLinkUsesTheAppStoreID() {

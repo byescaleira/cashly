@@ -5,7 +5,7 @@ extension AppUpdateModel {
     public var requiredTitle: String { String(appLocalized: "Update Cashly") }
 
     public var requiredMessage: String {
-        guard !isSimulating, let release = cache.release, let installed else {
+        guard let release = cache.release, let installed else {
             return String(
                 appLocalized:
                     "This version is no longer supported. Update to keep using Cashly. Your data stays on your device and you can export it now."
@@ -16,14 +16,14 @@ extension AppUpdateModel {
         let minimum = Self.label(release.minimumVersion, release.minimumBuild, byBuild: byBuild)
         return String(
             appLocalized:
-                "Version \(current) is no longer supported. Update to \(minimum) or later to keep using Cashly. Your data stays on your device and you can export it now."
+                "Version \(current) is no longer supported. Update to \(minimum) or later. You can still export your data."
         )
     }
 
     public var recommendedTitle: String { String(appLocalized: "A new Cashly is available") }
 
     public var recommendedMessage: String {
-        guard !isSimulating, let release = cache.release, let installed else {
+        guard let release = cache.release, let installed else {
             return String(
                 appLocalized:
                     "Update for the latest fixes and improvements. It only takes a moment.")

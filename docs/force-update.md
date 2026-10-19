@@ -27,7 +27,7 @@ Registro `AppRelease` por plataforma (`ios` vale para iPhone e iPad, `macos`, `v
 
 ## O que para no bloqueio
 
-- **A interface:** a tela de bloqueio substitui o app inteiro (e a janela de Ajustes no Mac), entra e sai com fade (`.opacity`, `easeOut` de 0,2 s, como o bloqueio do app) e usa a animação `.launch` em loop: conta como uma tela de bloqueio (`motion-and-lottie.md` §4.3), igual à de Face ID. O texto cita as versões: "Version 1.0 is no longer supported. Update to 1.1.0 or later…" (com a build entre parênteses quando só a build fica abaixo); sem política (simulação) fica o texto genérico. O aviso recomendado diz "Version 1.2.0 is available…". Com o bloqueio por Face ID ligado, o `PrivacyShield` cobre também esta tela, então exportar exige autenticar. Botões: **Update** (abre `https://apps.apple.com/app/id6821986667`, do `CashlyAppStoreID` do Info.plist) e **Export Data** (JSON ou CSV, o mesmo fluxo de Ajustes › Dados e Backup). Os dados nunca ficam presos.
+- **A interface:** a tela de bloqueio substitui o app inteiro (e a janela de Ajustes no Mac), entra e sai com fade (`.opacity`, `easeOut` de 0,2 s, como o bloqueio do app) e usa a animação `.launch` em loop: conta como uma tela de bloqueio (`motion-and-lottie.md` §4.3), igual à de Face ID. O texto cita as versões e cabe em 3 linhas: "Version 1.0 is no longer supported. Update to 1.1.0 or later. You can still export your data." (com a build entre parênteses só quando as versões são iguais e a build fica abaixo); sem política no cache fica o texto genérico, inclusive na simulação. O aviso recomendado diz "Version 1.2.0 is available…". Com o bloqueio por Face ID ligado, o `PrivacyShield` cobre também esta tela, então exportar exige autenticar. Botões: **Update** (abre `https://apps.apple.com/app/id6821986667`, do `CashlyAppStoreID` do Info.plist) e **Export Data** (JSON ou CSV, o mesmo fluxo de Ajustes › Dados e Backup). Os dados nunca ficam presos.
 - **Siri, Atalhos e App Intents:** `CashlyServices.workspace` lê o cache e lança `UpdateRequiredError` ("Update Cashly in the App Store to keep using it. Your data is safe."). Vale também para as ações das notificações (marcar como pago, adiar, classificar captura), que ficam sem efeito.
 - **iCloud:** a biblioteca abre sem sincronização e os espelhos de CKSyncEngine dos perfis compartilhados não iniciam.
 - **MCP e Cashly na Web:** não ligam. Se o bloqueio chega com o app aberto, o servidor MCP para e a ponte da Web é desligada na hora.
@@ -39,7 +39,7 @@ Limites conhecidos: se o bloqueio chega com o app já aberto, a sincronização 
 ## Desenvolvimento
 
 - Build Debug nunca bloqueia: lê e mostra a política real, mas o estado efetivo é o simulado.
-- Ajustes › Developer › **App Updates**: simular `Update recommended` ou `Update required`, ver versão instalada, estado e política remotos, última leitura e **Check Now**. A simulação fica no mesmo cache, então intents também a enxergam. Na tela de bloqueio simulada aparece **Stop Simulating**.
+- Ajustes › Developer › **App Updates**: simular `Update recommended` ou `Update required`, ver versão instalada, estado e política remotos, última leitura e **Check Now**. A simulação fica no mesmo cache, então intents também a enxergam. Para capturar com versões, gravar no cache uma `release` junto com o `simulated`, por exemplo `{"release":{"minimumVersion":"1.1.0","minimumBuild":1,"recommendedVersion":"1.2.0","recommendedBuild":1},"simulated":"required"}`. Na tela de bloqueio simulada aparece **Stop Simulating**.
 
 ## Como testar
 

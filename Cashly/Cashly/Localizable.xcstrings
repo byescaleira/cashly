@@ -14651,66 +14651,66 @@
         }
       }
     },
-    "Version %@ is no longer supported. Update to %@ or later to keep using Cashly. Your data stays on your device and you can export it now." : {
+    "Version %@ is no longer supported. Update to %@ or later. You can still export your data." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Version %1$@ is no longer supported. Update to %2$@ or later to keep using Cashly. Your data stays on your device and you can export it now."
+            "value" : "Version %1$@ is no longer supported. Update to %2$@ or later. You can still export your data."
           }
         },
         "pt-BR" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "A versão %1$@ não tem mais suporte. Atualize para a %2$@ ou mais recente para continuar usando o Cashly. Seus dados continuam no aparelho e você pode exportá-los agora."
+            "value" : "A versão %1$@ não tem mais suporte. Atualize para a %2$@ ou mais nova. Você ainda pode exportar seus dados."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La versión %1$@ ya no es compatible. Actualiza a la %2$@ o posterior para seguir usando Cashly. Tus datos siguen en tu dispositivo y puedes exportarlos ahora."
+            "value" : "La versión %1$@ ya no es compatible. Actualiza a la %2$@ o posterior. Aún puedes exportar tus datos."
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Version %1$@ wird nicht mehr unterstützt. Aktualisiere auf %2$@ oder neuer, um Cashly weiter zu nutzen. Deine Daten bleiben auf deinem Gerät und du kannst sie jetzt exportieren."
+            "value" : "Version %1$@ wird nicht mehr unterstützt. Aktualisiere auf %2$@ oder neuer. Export bleibt möglich."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La version %1$@ n’est plus prise en charge. Passez à la %2$@ ou ultérieure pour continuer à utiliser Cashly. Vos données restent sur votre appareil et vous pouvez les exporter dès maintenant."
+            "value" : "La version %1$@ n’est plus prise en charge. Passez à la %2$@ ou ultérieure. Vous pouvez encore exporter vos données."
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "La versione %1$@ non è più supportata. Aggiorna alla %2$@ o successiva per continuare a usare Cashly. I tuoi dati restano sul dispositivo e puoi esportarli adesso."
+            "value" : "La versione %1$@ non è più supportata. Aggiorna alla %2$@ o successiva. Puoi ancora esportare i dati."
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "バージョン%1$@はサポートが終了しました。Cashlyを引き続き使うには%2$@以降にアップデートしてください。データはデバイスに残っていて、今すぐ書き出せます。"
+            "value" : "バージョン%1$@はサポートが終了しました。%2$@以降にアップデートしてください。データの書き出しは引き続きできます。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "버전 %1$@은(는) 더 이상 지원되지 않습니다. Cashly를 계속 사용하려면 %2$@ 이상으로 업데이트하세요. 데이터는 기기에 그대로 있으며 지금 내보낼 수 있습니다."
+            "value" : "버전 %1$@은(는) 더 이상 지원되지 않습니다. %2$@ 이상으로 업데이트하세요. 데이터는 계속 내보낼 수 있습니다."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "版本 %1$@ 已不再受支持。请更新到 %2$@ 或更高版本以继续使用 Cashly。你的数据仍保存在设备上，现在即可导出。"
+            "value" : "版本 %1$@ 已不再受支持。请更新到 %2$@ 或更高版本。你仍可导出数据。"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Версия %1$@ больше не поддерживается. Обновитесь до %2$@ или новее, чтобы продолжить пользоваться Cashly. Ваши данные остаются на устройстве, и их можно экспортировать прямо сейчас."
+            "value" : "Версия %1$@ больше не поддерживается. Обновитесь до %2$@ или новее. Экспорт данных доступен."
           }
         }
       }
