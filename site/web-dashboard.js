@@ -211,7 +211,37 @@ export function renderTable() {
   });
 }
 
+const PACK_ROW = 2;
+const packer = typeof ResizeObserver === 'function' ? new ResizeObserver(() => requestAnimationFrame(pack)) : null;
+
+function gridItems(grid) {
+  return [...grid.children].flatMap((child) => {
+    if (getComputedStyle(child).display === 'contents') return [...child.children];
+    for (const panel of child.classList.contains('dash-stack') ? child.children : []) panel.style.gridRowEnd = '';
+    return [child];
+  });
+}
+
+function pack() {
+  document.querySelectorAll('.dash-grid').forEach((grid) => {
+    const gap = parseFloat(getComputedStyle(grid).columnGap) || 0;
+    for (const item of gridItems(grid)) {
+      const height = item.getBoundingClientRect().height;
+      if (height > 0) item.style.gridRowEnd = `span ${Math.ceil((height + gap) / PACK_ROW)}`;
+    }
+  });
+}
+
+function bindPacking() {
+  if (!packer) return;
+  document.querySelectorAll('.dash-grid').forEach((grid) => {
+    grid.classList.add('packed');
+    grid.querySelectorAll('.dash-panel, .dash-stack').forEach((item) => packer.observe(item));
+  });
+}
+
 export function bindDashboard(kit) {
+  bindPacking();
   window.addEventListener('hashchange', () => applyRoute(kit));
   slot('search').addEventListener('input', (event) => {
     view.query = event.target.value.trim();
