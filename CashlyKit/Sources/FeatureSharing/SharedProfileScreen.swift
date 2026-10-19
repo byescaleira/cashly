@@ -6,7 +6,7 @@ import SwiftUI
 public struct SharedProfileScreen: View {
     @Environment(SessionModel.self) private var session
     @Environment(SharingModel.self) private var sharing
-    @Environment(\.dismiss) private var dismiss
+    @Environment(\.close) private var close
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     private let profileID: String
 
@@ -27,9 +27,13 @@ public struct SharedProfileScreen: View {
         .animation(reduceMotion ? nil : .smooth, value: sharing.members)
         .overlay {
             if profile == nil {
-                ContentUnavailableView(
-                    "This Profile Left This Device", systemImage: "person.2.slash",
-                    description: Text("Open another profile from the profile menu."))
+                EmptyStateView(
+                    title: "This Profile Left This Device",
+                    description: "Open another profile from the profile menu.",
+                    actionTitle: "Close", action: { close() }
+                ) {
+                    IconRow("People", symbol: "person.2.slash", color: .retroTeal)
+                }
             }
         }
         .fontDesign(.rounded)
@@ -41,7 +45,7 @@ public struct SharedProfileScreen: View {
         .task(id: session.generation) { await sharing.load(profileID: profileID) }
         .task { await sharing.checkAccount() }
         .onChange(of: profile == nil) { _, isGone in
-            if isGone { dismiss() }
+            if isGone { close() }
         }
         .sheet(item: $sharing.confirmation) { confirmation in
             SharingConfirmationScreen(confirmation: confirmation).environment(sharing)
