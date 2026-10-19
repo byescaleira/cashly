@@ -54,7 +54,10 @@ struct MCPImportPresenter: ViewModifier {
                 }
             }
             .onChange(of: mcp?.prompt?.id, initial: true) { present() }
-            .onChange(of: pro.isPro, initial: true) { mcp?.isPro = $1 }
+            .onChange(of: mcp.map(ObjectIdentifier.init), initial: true) {
+                mcp?.isPro = pro.isPro
+            }
+            .onChange(of: pro.isPro) { mcp?.isPro = $1 }
             .onChange(of: scenePhase) { _, phase in
                 switch phase {
                 case .active: mcp?.resume()

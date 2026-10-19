@@ -77,6 +77,7 @@ private final class CashlyBootstrap {
     private(set) var mcp: MCPModel?
     let flags: FeatureFlags
     let update: AppUpdateModel
+    let hold: UpdateHoldModel
     private let settings: SettingsModel
     @ObservationIgnored private var isListeningToSync = false
 
@@ -89,6 +90,7 @@ private final class CashlyBootstrap {
             flags = FeatureFlags(source: CloudKitFlagSource())
             update = AppUpdateModel(source: CloudKitAppReleaseSource())
         #endif
+        hold = UpdateHoldModel(update: update)
     }
 
     private static var deviceName: String {
@@ -107,9 +109,8 @@ private final class CashlyBootstrap {
         } else {
             Task { await update.refresh() }
         }
-        let isBlocked = update.isRequired
         LegacyIntelligenceFiles.remove()
-        let cloudSync = settings.syncsAtLaunch && !isBlocked
+        let cloudSync = settings.syncsAtLaunch && !update.isRequired
         if cloudSync && !isListeningToSync {
             isListeningToSync = true
             let events = CashlyDatabase.syncEvents()
@@ -127,26 +128,10 @@ private final class CashlyBootstrap {
                     version: settings.info.version, urlScheme: "cashly",
                     files: [WidgetSnapshotStore.fileName, JourneySnapshotStore.fileName]))
             Task { await flags.refresh() }
-            #if targetEnvironment(simulator)
-                CashlyServices.shared.sharing.markUnavailable()
-            #else
-                if flags.isOn(.social) && !isBlocked {
-                    Task { await CashlyServices.shared.startSharing(library) }
-                } else {
-                    CashlyServices.shared.sharing.markUnavailable()
-                }
-            #endif
-            if flags.isOn(.mcpServer) && !isBlocked {
-                mcp = MCPModel(provider: library, serviceName: Self.deviceName)
-            }
             let data = DataModel(
                 backup: database.backup, cloud: .container(CashlyDatabase.cloudContainer))
             settings.data = data
-            #if os(iOS)
-                if flags.isOn(.web) && !isBlocked {
-                    settings.web = WebSharingModel(provider: library)
-                }
-            #endif
+            await hold.attach(connections(for: library))
             #if DEBUG
                 settings.developer = DeveloperModel(
                     storeURL: database.storeURL
@@ -167,10 +152,37 @@ private final class CashlyBootstrap {
         }
     }
 
-    func stopConnections() {
-        mcp?.suspend()
-        mcp = nil
-        settings.web = nil
+    private func connections(for library: CashlyLibrary) -> [UpdateHoldModel.Connection] {
+        [
+            UpdateHoldModel.Connection {
+                guard self.flags.isOn(.mcpServer) else { return }
+                self.mcp = MCPModel(provider: library, serviceName: Self.deviceName)
+            } stop: {
+                self.mcp?.suspend()
+                self.mcp = nil
+            },
+            UpdateHoldModel.Connection {
+                #if os(iOS)
+                    guard self.flags.isOn(.web) else { return }
+                    self.settings.web = WebSharingModel(provider: library)
+                #endif
+            } stop: {
+                self.settings.web = nil
+            },
+            UpdateHoldModel.Connection {
+                #if targetEnvironment(simulator)
+                    CashlyServices.shared.sharing.markUnavailable()
+                #else
+                    if self.flags.isOn(.social) {
+                        CashlyServices.shared.startSharing(library)
+                    } else {
+                        CashlyServices.shared.sharing.markUnavailable()
+                    }
+                #endif
+            } stop: {
+                CashlyServices.shared.stopSharing()
+            },
+        ]
     }
 }
 
@@ -218,8 +230,8 @@ private struct CashlyRootView: View {
             }
         }
         .animation(.easeOut(duration: 0.2), value: update.isRequired)
-        .onChange(of: update.isRequired) { _, required in
-            if required { bootstrap.stopConnections() }
+        .onChange(of: update.isRequired) {
+            Task { await bootstrap.hold.apply() }
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { Task { await update.refresh() } }

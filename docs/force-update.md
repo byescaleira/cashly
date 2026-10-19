@@ -30,11 +30,24 @@ Registro `AppRelease` por plataforma (`ios` vale para iPhone e iPad, `macos`, `v
 - **A interface:** a tela de bloqueio substitui o app inteiro (e a janela de Ajustes no Mac), entra e sai com fade (`.opacity`, `easeOut` de 0,2 s, como o bloqueio do app) e usa a animação `.launch` em loop: conta como uma tela de bloqueio (`motion-and-lottie.md` §4.3), igual à de Face ID. O texto cita as versões e cabe em 3 linhas: "Version 1.0 is no longer supported. Update to 1.1.0 or later. You can still export your data." (com a build entre parênteses só quando as versões são iguais e a build fica abaixo); sem política no cache fica o texto genérico, inclusive na simulação. O aviso recomendado diz "Version 1.2.0 is available…". Com o bloqueio por Face ID ligado, o `PrivacyShield` cobre também esta tela, então exportar exige autenticar. Botões: **Update** (abre `https://apps.apple.com/app/id6821986667`, do `CashlyAppStoreID` do Info.plist) e **Export Data** (JSON ou CSV, o mesmo fluxo de Ajustes › Dados e Backup). Os dados nunca ficam presos.
 - **Siri, Atalhos e App Intents:** `CashlyServices.workspace` lê o cache e lança `UpdateRequiredError` ("Update Cashly in the App Store to keep using it. Your data is safe."). Vale também para as ações das notificações (marcar como pago, adiar, classificar captura), que ficam sem efeito.
 - **iCloud:** a biblioteca abre sem sincronização e os espelhos de CKSyncEngine dos perfis compartilhados não iniciam.
-- **MCP e Cashly na Web:** não ligam. Se o bloqueio chega com o app aberto, o servidor MCP para e a ponte da Web é desligada na hora.
+- **MCP e Cashly na Web:** não ligam.
 - **Widgets:** só leem o último resumo. O único controle interativo (`NewExpenseIntent`) apenas abre o app, que mostra o bloqueio.
 - O backup automático semanal continua (só grava uma cópia local ou no iCloud Drive).
 
-Limites conhecidos: se o bloqueio chega com o app já aberto, a sincronização do SwiftData e os espelhos do social que já estavam rodando seguem até o app fechar; na próxima abertura não iniciam. Se o admin solta o bloqueio com o app aberto, a interface volta, mas sem sincronização, MCP e Web até reabrir.
+## Bloqueio com o app aberto
+
+`UpdateHoldModel` (`FeatureCore/Update`) liga e desliga as conexões conforme `isRequired`. O `CashlyBootstrap` entrega a lista ao abrir a biblioteca (`attach`) e chama `apply()` a cada mudança do estado; as transições rodam em fila e, se o estado vira de novo no meio, o model termina no estado atual.
+
+| Conexão | Bloqueio chega | Bloqueio sai |
+| --- | --- | --- |
+| Servidor MCP | `suspend()` e o model é descartado | novo `MCPModel` se a flag estiver ligada; o servidor só sobe se estava ligado nos Ajustes e com Pro |
+| Cashly na Web | `settings.web = nil` | novo `WebSharingModel` (iOS, com a flag) com as sessões guardadas |
+| Perfis compartilhados | `SharingCoordinator.stop()`: cancela as operações e solta os dois CKSyncEngine, guardando o estado | `start()` recria os motores a partir do estado guardado e reconcilia |
+| Sincronização do SwiftData | segue | segue como abriu |
+
+- Abertura bloqueada não liga nada; se o bloqueio sai depois, tudo liga como numa abertura normal, inclusive os perfis compartilhados.
+- `CashlyServices.startSharing` e `stopSharing` entram numa fila, então um bloqueio que chega durante a partida do social para logo depois dela.
+- O SwiftData não desliga o CloudKit de um `ModelContainer` aberto. Trocar o container por um sem nuvem exigiria soltar todas as referências ao antigo (janela, models, intents, change feeds) antes de abrir outro sobre o mesmo arquivo, sem como confirmar que o espelhamento do Core Data terminou; dois coordenadores no mesmo store, um deles espelhando, arriscam o histórico e um reimport inteiro. Como no bloqueio nada grava na base principal (interface, intents e ações de notificação param), o espelhamento só recebe o que vem de outros aparelhos. Por isso a sincronização do SwiftData segue até fechar o app quando o bloqueio chega aberto, e só volta ao reabrir quando a abertura foi bloqueada.
 
 ## Desenvolvimento
 
@@ -43,6 +56,6 @@ Limites conhecidos: se o bloqueio chega com o app já aberto, a sincronização 
 
 ## Como testar
 
-1. Testes: `AppReleaseTests` (comparação, regra, cache), `AppReleaseRecordTests` (leitura do registro), `AppUpdateModelTests` (fontes falsas: bloqueio, cache offline, intervalo, aviso uma vez por versão, simulação). Admin: `cd admin && npm test`.
-2. Debug: simular cada estado no Developer, conferir a tela, o export e um atalho da Siri respondendo o erro.
+1. Testes: `AppReleaseTests` (comparação, regra, cache), `AppReleaseRecordTests` (leitura do registro), `AppUpdateModelTests` (fontes falsas: bloqueio, cache offline, intervalo, aviso uma vez por versão, simulação), `UpdateHoldModelTests` (fontes falsas: abertura livre e bloqueada, bloqueio e liberação com o app aberto, modo avião, simulação, estado que vira no meio da transição). Admin: `cd admin && npm test`.
+2. Debug: simular cada estado no Developer, conferir a tela, o export e um atalho da Siri respondendo o erro. Com MCP e Web ligados, simular `Update required` e depois `Stop Simulating`: o servidor MCP e a ponte caem e voltam sem reabrir o app.
 3. Bloqueio real: precisa de configuração Release. Instalada pelo Xcode (assinatura de desenvolvimento) ela lê o ambiente Desenvolvimento; TestFlight e App Store leem Produção. No admin, no ambiente certo, gravar mínima acima da build instalada; abrir o app, ver o bloqueio, ligar o modo avião e reabrir (continua bloqueado); remover a política e voltar para o primeiro plano depois de 1 minuto (solta). Repetir com só a recomendada acima para ver o aviso uma única vez.

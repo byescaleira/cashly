@@ -15,6 +15,7 @@ public final class CashlyServices {
     public nonisolated let exchangeRates: any ExchangeRateProviding = ExchangeRateService.shared
     @ObservationIgnored private var opening: Task<CashlyLibrary, any Error>?
     @ObservationIgnored private var coordinator: SharingCoordinator?
+    @ObservationIgnored private var sharingTask: Task<Void, Never>?
 
     private init() {}
 
@@ -36,8 +37,27 @@ public final class CashlyServices {
         }
     }
 
-    public func startSharing(_ library: CashlyLibrary) async {
-        guard coordinator == nil else { return }
+    public func startSharing(_ library: CashlyLibrary) {
+        let previous = sharingTask
+        sharingTask = Task {
+            await previous?.value
+            await runSharing(library)
+        }
+    }
+
+    public func stopSharing() {
+        let previous = sharingTask
+        sharingTask = Task {
+            await previous?.value
+            await coordinator?.stop()
+        }
+    }
+
+    private func runSharing(_ library: CashlyLibrary) async {
+        if let coordinator {
+            await coordinator.start()
+            return
+        }
         let coordinator = SharingCoordinator(
             database: library.shared, directory: CashlyLibrary.sharingStateDirectory)
         self.coordinator = coordinator
