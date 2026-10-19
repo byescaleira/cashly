@@ -94,6 +94,7 @@ public final class CashlyServices {
         userID: String? = nil, cloudSync: Bool = CashlyServices.launchCloudSync,
         preference: UserPreference = .standard
     ) async throws -> (Repositories, User) {
+        if AppReleaseStore.shared.blocks { throw UpdateRequiredError() }
         let library = try await library(cloudSync: cloudSync)
         let users = try await library.repositories(for: nil).users.users()
         let selected = users.first { $0.id == (userID ?? preference.selectedUserID) }

@@ -1,0 +1,48 @@
+# Atualização obrigatória e recomendada (18/10/2026)
+
+O Cashly lê do CloudKit público uma política de versões por plataforma e decide sozinho se está em dia, se recomenda atualizar ou se bloqueia. Quem edita a política é o admin (aba **Versões**, `docs/admin.md`); o app só lê.
+
+## Regra
+
+Registro `AppRelease` por plataforma (`ios` vale para iPhone e iPad, `macos`, `visionos`) com versão mínima, build mínima, versão recomendada e build recomendada. O app compara com a própria `CFBundleShortVersionString` e `CFBundleVersion`:
+
+| Estado | Quando | O que acontece |
+| --- | --- | --- |
+| `required` | versão instalada < versão mínima **ou** build instalada < build mínima | tela de bloqueio no lugar do app inteiro |
+| `recommended` | não está bloqueado, mas versão < recomendada **ou** build < recomendada | aviso dispensável, uma vez por versão recomendada (`1.2.0 (80)`) |
+| `current` | o resto, inclusive sem registro para a plataforma | nada |
+
+- Versões comparam por número, parte a parte (`1.10.0` > `1.9.2`, `1.0` = `1.0.0`). No app aceita de 1 a 3 partes; o admin exige `x.y.z`.
+- Sem texto livre: título e mensagem são fixos e traduzidos no catálogo.
+- O app nunca bloqueia se não consegue ler a própria versão e build, e trata recomendada abaixo da mínima como igual à mínima.
+- Código: `CashlyDomain/Update` (`AppVersion`, `AppRelease`, `UpdateState`, `AppReleaseStore`), `CashlyData/Services/CloudKitAppReleaseSource.swift`, `FeatureCore/Update/AppUpdateModel.swift`, telas em `AppShell/Update`.
+
+## Leitura e cache
+
+- O app busca o registro pelo `recordName` igual à plataforma (`CKDatabase.record(for:)`), sem consulta; registro inexistente (`unknownItem`) significa "sem política". Registro com campos inválidos conta como falha de leitura.
+- A última política lida fica em `app-release.json` no app group `group.com.byescaleira` (pasta `cashly`), para widgets e intents enxergarem. Sem app group, cai na Application Support.
+- **Sem rede, vale o cache.** Falha de leitura nunca apaga a política guardada, então o modo avião não escapa do bloqueio.
+- Lê ao abrir e ao voltar para o primeiro plano, com intervalo mínimo de 15 minutos entre leituras (1 minuto enquanto está bloqueado, para soltar logo depois de o admin baixar a mínima). Se a última política guardada já bloqueia, a abertura espera a leitura antes de decidir.
+- No simulador não há leitura do CloudKit (igual às flags); vale só a simulação.
+
+## O que para no bloqueio
+
+- **A interface:** a tela de bloqueio substitui o app inteiro (e a janela de Ajustes no Mac), com **Update** (abre `https://apps.apple.com/app/id6821986667`, do `CashlyAppStoreID` do Info.plist) e **Export Data** (JSON ou CSV, o mesmo fluxo de Ajustes › Dados e Backup). Os dados nunca ficam presos.
+- **Siri, Atalhos e App Intents:** `CashlyServices.workspace` lê o cache e lança `UpdateRequiredError` ("Update Cashly in the App Store to keep using it. Your data is safe."). Vale também para as ações das notificações (marcar como pago, adiar, classificar captura), que ficam sem efeito.
+- **iCloud:** a biblioteca abre sem sincronização e os espelhos de CKSyncEngine dos perfis compartilhados não iniciam.
+- **MCP e Cashly na Web:** não ligam. Se o bloqueio chega com o app aberto, o servidor MCP para e a ponte da Web é desligada na hora.
+- **Widgets:** só leem o último resumo. O único controle interativo (`NewExpenseIntent`) apenas abre o app, que mostra o bloqueio.
+- O backup automático semanal continua (só grava uma cópia local ou no iCloud Drive).
+
+Limites conhecidos: se o bloqueio chega com o app já aberto, a sincronização do SwiftData e os espelhos do social que já estavam rodando seguem até o app fechar; na próxima abertura não iniciam. Se o admin solta o bloqueio com o app aberto, a interface volta, mas sem sincronização, MCP e Web até reabrir.
+
+## Desenvolvimento
+
+- Build Debug nunca bloqueia: lê e mostra a política real, mas o estado efetivo é o simulado.
+- Ajustes › Developer › **App Updates**: simular `Update recommended` ou `Update required`, ver versão instalada, estado e política remotos, última leitura e **Check Now**. A simulação fica no mesmo cache, então intents também a enxergam. Na tela de bloqueio simulada aparece **Stop Simulating**.
+
+## Como testar
+
+1. Testes: `AppReleaseTests` (comparação, regra, cache), `AppReleaseRecordTests` (leitura do registro), `AppUpdateModelTests` (fontes falsas: bloqueio, cache offline, intervalo, aviso uma vez por versão, simulação). Admin: `cd admin && npm test`.
+2. Debug: simular cada estado no Developer, conferir a tela, o export e um atalho da Siri respondendo o erro.
+3. Bloqueio real: precisa de configuração Release. Instalada pelo Xcode (assinatura de desenvolvimento) ela lê o ambiente Desenvolvimento; TestFlight e App Store leem Produção. No admin, no ambiente certo, gravar mínima acima da build instalada; abrir o app, ver o bloqueio, ligar o modo avião e reabrir (continua bloqueado); remover a política e voltar para o primeiro plano depois de 1 minuto (solta). Repetir com só a recomendada acima para ver o aviso uma única vez.

@@ -52,13 +52,15 @@ struct CashlyApp: App {
                 .environment(bootstrap)
                 .environment(lock)
                 .environment(bootstrap.mcp)
+                .environment(bootstrap.update)
                 .environment(CashlyServices.shared.sharing)
                 .featureFlags(bootstrap.flags)
                 .cashlySettings(settings)
         }
         #if os(macOS)
             Settings {
-                NavigationStack { SettingsScreen { MCPSettingsSlot() } }
+                CashlySettingsWindow()
+                    .environment(bootstrap.update)
                     .environment(bootstrap.mcp)
                     .featureFlags(bootstrap.flags)
                     .cashlySettings(settings)
@@ -73,6 +75,7 @@ private final class CashlyBootstrap {
     private(set) var error: String?
     private(set) var mcp: MCPModel?
     let flags: FeatureFlags
+    let update: AppUpdateModel
     private let settings: SettingsModel
     @ObservationIgnored private var isListeningToSync = false
 
@@ -80,8 +83,10 @@ private final class CashlyBootstrap {
         self.settings = settings
         #if targetEnvironment(simulator)
             flags = FeatureFlags()
+            update = AppUpdateModel()
         #else
             flags = FeatureFlags(source: CloudKitFlagSource())
+            update = AppUpdateModel(source: CloudKitAppReleaseSource())
         #endif
     }
 
@@ -96,8 +101,14 @@ private final class CashlyBootstrap {
     func prepare() async {
         guard library == nil else { return }
         error = nil
+        if update.isRequired {
+            await update.refresh(force: true)
+        } else {
+            Task { await update.refresh() }
+        }
+        let isBlocked = update.isRequired
         LegacyIntelligenceFiles.remove()
-        let cloudSync = settings.syncsAtLaunch
+        let cloudSync = settings.syncsAtLaunch && !isBlocked
         if cloudSync && !isListeningToSync {
             isListeningToSync = true
             let events = CashlyDatabase.syncEvents()
@@ -118,20 +129,20 @@ private final class CashlyBootstrap {
             #if targetEnvironment(simulator)
                 CashlyServices.shared.sharing.markUnavailable()
             #else
-                if flags.isOn(.social) {
+                if flags.isOn(.social) && !isBlocked {
                     Task { await CashlyServices.shared.startSharing(library) }
                 } else {
                     CashlyServices.shared.sharing.markUnavailable()
                 }
             #endif
-            if flags.isOn(.mcpServer) {
+            if flags.isOn(.mcpServer) && !isBlocked {
                 mcp = MCPModel(provider: library, serviceName: Self.deviceName)
             }
             let data = DataModel(
                 backup: database.backup, cloud: .container(CashlyDatabase.cloudContainer))
             settings.data = data
             #if os(iOS)
-                if flags.isOn(.web) {
+                if flags.isOn(.web) && !isBlocked {
                     settings.web = WebSharingModel(provider: library)
                 }
             #endif
@@ -154,16 +165,40 @@ private final class CashlyBootstrap {
             self.error = error.localizedDescription
         }
     }
+
+    func stopConnections() {
+        mcp?.suspend()
+        mcp = nil
+        settings.web = nil
+    }
 }
+
+#if os(macOS)
+    private struct CashlySettingsWindow: View {
+        @Environment(AppUpdateModel.self) private var update
+
+        var body: some View {
+            if update.isRequired {
+                UpdateRequiredScreen()
+            } else {
+                NavigationStack { SettingsScreen { MCPSettingsSlot() } }
+            }
+        }
+    }
+#endif
 
 private struct CashlyRootView: View {
     @Environment(CashlyBootstrap.self) private var bootstrap
+    @Environment(AppUpdateModel.self) private var update
+    @Environment(\.scenePhase) private var scenePhase
     @State private var window: CashlyWindow?
     @State private var launch = LaunchProgress()
     @State private var attempt = 0
     var body: some View {
         Group {
-            if let window {
+            if update.isRequired {
+                UpdateRequiredScreen()
+            } else if let window {
                 MainScreen().cashlyWindow(window).environment(launch)
             } else if let error = bootstrap.error {
                 ContentUnavailableView {
@@ -178,6 +213,12 @@ private struct CashlyRootView: View {
             } else {
                 SplashScreen(progress: launch.fraction, status: launch.status)
             }
+        }
+        .onChange(of: update.isRequired) { _, required in
+            if required { bootstrap.stopConnections() }
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { Task { await update.refresh() } }
         }
         .task(id: attempt) {
             guard window == nil else { return }

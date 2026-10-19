@@ -140,6 +140,7 @@ public struct MainScreen: View {
         .errorAlert($finance.error)
         .errorAlert($session.error)
         .modifier(PaywallOffer())
+        .modifier(UpdateRecommendation())
         .modifier(DeepLinks())
         .modifier(WebSharingPresenter())
         .modifier(JourneyNotifications())

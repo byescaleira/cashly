@@ -17,6 +17,7 @@ struct DeveloperSections: View {
             DeveloperToolsSections().environment(developer)
         }
         FlagsSection()
+        AppUpdateSection()
         if let data = settings.data {
             DeveloperBackupSection().environment(data)
             EraseSection().environment(data)
