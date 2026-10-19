@@ -43,6 +43,17 @@ actor SharedProfileSync: CKSyncEngineDelegate {
         scheduleScan(after: .zero)
     }
 
+    func stop() async {
+        scanTask?.cancel()
+        scanTask = nil
+        guard let engine else { return }
+        self.engine = nil
+        await engine.cancelOperations()
+        isFetching = false
+        isSending = false
+        persist()
+    }
+
     func makeEngine() {
         var configuration = CKSyncEngine.Configuration(
             database: database, stateSerialization: state.engine, delegate: self)

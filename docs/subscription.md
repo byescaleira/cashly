@@ -71,3 +71,100 @@ Com Pro, o card some e as seções voltam.
 4. **Exclusivos:** ícones Ouro, avatares Ouro, `PackAccess.pro` e volta ao padrão ao perder o Pro.
 5. **Folha de conquista** com a chuva de moedas e notas.
 6. **Docs e verificação:** `decisions.md`, `gamification.md`, `roadmap.md`, `capture.md`, a referência `monetization.md` do apple-sdd, 10 idiomas, build das 3 plataformas, testes e conferência no iPhone.
+
+## Troca de plano e perda do Cashly Pro (18/10/2026)
+
+### Níveis do grupo
+
+O grupo "Cashly Pro" tem dois níveis: **Anual no nível 1** (acima) e **Mensal no nível 2**. Está assim no `Cashly.storekit`; no App Store Connect a ordem ainda precisa ser conferida pela sessão principal com o ok do usuário. `ShopItem.planLevel` repete a ordem no domínio.
+
+- **Mensal → Anual** é upgrade: vale na hora e a Apple reembolsa a parte não usada do mensal, proporcional.
+- **Anual → Mensal** é downgrade: o Anual segue até a renovação e o Mensal começa nela (a troca fica agendada no `autoRenewPreference`).
+- O app só compra o outro plano do grupo; quem decide e faz a troca é o StoreKit.
+
+### Estado da assinatura
+
+- `StoreClient.subscriptionStatuses()` lê `Product.SubscriptionInfo.status(for:)` do grupo (o ID do grupo vem do `subscriptionGroupID` da última transação de cada plano). Transação e `renewalInfo` passam pelo `VerificationResult`: sem transação verificada o status é descartado; sem `renewalInfo` verificado, os dados de renovação ficam vazios.
+- O tipo do domínio é `ProSubscription` (`CashlyDomain`; `SubscriptionStatus` colide com um tipo do StoreKit): estado (`subscribed`, `expired`, `inGracePeriod`, `inBillingRetry`, `revoked`), plano atual, se renova, plano da próxima renovação, data de renovação ou expiração, fim da carência, motivo da expiração e se é teste grátis.
+- `StoreClient.statusUpdates` escuta `Product.SubscriptionInfo.Status.updates` (ex.: renovação desligada no Ajustes do sistema) e o `StoreModel` refaz o estado a cada aviso.
+- `StoreTransaction.isUpgraded`: transações substituídas por upgrade não contam como plano atual (continuam no tempo de Pro, porque os intervalos são unidos).
+
+### A regra única de "é Pro"
+
+`StoreState.load` (no `FeatureStore`) junta `currentEntitlements` e os status, e é usada pelo `StoreModel.refresh()` e pelo `ProRule.isPro(isEnforced:)`, que agora é o corpo do `CashlyServices.isPro()` (backup automático na abertura). Ordem:
+
+1. flag `pro` desligada → Pro;
+2. simulação do desenvolvedor (`StoreOverride`) → o que ela disser;
+3. com status do grupo → `ProSubscription.grantsPro(at:)`: assinado até a expiração (com 1 dia de folga se a renovação está ligada, para uma renovação que chega atrasada não derrubar o Pro e resetar ícone e foto), carência até o fim da carência; nova tentativa de cobrança sem carência, expirada e revogada não são Pro;
+4. sem status (offline ou nunca assinou) → a transação de assinatura em `currentEntitlements`, sem conferir a data, porque o StoreKit já só devolve assinado ou em carência.
+
+Isso corrige o bug em que a janela mostrava Pro na carência (entitlement presente) mas o `CashlyServices.isPro()` exigia `expirationDate > now` e desligava backup e MCP.
+
+### Expiração com o app aberto, primeiro plano e reembolso
+
+- Depois de cada `refresh()`, o `StoreModel` agenda outro para o fim do acesso (`nextCheck`, fim da carência ou expiração, mais 1 s).
+- A `MainScreen` chama `store.refresh()` ao voltar para o primeiro plano.
+- Reembolso e revogação chegam por `Transaction.updates` (`handle` termina a transação e refaz o estado).
+- Em todos esses casos o `entitlement` deixa de ser ativo, o `ProAccess.isPro` cai e o caminho "ao perder o Pro" roda como antes: `MainScreen` reseta ícone e fotos exclusivos (`dropProIcon`, `dropProPhotos`), o `MCPModel.isPro` desliga o servidor, o backup automático não roda na próxima abertura e as compras da loja ficam (`owned` não depende da assinatura).
+- O lembrete do fim do teste é apagado quando o teste deixa de renovar (renovação desligada ou troca de plano).
+
+### Ajustes › Cashly Pro
+
+| Situação | Linha do plano | Extra |
+| --- | --- | --- |
+| Assinado, renova | "Active" · "Renews on …" | "Switch to Annual" (no Mensal) ou "Switch to Monthly" (no Anual) |
+| Renovação desligada | "Active" · "Pro until … (renewal off)" | "Turn On Renewal" · "Keep Cashly Pro after …." (abre o Gerenciar assinatura); sem troca de plano, porque não há próxima renovação |
+| Downgrade agendado | "Active" · "Switches to Monthly on …" | sem troca (já agendada); comprar o Anual de novo cancelaria o downgrade sem cobrar, ver as respostas abaixo |
+| Teste grátis | "Free Trial" · "Trial ends on …" | sem troca (fica no Gerenciar assinatura); o upgrade encerraria o teste e cobraria na hora, o downgrade só mudaria a cobrança do fim do teste |
+| Carência | "Active" · "Pro until … while Apple retries the payment" | aviso "Update Payment Method", que abre o Gerenciar assinatura |
+| Nova tentativa de cobrança | "On Hold" · "Pro returns once the payment goes through" | o mesmo aviso; sem "Subscribe" nem teste grátis |
+| Expirada ou revogada | "Expired" · "Expired on …" | "Subscribe" |
+
+- A troca abre a folha `PlanSwitchScreen`, no estilo da `ShopItemScreen` (altura medida): título, o que muda e quando (upgrade: começa hoje, com reembolso proporcional do Mensal; downgrade: o Anual segue até a data e o Mensal começa nela), o preço do plano de destino, o botão principal "Switch for …/year" ou "Switch on …" (`pro.switch.confirm`) e "Not Now". Não é `confirmationDialog`, que fica para ações destrutivas. "Turn On Renewal" usa o `appTint` (ação); a mostarda fica para o status.
+- No macOS o aviso e o Gerenciar assinatura abrem `apps.apple.com/account/subscriptions`.
+- Identificadores para as capturas: `pro.switch`, `pro.payment` e `pro.renewal`.
+- **Nova tentativa de cobrança fora da tela do Pro:** a pessoa continua assinante. A raiz de Ajustes troca o "Come Back to Cashly Pro" pela linha "Update Payment Method" (`pro.payment`), "Plan and Purchases" mostra "On Hold" e o chip do perfil também (tom de aviso). O `ProAccess` ganha `isOnHold`: os cards "Cashly Pro" por tela dizem "Update Payment Method" e o `present()` abre o Gerenciar assinatura (`CashlyNavigation.isManagingSubscription`) em vez do paywall; a oferta semanal da abertura não aparece; o cartão do Pro na loja mostra "On Hold".
+- **Teste grátis só para quem nunca assinou:** `trialDays(for:)` devolve nada quando há qualquer status de assinatura, inclusive nos cards do paywall.
+- **Ask to Buy aprovado** pelo `Transaction.updates` limpa o `pending` do item.
+- **Sem "Expired" no futuro:** o `lapsed()` usa a data de revogação quando houver e ignora datas futuras; sem data passada, o estado é `.none`.
+- Texto e lógica ficam no `StoreModel+Subscription` (`planTitle`, `planDetail`, `paymentNotice`, `canSubscribe`, `planSwitch`, `switchPlan()`); a `ProSection` só desenha.
+
+### Simulação do desenvolvedor
+
+Ajustes › Desenvolvedor › Loja ganha quatro estados para as capturas: **Renewal Off** (Anual sem renovar), **Downgrade Scheduled** (Anual com Mensal na renovação), **Grace Period** (Anual na carência por 13 dias) e **Billing Retry** (Anual em nova tentativa, sem Pro). O "Pro" simulado passa a ser Mensal, para mostrar o "Switch to Annual". A simulação monta um `ProSubscription` e o `Entitlement` sai da mesma regra.
+
+### Testes
+
+- `CashlyDomainTests/ProSubscriptionTests`: Pro por estado, folga da renovação, carência, nova tentativa, revogada e expirada, teste grátis, troca agendada, escolha entre vários status e níveis.
+- `FeatureStoreTests/ProPlanChangeTests` (com o `FakeStoreClient`): carência é Pro na janela e no `ProRule` (o bug), nova tentativa sem carência não é, revogada e expirada não são, flag e simulação vêm antes do StoreKit, expiração com o app aberto derruba o Pro na data, renovação desligada e reembolso chegam enquanto o `start()` escuta, transação de upgrade é ignorada, upgrade e downgrade com textos e compra, teste sem troca e sem lembrete ao desligar a renovação, e os estados simulados.
+- Também cobrem: nova tentativa sem teste grátis, renovação desligada sem troca e com "Turn On Renewal", Ask to Buy aprovado limpando o `pending`, `lapsed()` sem data futura, o chip "On Hold" (`GeneralSettingsTests`) e o `presentPro(isOnHold:)` (`ProAccessTests`).
+- `CashlyStoreTests/PlanChangeTests` (com `SKTestSession`, `StoreKitClient` e `StoreModel` reais): upgrade imediato, downgrade na renovação, cancelar o downgrade comprando o plano atual, troca durante o teste grátis nos dois sentidos, teste grátis que não volta e tempo de Pro que continua contando. Os casos estão em [validation.md](validation.md#compras-storekit).
+
+### Respostas do StoreKit Testing (19/10/2026)
+
+Medido no `SKTestSession` (Xcode 27.0 beta 6, iOS 27.0, iPhone 17 Pro) e conferido na documentação da Apple.
+
+**a. Comprar o outro plano durante o teste grátis**
+
+- **Mensal em teste → Anual (upgrade):** a compra vale na hora. Vem uma transação nova do Anual, **sem oferta** (paga, vence em 1 ano), o teste do Mensal para de renovar e o `entitlement` passa de `.trial` para `.active`. A pessoa perde os dias grátis que faltavam e é cobrada no ato. A elegibilidade ao teste continua vazia.
+- **Anual em teste → Mensal (downgrade):** a compra devolve sucesso, mas nenhuma transação é criada. O teste do Anual continua até o fim, só o `autoRenewPreference` vira Mensal: ao fim do teste a cobrança é a do Mensal. `scheduledPlan == .proMonthly` e `planDetail` diz "Switches to Monthly on …".
+- Apple: "Existing subscribers are not eligible for an introductory offer for any product within the same subscription group. For example, customers are not eligible if they are upgrading, downgrading, or crossgrading" (Implementing introductory offers in your app). Upgrades valem na hora e downgrades na próxima renovação (Handling Subscriptions Billing; WWDC20 10661).
+- Conclusão: esconder a troca no Mensal em teste é certo, porque o "Switch to Annual" encerraria o teste e cobraria o ano no ato. No Anual em teste, o downgrade não tira nada: o teste continua e o Mensal só começa ao fim dele.
+
+**b. Comprar de novo o plano atual cancela um downgrade agendado?**
+
+- **Sim.** Anual pago com o Mensal agendado → `buy(.proYearly)` devolve sucesso sem transação nova e sem cobrança, o `autoRenewPreference` volta para o Anual, `scheduledPlan` fica `nil`, o `planSwitch` volta a oferecer o Mensal e a renovação seguinte é Anual. O mesmo vale durante o teste grátis.
+- Apple, no `DID_CHANGE_RENEWAL_PREF`: "If the subtype is empty, the customer changed their renewal preference back to the current subscription, effectively canceling a downgrade" (App Store Server Notifications, `notificationType`).
+
+**c. Existe um intervalo com `currentEntitlements` vazio na renovação automática?**
+
+- **No StoreKit Testing, sim, mas a folga de 1 dia não o cobre.** Com `oneRenewalEveryTenSeconds`, cada renovação chegou de 3,5 a 10 s depois da expiração (a transação nova vem com a compra recuada para a expiração anterior). Nesse intervalo `currentEntitlements` fica vazio **e o status já diz `expired` com `willAutoRenew == false`** e `expirationReason == nil`. Como a folga só vale para `subscribed` com a renovação ligada, o `StoreModel` e o `ProRule` derrubam o Pro até a renovação chegar. Em parte das execuções a renovação acelerada nem chegou.
+- Apple: "During the 24-hour period before the subscription expires, the App Store starts trying to renew it automatically" e "The App Store renews the subscription slightly before it expires, to prevent any lapse in the subscription. However, lapses are still possible", por exemplo em problema de cobrança, que vira nova tentativa ou carência (Handling Subscriptions Billing). Na produção, então, a renovação chega antes da expiração e não deveria haver intervalo.
+- Conclusão: o intervalo medido é um artefato do tempo acelerado e não justifica a folga. A folga continua útil para outro caso, que o `SKTestSession` não reproduz: status ainda `subscribed` com a data vencida porque o aparelho não sincronizou (offline na hora da renovação), e o `nextCheck` cair na data exata. Fica como está; conferir no sandbox (renovação mensal a cada 5 min) se o status passa por `expired` antes da transação nova.
+- Nenhum defeito claro no código: os testes passaram sem mudar o `StoreModel` nem o `ProSubscription`.
+
+**Recomendações de interface (não implementadas)**
+
+1. **"Keep Annual" com o downgrade agendado:** hoje não há como desfazer pelo app. Pelo item b, basta `buy(.proYearly)`, sem cobrança. Vale mostrar a opção na linha "Switches to Monthly on …".
+2. **Downgrade no Anual em teste grátis:** dá para oferecer "Switch to Monthly" com a data do fim do teste. O teste continua e só a cobrança seguinte muda.
+3. **Upgrade no Mensal em teste grátis:** manter escondido. Se um dia aparecer, o texto precisa dizer que o teste acaba e a cobrança do ano é no ato.

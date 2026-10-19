@@ -57,8 +57,7 @@ struct PaywallPlans: View {
             ForEach(store.plans) { plan in
                 PaywallPlanCard(
                     plan: plan, isSelected: store.selectedPlan == plan.item,
-                    trialDays: store.introEligible.contains(plan.item)
-                        ? plan.product.trialDays : nil
+                    trialDays: store.trialDays(for: plan.item)
                 ) {
                     store.selectedPlan = plan.item
                 }

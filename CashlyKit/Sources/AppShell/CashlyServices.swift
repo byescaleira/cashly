@@ -15,6 +15,7 @@ public final class CashlyServices {
     public nonisolated let exchangeRates: any ExchangeRateProviding = ExchangeRateService.shared
     @ObservationIgnored private var opening: Task<CashlyLibrary, any Error>?
     @ObservationIgnored private var coordinator: SharingCoordinator?
+    @ObservationIgnored private var sharingTask: Task<Void, Never>?
 
     private init() {}
 
@@ -36,8 +37,27 @@ public final class CashlyServices {
         }
     }
 
-    public func startSharing(_ library: CashlyLibrary) async {
-        guard coordinator == nil else { return }
+    public func startSharing(_ library: CashlyLibrary) {
+        let previous = sharingTask
+        sharingTask = Task {
+            await previous?.value
+            await runSharing(library)
+        }
+    }
+
+    public func stopSharing() {
+        let previous = sharingTask
+        sharingTask = Task {
+            await previous?.value
+            await coordinator?.stop()
+        }
+    }
+
+    private func runSharing(_ library: CashlyLibrary) async {
+        if let coordinator {
+            await coordinator.start()
+            return
+        }
         let coordinator = SharingCoordinator(
             database: library.shared, directory: CashlyLibrary.sharingStateDirectory)
         self.coordinator = coordinator
@@ -168,19 +188,14 @@ public final class CashlyServices {
     }
 
     public func isPro() async -> Bool {
-        guard FeatureFlags().isOn(.pro) else { return true }
-        if let simulated = StoreOverride.entitlement() { return simulated.isActive }
-        let plans = Set(ShopCatalog.plans.map(\.id))
-        return await StoreKitClient().currentEntitlements().contains { transaction in
-            plans.contains(transaction.productID) && transaction.revocationDate == nil
-                && (transaction.expirationDate ?? .distantFuture) > .now
-        }
+        await ProRule.isPro(isEnforced: FeatureFlags().isOn(.pro))
     }
 
     public func workspace(
         userID: String? = nil, cloudSync: Bool = CashlyServices.launchCloudSync,
         preference: UserPreference = .standard
     ) async throws -> (Repositories, User) {
+        if AppReleaseStore.shared.blocks { throw UpdateRequiredError() }
         let library = try await library(cloudSync: cloudSync)
         let users = try await library.repositories(for: nil).users.users()
         let selected = users.first { $0.id == (userID ?? preference.selectedUserID) }

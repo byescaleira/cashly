@@ -20,6 +20,7 @@ esac
 "$formatter" "${arguments[@]}" \
   --configuration "$project_root/.swift-format" --recursive --parallel \
   "$project_root/Cashly/Cashly" \
+  "$project_root/Cashly/CashlyStoreTests" \
   "$project_root/CashlyKit/Sources" \
   "$project_root/CashlyKit/Tests" \
   "$project_root/CashlyKit/Package.swift"

@@ -85,6 +85,9 @@ struct GeneralSettingsTests {
         #expect(trial.title.contains("3"))
         #expect(settings.planBadge(for: .none).tone == .free)
         #expect(settings.planBadge(for: .expired(now)).tone == .free)
+        let onHold = settings.planBadge(for: .expired(now), isOnHold: true)
+        #expect(onHold.tone == .onHold)
+        #expect(onHold.title == "On Hold")
         #expect(settings.proOfferTitle(for: .expired(now)) != settings.proOfferTitle(for: .none))
     }
 

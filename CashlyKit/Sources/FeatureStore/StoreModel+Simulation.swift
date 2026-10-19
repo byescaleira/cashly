@@ -3,7 +3,7 @@ import FeatureCore
 import Foundation
 
 public enum SimulatedPlan: String, CaseIterable, Identifiable, Sendable {
-    case real, free, trial, pro
+    case real, free, trial, pro, renewalOff, downgrade, gracePeriod, billingRetry
 
     public var id: String { rawValue }
 }
@@ -23,8 +23,34 @@ struct StoreSimulation: Equatable, Sendable {
         switch plan {
         case .real: nil
         case .free: Entitlement.none
-        case .trial: .trial(expires: expires)
-        case .pro: .active(expires: expires)
+        default: subscription.map { Entitlement($0, at: .now) }
+        }
+    }
+
+    var subscription: ProSubscription? {
+        switch plan {
+        case .real, .free: nil
+        case .trial:
+            ProSubscription(
+                state: .subscribed, plan: .proYearly, expirationDate: expires, isFreeTrial: true)
+        case .pro: ProSubscription(state: .subscribed, plan: .proMonthly, expirationDate: expires)
+        case .renewalOff:
+            ProSubscription(
+                state: .subscribed, plan: .proYearly, willRenew: false, expirationDate: expires,
+                expirationReason: .cancelled)
+        case .downgrade:
+            ProSubscription(
+                state: .subscribed, plan: .proYearly, renewalPlan: .proMonthly,
+                expirationDate: expires)
+        case .gracePeriod:
+            ProSubscription(
+                state: .inGracePeriod, plan: .proYearly,
+                expirationDate: expires.addingTimeInterval(-16 * 86_400), gracePeriodEnd: expires,
+                expirationReason: .billingError)
+        case .billingRetry:
+            ProSubscription(
+                state: .inBillingRetry, plan: .proYearly, expirationDate: expires,
+                expirationReason: .billingError)
         }
     }
 
@@ -122,6 +148,10 @@ struct StoreSimulation: Equatable, Sendable {
             case .free: String(appLocalized: "Free")
             case .trial: String(appLocalized: "Trial")
             case .pro: String(appLocalized: "Pro")
+            case .renewalOff: String(appLocalized: "Renewal Off")
+            case .downgrade: String(appLocalized: "Downgrade Scheduled")
+            case .gracePeriod: String(appLocalized: "Grace Period")
+            case .billingRetry: String(appLocalized: "Billing Retry")
             }
         }
 
@@ -137,7 +167,10 @@ struct StoreSimulation: Equatable, Sendable {
         func expiry(from date: Date) -> Date {
             switch self {
             case .trial: date.addingTimeInterval(3 * 86_400)
-            case .pro: date.addingTimeInterval(30 * 86_400)
+            case .pro, .renewalOff: date.addingTimeInterval(30 * 86_400)
+            case .downgrade: date.addingTimeInterval(200 * 86_400)
+            case .gracePeriod: date.addingTimeInterval(13 * 86_400)
+            case .billingRetry: date.addingTimeInterval(-3 * 86_400)
             case .free, .real: date
             }
         }

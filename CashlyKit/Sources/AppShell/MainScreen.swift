@@ -129,6 +129,7 @@ public struct MainScreen: View {
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .background { WidgetCenter.shared.reloadAllTimelines() }
+            if phase == .active { Task { await store.refresh() } }
             #if os(iOS)
                 if phase != .active { Task { await JourneyActivities.sync() } }
             #endif
@@ -140,6 +141,8 @@ public struct MainScreen: View {
         .errorAlert($finance.error)
         .errorAlert($session.error)
         .modifier(PaywallOffer())
+        .modifier(UpdateRecommendation())
+        .modifier(ManageSubscriptionPresenter())
         .modifier(DeepLinks())
         .modifier(WebSharingPresenter())
         .modifier(JourneyNotifications())
@@ -172,8 +175,11 @@ public struct MainScreen: View {
     }
 
     private var pro: ProAccess {
-        ProAccess(entitlement: store.entitlement, isEnforced: flags?.isOn(.pro) != false) {
-            navigation.isShowingPaywall = true
+        ProAccess(
+            entitlement: store.entitlement, isEnforced: flags?.isOn(.pro) != false,
+            isOnHold: store.isOnHold
+        ) { [isOnHold = store.isOnHold] in
+            navigation.presentPro(isOnHold: isOnHold)
         }
     }
 
@@ -193,7 +199,7 @@ private struct PaywallOffer: ViewModifier {
 
     private var isDue: Bool {
         store.hasRefreshed && session.isReady(finance) && !session.needsOnboarding
-            && !navigation.isOnboarding && !pro.isPro
+            && !navigation.isOnboarding && !pro.isPro && !store.isOnHold
     }
 
     func body(content: Content) -> some View {

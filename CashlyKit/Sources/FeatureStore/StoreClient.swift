@@ -1,3 +1,4 @@
+import CashlyDomain
 import Foundation
 
 public struct StoreProduct: Hashable, Identifiable, Sendable {
@@ -44,11 +45,13 @@ public struct StoreTransaction: Hashable, Identifiable, Sendable {
     public let expirationDate: Date?
     public let revocationDate: Date?
     public let isFreeTrial: Bool
+    public let isUpgraded: Bool
     public let quantity: Int
 
     public init(
         id: UInt64, productID: String, purchaseDate: Date = .now, expirationDate: Date? = nil,
-        revocationDate: Date? = nil, isFreeTrial: Bool = false, quantity: Int = 1
+        revocationDate: Date? = nil, isFreeTrial: Bool = false, isUpgraded: Bool = false,
+        quantity: Int = 1
     ) {
         self.id = id
         self.productID = productID
@@ -56,6 +59,7 @@ public struct StoreTransaction: Hashable, Identifiable, Sendable {
         self.expirationDate = expirationDate
         self.revocationDate = revocationDate
         self.isFreeTrial = isFreeTrial
+        self.isUpgraded = isUpgraded
         self.quantity = quantity
     }
 
@@ -70,12 +74,14 @@ public enum StorePurchase: Sendable {
 
 public protocol StoreClient: Sendable {
     var updates: AsyncStream<StoreTransaction> { get }
+    var statusUpdates: AsyncStream<Void> { get }
     func products(for ids: [String]) async throws -> [StoreProduct]
     func isEligibleForIntroOffer(_ id: String) async -> Bool
     func purchase(_ id: String) async throws -> StorePurchase
     func currentEntitlements() async -> [StoreTransaction]
     func history() async -> [StoreTransaction]
     func latest(for id: String) async -> StoreTransaction?
+    func subscriptionStatuses() async -> [ProSubscription]
     func unfinished() async -> [StoreTransaction]
     func finish(_ transaction: StoreTransaction) async
     func sync() async throws

@@ -1,3 +1,4 @@
+import CashlyDomain
 import Foundation
 import StoreKit
 
@@ -13,6 +14,16 @@ public actor StoreKitClient: StoreClient {
                 for await result in StoreKit.Transaction.updates {
                     if let transaction = await keep(result) { continuation.yield(transaction) }
                 }
+                continuation.finish()
+            }
+            continuation.onTermination = { _ in task.cancel() }
+        }
+    }
+
+    public nonisolated var statusUpdates: AsyncStream<Void> {
+        AsyncStream { continuation in
+            let task = Task {
+                for await _ in Product.SubscriptionInfo.Status.updates { continuation.yield() }
                 continuation.finish()
             }
             continuation.onTermination = { _ in task.cancel() }
@@ -65,6 +76,25 @@ public actor StoreKitClient: StoreClient {
     public func latest(for id: String) async -> StoreTransaction? {
         guard let result = await StoreKit.Transaction.latest(for: id) else { return nil }
         return keep(result)
+    }
+
+    public func subscriptionStatuses() async -> [ProSubscription] {
+        var groups: Set<String> = []
+        for plan in ShopCatalog.plans {
+            guard let result = await StoreKit.Transaction.latest(for: plan.id),
+                case .verified(let transaction) = result,
+                let group = transaction.subscriptionGroupID
+            else { continue }
+            groups.insert(group)
+        }
+        var values: [ProSubscription] = []
+        for group in groups {
+            guard let statuses = try? await Product.SubscriptionInfo.status(for: group) else {
+                continue
+            }
+            values += statuses.compactMap(ProSubscription.init)
+        }
+        return values
     }
 
     public func unfinished() async -> [StoreTransaction] {
@@ -142,6 +172,49 @@ extension StoreTransaction {
             purchaseDate: transaction.purchaseDate, expirationDate: transaction.expirationDate,
             revocationDate: transaction.revocationDate,
             isFreeTrial: transaction.offer?.paymentMode == .freeTrial,
-            quantity: transaction.purchasedQuantity)
+            isUpgraded: transaction.isUpgraded, quantity: transaction.purchasedQuantity)
+    }
+}
+
+extension ProSubscription {
+    fileprivate init?(_ status: Product.SubscriptionInfo.Status) {
+        guard case .verified(let transaction) = status.transaction,
+            let plan = ShopItem(rawValue: transaction.productID)
+        else { return nil }
+        let renewal: Product.SubscriptionInfo.RenewalInfo? =
+            if case .verified(let info) = status.renewalInfo { info } else { nil }
+        self.init(
+            state: State(status.state), plan: plan, willRenew: renewal?.willAutoRenew ?? false,
+            renewalPlan: renewal?.autoRenewPreference.flatMap(ShopItem.init(rawValue:)),
+            expirationDate: transaction.expirationDate,
+            gracePeriodEnd: renewal?.gracePeriodExpirationDate,
+            expirationReason: renewal?.expirationReason.map(ExpirationReason.init),
+            isFreeTrial: transaction.offer?.paymentMode == .freeTrial)
+    }
+}
+
+extension ProSubscription.State {
+    fileprivate init(_ state: Product.SubscriptionInfo.RenewalState) {
+        self =
+            switch state {
+            case .subscribed: .subscribed
+            case .inGracePeriod: .inGracePeriod
+            case .inBillingRetryPeriod: .inBillingRetry
+            case .revoked: .revoked
+            default: .expired
+            }
+    }
+}
+
+extension ProSubscription.ExpirationReason {
+    fileprivate init(_ reason: Product.SubscriptionInfo.RenewalInfo.ExpirationReason) {
+        self =
+            switch reason {
+            case .autoRenewDisabled: .cancelled
+            case .billingError: .billingError
+            case .didNotConsentToPriceIncrease: .priceIncrease
+            case .productUnavailable: .unavailable
+            default: .unknown
+            }
     }
 }

@@ -4,11 +4,16 @@ import SwiftUI
 public struct ProAccess {
     public let entitlement: Entitlement
     public let isEnforced: Bool
+    public let isOnHold: Bool
     private let presenter: () -> Void
 
-    public init(entitlement: Entitlement, isEnforced: Bool, present: @escaping () -> Void) {
+    public init(
+        entitlement: Entitlement, isEnforced: Bool, isOnHold: Bool = false,
+        present: @escaping () -> Void
+    ) {
         self.entitlement = entitlement
         self.isEnforced = isEnforced
+        self.isOnHold = isOnHold
         presenter = present
     }
 
