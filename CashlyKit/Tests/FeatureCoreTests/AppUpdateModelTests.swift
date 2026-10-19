@@ -154,6 +154,29 @@ struct AppUpdateModelTests {
         #expect(model(nil, enforces: false).isRecommendationDue)
     }
 
+    @Test func textsCiteTheVersions() async throws {
+        let source = FakeReleaseSource(try policy(minimum: "1.1.0", recommended: "1.2.0"))
+        let update = model(source)
+        await update.refresh()
+        #expect(update.requiredMessage.contains("1.0"))
+        #expect(update.requiredMessage.contains("1.1.0"))
+        #expect(update.recommendedMessage.contains("1.2.0"))
+        #expect(!update.recommendedMessage.contains("("))
+        let byBuild = AppRelease(
+            minimumVersion: try #require(AppVersion("1.0.0")), minimumBuild: 70,
+            recommendedVersion: try #require(AppVersion("1.0.0")), recommendedBuild: 80)
+        await source.set(byBuild)
+        await update.refresh(force: true)
+        #expect(update.requiredMessage.contains("1.0 (66)"))
+        #expect(update.requiredMessage.contains("1.0.0 (70)"))
+        #expect(update.recommendedMessage.contains("1.0.0 (80)"))
+        let simulated = model(source, enforces: false)
+        simulated.simulate(.required)
+        #expect(!simulated.requiredMessage.contains("1.0"))
+        simulated.simulate(.recommended)
+        #expect(!simulated.recommendedMessage.contains("1.0"))
+    }
+
     @Test func storeLinkUsesTheAppStoreID() {
         #expect(
             AppUpdateModel.storeURL(info: ["CashlyAppStoreID": "6821986667"])?.absoluteString

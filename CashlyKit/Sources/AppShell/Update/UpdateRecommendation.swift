@@ -48,10 +48,7 @@ struct UpdateRecommendedScreen: View {
             },
             secondary: GuideAction("Not Now") { update.dismissRecommendation() }
         ) {
-            GuidePage(
-                title: "A new Cashly is available",
-                message: "Update for the latest fixes and improvements. It only takes a moment."
-            ) {
+            GuidePage(verbatim: update.recommendedTitle, message: update.recommendedMessage) {
                 CashlyAnimationView(.launch)
             }
         }

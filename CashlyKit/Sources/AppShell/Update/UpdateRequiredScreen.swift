@@ -13,12 +13,8 @@ public struct UpdateRequiredScreen: View {
     public var body: some View {
         VStack(spacing: .spaceXL) {
             Spacer(minLength: 0)
-            GuidePage(
-                title: "Update Cashly",
-                message:
-                    "This version is no longer supported. Update to keep using Cashly. Your data stays on your device and you can export it now."
-            ) {
-                CashlyAnimationView(.about, loops: true)
+            GuidePage(verbatim: update.requiredTitle, message: update.requiredMessage) {
+                CashlyAnimationView(.launch, loops: true)
             }
             Spacer(minLength: 0)
             VStack(spacing: .spaceM) {

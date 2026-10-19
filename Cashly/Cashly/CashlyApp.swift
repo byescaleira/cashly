@@ -61,6 +61,7 @@ struct CashlyApp: App {
             Settings {
                 CashlySettingsWindow()
                     .environment(bootstrap.update)
+                    .environment(lock)
                     .environment(bootstrap.mcp)
                     .featureFlags(bootstrap.flags)
                     .cashlySettings(settings)
@@ -179,7 +180,7 @@ private final class CashlyBootstrap {
 
         var body: some View {
             if update.isRequired {
-                UpdateRequiredScreen()
+                UpdateRequiredScreen().modifier(PrivacyShield())
             } else {
                 NavigationStack { SettingsScreen { MCPSettingsSlot() } }
             }
@@ -198,6 +199,8 @@ private struct CashlyRootView: View {
         Group {
             if update.isRequired {
                 UpdateRequiredScreen()
+                    .modifier(PrivacyShield())
+                    .transition(.opacity)
             } else if let window {
                 MainScreen().cashlyWindow(window).environment(launch)
             } else if let error = bootstrap.error {
@@ -214,6 +217,7 @@ private struct CashlyRootView: View {
                 SplashScreen(progress: launch.fraction, status: launch.status)
             }
         }
+        .animation(.easeOut(duration: 0.2), value: update.isRequired)
         .onChange(of: update.isRequired) { _, required in
             if required { bootstrap.stopConnections() }
         }

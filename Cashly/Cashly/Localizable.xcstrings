@@ -14593,6 +14593,128 @@
         }
       }
     },
+    "Version %@ is available with the latest fixes and improvements. It only takes a moment." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A versão %@ já está disponível, com as correções e melhorias mais recentes. Atualizar leva só um instante."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La versión %@ ya está disponible, con las últimas correcciones y mejoras. Actualizar solo toma un momento."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@ ist da, mit den neuesten Fehlerbehebungen und Verbesserungen. Das Update dauert nur einen Moment."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La version %@ est disponible, avec les dernières corrections et améliorations. La mise à jour ne prend qu’un instant."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La versione %@ è disponibile, con le correzioni e i miglioramenti più recenti. Aggiornare richiede solo un attimo."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バージョン%@が公開されました。最新の修正と改善が含まれています。アップデートはすぐに終わります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "버전 %@이(가) 나왔습니다. 최신 수정 사항과 개선 사항이 담겨 있습니다. 업데이트는 잠깐이면 됩니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "版本 %@ 现已推出，包含最新的修复和改进。更新只需片刻。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Доступна версия %@ с последними исправлениями и улучшениями. Обновление займёт всего минуту."
+          }
+        }
+      }
+    },
+    "Version %@ is no longer supported. Update to %@ or later to keep using Cashly. Your data stays on your device and you can export it now." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Version %1$@ is no longer supported. Update to %2$@ or later to keep using Cashly. Your data stays on your device and you can export it now."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A versão %1$@ não tem mais suporte. Atualize para a %2$@ ou mais recente para continuar usando o Cashly. Seus dados continuam no aparelho e você pode exportá-los agora."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La versión %1$@ ya no es compatible. Actualiza a la %2$@ o posterior para seguir usando Cashly. Tus datos siguen en tu dispositivo y puedes exportarlos ahora."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %1$@ wird nicht mehr unterstützt. Aktualisiere auf %2$@ oder neuer, um Cashly weiter zu nutzen. Deine Daten bleiben auf deinem Gerät und du kannst sie jetzt exportieren."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La version %1$@ n’est plus prise en charge. Passez à la %2$@ ou ultérieure pour continuer à utiliser Cashly. Vos données restent sur votre appareil et vous pouvez les exporter dès maintenant."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La versione %1$@ non è più supportata. Aggiorna alla %2$@ o successiva per continuare a usare Cashly. I tuoi dati restano sul dispositivo e puoi esportarli adesso."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バージョン%1$@はサポートが終了しました。Cashlyを引き続き使うには%2$@以降にアップデートしてください。データはデバイスに残っていて、今すぐ書き出せます。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "버전 %1$@은(는) 더 이상 지원되지 않습니다. Cashly를 계속 사용하려면 %2$@ 이상으로 업데이트하세요. 데이터는 기기에 그대로 있으며 지금 내보낼 수 있습니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "版本 %1$@ 已不再受支持。请更新到 %2$@ 或更高版本以继续使用 Cashly。你的数据仍保存在设备上，现在即可导出。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Версия %1$@ больше не поддерживается. Обновитесь до %2$@ или новее, чтобы продолжить пользоваться Cashly. Ваши данные остаются на устройстве, и их можно экспортировать прямо сейчас."
+          }
+        }
+      }
+    },
     "Wait for sync to finish." : {
       "localizations" : {
         "de" : {
