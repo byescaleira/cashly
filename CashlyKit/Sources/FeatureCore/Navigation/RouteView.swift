@@ -16,6 +16,7 @@ public struct RouteViewBuilder: Sendable {
 
 public struct RouteView: View {
     @Environment(\.routeView) private var routeView
+    @Environment(\.dismiss) private var dismiss
     private let route: Route
 
     public init(_ route: Route) {
@@ -24,5 +25,6 @@ public struct RouteView: View {
 
     public var body: some View {
         routeView.view(for: route)
+            .environment(\.close, CloseAction { dismiss() })
     }
 }

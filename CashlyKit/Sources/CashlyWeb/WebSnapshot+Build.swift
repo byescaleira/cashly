@@ -1,4 +1,5 @@
 import CashlyDomain
+import CashlyGame
 import Foundation
 
 extension WebSnapshot {
@@ -10,10 +11,12 @@ extension WebSnapshot {
         public let generatedAt: Date
         public let includesJourney: Bool
         public let guides: Set<String>
+        public let unlocks: [Achievement: Date]
 
         public init(
             user: User, today: Date, currency: String, locale: Locale, generatedAt: Date? = nil,
-            includesJourney: Bool = false, guides: Set<String> = []
+            includesJourney: Bool = false, guides: Set<String> = [],
+            unlocks: [Achievement: Date] = [:]
         ) {
             self.user = user
             self.today = today
@@ -22,6 +25,7 @@ extension WebSnapshot {
             self.generatedAt = generatedAt ?? today
             self.includesJourney = includesJourney
             self.guides = guides
+            self.unlocks = unlocks
         }
     }
 

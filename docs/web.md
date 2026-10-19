@@ -105,15 +105,53 @@ Depois do primeiro teste real, o resumo ganhou as seções do Início, de Insigh
 - Proporções (`share`, `rate`, `averageRate`, `progress`) arredondadas em 2 casas, como as do mês. As seções que dependem do histórico inteiro (`daily`, `forecast`, `journey`) ficam de fora enquanto o iCloud ainda está trazendo dados.
 - Textos que vêm prontos do app (`label`, `detail`, `levelTitle`, `challenge.title`, `Other`) seguem o `locale` do resumo; o resto da página segue o `?locale=`.
 
+## Jornada na página e campos opcionais (19/10/2026)
+
+Com o resumo de hoje, a aba Jornada da web mostra: o nível com a barra até o próximo e a porcentagem, a barra de 5 segmentos do título atual e o nível do próximo título (títulos a cada 5 níveis, então dá para calcular), a sequência com a próxima marca (7, 30, 100 ou 365 dias) e os dias que faltam, o desafio ativo com a barra, o fim e os dias que faltam (contados de `month.today`), o "Mês no azul" (pontuação do `score` contra 895, com os 200 XP do fechamento) e a tabela "Como ganhar XP" (valores da seção XP e níveis de `docs/gamification.md`).
+
+A página lê os campos abaixo, todos opcionais, e esconde o que não vier (um app mais antigo manda só `level`, `levelTitle`, `progress`, `streak` e `challenge` com `title`, `progress` e `endsOn`). Desde 19/10/2026 o app (`CashlyWeb`, `WebSnapshot+Journey.swift`) manda todos, tirados do mesmo `GameProgress` da aba Jornada e com os textos no idioma do app:
+
+```json
+"journey": {
+  "xp": 2534, "nextTitle": "Planner",
+  "best": 41, "freezes": 2, "trackedToday": false,
+  "days": [ { "date": "2026-10-13", "state": "tracked" } ],
+  "challenge": { "title": "…", "progress": 0.57, "endsOn": "2026-10-22", "xp": 100, "detail": "4 of 7 days without spending" },
+  "missions": { "renewsOn": "2026-10-20", "items": [ { "title": "Record 5 transactions", "done": 5, "target": 5, "xp": 25 } ] },
+  "achievements": {
+    "unlocked": 17, "total": 41,
+    "next": [ { "title": "30-day streak", "detail": "…", "progress": 0.77, "done": 23, "target": 30, "xp": 150 } ],
+    "recent": [ { "title": "7-day streak", "tier": "bronze", "unlockedOn": "2026-10-03", "xp": 50 } ]
+  }
+}
+```
+
+- `xp`: XP total do perfil. A página calcula o começo e o fim do nível por `50 × n × (n + 1)` e mostra "x de y XP" e "faltam z XP".
+- `nextTitle`: título do próximo bloco de 5 níveis, já traduzido.
+- `best`, `freezes`, `trackedToday`: recorde, congelamentos disponíveis e se o dia de hoje já está feito.
+- `days`: os últimos 7 dias, do mais antigo a hoje, com `state` `tracked`, `frozen`, `missed` ou `pending` (a mesma faixa da aba Jornada).
+- `challenge.xp` e `challenge.detail`: XP do desafio e a legenda da medida (`ChallengeMeasure`), já traduzida.
+- `missions`: as três missões da semana (`title` traduzido, `done`/`target`, `xp`) e o dia em que renovam.
+- `achievements`: desbloqueadas e total, as três mais próximas (as mesmas da aba Jornada, sem as secretas nem as do Pro) e as três últimas desbloqueadas, com `tier` `bronze`, `silver` ou `gold`.
+
+Como o app monta: `nextTitle` falta só no último bloco de títulos; em `days`, hoje sem registro é `pending` e um dia coberto por congelamento é `frozen`; `challenge.detail` é a mesma legenda de `ChallengeState.caption`; `renewsOn` é a segunda-feira seguinte; em `next`, `done` e `target` só vêm quando a meta passa de 1 e `xp` falta nas conquistas do Pro (valem 0 XP). As datas de desbloqueio são as que a aba Jornada grava no aparelho (`AchievementUnlocks`); conquistas desbloqueadas antes de existir a gravação entram depois das datadas, sem `unlockedOn`. Os textos de missões, conquistas e da legenda do desafio passaram do `FeatureJourney` para o `CashlyGame`, para app e web usarem a mesma fonte.
+
 ## Ponte pausada
 
-Quando o admin pausa a ponte, `PUT` e `GET` respondem `503 {"error":"paused"}`. A página mostra "O Cashly na Web está em pausa por alguns minutos" e tenta de novo a cada minuto; o app mostra o chip "Pausado" e reenvia quando voltar. A flag remota `web` desligada esconde a função no app sem tocar na VPS (o app lê as flags do CloudKit público).
+Quando o admin pausa a ponte, `PUT`, `GET` e `DELETE` respondem `503 {"error":"paused"}`. A página mostra "O Cashly na Web está em pausa por alguns minutos" e tenta de novo a cada minuto; o app mostra o chip "Pausado" e reenvia quando voltar. A flag remota `web` desligada esconde a função no app sem tocar na VPS (o app lê as flags do CloudKit público).
 
 No app, `503` com `{"error":"paused"}` em `PUT` ou `DELETE` vira `WebBridgeError.paused`, um estado próprio, separado de falha: a sessão fica guardada com o chip "Pausado" (mostarda, o mesmo termo e a mesma cor da sessão sem Pro) e o rodapé "O Cashly na Web está em pausa por alguns minutos. Seu mês é enviado de novo quando você abrir o Cashly ou mudar seus dados.". O reenvio acontece pelos gatilhos de sempre (voltar ao primeiro plano, mudança nos dados, perfil, moeda ou idioma), sem timer. Ao conectar ou desconectar com a ponte pausada, o alerta diz "O Cashly na Web está em pausa por alguns minutos. Tente de novo mais tarde.". Outro `503` continua sendo indisponibilidade comum.
 
 ## Página (W3)
 
-`/app` com o visual da landing e o mesmo módulo de `?locale=`: primeiro o QR grande com as instruções e "Aguardando o iPhone…"; quando o pacote chega, o mês (valor disponível, barra de ritmo com a marca do dia, planejado, gasto e restante), orçamentos com barras, próximas contas e o histórico por dia, com "Atualizado há X min" e "Sair". O QR é gerado no navegador (biblioteca pequena embutida, sem serviço externo). Recarregar a página mantém a sessão enquanto a chave estiver no IndexedDB e a ponte tiver o pacote.
+`/app` com o mesmo módulo de `?locale=` da landing. Antes do pareamento: o QR grande com os passos e "Aguardando o iPhone…". Depois: um **painel web** (não uma coluna de iPad), com o design system do app:
+
+- **Barra lateral** com o perfil (iniciais na cor do perfil e o mês), navegação (Visão geral, Transações, Orçamentos e Jornada, esta só quando o resumo traz `journey`), "Atualizado há X min" e "Sair". Abaixo de 860 px vira uma barra superior com abas roláveis.
+- **Visão geral:** linha de indicadores (disponível, gasto com a barra de ritmo e a marca do dia, receitas, planejado), gastos por dia, resumo rápido (previsão, economia, pontuação), últimos meses, próximas contas, transações recentes e maiores categorias.
+- **Transações:** tabela com busca (descrição, categoria e tag), filtro Todas/Despesas/Receitas e por categoria, ordenação por data ou valor, situação em chip e total do filtro; no celular cada linha vira um cartão.
+- **Orçamentos:** orçamentos com barra, valor e porcentagem; categorias com a barra de participação empilhada; tags.
+
+O QR é gerado no navegador (`qrcode-generator` em `site/vendor`). Recarregar mantém a sessão enquanto a chave estiver no IndexedDB e a ponte tiver o pacote.
 
 ## Privacidade
 

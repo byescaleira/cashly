@@ -1,4 +1,5 @@
 import CashlyDomain
+import Foundation
 
 extension GameLevel {
     public var title: String {
@@ -41,5 +42,26 @@ extension Challenge.Kind {
         case .blueMonth: String(appLocalized: "Month in the Blue")
         case .allBudgetsBlue: String(appLocalized: "Every Budget in the Blue")
         }
+    }
+}
+
+extension Mission.Kind {
+    public var title: String {
+        switch self {
+        case .recordFive, .recordTen: String(appLocalized: "Record \(target) transactions")
+        case .trackFourDays, .trackSixDays:
+            String(appLocalized: "Follow your money on \(target) days")
+        case .noSpendDay: String(appLocalized: "Mark a no-spend day")
+        case .useTags: String(appLocalized: "Tag \(target) new transactions")
+        case .splitExpense: String(appLocalized: "Split an expense")
+        case .backup: String(appLocalized: "Make a backup")
+        }
+    }
+}
+
+enum GameMoney {
+    static func text(_ minorUnits: Int64) -> String {
+        Money(minorUnits: minorUnits).doubleValue.formatted(
+            .currency(code: Money.currencyCode).locale(.app))
     }
 }

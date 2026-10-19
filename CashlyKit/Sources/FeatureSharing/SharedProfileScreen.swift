@@ -25,6 +25,17 @@ public struct SharedProfileScreen: View {
             #endif
         }
         .animation(reduceMotion ? nil : .smooth, value: sharing.members)
+        .overlay {
+            if profile == nil {
+                EmptyStateView(
+                    title: "This Profile Left This Device",
+                    description: "Open another profile from the profile menu.",
+                    actionTitle: "Close", action: { close() }
+                ) {
+                    IconRow("People", symbol: "person.2.slash", color: .retroTeal)
+                }
+            }
+        }
         .fontDesign(.rounded)
         .navigationTitle("People")
         #if os(iOS)

@@ -59,26 +59,17 @@ extension JourneyModel {
     }
 
     public var nextAchievements: [AchievementState] {
-        let locked = (progress?.achievements ?? []).filter {
-            !$0.isUnlocked && !$0.achievement.isSecret && $0.achievement.group != .pro
-        }
-        return Array(
-            locked.sorted {
-                ($0.progress, -$0.achievement.target) > ($1.progress, -$1.achievement.target)
-            }
-            .prefix(JourneyModel.nextAchievementCount))
+        progress?.nextAchievements ?? []
     }
 
     public var unlockedCount: Int {
-        progress?.achievements.filter(\.isUnlocked).count ?? 0
+        progress?.unlockedCount ?? 0
     }
 
     public var unlockedRatio: Double {
         let total = progress?.achievements.count ?? 0
         return total > 0 ? Double(unlockedCount) / Double(total) : 0
     }
-
-    static let nextAchievementCount = 3
 }
 
 extension ChallengeOutlook {

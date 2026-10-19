@@ -93,6 +93,14 @@ private final class CashlyBootstrap {
         hold = UpdateHoldModel(update: update)
     }
 
+    private static var allowsSimulatorSharing: Bool {
+        #if DEBUG
+            UserDefaults.standard.bool(forKey: "cashly.developer.simulatorSharing")
+        #else
+            false
+        #endif
+    }
+
     private static var deviceName: String {
         #if os(macOS)
             Host.current().localizedName ?? "Cashly"
@@ -171,7 +179,11 @@ private final class CashlyBootstrap {
             },
             UpdateHoldModel.Connection {
                 #if targetEnvironment(simulator)
-                    CashlyServices.shared.sharing.markUnavailable()
+                    if Self.allowsSimulatorSharing, self.flags.isOn(.social) {
+                        CashlyServices.shared.startSharing(library)
+                    } else {
+                        CashlyServices.shared.sharing.markUnavailable()
+                    }
                 #else
                     if self.flags.isOn(.social) {
                         CashlyServices.shared.startSharing(library)

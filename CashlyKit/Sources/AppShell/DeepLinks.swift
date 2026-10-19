@@ -8,6 +8,7 @@ struct DeepLinks: ViewModifier {
     @Environment(SessionModel.self) private var session
     @Environment(SettingsModel.self) private var settings
     @Environment(\.pro) private var pro
+    @State private var deferredProfile: [String]?
 
     func body(content: Content) -> some View {
         content
@@ -21,6 +22,11 @@ struct DeepLinks: ViewModifier {
                 handle(url)
             }
             .task { handleLaunchArgument() }
+            .onChange(of: CashlyServices.shared.sharing.isEnabled) { _, isEnabled in
+                guard isEnabled, let path = deferredProfile else { return }
+                deferredProfile = nil
+                openProfile(path)
+            }
     }
 
     private func handleLaunchArgument() {
@@ -75,7 +81,10 @@ struct DeepLinks: ViewModifier {
     }
 
     private func openProfile(_ path: [String]) {
-        guard CashlyServices.shared.sharing.isEnabled else { return }
+        guard CashlyServices.shared.sharing.isEnabled else {
+            deferredProfile = path
+            return
+        }
         if path.first == "new-shared" {
             open(.addSharedProfile, in: .home)
             return

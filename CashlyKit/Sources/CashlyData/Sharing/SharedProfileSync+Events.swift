@@ -53,7 +53,7 @@ extension SharedProfileSync {
     func nextFetchChangesOptions(
         _ context: CKSyncEngine.FetchChangesContext, syncEngine: CKSyncEngine
     ) async -> CKSyncEngine.FetchChangesOptions {
-        guard scope == .owned else { return context.options }
+        guard scope == .owned, context.options.scope == .all else { return context.options }
         return CKSyncEngine.FetchChangesOptions(scope: .allExcluding([Self.coreDataZone]))
     }
 

@@ -1,3 +1,5 @@
+import { renderJourney } from './web-journey.js';
+
 const SVG = 'http://www.w3.org/2000/svg';
 
 function svg(tag, attributes = {}) {
@@ -212,28 +214,4 @@ function renderMonths(snapshot, kit) {
     legendItem(kit, 'var(--positive)', kit.t('income'))
   );
   slot('months').replaceChildren(chart, axis, legend);
-}
-
-function renderJourney(snapshot, kit) {
-  const journey = snapshot.journey;
-  if (!block('journey', Boolean(journey))) return;
-  const rows = [];
-  const level = kit.element('div', 'row');
-  const head = kit.element('div', 'budget-top');
-  head.append(kit.element('span', '', [kit.t('level', { level: journey.level ?? 1 }), journey.levelTitle].filter(Boolean).join(' · ')), kit.element('span', '', new Intl.NumberFormat(kit.locale, { style: 'percent' }).format(clamp(journey.progress))));
-  level.append(head, kit.bar('var(--mustard)', clamp(journey.progress)));
-  rows.push(level);
-  if (journey.streak > 0) {
-    const streak = kit.element('div', 'row web-pair-row');
-    streak.append(kit.element('span', '', kit.t('streak')), kit.element('strong', '', new Intl.NumberFormat(kit.locale, { style: 'unit', unit: 'day', unitDisplay: 'long' }).format(journey.streak)));
-    rows.push(streak);
-  }
-  if (journey.challenge) {
-    const challenge = kit.element('div', 'row');
-    const top = kit.element('div', 'budget-top');
-    top.append(kit.element('span', '', journey.challenge.title), kit.element('span', '', journey.challenge.endsOn ? kit.t('challengeEnds', { date: kit.day(journey.challenge.endsOn, { day: 'numeric', month: 'short' }) }) : ''));
-    challenge.append(top, kit.bar('var(--teal)', clamp(journey.challenge.progress)));
-    rows.push(challenge);
-  }
-  slot('journey').replaceChildren(...rows);
 }
