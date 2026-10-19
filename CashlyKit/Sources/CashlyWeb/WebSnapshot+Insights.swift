@@ -28,7 +28,7 @@ extension WebSnapshot {
             savings = Savings(overview, months: months.map(\.overview))
         }
         score = Score(overview)
-        journey = game.map { Journey(GameEngine.progress($0)) }
+        journey = game.map { Journey(GameEngine.progress($0), context: context) }
     }
 
     static func game(repositories: Repositories, context: Context) async -> GameSnapshot? {
@@ -157,26 +157,6 @@ extension WebSnapshot.Score {
         self.init(
             value: health.score, max: BudgetHealth.maximumScore, label: health.level.title,
             detail: health.level.summary)
-    }
-}
-
-extension WebSnapshot.Journey {
-    init(_ progress: GameProgress) {
-        self.init(
-            level: progress.level.number, levelTitle: progress.level.title,
-            progress: WebSnapshot.Month.rounded(progress.level.progress),
-            streak: progress.streak.current,
-            challenge: progress.challenge.flatMap { WebSnapshot.ActiveChallenge($0) })
-    }
-}
-
-extension WebSnapshot.ActiveChallenge {
-    init?(_ state: ChallengeState) {
-        guard case .active(let value) = state.status else { return nil }
-        self.init(
-            title: state.challenge.kind.title,
-            progress: WebSnapshot.Month.rounded(min(max(value, 0), 1)),
-            endsOn: WebDay.string(state.end.addingTimeInterval(-1)))
     }
 }
 

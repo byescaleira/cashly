@@ -1,5 +1,6 @@
 import CashlyData
 import CashlyDomain
+import CashlyGame
 import CashlyWeb
 import Foundation
 import Testing
@@ -62,12 +63,22 @@ struct WebSnapshotFixture {
                 paymentsPlan: nil, tagIDs: tags, kind: kind))
     }
 
-    func snapshot(includesJourney: Bool = false) async throws -> WebSnapshot {
+    func snapshot(
+        includesJourney: Bool = false, guides: Set<String> = [],
+        unlocks: [Achievement: Date] = [:]
+    ) async throws -> WebSnapshot {
         try await WebSnapshot.make(
             repositories: repositories,
             context: WebSnapshot.Context(
                 user: owner, today: try today, currency: "USD",
-                locale: Locale(identifier: "en_US"), includesJourney: includesJourney))
+                locale: Locale(identifier: "en_US"), includesJourney: includesJourney,
+                guides: guides, unlocks: unlocks))
+    }
+
+    func progress(guides: Set<String> = []) async throws -> GameProgress {
+        GameEngine.progress(
+            try await RepositoriesGameSource(repositories: repositories, guides: guides)
+                .snapshot(today: try today))
     }
 
     func overview(month: Int = 10) async throws -> CashlyOverview {
