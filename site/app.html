@@ -87,12 +87,16 @@
 <div class="dash-kpi"><span class="footnote" data-t="planned">Planned</span><strong data-slot="planned"></strong></div>
 </div>
 <div class="dash-grid">
-<article class="dash-panel span-2" data-block="daily" hidden><h2 data-t="dailyTitle">Spending by day</h2><div data-slot="daily"></div></article>
-<article class="dash-panel"><h2 data-t="glanceTitle">At a glance</h2><div class="dash-glance" data-slot="highlights"></div></article>
-<article class="dash-panel span-2" data-block="months" hidden><h2 data-t="monthsTitle">Last months</h2><div data-slot="months"></div></article>
-<article class="dash-panel"><h2 data-t="upcoming">Upcoming</h2><div data-slot="upcoming"></div></article>
-<article class="dash-panel span-2"><div class="panel-head"><h2 data-t="recentTitle">Recent transactions</h2><a href="#transactions" data-t="seeAll">See all</a></div><div data-slot="recent"></div></article>
-<article class="dash-panel" data-block="categories" hidden><div class="panel-head"><h2 data-t="categoriesTitle">Top categories</h2><a href="#budgets" data-t="seeAll">See all</a></div><div data-slot="categories-top"></div></article>
+<div class="dash-stack">
+<article class="dash-panel span-2" data-panel="daily" data-block="daily" hidden><h2 data-t="dailyTitle">Spending by day</h2><div data-slot="daily"></div></article>
+<article class="dash-panel span-2" data-panel="months" data-block="months" hidden><h2 data-t="monthsTitle">Last months</h2><div data-slot="months"></div></article>
+<article class="dash-panel span-pair" data-panel="categories" data-block="categories" hidden><div class="panel-head"><h2 data-t="categoriesTitle">Top categories</h2><a href="#budgets" data-t="seeAll">See all</a></div><div class="dash-split" data-slot="categories-top"></div></article>
+</div>
+<div class="dash-stack">
+<article class="dash-panel" data-panel="glance"><h2 data-t="glanceTitle">At a glance</h2><div class="dash-glance" data-slot="highlights"></div></article>
+<article class="dash-panel span-pair" data-panel="upcoming"><h2 data-t="upcoming">Upcoming</h2><div class="dash-split" data-slot="upcoming"></div></article>
+<article class="dash-panel span-2" data-panel="recent"><div class="panel-head"><h2 data-t="recentTitle">Recent transactions</h2><a href="#transactions" data-t="seeAll">See all</a></div><div data-slot="recent"></div></article>
+</div>
 </div>
 </section>
 
@@ -124,15 +128,21 @@
 
 <section data-route-view="budgets" hidden>
 <div class="dash-grid">
-<article class="dash-panel span-3"><h2 data-t="budgets">Budgets</h2><div data-slot="budgets"></div></article>
-<article class="dash-panel span-2" data-block="categories-all" hidden><h2 data-t="categoriesTitle">Top categories</h2><div class="dash-share" data-slot="category-share"></div><div data-slot="categories"></div></article>
+<article class="dash-panel span-3"><h2 data-t="budgets">Budgets</h2><div class="dash-budgets" data-slot="budgets"></div></article>
+<article class="dash-panel span-wide" data-block="categories-all" hidden><h2 data-t="categoriesTitle">Top categories</h2><div class="dash-share" data-slot="category-share"></div><div class="dash-split" data-slot="categories"></div></article>
 <article class="dash-panel" data-block="tags" hidden><h2 data-t="tagsTitle">Tags</h2><div data-slot="tags"></div></article>
 </div>
 </section>
 
 <section data-route-view="journey" hidden>
-<div class="dash-grid">
-<article class="dash-panel span-2" data-block="journey" hidden><h2 data-t="journeyTitle">Journey</h2><div data-slot="journey"></div></article>
+<div class="dash-grid" data-block="journey" hidden>
+<article class="dash-panel span-2 dash-level" data-slot="journey-level"></article>
+<article class="dash-panel"><h2 data-t="streak">Streak</h2><div data-slot="journey-streak"></div></article>
+<article class="dash-panel"><h2 data-t="challengeTitle">Challenge</h2><div data-slot="journey-challenge"></div></article>
+<article class="dash-panel" data-block="journey-missions" hidden><div class="panel-head"><h2 data-t="missionsTitle">Weekly missions</h2><span class="chip" data-slot="missions-count"></span></div><div data-slot="journey-missions"></div></article>
+<article class="dash-panel span-2" data-block="journey-achievements" hidden><h2 data-t="achievementsTitle">Achievements</h2><div data-slot="journey-achievements"></div></article>
+<article class="dash-panel" data-block="journey-blue" hidden><h2 data-t="blueTitle">Month in the blue</h2><div data-slot="journey-blue"></div></article>
+<article class="dash-panel"><h2 data-t="xpTitle">How to earn XP</h2><div data-slot="journey-xp"></div></article>
 </div>
 </section>
 </div>

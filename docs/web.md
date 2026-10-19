@@ -105,6 +105,35 @@ Depois do primeiro teste real, o resumo ganhou as seções do Início, de Insigh
 - Proporções (`share`, `rate`, `averageRate`, `progress`) arredondadas em 2 casas, como as do mês. As seções que dependem do histórico inteiro (`daily`, `forecast`, `journey`) ficam de fora enquanto o iCloud ainda está trazendo dados.
 - Textos que vêm prontos do app (`label`, `detail`, `levelTitle`, `challenge.title`, `Other`) seguem o `locale` do resumo; o resto da página segue o `?locale=`.
 
+## Jornada na página e campos que faltam (19/10/2026)
+
+Com o resumo de hoje, a aba Jornada da web mostra: o nível com a barra até o próximo e a porcentagem, a barra de 5 segmentos do título atual e o nível do próximo título (títulos a cada 5 níveis, então dá para calcular), a sequência com a próxima marca (7, 30, 100 ou 365 dias) e os dias que faltam, o desafio ativo com a barra, o fim e os dias que faltam (contados de `month.today`), o "Mês no azul" (pontuação do `score` contra 895, com os 200 XP do fechamento) e a tabela "Como ganhar XP" (valores da seção XP e níveis de `docs/gamification.md`).
+
+A página já lê os campos abaixo, todos opcionais, e esconde o que não vier. **O app (`CashlyWeb`) ainda não manda nenhum deles**; até mandar, as partes correspondentes ficam escondidas:
+
+```json
+"journey": {
+  "xp": 2534, "nextTitle": "Planner",
+  "best": 41, "freezes": 2, "trackedToday": false,
+  "days": [ { "date": "2026-10-13", "state": "tracked" } ],
+  "challenge": { "title": "…", "progress": 0.57, "endsOn": "2026-10-22", "xp": 100, "detail": "4 of 7 days without spending" },
+  "missions": { "renewsOn": "2026-10-20", "items": [ { "title": "Record 5 transactions", "done": 5, "target": 5, "xp": 25 } ] },
+  "achievements": {
+    "unlocked": 17, "total": 41,
+    "next": [ { "title": "30-day streak", "detail": "…", "progress": 0.77, "done": 23, "target": 30, "xp": 150 } ],
+    "recent": [ { "title": "7-day streak", "tier": "bronze", "unlockedOn": "2026-10-03", "xp": 50 } ]
+  }
+}
+```
+
+- `xp`: XP total do perfil. A página calcula o começo e o fim do nível por `50 × n × (n + 1)` e mostra "x de y XP" e "faltam z XP".
+- `nextTitle`: título do próximo bloco de 5 níveis, já traduzido.
+- `best`, `freezes`, `trackedToday`: recorde, congelamentos disponíveis e se o dia de hoje já está feito.
+- `days`: os últimos 7 dias, do mais antigo a hoje, com `state` `tracked`, `frozen`, `missed` ou `pending` (a mesma faixa da aba Jornada).
+- `challenge.xp` e `challenge.detail`: XP do desafio e a legenda da medida (`ChallengeMeasure`), já traduzida.
+- `missions`: as três missões da semana (`title` traduzido, `done`/`target`, `xp`) e o dia em que renovam.
+- `achievements`: desbloqueadas e total, as três mais próximas (as mesmas da aba Jornada, sem as secretas nem as do Pro) e as três últimas desbloqueadas, com `tier` `bronze`, `silver` ou `gold`.
+
 ## Ponte pausada
 
 Quando o admin pausa a ponte, `PUT` e `GET` respondem `503 {"error":"paused"}`. A página mostra "O Cashly na Web está em pausa por alguns minutos" e tenta de novo a cada minuto; o app mostra o chip "Pausado" e reenvia quando voltar. A flag remota `web` desligada esconde a função no app sem tocar na VPS (o app lê as flags do CloudKit público).
