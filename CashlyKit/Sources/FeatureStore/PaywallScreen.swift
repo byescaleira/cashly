@@ -125,19 +125,33 @@ private struct PaywallLinks: View {
                         Task { await store.refresh() }
                     }
             #endif
-            if let url = StorePolicy.terms {
-                Text(verbatim: "·")
-                Link("Terms", destination: url)
-            }
-            if let url = StorePolicy.privacy {
-                Text(verbatim: "·")
-                Link("Privacy", destination: url)
-            }
+            StorePolicyLinks(separated: true)
         }
         .font(.caption)
         .buttonStyle(.plain)
         .foregroundStyle(.secondary)
         .disabled(store.isBuying)
+    }
+}
+
+public struct StorePolicyLinks: View {
+    private let separated: Bool
+
+    public init(separated: Bool = false) {
+        self.separated = separated
+    }
+
+    public var body: some View {
+        HStack(spacing: .spaceS) {
+            if let url = StorePolicy.terms {
+                if separated { Text(verbatim: "·") }
+                Link("Terms", destination: url)
+            }
+            if let url = StorePolicy.privacy {
+                if separated || StorePolicy.terms != nil { Text(verbatim: "·") }
+                Link("Privacy", destination: url)
+            }
+        }
     }
 }
 

@@ -13,6 +13,7 @@ public struct PlanSwitch: Equatable, Sendable {
     public let detail: String
     public let message: String
     public let planName: String
+    public let fact: String
     public let price: String
     public let action: String
 }
@@ -92,7 +93,7 @@ extension StoreModel {
             let renews = subscription.expirationDate
         else { return nil }
         return targetLevel < level
-            ? upgrade(to: target, price: product.displayPrice)
+            ? upgrade(to: target, product: product)
             : downgrade(to: target, price: product.displayPrice, on: renews)
     }
 
@@ -101,15 +102,19 @@ extension StoreModel {
         return await buy(target)
     }
 
-    private func upgrade(to target: ShopItem, price: String) -> PlanSwitch {
-        PlanSwitch(
+    private func upgrade(to target: ShopItem, product: StoreProduct) -> PlanSwitch {
+        let price = product.displayPrice
+        let monthly = product.formatted(product.price / Decimal(product.period?.months ?? 12))
+        return PlanSwitch(
             target: target, title: String(appLocalized: "Switch to Annual"),
             detail: String(appLocalized: "Starts today. Apple credits the unused time."),
             message: String(
                 appLocalized:
                     "Annual starts today. Apple refunds the unused part of your monthly plan in proportion."
             ),
-            planName: String(appLocalized: "Annual"), price: String(appLocalized: "\(price)/year"),
+            planName: String(appLocalized: "Annual"),
+            fact: String(appLocalized: "\(monthly)/month"),
+            price: String(appLocalized: "\(price)/year"),
             action: String(appLocalized: "Switch for \(price)/year"))
     }
 
@@ -121,6 +126,7 @@ extension StoreModel {
             message: String(
                 appLocalized: "You keep Annual until \(day). Monthly starts on that day."),
             planName: String(appLocalized: "Monthly"),
+            fact: String(appLocalized: "Starts on \(day)"),
             price: String(appLocalized: "\(price)/month"),
             action: String(appLocalized: "Switch on \(day)"))
     }

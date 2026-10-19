@@ -17,8 +17,9 @@ enum ProStoreFixture {
                 id: ShopItem.proMonthly.id, displayPrice: "R$ 14,90", price: 14.90,
                 period: .month, trialDays: 7),
             StoreProduct(
-                id: ShopItem.proYearly.id, displayPrice: "R$ 99,90", price: 99.90, period: .year,
-                trialDays: 7),
+                id: ShopItem.proYearly.id, displayPrice: "R$ 99,90", price: 99.90,
+                priceStyle: .currency(code: "BRL").locale(Locale(identifier: "pt_BR")),
+                period: .year, trialDays: 7),
         ]
         let defaults = try #require(UserDefaults(suiteName: UUID().uuidString))
         let store = StoreModel(

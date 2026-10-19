@@ -73,15 +73,13 @@ private struct PlanSwitchHero: View {
 
     var body: some View {
         VStack(spacing: .spaceM) {
-            SymbolBadge(
-                "arrow.triangle.2.circlepath", color: .retroMustard, size: .badgeXL,
-                style: .filled)
+            CashlyAnimationView(.pro).frame(maxWidth: 260)
             Text(verbatim: change.title).font(.titleLarge)
             Text(verbatim: change.message)
                 .font(.body)
                 .foregroundStyle(.secondary)
-                .lineLimit(3)
                 .fixedSize(horizontal: false, vertical: true)
+            Chip(change.planName, color: .retroMustard, shape: .capsule)
         }
         .multilineTextAlignment(.center)
         .frame(maxWidth: .infinity)
@@ -95,7 +93,7 @@ private struct PlanSwitchPriceCard: View {
         HStack(spacing: .spaceM) {
             VStack(alignment: .leading, spacing: .space2XS) {
                 Text(verbatim: change.planName).font(.rowTitle)
-                Text(verbatim: change.detail).font(.rowDetail).foregroundStyle(.secondary)
+                Text(verbatim: change.fact).font(.rowDetail).foregroundStyle(.secondary)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             Text(verbatim: change.price)
@@ -130,6 +128,10 @@ private struct PlanSwitchBar: View {
                 .font(.buttonLabel)
                 .buttonStyle(.borderless)
                 .disabled(store.isBuying)
+            StorePolicyLinks()
+                .font(.caption)
+                .buttonStyle(.plain)
+                .foregroundStyle(.secondary)
         }
         .padding(.horizontal, .spaceInset)
         .padding(.top, .spaceS)

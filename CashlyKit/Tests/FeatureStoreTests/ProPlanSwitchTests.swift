@@ -28,6 +28,9 @@ struct ProPlanSwitchTests {
         #expect(change.price == "R$ 99,90/year")
         #expect(change.action == "Switch for R$ 99,90/year")
         #expect(change.planName == "Annual")
+        let annual = try #require(store.products[.proYearly])
+        #expect(change.fact == "\(annual.formatted(annual.price / 12))/month")
+        #expect(!change.fact.contains("99,90"))
         #expect(change.message.contains("refunds the unused part"))
         let yearly = Date.now.addingTimeInterval(365 * day)
         client.next = .success(
@@ -53,6 +56,7 @@ struct ProPlanSwitchTests {
         #expect(change.price == "R$ 14,90/month")
         #expect(change.action == "Switch on \(Entitlement.day(renews))")
         #expect(change.planName == "Monthly")
+        #expect(change.fact == "Starts on \(Entitlement.day(renews))")
         #expect(change.message.contains(Entitlement.day(renews)))
         #expect(store.renewalNotice == nil)
         client.statuses = [
