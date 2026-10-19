@@ -9,6 +9,10 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
     public var owned: Set<ShopItem> { simulation?.owned ?? storeOwned }
     public var isPending: Bool { pending.contains { $0.kind == .subscription } }
     public var entitlement: Entitlement { simulation?.entitlement ?? storeEntitlement }
+    public var subscription: ProSubscription? {
+        if let simulation { return simulation.subscription }
+        return storeSubscription
+    }
     public private(set) var hasLoaded = false
     public private(set) var hasRefreshed = false
     public private(set) var proMonths = 0
@@ -16,10 +20,15 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
     public private(set) var isBuying = false
     public private(set) var pending: Set<ShopItem> = []
     public var selectedPlan = ShopItem.proYearly
+    public var isConfirmingSwitch = false
     public var error: CashlyError?
     var simulation: StoreSimulation?
     private(set) var storeOwned: Set<ShopItem> = []
     private(set) var storeEntitlement = Entitlement.none
+    private(set) var storeSubscription: ProSubscription?
+    @ObservationIgnored private(set) var nextCheck: Date?
+    @ObservationIgnored private var expiryCheck: Task<Void, Never>?
+    static let expiryMargin = Duration.seconds(1)
     @ObservationIgnored let defaults: UserDefaults
     @ObservationIgnored private let session: SessionModel
     @ObservationIgnored private let client: any StoreClient
@@ -41,9 +50,23 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
         await loadProducts()
         await refresh()
         for transaction in await client.unfinished() { await handle(transaction) }
+        await withDiscardingTaskGroup { group in
+            group.addTask { await self.listenToTransactions() }
+            group.addTask { await self.listenToStatuses() }
+        }
+    }
+
+    private func listenToTransactions() async {
         for await transaction in client.updates {
             guard !Task.isCancelled else { return }
             await handle(transaction)
+        }
+    }
+
+    private func listenToStatuses() async {
+        for await _ in client.statusUpdates {
+            guard !Task.isCancelled else { return }
+            await refresh()
         }
     }
 
@@ -62,25 +85,35 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
     }
 
     public func refresh() async {
-        var owned: Set<ShopItem> = []
-        var plan: StoreTransaction?
-        for transaction in await client.currentEntitlements() {
-            guard transaction.revocationDate == nil,
-                let item = ShopItem(rawValue: transaction.productID)
-            else { continue }
-            switch item.kind {
-            case .nonConsumable: owned.insert(item)
-            case .subscription:
-                if transaction.expiration > (plan?.expiration ?? .distantPast) {
-                    plan = transaction
-                }
-            case .consumable: break
-            }
-        }
-        storeOwned = owned
-        storeEntitlement = if let plan { Entitlement(plan) } else { await lapsed() }
+        let now = Date.now
+        let state = await StoreState.load(from: client, now: now)
+        let wasTrial = if case .trial = storeEntitlement { true } else { false }
+        storeOwned = state.owned
+        storeEntitlement = state.entitlement
+        storeSubscription = state.subscription
         hasRefreshed = true
+        scheduleExpiryCheck(at: state.accessEnds, now: now)
+        if wasTrial, !isTrialRenewing {
+            await scheduler.replace(prefix: TrialReminder.id, with: [])
+        }
         proMonths = await tenure()
+    }
+
+    private var isTrialRenewing: Bool {
+        guard case .trial = storeEntitlement else { return false }
+        return storeSubscription?.willRenew != false
+    }
+
+    private func scheduleExpiryCheck(at date: Date?, now: Date) {
+        expiryCheck?.cancel()
+        nextCheck = date.flatMap { $0 > now && $0 < .distantFuture ? $0 : nil }
+        guard let nextCheck else { return }
+        let delay = Duration.seconds(nextCheck.timeIntervalSince(now)) + Self.expiryMargin
+        expiryCheck = Task { [weak self] in
+            try? await Task.sleep(for: delay)
+            guard !Task.isCancelled else { return }
+            await self?.refresh()
+        }
     }
 
     public func price(for item: ShopItem) -> String? {
@@ -199,7 +232,8 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
     }
 
     private func remindBeforeTrialEnds(_ transaction: StoreTransaction) async {
-        guard transaction.isFreeTrial, let ends = transaction.expirationDate,
+        guard transaction.isFreeTrial, !transaction.isUpgraded,
+            let ends = transaction.expirationDate,
             ShopItem(rawValue: transaction.productID)?.kind == .subscription
         else { return }
         let fires = ends.addingTimeInterval(-TrialReminder.lead)
@@ -237,15 +271,6 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
         }
         return ProTenure.months(of: periods)
     }
-
-    private func lapsed() async -> Entitlement {
-        var latest: Date?
-        for plan in ShopCatalog.plans {
-            guard let transaction = await client.latest(for: plan.id) else { continue }
-            latest = max(latest ?? .distantPast, transaction.expiration)
-        }
-        return latest.map(Entitlement.expired) ?? .none
-    }
 }
 
 enum TrialReminder {
@@ -261,13 +286,5 @@ enum TrialReminder {
             ),
             components: CashlyCalendar.current.dateComponents(
                 [.year, .month, .day, .hour, .minute], from: date))
-    }
-}
-
-extension Entitlement {
-    fileprivate init(_ transaction: StoreTransaction) {
-        self =
-            transaction.isFreeTrial
-            ? .trial(expires: transaction.expiration) : .active(expires: transaction.expiration)
     }
 }

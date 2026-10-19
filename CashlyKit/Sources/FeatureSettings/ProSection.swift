@@ -14,9 +14,16 @@ struct ProSection: View {
         @Bindable var store = store
         Section {
             IconRow(
-                verbatim: store.entitlement.title, detail: store.entitlement.detail,
-                symbol: "crown", color: .retroMustard)
-            if !store.entitlement.isActive {
+                verbatim: store.planTitle, detail: store.planDetail, symbol: "crown",
+                color: .retroMustard)
+            if let notice = store.paymentNotice {
+                ManageSubscriptionLink {
+                    IconRow(
+                        verbatim: notice.title, detail: notice.detail,
+                        symbol: "exclamationmark.triangle", color: .warning)
+                }
+            }
+            if store.canSubscribe {
                 Button {
                     pro.present()
                 } label: {
@@ -24,6 +31,9 @@ struct ProSection: View {
                         store.entitlement == .none ? "Start Free Trial" : "Subscribe",
                         symbol: "sparkles", color: .retroMustard)
                 }
+            }
+            if let change = store.planSwitch {
+                PlanSwitchRow(change: change)
             }
         } footer: {
             Text(
@@ -64,26 +74,63 @@ struct ProSection: View {
     }
 }
 
-private struct ManageSubscriptionRow: View {
+private struct PlanSwitchRow: View {
     @Environment(StoreModel.self) private var store
+    let change: PlanSwitch
+
+    var body: some View {
+        @Bindable var store = store
+        Button {
+            store.isConfirmingSwitch = true
+        } label: {
+            IconRow(
+                verbatim: change.title, detail: change.detail,
+                symbol: "arrow.triangle.2.circlepath", color: .companion)
+        }
+        .disabled(store.isBuying)
+        .confirmationDialog(
+            Text(verbatim: change.title), isPresented: $store.isConfirmingSwitch,
+            titleVisibility: .visible
+        ) {
+            Button {
+                Task { _ = await store.switchPlan() }
+            } label: {
+                Text(verbatim: change.title)
+            }
+        } message: {
+            Text(verbatim: change.message)
+        }
+    }
+}
+
+private struct ManageSubscriptionLink<Label: View>: View {
+    @ViewBuilder let label: Label
     @State private var isManaging = false
-    @State private var isRedeeming = false
 
     var body: some View {
         #if os(iOS) || os(visionOS)
             Button {
                 isManaging = true
             } label: {
-                IconRow("Manage Subscription", symbol: "creditcard", color: .companion)
+                label
             }
             .manageSubscriptionsSheet(isPresented: $isManaging)
         #else
             if let url = URL(string: "https://apps.apple.com/account/subscriptions") {
-                Link(destination: url) {
-                    IconRow("Manage Subscription", symbol: "creditcard", color: .companion)
-                }
+                Link(destination: url) { label }
             }
         #endif
+    }
+}
+
+private struct ManageSubscriptionRow: View {
+    @Environment(StoreModel.self) private var store
+    @State private var isRedeeming = false
+
+    var body: some View {
+        ManageSubscriptionLink {
+            IconRow("Manage Subscription", symbol: "creditcard", color: .companion)
+        }
         Button {
             isRedeeming = true
         } label: {

@@ -6,7 +6,7 @@ import Testing
 
 @testable import FeatureStore
 
-private actor FakeScheduler: NotificationScheduling {
+actor FakeScheduler: NotificationScheduling {
     var current: NotificationStatus
     var scheduled: [String: [Reminder]] = [:]
 

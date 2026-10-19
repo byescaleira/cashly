@@ -520,7 +520,7 @@
           "codeOffers" : [],
           "displayPrice" : "14.90",
           "familyShareable" : false,
-          "groupNumber" : 1,
+          "groupNumber" : 2,
           "internalID" : "537C1F37",
           "introductoryOffer" : {
             "internalID" : "CD4D5DD5",
@@ -551,7 +551,7 @@
           "codeOffers" : [],
           "displayPrice" : "99.90",
           "familyShareable" : false,
-          "groupNumber" : 2,
+          "groupNumber" : 1,
           "internalID" : "A1DDA917",
           "introductoryOffer" : {
             "internalID" : "79A1A34B",

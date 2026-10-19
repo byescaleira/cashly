@@ -129,6 +129,7 @@ public struct MainScreen: View {
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .background { WidgetCenter.shared.reloadAllTimelines() }
+            if phase == .active { Task { await store.refresh() } }
             #if os(iOS)
                 if phase != .active { Task { await JourneyActivities.sync() } }
             #endif
