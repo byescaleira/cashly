@@ -58,6 +58,28 @@ test('flags read, write and reset against a fake CloudKit', async () => {
   }
 });
 
+test('app releases are looked up by platform and saved as AppRelease', async () => {
+  const fake = fakeCloudKit({ publicKeyPem });
+  const server = await listen(fake.handler);
+  const cloudkit = createCloudKit({ keyIDs: { development: 'DEV', production: 'PROD' }, privateKeyPem: TEST_KEY, baseURL: server.url, now: () => DATE });
+  try {
+    assert.deepEqual(await cloudkit.listReleases('development', ['ios', 'macos']), []);
+    await cloudkit.saveFlag('development', { name: 'macos', isOn: true, rollout: 100 });
+    const saved = await cloudkit.saveRelease('development', { platform: 'ios', minimumVersion: '1.0.0', minimumBuild: 66, recommendedVersion: '1.10.0', recommendedBuild: 80 });
+    assert.deepEqual({ ...saved, modifiedAt: undefined }, { platform: 'ios', minimumVersion: '1.0.0', minimumBuild: 66, recommendedVersion: '1.10.0', recommendedBuild: 80, modifiedAt: undefined });
+    const listed = await cloudkit.listReleases('development', ['ios', 'macos', 'visionos']);
+    assert.deepEqual(listed.map((release) => release.platform), ['ios']);
+    assert.deepEqual((await cloudkit.listFlags('development', ['macos'])).map((flag) => flag.name), ['macos']);
+    await cloudkit.deleteRelease('development', 'ios');
+    assert.equal(fake.environments.development.has('ios'), false);
+    assert.equal(fake.environments.production.size, 0);
+    assert.ok(fake.requests.every((request) => request.valid && request.keyID === 'DEV'));
+    assert.equal(fake.requests.find((request) => request.body.operations?.[0]?.record?.recordType === 'AppRelease').body.operations[0].operationType, 'forceReplace');
+  } finally {
+    await server.close();
+  }
+});
+
 test('a wrong key is refused and not configured fails fast', async () => {
   const fake = fakeCloudKit({ publicKeyPem });
   const server = await listen(fake.handler);

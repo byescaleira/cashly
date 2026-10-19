@@ -11,7 +11,8 @@ import { createAudit } from './audit.mjs';
 import { parseBridgeForm } from './bridge.mjs';
 import { ENVIRONMENTS } from './cloudkit.mjs';
 import { FLAGS, FLAG_NAMES, parseFlagForm } from './flags.mjs';
-import { auditPage, bridgePage, flagsPage, loginPage, notFoundPage, overviewPage, setupPage } from './views.mjs';
+import { PLATFORMS, PLATFORM_NAMES, parseReleaseForm } from './versions.mjs';
+import { auditPage, bridgePage, flagsPage, loginPage, notFoundPage, overviewPage, setupPage, versionsPage } from './views.mjs';
 
 const ASSETS = {
   '/admin/assets/admin.css': ['text/css; charset=utf-8', readFileSync(new URL('../public/admin.css', import.meta.url))],
@@ -30,6 +31,8 @@ const SECURITY_HEADERS = {
 const MESSAGES = {
   saved: ['Salvo.', 'success'],
   reset: ['A flag voltou ao padrão do app.', 'success'],
+  release_saved: ['Versões salvas.', 'success'],
+  release_reset: ['A política foi removida. O app deixa de pedir atualização nesta plataforma.', 'success'],
   bridge_saved: ['Ponte atualizada.', 'success'],
   locked: ['Muitas tentativas. Tente de novo em 15 minutos.', 'error'],
   expired: ['A sessão terminou. Entre de novo.', 'error'],
@@ -238,6 +241,51 @@ export function createApp({ secretsDir, dataDir, origin, rpID, cloudkit, bridge,
     }
   }
 
+  const environmentFrom = (url) => (ENVIRONMENTS.includes(url.searchParams.get('env')) ? url.searchParams.get('env') : 'development');
+
+  async function versionsGet(response, url, message) {
+    const environment = environmentFrom(url);
+    let remote = null;
+    let error = null;
+    let readAt = null;
+    if (cloudkit.configured) {
+      try {
+        const releases = await cloudkit.listReleases(environment, PLATFORM_NAMES);
+        remote = new Map(releases.map((release) => [release.platform, release]));
+        readAt = new Date(now()).toISOString();
+      } catch (failureError) {
+        error = failureError.code ?? 'erro';
+      }
+    }
+    return html(response, 200, versionsPage({ environment, platforms: PLATFORMS, remote, error, readAt, message, configured: cloudkit.configured }));
+  }
+
+  async function versionsPost(response, ip, form) {
+    const environment = form.get('env');
+    if (!ENVIRONMENTS.includes(environment)) return redirect(response, '/admin/versions?error=env');
+    const back = (query) => redirect(response, `/admin/versions?env=${environment}&${query}`);
+    const platform = form.get('platform') ?? '';
+    if (!PLATFORM_NAMES.includes(platform)) return back('error=unknown_platform');
+    const reset = form.get('action') === 'reset';
+    const parsed = reset ? { value: { platform } } : parseReleaseForm(form);
+    if (parsed.error) return back(`error=${parsed.error}&field=${encodeURIComponent(parsed.field ?? '')}`);
+    try {
+      const [current] = await cloudkit.listReleases(environment, [platform]);
+      const before = current ? { minimumVersion: current.minimumVersion, minimumBuild: current.minimumBuild, recommendedVersion: current.recommendedVersion, recommendedBuild: current.recommendedBuild } : null;
+      if (reset) {
+        await cloudkit.deleteRelease(environment, platform);
+        audit.record('release_reset', ip, { environment, platform, before });
+        return back('ok=release_reset');
+      }
+      const { minimumVersion, minimumBuild, recommendedVersion, recommendedBuild } = parsed.value;
+      await cloudkit.saveRelease(environment, parsed.value);
+      audit.record('release_save', ip, { environment, platform, minimumVersion, minimumBuild, recommendedVersion, recommendedBuild, before });
+      return back('ok=release_saved');
+    } catch (error) {
+      return back(`error=${encodeURIComponent(error.code ?? 'cloudkit')}`);
+    }
+  }
+
   async function bridgeGet(response, message) {
     try {
       return html(response, 200, bridgePage({ config: await bridge.config(), message }));
@@ -339,6 +387,11 @@ export function createApp({ secretsDir, dataDir, origin, rpID, cloudkit, bridge,
       return flagsGet(response, url, messageFrom(url));
     }
     if (path === '/admin/flags' && method === 'POST') return flagsPost(response, ip, form);
+    if (path === '/admin/versions' && method === 'GET') {
+      response.setHeader('Set-Cookie', renewed['Set-Cookie']);
+      return versionsGet(response, url, messageFrom(url));
+    }
+    if (path === '/admin/versions' && method === 'POST') return versionsPost(response, ip, form);
     if (path === '/admin/bridge' && method === 'GET') {
       response.setHeader('Set-Cookie', renewed['Set-Cookie']);
       return bridgeGet(response, messageFrom(url));

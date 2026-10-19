@@ -3,7 +3,7 @@
 Painel em `https://cashly.byescaleira.com/admin` para flags remotas (CloudKit público) e para a ponte do Cashly na Web. Spec: `docs/admin.md`.
 
 - Código: `src/` (Node 22, só `@simplewebauthn/server` como dependência, versão fixa com `package-lock.json`). Testes: `npm test` (precisa do `../bridge/server.mjs` ao lado, usado como ponte real nos testes).
-- Telas: Visão geral (estado da ponte e gráfico da última hora), Flags (Desenvolvimento e Produção), Ponte (pausa e limites), Registro.
+- Telas: Visão geral (estado da ponte e gráfico da última hora), Flags (Desenvolvimento e Produção), Versões (`AppRelease` por plataforma, Desenvolvimento e Produção; esquema em `docs/admin.md`), Ponte (pausa e limites), Registro.
 - Visual: usa o `/style.css` do site e só acrescenta `public/admin.css`.
 
 ## Como roda na VPS

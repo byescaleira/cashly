@@ -25,6 +25,7 @@ function duration(seconds) {
 const TABS = [
   ['overview', 'Visão geral', '/admin/overview'],
   ['flags', 'Flags', '/admin/flags'],
+  ['versions', 'Versões', '/admin/versions'],
   ['bridge', 'Ponte', '/admin/bridge'],
   ['audit', 'Registro', '/admin/audit'],
 ];
@@ -214,6 +215,48 @@ ${status}
   return layout({ title: 'Flags', active: 'flags', signedIn: true, body });
 }
 
+const releaseLine = (release) => `mínima ${release.minimumVersion} (${release.minimumBuild}), recomendada ${release.recommendedVersion} (${release.recommendedBuild})`;
+
+export function versionsPage({ environment, platforms, remote, error, readAt, message, configured }) {
+  const tabs = Object.entries(ENV_LABEL)
+    .map(([key, label]) => `<a href="/admin/versions?env=${key}"${key === environment ? ' aria-current="page"' : ''}>${label}</a>`)
+    .join('');
+  const disabled = remote ? '' : ' disabled';
+  const field = (platform, name, label, value, kind) =>
+    `<label class="row field"><span>${label}<span class="footnote">${kind === 'version' ? 'Formato x.y.z, como 1.2.0.' : 'Número inteiro da build.'}</span></span><input name="${name}" id="${h(platform)}-${name}" ${kind === 'version' ? 'inputmode="decimal" pattern="\\d+\\.\\d+\\.\\d+" placeholder="1.0.0"' : 'type="number" inputmode="numeric" min="0" step="1" placeholder="1"'} value="${h(value ?? '')}" required${disabled}></label>`;
+  const sections = platforms
+    .map((platform) => {
+      const value = remote?.get(platform.name);
+      const chip = value
+        ? `<span class="chip" style="--chip: var(--positive)">Remoto: ${h(releaseLine(value))}</span>`
+        : '<span class="chip" style="--chip: var(--secondary)">Sem política: o app nunca pede atualização</span>';
+      return `<h2>${h(platform.title)} <code>${h(platform.name)}</code></h2>
+<form class="group" method="post" action="/admin/versions"${environment === 'production' ? ` data-confirm="Gravar as versões de ${h(platform.title)} em Produção?"` : ''}>
+<input type="hidden" name="env" value="${environment}">
+<input type="hidden" name="platform" value="${h(platform.name)}">
+${field(platform.name, 'minimumVersion', 'Versão mínima', value?.minimumVersion, 'version')}
+${field(platform.name, 'minimumBuild', 'Build mínima', value?.minimumBuild, 'build')}
+${field(platform.name, 'recommendedVersion', 'Versão recomendada', value?.recommendedVersion, 'version')}
+${field(platform.name, 'recommendedBuild', 'Build recomendada', value?.recommendedBuild, 'build')}
+<div class="row flag-actions">${chip}<span class="spacer"></span>${value ? `<button class="button quiet small-quiet" type="submit" name="action" value="reset" formnovalidate${disabled}>Remover política</button>` : ''}<button class="button small-solid" type="submit" name="action" value="save"${disabled}>Salvar</button></div>
+</form>`;
+    })
+    .join('');
+  const status = !configured
+    ? notice('A chave server-to-server do CloudKit ainda não foi configurada (CLOUDKIT_KEY_ID). Nada pode ser lido nem gravado.')
+    : error
+      ? notice(`Não foi possível ler o CloudKit (${error}). Nada pode ser gravado até a leitura funcionar.`)
+      : '';
+  const body = `<h1>Versões</h1>
+<nav class="segmented" aria-label="Ambiente">${tabs}</nav>
+${notice(message?.text, message?.kind)}
+${status}
+<p class="footnote">Abaixo da versão mínima <strong>ou</strong> da build mínima, o app bloqueia e só deixa atualizar e exportar os dados. Abaixo só da recomendada, mostra um aviso que a pessoa pode dispensar (uma vez por versão recomendada). A recomendada nunca fica abaixo da mínima.</p>
+${sections}
+<p class="footnote">${readAt ? `Lido do CloudKit às ${dateTime(readAt)}. ` : ''}O app lê a política ao abrir e ao voltar para o primeiro plano (no máximo a cada 15 minutos; a cada minuto quando está bloqueado) e guarda a última no aparelho.${environment === 'production' ? ' Em Produção, o tipo AppRelease só existe depois do Deploy Schema Changes no CloudKit Console.' : ''}</p>`;
+  return layout({ title: 'Versões', active: 'versions', signedIn: true, body });
+}
+
 export function bridgePage({ config, error, message }) {
   if (!config) {
     return layout({ title: 'Ponte', active: 'bridge', signedIn: true, body: `<h1>Ponte</h1>${notice(`A ponte não respondeu (${error}).`)}` });
@@ -249,6 +292,9 @@ const ACTIONS = {
   logout: () => 'Saiu',
   flag_save: (entry) => `Flag ${entry.flag} em ${ENV_LABEL[entry.environment] ?? entry.environment}: ${entry.isOn ? `ligada em ${entry.rollout}%` : 'desligada'}${entry.before ? ` (antes: ${entry.before.isOn ? `ligada em ${entry.before.rollout}%` : 'desligada'})` : ' (antes: sem valor remoto)'}`,
   flag_reset: (entry) => `Flag ${entry.flag} em ${ENV_LABEL[entry.environment] ?? entry.environment}: voltou ao padrão do app`,
+  release_save: (entry) =>
+    `Versões de ${entry.platform} em ${ENV_LABEL[entry.environment] ?? entry.environment}: ${releaseLine(entry)}${entry.before ? ` (antes: ${releaseLine(entry.before)})` : ' (antes: sem política)'}`,
+  release_reset: (entry) => `Versões de ${entry.platform} em ${ENV_LABEL[entry.environment] ?? entry.environment}: política removida${entry.before ? ` (antes: ${releaseLine(entry.before)})` : ''}`,
   bridge_config: (entry) => `Ponte: ${Object.entries(entry.changes ?? {}).map(([key, [from, to]]) => `${key} ${from} → ${to}`).join(', ')}`,
 };
 
