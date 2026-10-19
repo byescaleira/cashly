@@ -38,6 +38,12 @@ struct SharingModelTests {
         #expect(!model.canRemove(FakeSharing.owner))
         #expect(model.name(of: FakeSharing.owner) == "You")
         #expect(model.name(of: FakeSharing.invited) == "leo@example.com")
+        #expect(
+            model.name(of: ProfileMember(id: "x", name: "", role: .member, status: .joined))
+                == "Person who joined")
+        #expect(
+            model.name(of: ProfileMember(id: "y", name: "", role: .member, status: .invited))
+                == "Invited person")
         #expect(model.badge(of: FakeSharing.invited) == "Invited")
     }
 
