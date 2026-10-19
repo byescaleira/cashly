@@ -106,6 +106,11 @@ struct AppUpdateModelTests {
         #expect(update.isShowingRecommendation)
         update.dismissRecommendation()
         #expect(!update.isShowingRecommendation)
+        #expect(update.isRecommendationDue)
+        update.offerRecommendation()
+        update.recommendationAppeared()
+        update.dismissRecommendation()
+        #expect(!update.isShowingRecommendation)
         #expect(!update.isRecommendationDue)
         update.offerRecommendation()
         #expect(!update.isShowingRecommendation)
@@ -129,8 +134,10 @@ struct AppUpdateModelTests {
                 == .required)
         update.simulate(.recommended)
         #expect(update.isRecommendationDue)
+        update.recommendationAppeared()
         update.dismissRecommendation()
         #expect(!update.isRecommendationDue)
+        #expect(model(source, enforces: false).isRecommendationDue)
         update.simulate(.recommended)
         #expect(update.isRecommendationDue)
         update.simulate(nil)
@@ -139,6 +146,12 @@ struct AppUpdateModelTests {
         enforced.simulate(.current)
         #expect(enforced.isRequired)
         #expect(!enforced.isSimulating)
+    }
+
+    @Test func aStaleSimulatedDismissalIsIgnored() {
+        defaults.set("simulated", forKey: "cashly.update.dismissedRecommendation")
+        try? AppReleaseStore(directory: directory).write(AppReleaseCache(simulated: .recommended))
+        #expect(model(nil, enforces: false).isRecommendationDue)
     }
 
     @Test func storeLinkUsesTheAppStoreID() {

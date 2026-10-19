@@ -14,8 +14,11 @@ struct UpdateRecommendation: ViewModifier {
                 .sheet(isPresented: $update.isShowingRecommendation, onDismiss: dismissed) {
                     UpdateRecommendedScreen().environment(update)
                 }
-                .onChange(of: isFree && update.isRecommendationDue, initial: true) { _, due in
-                    if due { update.offerRecommendation() }
+                .task(id: isFree && update.isRecommendationDue) {
+                    guard isFree, update.isRecommendationDue else { return }
+                    try? await Task.sleep(for: .milliseconds(600))
+                    guard !Task.isCancelled else { return }
+                    update.offerRecommendation()
                 }
         } else {
             content
@@ -52,5 +55,6 @@ struct UpdateRecommendedScreen: View {
                 CashlyAnimationView(.launch)
             }
         }
+        .onAppear { update.recommendationAppeared() }
     }
 }

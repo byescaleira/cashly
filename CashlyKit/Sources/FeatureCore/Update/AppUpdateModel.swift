@@ -20,6 +20,7 @@ public final class AppUpdateModel {
     @ObservationIgnored private let defaults: UserDefaults
     @ObservationIgnored private let now: @Sendable () -> Date
     @ObservationIgnored private var lastAttempt: Date?
+    @ObservationIgnored private var hasShownRecommendation = false
 
     public init(
         store: AppReleaseStore = .shared, source: (any AppReleaseSource)? = nil,
@@ -37,7 +38,9 @@ public final class AppUpdateModel {
         self.appStoreURL = appStoreURL
         self.now = now
         cache = store.read()
-        dismissed = defaults.string(forKey: Key.dismissed)
+        dismissed = defaults.string(forKey: Key.dismissed).flatMap {
+            $0 == Self.simulatedID ? nil : $0
+        }
     }
 
     public var state: UpdateState { cache.state(for: installed, enforces: enforces) }
@@ -53,7 +56,7 @@ public final class AppUpdateModel {
     }
 
     var recommendationID: String {
-        isSimulating ? "simulated" : cache.release?.recommendationID ?? ""
+        isSimulating ? Self.simulatedID : cache.release?.recommendationID ?? ""
     }
 
     public func refresh(force: Bool = false) async {
@@ -83,20 +86,22 @@ public final class AppUpdateModel {
         isShowingRecommendation = true
     }
 
+    public func recommendationAppeared() {
+        hasShownRecommendation = true
+    }
+
     public func dismissRecommendation() {
         isShowingRecommendation = false
-        guard state == .recommended else { return }
+        guard state == .recommended, hasShownRecommendation else { return }
+        hasShownRecommendation = false
         dismissed = recommendationID
-        defaults.set(dismissed, forKey: Key.dismissed)
+        if !isSimulating { defaults.set(dismissed, forKey: Key.dismissed) }
     }
 
     public func simulate(_ state: UpdateState?) {
         guard !enforces else { return }
         cache.simulated = state
-        if state == .recommended {
-            dismissed = nil
-            defaults.removeObject(forKey: Key.dismissed)
-        }
+        if state == .recommended { dismissed = nil }
         persist()
     }
 
@@ -106,6 +111,8 @@ public final class AppUpdateModel {
         let id = (info["CashlyAppStoreID"] as? String).flatMap { $0.isEmpty ? nil : $0 }
         return URL(string: "https://apps.apple.com/app/id\(id ?? "6821986667")")
     }
+
+    private static let simulatedID = "simulated"
 
     private func persist() {
         try? store.write(cache)
