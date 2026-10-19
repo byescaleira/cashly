@@ -65,10 +65,97 @@ public final class CashlyServices {
         await sharing.attach(SharingService(coordinator: coordinator))
         #if DEBUG
             await createDeveloperProfile(in: library)
+            await runDeveloperSharing(coordinator, library: library)
         #endif
     }
 
     #if DEBUG
+        private func runDeveloperSharing(_ coordinator: SharingCoordinator, library: CashlyLibrary)
+            async
+        {
+            let defaults = UserDefaults.standard
+            if defaults.bool(forKey: "cashly.developer.logUserID") {
+                let name = await coordinator.developerUserRecordName() ?? "none"
+                CashlyMetrics.logger.info("Sharing test user \(name, privacy: .public)")
+            }
+            if let mode = defaults.string(forKey: "cashly.developer.openShare") {
+                let users = (try? await library.repositories(for: nil).users.users()) ?? []
+                for user in users where user.isShared {
+                    guard await coordinator.isOwner(of: user.id) else { continue }
+                    do {
+                        let url = try await coordinator.developerOpenShare(
+                            profileID: user.id, isOpen: mode == "open")
+                        writeDeveloperLog("share \(mode) " + (url?.absoluteString ?? "none"))
+                    } catch {
+                        writeDeveloperLog("share failed " + String(describing: error))
+                    }
+                    break
+                }
+            }
+            if defaults.bool(forKey: "cashly.developer.inspectZones") {
+                for line in await coordinator.developerInspect() { writeDeveloperLog(line) }
+            }
+            if defaults.bool(forKey: "cashly.developer.seedShared") {
+                await seedDeveloperProfile(coordinator, library: library)
+            }
+            if let value = defaults.string(forKey: "cashly.developer.acceptURL"),
+                let url = URL(string: value)
+            {
+                do {
+                    let profileID = try await coordinator.developerAccept(url: url)
+                    sharing.joined = SharingModel.JoinedProfile(id: profileID, title: "")
+                    CashlyMetrics.logger.info(
+                        "Sharing test accepted \(profileID, privacy: .public)")
+                } catch {
+                    CashlyMetrics.failure("developerAccept", error: error)
+                }
+            }
+        }
+
+        private func seedDeveloperProfile(_ coordinator: SharingCoordinator, library: CashlyLibrary)
+            async
+        {
+            let users = (try? await library.repositories(for: nil).users.users()) ?? []
+            for user in users where user.isShared {
+                guard await coordinator.isOwner(of: user.id) else { continue }
+                let scoped = library.repositories(for: user.id)
+                do {
+                    let catalog = try await scoped.dashboard.snapshot(month: nil)
+                    let category =
+                        catalog.categories.first
+                        ?? Category(
+                            id: UUID().uuidString, user: user, name: "Casa", color: "C2602A",
+                            icon: "house")
+                    if catalog.categories.isEmpty { try await scoped.categories.save(category) }
+                    let tag = Tag(
+                        id: UUID().uuidString, user: user, name: "Teste", color: "466A93",
+                        icon: "tag")
+                    try await scoped.tags.save(tag)
+                    try await scoped.budgets.save(
+                        Budget(
+                            id: UUID().uuidString, money: Money(minorUnits: 50_000),
+                            category: category, month: YearMonth(.now),
+                            summary: "Teste social"))
+                    try await scoped.transactions.save(
+                        Transaction(
+                            id: UUID().uuidString, participants: [], category: category,
+                            money: Money(minorUnits: 4_210), date: .now, summary: "Teste social",
+                            status: .settled, splitMode: nil, splitValue: nil, paymentsPlan: nil,
+                            tagIDs: [tag.id]))
+                    writeDeveloperLog("seed ok")
+                } catch {
+                    writeDeveloperLog("seed failed " + String(describing: error))
+                }
+                break
+            }
+        }
+
+        private func writeDeveloperLog(_ line: String) {
+            let url = URL.documentsDirectory.appending(path: "cashly-developer.log")
+            let text = (try? String(contentsOf: url, encoding: .utf8)) ?? ""
+            try? (text + line + "\n").write(to: url, atomically: true, encoding: .utf8)
+        }
+
         private func createDeveloperProfile(in library: CashlyLibrary) async {
             let key = "cashly.developer.sharedProfile"
             guard let name = UserDefaults.standard.string(forKey: key) else { return }

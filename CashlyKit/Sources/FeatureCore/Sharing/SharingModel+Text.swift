@@ -44,7 +44,9 @@ extension SharingModel {
     public func name(of member: ProfileMember) -> String {
         if member.isCurrentUser { return String(appLocalized: "You") }
         if !member.name.isEmpty { return member.name }
-        return member.contact ?? String(appLocalized: "Invited person")
+        if let contact = member.contact { return contact }
+        return member.status == .joined
+            ? String(appLocalized: "Person who joined") : String(appLocalized: "Invited person")
     }
 
     public func detail(of member: ProfileMember) -> String? {

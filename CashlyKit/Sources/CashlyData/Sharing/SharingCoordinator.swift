@@ -36,6 +36,7 @@ public actor SharingCoordinator {
                 await joined.scheduleScan()
             }
         }
+        Task { await refresh() }
     }
 
     public func stop() async {
@@ -165,6 +166,47 @@ public actor SharingCoordinator {
             ? .syncing : statuses.contains { $0.phase == .failed } ? .failed : .idle
         return SharingSyncStatus(phase: phase, lastSync: statuses.compactMap(\.lastSync).max())
     }
+
+    #if DEBUG
+        public func developerUserRecordName() async -> String? {
+            try? await container.userRecordID().recordName
+        }
+
+        public func developerOpenShare(profileID: String, isOpen: Bool) async throws -> URL? {
+            let profile = try await database.repositories(for: profileID).users.user(id: profileID)
+            let share = try await share(profileID: profileID, title: profile?.name ?? "")
+            let database = container.privateCloudDatabase
+            share.publicPermission = isOpen ? .readWrite : .none
+            let result = try await database.modifyRecords(saving: [share], deleting: [])
+            return (try result.saveResults[share.recordID]?.get() as? CKShare)?.url
+        }
+
+        public func developerInspect() async -> [String] {
+            var lines: [String] = []
+            for (scope, sync, database) in [
+                ("owned", owned, container.privateCloudDatabase),
+                ("joined", joined, container.sharedCloudDatabase),
+            ] {
+                for profileID in await sync.profileIDs() {
+                    guard let zoneID = await sync.zoneID(for: profileID) else { continue }
+                    do {
+                        let changes = try await database.recordZoneChanges(
+                            inZoneWith: zoneID, since: nil)
+                        let names = changes.modificationResultsByID.keys.map(\.recordName).sorted()
+                        lines.append(
+                            "\(scope) \(profileID.prefix(8)) " + names.joined(separator: ","))
+                    } catch {
+                        lines.append("\(scope) \(profileID.prefix(8)) failed \(error)")
+                    }
+                }
+            }
+            return lines
+        }
+
+        public func developerAccept(url: URL) async throws -> String {
+            try await accept(container.shareMetadata(for: url))
+        }
+    #endif
 
     static func share(in zoneID: CKRecordZone.ID, database: CKDatabase) async throws -> CKShare? {
         do {
