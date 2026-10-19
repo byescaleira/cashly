@@ -934,3 +934,8 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 
 - **`ITSAppUsesNonExemptEncryption` continua `NO`.** O Cashly na Web cifra o resumo do mês com o CryptoKit (P-256, HKDF-SHA256 e AES-256-GCM), que é a criptografia do próprio sistema, com algoritmos padrão e só para proteger os dados da própria pessoa. O app não traz biblioteca de criptografia própria nem de terceiros. A Apple descreve o uso da criptografia do sistema como normalmente isento de documentação de exportação (Complying with Encryption Export Regulations); a responsabilidade pela leitura do EAR é do desenvolvedor, então a decisão fica registrada aqui. Se entrar criptografia proprietária ou uma biblioteca externa, revisar.
 - **Notas de revisão** ganharam o parágrafo do Cashly na Web: onde fica, por que a câmera, o que a ponte guarda e por que o rótulo continua "Dados não coletados". Os perfis compartilhados não entram nas notas enquanto a flag `social` estiver desligada.
+
+## 19/10/2026: sem vídeos com música
+
+- **Pedido do usuário:** nada de vídeo com música no site nem na App Store. Saiu o crédito da música do rodapé do site; os App Previews do iPhone e do iPad passaram a ter áudio mudo (a Apple exige uma trilha de áudio) e o gerador (`preview.py`) monta sempre com silêncio.
+- **iPhone volta para a gravação real:** o vídeo montado no estilo brag saiu da loja e do repositório; o App Preview do iPhone é a gravação de tela do app, como pede a diretriz 2.3.4.
