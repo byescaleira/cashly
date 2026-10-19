@@ -1,0 +1,33 @@
+{
+  "configurations" : [
+    {
+      "id" : "1C376981-B3DA-4517-B1A3-6DC7A13A51D8",
+      "name" : "StoreKit",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "storeKitConfigurationFileReference" : {
+      "identifier" : "Cashly\/Cashly.storekit"
+    },
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Cashly.xcodeproj",
+      "identifier" : "5306367B2E62363100C9398B",
+      "name" : "Cashly"
+    },
+    "testExecutionOrdering" : "lexical"
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:Cashly.xcodeproj",
+        "identifier" : "7A1C00012E9A0000000000C8",
+        "name" : "CashlyStoreTests"
+      }
+    }
+  ],
+  "version" : 1
+}
