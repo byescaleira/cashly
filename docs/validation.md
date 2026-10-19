@@ -39,14 +39,16 @@ Padrão: iPhone 17, iOS 27; outro destino com `CASHLY_TEST_DESTINATION`. Cada te
 | Catálogo | Todos os `ShopItem` carregam; preço exibido, período e 7 dias grátis do Mensal e do Anual; preços da loja; centavos do `Product.price` (problema conhecido, abaixo) |
 | Assinatura | Teste grátis em cada plano e elegibilidade antes e depois (o grupo inteiro perde); renovação forçada vira pago; expirar (renovação desligada e tempo acelerado); desligar a renovação mantém o Pro; reembolso revoga; Ask to Buy pendente, aprovado e recusado; falha simulada na compra; nova tentativa de cobrança (`inBillingRetryPeriod`) e volta a pago ao resolver; carência (`inGracePeriod`) mantém o Pro; restaurar num segundo `StoreModel` |
 | Loja | Não consumível compra e continua no segundo `StoreModel`; pacote completo libera os ícones; restaurar; reembolso tira o item; consumíveis creditam a Jornada a cada compra |
+| Troca de plano | Suíte `PlanChange` (Anual no nível 1, Mensal no nível 2), conferindo `planSwitch`, `ProSubscription.scheduledPlan`, `entitlement`, `ProRule.isPro` e `proMonths` |
 
-Upgrade e downgrade entre Mensal e Anual entram depois que os níveis do grupo forem definidos, numa suíte `PlanChange` no mesmo molde (`StoreKitFixture.subscribe(to:)`, `forceRenewalOfSubscription`, `renewalState()`):
+Casos cobertos pela `PlanChange`:
 
-- upgrade Mensal → Anual imediato: transação nova do Anual, a do Mensal revogada como upgrade, entitlement ativo sem passar por expirado;
-- downgrade Anual → Mensal só na renovação: o Anual segue até a renovação forçada, depois vem o Mensal pago;
-- voltar ao plano original antes da renovação cancela o downgrade;
-- trocar de plano não devolve o teste grátis;
-- o tempo de Pro (`proMonths`) continua contando na troca.
+- [x] upgrade Mensal → Anual imediato (`upgradeStartsAnnualRightAway`): transação nova do Anual, a do Mensal marcada `isUpgraded` e sem renovar, `entitlement` pago em toda a troca (amostrado enquanto o `switchPlan()` roda), `ProRule.isPro` verdadeiro e a troca seguinte oferece o Mensal;
+- [x] downgrade Anual → Mensal só na renovação (`downgradeWaitsForTheRenewal`): nenhuma transação nova, Anual pago até a mesma data, `scheduledPlan == .proMonthly`, sem `planSwitch` e "Switches to Monthly on …"; na renovação forçada vem o Mensal pago, que oferece o Anual;
+- [x] voltar ao plano original antes da renovação cancela o downgrade (`buyingTheCurrentPlanAgainCancelsTheDowngrade`): comprar o Anual de novo não cria transação nem cobra, zera o `scheduledPlan` e a renovação seguinte continua Anual;
+- [x] trocar de plano não devolve o teste grátis (`switchingNeverGivesTheTrialBack`, nos dois sentidos, e `upgradingDuringTheTrialEndsItAndStartsPaying`);
+- [x] o tempo de Pro continua contando na troca (`tenureKeepsCountingAcrossTheSwitch`, nos dois sentidos): assinatura comprada há 100 dias com `PurchaseOption.purchaseDate(_:)` dá `proMonths == 3` antes e depois;
+- [x] troca durante o teste grátis (`upgradingDuringTheTrialEndsItAndStartsPaying` e `downgradingDuringTheTrialKeepsItAndSwitchesWhenItEnds`), com as respostas em [subscription.md](subscription.md#respostas-do-storekit-testing-19102026).
 
 ### Workflow no Xcode Cloud
 
@@ -70,6 +72,7 @@ O `ci_scripts/ci_pre_xcodebuild.sh` não roda lint nem audit no scheme `CashlySt
   - `Product.price` perde os centavos com a vitrine BRA/pt_BR (14,90 vira 14), embora o `displayPrice` venha certo. Só afeta o preço por mês e a economia do paywall no StoreKit local.
   - Em nova tentativa de cobrança sem carência, a renovação que falhou continua em `Transaction.currentEntitlements`, então o `StoreModel` mantém o Pro. Na produção a Apple tira a assinatura de `currentEntitlements` nesse estado.
 - `expireSubscription(productIdentifier:)` muda a transação do `SKTestSession` mas não chega ao `Transaction.currentEntitlements`; o teste de expirar desliga a renovação e acelera o tempo (`timeRate = .oneRenewalEveryTwoSeconds`). Os testes também não dependem de `Transaction.updates`: depois de cada ação do `SKTestSession` chamam `refresh()` até o estado mudar, por até 10 s.
+- Renovação com tempo acelerado (`oneRenewalEveryTenSeconds`, `oneRenewalEveryTwoSeconds`) chega atrasada ou não chega: a transação nova aparece de 3,5 a 10 s depois da expiração (com a data de compra recuada para a expiração), e às vezes a assinatura fica expirada com `willAutoRenew == false`. Mudar o `timeRate` depois da compra não acelera a assinatura. Por isso a `PlanChange` usa `forceRenewalOfSubscription` e `purchaseDate(_:)`, nunca tempo acelerado. Na execução seguinte a uma sessão com tempo acelerado, o primeiro teste pode travar uns 150 s com `SKServiceErrorDomain Code=2` (`Error finishing transaction`).
 - `clearTransactions()` demora a devolver a elegibilidade ao teste grátis; o `StoreKitFixture` espera os dois planos ficarem elegíveis (até 5 s) antes de cada teste.
 - Há relatos de StoreKit Testing quebrado em outras combinações (Xcode 26.5 com iOS 26.5: `SKInternalErrorDomain Code=3` em tudo). Se o Xcode Cloud mudar de versão e todos os testes falharem assim, fixar o Xcode e o simulador no workflow.
 - Não dá para simular a folha da Apple (cancelar pelo usuário), mensagens de cobrança, Family Sharing nem a troca de aparelho de verdade.
