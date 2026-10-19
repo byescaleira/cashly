@@ -929,3 +929,8 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Correções vindas do teste:** a tela "Pessoas" fechava só pelo roteador e ficava em branco quando aberta pelos Ajustes (agora também `dismiss()` e um aviso); quem entrou sem nome visível aparecia como "Pessoa convidada" (agora "Pessoa que entrou"); o link `cashly://profiles/...` na abertura a frio era descartado antes de o compartilhamento ligar (agora espera).
 - **Schema:** os seis tipos (`Profile`, `Category`, `Tag`, `Budget`, `Transaction` e `Participant`, este criado à mão no Console, já que a divisão está escondida) ficam com `payload` (bytes cifrados) e `editedAt` (data cifrada), sem índices. O Deploy para Produção leva junto o `AppRelease` da atualização obrigatória, que já está na `main`.
 
+
+## 19/10/2026: criptografia de exportação com o Cashly na Web
+
+- **`ITSAppUsesNonExemptEncryption` continua `NO`.** O Cashly na Web cifra o resumo do mês com o CryptoKit (P-256, HKDF-SHA256 e AES-256-GCM), que é a criptografia do próprio sistema, com algoritmos padrão e só para proteger os dados da própria pessoa. O app não traz biblioteca de criptografia própria nem de terceiros. A Apple descreve o uso da criptografia do sistema como normalmente isento de documentação de exportação (Complying with Encryption Export Regulations); a responsabilidade pela leitura do EAR é do desenvolvedor, então a decisão fica registrada aqui. Se entrar criptografia proprietária ou uma biblioteca externa, revisar.
+- **Notas de revisão** ganharam o parágrafo do Cashly na Web: onde fica, por que a câmera, o que a ponte guarda e por que o rótulo continua "Dados não coletados". Os perfis compartilhados não entram nas notas enquanto a flag `social` estiver desligada.
