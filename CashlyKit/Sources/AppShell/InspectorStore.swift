@@ -22,8 +22,11 @@ struct InspectorStore: ViewModifier {
             )
             .environment(
                 \.pro,
-                ProAccess(entitlement: pro.entitlement, isEnforced: pro.isEnforced) {
-                    isShowingPaywall = true
+                ProAccess(
+                    entitlement: pro.entitlement, isEnforced: pro.isEnforced,
+                    isOnHold: pro.isOnHold
+                ) {
+                    if pro.isOnHold { pro.present() } else { isShowingPaywall = true }
                 })
     }
 }

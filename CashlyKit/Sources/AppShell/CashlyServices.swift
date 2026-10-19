@@ -81,13 +81,7 @@ public final class CashlyServices {
     }
 
     public func isPro() async -> Bool {
-        guard FeatureFlags().isOn(.pro) else { return true }
-        if let simulated = StoreOverride.entitlement() { return simulated.isActive }
-        let plans = Set(ShopCatalog.plans.map(\.id))
-        return await StoreKitClient().currentEntitlements().contains { transaction in
-            plans.contains(transaction.productID) && transaction.revocationDate == nil
-                && (transaction.expirationDate ?? .distantFuture) > .now
-        }
+        await ProRule.isPro(isEnforced: FeatureFlags().isOn(.pro))
     }
 
     public func workspace(

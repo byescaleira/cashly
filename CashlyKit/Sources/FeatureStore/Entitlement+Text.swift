@@ -22,7 +22,7 @@ extension Entitlement {
         }
     }
 
-    private static func day(_ date: Date) -> String {
+    static func day(_ date: Date) -> String {
         date.formatted(Date.FormatStyle(locale: .app).day().month(.wide).year())
     }
 }

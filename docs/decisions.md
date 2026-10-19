@@ -909,3 +909,13 @@ Registro das decisões que moldam o código, em ordem. Cada entrada diz o que fo
 - **Cache contra o modo avião:** a última política fica em `app-release.json` no app group; falha de leitura nunca apaga o cache, então ficar offline não solta o bloqueio. Leituras ao abrir e ao voltar ao primeiro plano, no mínimo a cada 15 min (1 min bloqueado). Build Debug nunca bloqueia e simula pelo Developer.
 - **O que para no bloqueio:** Siri, Atalhos, App Intents e ações de notificação (erro amigável pelo `CashlyServices.workspace`), sincronização do iCloud e os espelhos de `CKSyncEngine` do social (não iniciam), MCP e a ponte da Web (não ligam e param se o bloqueio chegar com o app aberto); widgets só leem.
 - **Referências:** [force-update.md](force-update.md), esquema e aba em [admin.md](admin.md).
+
+## 18/10/2026: Cashly Pro, troca de plano e perda do Pro
+
+- **Anual acima do Mensal (nível 1 no grupo):** Mensal → Anual é upgrade imediato com reembolso proporcional; Anual → Mensal é downgrade que vale na renovação. O app só compra o outro plano e o StoreKit faz a troca. Está no `Cashly.storekit`; o App Store Connect fica com a sessão principal.
+- **Estado real da assinatura:** o `StoreClient` lê o status do grupo (`ProSubscription`) e escuta as mudanças de renovação. Ajustes › Cashly Pro mostra "Renews on …", "Pro until … (renewal off)", "Switches to Monthly on …", a carência ("Pro until … while Apple retries the payment") e "On Hold" na nova tentativa de cobrança. Uma regra só de "é Pro" (`ProRule`) serve à janela e ao backup na abertura, e corrige a carência, que mostrava Pro mas desligava backup e MCP.
+- **Nova tentativa de cobrança:** a pessoa continua assinante e só o pagamento está pendente. Por isso, "Update Payment Method" (abre o Gerenciar assinatura) toma o lugar do teste grátis e do "volte" na raiz de Ajustes, nos cards "Cashly Pro" por tela e na loja, e a oferta semanal não aparece. O teste grátis só é oferecido a quem nunca assinou.
+- **"Turn On Renewal":** com a renovação desligada não há próxima renovação, então a troca de plano some e entra uma linha que abre o Gerenciar assinatura.
+- **Confirmação da troca numa folha no estilo do paywall** (altura medida, preço do plano de destino, um botão que diz o resultado e "Not Now"), não num `confirmationDialog`, que fica para ações destrutivas.
+- **Expiração e reembolso com o app aberto:** refresh agendado para o fim do acesso, ao voltar ao primeiro plano e a cada transação nova; o caminho "ao perder o Pro" roda nesses casos.
+- **Correções achadas com o SKTestSession:** um Ask to Buy aprovado pelas atualizações limpa o `pending`; o `lapsed()` usa a data de revogação, ignora datas futuras e volta a `.none` sem data passada, para nunca mostrar "Expirado" no futuro.

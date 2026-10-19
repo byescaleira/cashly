@@ -22,4 +22,16 @@ struct ProAccessTests {
         #expect(relaxed.isPro)
         #expect((presented, performed) == (1, 2))
     }
+
+    @Test func onHoldOpensTheSubscriptionInsteadOfThePaywall() {
+        let navigation = CashlyNavigation()
+        navigation.presentPro(isOnHold: true)
+        #expect(navigation.isManagingSubscription)
+        #expect(!navigation.isShowingPaywall)
+        navigation.presentPro(isOnHold: false)
+        #expect(navigation.isShowingPaywall)
+        let access = ProAccess(entitlement: .expired(.now), isEnforced: true, isOnHold: true) {}
+        #expect(access.isOnHold)
+        #expect(!access.isPro)
+    }
 }
