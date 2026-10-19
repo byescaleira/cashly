@@ -58,13 +58,15 @@ private struct ShopProCard: View {
     }
 
     private var detail: String {
-        store.entitlement.detail
+        store.planDetail
             ?? String(appLocalized: "Insights, backups and the Gold collection")
     }
 
     @ViewBuilder private var chip: some View {
         if store.entitlement.isActive {
             Chip(store.entitlement.title, color: .retroOlive)
+        } else if store.isOnHold {
+            Chip(store.planTitle, color: .warning)
         } else if let days = store.trialDays {
             Chip("\(days) days free", color: .retroMustard)
         } else {

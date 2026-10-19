@@ -14,16 +14,31 @@ final class FakeStoreClient: StoreClient, @unchecked Sendable {
     var finished: [UInt64] = []
     var next: StorePurchase = .cancelled
     var synced = false
+    var statuses: [ProSubscription] = []
     nonisolated let updates: AsyncStream<StoreTransaction>
+    nonisolated let statusUpdates: AsyncStream<Void>
     private let continuation: AsyncStream<StoreTransaction>.Continuation
+    private let statusContinuation: AsyncStream<Void>.Continuation
 
     init() {
         (updates, continuation) = AsyncStream.makeStream()
+        (statusUpdates, statusContinuation) = AsyncStream.makeStream()
+    }
+
+    func send(_ transaction: StoreTransaction) {
+        deliver(transaction)
+        continuation.yield(transaction)
+    }
+
+    func changeStatus(_ status: ProSubscription?) {
+        statuses = status.map { [$0] } ?? []
+        statusContinuation.yield()
     }
 
     func deliver(_ transaction: StoreTransaction) {
         latestByProduct[transaction.productID] = transaction
         if ShopItem(rawValue: transaction.productID)?.kind != .consumable {
+            entitlements.removeAll { $0.id == transaction.id }
             entitlements.append(transaction)
         }
     }
@@ -44,6 +59,8 @@ final class FakeStoreClient: StoreClient, @unchecked Sendable {
     func history() async -> [StoreTransaction] { past }
 
     func latest(for id: String) async -> StoreTransaction? { latestByProduct[id] }
+
+    func subscriptionStatuses() async -> [ProSubscription] { statuses }
 
     func unfinished() async -> [StoreTransaction] { waiting }
 

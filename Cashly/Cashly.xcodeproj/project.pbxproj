@@ -13,6 +13,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		7A1C00012E9A0000000000C6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 530636742E62363100C9398B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5306367B2E62363100C9398B;
+			remoteInfo = Cashly;
+		};
 		7A1C00012E9A0000000000B6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 530636742E62363100C9398B /* Project object */;
@@ -44,6 +51,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7A1C00012E9A0000000000C1 /* CashlyStoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CashlyStoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A1C00012E9A0000000000B1 /* CashlyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CashlyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5306367C2E62363100C9398B /* Cashly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cashly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A1C00012E9A000000000002 /* CashlyWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CashlyWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,6 +75,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		7A1C00012E9A0000000000C2 /* CashlyStoreTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CashlyStoreTests;
+			sourceTree = "<group>";
+		};
 		7A1C00012E9A0000000000B2 /* CashlyUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = CashlyUITests;
@@ -96,6 +109,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7A1C00012E9A0000000000C4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7A1C00012E9A0000000000B4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -129,6 +149,7 @@
 				7A1C00012E9A000000000003 /* CashlyWidgets */,
 				7A1C00012E9A0000000000A1 /* Shared */,
 				7A1C00012E9A0000000000B2 /* CashlyUITests */,
+				7A1C00012E9A0000000000C2 /* CashlyStoreTests */,
 				5306367D2E62363100C9398B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -139,6 +160,7 @@
 				5306367C2E62363100C9398B /* Cashly.app */,
 				7A1C00012E9A000000000002 /* CashlyWidgets.appex */,
 				7A1C00012E9A0000000000B1 /* CashlyUITests.xctest */,
+				7A1C00012E9A0000000000C1 /* CashlyStoreTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -146,6 +168,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		7A1C00012E9A0000000000C8 /* CashlyStoreTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7A1C00012E9A0000000000CB /* Build configuration list for PBXNativeTarget "CashlyStoreTests" */;
+			buildPhases = (
+				7A1C00012E9A0000000000C3 /* Sources */,
+				7A1C00012E9A0000000000C4 /* Frameworks */,
+				7A1C00012E9A0000000000C5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7A1C00012E9A0000000000C7 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				7A1C00012E9A0000000000C2 /* CashlyStoreTests */,
+			);
+			name = CashlyStoreTests;
+			productName = CashlyStoreTests;
+			productReference = 7A1C00012E9A0000000000C1 /* CashlyStoreTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		7A1C00012E9A0000000000B8 /* CashlyUITests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7A1C00012E9A0000000000BB /* Build configuration list for PBXNativeTarget "CashlyUITests" */;
@@ -237,6 +280,10 @@
 						CreatedOnToolsVersion = 27.0;
 						TestTargetID = 5306367B2E62363100C9398B;
 					};
+					7A1C00012E9A0000000000C8 = {
+						CreatedOnToolsVersion = 27.0;
+						TestTargetID = 5306367B2E62363100C9398B;
+					};
 				};
 			};
 			buildConfigurationList = 530636772E62363100C9398B /* Build configuration list for PBXProject "Cashly" */;
@@ -268,11 +315,19 @@
 				5306367B2E62363100C9398B /* Cashly */,
 				7A1C00012E9A000000000001 /* CashlyWidgets */,
 				7A1C00012E9A0000000000B8 /* CashlyUITests */,
+				7A1C00012E9A0000000000C8 /* CashlyStoreTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7A1C00012E9A0000000000C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7A1C00012E9A0000000000B5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -297,6 +352,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7A1C00012E9A0000000000C3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7A1C00012E9A0000000000B3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -321,6 +383,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		7A1C00012E9A0000000000C7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5306367B2E62363100C9398B /* Cashly */;
+			targetProxy = 7A1C00012E9A0000000000C6 /* PBXContainerItemProxy */;
+		};
 		7A1C00012E9A0000000000B7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5306367B2E62363100C9398B /* Cashly */;
@@ -334,6 +401,56 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		7A1C00012E9A0000000000C9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q7QLR2PH2X;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.byescaleira.cashly.storetests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cashly.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Cashly";
+			};
+			name = Debug;
+		};
+		7A1C00012E9A0000000000CA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q7QLR2PH2X;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.byescaleira.cashly.storetests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cashly.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Cashly";
+			};
+			name = Release;
+		};
 		7A1C00012E9A0000000000B9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -689,6 +806,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7A1C00012E9A0000000000CB /* Build configuration list for PBXNativeTarget "CashlyStoreTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7A1C00012E9A0000000000C9 /* Debug */,
+				7A1C00012E9A0000000000CA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7A1C00012E9A0000000000BB /* Build configuration list for PBXNativeTarget "CashlyUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

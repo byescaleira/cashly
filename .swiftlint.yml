@@ -1,6 +1,7 @@
 included:
   - Cashly/Cashly
   - Cashly/CashlyUITests
+  - Cashly/CashlyStoreTests
   - CashlyKit/Sources
   - CashlyKit/Tests
   - CashlyKit/Package.swift

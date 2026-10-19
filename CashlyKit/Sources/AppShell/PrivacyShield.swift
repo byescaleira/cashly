@@ -3,12 +3,14 @@ import FeatureCore
 import FeatureSettings
 import SwiftUI
 
-struct PrivacyShield: ViewModifier {
+public struct PrivacyShield: ViewModifier {
     @Environment(SettingsModel.self) private var settings
     @Environment(AppLockModel.self) private var lock
     @Environment(\.scenePhase) private var scenePhase
 
-    func body(content: Content) -> some View {
+    public init() {}
+
+    public func body(content: Content) -> some View {
         content
             .redacted(reason: settings.isDiscreet ? .privacy : [])
             .overlay {

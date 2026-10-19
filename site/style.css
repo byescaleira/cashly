@@ -434,7 +434,7 @@ img { display: block; max-width: 100%; }
 .badge svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 .budget-top { display: flex; justify-content: space-between; gap: var(--space-s); margin-bottom: var(--space-xs); }
-.budget-top span:first-child { font-weight: 600; }
+.budget-top span:first-child { font-weight: 600; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .budget-top span:last-child { color: var(--secondary); font-size: 15px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 section.feature {
@@ -537,12 +537,39 @@ footer.site {
 footer.site .page { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-m); }
 footer.site a { color: var(--secondary); text-decoration: none; margin-left: var(--space-l); }
 footer.site a:first-child { margin-left: 0; }
+footer.site .footer-end { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-l); }
+
+.locale-picker { position: relative; }
+.locale-picker summary { display: flex; align-items: center; gap: var(--space-xs); cursor: pointer; list-style: none; }
+.locale-picker summary::-webkit-details-marker { display: none; }
+.locale-picker summary:hover { color: var(--label); }
+.locale-picker summary svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+.locale-picker .label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.locale-picker ul {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + var(--space-s));
+  z-index: 10;
+  min-width: 200px;
+  margin: 0;
+  padding: var(--space-xs);
+  list-style: none;
+  background: var(--row);
+  border-radius: var(--radius-m);
+  box-shadow: 0 0 0 1px var(--separator), 0 12px 32px rgba(0, 0, 0, 0.16);
+}
+footer.site .locale-picker a { display: block; margin: 0; padding: var(--space-xs) var(--space-m); border-radius: var(--radius-s); color: var(--label); font-size: 15px; }
+footer.site .locale-picker a:hover { background: var(--background); }
+footer.site .locale-picker a[aria-current] { color: var(--tint); font-weight: 700; }
+
+html.i18n-pending body { visibility: hidden; }
 
 .doc { max-width: 720px; margin: 0 auto; padding: 48px var(--space-l) 64px; }
 .doc h1 { font-size: 40px; line-height: 1.1; font-weight: 900; margin: 0 0 var(--space-s); }
 .doc h2 { font-size: 22px; font-weight: 800; margin: var(--space-2xl) 0 var(--space-s); }
 .doc .lead { color: var(--secondary); font-size: 19px; margin: 0 0 var(--space-xl); }
 .doc .updated { margin: 0 0 var(--space-l); }
+.doc .notice { background: var(--row); border-radius: var(--radius-m); padding: var(--space-s) var(--space-l); margin: 0 0 var(--space-xl); }
 .doc .card { background: var(--row); border-radius: var(--radius-l); padding: var(--space-l) var(--space-inset); margin: var(--space-l) 0; font-weight: 700; }
 .doc li + li { margin-top: var(--space-xs); }
 

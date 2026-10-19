@@ -13,6 +13,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>CKSharingSupported</key>
+	<true/>
 	<key>CashlyAppStoreID</key>
 	<string>6821986667</string>
 	<key>CashlyHelpURL</key>
@@ -23,6 +25,8 @@
 	<string>support@byescaleira.com</string>
 	<key>CashlyTermsURL</key>
 	<string>https://cashly.byescaleira.com/terms</string>
+	<key>CashlyWebBridgeURL</key>
+	<string>https://cashly.byescaleira.com/bridge/v1</string>
 	<key>CashlyWebsiteURL</key>
 	<string>https://cashly.byescaleira.com</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
@@ -33,6 +37,8 @@
 	<array>
 		<string>_cashly-mcp._tcp</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Cashly uses the camera to scan the QR code of Cashly on the Web on your computer.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Cashly uses Face ID to unlock the app.</string>
 	<key>NSLocalNetworkUsageDescription</key>

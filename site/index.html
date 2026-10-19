@@ -1,17 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-US">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cashly · Know where your money goes before the month ends</title>
-<meta name="description" content="Cashly is the private budget app for iPhone and iPad. Budgets with a pace bar, expenses in three taps, forecasts and a Journey for good money habits. No account, no bank login, no ads.">
+<title data-i18n="home.meta.title">Cashly · Know where your money goes before the month ends</title>
+<meta name="description" data-i18n-content="home.meta.description" content="Cashly is the private budget app for iPhone and iPad. Budgets with a pace bar, expenses in three taps, forecasts and a Journey for good money habits. No account, no bank login, no ads.">
 <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
-<meta property="og:title" content="Cashly · Know where your money goes before the month ends">
-<meta property="og:description" content="Budgets with a pace bar, expenses in three taps, and your data in your own iCloud. No account, no bank login, no ads.">
+<meta property="og:title" data-i18n-content="home.meta.title" content="Cashly · Know where your money goes before the month ends">
+<meta property="og:description" data-i18n-content="home.meta.ogDescription" content="Budgets with a pace bar, expenses in three taps, and your data in your own iCloud. No account, no bank login, no ads.">
 <meta property="og:image" content="https://cashly.byescaleira.com/assets/icon.png">
 <link rel="icon" href="/assets/favicon.png">
 <link rel="apple-touch-icon" href="/assets/icon.png">
+<script src="/i18n.js"></script>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -19,11 +20,11 @@
 <div class="page">
 <a class="brand" href="/"><img class="icon-light" src="/assets/icon.png" alt=""><img class="icon-dark" src="/assets/icon-dark.png" alt="">Cashly</a>
 <div class="nav-links">
-<a class="optional" href="#features">Features</a>
-<a class="optional" href="#devices">Devices</a>
-<a class="optional" href="#tips">Tips</a>
-<a class="optional" href="#pricing">Pricing</a>
-<a class="button small" href="https://apps.apple.com/app/id6821986667">Get Cashly</a>
+<a class="optional" href="#features" data-i18n="common.nav.features">Features</a>
+<a class="optional" href="#devices" data-i18n="common.nav.devices">Devices</a>
+<a class="optional" href="#tips" data-i18n="common.nav.tips">Tips</a>
+<a class="optional" href="#pricing" data-i18n="common.nav.pricing">Pricing</a>
+<a class="button small" href="https://apps.apple.com/app/id6821986667" data-i18n="common.nav.get">Get Cashly</a>
 </div>
 </div>
 </nav>
@@ -31,67 +32,67 @@
 <main class="page">
 <header class="hero">
 <div>
-<img class="hero-icon icon-light" src="/assets/icon.png" alt="Cashly app icon">
-<img class="hero-icon icon-dark" src="/assets/icon-dark.png" alt="Cashly app icon">
-<h1>Know where your money goes <span>before the month ends.</span></h1>
-<p class="lead">Cashly shows if every budget is on pace, records an expense in three taps and tells you where the month will land. Private by design: no account, no bank login, no ads.</p>
+<img class="hero-icon icon-light" src="/assets/icon.png" alt="Cashly app icon" data-i18n-alt="home.hero.iconAlt">
+<img class="hero-icon icon-dark" src="/assets/icon-dark.png" alt="Cashly app icon" data-i18n-alt="home.hero.iconAlt">
+<h1 data-i18n-html="home.hero.title">Know where your money goes <span>before the month ends.</span></h1>
+<p class="lead" data-i18n="home.hero.lead">Cashly shows if every budget is on pace, records an expense in three taps and tells you where the month will land. Private by design: no account, no bank login, no ads.</p>
 <div class="actions">
-<a class="button" href="https://apps.apple.com/app/id6821986667">Download on the App Store</a>
-<a class="button quiet" href="#features">See how it works</a>
+<a class="button" href="https://apps.apple.com/app/id6821986667" data-i18n="home.download">Download on the App Store</a>
+<a class="button quiet" href="#features" data-i18n="home.hero.howItWorks">See how it works</a>
 </div>
-<p class="footnote">Free to download. Cashly Pro starts with 7 days free.</p>
+<p class="footnote" data-i18n="home.hero.footnote">Free to download. Cashly Pro starts with 7 days free.</p>
 <div class="platforms">
 <span class="chip capsule" style="--chip: var(--denim)">iPhone</span>
 <span class="chip capsule" style="--chip: var(--teal)">iPad</span>
-<span class="chip capsule" style="--chip: var(--secondary)">Mac and Vision Pro coming soon</span>
+<span class="chip capsule" style="--chip: var(--secondary)" data-i18n="home.comingSoon">Mac and Vision Pro coming soon</span>
 </div>
 </div>
 
-<div class="iphone" role="img" aria-label="Cashly on iPhone showing the month overview">
+<div class="iphone" role="img" aria-label="Cashly on iPhone showing the month overview" data-i18n-aria-label="home.hero.iphoneLabel">
 <span class="side action"></span><span class="side volume-up"></span><span class="side volume-down"></span><span class="side power"></span><span class="side camera"></span>
 <div class="bezel">
 <div class="screen">
-<div class="status" aria-hidden="true"><span>9:41</span><span class="status-icons"><svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 16 12"><path d="M8 11.5 5.6 9a3.4 3.4 0 0 1 4.8 0zM3.5 6.9a6.4 6.4 0 0 1 9 0l-1.4 1.4a4.4 4.4 0 0 0-6.2 0zM1.3 4.7a9.5 9.5 0 0 1 13.4 0l-1.4 1.4a7.5 7.5 0 0 0-10.6 0z"/></svg><span class="battery"><i></i></span></span></div>
+<div class="status" aria-hidden="true"><span data-date="2026-10-17T09:41" data-format="clock">9:41</span><span class="status-icons"><svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 16 12"><path d="M8 11.5 5.6 9a3.4 3.4 0 0 1 4.8 0zM3.5 6.9a6.4 6.4 0 0 1 9 0l-1.4 1.4a4.4 4.4 0 0 0-6.2 0zM1.3 4.7a9.5 9.5 0 0 1 13.4 0l-1.4 1.4a7.5 7.5 0 0 0-10.6 0z"/></svg><span class="battery"><i></i></span></span></div>
 <span class="island" aria-hidden="true"></span>
-<p class="screen-title">Goals</p>
+<p class="screen-title" data-i18n="mock.goals">Goals</p>
 <div class="month-header">
-<span class="chip capsule">OCTOBER 2026</span>
-<div class="amount-hero">$1,284.50</div>
-<div class="subheadline">left to spend this month</div>
+<span class="chip capsule" data-date="2026-10-01" data-format="monthUpper">OCTOBER 2026</span>
+<div class="amount-hero" data-money="1284.50">$1,284.50</div>
+<div class="subheadline" data-i18n="mock.leftThisMonth">left to spend this month</div>
 </div>
 <div class="group">
 <div class="row">
-<div class="pace-head"><strong>60% used</strong><span class="footnote">Day 17 of 31</span></div>
+<div class="pace-head"><strong data-i18n="mock.used"><data data-slot="percent" data-percent="0.6">60%</data> used</strong><span class="footnote" data-i18n="mock.dayOf">Day <data data-slot="day" data-number="17">17</data> of <data data-slot="total" data-number="31">31</data></span></div>
 <div class="bar" style="--bar: var(--positive); --value: 60%; --elapsed: 55%"><i></i><b></b></div>
-<div class="pace-label">✓ On pace</div>
-<div class="footnote">Spending about as fast as the month goes by.</div>
+<div class="pace-label" data-i18n="mock.onPaceCheck">✓ On pace</div>
+<div class="footnote" data-i18n="mock.paceDetail">Spending about as fast as the month goes by.</div>
 </div>
 <div class="row figures">
-<div><span class="footnote">Planned</span><strong>$3,200</strong></div>
-<div><span class="footnote">Spent</span><strong>$1,915</strong></div>
-<div><span class="footnote">Remaining</span><strong style="color: var(--positive)">$1,285</strong></div>
+<div><span class="footnote" data-i18n="mock.planned">Planned</span><strong data-money="3200">$3,200</strong></div>
+<div><span class="footnote" data-i18n="mock.spent">Spent</span><strong data-money="1915">$1,915</strong></div>
+<div><span class="footnote" data-i18n="mock.remaining">Remaining</span><strong style="color: var(--positive)" data-money="1285">$1,285</strong></div>
 </div>
 </div>
 <div class="group">
 <div class="row budget">
 <span class="badge" style="--badge: var(--olive)"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 11h11L21 7H6.2"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg></span>
-<div><div class="budget-top"><span>Groceries</span><span>$412 of $600</span></div><div class="bar" style="--bar: var(--olive); --value: 69%"><i></i></div></div>
+<div><div class="budget-top"><span data-i18n="mock.groceries">Groceries</span><span data-i18n="mock.amountOf"><data data-slot="spent" data-money="412">$412</data> of <data data-slot="total" data-money="600">$600</data></span></div><div class="bar" style="--bar: var(--olive); --value: 69%"><i></i></div></div>
 </div>
 <div class="row budget">
 <span class="badge" style="--badge: var(--mustard)"><svg viewBox="0 0 24 24"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M16 21V3c-2 1-3 4-3 8h3"/></svg></span>
-<div><div class="budget-top"><span>Dining out</span><span>$198 of $220</span></div><div class="bar" style="--bar: var(--mustard); --value: 90%"><i></i></div></div>
+<div><div class="budget-top"><span data-i18n="mock.dining">Dining out</span><span data-i18n="mock.amountOf"><data data-slot="spent" data-money="198">$198</data> of <data data-slot="total" data-money="220">$220</data></span></div><div class="bar" style="--bar: var(--mustard); --value: 90%"><i></i></div></div>
 </div>
 <div class="row budget">
 <span class="badge" style="--badge: var(--rust)"><svg viewBox="0 0 24 24"><path d="M4 16v-4l2-5h12l2 5v4zM4 16v3M20 16v3"/><circle cx="7.5" cy="13" r="0.8"/><circle cx="16.5" cy="13" r="0.8"/></svg></span>
-<div><div class="budget-top"><span>Transport</span><span>$271 of $250</span></div><div class="bar" style="--bar: var(--rust); --value: 100%"><i></i></div></div>
+<div><div class="budget-top"><span data-i18n="mock.transport">Transport</span><span data-i18n="mock.amountOf"><data data-slot="spent" data-money="271">$271</data> of <data data-slot="total" data-money="250">$250</data></span></div><div class="bar" style="--bar: var(--rust); --value: 100%"><i></i></div></div>
 </div>
 </div>
 <div class="tabbar" aria-hidden="true">
 <div class="tabbar-pill">
-<span><svg viewBox="0 0 24 24"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></svg>Home</span>
-<span><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>History</span>
-<span class="selected"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Goals</span>
-<span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>Settings</span>
+<span data-i18n="mock.home"><svg viewBox="0 0 24 24"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></svg>Home</span>
+<span data-i18n="mock.history"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>History</span>
+<span class="selected" data-i18n="mock.goals"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Goals</span>
+<span data-i18n="mock.settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>Settings</span>
 </div>
 <span class="tabbar-solo"><svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M9 20h6"/></svg></span>
 </div>
@@ -101,63 +102,63 @@
 </div>
 </header>
 
-<section class="values" aria-label="Cashly at a glance">
-<div class="value" style="--accent: var(--denim)"><strong>3 taps</strong><span>to record an expense</span></div>
-<div class="value" style="--accent: var(--olive)"><strong>0 servers</strong><span>your data lives in your iCloud</span></div>
-<div class="value" style="--accent: var(--plum)"><strong>iPhone + iPad</strong><span>Mac and Vision Pro coming soon</span></div>
-<div class="value" style="--accent: var(--mustard)"><strong>10 languages</strong><span>and any currency</span></div>
+<section class="values" aria-label="Cashly at a glance" data-i18n-aria-label="home.values.label">
+<div class="value" style="--accent: var(--denim)"><strong data-i18n="home.values.tapsValue">3 taps</strong><span data-i18n="home.values.tapsText">to record an expense</span></div>
+<div class="value" style="--accent: var(--olive)"><strong data-i18n="home.values.serversValue">0 servers</strong><span data-i18n="home.values.serversText">your data lives in your iCloud</span></div>
+<div class="value" style="--accent: var(--plum)"><strong>iPhone + iPad</strong><span data-i18n="home.comingSoon">Mac and Vision Pro coming soon</span></div>
+<div class="value" style="--accent: var(--mustard)"><strong data-i18n="home.values.languagesValue">10 languages</strong><span data-i18n="home.values.languagesText">and any currency</span></div>
 </section>
 
 <section class="everywhere" id="devices">
 <div class="section-head">
-<span class="eyebrow" style="--accent: var(--plum)">Every screen</span>
-<h2>Made for iPhone and iPad. Mac and Vision Pro are next.</h2>
-<p class="lead">Your months follow you through your own iCloud. On iPad, details open beside the list instead of covering it, and the Mac app works the same way when it arrives.</p>
+<span class="eyebrow" style="--accent: var(--plum)" data-i18n="home.devices.eyebrow">Every screen</span>
+<h2 data-i18n="home.devices.title">Made for iPhone and iPad. Mac and Vision Pro are next.</h2>
+<p class="lead" data-i18n="home.devices.lead">Your months follow you through your own iCloud. On iPad, details open beside the list instead of covering it, and the Mac app works the same way when it arrives.</p>
 </div>
 <div class="devices">
-<div class="macbook" role="img" aria-label="Cashly for Mac, coming soon, with a transaction open in the inspector">
+<div class="macbook" role="img" aria-label="Cashly for Mac, coming soon, with a transaction open in the inspector" data-i18n-aria-label="home.devices.macLabel">
 <div class="mac-lid">
 <div class="mac-display">
-<div class="menubar" aria-hidden="true"><span><b>Cashly</b><span>File</span><span>Edit</span><span>View</span><span>Window</span><span>Help</span></span><span>Sat Oct 17  9:41 AM</span></div>
+<div class="menubar" aria-hidden="true"><span><b>Cashly</b><span data-i18n="mock.menu.file">File</span><span data-i18n="mock.menu.edit">Edit</span><span data-i18n="mock.menu.view">View</span><span data-i18n="mock.menu.window">Window</span><span data-i18n="mock.menu.help">Help</span></span><span data-date="2026-10-17T09:41" data-format="menubar">Sat Oct 17  9:41 AM</span></div>
 <span class="notch" aria-hidden="true"></span>
 <div class="window">
 <aside class="mac-sidebar">
 <div class="lights"><i></i><i></i><i></i></div>
-<span class="side-item selected"><svg viewBox="0 0 24 24"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></svg>Home</span>
-<span class="side-item"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>History</span>
-<span class="side-item"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Goals</span>
-<span class="side-item"><svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M9 20h6"/></svg>Journey</span>
-<span class="side-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>Settings</span>
+<span class="side-item selected" data-i18n="mock.home"><svg viewBox="0 0 24 24"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></svg>Home</span>
+<span class="side-item" data-i18n="mock.history"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>History</span>
+<span class="side-item" data-i18n="mock.goals"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Goals</span>
+<span class="side-item" data-i18n="mock.journey"><svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M9 20h6"/></svg>Journey</span>
+<span class="side-item" data-i18n="mock.settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>Settings</span>
 </aside>
 <div class="mac-content">
-<p class="d-title">Home</p>
+<p class="d-title" data-i18n="mock.home">Home</p>
 <div class="d-hero">
-<span class="chip capsule">OCTOBER 2026</span>
-<strong>$1,284.50</strong>
-<span>left to spend · $91 a day</span>
+<span class="chip capsule" data-date="2026-10-01" data-format="monthUpper">OCTOBER 2026</span>
+<strong data-money="1284.50">$1,284.50</strong>
+<span data-i18n="mock.leftPerDay">left to spend · <data data-slot="perDay" data-money="91">$91</data> a day</span>
 </div>
 <div class="d-group">
-<p class="d-caption">Biggest expenses</p>
-<div class="d-row"><span class="d-badge" style="--badge: var(--olive)"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 11h11L21 7H6.2"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg></span><div class="d-grow"><div class="d-line"><span>Groceries</span><b>$412</b></div><div class="bar" style="--bar: var(--olive); --value: 100%"><i></i></div></div></div>
-<div class="d-row"><span class="d-badge" style="--badge: var(--rust)"><svg viewBox="0 0 24 24"><path d="M4 16v-4l2-5h12l2 5v4zM4 16v3M20 16v3"/><circle cx="7.5" cy="13" r="0.8"/><circle cx="16.5" cy="13" r="0.8"/></svg></span><div class="d-grow"><div class="d-line"><span>Transport</span><b>$271</b></div><div class="bar" style="--bar: var(--rust); --value: 66%"><i></i></div></div></div>
-<div class="d-row"><span class="d-badge" style="--badge: var(--mustard)"><svg viewBox="0 0 24 24"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M16 21V3c-2 1-3 4-3 8h3"/></svg></span><div class="d-grow"><div class="d-line"><span>Dining out</span><b>$198</b></div><div class="bar" style="--bar: var(--mustard); --value: 48%"><i></i></div></div></div>
+<p class="d-caption" data-i18n="mock.biggestExpenses">Biggest expenses</p>
+<div class="d-row"><span class="d-badge" style="--badge: var(--olive)"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 11h11L21 7H6.2"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg></span><div class="d-grow"><div class="d-line"><span data-i18n="mock.groceries">Groceries</span><b data-money="412">$412</b></div><div class="bar" style="--bar: var(--olive); --value: 100%"><i></i></div></div></div>
+<div class="d-row"><span class="d-badge" style="--badge: var(--rust)"><svg viewBox="0 0 24 24"><path d="M4 16v-4l2-5h12l2 5v4zM4 16v3M20 16v3"/><circle cx="7.5" cy="13" r="0.8"/><circle cx="16.5" cy="13" r="0.8"/></svg></span><div class="d-grow"><div class="d-line"><span data-i18n="mock.transport">Transport</span><b data-money="271">$271</b></div><div class="bar" style="--bar: var(--rust); --value: 66%"><i></i></div></div></div>
+<div class="d-row"><span class="d-badge" style="--badge: var(--mustard)"><svg viewBox="0 0 24 24"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M16 21V3c-2 1-3 4-3 8h3"/></svg></span><div class="d-grow"><div class="d-line"><span data-i18n="mock.dining">Dining out</span><b data-money="198">$198</b></div><div class="bar" style="--bar: var(--mustard); --value: 48%"><i></i></div></div></div>
 </div>
 </div>
 <aside class="mac-inspector">
-<p class="d-caption">Transaction</p>
+<p class="d-caption" data-i18n="mock.transaction">Transaction</p>
 <div class="d-hero small">
-<strong>−$48.20</strong>
-<span>Farmers market</span>
+<strong data-money="-48.20">−$48.20</strong>
+<span data-i18n="mock.farmersMarket">Farmers market</span>
 </div>
-<div class="chips"><span class="chip" style="--chip: var(--olive)">Groceries</span><span class="chip" style="--chip: var(--teal)">Paid</span><span class="chip" style="--chip: var(--denim)">Home</span></div>
+<div class="chips"><span class="chip" style="--chip: var(--olive)" data-i18n="mock.groceries">Groceries</span><span class="chip" style="--chip: var(--teal)" data-i18n="mock.paid">Paid</span><span class="chip" style="--chip: var(--denim)" data-i18n="mock.tagHome">Home</span></div>
 <div class="d-group">
-<div class="d-line d-plain"><span>Date</span><b>Today</b></div>
-<div class="d-line d-plain"><span>Captured from</span><b>Apple Pay</b></div>
-<div class="d-line d-plain"><span>Split</span><b>You and Ana</b></div>
+<div class="d-line d-plain"><span data-i18n="mock.date">Date</span><b data-i18n="mock.today">Today</b></div>
+<div class="d-line d-plain"><span data-i18n="mock.capturedFrom">Captured from</span><b>Apple Pay</b></div>
+<div class="d-line d-plain"><span data-i18n="mock.split">Split</span><b data-i18n="mock.youAndAna">You and Ana</b></div>
 </div>
 <div class="d-group">
-<div class="d-line d-plain"><span>Your share</span><b>$24.10</b></div>
-<div class="d-line d-plain"><span>Ana owes you</span><b class="pos">$24.10</b></div>
+<div class="d-line d-plain"><span data-i18n="mock.yourShare">Your share</span><b data-money="24.10">$24.10</b></div>
+<div class="d-line d-plain"><span data-i18n="mock.anaOwesYou">Ana owes you</span><b class="pos" data-money="24.10">$24.10</b></div>
 </div>
 </aside>
 </div>
@@ -166,38 +167,38 @@
 <div class="mac-base" aria-hidden="true"></div>
 </div>
 
-<div class="ipad" role="img" aria-label="Cashly on iPad showing history and budgets side by side">
+<div class="ipad" role="img" aria-label="Cashly on iPad showing history and budgets side by side" data-i18n-aria-label="home.devices.ipadLabel">
 <div class="ipad-display">
 <span class="ipad-camera" aria-hidden="true"></span>
-<div class="ipad-status" aria-hidden="true"><span>9:41  Sat Oct 17</span><span class="status-icons"><svg viewBox="0 0 16 12"><path d="M8 11.5 5.6 9a3.4 3.4 0 0 1 4.8 0zM3.5 6.9a6.4 6.4 0 0 1 9 0l-1.4 1.4a4.4 4.4 0 0 0-6.2 0zM1.3 4.7a9.5 9.5 0 0 1 13.4 0l-1.4 1.4a7.5 7.5 0 0 0-10.6 0z"/></svg><span class="battery"><i></i></span></span></div>
-<div class="ipad-tabs" aria-hidden="true"><span>Home</span><span class="selected">History</span><span>Goals</span><span>Journey</span><span>Settings</span></div>
+<div class="ipad-status" aria-hidden="true"><span data-date="2026-10-17T09:41" data-format="statusbar">9:41  Sat Oct 17</span><span class="status-icons"><svg viewBox="0 0 16 12"><path d="M8 11.5 5.6 9a3.4 3.4 0 0 1 4.8 0zM3.5 6.9a6.4 6.4 0 0 1 9 0l-1.4 1.4a4.4 4.4 0 0 0-6.2 0zM1.3 4.7a9.5 9.5 0 0 1 13.4 0l-1.4 1.4a7.5 7.5 0 0 0-10.6 0z"/></svg><span class="battery"><i></i></span></span></div>
+<div class="ipad-tabs" aria-hidden="true"><span data-i18n="mock.home">Home</span><span class="selected" data-i18n="mock.history">History</span><span data-i18n="mock.goals">Goals</span><span data-i18n="mock.journey">Journey</span><span data-i18n="mock.settings">Settings</span></div>
 <div class="ipad-columns">
 <div>
-<p class="d-title">History</p>
-<p class="d-caption">Today</p>
+<p class="d-title" data-i18n="mock.history">History</p>
+<p class="d-caption" data-i18n="mock.today">Today</p>
 <div class="d-group">
-<div class="d-row"><span class="d-badge" style="--badge: var(--olive)"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 11h11L21 7H6.2"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg></span><div class="d-grow"><div class="d-line"><span>Farmers market</span><b>−$48.20</b></div><small>Groceries · Apple Pay</small></div></div>
-<div class="d-row"><span class="d-badge" style="--badge: var(--mustard)"><svg viewBox="0 0 24 24"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M16 21V3c-2 1-3 4-3 8h3"/></svg></span><div class="d-grow"><div class="d-line"><span>Coffee</span><b>−$4.50</b></div><small>Dining out</small></div></div>
+<div class="d-row"><span class="d-badge" style="--badge: var(--olive)"><svg viewBox="0 0 24 24"><path d="M3 4h2l2.4 11h11L21 7H6.2"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg></span><div class="d-grow"><div class="d-line"><span data-i18n="mock.farmersMarket">Farmers market</span><b data-money="-48.20">−$48.20</b></div><small data-i18n="mock.groceriesApplePay">Groceries · Apple Pay</small></div></div>
+<div class="d-row"><span class="d-badge" style="--badge: var(--mustard)"><svg viewBox="0 0 24 24"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M16 21V3c-2 1-3 4-3 8h3"/></svg></span><div class="d-grow"><div class="d-line"><span data-i18n="mock.coffee">Coffee</span><b data-money="-4.50">−$4.50</b></div><small data-i18n="mock.dining">Dining out</small></div></div>
 </div>
-<p class="d-caption">Yesterday</p>
+<p class="d-caption" data-i18n="mock.yesterday">Yesterday</p>
 <div class="d-group">
-<div class="d-row"><span class="d-badge" style="--badge: var(--teal)"><svg viewBox="0 0 24 24"><path d="M12 4v16M6 10l6-6 6 6"/></svg></span><div class="d-grow"><div class="d-line"><span>Salary</span><b class="pos">+$4,200.00</b></div><small>Income</small></div></div>
-<div class="d-row"><span class="d-badge" style="--badge: var(--rust)"><svg viewBox="0 0 24 24"><path d="M4 16v-4l2-5h12l2 5v4zM4 16v3M20 16v3"/><circle cx="7.5" cy="13" r="0.8"/><circle cx="16.5" cy="13" r="0.8"/></svg></span><div class="d-grow"><div class="d-line"><span>Metro card</span><b>−$30.00</b></div><small>Transport</small></div></div>
+<div class="d-row"><span class="d-badge" style="--badge: var(--teal)"><svg viewBox="0 0 24 24"><path d="M12 4v16M6 10l6-6 6 6"/></svg></span><div class="d-grow"><div class="d-line"><span data-i18n="mock.salary">Salary</span><b class="pos" data-money="+4200.00">+$4,200.00</b></div><small data-i18n="mock.income">Income</small></div></div>
+<div class="d-row"><span class="d-badge" style="--badge: var(--rust)"><svg viewBox="0 0 24 24"><path d="M4 16v-4l2-5h12l2 5v4zM4 16v3M20 16v3"/><circle cx="7.5" cy="13" r="0.8"/><circle cx="16.5" cy="13" r="0.8"/></svg></span><div class="d-grow"><div class="d-line"><span data-i18n="mock.metroCard">Metro card</span><b data-money="-30.00">−$30.00</b></div><small data-i18n="mock.transport">Transport</small></div></div>
 </div>
 </div>
 <div>
-<p class="d-title">Goals</p>
+<p class="d-title" data-i18n="mock.goals">Goals</p>
 <div class="d-group">
-<div class="d-line d-plain"><span>60% used</span><b class="pos">On pace</b></div>
+<div class="d-line d-plain"><span data-i18n="mock.used"><data data-slot="percent" data-percent="0.6">60%</data> used</span><b class="pos" data-i18n="mock.onPace">On pace</b></div>
 <div class="bar" style="--bar: var(--positive); --value: 60%; --elapsed: 55%"><i></i><b></b></div>
-<div class="d-figures"><span>Planned<b>$3,200</b></span><span>Spent<b>$1,915</b></span><span>Left<b class="pos">$1,285</b></span></div>
+<div class="d-figures"><span data-i18n="mock.plannedFigure">Planned<b data-slot="amount" data-money="3200">$3,200</b></span><span data-i18n="mock.spentFigure">Spent<b data-slot="amount" data-money="1915">$1,915</b></span><span data-i18n="mock.leftFigure">Left<b class="pos" data-slot="amount" data-money="1285">$1,285</b></span></div>
 </div>
 <div class="d-group">
-<div class="d-line d-plain"><span>Groceries</span><b>$412 of $600</b></div>
+<div class="d-line d-plain"><span data-i18n="mock.groceries">Groceries</span><b data-i18n="mock.amountOf"><data data-slot="spent" data-money="412">$412</data> of <data data-slot="total" data-money="600">$600</data></b></div>
 <div class="bar" style="--bar: var(--olive); --value: 69%"><i></i></div>
-<div class="d-line d-plain"><span>Dining out</span><b>$198 of $220</b></div>
+<div class="d-line d-plain"><span data-i18n="mock.dining">Dining out</span><b data-i18n="mock.amountOf"><data data-slot="spent" data-money="198">$198</data> of <data data-slot="total" data-money="220">$220</data></b></div>
 <div class="bar" style="--bar: var(--mustard); --value: 90%"><i></i></div>
-<div class="d-line d-plain"><span>Transport</span><b>$271 of $250</b></div>
+<div class="d-line d-plain"><span data-i18n="mock.transport">Transport</span><b data-i18n="mock.amountOf"><data data-slot="spent" data-money="271">$271</data> of <data data-slot="total" data-money="250">$250</data></b></div>
 <div class="bar" style="--bar: var(--rust); --value: 100%"><i></i></div>
 </div>
 </div>
@@ -210,29 +211,29 @@
 
 <section class="explore" id="features">
 <div class="section-head">
-<span class="eyebrow">Features</span>
-<h2>Built for the whole month, not just the receipt.</h2>
-<p class="lead">Tap through what Cashly does. Every preview uses the same pieces you will see in the app.</p>
+<span class="eyebrow" data-i18n="home.features.eyebrow">Features</span>
+<h2 data-i18n="home.features.title">Built for the whole month, not just the receipt.</h2>
+<p class="lead" data-i18n="home.features.lead">Tap through what Cashly does. Every preview uses the same pieces you will see in the app.</p>
 </div>
 
-<div class="tabs" role="tablist" aria-label="Features">
-<button role="tab" id="tab-plan" aria-controls="panel-plan" aria-selected="true" style="--accent: var(--olive)">Plan</button>
-<button role="tab" id="tab-record" aria-controls="panel-record" aria-selected="false" tabindex="-1" style="--accent: var(--denim)">Record</button>
-<button role="tab" id="tab-understand" aria-controls="panel-understand" aria-selected="false" tabindex="-1" style="--accent: var(--teal)">Understand</button>
-<button role="tab" id="tab-journey" aria-controls="panel-journey" aria-selected="false" tabindex="-1" style="--accent: var(--mustard)">Journey</button>
-<button role="tab" id="tab-automate" aria-controls="panel-automate" aria-selected="false" tabindex="-1" style="--accent: var(--brown)">Automate</button>
-<button role="tab" id="tab-split" aria-controls="panel-split" aria-selected="false" tabindex="-1" style="--accent: var(--plum)">Split</button>
-<button role="tab" id="tab-data" aria-controls="panel-data" aria-selected="false" tabindex="-1" style="--accent: var(--rust)">Privacy</button>
+<div class="tabs" role="tablist" aria-label="Features" data-i18n-aria-label="home.features.eyebrow">
+<button role="tab" id="tab-plan" aria-controls="panel-plan" aria-selected="true" style="--accent: var(--olive)" data-i18n="home.tabs.plan">Plan</button>
+<button role="tab" id="tab-record" aria-controls="panel-record" aria-selected="false" tabindex="-1" style="--accent: var(--denim)" data-i18n="home.tabs.record">Record</button>
+<button role="tab" id="tab-understand" aria-controls="panel-understand" aria-selected="false" tabindex="-1" style="--accent: var(--teal)" data-i18n="home.tabs.understand">Understand</button>
+<button role="tab" id="tab-journey" aria-controls="panel-journey" aria-selected="false" tabindex="-1" style="--accent: var(--mustard)" data-i18n="mock.journey">Journey</button>
+<button role="tab" id="tab-automate" aria-controls="panel-automate" aria-selected="false" tabindex="-1" style="--accent: var(--brown)" data-i18n="home.tabs.automate">Automate</button>
+<button role="tab" id="tab-split" aria-controls="panel-split" aria-selected="false" tabindex="-1" style="--accent: var(--plum)" data-i18n="home.tabs.split">Split</button>
+<button role="tab" id="tab-data" aria-controls="panel-data" aria-selected="false" tabindex="-1" style="--accent: var(--rust)" data-i18n="home.privacy">Privacy</button>
 </div>
 
 <div class="panel" role="tabpanel" id="panel-plan" aria-labelledby="tab-plan" style="--accent: var(--olive)">
 <div>
-<h3>Stop finding out on the 30th.</h3>
-<p class="lead">Every budget has a pace bar: the fill is what you spent, the line is how much of the month has gone by. You see trouble while there is still time to fix it.</p>
+<h3 data-i18n="home.plan.title">Stop finding out on the 30th.</h3>
+<p class="lead" data-i18n="home.plan.lead">Every budget has a pace bar: the fill is what you spent, the line is how much of the month has gone by. You see trouble while there is still time to fix it.</p>
 <ul class="points">
-<li>Budgets by category, for any month</li>
-<li>Bills and expected income count in the plan from day one</li>
-<li>Alerts at 80% and 100% of a budget, and a reminder to plan the next month</li>
+<li data-i18n="home.plan.point1">Budgets by category, for any month</li>
+<li data-i18n="home.plan.point2">Bills and expected income count in the plan from day one</li>
+<li data-i18n="home.plan.point3">Alerts at 80% and 100% of a budget, and a reminder to plan the next month</li>
 </ul>
 </div>
 <div class="feature-media">
@@ -242,12 +243,12 @@
 
 <div class="panel" role="tabpanel" id="panel-record" aria-labelledby="tab-record" style="--accent: var(--denim)" hidden>
 <div>
-<h3>So fast you will actually keep doing it.</h3>
-<p class="lead">The amount comes first, big and ready to type. Pick a category and you are done: a coffee takes three taps.</p>
+<h3 data-i18n="home.record.title">So fast you will actually keep doing it.</h3>
+<p class="lead" data-i18n="home.record.lead">The amount comes first, big and ready to type. Pick a category and you are done: a coffee takes three taps.</p>
 <ul class="points">
-<li>Tags that cut across categories: Trip, Home, Work</li>
-<li>Installments spread over the months automatically</li>
-<li>Any currency, converted at the rate of the day</li>
+<li data-i18n="home.record.point1">Tags that cut across categories: Trip, Home, Work</li>
+<li data-i18n="home.record.point2">Installments spread over the months automatically</li>
+<li data-i18n="home.record.point3">Any currency, converted at the rate of the day</li>
 </ul>
 </div>
 <div class="feature-media">
@@ -257,46 +258,46 @@
 
 <div class="panel" role="tabpanel" id="panel-understand" aria-labelledby="tab-understand" style="--accent: var(--teal)" hidden>
 <div>
-<h3>Answers, not just charts.</h3>
-<p class="lead">Cashly reads your history on your device and tells you what matters this month.</p>
+<h3 data-i18n="home.understand.title">Answers, not just charts.</h3>
+<p class="lead" data-i18n="home.understand.lead">Cashly reads your history on your device and tells you what matters this month.</p>
 <ul class="points">
-<li>How much you can still spend per day without going over plan</li>
-<li>Where the month will land, from your pace and the bills you recorded</li>
-<li>Unusual spending, recurring charges and where you can save</li>
-<li>A Cashly Summary written on your device by Apple Intelligence, on supported devices</li>
+<li data-i18n="home.understand.point1">How much you can still spend per day without going over plan</li>
+<li data-i18n="home.understand.point2">Where the month will land, from your pace and the bills you recorded</li>
+<li data-i18n="home.understand.point3">Unusual spending, recurring charges and where you can save</li>
+<li data-i18n="home.understand.point4">A Cashly Summary written on your device by Apple Intelligence, on supported devices</li>
 </ul>
 </div>
 <div class="feature-media">
 <div class="lottie" data-animation="insights" aria-hidden="true"></div>
 <div class="stats">
-<div class="stat"><span class="footnote">Per day</span><strong>$91</strong></div>
-<div class="stat" style="--stat: var(--rust)"><span class="footnote">Unusual</span><strong>2</strong></div>
-<div class="stat" style="--stat: var(--olive)"><span class="footnote">Could save</span><strong>$84</strong></div>
+<div class="stat"><span class="footnote" data-i18n="home.understand.perDay">Per day</span><strong data-money="91">$91</strong></div>
+<div class="stat" style="--stat: var(--rust)"><span class="footnote" data-i18n="home.understand.unusual">Unusual</span><strong data-number="2">2</strong></div>
+<div class="stat" style="--stat: var(--olive)"><span class="footnote" data-i18n="home.understand.couldSave">Could save</span><strong data-money="84">$84</strong></div>
 </div>
 </div>
 </div>
 
 <div class="panel" role="tabpanel" id="panel-journey" aria-labelledby="tab-journey" style="--accent: var(--mustard)" hidden>
 <div>
-<h3>The habit, turned into a game.</h3>
-<p class="lead">Recording, planning and closing the month in the green earn XP. It rewards following your money, never spending more.</p>
+<h3 data-i18n="home.journey.title">The habit, turned into a game.</h3>
+<p class="lead" data-i18n="home.journey.lead">Recording, planning and closing the month in the green earn XP. It rewards following your money, never spending more.</p>
 <ul class="points">
-<li>Fifty levels, with a new title every five</li>
-<li>Three short missions every week and one challenge a month</li>
-<li>Streak freezes for the days life gets in the way</li>
+<li data-i18n="home.journey.point1">Fifty levels, with a new title every five</li>
+<li data-i18n="home.journey.point2">Three short missions every week and one challenge a month</li>
+<li data-i18n="home.journey.point3">Streak freezes for the days life gets in the way</li>
 </ul>
 </div>
 <div class="feature-media">
 <div class="lottie" data-animation="journey" aria-hidden="true"></div>
 <div class="group">
 <div class="row">
-<div class="pace-head"><strong style="color: var(--mustard)">Level 4 · Planner</strong><span class="footnote">320 XP to level 5</span></div>
+<div class="pace-head"><strong style="color: var(--mustard)" data-i18n="home.journey.level">Level <data data-slot="level" data-number="4">4</data> · Planner</strong><span class="footnote" data-i18n="home.journey.xpToLevel"><data data-slot="xp" data-number="320">320</data> XP to level <data data-slot="next" data-number="5">5</data></span></div>
 <div class="segments"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
 </div>
 <div class="row chips">
-<span class="chip" style="--chip: var(--orange)">12-day streak</span>
-<span class="chip" style="--chip: var(--teal)">3 of 3 missions</span>
-<span class="chip" style="--chip: var(--denim)">2 freezes</span>
+<span class="chip" style="--chip: var(--orange)" data-i18n="home.journey.streak"><data data-slot="days" data-number="12">12</data>-day streak</span>
+<span class="chip" style="--chip: var(--teal)" data-i18n="home.journey.missions"><data data-slot="done" data-number="3">3</data> of <data data-slot="total" data-number="3">3</data> missions</span>
+<span class="chip" style="--chip: var(--denim)" data-i18n="home.journey.freezes"><data data-slot="count" data-number="2">2</data> freezes</span>
 </div>
 </div>
 </div>
@@ -304,37 +305,37 @@
 
 <div class="panel" role="tabpanel" id="panel-automate" aria-labelledby="tab-automate" style="--accent: var(--brown)" hidden>
 <div>
-<h3>Record without opening the app.</h3>
-<p class="lead">Cashly lives where you already are on your iPhone.</p>
+<h3 data-i18n="home.automate.title">Record without opening the app.</h3>
+<p class="lead" data-i18n="home.automate.lead">Cashly lives where you already are on your iPhone.</p>
 <ul class="points">
-<li>Wallet capture: a Shortcuts automation sends every Apple Pay purchase to Cashly</li>
-<li>Widgets on the Home Screen and Lock Screen</li>
-<li>A New Expense control for Control Center and the Action button</li>
-<li>Siri: "How much is left in Groceries in Cashly"</li>
+<li data-i18n="home.automate.point1">Wallet capture: a Shortcuts automation sends every Apple Pay purchase to Cashly</li>
+<li data-i18n="home.automate.point2">Widgets on the Home Screen and Lock Screen</li>
+<li data-i18n="home.automate.point3">A New Expense control for Control Center and the Action button</li>
+<li data-i18n="home.automate.point4">Siri: "How much is left in Groceries in Cashly"</li>
 </ul>
 </div>
 <div class="feature-media">
 <div class="lottie" data-animation="capture" aria-hidden="true"></div>
 <div class="chips">
 <span class="chip" style="--chip: var(--orange)">Wallet</span>
-<span class="chip" style="--chip: var(--teal)">Widgets</span>
+<span class="chip" style="--chip: var(--teal)" data-i18n="home.automate.widgets">Widgets</span>
 <span class="chip" style="--chip: var(--plum)">Siri</span>
-<span class="chip" style="--chip: var(--brown)">Shortcuts</span>
-<span class="chip" style="--chip: var(--olive)">Control Center</span>
-<span class="chip" style="--chip: var(--mustard)">Action button</span>
-<span class="chip" style="--chip: var(--denim)">Back Tap</span>
+<span class="chip" style="--chip: var(--brown)" data-i18n="home.automate.shortcuts">Shortcuts</span>
+<span class="chip" style="--chip: var(--olive)" data-i18n="home.automate.controlCenter">Control Center</span>
+<span class="chip" style="--chip: var(--mustard)" data-i18n="home.automate.actionButton">Action button</span>
+<span class="chip" style="--chip: var(--denim)" data-i18n="home.automate.backTap">Back Tap</span>
 </div>
 </div>
 </div>
 
 <div class="panel" role="tabpanel" id="panel-split" aria-labelledby="tab-split" style="--accent: var(--plum)" hidden>
 <div>
-<h3>Shared costs without the awkward math.</h3>
-<p class="lead">Add the profiles that split the bill with you. Cashly works out each share and remembers who still owes what.</p>
+<h3 data-i18n="home.split.title">Shared costs without the awkward math.</h3>
+<p class="lead" data-i18n="home.split.lead">Add the profiles that split the bill with you. Cashly works out each share and remembers who still owes what.</p>
 <ul class="points">
-<li>Equally, by percentage or by a fixed amount</li>
-<li>Choose who paid, then mark each share as paid or to receive</li>
-<li>Profiles for family, partners and roommates</li>
+<li data-i18n="home.split.point1">Equally, by percentage or by a fixed amount</li>
+<li data-i18n="home.split.point2">Choose who paid, then mark each share as paid or to receive</li>
+<li data-i18n="home.split.point3">Profiles for family, partners and roommates</li>
 </ul>
 </div>
 <div class="feature-media">
@@ -344,22 +345,22 @@
 
 <div class="panel" role="tabpanel" id="panel-data" aria-labelledby="tab-data" style="--accent: var(--rust)" hidden>
 <div>
-<h3>Your money is nobody else's business.</h3>
-<p class="lead">There is no Cashly server holding your data and no bank password to hand over. Nothing to sign up for, nothing to leak.</p>
+<h3 data-i18n="home.data.title">Your money is nobody else's business.</h3>
+<p class="lead" data-i18n="home.data.lead">There is no Cashly server holding your data and no bank password to hand over. Nothing to sign up for, nothing to leak.</p>
 <ul class="points">
-<li>Sync across your iPhone and iPad with your own iCloud</li>
-<li>Export a backup or a spreadsheet anytime, free</li>
-<li>Face ID lock and a discreet mode that blurs amounts</li>
+<li data-i18n="home.data.point1">Sync across your iPhone and iPad with your own iCloud</li>
+<li data-i18n="home.data.point2">Export a backup or a spreadsheet anytime, free</li>
+<li data-i18n="home.data.point3">Face ID lock and a discreet mode that blurs amounts</li>
 </ul>
 </div>
 <div class="feature-media">
 <div class="lottie" data-animation="privacy" aria-hidden="true"></div>
 <div class="chips">
-<span class="chip" style="--chip: var(--rust)">No account</span>
-<span class="chip" style="--chip: var(--rust)">No bank login</span>
-<span class="chip" style="--chip: var(--rust)">No ads</span>
-<span class="chip" style="--chip: var(--rust)">No tracking</span>
-<span class="chip" style="--chip: var(--denim)">iCloud sync</span>
+<span class="chip" style="--chip: var(--rust)" data-i18n="home.data.noAccount">No account</span>
+<span class="chip" style="--chip: var(--rust)" data-i18n="home.data.noBankLogin">No bank login</span>
+<span class="chip" style="--chip: var(--rust)" data-i18n="home.data.noAds">No ads</span>
+<span class="chip" style="--chip: var(--rust)" data-i18n="home.data.noTracking">No tracking</span>
+<span class="chip" style="--chip: var(--denim)" data-i18n="home.data.icloudSync">iCloud sync</span>
 </div>
 </div>
 </div>
@@ -367,46 +368,46 @@
 
 <section class="versus">
 <div class="section-head">
-<span class="eyebrow" style="--accent: var(--teal)">Why Cashly</span>
-<h2>The speed of an app, the privacy of a notebook.</h2>
+<span class="eyebrow" style="--accent: var(--teal)" data-i18n="home.versus.eyebrow">Why Cashly</span>
+<h2 data-i18n="home.versus.title">The speed of an app, the privacy of a notebook.</h2>
 </div>
 <div class="table wide">
-<div class="line head"><span></span><span>Spreadsheet</span><span>Bank apps</span><span class="brandcol">Cashly</span></div>
-<div class="line"><span>Record in three taps</span><span class="no">—</span><span class="yes">✓</span><span class="yes">✓</span></div>
-<div class="line"><span>Pace bar for every budget</span><span class="no">—</span><span class="no">—</span><span class="yes">✓</span></div>
-<div class="line"><span>No bank password required</span><span class="yes">✓</span><span class="no">—</span><span class="yes">✓</span></div>
-<div class="line"><span>Data only in your own iCloud</span><span class="yes">✓</span><span class="no">—</span><span class="yes">✓</span></div>
-<div class="line"><span>Forecasts and alerts</span><span class="no">—</span><span class="yes">✓</span><span class="yes">✓</span></div>
-<div class="line"><span>Widgets, Siri and Apple Pay capture</span><span class="no">—</span><span class="no">—</span><span class="yes">✓</span></div>
+<div class="line head"><span></span><span data-i18n="home.versus.spreadsheet">Spreadsheet</span><span data-i18n="home.versus.bankApps">Bank apps</span><span class="brandcol">Cashly</span></div>
+<div class="line"><span data-i18n="home.versus.row1">Record in three taps</span><span class="no">—</span><span class="yes">✓</span><span class="yes">✓</span></div>
+<div class="line"><span data-i18n="home.versus.row2">Pace bar for every budget</span><span class="no">—</span><span class="no">—</span><span class="yes">✓</span></div>
+<div class="line"><span data-i18n="home.versus.row3">No bank password required</span><span class="yes">✓</span><span class="no">—</span><span class="yes">✓</span></div>
+<div class="line"><span data-i18n="home.versus.row4">Data only in your own iCloud</span><span class="yes">✓</span><span class="no">—</span><span class="yes">✓</span></div>
+<div class="line"><span data-i18n="home.versus.row5">Forecasts and alerts</span><span class="no">—</span><span class="yes">✓</span><span class="yes">✓</span></div>
+<div class="line"><span data-i18n="home.versus.row6">Widgets, Siri and Apple Pay capture</span><span class="no">—</span><span class="no">—</span><span class="yes">✓</span></div>
 </div>
 </section>
 
 <section class="tips" id="tips">
 <div class="section-head">
-<span class="eyebrow" style="--accent: var(--mustard)">Tips</span>
-<h2>Get more out of every month.</h2>
-<p class="lead">Small tricks from the guides inside the app.</p>
+<span class="eyebrow" style="--accent: var(--mustard)" data-i18n="common.nav.tips">Tips</span>
+<h2 data-i18n="home.tips.title">Get more out of every month.</h2>
+<p class="lead" data-i18n="home.tips.lead">Small tricks from the guides inside the app.</p>
 </div>
 
-<div class="filters" role="group" aria-label="Filter tips">
-<button type="button" aria-pressed="true" data-filter="all">All</button>
-<button type="button" aria-pressed="false" data-filter="record" style="--accent: var(--denim)">Recording</button>
-<button type="button" aria-pressed="false" data-filter="plan" style="--accent: var(--olive)">Planning</button>
-<button type="button" aria-pressed="false" data-filter="journey" style="--accent: var(--mustard)">Journey</button>
-<button type="button" aria-pressed="false" data-filter="privacy" style="--accent: var(--rust)">Privacy</button>
+<div class="filters" role="group" aria-label="Filter tips" data-i18n-aria-label="home.tips.filterLabel">
+<button type="button" aria-pressed="true" data-filter="all" data-i18n="home.tips.all">All</button>
+<button type="button" aria-pressed="false" data-filter="record" style="--accent: var(--denim)" data-i18n="home.tips.recording">Recording</button>
+<button type="button" aria-pressed="false" data-filter="plan" style="--accent: var(--olive)" data-i18n="home.tips.planning">Planning</button>
+<button type="button" aria-pressed="false" data-filter="journey" style="--accent: var(--mustard)" data-i18n="mock.journey">Journey</button>
+<button type="button" aria-pressed="false" data-filter="privacy" style="--accent: var(--rust)" data-i18n="home.privacy">Privacy</button>
 </div>
 
 <div class="tip-grid">
 <article class="tip" data-topic="plan" style="--accent: var(--olive)">
-<span class="chip">Planning</span>
-<h3>Start with three budgets</h3>
-<p>Budget only the three categories you spend most on. Add the rest once the habit sticks.</p>
-<span class="where">Goals › +</span>
+<span class="chip" data-i18n="home.tips.planning">Planning</span>
+<h3 data-i18n="home.tips.threeBudgets.title">Start with three budgets</h3>
+<p data-i18n="home.tips.threeBudgets.text">Budget only the three categories you spend most on. Add the rest once the habit sticks.</p>
+<span class="where" data-i18n="home.tips.threeBudgets.where">Goals › +</span>
 </article>
 <article class="tip" data-topic="plan" style="--accent: var(--olive)">
-<span class="chip">Planning</span>
-<h3>Read the bar colors</h3>
-<p>Green is on track, mustard is close to the limit, rust is over plan.</p>
+<span class="chip" data-i18n="home.tips.planning">Planning</span>
+<h3 data-i18n="home.tips.barColors.title">Read the bar colors</h3>
+<p data-i18n="home.tips.barColors.text">Green is on track, mustard is close to the limit, rust is over plan.</p>
 <div class="mini-bars">
 <div class="bar" style="--bar: var(--olive); --value: 45%"><i></i></div>
 <div class="bar" style="--bar: var(--mustard); --value: 85%"><i></i></div>
@@ -414,109 +415,109 @@
 </div>
 </article>
 <article class="tip" data-topic="plan" style="--accent: var(--olive)">
-<span class="chip">Planning</span>
-<h3>Let bills plan themselves</h3>
-<p>Save a bill as pending with its due date. It counts in the plan from day one, and on the due day a notification lets you mark it paid or postpone it.</p>
-<span class="where">Settings › Notifications</span>
+<span class="chip" data-i18n="home.tips.planning">Planning</span>
+<h3 data-i18n="home.tips.bills.title">Let bills plan themselves</h3>
+<p data-i18n="home.tips.bills.text">Save a bill as pending with its due date. It counts in the plan from day one, and on the due day a notification lets you mark it paid or postpone it.</p>
+<span class="where" data-i18n="home.tips.bills.where">Settings › Notifications</span>
 </article>
 <article class="tip" data-topic="record" style="--accent: var(--denim)">
-<span class="chip">Recording</span>
-<h3>Tap the back of your iPhone</h3>
-<p>Set Back Tap to Add Expense and two taps on the back of your iPhone ask what you spent, even inside other apps.</p>
-<span class="where">Settings › Accessibility › Touch › Back Tap</span>
+<span class="chip" data-i18n="home.tips.recording">Recording</span>
+<h3 data-i18n="home.tips.backTap.title">Tap the back of your iPhone</h3>
+<p data-i18n="home.tips.backTap.text">Set Back Tap to Add Expense and two taps on the back of your iPhone ask what you spent, even inside other apps.</p>
+<span class="where" data-i18n="home.tips.backTap.where">Settings › Accessibility › Touch › Back Tap</span>
 </article>
 <article class="tip" data-topic="record" style="--accent: var(--denim)">
-<span class="chip">Recording</span>
-<h3>Apple Pay, recorded for you</h3>
-<p>A Shortcuts automation sends each Apple Pay purchase to Cashly with a suggested category. Accept it once and that merchant arrives ready next time.</p>
-<span class="where">Shortcuts › Automation › Transaction</span>
+<span class="chip" data-i18n="home.tips.recording">Recording</span>
+<h3 data-i18n="home.tips.applePay.title">Apple Pay, recorded for you</h3>
+<p data-i18n="home.tips.applePay.text">A Shortcuts automation sends each Apple Pay purchase to Cashly with a suggested category. Accept it once and that merchant arrives ready next time.</p>
+<span class="where" data-i18n="home.tips.applePay.where">Shortcuts › Automation › Transaction</span>
 </article>
 <article class="tip" data-topic="record" style="--accent: var(--denim)">
-<span class="chip">Recording</span>
-<h3>Spread an installment purchase</h3>
-<p>Set how many installments and Cashly spreads them over the months, so every budget knows what is already committed.</p>
-<span class="where">New transaction › Installments</span>
+<span class="chip" data-i18n="home.tips.recording">Recording</span>
+<h3 data-i18n="home.tips.installments.title">Spread an installment purchase</h3>
+<p data-i18n="home.tips.installments.text">Set how many installments and Cashly spreads them over the months, so every budget knows what is already committed.</p>
+<span class="where" data-i18n="home.tips.installments.where">New transaction › Installments</span>
 </article>
 <article class="tip" data-topic="journey" style="--accent: var(--mustard)">
-<span class="chip">Journey</span>
-<h3>No spending counts too</h3>
-<p>A day counts when you record something or tap I Didn't Spend Today. You earn a freeze every 14 days for the days you forget.</p>
-<span class="where">Journey</span>
+<span class="chip" data-i18n="mock.journey">Journey</span>
+<h3 data-i18n="home.tips.noSpend.title">No spending counts too</h3>
+<p data-i18n="home.tips.noSpend.text">A day counts when you record something or tap I Didn't Spend Today. You earn a freeze every 14 days for the days you forget.</p>
+<span class="where" data-i18n="mock.journey">Journey</span>
 </article>
 <article class="tip" data-topic="journey" style="--accent: var(--mustard)">
-<span class="chip">Journey</span>
-<h3>Pick a monthly challenge</h3>
-<p>A week without delivery or a spending cap: one challenge a month, on top of three weekly missions worth 25 XP each.</p>
-<span class="where">Journey › Challenges</span>
+<span class="chip" data-i18n="mock.journey">Journey</span>
+<h3 data-i18n="home.tips.challenge.title">Pick a monthly challenge</h3>
+<p data-i18n="home.tips.challenge.text">A week without delivery or a spending cap: one challenge a month, on top of three weekly missions worth 25 XP each.</p>
+<span class="where" data-i18n="home.tips.challenge.where">Journey › Challenges</span>
 </article>
 <article class="tip" data-topic="privacy" style="--accent: var(--rust)">
-<span class="chip">Privacy</span>
-<h3>Discreet Mode in public</h3>
-<p>Discreet Mode blurs every amount until you turn it off. Handy on the train or when you show the app to someone.</p>
-<span class="where">Settings › Privacy</span>
+<span class="chip" data-i18n="home.privacy">Privacy</span>
+<h3 data-i18n="home.tips.discreet.title">Discreet Mode in public</h3>
+<p data-i18n="home.tips.discreet.text">Discreet Mode blurs every amount until you turn it off. Handy on the train or when you show the app to someone.</p>
+<span class="where" data-i18n="home.tips.discreet.where">Settings › Privacy</span>
 </article>
 </div>
 </section>
 
 <section class="pricing" id="pricing">
 <div class="section-head">
-<span class="eyebrow" style="--accent: var(--mustard)">Pricing</span>
-<h2>Free to keep track. Pro to get ahead.</h2>
-<p class="lead">Recording, budgets, the Journey and export are free forever. Cashly Pro adds what turns records into decisions.</p>
+<span class="eyebrow" style="--accent: var(--mustard)" data-i18n="common.nav.pricing">Pricing</span>
+<h2 data-i18n="home.pricing.title">Free to keep track. Pro to get ahead.</h2>
+<p class="lead" data-i18n="home.pricing.lead">Recording, budgets, the Journey and export are free forever. Cashly Pro adds what turns records into decisions.</p>
 </div>
 <div class="plans">
 <div class="plan">
-<span class="chip" style="--chip: var(--olive)">Free</span>
+<span class="chip" style="--chip: var(--olive)" data-i18n="home.pricing.free">Free</span>
 <h3>Cashly</h3>
 <ul class="points" style="--accent: var(--olive)">
-<li>Unlimited transactions, categories and budgets</li>
-<li>Journey, widgets, Siri and Apple Pay capture</li>
-<li>iCloud sync on all your devices</li>
-<li>Export a backup or spreadsheet anytime</li>
+<li data-i18n="home.pricing.free1">Unlimited transactions, categories and budgets</li>
+<li data-i18n="home.pricing.free2">Journey, widgets, Siri and Apple Pay capture</li>
+<li data-i18n="home.pricing.free3">iCloud sync on all your devices</li>
+<li data-i18n="home.pricing.free4">Export a backup or spreadsheet anytime</li>
 </ul>
-<a class="button quiet" href="https://apps.apple.com/app/id6821986667">Download free</a>
+<a class="button quiet" href="https://apps.apple.com/app/id6821986667" data-i18n="home.pricing.downloadFree">Download free</a>
 </div>
 <div class="plan featured">
-<span class="chip" style="--chip: var(--mustard)">7 days free</span>
+<span class="chip" style="--chip: var(--mustard)" data-i18n="home.pricing.trial">7 days free</span>
 <h3>Cashly Pro</h3>
 <ul class="points" style="--accent: var(--mustard)">
-<li>Forecasts, unusual spending and where you can save</li>
-<li>On-device intelligence and the Cashly Summary</li>
-<li>Automatic backups, imports from backups and spreadsheets</li>
-<li>Claude Code connection</li>
-<li>Exclusive icons and avatars</li>
+<li data-i18n="home.pricing.pro1">Forecasts, unusual spending and where you can save</li>
+<li data-i18n="home.pricing.pro2">On-device intelligence and the Cashly Summary</li>
+<li data-i18n="home.pricing.pro3">Automatic backups, imports from backups and spreadsheets</li>
+<li data-i18n="home.pricing.pro4">Claude Code connection</li>
+<li data-i18n="home.pricing.pro5">Exclusive icons and avatars</li>
 </ul>
-<p class="footnote">Monthly or yearly. The yearly plan costs less than seven months of monthly. Cancel anytime in your Apple Account.</p>
-<a class="button" href="https://apps.apple.com/app/id6821986667">Start the free trial</a>
+<p class="footnote" data-i18n="home.pricing.footnote">Monthly or yearly. The yearly plan costs less than seven months of monthly. Cancel anytime in your Apple Account.</p>
+<a class="button" href="https://apps.apple.com/app/id6821986667" data-i18n="home.pricing.startTrial">Start the free trial</a>
 </div>
 </div>
 </section>
 
 <section class="faq">
 <div class="section-head">
-<span class="eyebrow" style="--accent: var(--denim)">Questions</span>
-<h2>Before you download.</h2>
+<span class="eyebrow" style="--accent: var(--denim)" data-i18n="home.faq.eyebrow">Questions</span>
+<h2 data-i18n="home.faq.title">Before you download.</h2>
 </div>
 <div class="faq-list">
 <details>
-<summary>Do I need to connect my bank?</summary>
-<p>No. Cashly never asks for bank passwords. You record in a few taps, or let a Shortcuts automation capture Apple Pay purchases for you.</p>
+<summary data-i18n="home.faq.bank.q">Do I need to connect my bank?</summary>
+<p data-i18n="home.faq.bank.a">No. Cashly never asks for bank passwords. You record in a few taps, or let a Shortcuts automation capture Apple Pay purchases for you.</p>
 </details>
 <details>
-<summary>Where is my data stored?</summary>
-<p>On your devices and, with iCloud on, in your own private iCloud. There is no Cashly account or server. Read the <a href="/privacy">Privacy Policy</a>.</p>
+<summary data-i18n="home.faq.storage.q">Where is my data stored?</summary>
+<p data-i18n-html="home.faq.storage.a">On your devices and, with iCloud on, in your own private iCloud. There is no Cashly account or server. Read the <a href="/privacy">Privacy Policy</a>.</p>
 </details>
 <details>
-<summary>What is free and what needs Cashly Pro?</summary>
-<p>Recording, editing, budgets, the Journey, widgets, Siri, iCloud sync and export are free. Pro adds analyses and forecasts, on-device intelligence, automatic backups, imports, the Claude Code connection and exclusive icons and avatars.</p>
+<summary data-i18n="home.faq.free.q">What is free and what needs Cashly Pro?</summary>
+<p data-i18n="home.faq.free.a">Recording, editing, budgets, the Journey, widgets, Siri, iCloud sync and export are free. Pro adds analyses and forecasts, on-device intelligence, automatic backups, imports, the Claude Code connection and exclusive icons and avatars.</p>
 </details>
 <details>
-<summary>What happens if I cancel Pro?</summary>
-<p>Everything you recorded stays readable, editable and exportable. Only the Pro features stop.</p>
+<summary data-i18n="home.faq.cancel.q">What happens if I cancel Pro?</summary>
+<p data-i18n="home.faq.cancel.a">Everything you recorded stays readable, editable and exportable. Only the Pro features stop.</p>
 </details>
 <details>
-<summary>Which devices and languages?</summary>
-<p>iPhone and iPad today, with Mac and Apple Vision Pro coming soon. In English, Portuguese, Spanish, German, French, Italian, Japanese, Korean, Chinese and Russian, with any currency.</p>
+<summary data-i18n="home.faq.devices.q">Which devices and languages?</summary>
+<p data-i18n="home.faq.devices.a">iPhone and iPad today, with Mac and Apple Vision Pro coming soon. In English, Portuguese, Spanish, German, French, Italian, Japanese, Korean, Chinese and Russian, with any currency.</p>
 </details>
 </div>
 </section>
@@ -524,18 +525,35 @@
 <section class="closing">
 <img class="icon-light" src="/assets/icon.png" alt="">
 <img class="icon-dark" src="/assets/icon-dark.png" alt="">
-<h2>Make this the month you know.</h2>
-<p class="lead">Free on the App Store for iPhone and iPad.</p>
+<h2 data-i18n="home.closing.title">Make this the month you know.</h2>
+<p class="lead" data-i18n="home.closing.lead">Free on the App Store for iPhone and iPad.</p>
 <div class="actions">
-<a class="button" href="https://apps.apple.com/app/id6821986667">Download on the App Store</a>
+<a class="button" href="https://apps.apple.com/app/id6821986667" data-i18n="home.download">Download on the App Store</a>
 </div>
 </section>
 </main>
 
 <footer class="site">
 <div class="page">
-<span>© 2026 Rafael Escaleira</span>
-<span><a href="/support">Support</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></span>
+<span>© 2026 Rafael Escaleira · Music in our videos: <a style="margin:0" href="https://ende.app/en/song/12876-happy-beats-business-moves-vol-11">Happy Beats &amp; Business Moves Vol. 11</a> by Sascha Ende, <a style="margin:0" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+<div class="footer-end">
+<span><a href="/support" data-i18n="common.footer.support">Support</a><a href="/privacy" data-i18n="common.footer.privacy">Privacy</a><a href="/terms" data-i18n="common.footer.terms">Terms</a></span>
+<details class="locale-picker">
+<summary><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9M12 3c-2.5 2.6-3.8 5.6-3.8 9s1.3 6.4 3.8 9"/></svg><span class="label" data-i18n="common.language">Language</span><span data-locale-name>English</span></summary>
+<ul>
+<li><a href="?locale=en-US" data-locale="en-US" hreflang="en-US" lang="en-US">English</a></li>
+<li><a href="?locale=pt-BR" data-locale="pt-BR" hreflang="pt-BR" lang="pt-BR">Português (Brasil)</a></li>
+<li><a href="?locale=es-ES" data-locale="es-ES" hreflang="es-ES" lang="es-ES">Español</a></li>
+<li><a href="?locale=de-DE" data-locale="de-DE" hreflang="de-DE" lang="de-DE">Deutsch</a></li>
+<li><a href="?locale=fr-FR" data-locale="fr-FR" hreflang="fr-FR" lang="fr-FR">Français</a></li>
+<li><a href="?locale=it-IT" data-locale="it-IT" hreflang="it-IT" lang="it-IT">Italiano</a></li>
+<li><a href="?locale=ja-JP" data-locale="ja-JP" hreflang="ja-JP" lang="ja-JP">日本語</a></li>
+<li><a href="?locale=ko-KR" data-locale="ko-KR" hreflang="ko-KR" lang="ko-KR">한국어</a></li>
+<li><a href="?locale=zh-CN" data-locale="zh-CN" hreflang="zh-CN" lang="zh-CN">简体中文</a></li>
+<li><a href="?locale=ru-RU" data-locale="ru-RU" hreflang="ru-RU" lang="ru-RU">Русский</a></li>
+</ul>
+</details>
+</div>
 </div>
 </footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js"></script>

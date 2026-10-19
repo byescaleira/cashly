@@ -3,6 +3,8 @@ import Foundation
 
 public enum Route: Hashable {
     case addUser(id: String?)
+    case addSharedProfile
+    case sharedProfile(id: String)
     case addCategory(id: String?)
     case addBudget(id: String?, categoryID: String?, date: Date?, amount: Double? = nil)
     case addTransaction(id: String?)

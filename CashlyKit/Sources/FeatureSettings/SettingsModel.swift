@@ -57,6 +57,7 @@ public final class SettingsModel {
     var correctionFailed = false
     public var data: DataModel?
     public var developer: DeveloperModel?
+    public var web: WebSharingModel?
     public let notifications: NotificationsModel
     public let info: AppInfo
     public static var journeyPreference: Bool {

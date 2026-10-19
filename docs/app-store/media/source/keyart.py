@@ -1,0 +1,400 @@
+import argparse
+import base64
+import math
+import pathlib
+import random
+import tempfile
+
+from render import chrome
+
+SOURCE = pathlib.Path(__file__).resolve().parent
+MEDIA = SOURCE.parent
+ICON = SOURCE / "raw" / "keyart" / "icon.png"
+
+PAPER = "#fbf5ea"
+CREAM = "#f3e7cf"
+INK = "#3a2418"
+MUSTARD = "#e3b04b"
+OLIVE = "#8fa84e"
+RUST = "#b8432f"
+TEAL = "#4f9a90"
+DENIM = "#5f86b3"
+PLUM = "#9a5f82"
+BILL = "#9cc27a"
+BILL_DARK = "#5f8a3e"
+GOLD = "#f0c04a"
+GOLD_DARK = "#c8901e"
+
+GLYPHS = {
+    "cart": '<path d="M3 4h2l2.4 11h11L21 7H6.2"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/>',
+    "fork": '<path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M16 21V3c-2 1-3 4-3 8h3"/>',
+    "car": '<path d="M4 16v-4l2-5h12l2 5v4zM4 16v3M20 16v3"/><circle cx="7.5" cy="13" r="0.8"/><circle cx="16.5" cy="13" r="0.8"/>',
+    "home": '<path d="M4 11 12 4l8 7v9H4z"/>',
+    "heart": '<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
+    "plane": '<path d="M3 13l18-7-7 18-2.5-7.5z"/>',
+    "flame": '<path d="M12 21c-4 0-7-2.8-7-6.6 0-3.3 2.4-5.4 3.6-7.9.3 2 1.6 3.2 2.8 3.6C11 7 12 4.6 14.6 3c-.3 3 1.6 4.6 2.8 6.4A8 8 0 0 1 19 14.4C19 18.2 16 21 12 21z"/>',
+}
+
+
+def icon_uri():
+    return "data:image/png;base64," + base64.b64encode(ICON.read_bytes()).decode()
+
+
+def page(width, height, body, rays=None):
+    burst = ""
+    if rays:
+        cx, cy, radius = rays
+        stops = ",".join(
+            f"rgba(251,245,234,{0.16 if i % 2 == 0 else 0}) {i * 10}deg {(i + 1) * 10}deg" for i in range(36)
+        )
+        burst = (
+            f"<div style='position:absolute;left:{cx - radius}px;top:{cy - radius}px;width:{radius * 2}px;height:{radius * 2}px;"
+            f"border-radius:50%;background:conic-gradient({stops});"
+            f"-webkit-mask:radial-gradient(circle, #000 0%, #000 35%, transparent 70%);mask:radial-gradient(circle, #000 0%, #000 35%, transparent 70%)'></div>"
+        )
+    return f"""<!doctype html><html><head><meta charset="utf-8"><style>
+html, body {{ margin: 0; width: {width}px; height: {height}px; overflow: hidden; }}
+body {{ position: relative; background: radial-gradient(70% 80% at 50% 45%, #e0814a 0%, #c9642c 42%, #a8432a 100%); }}
+.glow {{ position: absolute; inset: 0; background: radial-gradient(35% 45% at 50% 48%, rgba(255, 236, 200, 0.35), transparent 70%); }}
+.abs {{ position: absolute; }}
+.card {{ position: absolute; background: {PAPER}; box-shadow: 0 {height * 0.018:.0f}px {height * 0.05:.0f}px -{height * 0.012:.0f}px rgba(80, 25, 8, 0.45); }}
+.icon img {{ width: 100%; height: 100%; display: block; filter: drop-shadow(0 {height * 0.03:.0f}px {height * 0.05:.0f}px rgba(70, 20, 5, 0.45)); }}
+svg {{ overflow: visible; }}
+</style></head><body>{burst}<div class="glow"></div>{body}</body></html>"""
+
+
+def icon(cx, cy, size):
+    return (
+        f"<div class='abs icon' style='left:{cx - size / 2}px;top:{cy - size / 2}px;width:{size}px;height:{size}px'>"
+        f"<img src='{icon_uri()}'></div>"
+    )
+
+
+def bill(size):
+    w, h = size, size * 0.48
+    return (
+        f"<svg width='{w}' height='{h}' viewBox='0 0 100 48'>"
+        f"<rect x='1' y='1' width='98' height='46' rx='7' fill='{BILL}' stroke='{BILL_DARK}' stroke-width='2.5'/>"
+        f"<rect x='8' y='7' width='84' height='34' rx='4' fill='none' stroke='{BILL_DARK}' stroke-width='1.6' opacity='0.6'/>"
+        f"<circle cx='50' cy='24' r='11' fill='{PAPER}' opacity='0.85'/>"
+        f"<path d='M53.5 19.5c-1-1.6-2.6-2.2-4.2-2.2-2.4 0-4 1.2-4 3 0 4 8.6 2.2 8.6 6.6 0 1.9-1.8 3.3-4.5 3.3-2 0-3.7-.8-4.6-2.4M49.4 15v19' "
+        f"fill='none' stroke='{BILL_DARK}' stroke-width='2.2' stroke-linecap='round'/>"
+        f"<circle cx='17' cy='24' r='3.5' fill='{BILL_DARK}' opacity='0.5'/><circle cx='83' cy='24' r='3.5' fill='{BILL_DARK}' opacity='0.5'/></svg>"
+    ), w, h
+
+
+def coin(size):
+    return (
+        f"<svg width='{size}' height='{size}' viewBox='0 0 40 40'>"
+        f"<circle cx='20' cy='20' r='18.5' fill='{GOLD}' stroke='{GOLD_DARK}' stroke-width='2.5'/>"
+        f"<circle cx='20' cy='20' r='13' fill='none' stroke='{GOLD_DARK}' stroke-width='1.5' opacity='0.6'/>"
+        f"<path d='M23.4 15.6c-.8-1.2-2-1.7-3.3-1.7-1.9 0-3.2 1-3.2 2.4 0 3.2 6.8 1.7 6.8 5.2 0 1.5-1.4 2.6-3.5 2.6-1.6 0-2.9-.6-3.6-1.9M20.1 12v16' "
+        f"fill='none' stroke='{GOLD_DARK}' stroke-width='2' stroke-linecap='round'/></svg>"
+    ), size, size
+
+
+def dot(size, color, shape):
+    if shape == "circle":
+        return f"<svg width='{size}' height='{size}'><circle cx='{size / 2}' cy='{size / 2}' r='{size / 2}' fill='{color}'/></svg>", size, size
+    if shape == "pill":
+        return f"<svg width='{size}' height='{size * 0.4}'><rect width='{size}' height='{size * 0.4}' rx='{size * 0.2}' fill='{color}'/></svg>", size, size * 0.4
+    return f"<svg width='{size}' height='{size}'><rect width='{size}' height='{size}' rx='{size * 0.2}' fill='{color}'/></svg>", size, size
+
+
+BOXES = []
+
+
+def overlaps(box, boxes, margin):
+    x, y, w, h = box
+    for bx, by, bw, bh in boxes:
+        if x < bx + bw + margin and x + w + margin > bx and y < by + bh + margin and y + h + margin > by:
+            return True
+    return False
+
+
+def confetti(width, height, blocked, count, scale, seed, center=None, spread=None):
+    rng = random.Random(seed)
+    placed = list(blocked)
+    out = ""
+    colors = [MUSTARD, PAPER, OLIVE, TEAL, DENIM, PLUM, CREAM]
+    attempts = 0
+    while count > 0 and attempts < 8000:
+        attempts += 1
+        kind = rng.random()
+        if kind < 0.28:
+            svg, w, h = bill(scale * rng.uniform(1.1, 1.6))
+        elif kind < 0.55:
+            svg, w, h = coin(scale * rng.uniform(0.45, 0.7))
+        else:
+            svg, w, h = dot(scale * rng.uniform(0.14, 0.28), rng.choice(colors), rng.choice(["circle", "pill", "square"]))
+        if center:
+            angle = rng.uniform(0, math.tau)
+            radius = rng.uniform(spread[0], spread[1])
+            x = center[0] + math.cos(angle) * radius * (width / height if width > height else 1) - w / 2
+            y = center[1] + math.sin(angle) * radius - h / 2
+        else:
+            x, y = rng.uniform(-w * 0.3, width - w * 0.7), rng.uniform(-h * 0.3, height - h * 0.7)
+        if x < -w * 0.4 or y < -h * 0.4 or x > width - w * 0.6 or y > height - h * 0.6:
+            continue
+        if overlaps((x, y, w, h), placed, scale * 0.12):
+            continue
+        placed.append((x, y, w, h))
+        BOXES.append((x, y, w, h))
+        rotation = rng.uniform(-35, 35)
+        out += f"<div class='abs' style='left:{x}px;top:{y}px;transform:rotate({rotation:.1f}deg)'>{svg}</div>"
+        count -= 1
+    return out
+
+
+def line(x, y, w, h, color, opacity=1.0):
+    return f"<div class='abs' style='left:{x}px;top:{y}px;width:{w}px;height:{h}px;border-radius:999px;background:{color};opacity:{opacity}'></div>"
+
+
+def badge(x, y, size, color, glyph):
+    return (
+        f"<div class='abs' style='left:{x}px;top:{y}px;width:{size}px;height:{size}px;border-radius:{size * 0.28}px;"
+        f"background:color-mix(in srgb, {color} 22%, {PAPER});display:grid;place-items:center;color:{color}'>"
+        f"<svg viewBox='0 0 24 24' style='width:{size * 0.56}px;height:{size * 0.56}px;fill:none;stroke:currentColor;"
+        f"stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round'>{GLYPHS[glyph]}</svg></div>"
+    )
+
+
+def bar(x, y, w, h, color, fill, marker=None):
+    out = line(x, y, w, h, f"color-mix(in srgb, {color} 24%, {PAPER})")
+    out += line(x, y, w * fill, h, color)
+    if marker is not None:
+        out += line(x + w * marker - h * 0.12, y - h * 0.45, h * 0.24, h * 1.9, INK, 0.75)
+    return out
+
+
+def card(x, y, w, h, radius):
+    return f"<div class='card' style='left:{x}px;top:{y}px;width:{w}px;height:{h}px;border-radius:{radius}px'></div>"
+
+
+def month_card(x, y, w, h, u):
+    pad = w * 0.1
+    out = card(x, y, w, h, min(w, h) * 0.16)
+    out += line(x + w * 0.35, y + h * 0.12, w * 0.3, h * 0.075, f"color-mix(in srgb, {RUST} 30%, {PAPER})")
+    out += line(x + w * 0.22, y + h * 0.26, w * 0.56, h * 0.13, INK, 0.9)
+    out += bar(x + pad, y + h * 0.52, w - pad * 2, h * 0.07, OLIVE, 0.6, 0.55)
+    col = (w - pad * 2) / 3
+    for i in range(3):
+        cx = x + pad + col * i + col / 2
+        out += line(cx - col * 0.28, y + h * 0.7, col * 0.56, h * 0.045, "#b9ab95")
+        out += line(cx - col * 0.36, y + h * 0.79, col * 0.72, h * 0.075, OLIVE if i == 2 else INK, 0.85)
+    return out
+
+
+def budgets_card(x, y, w, h, u):
+    pad = min(w, h) * 0.14
+    out = card(x, y, w, h, min(w, h) * 0.16)
+    rows = [("cart", "#5f7a2e", 0.62), ("fork", "#b8841c", 0.88), ("car", RUST, 1.0)]
+    step = (h - pad * 2) / len(rows)
+    size = step * 0.66
+    for i, (glyph, color, fill) in enumerate(rows):
+        top = y + pad + step * i
+        ry = top + (step - size) / 2
+        out += badge(x + pad, ry, size, color, glyph)
+        bx = x + pad + size * 1.4
+        bw = x + w - pad - bx
+        out += line(bx, ry + size * 0.04, bw * 0.36, size * 0.18, "#8f7f6a", 0.8)
+        out += bar(bx, ry + size * 0.62, bw, size * 0.24, color, fill, 0.55)
+    return out
+
+
+def categories_card(x, y, w, h, u):
+    pad = min(w, h) * 0.14
+    out = card(x, y, w, h, min(w, h) * 0.16)
+    items = [("cart", "#5f7a2e"), ("fork", "#b8841c"), ("car", RUST), ("home", DENIM), ("heart", TEAL), ("plane", PLUM)]
+    cols, rows = 3, 2
+    cell_w = (w - pad * 2) / cols
+    cell_h = (h - pad * 2) / rows
+    size = min(cell_w, cell_h) * 0.7
+    for i, (glyph, color) in enumerate(items):
+        cx = x + pad + cell_w * (i % cols) + (cell_w - size) / 2
+        cy = y + pad + cell_h * (i // cols) + (cell_h - size) / 2
+        out += badge(cx, cy, size, color, glyph)
+    return out
+
+
+def journey_card(x, y, w, h, u):
+    pad = min(w, h) * 0.14
+    out = card(x, y, w, h, min(w, h) * 0.16)
+    size = h * 0.36
+    out += badge(x + pad, y + pad, size, "#c8601e", "flame")
+    tx = x + pad + size * 1.3
+    out += line(tx, y + pad + size * 0.14, w * 0.34, size * 0.3, INK, 0.85)
+    out += line(tx, y + pad + size * 0.62, w * 0.22, size * 0.2, "#8f7f6a", 0.8)
+    seg_h = h * 0.1
+    seg_y = y + h - pad - seg_h
+    gap = w * 0.025
+    seg_w = (w - pad * 2 - gap * 4) / 5
+    for i in range(5):
+        out += line(x + pad + (seg_w + gap) * i, seg_y, seg_w, seg_h, MUSTARD if i < 4 else f"color-mix(in srgb, {MUSTARD} 28%, {PAPER})")
+    return out
+
+
+ASSETS = SOURCE.parents[3] / "Cashly" / "Cashly" / "CashlyIcon.icon" / "Assets"
+
+
+def asset_path(name):
+    import re
+    return re.search(r' d="([^"]+)"', (ASSETS / f"{name}.svg").read_text()).group(1)
+
+
+def plan_card(w, h):
+    pad = w * 0.09
+    v = h * 0.5
+    out = f"<div class='abs' style='left:0;top:0;width:{w}px;height:{h}px;border-radius:{w * 0.09}px;background:{PAPER};box-shadow:0 {w * 0.04}px {w * 0.1}px -{w * 0.02}px rgba(70,20,5,0.45)'></div>"
+    out += line(w * 0.33, v * 0.1, w * 0.34, v * 0.075, f"color-mix(in srgb, {RUST} 30%, {PAPER})")
+    out += line(w * 0.18, v * 0.23, w * 0.64, v * 0.14, INK, 0.9)
+    out += bar(pad, v * 0.47, w - pad * 2, v * 0.075, OLIVE, 0.62, 0.55)
+    col = (w - pad * 2) / 3
+    for i in range(3):
+        cx = pad + col * i + col / 2
+        out += line(cx - col * 0.28, v * 0.66, col * 0.56, v * 0.045, "#b9ab95")
+        out += line(cx - col * 0.36, v * 0.75, col * 0.72, v * 0.08, OLIVE if i == 2 else INK, 0.85)
+    rows = [("cart", "#5f7a2e", 0.62), ("fork", "#b8841c", 0.88), ("car", RUST, 1.0)]
+    size = h * 0.075
+    for i, (glyph, color, fill) in enumerate(rows):
+        ry = v * 0.98 + i * size * 1.45
+        out += badge(pad, ry, size, color, glyph)
+        bx = pad + size * 1.35
+        out += bar(bx, ry + size * 0.38, w - pad - bx, size * 0.26, color, fill)
+    return out
+
+
+def wallet(x, y, size):
+    k = size / 1024
+    back = asset_path("Rectangle 2")
+    pocket = asset_path("Rectangle 4")
+    star = asset_path("Star")
+    card_w, card_h = 640 * k, 960 * k
+    out = f"<div class='abs' style='left:{x}px;top:{y}px;width:{size}px;height:{size}px'>"
+    out += (
+        f"<div class='abs' style='inset:0;border-radius:{size * 0.2237}px;background:linear-gradient(#f6ebd3,#ebd9b6);"
+        f"box-shadow:0 {size * 0.05}px {size * 0.1}px -{size * 0.02}px rgba(70,20,5,0.5), inset 0 0 0 {size * 0.006}px rgba(255,255,255,0.6)'></div>"
+    )
+    out += f"<svg class='abs' style='left:{412 * k}px;top:{-18 * k}px' width='{620 * k}' height='{620 * k}' viewBox='0 0 1000 1000'><path d='{star}' fill='#d69e2e'/></svg>"
+    out += f"<svg class='abs' style='left:{100 * k}px;top:{100 * k}px' width='{824 * k}' height='{824 * k}' viewBox='0 0 824 824'><path d='{back}' fill='#c8642b'/></svg>"
+    out += f"<div class='abs' style='left:{(1024 * k - card_w) / 2}px;top:{-190 * k}px;width:{card_w}px;height:{card_h}px;transform:rotate(-4deg)'>{plan_card(card_w, card_h)}</div>"
+    out += (
+        f"<svg class='abs' style='left:{80 * k}px;top:{544 * k}px;filter:drop-shadow(0 -{12 * k}px {22 * k}px rgba(70,20,5,0.28))' width='{864 * k}' height='{400 * k}' viewBox='0 0 864 400'>"
+        f"<defs><linearGradient id='pk' x1='0' y1='0' x2='0' y2='1'><stop offset='0' stop-color='#fbf4e6'/><stop offset='1' stop-color='#f1e3c6'/></linearGradient></defs>"
+        f"<path d='{pocket}' fill='url(#pk)'/></svg>"
+    )
+    return out + "</div>"
+
+
+def header(width, height):
+    u = height
+    size = u * 0.66
+    x = width / 2 - size / 2
+    y = u * 0.27
+    top = y - size * 0.24
+    blocked = [(x - size * 0.04, top, size * 1.08, y + size - top + size * 0.04)]
+    body = confetti(width, height, blocked, 95, u * 0.1, 7, center=(width / 2, u * 0.5), spread=(size * 0.55, u * 1.0))
+    body += wallet(x, y, size)
+    return page(width, height, body, rays=(width / 2, y + size * 0.05, u * 1.2))
+
+
+SCALE = 1320 / 414
+SCREEN_RATIO = 2868 / 1320
+
+
+def crop_uri(screen, box):
+    from io import BytesIO
+    from PIL import Image
+    image = Image.open(SOURCE / "raw" / "iphone" / f"{screen}.png").convert("RGB")
+    crop = image.crop(tuple(round(v * SCALE) for v in box))
+    buffer = BytesIO()
+    crop.save(buffer, "PNG")
+    return "data:image/png;base64," + base64.b64encode(buffer.getvalue()).decode(), crop.width / crop.height
+
+
+def iphone(x, y, width, screen, rotation):
+    uri, _ = crop_uri(screen, (0, 0, 414, 899))
+    metal = width * 0.016
+    bezel = width * 0.022
+    inner = width - 2 * (metal + bezel)
+    height = inner * SCREEN_RATIO + 2 * (metal + bezel)
+    radius = width * 0.18
+    gradient = "linear-gradient(90deg,#33080f,#8c3443 3%,#5c1a26 9%,#5c1a26 91%,#8c3443 97%,#33080f)"
+    buttons = ""
+    for side, top, length in (("left", 0.17, 0.045), ("left", 0.245, 0.08), ("left", 0.34, 0.08), ("right", 0.27, 0.12), ("right", 0.58, 0.07)):
+        buttons += (
+            f"<span class='abs' style='{side}:-{width * 0.011}px;top:{height * top}px;width:{width * 0.014}px;height:{height * length}px;"
+            f"border-radius:{width * 0.006}px;background:linear-gradient(90deg,#33080f,#8c3443,#5c1a26)'></span>"
+        )
+    return (
+        f"<div class='abs' style='left:{x}px;top:{y}px;width:{width}px;height:{height}px;transform:rotate({rotation}deg);transform-origin:50% 0'>{buttons}"
+        f"<div class='abs' style='inset:0;border-radius:{radius}px;padding:{metal}px;box-sizing:border-box;background:{gradient};"
+        f"box-shadow:inset 0 0 0 {width * 0.002}px rgba(255,255,255,0.2), inset 0 {width * 0.003}px {width * 0.004}px rgba(255,255,255,0.25), "
+        f"0 {width * 0.06}px {width * 0.16}px -{width * 0.04}px rgba(60,10,20,0.6)'>"
+        f"<div style='height:100%;box-sizing:border-box;background:#050505;border-radius:{radius - metal}px;padding:{bezel}px;position:relative'>"
+        f"<img src='{uri}' style='display:block;width:100%;border-radius:{radius - metal - bezel}px'>"
+        f"<span class='abs' style='left:50%;top:{bezel + inner * 0.028}px;width:{inner * 0.27}px;height:{inner * 0.082}px;"
+        f"transform:translateX(-50%);border-radius:999px;background:#000'></span></div></div></div>"
+    ), metal + bezel, inner / 414
+
+
+def lifted(x, y, width, screen, box, rotation):
+    uri, ratio = crop_uri(screen, box)
+    height = width / ratio
+    return (
+        f"<div class='abs' style='left:{x}px;top:{y}px;width:{width}px;height:{height}px;border-radius:{width * 0.055}px;overflow:hidden;"
+        f"transform:rotate({rotation}deg);box-shadow:0 {width * 0.05}px {width * 0.14}px -{width * 0.03}px rgba(60,15,5,0.6), "
+        f"0 0 0 {width * 0.003}px rgba(255,255,255,0.6)'><img src='{uri}' style='display:block;width:100%;height:100%'></div>"
+    )
+
+
+SHOWCASE = [
+    ("goals", 160, -4, (20, 307, 394, 475), 3),
+    ("home-forecast", -20, 0, (20, 222, 394, 484), 0),
+    ("journey", 60, 4, (20, 527, 394, 684), -3),
+]
+
+
+def search(width, height):
+    k = width / 3840
+    phone_w = 1100 * k
+    gap = 150 * k
+    left = (width - 3 * phone_w - 2 * gap) / 2
+    body = confetti(width, height, [(left - 60 * k, 120 * k, 3 * phone_w + 2 * gap + 120 * k, height)], 16, 220 * k, 3)
+    heroes = ""
+    for index, (screen, top, rotation, box, tilt) in enumerate(SHOWCASE):
+        x = left + index * (phone_w + gap)
+        y = 480 * k + top * k
+        html, inset, points = iphone(x, y, phone_w, screen, rotation)
+        body += html
+        hero_w = phone_w * 1.06
+        center = x + phone_w / 2 + math.sin(math.radians(-rotation)) * (inset + box[1] * points)
+        heroes += lifted(center - hero_w / 2, y + inset + box[1] * points - 30 * k, hero_w, screen, box, tilt)
+    return page(width, height, body + heroes, rays=(width / 2, height * 0.5, 2600 * k))
+
+
+TARGETS = {
+    "header-3840x1646": (header, 3840, 1646),
+    "header-5244x2950": (header, 5244, 2950),
+    "search-3840x2560": (search, 3840, 2560),
+    "search-1920x1280": (search, 1920, 1280),
+}
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("targets", nargs="*", default=list(TARGETS))
+    args = parser.parse_args()
+    with tempfile.TemporaryDirectory() as work:
+        for name in args.targets:
+            builder, width, height = TARGETS[name]
+            path = pathlib.Path(work) / f"{name}.html"
+            path.write_text(builder(width, height))
+            folder = "header" if name.startswith("header") else "search"
+            out = MEDIA / folder / f"{name}.png"
+            chrome(path, out, width, height)
+            print(out)
+
+
+if __name__ == "__main__":
+    main()

@@ -29,8 +29,12 @@ extension StoreModel {
     }
 
     public var trialDays: Int? {
-        guard introEligible.contains(selectedPlan) else { return nil }
-        return products[selectedPlan]?.trialDays
+        trialDays(for: selectedPlan)
+    }
+
+    public func trialDays(for item: ShopItem) -> Int? {
+        guard subscription == nil, introEligible.contains(item) else { return nil }
+        return products[item]?.trialDays
     }
 
     private func saving(for product: StoreProduct) -> Int? {

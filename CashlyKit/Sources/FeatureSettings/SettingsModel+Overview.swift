@@ -12,7 +12,7 @@ struct SettingsNote: Identifiable, Equatable {
 
 struct PlanBadge: Equatable {
     enum Tone: Equatable {
-        case pro, trial, free
+        case pro, trial, free, onHold
     }
 
     let title: String
@@ -22,11 +22,18 @@ struct PlanBadge: Equatable {
 extension SettingsModel {
     func entries(
         in group: SettingsGroup? = nil, matching query: String = "", showsGuides: Bool,
-        showsJourneyEntry: Bool
+        showsJourneyEntry: Bool, showsWebEntry: Bool = true, showsSharingEntry: Bool = false
     ) -> [SettingsEntry] {
         SettingsEntry.allCases.filter { entry in
             switch entry {
             case .data: if data == nil { return false }
+            case .web:
+                #if os(iOS)
+                    if web == nil || !showsWebEntry { return false }
+                #else
+                    return false
+                #endif
+            case .sharing: if !showsSharingEntry { return false }
             case .guides: if !showsGuides { return false }
             case .journey: if !showsJourneyEntry { return false }
             default: break
@@ -35,7 +42,10 @@ extension SettingsModel {
         }
     }
 
-    func planBadge(for entitlement: Entitlement, now: Date = .now) -> PlanBadge {
+    func planBadge(
+        for entitlement: Entitlement, isOnHold: Bool = false, now: Date = .now
+    ) -> PlanBadge {
+        if isOnHold { return PlanBadge(title: String(appLocalized: "On Hold"), tone: .onHold) }
         switch entitlement {
         case .active: return PlanBadge(title: String(appLocalized: "Pro"), tone: .pro)
         case .trial(let expires):

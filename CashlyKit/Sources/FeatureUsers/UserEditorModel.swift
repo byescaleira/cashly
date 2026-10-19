@@ -14,16 +14,27 @@ public final class UserEditorModel {
     public internal(set) var symbol = ProfileSymbol.default.rawValue
     public internal(set) var illustration = ProfileIllustration.suggested?.id
     @ObservationIgnored private let users: any UserRepository
+    @ObservationIgnored let sharing: SharingModel?
+    public let sourceCategories: [CashlyDomain.Category]
+    public let sourceName: String?
 
-    public init(draft: UserDraft = .new(), users: any UserRepository) {
+    public init(
+        draft: UserDraft = .new(), users: any UserRepository, sharing: SharingModel? = nil,
+        sourceCategories: [CashlyDomain.Category] = [], sourceName: String? = nil
+    ) {
         self.draft = draft
         self.users = users
+        self.sharing = sharing
+        self.sourceCategories = sourceCategories
+        self.sourceName = sourceName
         style = PhotoStyle(draft.photo)
         photoColor = draft.photo.color ?? ProfilePhoto.defaultColor
     }
 
-    public var canSave: Bool { status.isLoaded && !status.isLocked && draft.canSave }
-    public var canRemove: Bool { !draft.isNew && !status.isBusy }
+    public var canSave: Bool {
+        status.isLoaded && !status.isLocked && draft.canSave && (!createsShared || canShare)
+    }
+    public var canRemove: Bool { !draft.isNew && !draft.isShared && !status.isBusy }
     public var userToSelect: String? { draft.isNew ? draft.id : nil }
 
     public func load() async {
@@ -37,7 +48,15 @@ public final class UserEditorModel {
     }
 
     public func save() async {
-        await status.save { try await users.save(draft.makeUser()) }
+        let copies = draft.copiesCategories ? sourceCategories : []
+        await status.save {
+            let user = try draft.makeUser()
+            if createsShared, let sharing {
+                try await sharing.create(user, copying: copies)
+            } else {
+                try await users.save(user)
+            }
+        }
     }
 
     public func remove() async {

@@ -13,6 +13,7 @@ public struct UserEditorScreen: View {
         List {
             UserPhotoHeader()
             UserNameSection()
+            SharedProfileSection()
             PhotoStyleSection()
             if model.showsSymbols { PhotoSymbolSection() }
             if model.showsColors { ColorSection(hex: $model.photoColor) }
@@ -32,6 +33,9 @@ public struct UserEditorScreen: View {
                 await model.remove()
             }
         }
-        .editorLifecycle(model.status, selecting: model.userToSelect) { await model.load() }
+        .editorLifecycle(model.status, selecting: model.userToSelect) {
+            await model.checkAccount()
+            await model.load()
+        }
     }
 }

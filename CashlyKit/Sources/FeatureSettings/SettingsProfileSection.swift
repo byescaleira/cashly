@@ -13,10 +13,14 @@ struct SettingsProfileSection: View {
                 if store.entitlement.isActive {
                     ProPlanRow()
                 } else {
-                    ProOfferRow()
+                    if let notice = store.paymentNotice {
+                        PaymentNoticeRow(notice: notice)
+                    } else {
+                        ProOfferRow()
+                    }
                     SettingsRow(
                         "Plan and Purchases", symbol: "creditcard", color: .companion,
-                        value: store.entitlement.title
+                        value: store.planTitle
                     ) {
                         SettingsPage("Cashly Pro") { ProSection() }
                     }
@@ -51,7 +55,8 @@ private struct ProfileBadges: View {
     var body: some View {
         AdaptiveStack(stackedAlignment: .center, spacing: .spaceS) {
             if let store {
-                PlanChip(badge: settings.planBadge(for: store.entitlement))
+                PlanChip(
+                    badge: settings.planBadge(for: store.entitlement, isOnHold: store.isOnHold))
             }
             Chip(
                 settings.syncBadge, color: settings.isSyncOn ? .retroDenim : .secondary,
@@ -77,6 +82,7 @@ private struct PlanChip: View {
         case .pro: .retroMustard
         case .trial: appTint
         case .free: .secondary
+        case .onHold: .warning
         }
     }
 }
