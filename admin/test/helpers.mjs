@@ -168,10 +168,10 @@ export function fakeCloudKit({ publicKeyPem }) {
       if (!match) return reply(404, { serverErrorCode: 'NOT_FOUND' });
       const records = environments[match[1]];
       const payload = JSON.parse(body);
-      const shape = (record) => ({ recordName: record.recordName, recordType: 'FeatureFlag', fields: record.fields, modified: { timestamp: 1_760_000_000_000 }, recordChangeTag: 'x' });
+      const shape = (record) => ({ recordName: record.recordName, recordType: record.recordType ?? 'FeatureFlag', fields: record.fields, modified: { timestamp: 1_760_000_000_000 }, recordChangeTag: 'x' });
       if (match[2] === 'query') {
         if (failQuery) return reply(400, { serverErrorCode: 'BAD_REQUEST', reason: 'Field recordName is not marked queryable' });
-        return reply(200, { records: [...records.values()].map(shape) });
+        return reply(200, { records: [...records.values()].filter((record) => (record.recordType ?? 'FeatureFlag') === payload.query.recordType).map(shape) });
       }
       if (match[2] === 'lookup') {
         return reply(200, { records: payload.records.map(({ recordName }) => (records.has(recordName) ? shape(records.get(recordName)) : { recordName, serverErrorCode: 'NOT_FOUND' })) });

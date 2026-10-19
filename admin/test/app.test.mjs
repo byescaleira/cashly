@@ -210,6 +210,54 @@ test('flags screen reads and writes CloudKit per environment', async () => {
   assert.match(audit, /"action":"flag_reset"/);
 });
 
+test('versions screen reads, validates, writes and removes AppRelease per environment', async () => {
+  const browser = client(base);
+  await setUp(browser, new SoftAuthenticator());
+  const empty = await browser.call('GET', '/admin/versions?env=production');
+  assert.equal(empty.status, 200);
+  assert.match(empty.body, /aria-current="page">Versões/);
+  assert.match(empty.body, /Sem política/);
+  assert.match(empty.body, /Apple Vision Pro/);
+  const values = { env: 'production', platform: 'ios', minimumVersion: '1.0.0', minimumBuild: '66', recommendedVersion: '1.1.0', recommendedBuild: '70', action: 'save' };
+  const saved = await browser.call('POST', '/admin/versions', { form: values });
+  assert.equal(saved.status, 303);
+  assert.equal(saved.headers.get('location'), '/admin/versions?env=production&ok=release_saved');
+  const record = fake.environments.production.get('ios');
+  assert.equal(record.recordType, 'AppRelease');
+  assert.deepEqual(record.fields, {
+    platform: { value: 'ios', type: 'STRING' },
+    minimumVersion: { value: '1.0.0', type: 'STRING' },
+    minimumBuild: { value: 66, type: 'INT64' },
+    recommendedVersion: { value: '1.1.0', type: 'STRING' },
+    recommendedBuild: { value: 70, type: 'INT64' },
+  });
+  assert.equal(fake.environments.development.size, 0);
+  const page = await browser.call('GET', '/admin/versions?env=production');
+  assert.match(page.body, /Remoto: mínima 1\.0\.0 \(66\), recomendada 1\.1\.0 \(70\)/);
+  assert.match(page.body, /value="1\.1\.0"/);
+  const below = await browser.call('POST', '/admin/versions', { form: { ...values, recommendedVersion: '0.9.0' } });
+  assert.match(below.headers.get('location'), /error=recommended_below_minimum&field=recommendedVersion/);
+  const malformed = await browser.call('POST', '/admin/versions', { form: { ...values, minimumVersion: '1.0' } });
+  assert.match(malformed.headers.get('location'), /error=invalid_version&field=minimumVersion/);
+  const build = await browser.call('POST', '/admin/versions', { form: { ...values, minimumBuild: 'abc' } });
+  assert.match(build.headers.get('location'), /error=invalid_build&field=minimumBuild/);
+  assert.match((await browser.call('POST', '/admin/versions', { form: { ...values, platform: 'android' } })).headers.get('location'), /error=unknown_platform/);
+  assert.match((await browser.call('POST', '/admin/versions', { form: { ...values, env: 'staging' } })).headers.get('location'), /error=env/);
+  assert.equal(fake.environments.production.get('ios').fields.minimumVersion.value, '1.0.0');
+  await browser.call('POST', '/admin/flags', { form: { env: 'production', name: 'web', isOn: 'on', rollout: '100', action: 'save' } });
+  assert.match((await browser.call('GET', '/admin/flags?env=production')).body, /Remoto: ligado em 100%/);
+  assert.doesNotMatch((await browser.call('GET', '/admin/flags?env=production')).body, /AppRelease/);
+  const reset = await browser.call('POST', '/admin/versions', { form: { env: 'production', platform: 'ios', action: 'reset' } });
+  assert.equal(reset.headers.get('location'), '/admin/versions?env=production&ok=release_reset');
+  assert.equal(fake.environments.production.has('ios'), false);
+  const audit = readFileSync(join(dataDir, 'audit.log'), 'utf8');
+  assert.match(audit, /"action":"release_save","ip":"203.0.113.7","environment":"production","platform":"ios","minimumVersion":"1.0.0","minimumBuild":66,"recommendedVersion":"1.1.0","recommendedBuild":70,"before":null/);
+  assert.match(audit, /"action":"release_reset".*"before":\{"minimumVersion":"1.0.0"/);
+  const log = await browser.call('GET', '/admin/audit');
+  assert.match(log.body, /Versões de ios em Produção: mínima 1\.0\.0 \(66\), recomendada 1\.1\.0 \(70\) \(antes: sem política\)/);
+  assert.match(log.body, /Versões de ios em Produção: política removida/);
+});
+
 test('bridge screens proxy stats and config to the bridge control port', async () => {
   const browser = client(base);
   await setUp(browser, new SoftAuthenticator());

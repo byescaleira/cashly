@@ -3,6 +3,7 @@ import { createHash, createPrivateKey, sign } from 'node:crypto';
 export const CONTAINER = 'iCloud.cashly';
 export const ENVIRONMENTS = ['development', 'production'];
 export const RECORD_TYPE = 'FeatureFlag';
+export const RELEASE_TYPE = 'AppRelease';
 
 export class CloudKitError extends Error {
   constructor(code, reason = '') {
@@ -36,6 +37,18 @@ function flagFrom(record) {
     name,
     isOn: Number(fields.isOn?.value ?? 0) === 1,
     rollout: Number(fields.rollout?.value ?? 100),
+    modifiedAt: record.modified?.timestamp ? new Date(record.modified.timestamp).toISOString() : null,
+  };
+}
+
+function releaseFrom(record) {
+  const fields = record.fields ?? {};
+  return {
+    platform: fields.platform?.value ?? record.recordName,
+    minimumVersion: String(fields.minimumVersion?.value ?? ''),
+    minimumBuild: Number(fields.minimumBuild?.value ?? 0),
+    recommendedVersion: String(fields.recommendedVersion?.value ?? ''),
+    recommendedBuild: Number(fields.recommendedBuild?.value ?? 0),
     modifiedAt: record.modified?.timestamp ? new Date(record.modified.timestamp).toISOString() : null,
   };
 }
@@ -103,11 +116,38 @@ export function createCloudKit({ keyID, keyIDs = {}, privateKeyPem, baseURL = 'h
     return flagFrom(saved);
   }
 
-  async function deleteFlag(environment, name) {
-    const result = await call(environment, 'records/modify', { operations: [{ operationType: 'forceDelete', record: { recordName: name } }], atomic: false });
+  async function deleteRecord(environment, recordName) {
+    const result = await call(environment, 'records/modify', { operations: [{ operationType: 'forceDelete', record: { recordName } }], atomic: false });
     const deleted = result.records?.[0];
     if (deleted?.serverErrorCode && deleted.serverErrorCode !== 'NOT_FOUND') throw new CloudKitError(deleted.serverErrorCode, deleted.reason ?? '');
   }
 
-  return { configured, listFlags, saveFlag, deleteFlag };
+  const deleteFlag = (environment, name) => deleteRecord(environment, name);
+
+  async function listReleases(environment, platforms) {
+    const result = await call(environment, 'records/lookup', { records: platforms.map((recordName) => ({ recordName })) });
+    return (result.records ?? []).filter((record) => !record.serverErrorCode && record.recordType === RELEASE_TYPE).map(releaseFrom);
+  }
+
+  async function saveRelease(environment, { platform, minimumVersion, minimumBuild, recommendedVersion, recommendedBuild }) {
+    const record = {
+      recordType: RELEASE_TYPE,
+      recordName: platform,
+      fields: {
+        platform: { value: platform, type: 'STRING' },
+        minimumVersion: { value: minimumVersion, type: 'STRING' },
+        minimumBuild: { value: minimumBuild, type: 'INT64' },
+        recommendedVersion: { value: recommendedVersion, type: 'STRING' },
+        recommendedBuild: { value: recommendedBuild, type: 'INT64' },
+      },
+    };
+    const result = await call(environment, 'records/modify', { operations: [{ operationType: 'forceReplace', record }], atomic: false });
+    const saved = result.records?.[0];
+    if (!saved || saved.serverErrorCode) throw new CloudKitError(saved?.serverErrorCode ?? 'UNKNOWN', saved?.reason ?? '');
+    return releaseFrom(saved);
+  }
+
+  const deleteRelease = (environment, platform) => deleteRecord(environment, platform);
+
+  return { configured, listFlags, saveFlag, deleteFlag, listReleases, saveRelease, deleteRelease };
 }
