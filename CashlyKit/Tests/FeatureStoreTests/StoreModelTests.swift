@@ -160,10 +160,11 @@ struct StoreModelTests {
         await store.refresh()
         #expect(store.entitlement == .active(expires: month))
         client.entitlements = []
+        let ended = Date.now.addingTimeInterval(-86_400)
         client.latestByProduct[ShopItem.proMonthly.id] = StoreTransaction(
-            id: 6, productID: ShopItem.proMonthly.id, expirationDate: month)
+            id: 6, productID: ShopItem.proMonthly.id, expirationDate: ended)
         await store.refresh()
-        #expect(store.entitlement == .expired(month))
+        #expect(store.entitlement == .expired(ended))
         #expect(!store.entitlement.isActive)
     }
 

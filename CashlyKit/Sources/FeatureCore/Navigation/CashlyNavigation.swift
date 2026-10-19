@@ -13,6 +13,7 @@ public final class CashlyNavigation {
     public var guide: Guide?
     public var shopItem: ShopItem?
     public var isShowingPaywall = false
+    public var isManagingSubscription = false
     public private(set) var opensBeside = false
     public init() {}
 
@@ -72,6 +73,10 @@ public final class CashlyNavigation {
     public func reset() {
         paths = [:]
         closeInspector()
+    }
+
+    public func presentPro(isOnHold: Bool) {
+        if isOnHold { isManagingSubscription = true } else { isShowingPaywall = true }
     }
 
     public func show(_ guide: Guide, isPro: Bool) {

@@ -201,6 +201,7 @@ public final class StoreModel: EntitlementProviding, PurchaseProviding {
     }
 
     func handle(_ transaction: StoreTransaction) async {
+        if let item = ShopItem(rawValue: transaction.productID) { pending.remove(item) }
         if let credit = ShopItem(rawValue: transaction.productID)?.credit {
             guard await apply(credit, from: transaction) else { return }
         }

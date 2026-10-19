@@ -12,7 +12,7 @@ struct SettingsNote: Identifiable, Equatable {
 
 struct PlanBadge: Equatable {
     enum Tone: Equatable {
-        case pro, trial, free
+        case pro, trial, free, onHold
     }
 
     let title: String
@@ -42,7 +42,10 @@ extension SettingsModel {
         }
     }
 
-    func planBadge(for entitlement: Entitlement, now: Date = .now) -> PlanBadge {
+    func planBadge(
+        for entitlement: Entitlement, isOnHold: Bool = false, now: Date = .now
+    ) -> PlanBadge {
+        if isOnHold { return PlanBadge(title: String(appLocalized: "On Hold"), tone: .onHold) }
         switch entitlement {
         case .active: return PlanBadge(title: String(appLocalized: "Pro"), tone: .pro)
         case .trial(let expires):

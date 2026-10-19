@@ -16,8 +16,7 @@ public struct PlanSwitch: Equatable, Sendable {
 
 extension StoreModel {
     public var planTitle: String {
-        subscription?.state == .inBillingRetry
-            ? String(appLocalized: "On Hold") : entitlement.title
+        isOnHold ? String(appLocalized: "On Hold") : entitlement.title
     }
 
     public var planDetail: String? {
@@ -62,12 +61,26 @@ extension StoreModel {
                 ))
     }
 
+    public var isOnHold: Bool {
+        subscription?.state == .inBillingRetry
+    }
+
     public var canSubscribe: Bool {
-        !entitlement.isActive && subscription?.state != .inBillingRetry
+        !entitlement.isActive && !isOnHold
+    }
+
+    public var renewalNotice: ProNotice? {
+        guard let subscription, subscription.state == .subscribed, !subscription.willRenew,
+            let ends = subscription.expirationDate
+        else { return nil }
+        return ProNotice(
+            title: String(appLocalized: "Turn On Renewal"),
+            detail: String(appLocalized: "Keep Cashly Pro after \(Entitlement.day(ends))."))
     }
 
     public var planSwitch: PlanSwitch? {
-        guard let subscription, subscription.state == .subscribed, !subscription.isFreeTrial,
+        guard let subscription, subscription.state == .subscribed, subscription.willRenew,
+            !subscription.isFreeTrial,
             let level = subscription.plan.planLevel,
             let target = ShopCatalog.plans.first(where: {
                 $0 != subscription.plan && $0 != subscription.scheduledPlan

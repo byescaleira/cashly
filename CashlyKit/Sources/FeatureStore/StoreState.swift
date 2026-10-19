@@ -30,7 +30,7 @@ struct StoreState: Equatable, Sendable {
             } else if let plan {
                 Entitlement(plan)
             } else {
-                await lapsed(in: client)
+                await lapsed(in: client, now: now)
             }
         return state
     }
@@ -40,11 +40,13 @@ struct StoreState: Equatable, Sendable {
         return subscription?.accessEnds ?? entitlement.expires
     }
 
-    private static func lapsed(in client: any StoreClient) async -> Entitlement {
+    private static func lapsed(in client: any StoreClient, now: Date) async -> Entitlement {
         var latest: Date?
         for plan in ShopCatalog.plans {
             guard let transaction = await client.latest(for: plan.id) else { continue }
-            latest = max(latest ?? .distantPast, transaction.expiration)
+            let ended = min(transaction.expiration, transaction.revocationDate ?? .distantFuture)
+            guard ended <= now else { continue }
+            latest = max(latest ?? .distantPast, ended)
         }
         return latest.map(Entitlement.expired) ?? .none
     }

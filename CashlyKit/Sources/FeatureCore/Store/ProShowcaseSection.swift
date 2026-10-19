@@ -14,7 +14,7 @@ public struct ProShowcaseSection: View {
             Section {
                 ProShowcaseHero(showcase: showcase)
                 ForEach(showcase.pitches, id: \.self) { ProPitchRow(pitch: $0) }
-                Button("See Cashly Pro", action: pro.present)
+                Button(pro.actionTitle, action: pro.present)
                     .primaryButton()
                     .padding(.vertical, .spaceS)
             } header: {
@@ -80,5 +80,9 @@ public struct ProOnly<Content: View>: View {
 extension ProAccess {
     public var lockedValue: String? {
         isPro ? nil : "Pro"
+    }
+
+    var actionTitle: LocalizedStringKey {
+        isOnHold ? "Update Payment Method" : "See Cashly Pro"
     }
 }

@@ -113,15 +113,20 @@ Isso corrige o bug em que a janela mostrava Pro na carência (entitlement presen
 | Situação | Linha do plano | Extra |
 | --- | --- | --- |
 | Assinado, renova | "Active" · "Renews on …" | "Switch to Annual" (no Mensal) ou "Switch to Monthly" (no Anual) |
-| Renovação desligada | "Active" · "Pro until … (renewal off)" | troca de plano |
+| Renovação desligada | "Active" · "Pro until … (renewal off)" | "Turn On Renewal" · "Keep Cashly Pro after …." (abre o Gerenciar assinatura); sem troca de plano, porque não há próxima renovação |
 | Downgrade agendado | "Active" · "Switches to Monthly on …" | sem troca (já agendada) |
 | Teste grátis | "Free Trial" · "Trial ends on …" | sem troca (fica no Gerenciar assinatura) |
 | Carência | "Active" · "Pro until … while Apple retries the payment" | aviso "Update Payment Method", que abre o Gerenciar assinatura |
-| Nova tentativa de cobrança | "On Hold" · "Pro returns once the payment goes through" | o mesmo aviso; sem "Subscribe" |
+| Nova tentativa de cobrança | "On Hold" · "Pro returns once the payment goes through" | o mesmo aviso; sem "Subscribe" nem teste grátis |
 | Expirada ou revogada | "Expired" · "Expired on …" | "Subscribe" |
 
 - A troca abre uma confirmação que explica quando vale: no upgrade, "começa hoje" com o preço anual e o reembolso proporcional do mensal; no downgrade, até quando o Anual segue e o preço do Mensal a partir da renovação.
 - No macOS o aviso e o Gerenciar assinatura abrem `apps.apple.com/account/subscriptions`.
+- Identificadores para as capturas: `pro.switch`, `pro.payment` e `pro.renewal`.
+- **Nova tentativa de cobrança fora da tela do Pro:** a pessoa continua assinante. A raiz de Ajustes troca o "Come Back to Cashly Pro" pela linha "Update Payment Method" (`pro.payment`), "Plan and Purchases" mostra "On Hold" e o chip do perfil também (tom de aviso). O `ProAccess` ganha `isOnHold`: os cards "Cashly Pro" por tela dizem "Update Payment Method" e o `present()` abre o Gerenciar assinatura (`CashlyNavigation.isManagingSubscription`) em vez do paywall; a oferta semanal da abertura não aparece; o cartão do Pro na loja mostra "On Hold".
+- **Teste grátis só para quem nunca assinou:** `trialDays(for:)` devolve nada quando há qualquer status de assinatura, inclusive nos cards do paywall.
+- **Ask to Buy aprovado** pelo `Transaction.updates` limpa o `pending` do item.
+- **Sem "Expired" no futuro:** o `lapsed()` usa a data de revogação quando houver e ignora datas futuras; sem data passada, o estado é `.none`.
 - Texto e lógica ficam no `StoreModel+Subscription` (`planTitle`, `planDetail`, `paymentNotice`, `canSubscribe`, `planSwitch`, `switchPlan()`); a `ProSection` só desenha.
 
 ### Simulação do desenvolvedor
@@ -132,4 +137,5 @@ Ajustes › Desenvolvedor › Loja ganha quatro estados para as capturas: **Rene
 
 - `CashlyDomainTests/ProSubscriptionTests`: Pro por estado, folga da renovação, carência, nova tentativa, revogada e expirada, teste grátis, troca agendada, escolha entre vários status e níveis.
 - `FeatureStoreTests/ProPlanChangeTests` (com o `FakeStoreClient`): carência é Pro na janela e no `ProRule` (o bug), nova tentativa sem carência não é, revogada e expirada não são, flag e simulação vêm antes do StoreKit, expiração com o app aberto derruba o Pro na data, renovação desligada e reembolso chegam enquanto o `start()` escuta, transação de upgrade é ignorada, upgrade e downgrade com textos e compra, teste sem troca e sem lembrete ao desligar a renovação, e os estados simulados.
+- Também cobrem: nova tentativa sem teste grátis, renovação desligada sem troca e com "Turn On Renewal", Ask to Buy aprovado limpando o `pending`, `lapsed()` sem data futura, o chip "On Hold" (`GeneralSettingsTests`) e o `presentPro(isOnHold:)` (`ProAccessTests`).
 - Os testes com `SKTestSession` ficam com a frente do StoreKit Testing no Xcode Cloud.

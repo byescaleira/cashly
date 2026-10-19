@@ -17,11 +17,15 @@ struct ProSection: View {
                 verbatim: store.planTitle, detail: store.planDetail, symbol: "crown",
                 color: .retroMustard)
             if let notice = store.paymentNotice {
+                PaymentNoticeRow(notice: notice)
+            }
+            if let notice = store.renewalNotice {
                 ManageSubscriptionLink {
                     IconRow(
                         verbatim: notice.title, detail: notice.detail,
-                        symbol: "exclamationmark.triangle", color: .warning)
+                        symbol: "arrow.clockwise.circle", color: .retroMustard)
                 }
+                .accessibilityIdentifier("pro.renewal")
             }
             if store.canSubscribe {
                 Button {
@@ -88,6 +92,7 @@ private struct PlanSwitchRow: View {
                 symbol: "arrow.triangle.2.circlepath", color: .companion)
         }
         .disabled(store.isBuying)
+        .accessibilityIdentifier("pro.switch")
         .confirmationDialog(
             Text(verbatim: change.title), isPresented: $store.isConfirmingSwitch,
             titleVisibility: .visible
@@ -100,6 +105,19 @@ private struct PlanSwitchRow: View {
         } message: {
             Text(verbatim: change.message)
         }
+    }
+}
+
+struct PaymentNoticeRow: View {
+    let notice: ProNotice
+
+    var body: some View {
+        ManageSubscriptionLink {
+            IconRow(
+                verbatim: notice.title, detail: notice.detail,
+                symbol: "exclamationmark.triangle", color: .warning)
+        }
+        .accessibilityIdentifier("pro.payment")
     }
 }
 
