@@ -25,7 +25,9 @@ struct ProPlanSwitchTests {
         let change = try #require(store.planSwitch)
         #expect(change.target == .proYearly)
         #expect(change.title == "Switch to Annual")
-        #expect(change.message.contains("R$ 99,90"))
+        #expect(change.price == "R$ 99,90/year")
+        #expect(change.action == "Switch for R$ 99,90/year")
+        #expect(change.planName == "Annual")
         #expect(change.message.contains("refunds the unused part"))
         let yearly = Date.now.addingTimeInterval(365 * day)
         client.next = .success(
@@ -48,7 +50,9 @@ struct ProPlanSwitchTests {
         let change = try #require(store.planSwitch)
         #expect(change.target == .proMonthly)
         #expect(change.title == "Switch to Monthly")
-        #expect(change.message.contains("R$ 14,90"))
+        #expect(change.price == "R$ 14,90/month")
+        #expect(change.action == "Switch on \(Entitlement.day(renews))")
+        #expect(change.planName == "Monthly")
         #expect(change.message.contains(Entitlement.day(renews)))
         #expect(store.renewalNotice == nil)
         client.statuses = [

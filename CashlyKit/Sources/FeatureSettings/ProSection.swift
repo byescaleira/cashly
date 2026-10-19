@@ -20,12 +20,7 @@ struct ProSection: View {
                 PaymentNoticeRow(notice: notice)
             }
             if let notice = store.renewalNotice {
-                ManageSubscriptionLink {
-                    IconRow(
-                        verbatim: notice.title, detail: notice.detail,
-                        symbol: "arrow.clockwise.circle", color: .retroMustard)
-                }
-                .accessibilityIdentifier("pro.renewal")
+                RenewalNoticeRow(notice: notice)
             }
             if store.canSubscribe {
                 Button {
@@ -93,18 +88,21 @@ private struct PlanSwitchRow: View {
         }
         .disabled(store.isBuying)
         .accessibilityIdentifier("pro.switch")
-        .confirmationDialog(
-            Text(verbatim: change.title), isPresented: $store.isConfirmingSwitch,
-            titleVisibility: .visible
-        ) {
-            Button {
-                Task { _ = await store.switchPlan() }
-            } label: {
-                Text(verbatim: change.title)
-            }
-        } message: {
-            Text(verbatim: change.message)
+        .sheet(isPresented: $store.isConfirmingSwitch) { PlanSwitchScreen(change: change) }
+    }
+}
+
+private struct RenewalNoticeRow: View {
+    @Environment(\.appTint) private var appTint
+    let notice: ProNotice
+
+    var body: some View {
+        ManageSubscriptionLink {
+            IconRow(
+                verbatim: notice.title, detail: notice.detail, symbol: "arrow.clockwise.circle",
+                color: appTint)
         }
+        .accessibilityIdentifier("pro.renewal")
     }
 }
 

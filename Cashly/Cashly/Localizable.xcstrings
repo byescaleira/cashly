@@ -133881,122 +133881,6 @@
         }
       }
     },
-    "Annual starts today for %@/year. Apple refunds the unused part of your monthly plan in proportion." : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "O Anual começa hoje por %@/ano. A Apple devolve, proporcionalmente, a parte não usada do Mensal."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anual empieza hoy por %@/año. Apple te reembolsa la parte no usada del plan mensual de forma proporcional."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jährlich beginnt heute für %@/Jahr. Apple erstattet den ungenutzten Teil deines Monatsplans anteilig."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Annuel commence aujourd’hui pour %@/an. Apple rembourse au prorata la partie non utilisée de ton forfait mensuel."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Annuale inizia oggi a %@/anno. Apple rimborsa in proporzione la parte non usata del piano mensile."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "年額プランは今日から%@/年で始まります。月額プランの未使用分はAppleが日割りで返金します。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "연간 플랜이 오늘부터 %@/년으로 시작돼요. 월간 플랜의 남은 기간은 Apple이 비례해서 환불해요."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按年方案今天开始，%@/年。Apple 会按比例退还按月方案未使用的部分。"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Годовой план начнётся сегодня за %@/год. Apple пропорционально вернёт неиспользованную часть месячного плана."
-          }
-        }
-      }
-    },
-    "You keep Annual until %@. Monthly starts at the next renewal for %@/month." : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Você continua no Anual até %1$@. O Mensal começa na próxima renovação por %2$@/mês."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sigues con Anual hasta el %1$@. Mensual empieza en la próxima renovación por %2$@/mes."
-          }
-        },
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Du behältst Jährlich bis %1$@. Monatlich beginnt mit der nächsten Verlängerung für %2$@/Monat."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tu gardes Annuel jusqu’au %1$@. Mensuel commence au prochain renouvellement pour %2$@/mois."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mantieni Annuale fino al %1$@. Mensile inizia al prossimo rinnovo a %2$@/mese."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@までは年額プランのままです。次回の更新から月額プラン（%2$@/月）が始まります。"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%1$@까지는 연간 플랜이 유지돼요. 다음 갱신부터 월간 플랜이 %2$@/월로 시작돼요."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "按年方案保留至 %1$@。下次续订时开始按月方案，%2$@/月。"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Годовой план действует до %1$@. Месячный начнётся со следующего продления за %2$@/месяц."
-          }
-        }
-      }
-    },
     "Renewal Off" : {
       "localizations" : {
         "pt-BR" : {
@@ -134341,6 +134225,238 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сохраните Cashly Pro после %@."
+          }
+        }
+      }
+    },
+    "Annual starts today. Apple refunds the unused part of your monthly plan in proportion." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Anual começa hoje. A Apple devolve, proporcionalmente, a parte não usada do Mensal."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anual empieza hoy. Apple te reembolsa la parte no usada del plan mensual de forma proporcional."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jährlich beginnt heute. Apple erstattet den ungenutzten Teil deines Monatsplans anteilig."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuel commence aujourd’hui. Apple rembourse au prorata la partie non utilisée de ton forfait mensuel."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuale inizia oggi. Apple rimborsa in proporzione la parte non usata del piano mensile."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "年額プランは今日から始まります。月額プランの未使用分はAppleが日割りで返金します。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "연간 플랜이 오늘 시작돼요. 월간 플랜의 남은 기간은 Apple이 비례해서 환불해요."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按年方案今天开始。Apple 会按比例退还按月方案未使用的部分。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Годовой план начнётся сегодня. Apple пропорционально вернёт неиспользованную часть месячного плана."
+          }
+        }
+      }
+    },
+    "You keep Annual until %@. Monthly starts on that day." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você continua no Anual até %@. O Mensal começa nesse dia."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sigues con Anual hasta el %@. Mensual empieza ese día."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du behältst Jährlich bis %@. Monatlich beginnt an diesem Tag."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu gardes Annuel jusqu’au %@. Mensuel commence ce jour-là."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantieni Annuale fino al %@. Mensile inizia quel giorno."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@までは年額プランのままです。その日から月額プランが始まります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@까지는 연간 플랜이 유지돼요. 그날부터 월간 플랜이 시작돼요."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "按年方案保留至 %@，当天开始按月方案。"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Годовой план действует до %@. Месячный начнётся в этот день."
+          }
+        }
+      }
+    },
+    "Switch for %@/year" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mudar por %@/ano"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambiar por %@/año"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Für %@/Jahr wechseln"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passer pour %@/an"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passa a %@/anno"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@/年で切り替える"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@/년으로 변경"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "以 %@/年 切换"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перейти за %@/год"
+          }
+        }
+      }
+    },
+    "Switch on %@" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mudar em %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambiar el %@"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Am %@ wechseln"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passer le %@"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Passa il %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@に切り替える"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@에 변경"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "于 %@ 切换"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Перейти %@"
           }
         }
       }

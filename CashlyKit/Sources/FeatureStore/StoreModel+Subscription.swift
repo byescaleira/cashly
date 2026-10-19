@@ -12,6 +12,9 @@ public struct PlanSwitch: Equatable, Sendable {
     public let title: String
     public let detail: String
     public let message: String
+    public let planName: String
+    public let price: String
+    public let action: String
 }
 
 extension StoreModel {
@@ -104,8 +107,10 @@ extension StoreModel {
             detail: String(appLocalized: "Starts today. Apple credits the unused time."),
             message: String(
                 appLocalized:
-                    "Annual starts today for \(price)/year. Apple refunds the unused part of your monthly plan in proportion."
-            ))
+                    "Annual starts today. Apple refunds the unused part of your monthly plan in proportion."
+            ),
+            planName: String(appLocalized: "Annual"), price: String(appLocalized: "\(price)/year"),
+            action: String(appLocalized: "Switch for \(price)/year"))
     }
 
     private func downgrade(to target: ShopItem, price: String, on date: Date) -> PlanSwitch {
@@ -114,8 +119,9 @@ extension StoreModel {
             target: target, title: String(appLocalized: "Switch to Monthly"),
             detail: String(appLocalized: "Starts at the next renewal."),
             message: String(
-                appLocalized:
-                    "You keep Annual until \(day). Monthly starts at the next renewal for \(price)/month."
-            ))
+                appLocalized: "You keep Annual until \(day). Monthly starts on that day."),
+            planName: String(appLocalized: "Monthly"),
+            price: String(appLocalized: "\(price)/month"),
+            action: String(appLocalized: "Switch on \(day)"))
     }
 }

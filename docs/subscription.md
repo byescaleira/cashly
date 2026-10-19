@@ -120,7 +120,7 @@ Isso corrige o bug em que a janela mostrava Pro na carência (entitlement presen
 | Nova tentativa de cobrança | "On Hold" · "Pro returns once the payment goes through" | o mesmo aviso; sem "Subscribe" nem teste grátis |
 | Expirada ou revogada | "Expired" · "Expired on …" | "Subscribe" |
 
-- A troca abre uma confirmação que explica quando vale: no upgrade, "começa hoje" com o preço anual e o reembolso proporcional do mensal; no downgrade, até quando o Anual segue e o preço do Mensal a partir da renovação.
+- A troca abre a folha `PlanSwitchScreen`, no estilo da `ShopItemScreen` (altura medida): título, o que muda e quando (upgrade: começa hoje, com reembolso proporcional do Mensal; downgrade: o Anual segue até a data e o Mensal começa nela), o preço do plano de destino, o botão principal "Switch for …/year" ou "Switch on …" (`pro.switch.confirm`) e "Not Now". Não é `confirmationDialog`, que fica para ações destrutivas. "Turn On Renewal" usa o `appTint` (ação); a mostarda fica para o status.
 - No macOS o aviso e o Gerenciar assinatura abrem `apps.apple.com/account/subscriptions`.
 - Identificadores para as capturas: `pro.switch`, `pro.payment` e `pro.renewal`.
 - **Nova tentativa de cobrança fora da tela do Pro:** a pessoa continua assinante. A raiz de Ajustes troca o "Come Back to Cashly Pro" pela linha "Update Payment Method" (`pro.payment`), "Plan and Purchases" mostra "On Hold" e o chip do perfil também (tom de aviso). O `ProAccess` ganha `isOnHold`: os cards "Cashly Pro" por tela dizem "Update Payment Method" e o `present()` abre o Gerenciar assinatura (`CashlyNavigation.isManagingSubscription`) em vez do paywall; a oferta semanal da abertura não aparece; o cartão do Pro na loja mostra "On Hold".
