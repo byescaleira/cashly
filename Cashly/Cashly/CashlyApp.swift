@@ -85,6 +85,14 @@ private final class CashlyBootstrap {
         #endif
     }
 
+    private static var allowsSimulatorSharing: Bool {
+        #if DEBUG
+            UserDefaults.standard.bool(forKey: "cashly.developer.simulatorSharing")
+        #else
+            false
+        #endif
+    }
+
     private static var deviceName: String {
         #if os(macOS)
             Host.current().localizedName ?? "Cashly"
@@ -116,7 +124,11 @@ private final class CashlyBootstrap {
                     files: [WidgetSnapshotStore.fileName, JourneySnapshotStore.fileName]))
             Task { await flags.refresh() }
             #if targetEnvironment(simulator)
-                CashlyServices.shared.sharing.markUnavailable()
+                if Self.allowsSimulatorSharing, flags.isOn(.social) {
+                    Task { await CashlyServices.shared.startSharing(library) }
+                } else {
+                    CashlyServices.shared.sharing.markUnavailable()
+                }
             #else
                 if flags.isOn(.social) {
                     Task { await CashlyServices.shared.startSharing(library) }

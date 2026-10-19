@@ -98,7 +98,12 @@ actor SharedProfileSync: CKSyncEngineDelegate {
     }
 
     func fetchNow() async throws {
-        try await engine?.fetchChanges()
+        let zones = state.zones.map { SharedZone.id(for: $0.key, owner: $0.value.owner) }
+        guard !zones.isEmpty else {
+            try await engine?.fetchChanges()
+            return
+        }
+        try await engine?.fetchChanges(CKSyncEngine.FetchChangesOptions(scope: .zoneIDs(zones)))
     }
 
     func reconcile(only profiles: Set<String>? = nil, force: Bool = false) async {

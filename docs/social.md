@@ -55,6 +55,7 @@ flowchart LR
 - **Decisões num tipo puro:** `SharedSyncPolicy` decide o que chega (aplicar ou manter a edição local), exclusões remotas, conflito (`serverRecordChanged`), registro sumido do servidor (`unknownItem`) e a data enviada (nunca inventa "agora" para o que não foi editado aqui). Testado sem CloudKit.
 - **Sem eco:** o que chega entra no banco com uma mudança marcada como remota, que não dispara a comparação; o resumo confirmado é o da linha recodificada no aparelho, então versões com campos diferentes não reenviam o que receberam. A comparação espera a primeira busca quando o estado é novo.
 - **Falha ao aplicar:** o registro fica guardado no estado (`parked`) e é aplicado de novo na próxima comparação; o estado é gravado logo depois de cada busca e envio.
+- **Entitlement de compartilhamento estendido:** `com.apple.developer.icloud-extended-share-access` = `InProcessOneTimeLinks` (capacidade "iCloud Extended Share Access" no App ID), necessário para o app alterar um compartilhamento que já tem convites por link de uso único da folha do sistema.
 - **Aceite do convite:** `CKSharingSupported` no `Info.plist`; no iOS e no visionOS um `UIWindowSceneDelegate` recebe `userDidAcceptCloudKitShareWith`; no Mac, o `NSApplicationDelegate`.
 - **Interface:** `ProfileSharing` (protocolo no FeatureCore, implementado pelo `SharingCoordinator` do CashlyData) e `SharingModel` (FeatureCore, um por processo). As telas ficam no target `FeatureSharing`.
 
