@@ -38,6 +38,13 @@ public actor SharingCoordinator {
         }
     }
 
+    public func stop() async {
+        listener?.cancel()
+        listener = nil
+        await owned.stop()
+        await joined.stop()
+    }
+
     public func accountAvailable() async -> Bool {
         (try? await container.accountStatus()) == .available
     }

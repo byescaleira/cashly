@@ -7,6 +7,7 @@ extension SharedProfileSync {
         zoneName: "com.apple.coredata.cloudkit.zone", ownerName: CKCurrentUserDefaultName)
 
     func handleEvent(_ event: CKSyncEngine.Event, syncEngine: CKSyncEngine) async {
+        guard syncEngine === engine else { return }
         switch event {
         case .stateUpdate(let update):
             state.engine = update.stateSerialization
