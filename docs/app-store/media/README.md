@@ -105,6 +105,6 @@ Ilustração de marca, sem texto e sem capturas: sem texto não há o que traduz
 - O ícone vem de `source/raw/keyart/icon.png`, exportado do `CashlyIcon.icon` com o `ictool` do Icon Composer (`--export-image --platform iOS --rendition Default --width 1024 --height 1024 --scale 1`).
 - Enviados em en-US: cabeçalho 5244×2950 e busca 3840×2560. A página do App Store Connect não baixa de outros domínios; o envio usou uma página auxiliar temporária em `cashly.byescaleira.com/_upload/` que entrega os arquivos por `postMessage`, apagada em seguida.
 
-## App Preview montado (removido em 19/10/2026)
+## Sem vídeos (19/10/2026)
 
-O vídeo de venda no estilo brag (`iphone-preview-montage.mp4`, com música) saiu do repositório e da loja: vídeos com música não entram no site nem na App Store. O App Preview do iPhone voltou a ser a gravação real (`preview/iphone-preview.mp4`), agora sem música, o que também atende a diretriz 2.3.4.
+Decisão do usuário: **nenhum vídeo no site nem na App Store**, com ou sem música. Os App Previews foram apagados do App Store Connect e a pasta `preview/` saiu do repositório; `source/preview.py` fica só como referência e não deve ser usado para a loja.
