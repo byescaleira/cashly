@@ -53,7 +53,7 @@ Capturas de marketing, imagens de cabeçalho e App Preview. Textos das imagens e
 | `preview/ipad-preview.mp4` | H.264 High, 1200×1600 (retrato), 30 fps, AAC estéreo 48 kHz, 28,97 s, 10,3 MB | Mesmo roteiro, com o editor no inspetor lateral |
 | `preview/ipad-poster.png` | 1200×1600 | Goals com a legenda já assentada (4,4 s) |
 
-Os vídeos usam só gravações de tela do app (`simctl io recordVideo`), sem moldura de aparelho: cortes secos no ritmo da música, trechos parados retirados, aceleração leve na digitação e legendas de benefício em SF Pro Rounded Heavy #fbf5ea sobre laranja #c2602a. No iPhone a legenda fica numa faixa fixa sobre a barra de status (a barra de abas está embaixo); no iPad, numa pílula fixa no rodapé (a barra de abas está no topo). Cada legenda entra subindo 30 px com fade de 0,3 s. Música: "Happy Beats Business Moves Vol. 11", Sascha Ende (ende.app), CC BY 4.0; cortes nas batidas do arquivo de cues, -16 LUFS integrado e fade-out de 1,5 s.
+Os vídeos usam só gravações de tela do app (`simctl io recordVideo`), sem moldura de aparelho: cortes secos no ritmo da música, trechos parados retirados, aceleração leve na digitação e legendas de benefício em SF Pro Rounded Heavy #fbf5ea sobre laranja #c2602a. No iPhone a legenda fica numa faixa fixa sobre a barra de status (a barra de abas está embaixo); no iPad, numa pílula fixa no rodapé (a barra de abas está no topo). Cada legenda entra subindo 30 px com fade de 0,3 s. **Sem música** (decisão de 19/10/2026): a trilha de áudio é muda, só porque a Apple exige uma; os cortes continuam no ritmo do arquivo de cues.
 
 ### Capturas de revisão das compras no app (campo "Review Screenshot")
 
@@ -105,6 +105,6 @@ Ilustração de marca, sem texto e sem capturas: sem texto não há o que traduz
 - O ícone vem de `source/raw/keyart/icon.png`, exportado do `CashlyIcon.icon` com o `ictool` do Icon Composer (`--export-image --platform iOS --rendition Default --width 1024 --height 1024 --scale 1`).
 - Enviados em en-US: cabeçalho 5244×2950 e busca 3840×2560. A página do App Store Connect não baixa de outros domínios; o envio usou uma página auxiliar temporária em `cashly.byescaleira.com/_upload/` que entrega os arquivos por `postMessage`, apagada em seguida.
 
-## App Preview montado (18/10/2026)
+## Sem vídeos (19/10/2026)
 
-`preview/iphone-preview-montage.mp4` (886×1920, 23 s, música "Happy Beats & Business Moves Vol. 11" de Sascha Ende, CC BY 4.0) é o vídeo de venda feito no estilo brag, com telas montadas e a identidade do app. Foi enviado como App Preview do iPhone por decisão do usuário, ciente de que a diretriz 2.3.4 pede só gravações reais; se a revisão recusar, troca-se pela gravação real (`preview/iphone-preview.mp4`). A versão 1080×1920 para redes fica fora do repositório, em `brag-output-vertical/`.
+Decisão do usuário: **nenhum vídeo no site nem na App Store**, com ou sem música. Os App Previews foram apagados do App Store Connect e a pasta `preview/` saiu do repositório; `source/preview.py` fica só como referência e não deve ser usado para a loja.

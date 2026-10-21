@@ -11,14 +11,11 @@ MEDIA = SOURCE.parent
 RECORDINGS = SOURCE / "raw" / "recordings"
 FFMPEG = "/opt/homebrew/bin/ffmpeg"
 MUSIC = pathlib.Path.home() / ".claude/plugins/cache/brag/brag/0.4.0/skills/brag/assets/music"
-TRACK = MUSIC / "happy-beats-business-moves-vol-11-by-ende-dot-app.mp3"
 CUES = MUSIC / "cues" / "happy-beats-business-moves-vol-11-by-ende-dot-app.music-cues.json"
 RISE = 30
 ENTER_DELAY = 0.12
 ENTER = 0.3
 EXIT = 0.2
-MUSIC_FADE = 1.5
-LOUDNESS = -16
 
 IPHONE = {
     "size": (886, 1920),
@@ -131,17 +128,10 @@ def steady(config, work):
     return path
 
 
-def music(total, work):
-    path = work / "music.wav"
-    shape = f"atrim=0:{total:.3f},asetpts=PTS-STARTPTS,afade=t=out:st={total - MUSIC_FADE:.3f}:d={MUSIC_FADE}"
-    probe = run([FFMPEG, "-hide_banner", "-i", str(TRACK), "-af",
-                 f"{shape},loudnorm=I={LOUDNESS}:TP=-1.5:LRA=11:print_format=json", "-f", "null", "-"])
-    stats = json.loads(probe.stderr[probe.stderr.rindex("{"):probe.stderr.rindex("}") + 1])
-    run([FFMPEG, "-v", "error", "-y", "-i", str(TRACK), "-af",
-         f"{shape},loudnorm=I={LOUDNESS}:TP=-1.5:LRA=11:measured_I={stats['input_i']}:"
-         f"measured_TP={stats['input_tp']}:measured_LRA={stats['input_lra']}:"
-         f"measured_thresh={stats['input_thresh']}:offset={stats['target_offset']}:linear=true,"
-         "aresample=48000", "-ac", "2", "-ar", "48000", str(path)])
+def silence(total, work):
+    path = work / "silence.wav"
+    run([FFMPEG, "-v", "error", "-y", "-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo",
+         "-t", f"{total:.3f}", "-ac", "2", "-ar", "48000", str(path)])
     return path
 
 
@@ -191,7 +181,7 @@ def build(config):
                 f"enable='between(t,{start:.3f},{end:.3f})'{target}")
             current = target
         filters.append(f"{current}format=yuv420p[video]")
-        audio = music(total, work)
+        audio = silence(total, work)
         inputs += ["-i", str(audio)]
         output = out_dir / config["output"]
         run([FFMPEG, "-v", "error", "-y", *inputs,
